@@ -188,10 +188,10 @@ public class AlbumsFragment extends ListFragment implements NotifyingAsyncQueryH
 				AudioContract.Artists.NAME
 		};
 
-		int _ID = 0;
-		int ID = 1;
+		//int _ID = 0;
+		//int ID = 1;
 		int TITLE = 2;
-		int YEAR = 3;
+		//int YEAR = 3;
 		int ARTIST = 4;
 	}
 }
