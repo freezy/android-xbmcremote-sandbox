@@ -68,15 +68,16 @@ public class ActivityHelper {
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {
-		/* mActivity.getMenuInflater().inflate(R.menu.default_menu_items, menu); */
+		mActivity.getMenuInflater().inflate(R.menu.default_menu_items, menu);
 		return false;
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item) {
-		/*
-		 * switch (item.getItemId()) { case R.id.menu_search: goSearch(); return
-		 * true; }
-		 */
+		 switch (item.getItemId()) { 
+		 	case R.id.menu_search: 
+		 		goSearch(); 
+		 		return true; 
+		 	}
 		return false;
 	}
 
