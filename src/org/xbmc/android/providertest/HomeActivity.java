@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 public class HomeActivity extends BaseSinglePaneActivity {
+	
     @Override
     protected Fragment onCreatePane() {
         return new AlbumsFragment();

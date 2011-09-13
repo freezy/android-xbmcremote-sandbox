@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="hello">Hello World, HomeActivity!</string>
-	<string name="app_name">android-providertest</string>
-
+	<string name="app_name">XBMC Remote (labs)</string>
 	<string name="empty_albums">No albums found</string>
 
 </resources>

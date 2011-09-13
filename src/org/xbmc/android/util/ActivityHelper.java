@@ -40,6 +40,7 @@ import android.widget.TextView;
  * features.
  */
 public class ActivityHelper {
+	
 	protected Activity mActivity;
 
 	/**

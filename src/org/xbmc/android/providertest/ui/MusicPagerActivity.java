@@ -35,7 +35,7 @@ public class MusicPagerActivity extends FragmentActivity {
 
 		addTab(tabWidget, "albums", "Albums", AlbumsFragment.class, R.drawable.tab_ic_album);
 		addTab(tabWidget, "artists", "Artists", AlbumsFragment.class, R.drawable.tab_ic_artist);
-		addTab(tabWidget, "genres", "Genres", AlbumsFragment.class, R.drawable.tab_ic_folder);
+		addTab(tabWidget, "files", "Files", AlbumsFragment.class, R.drawable.tab_ic_folder);
 		
 		
 		mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
