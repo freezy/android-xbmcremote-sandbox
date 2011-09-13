@@ -194,5 +194,4 @@ public class AlbumsFragment extends ListFragment implements NotifyingAsyncQueryH
 		int YEAR = 3;
 		int ARTIST = 4;
 	}
-
 }
