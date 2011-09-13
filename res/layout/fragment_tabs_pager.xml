@@ -9,7 +9,7 @@
 		android:layout_width="match_parent" 
 		android:layout_height="match_parent">
 
-		<HorizontalScrollView 
+		<HorizontalScrollView android:id="@+id/tab_scroller"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content" 
 			android:fillViewport="true"
@@ -30,7 +30,7 @@
 			android:layout_height="0dp"
 			android:layout_weight="0" />
 
-		<android.support.v4.view.ViewPager android:id="@+id/pager" 
+		<android.support.v4.view.ViewPager android:id="@+id/tab_pager" 
 			android:layout_width="match_parent"
 			android:layout_height="0dp" 
 			android:layout_weight="1" />

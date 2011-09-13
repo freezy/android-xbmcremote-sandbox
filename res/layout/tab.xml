@@ -13,24 +13,24 @@
 		android:layout_alignParentBottom="true"
 		android:layout_marginLeft="10dp">
 	
-		<ImageView android:id="@+id/icon"
+		<ImageView android:id="@+id/tab_icon"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_centerInParent="true"
-			android:src="@drawable/tab_ic_album_selected"
+			android:src="@drawable/tab_ic_album"
 		/>
 	</RelativeLayout>
 	
-	<TextView android:id="@+id/title"
+	<TextView android:id="@+id/tab_title"
 		android:textColor="@drawable/tab_textcolor"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_alignParentBottom="true"
 		android:layout_centerHorizontal="true"
 		android:layout_toRightOf="@id/tab_box"
-		android:layout_marginBottom="5dip"
+		android:layout_marginBottom="9dip"
 		android:layout_marginLeft="7dip"
-		android:layout_marginRight="15dip"
+		android:paddingRight="10dip"
 		android:textStyle="bold"
 		android:shadowColor="#ffffff"
 		android:shadowDx="0"
