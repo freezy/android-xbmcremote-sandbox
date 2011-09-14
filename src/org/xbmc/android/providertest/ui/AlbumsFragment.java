@@ -161,7 +161,7 @@ public class AlbumsFragment extends ListFragment implements NotifyingAsyncQueryH
 		@Override
 		public void onChange(boolean selfChange) {
 			if (mCursor != null) {
-				mCursor.requery();
+//				mCursor.requery();
 			}
 		}
 	};

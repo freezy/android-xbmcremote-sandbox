@@ -61,7 +61,7 @@ public class MusicPagerActivity extends BaseFragmentTabsActivity {
         Log.d(TAG, "Starting triggerRefresh()...");
 
 		final Intent intent = new Intent(Intent.ACTION_SYNC, null, this, AudioSyncService.class);
-		//intent.putExtra(AudioSyncService.EXTRA_STATUS_RECEIVER, mSyncStatusUpdaterFragment.mReceiver);
+		intent.putExtra(AudioSyncService.EXTRA_STATUS_RECEIVER, mSyncStatusUpdaterFragment.mReceiver);
 		startService(intent);
 
 /*		if (mTagStreamFragment != null) {
