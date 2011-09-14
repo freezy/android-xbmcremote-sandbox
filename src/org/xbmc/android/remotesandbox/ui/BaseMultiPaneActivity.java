@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.xbmc.android.providertest.ui;
+package org.xbmc.android.remotesandbox.ui;
 
 import java.util.List;
 

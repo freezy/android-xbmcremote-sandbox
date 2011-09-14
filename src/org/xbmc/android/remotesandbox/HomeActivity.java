@@ -19,10 +19,10 @@
  *
  */
 
-package org.xbmc.android.providertest;
+package org.xbmc.android.remotesandbox;
 
-import org.xbmc.android.providertest.ui.BaseSinglePaneActivity;
-import org.xbmc.android.providertest.ui.DashboardFragment;
+import org.xbmc.android.remotesandbox.ui.BaseSinglePaneActivity;
+import org.xbmc.android.remotesandbox.ui.DashboardFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

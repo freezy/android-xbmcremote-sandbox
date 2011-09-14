@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="org.xbmc.android.providertest" android:versionCode="1"
+	package="org.xbmc.android.remotesandbox" android:versionCode="1"
 	android:versionName="1.0">
 	<uses-sdk android:minSdkVersion="7" android:targetSdkVersion="11" />
 	<application 
@@ -20,7 +20,7 @@
 		</activity>
 		
 		<activity
-            android:name=".ui.MusicPagerActivity"
+            android:name="org.xbmc.android.remotesandbox.ui.MusicPagerActivity"
             android:label="@string/title_music">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

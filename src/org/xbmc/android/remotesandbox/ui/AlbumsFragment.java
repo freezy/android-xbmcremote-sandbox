@@ -1,8 +1,8 @@
-package org.xbmc.android.providertest.ui;
+package org.xbmc.android.remotesandbox.ui;
 
 import org.xbmc.android.jsonrpc.provider.AudioContract;
 import org.xbmc.android.jsonrpc.provider.AudioDatabase.Tables;
-import org.xbmc.android.providertest.R;
+import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.util.NotifyingAsyncQueryHandler;
 
 import android.content.Context;

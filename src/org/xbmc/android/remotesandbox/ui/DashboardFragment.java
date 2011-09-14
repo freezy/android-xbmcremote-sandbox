@@ -1,8 +1,8 @@
-package org.xbmc.android.providertest.ui;
+package org.xbmc.android.remotesandbox.ui;
 
 import java.util.ArrayList;
 
-import org.xbmc.android.providertest.R;
+import org.xbmc.android.remotesandbox.R;
 
 import android.app.Activity;
 import android.content.Intent;

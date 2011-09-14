@@ -16,8 +16,8 @@
 
 package org.xbmc.android.util;
 
-import org.xbmc.android.providertest.HomeActivity;
-import org.xbmc.android.providertest.R;
+import org.xbmc.android.remotesandbox.HomeActivity;
+import org.xbmc.android.remotesandbox.R;
 
 import android.app.Activity;
 import android.content.Intent;

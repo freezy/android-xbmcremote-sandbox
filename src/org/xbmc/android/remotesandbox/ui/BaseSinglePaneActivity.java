@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.xbmc.android.providertest.ui;
+package org.xbmc.android.remotesandbox.ui;
 
-import org.xbmc.android.providertest.R;
+import org.xbmc.android.remotesandbox.R;
 
 import android.content.Intent;
 import android.os.Bundle;

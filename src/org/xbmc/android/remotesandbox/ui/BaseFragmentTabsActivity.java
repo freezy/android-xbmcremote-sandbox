@@ -1,6 +1,6 @@
-package org.xbmc.android.providertest.ui;
+package org.xbmc.android.remotesandbox.ui;
 
-import org.xbmc.android.providertest.R;
+import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.util.TabsAdapter;
 
 import android.content.Intent;
