@@ -69,153 +69,157 @@ import android.util.Log;
  * @author freezy@xbmc.org
  */
 public class AudioSyncService extends IntentService {
-	
-    private static final String TAG = AudioSyncService.class.getSimpleName();
-    
-    private static final String URL = "http://192.168.0.100:8080/jsonrpc";
 
-    public static final String EXTRA_STATUS_RECEIVER = "org.xbmc.android.jsonprc.extra.STATUS_RECEIVER";
-    
-    public static final int STATUS_RUNNING = 0x1;
-    public static final int STATUS_ERROR = 0x2;
-    public static final int STATUS_FINISHED = 0x3;
+	private static final String TAG = AudioSyncService.class.getSimpleName();
 
-    private static final int SECOND_IN_MILLIS = (int) DateUtils.SECOND_IN_MILLIS;
+	private static final String URL = "http://192.168.0.100:8080/jsonrpc";
 
-    private static final String HEADER_ACCEPT_ENCODING = "Accept-Encoding";
-    private static final String ENCODING_GZIP = "gzip";
+	public static final String EXTRA_STATUS_RECEIVER = "org.xbmc.android.jsonprc.extra.STATUS_RECEIVER";
 
-    private RemoteExecutor mRemoteExecutor;
+	public static final int STATUS_RUNNING = 0x1;
+	public static final int STATUS_ERROR = 0x2;
+	public static final int STATUS_FINISHED = 0x3;
 
-    public AudioSyncService() {
-        super(TAG);
-    }
+	private static final int SECOND_IN_MILLIS = (int) DateUtils.SECOND_IN_MILLIS;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
+	private static final String HEADER_ACCEPT_ENCODING = "Accept-Encoding";
+	private static final String ENCODING_GZIP = "gzip";
 
-        final HttpClient httpClient = getHttpClient(this);
-        final ContentResolver resolver = getContentResolver();
+	private RemoteExecutor mRemoteExecutor;
 
-        mRemoteExecutor = new RemoteExecutor(httpClient, resolver);
-    }
+	public AudioSyncService() {
+		super(TAG);
+	}
 
-    @Override
-    protected void onHandleIntent(Intent intent) {
-        Log.d(TAG, "onHandleIntent(intent=" + intent.toString() + ")");
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		Log.d(TAG, "Starting onCreate()...");
+		final long start = System.currentTimeMillis();
 
-        final ResultReceiver receiver = intent.getParcelableExtra(EXTRA_STATUS_RECEIVER);
-        if (receiver != null) receiver.send(STATUS_RUNNING, Bundle.EMPTY);
+		final HttpClient httpClient = getHttpClient(this);
+		final ContentResolver resolver = getContentResolver();
 
-        try {
-            final long startRemote = System.currentTimeMillis();
-            final AudioLibraryAPI audiolib = new AudioLibraryAPI();
-            
-            final String[] albumFields = { 
-            		AudioLibraryAPI.AlbumFields.TITLE, 
-            		AudioLibraryAPI.AlbumFields.ARTISTID, 
-            		AudioLibraryAPI.AlbumFields.YEAR };
-            
-            mRemoteExecutor.executePost(URL, audiolib.getArtists(false, null, null), new ArtistHandler());
-            mRemoteExecutor.executePost(URL, audiolib.getAlbums(null, null, albumFields), new AlbumHandler());
-            
-            Log.i(TAG, "All done, remote sync took " + (System.currentTimeMillis() - startRemote) + "ms.");
+		mRemoteExecutor = new RemoteExecutor(httpClient, resolver);
+		Log.d(TAG, "onCreate() done in " + (System.currentTimeMillis() - start) + "ms.");
+	}
 
-        } catch (Exception e) {
-            Log.e(TAG, "Problem while syncing", e);
+	@Override
+	protected void onHandleIntent(Intent intent) {
+		final long start = System.currentTimeMillis();
+		Log.d(TAG, "Starting onHandleIntent(intent=" + intent.toString() + ")...");
 
-            if (receiver != null) {
-                // Pass back error to surface listener
-                final Bundle bundle = new Bundle();
-                bundle.putString(Intent.EXTRA_TEXT, e.toString());
-                receiver.send(STATUS_ERROR, bundle);
-            }
-        }
+		final ResultReceiver receiver = intent.getParcelableExtra(EXTRA_STATUS_RECEIVER);
+		if (receiver != null)
+			receiver.send(STATUS_RUNNING, Bundle.EMPTY);
 
-        // Announce success to any surface listener
-        Log.d(TAG, "sync finished");
-        if (receiver != null) receiver.send(STATUS_FINISHED, Bundle.EMPTY);
-    }
+		try {
+			final long startRemote = System.currentTimeMillis();
+			final AudioLibraryAPI audiolib = new AudioLibraryAPI();
 
-    /**
-     * Generate and return a {@link HttpClient} configured for general use,
-     * including setting an application-specific user-agent string.
-     */
-    public static HttpClient getHttpClient(Context context) {
-        final HttpParams params = new BasicHttpParams();
+			final String[] albumFields = { AudioLibraryAPI.AlbumFields.TITLE, AudioLibraryAPI.AlbumFields.ARTISTID,
+					AudioLibraryAPI.AlbumFields.YEAR };
 
-        // Use optimistic timeouts for wifi networks
-        HttpConnectionParams.setConnectionTimeout(params, 5 * SECOND_IN_MILLIS);
-        HttpConnectionParams.setSoTimeout(params, 5 * SECOND_IN_MILLIS);
+			mRemoteExecutor.executePost(URL, audiolib.getArtists(false, null, null), new ArtistHandler());
+			mRemoteExecutor.executePost(URL, audiolib.getAlbums(null, null, albumFields), new AlbumHandler());
 
-        HttpConnectionParams.setSocketBufferSize(params, 8192);
-        HttpProtocolParams.setUserAgent(params, buildUserAgent(context));
+			Log.i(TAG, "All done, remote sync took " + (System.currentTimeMillis() - startRemote) + "ms.");
 
-        final DefaultHttpClient client = new DefaultHttpClient(params);
+		} catch (Exception e) {
+			Log.e(TAG, "Problem while syncing", e);
 
-        client.addRequestInterceptor(new HttpRequestInterceptor() {
-            public void process(HttpRequest request, HttpContext context) {
-                // Add header to accept gzip content
-                if (!request.containsHeader(HEADER_ACCEPT_ENCODING)) {
-                    request.addHeader(HEADER_ACCEPT_ENCODING, ENCODING_GZIP);
-                }
-            }
-        });
+			if (receiver != null) {
+				// Pass back error to surface listener
+				final Bundle bundle = new Bundle();
+				bundle.putString(Intent.EXTRA_TEXT, e.toString());
+				receiver.send(STATUS_ERROR, bundle);
+			}
+		}
 
-        client.addResponseInterceptor(new HttpResponseInterceptor() {
-            public void process(HttpResponse response, HttpContext context) {
-                // Inflate any responses compressed with gzip
-                final HttpEntity entity = response.getEntity();
-                final Header encoding = entity.getContentEncoding();
-                if (encoding != null) {
-                    for (HeaderElement element : encoding.getElements()) {
-                        if (element.getName().equalsIgnoreCase(ENCODING_GZIP)) {
-                            response.setEntity(new InflatingEntity(response.getEntity()));
-                            break;
-                        }
-                    }
-                }
-            }
-        });
+		// Announce success to any surface listener
+		if (receiver != null)
+			receiver.send(STATUS_FINISHED, Bundle.EMPTY);
+		Log.d(TAG, "Sync finished!");
+		Log.d(TAG, "onHandleIntent() done in " + (System.currentTimeMillis() - start) + "ms.");
+	}
 
-        return client;
-    }
+	/**
+	 * Generate and return a {@link HttpClient} configured for general use,
+	 * including setting an application-specific user-agent string.
+	 */
+	public static HttpClient getHttpClient(Context context) {
+		final HttpParams params = new BasicHttpParams();
 
-    /**
-     * Build and return a user-agent string that can identify this application
-     * to remote servers. Contains the package name and version code.
-     */
-    private static String buildUserAgent(Context context) {
-        try {
-            final PackageManager manager = context.getPackageManager();
-            final PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
+		// Use optimistic timeouts for wifi networks
+		HttpConnectionParams.setConnectionTimeout(params, 5 * SECOND_IN_MILLIS);
+		HttpConnectionParams.setSoTimeout(params, 5 * SECOND_IN_MILLIS);
 
-            // Some APIs require "(gzip)" in the user-agent string.
-            return info.packageName + "/" + info.versionName
-                    + " (" + info.versionCode + ") (gzip)";
-        } catch (NameNotFoundException e) {
-            return null;
-        }
-    }
+		HttpConnectionParams.setSocketBufferSize(params, 8192);
+		HttpProtocolParams.setUserAgent(params, buildUserAgent(context));
 
-    /**
-     * Simple {@link HttpEntityWrapper} that inflates the wrapped
-     * {@link HttpEntity} by passing it through {@link GZIPInputStream}.
-     */
-    private static class InflatingEntity extends HttpEntityWrapper {
-        public InflatingEntity(HttpEntity wrapped) {
-            super(wrapped);
-        }
+		final DefaultHttpClient client = new DefaultHttpClient(params);
 
-        @Override
-        public InputStream getContent() throws IOException {
-            return new GZIPInputStream(wrappedEntity.getContent());
-        }
+		client.addRequestInterceptor(new HttpRequestInterceptor() {
+			public void process(HttpRequest request, HttpContext context) {
+				// Add header to accept gzip content
+				if (!request.containsHeader(HEADER_ACCEPT_ENCODING)) {
+					request.addHeader(HEADER_ACCEPT_ENCODING, ENCODING_GZIP);
+				}
+			}
+		});
 
-        @Override
-        public long getContentLength() {
-            return -1;
-        }
-    }
+		client.addResponseInterceptor(new HttpResponseInterceptor() {
+			public void process(HttpResponse response, HttpContext context) {
+				// Inflate any responses compressed with gzip
+				final HttpEntity entity = response.getEntity();
+				final Header encoding = entity.getContentEncoding();
+				if (encoding != null) {
+					for (HeaderElement element : encoding.getElements()) {
+						if (element.getName().equalsIgnoreCase(ENCODING_GZIP)) {
+							response.setEntity(new InflatingEntity(response.getEntity()));
+							break;
+						}
+					}
+				}
+			}
+		});
+
+		return client;
+	}
+
+	/**
+	 * Build and return a user-agent string that can identify this application
+	 * to remote servers. Contains the package name and version code.
+	 */
+	private static String buildUserAgent(Context context) {
+		try {
+			final PackageManager manager = context.getPackageManager();
+			final PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
+
+			// Some APIs require "(gzip)" in the user-agent string.
+			return info.packageName + "/" + info.versionName + " (" + info.versionCode + ") (gzip)";
+		} catch (NameNotFoundException e) {
+			return null;
+		}
+	}
+
+	/**
+	 * Simple {@link HttpEntityWrapper} that inflates the wrapped
+	 * {@link HttpEntity} by passing it through {@link GZIPInputStream}.
+	 */
+	private static class InflatingEntity extends HttpEntityWrapper {
+		public InflatingEntity(HttpEntity wrapped) {
+			super(wrapped);
+		}
+
+		@Override
+		public InputStream getContent() throws IOException {
+			return new GZIPInputStream(wrappedEntity.getContent());
+		}
+
+		@Override
+		public long getContentLength() {
+			return -1;
+		}
+	}
 }

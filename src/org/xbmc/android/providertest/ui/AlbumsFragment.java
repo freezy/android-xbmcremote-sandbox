@@ -14,6 +14,8 @@ import android.os.SystemClock;
 import android.provider.BaseColumns;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
@@ -122,6 +124,12 @@ public class AlbumsFragment extends ListFragment implements NotifyingAsyncQueryH
 		super.onSaveInstanceState(outState);
 		outState.putInt(STATE_CHECKED_POSITION, mCheckedPosition);
 	}
+	
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.refresh_menu_items, menu);
+    }
 
 	/**
 	 * {@link CursorAdapter} that renders a {@link AlbumsQuery}.

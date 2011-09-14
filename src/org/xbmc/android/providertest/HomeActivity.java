@@ -39,8 +39,5 @@ public class HomeActivity extends BaseSinglePaneActivity {
         super.onPostCreate(savedInstanceState);
         getActivityHelper().setupSubActivity();
     }
+    
 }
-/*
-final Intent intent = new Intent(Intent.ACTION_SYNC, null, this, AudioSyncService.class);
-//intent.putExtra(SyncService.EXTRA_STATUS_RECEIVER, mSyncStatusUpdaterFragment.mReceiver);
-startService(intent);*/

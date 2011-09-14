@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 	<string name="app_name">XBMC Remote (labs)</string>
 	<string name="empty_albums">No albums found.</string>
 	
 	<string name="description_search">Search</string>
+	<string name="description_refresh">Refresh</string>
+	
+	<string name="toast_sync_error">Sync error: <xliff:g id="error">%1$s</xliff:g></string>
 
 </resources>

@@ -6,6 +6,7 @@ import org.xbmc.android.util.TabsAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.HorizontalScrollView;
@@ -27,10 +28,14 @@ public abstract class BaseFragmentTabsActivity extends BaseActivity {
 	private TabWidget mTabWidget;
 	private TabsAdapter mTabsAdapter;
 	private ViewPager mViewPager;
+	
+	private final static String TAG = BaseFragmentTabsActivity.class.getSimpleName();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		final long start = System.currentTimeMillis();
+		Log.d(TAG, "Starting onCreate()...");
 		setContentView(R.layout.activity_fragment_tabs_pager);
 		
 		final HorizontalScrollView scroller = (HorizontalScrollView) findViewById(R.id.tab_scroller);
@@ -64,15 +69,20 @@ public abstract class BaseFragmentTabsActivity extends BaseActivity {
 				mViewPager.setCurrentItem(position);
 			}
 		});
+        Log.d(TAG, "onCreate() done in " + (System.currentTimeMillis() - start ) + "ms.");
+
 	}
 	
 	protected void addTab(String key, String label, Class<?> fragment, int imageResource) {
+		final long start = System.currentTimeMillis();
+		Log.d(TAG, "Starting addTab()...");
 		final View tabIndicator = LayoutInflater.from(this).inflate(R.layout.tab, mTabWidget, false);
 		final TextView title = (TextView) tabIndicator.findViewById(R.id.tab_title);
 		final ImageView icon = (ImageView) tabIndicator.findViewById(R.id.tab_icon);
 		title.setText(label);
 		icon.setImageResource(imageResource);
 		mTabsAdapter.addTab(mTabHost.newTabSpec(key).setIndicator(tabIndicator), label, fragment, null);
+        Log.d(TAG, "addTab() done in " + (System.currentTimeMillis() - start ) + "ms.");
 	}
 	
 	@Override

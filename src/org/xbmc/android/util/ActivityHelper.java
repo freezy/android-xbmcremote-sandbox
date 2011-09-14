@@ -31,6 +31,7 @@ import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 /**
@@ -293,7 +294,7 @@ public class ActivityHelper {
 		actionBar.addView(separator);
 		actionBar.addView(actionButton);
 
-/*		if (item.getItemId() == R.id.menu_refresh) {
+		if (item.getItemId() == R.id.menu_refresh) {
 			// Refresh buttons should be stateful, and allow for indeterminate
 			// progress indicators,
 			// so add those.
@@ -307,7 +308,7 @@ public class ActivityHelper {
 			indicator.setVisibility(View.GONE);
 			indicator.setId(R.id.menu_refresh_progress);
 			actionBar.addView(indicator);
-		}*/
+		}
 
 		return actionButton;
 	}
@@ -317,7 +318,7 @@ public class ActivityHelper {
 	 * {@link ActivityHelper#addActionButtonCompatFromMenuItem(android.view.MenuItem)}
 	 * (where the item ID was menu_refresh).
 	 */
-	public void setRefreshActionButtonCompatState(boolean refreshing) {/*
+	public void setRefreshActionButtonCompatState(boolean refreshing) {
 		View refreshButton = mActivity.findViewById(R.id.menu_refresh);
 		View refreshIndicator = mActivity.findViewById(R.id.menu_refresh_progress);
 
@@ -326,6 +327,6 @@ public class ActivityHelper {
 		}
 		if (refreshIndicator != null) {
 			refreshIndicator.setVisibility(refreshing ? View.VISIBLE : View.GONE);
-		}*/
+		}
 	}
 }

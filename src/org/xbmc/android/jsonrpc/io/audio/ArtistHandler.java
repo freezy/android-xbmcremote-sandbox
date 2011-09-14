@@ -62,6 +62,7 @@ public class ArtistHandler extends JsonHandler {
 		
 		// first, delete all
 		batch.add(ContentProviderOperation.newDelete(Artists.CONTENT_URI).build());
+//		for (int i = 0; i < 50; i++) {
 		for (int i = 0; i < artists.length(); i++) {
 			final JSONObject artist = artists.getJSONObject(i);
 			final ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(Artists.CONTENT_URI);
