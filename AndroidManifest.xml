@@ -9,15 +9,27 @@
 		android:theme="@style/Theme.IOSched"
         android:hardwareAccelerated="true">
         
-		<activity android:name=".ui.MusicPagerActivity" android:label="@string/app_name">
+		<activity 
+			android:name=".HomeActivity"
+			android:theme="@style/Theme.IOSched.Home" 
+			android:label="@string/app_name">
 			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-				
-                <data android:mimeType="vnd.android.cursor.dir/vnd.xbmc.album" />
-			</intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 		</activity>
-
+		
+		<activity
+            android:name=".ui.MusicPagerActivity"
+            android:label="@string/title_music">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.TAB" />
+                <data android:mimeType="vnd.android.cursor.dir/vnd.xbmc.album" />
+            </intent-filter>
+        </activity>
+                    
 		<service android:name="org.xbmc.android.jsonrpc.service.AudioSyncService" />
 		<provider android:name="org.xbmc.android.jsonrpc.provider.AudioProvider"
 			android:authorities="org.xbmc.android.jsonrpc" />

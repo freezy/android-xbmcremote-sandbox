@@ -21,8 +21,8 @@
 
 package org.xbmc.android.providertest;
 
-import org.xbmc.android.providertest.ui.AlbumsFragment;
 import org.xbmc.android.providertest.ui.BaseSinglePaneActivity;
+import org.xbmc.android.providertest.ui.DashboardFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,7 +31,7 @@ public class HomeActivity extends BaseSinglePaneActivity {
 	
     @Override
     protected Fragment onCreatePane() {
-        return new AlbumsFragment();
+        return new DashboardFragment();
     }
 
     @Override

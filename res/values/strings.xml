@@ -3,6 +3,8 @@
 	<string name="app_name">XBMC Remote (labs)</string>
 	<string name="empty_albums">No albums found.</string>
 	
+	<string name="title_music">Music Library</string>
+	
 	<string name="description_search">Search</string>
 	<string name="description_refresh">Refresh</string>
 	
