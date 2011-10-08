@@ -41,7 +41,4 @@ Now that the code base is still very small, everybody is welcome to fiddle with 
 
 A big thank you goes to Google for open-sourcing their very clean [IOSched](http://code.google.com/p/iosched/) app. There is some borrowed code and design patterns in here.
 
-### Oh, and by the way,
-
-I'll be off to my first holidays this year, until 7 October 2011. So bear with my response time on this one. :)
 
