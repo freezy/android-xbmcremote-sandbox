@@ -41,8 +41,7 @@ import android.content.ContentResolver;
 import android.util.Log;
 
 /**
- * Executes an {@link HttpUriRequest} and passes the HTTP body of the result as an
- * {@link XmlPullParser} to the given {@link JsonHandler}.
+ * Executes an {@link HttpUriRequest} and passes the HTTP body of the result as a String to the given {@link JsonHandler}.
  * <p>
  * This class was closely inspired by Google's official iosched app, see
  * http://code.google.com/p/iosched/
