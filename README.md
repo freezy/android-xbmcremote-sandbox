@@ -28,8 +28,10 @@ There are a few things I'd like to have working until we start integrating the c
 * Fix autoupdating lists after a refresh (currently, `cursor.requery()` results in an ANR).
 * Implement the file browse tab which will *not* query the database but XBMC directly - of course not *everything* is fetched via the local database.
 * Make action bar buttons dynamic depending on selected page (e.g. there should be no refresh button when the file browse page is selected).
-* Create a layout that looks good on Honeycomb
+* Create a layout that looks good on Honeycomb. See also [Blog article here](http://android-developers.blogspot.com/2011/09/preparing-for-handsets.html) and [here](http://android-developers.blogspot.com/2011/04/customizing-action-bar.html).
 * Figure out a faster way to manage updates. Right now, everything is re-inserted, with a `ON CONFLICT REPLACE` constraint on the ID. Importing 1.200 artists and 500 albums takes about 10 seconds. Seems pretty slow to me.
+* Switch to `HttpURLConnection` instead of Apache client. See also [Blog article here](http://android-developers.blogspot.com/2011/09/androids-http-clients.html).
+* Move as much layout stuff as possible to styles.
 
 The goal of this project is really to create a nice architecture that can be easily extended later. The idea is not to start adding all media types XBMC has to offer right now, but keep it simple and extend architecture-wise until we have a good base.
 
