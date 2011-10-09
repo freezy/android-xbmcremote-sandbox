@@ -32,6 +32,7 @@ There are a few things I'd like to have working until we start integrating the c
 * Switch to `HttpURLConnection` instead of Apache client. See also [Blog article here](http://android-developers.blogspot.com/2011/09/androids-http-clients.html).
 * Move as much layout stuff as possible to styles.
 * Add sorting to lists.
+* Use AccountManager for managing XBMC instances. See also [Blog article here](http://www.c99.org/2010/01/23/writing-an-android-sync-provider-part-1/).
 
 The goal of this project is really to create a nice architecture that can be easily extended later. The idea is not to start adding all media types XBMC has to offer right now, but keep it simple and extend architecture-wise until we have a good base.
 
