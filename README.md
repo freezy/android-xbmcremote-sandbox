@@ -25,7 +25,6 @@ Currently, there is a home screen and a screen for the music library, which cont
 
 There are a few things I'd like to have working until we start integrating the code with the real thing (feel free to request more):
 
-* Fix autoupdating lists after a refresh (currently, `cursor.requery()` results in an ANR).
 * Implement the file browse tab which will *not* query the database but XBMC directly - of course not *everything* is fetched via the local database.
 * Make action bar buttons dynamic depending on selected page (e.g. there should be no refresh button when the file browse page is selected).
 * Create a layout that looks good on Honeycomb. See also [Blog article here](http://android-developers.blogspot.com/2011/09/preparing-for-handsets.html) and [here](http://android-developers.blogspot.com/2011/04/customizing-action-bar.html).
