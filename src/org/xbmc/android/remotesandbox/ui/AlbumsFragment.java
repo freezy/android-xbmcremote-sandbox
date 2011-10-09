@@ -53,6 +53,10 @@ public class AlbumsFragment extends ListFragment implements NotifyingAsyncQueryH
 	 */
 	private void query() {
 		if (mHandler != null) {
+			if (mCursor != null) {
+				mCursor.close();
+				mCursor = null;
+			}
 			mHandler.startQuery(AlbumsQuery._TOKEN, null, AudioContract.Albums.CONTENT_URI, AlbumsQuery.PROJECTION, null, null, AudioContract.Albums.DEFAULT_SORT);
 		} else {
 			Log.w(TAG, "Handler is null, cannot query.");
@@ -101,6 +105,7 @@ public class AlbumsFragment extends ListFragment implements NotifyingAsyncQueryH
 			// In case cancelOperation() doesn't work and we end up with
 			// consecutive calls to this
 			// callback.
+			Log.d(TAG, "resetting cursor.");
 			getActivity().stopManagingCursor(mCursor);
 			mCursor = null;
 		}
@@ -164,7 +169,6 @@ public class AlbumsFragment extends ListFragment implements NotifyingAsyncQueryH
 
 			titleView.setText(cursor.getString(AlbumsQuery.TITLE));
 			subtitleView.setText(cursor.getString(AlbumsQuery.ARTIST));
-
 		}
 	}
 
@@ -205,10 +209,10 @@ public class AlbumsFragment extends ListFragment implements NotifyingAsyncQueryH
 				AudioContract.Artists.NAME
 		};
 
-		//int _ID = 0;
-		//int ID = 1;
+//		int _ID = 0;
+//		int ID = 1;
 		int TITLE = 2;
-		//int YEAR = 3;
+//		int YEAR = 3;
 		int ARTIST = 4;
 	}
 }
