@@ -150,17 +150,19 @@ public class AlbumsFragment extends ListFragment implements LoaderManager.Loader
 		/** {@inheritDoc} */
 		@Override
 		public View newView(Context context, Cursor cursor, ViewGroup parent) {
-			return getActivity().getLayoutInflater().inflate(R.layout.list_item_album, parent, false);
+			return getActivity().getLayoutInflater().inflate(R.layout.list_item_threelabels, parent, false);
 		}
 
 		/** {@inheritDoc} */
 		@Override
 		public void bindView(View view, Context context, Cursor cursor) {
-			final TextView titleView = (TextView) view.findViewById(R.id.album_title);
-			final TextView subtitleView = (TextView) view.findViewById(R.id.album_subtitle);
+			final TextView titleView = (TextView) view.findViewById(R.id.item_title);
+			final TextView subtitleView = (TextView) view.findViewById(R.id.item_subtitle);
+			final TextView subsubtitleView = (TextView) view.findViewById(R.id.item_subsubtitle);
 
 			titleView.setText(cursor.getString(AlbumsQuery.TITLE));
 			subtitleView.setText(cursor.getString(AlbumsQuery.ARTIST));
+			subsubtitleView.setText(cursor.getString(AlbumsQuery.YEAR));
 		}
 	}
 	
@@ -182,7 +184,7 @@ public class AlbumsFragment extends ListFragment implements LoaderManager.Loader
 //		int _ID = 0;
 //		int ID = 1;
 		int TITLE = 2;
-//		int YEAR = 3;
+		int YEAR = 3;
 		int ARTIST = 4;
 	}
 
