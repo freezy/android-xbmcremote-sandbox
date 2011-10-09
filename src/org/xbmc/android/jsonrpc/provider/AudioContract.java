@@ -134,6 +134,9 @@ public class AudioContract {
 		public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.xbmc.artist";
 		public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.xbmc.artist";
 		
+		/** Default "ORDER BY" clause. */
+		public static final String DEFAULT_SORT = ArtistsColumns.NAME + " ASC";
+		
 		/** Count of {@link Albums} for a given {@link Artist}. */
 		public static final String ALBUMS_COUNT = "albums_count";
 		

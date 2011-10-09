@@ -40,26 +40,11 @@
         <TextView android:id="@+id/item_title"
         	style="@style/ListItemTitle"
         	android:text="Primary Title"
+        	android:layout_marginTop="30dp"
             android:layout_toLeftOf="@id/item_indicator"
             android:layout_alignParentLeft="true"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
-            
-        <TextView android:id="@+id/item_subtitle"
-        	style="@style/ListItemSubtitle"
-        	android:text="Secondary Title"
-            android:layout_below="@id/item_title"
-            android:layout_toLeftOf="@id/item_indicator"
-            android:layout_alignParentLeft="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-            
-        <TextView android:id="@+id/item_subsubtitle" 
-	        style="@style/ListItemSubtitle" 
-	        android:layout_height="wrap_content" 
-	        android:layout_width="wrap_content" 
-	        android:layout_below="@id/item_title" 
-	        android:layout_alignParentRight="true" />
 	        
     </RelativeLayout>
 </FrameLayout>
