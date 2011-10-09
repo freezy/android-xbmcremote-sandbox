@@ -3,156 +3,142 @@ package org.xbmc.android.remotesandbox.ui;
 import org.xbmc.android.jsonrpc.provider.AudioContract;
 import org.xbmc.android.jsonrpc.provider.AudioDatabase.Tables;
 import org.xbmc.android.remotesandbox.R;
-import org.xbmc.android.util.NotifyingAsyncQueryHandler;
 
 import android.content.Context;
 import android.database.ContentObserver;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.provider.BaseColumns;
+import android.provider.ContactsContract.Contacts;
 import android.support.v4.app.ListFragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v4.widget.CursorAdapter;
+import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class AlbumsFragment extends ListFragment implements NotifyingAsyncQueryHandler.AsyncQueryListener {
+public class AlbumsFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 	
 	private static final String TAG = AlbumsFragment.class.getSimpleName();
 
-	private static final String STATE_CHECKED_POSITION = "checkedPosition";
-
-	private Cursor mCursor;
+	// This is the Adapter being used to display the list's data.
 	private CursorAdapter mAdapter;
-	private int mCheckedPosition = -1;
-	private boolean mHasSetEmptyText = false;
 
-	private NotifyingAsyncQueryHandler mHandler;
-	private Handler mMessageQueueHandler = new Handler();
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		mHandler = new NotifyingAsyncQueryHandler(getActivity().getContentResolver(), this);
-		mAdapter = new AlbumsAdapter(getActivity());
-		setListAdapter(mAdapter);
-
-		// Start background query to load albums
-		query();
-		Log.d(TAG, "AlbumsFragment created.");
-	}
+	// If non-null, this is the current filter the user has provided.
+	private String mCurrentFilter;
 	
-	/**
-	 * Runs the (local) query.
-	 */
-	private void query() {
-		if (mHandler != null) {
-			if (mCursor != null) {
-				mCursor.close();
-				mCursor = null;
-			}
-			mHandler.startQuery(AlbumsQuery._TOKEN, null, AudioContract.Albums.CONTENT_URI, AlbumsQuery.PROJECTION, null, null, AudioContract.Albums.DEFAULT_SORT);
-		} else {
-			Log.w(TAG, "Handler is null, cannot query.");
+	private ContentObserver mAlbumsChangesObserver = new ContentObserver(new Handler()) {
+		@Override
+		public void onChange(boolean selfChange) {
+			Log.d(TAG, "RELOADING.");
 		}
-	}
+	};
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
-		if (savedInstanceState != null) {
-			mCheckedPosition = savedInstanceState.getInt(STATE_CHECKED_POSITION, -1);
-		}
+		// Give some text to display if there is no data.
+		setEmptyText(getResources().getString(R.string.empty_albums));
 
-		if (!mHasSetEmptyText) {
-			// Could be a bug, but calling this twice makes it become visible
-			// when it shouldn't
-			// be visible.
-			setEmptyText(getString(R.string.empty_albums));
-			mHasSetEmptyText = true;
-		}
+		// We have a menu item to show in action bar.
+		setHasOptionsMenu(true);
+
+		// Create an empty adapter we will use to display the loaded data.
+		mAdapter = new AlbumsAdapter(getActivity());
+		setListAdapter(mAdapter);
+
+		// Start out with a progress indicator.
+		setListShown(false);
+
+		// Prepare the loader. Either re-connect with an existing one,
+		// or start a new one.
+		getLoaderManager().initLoader(0, null, this);
 	}
 
-	/** {@inheritDoc} */
+	public boolean onQueryTextChange(String newText) {
+		// Called when the action bar search text has changed. Update
+		// the search filter, and restart the loader to do a new query
+		// with this filter.
+		mCurrentFilter = !TextUtils.isEmpty(newText) ? newText : null;
+		getLoaderManager().restartLoader(0, null, this);
+		return true;
+	}
+
 	@Override
-	public void onQueryComplete(int token, Object cookie, Cursor cursor) {
-		Log.d(TAG, "onQueryComplete()");
-		if (getActivity() == null) {
-			return;
-		}
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		// Insert desired behavior here.
+		Log.i("FragmentComplexList", "Item clicked: " + id);
+	}
 
-		if (token == AlbumsQuery._TOKEN) {
-			onQueryComplete(cursor);
+	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+		// This is called when a new Loader needs to be created. This
+		// sample only has one Loader, so we don't care about the ID.
+		// First, pick the base URI to use depending on whether we are
+		// currently filtering.
+		Uri baseUri;
+		if (mCurrentFilter != null) {
+			baseUri = Uri.withAppendedPath(Contacts.CONTENT_FILTER_URI, Uri.encode(mCurrentFilter));
 		} else {
-			Log.d("AlbumsFragment/onQueryComplete", "Query complete, Not Actionable: " + token);
-			cursor.close();
+			baseUri = Contacts.CONTENT_URI;
+		}
+
+		return new CursorLoader(getActivity(), AudioContract.Albums.CONTENT_URI, AlbumsQuery.PROJECTION, null, null,
+				AudioContract.Albums.DEFAULT_SORT);
+	}
+
+	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+		
+		// see: http://stackoverflow.com/questions/6757156/android-cursorloader-crash-on-non-topmost-fragment
+		if (!isVisible()) {
+            return;
+        }
+		
+		// Swap the new cursor in. (The framework will take care of closing the
+		// old cursor once we return.)
+		mAdapter.swapCursor(data);
+
+		// The list should now be shown.
+		if (isResumed()) {
+			setListShown(true);
+		} else {
+			setListShownNoAnimation(true);
 		}
 	}
 
-	/**
-	 * Handle {@link AlbumsQuery} {@link Cursor}.
-	 */
-	private void onQueryComplete(Cursor cursor) {
-		if (mCursor != null) {
-			// In case cancelOperation() doesn't work and we end up with
-			// consecutive calls to this
-			// callback.
-			Log.d(TAG, "resetting cursor.");
-			getActivity().stopManagingCursor(mCursor);
-			mCursor = null;
-		}
-
-		mCursor = cursor;
-		getActivity().startManagingCursor(mCursor);
-		mAdapter.changeCursor(mCursor);
-		if (mCheckedPosition >= 0 && getView() != null) {
-			getListView().setItemChecked(mCheckedPosition, true);
-		}
+	public void onLoaderReset(Loader<Cursor> loader) {
+		// This is called when the last Cursor provided to onLoadFinished()
+		// above is about to be closed. We need to make sure we are no
+		// longer using it.
+		mAdapter.swapCursor(null);
 	}
-
+	
 	@Override
 	public void onResume() {
 		super.onResume();
-		mMessageQueueHandler.post(mRefreshAlbumsRunnable);
-		getActivity().getContentResolver().registerContentObserver(AudioContract.Albums.CONTENT_URI, true, mAlbumsChangesObserver);
-		if (mCursor != null) {
-			mCursor.requery();
-		}
+		getActivity().getContentResolver().registerContentObserver(AudioContract.Albums.CONTENT_URI, true, mAlbumsChangesObserver);	
 	}
-
+	
 	@Override
 	public void onPause() {
 		super.onPause();
-		mMessageQueueHandler.removeCallbacks(mRefreshAlbumsRunnable);
 		getActivity().getContentResolver().unregisterContentObserver(mAlbumsChangesObserver);
 	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putInt(STATE_CHECKED_POSITION, mCheckedPosition);
-	}
 	
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.refresh_menu_items, menu);
-    }
-
 	/**
 	 * {@link CursorAdapter} that renders a {@link AlbumsQuery}.
 	 */
 	private class AlbumsAdapter extends CursorAdapter {
+
 		public AlbumsAdapter(Context context) {
-			super(context, null);
+			super(context, null, false);
 		}
 
 		/** {@inheritDoc} */
@@ -171,35 +157,13 @@ public class AlbumsFragment extends ListFragment implements NotifyingAsyncQueryH
 			subtitleView.setText(cursor.getString(AlbumsQuery.ARTIST));
 		}
 	}
-
-	private ContentObserver mAlbumsChangesObserver = new ContentObserver(new Handler()) {
-		@Override
-		public void onChange(boolean selfChange) {
-			query();
-		}
-	};
-
-	private Runnable mRefreshAlbumsRunnable = new Runnable() {
-		public void run() {
-			if (mAdapter != null) {
-				// This is used to refresh session title colors.
-				mAdapter.notifyDataSetChanged();
-			}
-
-			// Check again on the next quarter hour, with some padding to
-			// account for network
-			// time differences.
-			long nextQuarterHour = (SystemClock.uptimeMillis() / 900000 + 1) * 900000 + 5000;
-			mMessageQueueHandler.postAtTime(mRefreshAlbumsRunnable, nextQuarterHour);
-		}
-	};
-
+	
 	/**
 	 * {@link org.xbmc.android.jsonrpc.provider.AudioContract.Albums}
 	 * query parameters.
 	 */
 	private interface AlbumsQuery {
-		int _TOKEN = 0x1;
+//		int _TOKEN = 0x1;
 
 		String[] PROJECTION = { 
 				Tables.ALBUMS + "." + BaseColumns._ID, 
