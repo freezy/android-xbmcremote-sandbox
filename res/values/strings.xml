@@ -3,11 +3,13 @@
 	<string name="app_name">XBMC Remote (sandbox)</string>
 	<string name="empty_albums">No albums found.</string>
 	
+	
 	<string name="title_music">Music Library</string>
 	
 	<string name="description_search">Search</string>
 	<string name="description_refresh">Refresh</string>
 	
 	<string name="toast_sync_error">Sync error: <xliff:g id="error">%1$s</xliff:g></string>
+	<string name="toast_music_db_updated">Music database updated.</string>
 
 </resources>

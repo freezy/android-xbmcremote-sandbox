@@ -2,14 +2,13 @@ package org.xbmc.android.remotesandbox.ui;
 
 import org.xbmc.android.jsonrpc.provider.AudioContract;
 import org.xbmc.android.jsonrpc.provider.AudioDatabase.Tables;
+import org.xbmc.android.jsonrpc.service.AudioSyncService;
 import org.xbmc.android.remotesandbox.R;
 
 import android.content.Context;
-import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.BaseColumns;
 import android.provider.ContactsContract.Contacts;
 import android.support.v4.app.ListFragment;
@@ -34,10 +33,12 @@ public class AlbumsFragment extends ListFragment implements LoaderManager.Loader
 	// If non-null, this is the current filter the user has provided.
 	private String mCurrentFilter;
 	
-	private ContentObserver mAlbumsChangesObserver = new ContentObserver(new Handler()) {
+	private final AudioSyncService.RefreshObserver mRefreshObserver = new AudioSyncService.RefreshObserver() {
+		
 		@Override
-		public void onChange(boolean selfChange) {
-			Log.d(TAG, "RELOADING.");
+		public void onRefreshed() {
+			Log.d(TAG, "Refreshing Albums from database.");
+			getLoaderManager().restartLoader(0, null, AlbumsFragment.this);
 		}
 	};
 
@@ -123,13 +124,18 @@ public class AlbumsFragment extends ListFragment implements LoaderManager.Loader
 	@Override
 	public void onResume() {
 		super.onResume();
-		getActivity().getContentResolver().registerContentObserver(AudioContract.Albums.CONTENT_URI, true, mAlbumsChangesObserver);	
+		if (getActivity() instanceof BaseFragmentTabsActivity) {
+			((BaseFragmentTabsActivity)getActivity()).registerRefreshObserver(mRefreshObserver);
+		}
+		getLoaderManager().restartLoader(0, null, this);
 	}
 	
 	@Override
 	public void onPause() {
 		super.onPause();
-		getActivity().getContentResolver().unregisterContentObserver(mAlbumsChangesObserver);
+		if (getActivity() instanceof BaseFragmentTabsActivity) {
+			((BaseFragmentTabsActivity)getActivity()).unregisterRefreshObserver(mRefreshObserver);
+		}
 	}
 	
 	/**
@@ -179,4 +185,5 @@ public class AlbumsFragment extends ListFragment implements LoaderManager.Loader
 //		int YEAR = 3;
 		int ARTIST = 4;
 	}
+
 }

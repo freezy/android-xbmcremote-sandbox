@@ -1,5 +1,8 @@
 package org.xbmc.android.remotesandbox.ui;
 
+import java.util.ArrayList;
+
+import org.xbmc.android.jsonrpc.service.AudioSyncService.RefreshObserver;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.util.TabsAdapter;
 
@@ -28,6 +31,8 @@ public abstract class BaseFragmentTabsActivity extends BaseActivity {
 	private TabWidget mTabWidget;
 	private TabsAdapter mTabsAdapter;
 	private ViewPager mViewPager;
+	
+	protected final ArrayList<RefreshObserver> mRefreshObservers = new ArrayList<RefreshObserver>(); 
 	
 	private final static String TAG = BaseFragmentTabsActivity.class.getSimpleName();
 
@@ -90,7 +95,20 @@ public abstract class BaseFragmentTabsActivity extends BaseActivity {
 		super.onSaveInstanceState(outState);
 		outState.putString("tab", mTabHost.getCurrentTabTag());
 	}
-
+	
+	public synchronized void registerRefreshObserver(RefreshObserver observer) {
+		mRefreshObservers.add(observer);
+		Log.d(TAG, "Registered refresh observer.");
+	}
+	
+	public synchronized void unregisterRefreshObserver(RefreshObserver observer) {
+		if (mRefreshObservers.remove(observer)) {
+			Log.d(TAG, "Unregistered refresh observer.");
+		} else {
+			Log.w(TAG, "Could not find observer, NOT unregistering!");
+		}
+	}
+	
 	/**
 	 * Called in <code>onCreate</code> when the fragment constituting this
 	 * activity is needed. The returned fragment's arguments will be set to the

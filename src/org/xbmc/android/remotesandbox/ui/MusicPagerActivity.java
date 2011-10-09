@@ -1,6 +1,9 @@
 package org.xbmc.android.remotesandbox.ui;
 
+import java.util.ArrayList;
+
 import org.xbmc.android.jsonrpc.service.AudioSyncService;
+import org.xbmc.android.jsonrpc.service.AudioSyncService.RefreshObserver;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.util.DetachableResultReceiver;
 
@@ -27,9 +30,11 @@ public class MusicPagerActivity extends BaseFragmentTabsActivity {
 		
 		mSyncStatusUpdaterFragment = (SyncStatusUpdaterFragment) fm.findFragmentByTag(SyncStatusUpdaterFragment.TAG);
         if (mSyncStatusUpdaterFragment == null) {
-            mSyncStatusUpdaterFragment = new SyncStatusUpdaterFragment();
+            mSyncStatusUpdaterFragment = new SyncStatusUpdaterFragment(mRefreshObservers);
             fm.beginTransaction().add(mSyncStatusUpdaterFragment, SyncStatusUpdaterFragment.TAG).commit();
             //triggerRefresh();
+        } else {
+        	mSyncStatusUpdaterFragment.setRefreshObservers(mRefreshObservers);
         }
 	}
 
@@ -88,6 +93,12 @@ public class MusicPagerActivity extends BaseFragmentTabsActivity {
 
 		private boolean mSyncing = false;
 		private DetachableResultReceiver mReceiver;
+		
+		private ArrayList<RefreshObserver> mRefreshObservers = new ArrayList<RefreshObserver>(); 
+		
+		public SyncStatusUpdaterFragment(ArrayList<RefreshObserver> observers) {
+			mRefreshObservers = observers;
+		}
 
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
@@ -113,6 +124,10 @@ public class MusicPagerActivity extends BaseFragmentTabsActivity {
 				}
 				case AudioSyncService.STATUS_FINISHED: {
 					mSyncing = false;
+					Toast.makeText(activity, getString(R.string.toast_music_db_updated), Toast.LENGTH_LONG).show();
+					for (AudioSyncService.RefreshObserver observer : mRefreshObservers) {
+						observer.onRefreshed();
+					}
 					break;
 				}
 				case AudioSyncService.STATUS_ERROR: {
@@ -132,6 +147,10 @@ public class MusicPagerActivity extends BaseFragmentTabsActivity {
 		public void onActivityCreated(Bundle savedInstanceState) {
 			super.onActivityCreated(savedInstanceState);
 			((MusicPagerActivity) getActivity()).updateRefreshStatus(mSyncing);
+		}
+		
+		public void setRefreshObservers(ArrayList<RefreshObserver> observers) {
+			mRefreshObservers = observers;
 		}
 	}
 }

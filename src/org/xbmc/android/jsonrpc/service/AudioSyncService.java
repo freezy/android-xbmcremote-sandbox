@@ -222,4 +222,9 @@ public class AudioSyncService extends IntentService {
 			return -1;
 		}
 	}
+	
+	public interface RefreshObserver {
+		public void onRefreshed();
+	}
+	
 }
