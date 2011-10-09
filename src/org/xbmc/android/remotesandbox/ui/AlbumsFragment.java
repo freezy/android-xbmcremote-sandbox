@@ -44,8 +44,19 @@ public class AlbumsFragment extends ListFragment implements NotifyingAsyncQueryH
 		setListAdapter(mAdapter);
 
 		// Start background query to load albums
-		mHandler.startQuery(AlbumsQuery._TOKEN, null, AudioContract.Albums.CONTENT_URI, AlbumsQuery.PROJECTION, null, null, AudioContract.Albums.DEFAULT_SORT);
+		query();
 		Log.d(TAG, "AlbumsFragment created.");
+	}
+	
+	/**
+	 * Runs the (local) query.
+	 */
+	private void query() {
+		if (mHandler != null) {
+			mHandler.startQuery(AlbumsQuery._TOKEN, null, AudioContract.Albums.CONTENT_URI, AlbumsQuery.PROJECTION, null, null, AudioContract.Albums.DEFAULT_SORT);
+		} else {
+			Log.w(TAG, "Handler is null, cannot query.");
+		}
 	}
 
 	@Override
@@ -160,9 +171,7 @@ public class AlbumsFragment extends ListFragment implements NotifyingAsyncQueryH
 	private ContentObserver mAlbumsChangesObserver = new ContentObserver(new Handler()) {
 		@Override
 		public void onChange(boolean selfChange) {
-			if (mCursor != null) {
-//				mCursor.requery();
-			}
+			query();
 		}
 	};
 

@@ -32,6 +32,7 @@ There are a few things I'd like to have working until we start integrating the c
 * Figure out a faster way to manage updates. Right now, everything is re-inserted, with a `ON CONFLICT REPLACE` constraint on the ID. Importing 1.200 artists and 500 albums takes about 10 seconds. Seems pretty slow to me.
 * Switch to `HttpURLConnection` instead of Apache client. See also [Blog article here](http://android-developers.blogspot.com/2011/09/androids-http-clients.html).
 * Move as much layout stuff as possible to styles.
+* Add sorting to lists.
 
 The goal of this project is really to create a nice architecture that can be easily extended later. The idea is not to start adding all media types XBMC has to offer right now, but keep it simple and extend architecture-wise until we have a good base.
 
