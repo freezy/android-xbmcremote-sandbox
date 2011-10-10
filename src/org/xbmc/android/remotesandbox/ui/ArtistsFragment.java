@@ -18,6 +18,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -141,16 +142,19 @@ public class ArtistsFragment extends ListFragment implements LoaderManager.Loade
 	/**
 	 * {@link CursorAdapter} that renders a {@link ArtistsQuery}.
 	 */
-	private class ArtistsAdapter extends CursorAdapter {
+	public static class ArtistsAdapter extends CursorAdapter {
+		
+		private final LayoutInflater mInflater;
 
 		public ArtistsAdapter(Context context) {
 			super(context, null, false);
+			mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
 
 		/** {@inheritDoc} */
 		@Override
 		public View newView(Context context, Cursor cursor, ViewGroup parent) {
-			return getActivity().getLayoutInflater().inflate(R.layout.list_item_onelabel, parent, false);
+			return mInflater.inflate(R.layout.list_item_onelabel, parent, false);
 		}
 
 		/** {@inheritDoc} */

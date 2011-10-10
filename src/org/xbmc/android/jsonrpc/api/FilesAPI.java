@@ -62,5 +62,27 @@ public class FilesAPI extends AbstractAPI {
 	protected String getPrefix() {
 		return PREFIX;
 	}
+	
+	
+	/**
+	 * Transfer object for sources.
+	 */
+	public static class Source {
+		/**
+		 * Label of the source
+		 */
+		public final String label;
+		/**
+		 * Absolute path of the source, can also be addon://, etc.
+		 */
+		public final String file;
+		public Source(String label, String file) {
+			this.label = label;
+			this.file = file;
+		}
+		public String toString() {
+			return label + " (" + file + ")";
+		}
+	}
 
 }

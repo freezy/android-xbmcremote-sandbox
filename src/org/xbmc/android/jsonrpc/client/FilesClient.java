@@ -27,6 +27,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xbmc.android.jsonrpc.api.FilesAPI;
+import org.xbmc.android.jsonrpc.api.FilesAPI.Source;
 
 import android.util.Log;
 
@@ -71,27 +72,6 @@ public class FilesClient extends AbstractClient {
 	 */
 	public static interface SourcesResponseHandler {
 		public void handleResponse(ArrayList<Source> result);
-	}
-	
-	/**
-	 * Transfer object for sources.
-	 */
-	public static class Source {
-		/**
-		 * Label of the source
-		 */
-		public final String label;
-		/**
-		 * Absolute path of the source, can also be addon://, etc.
-		 */
-		public final String file;
-		public Source(String label, String file) {
-			this.label = label;
-			this.file = file;
-		}
-		public String toString() {
-			return label + " (" + file + ")";
-		}
 	}
 
 }
