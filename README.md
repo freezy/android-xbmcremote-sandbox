@@ -18,7 +18,7 @@ Oh, and you probably want to update the IP for your XBMC, that's hard coded at `
 
 ## Status Quo
 
-Currently, there is a home screen and a screen for the music library, which contains three tabs the user can fling through. All three tabs still list the same (albums). Clicking on the refresh button will trigger the service getting artists and albums from XBMC. These are the only entities implemented so far.
+Currently, there is a home screen and a screen for the music library, which contains three tabs the user can fling through. Clicking on the refresh button will trigger the service getting artists and albums from XBMC. These are the only entities implemented so far.
 
 
 ## Next Steps
