@@ -40,11 +40,28 @@ public class FilesClient extends AbstractClient {
 	
 	private final static String TAG = FilesClient.class.getSimpleName();
 	
+	/**
+	 * Returns all music sources.
+	 * 
+	 * @param errorHandler Error handler
+	 * @return List of all music sources
+	 */
 	public ArrayList<Source> getMusicSources(ErrorHandler errorHandler) {
+		return getSources(FilesAPI.Media.MUSIC, errorHandler);
+	}
+	
+	/**
+	 * Returns all sources of a specific media type.
+	 * 
+	 * @param media Media type, see constants at {@link FilesAPI.Media}.
+	 * @param errorHandler Error handler
+	 * @return
+	 */
+	private ArrayList<Source> getSources(String media, ErrorHandler errorHandler) {
 		final FilesAPI api = new FilesAPI();
 		try {
 			
-			JSONObject request = api.getSources(FilesAPI.Media.MUSIC);
+			JSONObject request = api.getSources(media);
 			JSONObject result = execute(request, errorHandler);
 			
 			if (result != null) {
@@ -63,11 +80,4 @@ public class FilesClient extends AbstractClient {
 		return new ArrayList<Source>();
 	}
 	
-	/**
-	 * Whenever sources are returned, a handler implementing this interface must be provided.
-	 */
-	public static interface SourcesResponseHandler {
-		public void handleResponse(ArrayList<Source> result);
-	}
-
 }

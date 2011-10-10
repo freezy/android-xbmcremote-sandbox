@@ -5,11 +5,25 @@ import java.util.List;
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 
+/**
+ * A loader class that loads data from a {@link List}.
+ * 
+ * See also http://developer.android.com/reference/android/content/AsyncTaskLoader.html
+ * for a nice example.
+ *
+ * @param <T> Object type of the list items
+ * @author freezy@xbmc.org
+ */
 public class ListLoader<T> extends AsyncTaskLoader<List<T>> {
 	
 	private List<T> mItems;
 	private final Worker<T> mWorker;
 
+	/**
+	 * Constructor
+	 * @param context Application context
+	 * @param worker Worker synchronously gets the data from XBMC.
+	 */
 	public ListLoader(Context context, Worker<T> worker) {
 		super(context);
 		mWorker = worker;
@@ -122,7 +136,13 @@ public class ListLoader<T> extends AsyncTaskLoader<List<T>> {
 		// like a Cursor, we would close it here.
 	}
 	
-	
+	/**
+	 * Since we're pretty much all generic, we can't implement the worker logic
+	 * ourselves since we don't know what to load. This will be done by a worker
+	 * instance that is provided when instantiating the loader.
+	 * 
+	 * @param <T> Object type of the list items
+	 */
 	public interface Worker<T> {
 		public List<T> doWork();
 	}
