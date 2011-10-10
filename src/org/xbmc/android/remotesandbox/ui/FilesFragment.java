@@ -2,7 +2,6 @@ package org.xbmc.android.remotesandbox.ui;
 
 import java.util.List;
 
-import org.xbmc.android.jsonrpc.api.FilesAPI;
 import org.xbmc.android.jsonrpc.api.FilesAPI.Source;
 import org.xbmc.android.jsonrpc.client.AbstractClient.ErrorHandler;
 import org.xbmc.android.jsonrpc.client.FilesClient;
@@ -25,8 +24,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class FilesFragment extends ListFragment implements LoaderManager.LoaderCallbacks<List<FilesAPI.Source>> {
-	
+public class FilesFragment extends ListFragment implements LoaderManager.LoaderCallbacks<List<Source>> {
+
 	private static final String TAG = FilesFragment.class.getSimpleName();
 
 	// This is the Adapter being used to display the list's data.
@@ -34,9 +33,9 @@ public class FilesFragment extends ListFragment implements LoaderManager.LoaderC
 
 	// If non-null, this is the current filter the user has provided.
 	private String mCurrentFilter;
-	
+
 	private final AudioSyncService.RefreshObserver mRefreshObserver = new AudioSyncService.RefreshObserver() {
-		
+
 		@Override
 		public void onRefreshed() {
 			Log.d(TAG, "Refreshing Artists from database.");
@@ -80,11 +79,12 @@ public class FilesFragment extends ListFragment implements LoaderManager.LoaderC
 		// Insert desired behavior here.
 		Log.i("FragmentComplexList", "Item clicked: " + id);
 	}
-	
-	@Override public Loader<List<FilesAPI.Source>> onCreateLoader(int id, Bundle args) {
-        // This is called when a new Loader needs to be created.  This
-        // sample only has one Loader with no arguments, so it is simple.
-        return new ListLoader<Source>(getActivity(), new Worker<Source>() {
+
+	@Override
+	public Loader<List<Source>> onCreateLoader(int id, Bundle args) {
+		// This is called when a new Loader needs to be created. This
+		// sample only has one Loader with no arguments, so it is simple.
+		return new ListLoader<Source>(getActivity(), new Worker<Source>() {
 			@Override
 			public List<Source> doWork() {
 				final FilesClient filesClient = new FilesClient();
@@ -96,75 +96,78 @@ public class FilesFragment extends ListFragment implements LoaderManager.LoaderC
 				});
 			}
 		});
-    }
+	}
 
-    @Override public void onLoadFinished(Loader<List<FilesAPI.Source>> loader, List<FilesAPI.Source> data) {
-        // Set the new data in the adapter.
-        mAdapter.setData(data);
+	@Override
+	public void onLoadFinished(Loader<List<Source>> loader, List<Source> data) {
+		// Set the new data in the adapter.
+		mAdapter.setData(data);
 
-        // The list should now be shown.
-        if (isResumed()) {
-            setListShown(true);
-        } else {
-            setListShownNoAnimation(true);
-        }
-    }
+		// The list should now be shown.
+		if (isResumed()) {
+			setListShown(true);
+		} else {
+			setListShownNoAnimation(true);
+		}
+	}
 
-    @Override public void onLoaderReset(Loader<List<FilesAPI.Source>> loader) {
-        // Clear the data in the adapter.
-        mAdapter.setData(null);
-    }
+	@Override
+	public void onLoaderReset(Loader<List<Source>> loader) {
+		// Clear the data in the adapter.
+		mAdapter.setData(null);
+	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 		if (getActivity() instanceof BaseFragmentTabsActivity) {
-			((BaseFragmentTabsActivity)getActivity()).registerRefreshObserver(mRefreshObserver);
+			((BaseFragmentTabsActivity) getActivity()).registerRefreshObserver(mRefreshObserver);
 		}
 		getLoaderManager().restartLoader(0, null, this);
 	}
-	
+
 	@Override
 	public void onPause() {
 		super.onPause();
 		if (getActivity() instanceof BaseFragmentTabsActivity) {
-			((BaseFragmentTabsActivity)getActivity()).unregisterRefreshObserver(mRefreshObserver);
+			((BaseFragmentTabsActivity) getActivity()).unregisterRefreshObserver(mRefreshObserver);
 		}
 	}
-	
-	public static class SourceListAdapter extends ArrayAdapter<FilesAPI.Source> {
-	    private final LayoutInflater mInflater;
 
-	    public SourceListAdapter(Context context) {
-	        super(context, android.R.layout.simple_list_item_2);
-	        mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	    }
+	public static class SourceListAdapter extends ArrayAdapter<Source> {
+		private final LayoutInflater mInflater;
 
-	    public void setData(List<FilesAPI.Source> data) {
-	        clear();
-	        if (data != null) {
-	        	for (Source source : data) {
+		public SourceListAdapter(Context context) {
+			super(context, android.R.layout.simple_list_item_2);
+			mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		}
+
+		public void setData(List<Source> data) {
+			clear();
+			if (data != null) {
+				for (Source source : data) {
 					add(source);
 				}
-	        }
-	    }
+			}
+		}
 
-	    /**
-	     * Populate new items in the list.
-	     */
-	    @Override public View getView(int position, View convertView, ViewGroup parent) {
-	        View view;
+		/**
+		 * Populate new items in the list.
+		 */
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View view;
 
-	        if (convertView == null) {
-	            view = mInflater.inflate(R.layout.list_item_onelabel, parent, false);
-	        } else {
-	            view = convertView;
-	        }
-	        FilesAPI.Source item = getItem(position);
-	        ((TextView)view.findViewById(R.id.item_title)).setText(item.label);
+			if (convertView == null) {
+				view = mInflater.inflate(R.layout.list_item_onelabel, parent, false);
+			} else {
+				view = convertView;
+			}
+			Source item = getItem(position);
+			((TextView) view.findViewById(R.id.item_title)).setText(item.label);
 
-	        return view;
-	    }
+			return view;
+		}
 	}
-	
+
 }
