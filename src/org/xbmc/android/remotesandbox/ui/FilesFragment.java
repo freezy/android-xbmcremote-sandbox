@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.xbmc.android.jsonrpc.api.FilesAPI;
 import org.xbmc.android.jsonrpc.api.FilesAPI.Source;
+import org.xbmc.android.jsonrpc.client.AbstractClient.ErrorHandler;
+import org.xbmc.android.jsonrpc.client.FilesClient;
 import org.xbmc.android.jsonrpc.client.ListLoader;
+import org.xbmc.android.jsonrpc.client.ListLoader.Worker;
 import org.xbmc.android.jsonrpc.service.AudioSyncService;
 import org.xbmc.android.remotesandbox.R;
 
@@ -81,7 +84,18 @@ public class FilesFragment extends ListFragment implements LoaderManager.LoaderC
 	@Override public Loader<List<FilesAPI.Source>> onCreateLoader(int id, Bundle args) {
         // This is called when a new Loader needs to be created.  This
         // sample only has one Loader with no arguments, so it is simple.
-        return new ListLoader(getActivity());
+        return new ListLoader<Source>(getActivity(), new Worker<Source>() {
+			@Override
+			public List<Source> doWork() {
+				final FilesClient filesClient = new FilesClient();
+				return filesClient.getMusicSources(new ErrorHandler() {
+					@Override
+					public void handleError(int code, String message) {
+						Log.e(TAG, "ERROR " + code + ": " + message);
+					}
+				});
+			}
+		});
     }
 
     @Override public void onLoadFinished(Loader<List<FilesAPI.Source>> loader, List<FilesAPI.Source> data) {

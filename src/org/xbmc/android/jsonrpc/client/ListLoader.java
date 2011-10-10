@@ -1,19 +1,18 @@
 package org.xbmc.android.jsonrpc.client;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import org.xbmc.android.jsonrpc.api.FilesAPI;
 
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 
-public class ListLoader extends AsyncTaskLoader<List<FilesAPI.Source>> {
+public class ListLoader<T> extends AsyncTaskLoader<List<T>> {
 	
-	List<FilesAPI.Source> mItems;
+	private List<T> mItems;
+	private final Worker<T> mWorker;
 
-	public ListLoader(Context context) {
+	public ListLoader(Context context, Worker<T> worker) {
 		super(context);
+		mWorker = worker;
 	}
 
 	/**
@@ -22,15 +21,8 @@ public class ListLoader extends AsyncTaskLoader<List<FilesAPI.Source>> {
 	 * by the loader.
 	 */
 	@Override
-	public List<FilesAPI.Source> loadInBackground() {
-		
-		// Create corresponding array of entries and load their labels.
-		List<FilesAPI.Source> entries = new ArrayList<FilesAPI.Source>(3);
-		entries.add(new FilesAPI.Source("MP3s Winona", "V:\\mp3\\archive\\"));
-		entries.add(new FilesAPI.Source("Last.fm", "lastfm://"));
-		entries.add(new FilesAPI.Source("Music Add-ons", "addons://sources/audio/"));
-		
-		return entries;
+	public List<T> loadInBackground() {
+		return mWorker.doWork();
 	}
 
 	/**
@@ -39,7 +31,7 @@ public class ListLoader extends AsyncTaskLoader<List<FilesAPI.Source>> {
 	 * little more logic.
 	 */
 	@Override
-	public void deliverResult(List<FilesAPI.Source> items) {
+	public void deliverResult(List<T> items) {
 		if (isReset()) {
 			// An async query came in while the loader is stopped. We
 			// don't need the result.
@@ -47,7 +39,7 @@ public class ListLoader extends AsyncTaskLoader<List<FilesAPI.Source>> {
 				onReleaseResources(items);
 			}
 		}
-		List<FilesAPI.Source> oldItems = items;
+		List<T> oldItems = items;
 		mItems = items;
 
 		if (isStarted()) {
@@ -96,11 +88,10 @@ public class ListLoader extends AsyncTaskLoader<List<FilesAPI.Source>> {
 	 * Handles a request to cancel a load.
 	 */
 	@Override
-	public void onCanceled(List<FilesAPI.Source> items) {
+	public void onCanceled(List<T> items) {
 		super.onCanceled(items);
 
-		// At this point we can release the resources associated with 'items'
-		// if needed.
+		// At this point we can release the resources associated with 'items' if needed.
 		onReleaseResources(items);
 	}
 
@@ -120,15 +111,19 @@ public class ListLoader extends AsyncTaskLoader<List<FilesAPI.Source>> {
 			onReleaseResources(mItems);
 			mItems = null;
 		}
-		
 	}
 
 	/**
 	 * Helper function to take care of releasing resources associated with an
 	 * actively loaded data set.
 	 */
-	protected void onReleaseResources(List<FilesAPI.Source> items) {
+	protected void onReleaseResources(List<T> items) {
 		// For a simple List<> there is nothing to do. For something
 		// like a Cursor, we would close it here.
+	}
+	
+	
+	public interface Worker<T> {
+		public List<T> doWork();
 	}
 }

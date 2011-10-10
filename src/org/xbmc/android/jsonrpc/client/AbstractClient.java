@@ -44,69 +44,62 @@ public abstract class AbstractClient {
 	
 	private final static String TAG = AbstractClient.class.getSimpleName();
 	
-	protected void execute(final JSONObject entity, final HttpHandler handler, final ErrorHandler errorHandler) {
+	protected JSONObject execute(JSONObject entity, ErrorHandler errorHandler) {
 		
-		final Thread thread = new Thread() {
-			@Override
-			public void run() {
-				
-				final HttpClient httpClient = HttpHelper.getHttpClient();
-				final HttpPost request = new HttpPost(AudioSyncService.URL);
-				InputStream input = null;
-				
-				try {
-					Log.i(TAG, "POSTING: " + entity.toString());
-					
-					request.setEntity(new StringEntity(entity.toString(), "UTF-8"));
-					request.addHeader("Content-Type", "application/json");
-					
-					final HttpResponse resp = httpClient.execute(request);
-					final int status = resp.getStatusLine().getStatusCode();
-					if (status != HttpStatus.SC_OK) {
-						errorHandler.handleError(ErrorHandler.UNEXPECTED_SERVER_RESPONSE, "Unexpected server response " + resp.getStatusLine() + " for " + request.getRequestLine());
-					} else {
-						input = resp.getEntity().getContent();
-						final BufferedReader reader = new BufferedReader(new InputStreamReader(input, "UTF-8"), 8192);
-						final StringBuilder sb = new StringBuilder();
-						for (String line = null; (line = reader.readLine()) != null;) {
-							sb.append(line).append("\n");
-						}
-						Log.d(TAG, "RESPONSE: " + sb.toString());
-						
-						final JSONTokener tokener = new JSONTokener(sb.toString());
-						final JSONObject response = ((JSONObject)tokener.nextValue());
-						if (response.has("error")) {
-							errorHandler.handleError(ErrorHandler.API_ERROR, response.getJSONObject("error").getString("message"));
-						} else if (response.has("result")) {
-							handler.handle(response.getJSONObject("result"));
-						} else {
-							errorHandler.handleError(ErrorHandler.NO_RESULT_FOUND, "No 'result' element in JSON response.");
-							Log.e(TAG, "RESPONSE: " + sb.toString());
-						}
-					}
-				} catch (UnsupportedEncodingException e) {
-					Log.e(TAG, e.getMessage(), e);
-					errorHandler.handleError(ErrorHandler.UNSUPPORTED_ENCODING, e.getMessage());
-				} catch (IllegalStateException e) {
-					Log.e(TAG, e.getMessage(), e);
-					errorHandler.handleError(ErrorHandler.ILLEGAL_STATE, e.getMessage());
-				} catch (IOException e) {
-					Log.e(TAG, e.getMessage(), e);
-					errorHandler.handleError(ErrorHandler.IO_EXCEPTION, e.getMessage());
-				} catch (JSONException e) {
-					Log.e(TAG, e.getMessage(), e);
-					errorHandler.handleError(ErrorHandler.JSON_EXCEPTION, e.getMessage());
-				} finally {
-					if (input != null) {
-						try {
-							input.close();
-						} catch (IOException e) { }
-					}
+		final HttpClient httpClient = HttpHelper.getHttpClient();
+		final HttpPost request = new HttpPost(AudioSyncService.URL);
+		InputStream input = null;
+		
+		try {
+			Log.i(TAG, "POSTING: " + entity.toString());
+			
+			request.setEntity(new StringEntity(entity.toString(), "UTF-8"));
+			request.addHeader("Content-Type", "application/json");
+			
+			final HttpResponse resp = httpClient.execute(request);
+			final int status = resp.getStatusLine().getStatusCode();
+			if (status != HttpStatus.SC_OK) {
+				errorHandler.handleError(ErrorHandler.UNEXPECTED_SERVER_RESPONSE, "Unexpected server response " + resp.getStatusLine() + " for " + request.getRequestLine());
+			} else {
+				input = resp.getEntity().getContent();
+				final BufferedReader reader = new BufferedReader(new InputStreamReader(input, "UTF-8"), 8192);
+				final StringBuilder sb = new StringBuilder();
+				for (String line = null; (line = reader.readLine()) != null;) {
+					sb.append(line).append("\n");
 				}
+				Log.d(TAG, "RESPONSE: " + sb.toString());
 				
-			};
-		};
-		thread.start();
+				final JSONTokener tokener = new JSONTokener(sb.toString());
+				final JSONObject response = ((JSONObject)tokener.nextValue());
+				if (response.has("error")) {
+					errorHandler.handleError(ErrorHandler.API_ERROR, response.getJSONObject("error").getString("message"));
+				} else if (response.has("result")) {
+					return response.getJSONObject("result");
+				} else {
+					errorHandler.handleError(ErrorHandler.NO_RESULT_FOUND, "No 'result' element in JSON response.");
+					Log.e(TAG, "RESPONSE: " + sb.toString());
+				}
+			}
+		} catch (UnsupportedEncodingException e) {
+			Log.e(TAG, e.getMessage(), e);
+			errorHandler.handleError(ErrorHandler.UNSUPPORTED_ENCODING, e.getMessage());
+		} catch (IllegalStateException e) {
+			Log.e(TAG, e.getMessage(), e);
+			errorHandler.handleError(ErrorHandler.ILLEGAL_STATE, e.getMessage());
+		} catch (IOException e) {
+			Log.e(TAG, e.getMessage(), e);
+			errorHandler.handleError(ErrorHandler.IO_EXCEPTION, e.getMessage());
+		} catch (JSONException e) {
+			Log.e(TAG, e.getMessage(), e);
+			errorHandler.handleError(ErrorHandler.JSON_EXCEPTION, e.getMessage());
+		} finally {
+			if (input != null) {
+				try {
+					input.close();
+				} catch (IOException e) { }
+			}
+		}
+		return null;
 	}
 	
 	protected interface HttpHandler {

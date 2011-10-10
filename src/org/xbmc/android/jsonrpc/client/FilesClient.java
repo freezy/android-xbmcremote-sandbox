@@ -40,31 +40,27 @@ public class FilesClient extends AbstractClient {
 	
 	private final static String TAG = FilesClient.class.getSimpleName();
 	
-	public void getMusicSources(final SourcesResponseHandler handler, final ErrorHandler errorHandler) {
+	public ArrayList<Source> getMusicSources(ErrorHandler errorHandler) {
 		final FilesAPI api = new FilesAPI();
 		try {
-			JSONObject request = api.getSources(FilesAPI.Media.MUSIC);
-			execute(request, new HttpHandler() {
-				@Override
-				public void handle(JSONObject result) {
-					try {
-						final JSONArray sources = result.getJSONArray("shares");
-						final ArrayList<Source> ret = new ArrayList<Source>(sources.length());
-						for (int i = 0; i < sources.length(); i++) {
-							final JSONObject source = sources.getJSONObject(i);
-							ret.add(new Source(source.getString("label"), source.getString("file")));
-						}
-						handler.handleResponse(ret);
-					} catch (JSONException e) {
-						Log.e(TAG, e.getMessage(), e);
-						errorHandler.handleError(ErrorHandler.JSON_EXCEPTION, e.getMessage());
-					}
-				}
-			}, errorHandler);
 			
+			JSONObject request = api.getSources(FilesAPI.Media.MUSIC);
+			JSONObject result = execute(request, errorHandler);
+			
+			if (result != null) {
+				final JSONArray sources = result.getJSONArray("shares");
+				final ArrayList<Source> ret = new ArrayList<Source>(sources.length());
+				for (int i = 0; i < sources.length(); i++) {
+					final JSONObject source = sources.getJSONObject(i);
+					ret.add(new Source(source.getString("label"), source.getString("file")));
+				}
+				return ret;
+			}
 		} catch (JSONException e) {
-			e.printStackTrace();
+			Log.e(TAG, e.getMessage(), e);
+			errorHandler.handleError(ErrorHandler.JSON_EXCEPTION, e.getMessage());
 		}
+		return new ArrayList<Source>();
 	}
 	
 	/**
