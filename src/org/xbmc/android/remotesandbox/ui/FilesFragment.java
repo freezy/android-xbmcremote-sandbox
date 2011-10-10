@@ -12,6 +12,7 @@ import org.xbmc.android.remotesandbox.R;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -23,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class FilesFragment extends ListFragment implements LoaderManager.LoaderCallbacks<List<Source>> {
 
@@ -48,7 +50,7 @@ public class FilesFragment extends ListFragment implements LoaderManager.LoaderC
 		super.onActivityCreated(savedInstanceState);
 
 		// Give some text to display if there is no data.
-		setEmptyText(getResources().getString(R.string.empty_artists));
+		setEmptyText(getResources().getString(R.string.empty_music_sources));
 
 		// We have a menu item to show in action bar.
 		setHasOptionsMenu(true);
@@ -84,14 +86,21 @@ public class FilesFragment extends ListFragment implements LoaderManager.LoaderC
 	public Loader<List<Source>> onCreateLoader(int id, Bundle args) {
 		// This is called when a new Loader needs to be created. This
 		// sample only has one Loader with no arguments, so it is simple.
+		final Handler h = new Handler();
 		return new ListLoader<Source>(getActivity(), new Worker<Source>() {
 			@Override
 			public List<Source> doWork() {
 				final FilesClient filesClient = new FilesClient();
 				return filesClient.getMusicSources(new ErrorHandler() {
 					@Override
-					public void handleError(int code, String message) {
+					public void handleError(int code, final String message) {
 						Log.e(TAG, "ERROR " + code + ": " + message);
+						h.post(new Runnable() {
+							@Override
+							public void run() {
+								Toast.makeText(getActivity(), "ERROR: " + message, Toast.LENGTH_LONG).show();
+							}
+						});
 					}
 				});
 			}
@@ -100,6 +109,11 @@ public class FilesFragment extends ListFragment implements LoaderManager.LoaderC
 
 	@Override
 	public void onLoadFinished(Loader<List<Source>> loader, List<Source> data) {
+		
+		if (!isVisible()) {
+            return;
+        }
+		
 		// Set the new data in the adapter.
 		mAdapter.setData(data);
 

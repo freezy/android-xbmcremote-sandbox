@@ -4,6 +4,7 @@
 	
 	<string name="empty_albums">No albums found.</string>
 	<string name="empty_artists">No artists found.</string>
+	<string name="empty_music_sources">No music sources found.</string>
 	
 	<string name="title_music">Music Library</string>
 	

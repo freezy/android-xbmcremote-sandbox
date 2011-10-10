@@ -37,6 +37,12 @@ abstract class AbstractAPI {
 	
 	private static final String PARAMS = "params";
 	
+	/**
+	 * JSON-RPC's "namespace", such as "Application.", "AudioLibrary.", "AudioPlayer.", etc etc.
+	 * We keep one subclass per namespace retrieve the prefix automatically.
+	 * 
+	 * @return JSON-RPC's namespace prefix, suffixed with a dot (".").
+	 */
 	protected abstract String getPrefix();
 	
 	/**

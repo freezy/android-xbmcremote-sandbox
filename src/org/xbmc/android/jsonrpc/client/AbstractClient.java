@@ -31,6 +31,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.entity.StringEntity;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -106,6 +107,11 @@ public abstract class AbstractClient {
 			if (errorHandler != null) {
 				errorHandler.handleError(ErrorHandler.ILLEGAL_STATE, e.getMessage());
 			}
+		} catch (HttpHostConnectException e) {
+			Log.e(TAG, e.getMessage(), e);
+			if (errorHandler != null) {
+				errorHandler.handleError(ErrorHandler.HOST_CONNECTION, e.getMessage());
+			}
 		} catch (IOException e) {
 			Log.e(TAG, e.getMessage(), e);
 			if (errorHandler != null) {
@@ -138,6 +144,7 @@ public abstract class AbstractClient {
 		public final static int JSON_EXCEPTION = 1004;
 		public final static int API_ERROR = 1005;
 		public final static int NO_RESULT_FOUND = 1006;
+		public final static int HOST_CONNECTION = 1007;
 		
 		/**
 		 * Implement your error logic here.
