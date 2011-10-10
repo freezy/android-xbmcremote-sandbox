@@ -9,7 +9,7 @@ import android.support.v4.content.AsyncTaskLoader;
  * A loader class that loads data from a {@link List}.
  * 
  * See also http://developer.android.com/reference/android/content/AsyncTaskLoader.html
- * for a nice example.
+ * for a nice example. This is a very generic version of it.
  *
  * @param <T> Object type of the list items
  * @author freezy@xbmc.org
@@ -33,6 +33,10 @@ public class ListLoader<T> extends AsyncTaskLoader<List<T>> {
 	 * This is where the bulk of our work is done. This function is called in a
 	 * background thread and should generate a new set of data to be published
 	 * by the loader.
+	 * 
+	 * Since we don't know exactly what we're loading, the worker which is 
+	 * provided at instantiation will do the work and return the correct
+	 * type of items.
 	 */
 	@Override
 	public List<T> loadInBackground() {

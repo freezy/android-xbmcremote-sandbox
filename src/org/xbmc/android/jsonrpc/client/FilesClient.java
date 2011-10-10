@@ -51,19 +51,24 @@ public class FilesClient extends AbstractClient {
 	}
 	
 	/**
-	 * Returns all sources of a specific media type.
+	 * Returns all sources of a specific media type. If nothing found, an empty
+	 * list is returned.
 	 * 
 	 * @param media Media type, see constants at {@link FilesAPI.Media}.
 	 * @param errorHandler Error handler
-	 * @return
+	 * @return Sources or empty list if nothing found.
 	 */
 	private ArrayList<Source> getSources(String media, ErrorHandler errorHandler) {
 		final FilesAPI api = new FilesAPI();
 		try {
 			
+			// 1. get the request object from our API implementation
 			JSONObject request = api.getSources(media);
+			
+			// 2. POST the object to XBMC's JSON-RPC API
 			JSONObject result = execute(request, errorHandler);
 			
+			// 3. parse the result and unserialize the JSON object into real {@link Source} objects.
 			if (result != null) {
 				final JSONArray sources = result.getJSONArray("shares");
 				final ArrayList<Source> ret = new ArrayList<Source>(sources.length());

@@ -109,11 +109,11 @@ public class FilesFragment extends ListFragment implements LoaderManager.LoaderC
 
 	@Override
 	public void onLoadFinished(Loader<List<Source>> loader, List<Source> data) {
-		
+
 		if (!isVisible()) {
-            return;
-        }
-		
+			return;
+		}
+	
 		// Set the new data in the adapter.
 		mAdapter.setData(data);
 

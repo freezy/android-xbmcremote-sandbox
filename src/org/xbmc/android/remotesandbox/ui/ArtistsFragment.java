@@ -100,8 +100,8 @@ public class ArtistsFragment extends ListFragment implements LoaderManager.Loade
 		
 		// see: http://stackoverflow.com/questions/6757156/android-cursorloader-crash-on-non-topmost-fragment
 		if (!isVisible()) {
-            return;
-        }
+			return;
+		}
 		
 		// Swap the new cursor in. (The framework will take care of closing the
 		// old cursor once we return.)
