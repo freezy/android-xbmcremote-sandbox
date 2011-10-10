@@ -24,6 +24,11 @@ package org.xbmc.android.jsonrpc.api;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Creates request objects for the audio library.
+ * 
+ * @author freezy@xbmc.org
+ */
 public class AudioLibraryAPI extends AbstractAPI {
 	
 	private final static String PREFIX = "AudioLibrary.";

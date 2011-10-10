@@ -25,12 +25,27 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Base class for all API classes.
+ * 
+ * API classes don't execute any requests, they only create the request
+ * objects that are compatible with the XBMC's JSON-RPC.
+ * 
+ * @author freezy@xbmc.org
+ */
 abstract class AbstractAPI {
 	
 	private static final String PARAMS = "params";
 	
 	protected abstract String getPrefix();
 	
+	/**
+	 * Creates the root nodes of the request object.
+	 * 
+	 * @param methodName Name of the method
+	 * @return Object containing the basic attributes of the request object
+	 * @throws JSONException Shit happens..
+	 */
 	protected JSONObject createRequest(String methodName) throws JSONException {
 		final JSONObject request = new JSONObject();
 		request.put("jsonrpc", "2.0");
@@ -39,6 +54,12 @@ abstract class AbstractAPI {
 		return request;
 	}
 	
+	/**
+	 * Returns the parameters array. Use this to add any parameters.
+	 * @param request
+	 * @return
+	 * @throws JSONException
+	 */
 	protected JSONObject getParameters(JSONObject request) throws JSONException {
 		if (request.has(PARAMS)) {
 			return request.getJSONObject(PARAMS);
@@ -49,6 +70,12 @@ abstract class AbstractAPI {
 		}
 	}
 	
+	/**
+	 * Helper method that converts an array of Strings into a JSON array.
+	 * 
+	 * @param items String items to convert
+	 * @return
+	 */
 	protected static JSONArray toJSONArray(String[] items) {
 		final JSONArray array = new JSONArray();
 		if (items != null && items.length > 0) {

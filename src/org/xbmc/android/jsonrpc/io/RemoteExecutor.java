@@ -35,6 +35,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.StringEntity;
 import org.json.JSONObject;
 import org.xbmc.android.jsonrpc.io.JsonHandler.HandlerException;
+import org.xbmc.android.util.HttpHelper;
 import org.xmlpull.v1.XmlPullParser;
 
 import android.content.ContentResolver;
@@ -55,8 +56,8 @@ public class RemoteExecutor {
 	private final HttpClient mHttpClient;
 	private final ContentResolver mResolver;
 
-	public RemoteExecutor(HttpClient httpClient, ContentResolver resolver) {
-		mHttpClient = httpClient;
+	public RemoteExecutor(ContentResolver resolver) {
+		mHttpClient = HttpHelper.getHttpClient();
 		mResolver = resolver;
 	}
 
