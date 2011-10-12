@@ -36,7 +36,7 @@ public class FilesAPI extends AbstractAPI {
 	/**
 	 * Gets the sources of the media windows
 	 * 
-	 * @param media Media type, see {@link Media} constants.
+	 * @param media Media type, see {@link Media} constants. If null, defaults to <tt>video</tt>.
 	 */
 	public JSONObject getSources(String media) throws JSONException {
 		final JSONObject request = createRequest("GetSources");
@@ -44,6 +44,20 @@ public class FilesAPI extends AbstractAPI {
 			media = Media.VIDEO;
 		}
 		getParameters(request).put("media", media);
+		return request;
+	}
+
+	/**
+	 * Returns the contents of a directory
+	 * 
+	 * @param directory Which directory to list
+	 */
+	public JSONObject getDirectory(String directory) throws JSONException {
+		final JSONObject request = createRequest("GetSources");
+		if (directory == null || directory.isEmpty()) {
+			throw new IllegalArgumentException("Directory parameter must not be null or empty.");
+		}
+		getParameters(request).put("directory", directory);
 		return request;
 	}
 
@@ -67,7 +81,7 @@ public class FilesAPI extends AbstractAPI {
 	/**
 	 * Transfer object for sources.
 	 */
-	public static class Source {
+	public static class Source implements OneLabelledNavigation {
 		/**
 		 * Label of the source
 		 */
@@ -75,14 +89,113 @@ public class FilesAPI extends AbstractAPI {
 		/**
 		 * Absolute path of the source, can also be addon://, etc.
 		 */
-		public final String file;
+		public final String path;
 		public Source(String label, String file) {
 			this.label = label;
-			this.file = file;
+			this.path = file;
 		}
 		public String toString() {
-			return label + " (" + file + ")";
+			return label + " (" + path + ")";
 		}
+		
+		@Override
+		public String getLabel() {
+			return label;
+		}
+		@Override
+		public int getType() {
+			return File.FILETYPE_SOURCE;
+		}
+		@Override
+		public String getPath() {
+			return path;
+		}
+	}
+	
+	/**
+	 * Transfer object for files and folders
+	 */
+	public static class File implements OneLabelledNavigation {
+		
+		public final String path; // required
+		public final int filetype; // required
+		public final String label; // required
+		
+		public int type = TYPE_UNKNOWN;
+		
+		public final static int FILETYPE_UNKNOWN = -1;
+		public final static int FILETYPE_SOURCE = 0;
+		public final static int FILETYPE_FILE = 1;
+		public final static int FILETYPE_DIRECTORY = 2;
+		
+		public final static int TYPE_UNKNOWN = -1;
+		public final static int TYPE_MOVIE = 1;
+		public final static int TYPE_EPISODE = 2;
+		public final static int TYPE_MUSICVIDEO = 3;
+		public final static int TYPE_SONG = 4;
+		
+		public File(String path, String filetype, String label) {
+			this.path = path;
+			this.filetype = parseFiletype(filetype);
+			this.label = label;
+		}
+		
+		public void setType(String type) {
+			this.type = parseType(type);
+		}
+		
+		private static int parseFiletype(String filetype) {
+			if (filetype == null || filetype.isEmpty()) {
+				return FILETYPE_UNKNOWN;
+			}
+			if (filetype.equals("file")) {
+				return FILETYPE_FILE;
+			}
+			if (filetype.equals("directory")) {
+				return FILETYPE_DIRECTORY;
+			}
+			return FILETYPE_UNKNOWN;
+		}
+		
+		private static int parseType(String type) {
+			if (type == null || type.isEmpty()) {
+				return TYPE_UNKNOWN;
+			}
+			if (type.equals("movie")) {
+				return TYPE_MOVIE;
+			}
+			if (type.equals("episode")) {
+				return TYPE_EPISODE;
+			}
+			if (type.equals("musicvideo")) {
+				return TYPE_MUSICVIDEO;
+			}
+			if (type.equals("song")) {
+				return TYPE_SONG;
+			}
+			return TYPE_UNKNOWN;
+		}
+
+		@Override
+		public String getLabel() {
+			return label;
+		}
+
+		@Override
+		public int getType() {
+			return filetype == FILETYPE_FILE ? type : filetype;
+		}
+
+		@Override
+		public String getPath() {
+			return path;
+		}
+	}
+	
+	public interface OneLabelledNavigation {
+		public String getLabel();
+		public int getType();
+		public String getPath();
 	}
 
 }

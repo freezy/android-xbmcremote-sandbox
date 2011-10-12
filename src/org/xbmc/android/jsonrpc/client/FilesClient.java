@@ -27,6 +27,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xbmc.android.jsonrpc.api.FilesAPI;
+import org.xbmc.android.jsonrpc.api.FilesAPI.File;
 import org.xbmc.android.jsonrpc.api.FilesAPI.Source;
 
 import android.util.Log;
@@ -40,6 +41,8 @@ public class FilesClient extends AbstractClient {
 	
 	private final static String TAG = FilesClient.class.getSimpleName();
 	
+	private final FilesAPI api = new FilesAPI();
+	
 	/**
 	 * Returns all music sources.
 	 * 
@@ -50,6 +53,43 @@ public class FilesClient extends AbstractClient {
 		return getSources(FilesAPI.Media.MUSIC, errorHandler);
 	}
 	
+	
+	/**
+	 * Returns all files of a specific folder. If nothing found, an empty
+	 * list is returned.
+	 * 
+	 * @param directory Folder to fetch items for
+	 * @param errorHandler Error handler
+	 * @return Folder contents or empty list if nothing found.
+	 */
+	public ArrayList<File> getDirectory(String directory, ErrorHandler errorHandler) {
+		
+		try {
+			
+			JSONObject request = api.getDirectory(directory);
+			JSONObject result = execute(request, errorHandler);
+			
+			if (result != null) {
+				final JSONArray files = result.getJSONArray("files");
+				final ArrayList<File> ret = new ArrayList<File>(files.length());
+				for (int i = 0; i < files.length(); i++) {
+					final JSONObject f = files.getJSONObject(i);
+					final File file = new File(f.getString("file"), f.getString("filetype"), f.getString("label"));
+					if (f.has("type")) {
+						file.setType(f.getString("type"));
+					}
+					ret.add(file);
+				}
+				return ret;
+			}
+		} catch (JSONException e) {
+			Log.e(TAG, e.getMessage(), e);
+			errorHandler.handleError(ErrorHandler.JSON_EXCEPTION, e.getMessage());
+		}
+		return new ArrayList<File>();
+	}
+	
+	
 	/**
 	 * Returns all sources of a specific media type. If nothing found, an empty
 	 * list is returned.
@@ -59,7 +99,7 @@ public class FilesClient extends AbstractClient {
 	 * @return Sources or empty list if nothing found.
 	 */
 	private ArrayList<Source> getSources(String media, ErrorHandler errorHandler) {
-		final FilesAPI api = new FilesAPI();
+		
 		try {
 			
 			// 1. get the request object from our API implementation
@@ -84,5 +124,4 @@ public class FilesClient extends AbstractClient {
 		}
 		return new ArrayList<Source>();
 	}
-	
 }
