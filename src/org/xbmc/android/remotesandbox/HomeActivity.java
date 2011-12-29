@@ -21,23 +21,45 @@
 
 package org.xbmc.android.remotesandbox;
 
-import org.xbmc.android.remotesandbox.ui.BaseSinglePaneActivity;
-import org.xbmc.android.remotesandbox.ui.DashboardFragment;
+import org.xbmc.android.remotesandbox.ui.BaseActivity;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.view.Menu;
+import android.view.MenuItem;
 
-public class HomeActivity extends BaseSinglePaneActivity {
-	
-    @Override
-    protected Fragment onCreatePane() {
-        return new DashboardFragment();
-    }
+public class HomeActivity extends BaseActivity {
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        getActivityHelper().setupSubActivity();
-    }
-    
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		setContentView(R.layout.activity_home);
+		getActivityHelper().setupActionBar(null, 0);
+
+		FragmentManager fm = getSupportFragmentManager();
+
+	}
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		getActivityHelper().setupHomeActivity();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.refresh_menu_items, menu);
+		super.onCreateOptionsMenu(menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == R.id.menu_refresh) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
 }

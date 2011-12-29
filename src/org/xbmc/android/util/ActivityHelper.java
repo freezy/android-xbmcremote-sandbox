@@ -22,6 +22,7 @@ import org.xbmc.android.remotesandbox.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,6 +42,8 @@ import android.widget.TextView;
  * features.
  */
 public class ActivityHelper {
+	
+	private static final String TAG = ActivityHelper.class.getSimpleName();
 	
 	protected Activity mActivity;
 
@@ -160,7 +163,7 @@ public class ActivityHelper {
 
 		if (title != null) {
 			// Add Home button
-			//addActionButtonCompat(R.drawable.ic_title_home, R.string.description_home, homeClickListener, true);
+			addActionButtonCompat(R.drawable.icon, R.string.description_refresh, homeClickListener, true);
 
 			// Add title text
 			TextView titleText = new TextView(mActivity, null, R.attr.actionbarCompatTextStyle);
@@ -170,6 +173,7 @@ public class ActivityHelper {
 
 		} else {
 			// Add logo
+			Log.d(TAG, "Adding logo to action bar..");
 			ImageButton logo = new ImageButton(mActivity, null, R.attr.actionbarCompatLogoStyle);
 			logo.setOnClickListener(homeClickListener);
 			actionBarCompat.addView(logo);

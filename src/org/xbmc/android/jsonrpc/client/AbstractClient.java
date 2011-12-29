@@ -45,7 +45,7 @@ import android.util.Log;
  * Parent class for all "standalone" clients. Contains network logic 
  * inclusively error handling.
  * 
- * @author freezy@xbmc.org
+ * @author freezy <freezy@xbmc.org>
  */
 public abstract class AbstractClient {
 	

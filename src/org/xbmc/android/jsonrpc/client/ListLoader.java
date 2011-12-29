@@ -12,7 +12,7 @@ import android.support.v4.content.AsyncTaskLoader;
  * for a nice example. This is a very generic version of it.
  *
  * @param <T> Object type of the list items
- * @author freezy@xbmc.org
+ * @author freezy <freezy@xbmc.org>
  */
 public class ListLoader<T> extends AsyncTaskLoader<List<T>> {
 	

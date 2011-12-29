@@ -19,7 +19,7 @@
     <style name="Theme" parent="android:style/Theme" />
 
     <!-- Variation on the Light theme that turns off the title -->
-    <style name="Theme.IOSched" parent="android:style/Theme.Light">
+    <style name="Theme.XBMCRemote" parent="android:style/Theme.Light">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowContentOverlay">@null</item>
 
@@ -36,7 +36,7 @@
     </style>
 
     <!-- Start with the Holographic Light theme -->
-    <style name="Theme.IOSched.Home" parent="style/Theme.IOSched">
+    <style name="Theme.XBMCRemote.Home" parent="style/Theme.XBMCRemote">
         <!-- item name="android:windowBackground">@drawable/background_noise</item -->
     </style>
 
@@ -45,7 +45,7 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">@dimen/actionbar_compat_height</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:background">@drawable/actionbar_compat_background</item>
+        <item name="android:background">@drawable/bg_gradient_dark_horizontal</item>
     </style>
 
     <style name="ActionBarCompatButton">
@@ -71,6 +71,8 @@
         <item name="android:layout_height">fill_parent</item>
         <item name="android:clickable">false</item>
         <item name="android:scaleType">center</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingTop">15dp</item>
         <!-- item name="android:contentDescription">@string/description_logo</item-->
         <item name="android:src">@drawable/actionbar_compat_logo</item>
     </style>
@@ -92,18 +94,6 @@
         <item name="android:shadowRadius">0.00001</item>
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">end</item>
-    </style>
-
-    <style name="DashboardButton">
-        <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center_horizontal</item>
-        <item name="android:drawablePadding">2dp</item>
-        <item name="android:textSize">@dimen/text_size_small</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/accent_1</item>
-        <item name="android:background">@null</item>
     </style>
 
     <style name="ListItemTitle">
@@ -138,36 +128,6 @@
         <item name="android:paddingRight">10dp</item>
         <item name="android:paddingTop">8dp</item>
         <item name="android:paddingBottom">8dp</item>
-    </style>
-
-    <!-- What's On section in Home activity -->
-
-    <style name="WhatsOnItemBase">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:layout_height">fill_parent</item>
-        <item name="android:textSize">@dimen/text_size_small</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/body_text_1</item>
-        <item name="android:maxLines">2</item>
-        <item name="android:paddingLeft">@dimen/whats_on_item_padding</item>
-        <item name="android:paddingRight">@dimen/whats_on_item_padding</item>
-        <item name="android:gravity">center</item>
-    </style>
-
-    <style name="WhatsOnStaticItem" parent="style/WhatsOnItemBase">
-        <item name="android:textSize">@dimen/text_size_small</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/body_text_1</item>
-        <item name="android:maxLines">2</item>
-    </style>
-
-    <style name="WhatsOnButtonItem" parent="style/WhatsOnStaticItem">
-        <item name="android:textColor">@color/accent_1</item>
-        <!-- item name="android:background">@drawable/whats_on_button</item-->
-        <item name="android:paddingRight">@dimen/whats_on_button_right_padding</item>
-        <item name="android:focusable">true</item>
-        <item name="android:clickable">true</item>
     </style>
 
     <!-- body content -->
@@ -213,6 +173,5 @@
         <item name="android:textSize">@dimen/text_size_small</item>
         <item name="android:background">@drawable/btn</item>
     </style>
-
 
 </resources>

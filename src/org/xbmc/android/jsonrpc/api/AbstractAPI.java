@@ -30,8 +30,14 @@ import org.json.JSONObject;
  * 
  * API classes don't execute any requests, they only create the request
  * objects that are compatible with the XBMC's JSON-RPC.
+ * <p>
+ * For all implemented commands, run 
+ * <code>
+ * 	curl -i -X POST -d '{"jsonrpc": "2.0", "method": "JSONRPC.Introspect", "params": { }, "id": 1}' http://localhost:8080/jsonrpc
+ * </code>
  * 
- * @author freezy@xbmc.org
+ * @see http://wiki.xbmc.org/index.php?title=JSON-RPC_API/v3
+ * @author freezy <freezy@xbmc.org>
  */
 abstract class AbstractAPI {
 	

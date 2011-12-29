@@ -37,7 +37,7 @@ import android.provider.BaseColumns;
  * This class, along with the other ones in this package was closely inspired by
  * Google's official iosched app, see http://code.google.com/p/iosched/
  * 
- * @author freezy@xbmc.org
+ * @author freezy <freezy@xbmc.org>
  */
 public class AudioContract {
 	
@@ -62,7 +62,7 @@ public class AudioContract {
 
 	/**
 	 * Constants for synchronized columns.
-	 * @author freezy@xbmc.org
+	 * @author freezy <freezy@xbmc.org>
 	 */
 	public interface SyncColumns {
 		/** Last time this entry was updated or synchronized. */
@@ -71,7 +71,7 @@ public class AudioContract {
 
 	/**
 	 * Constants for albums columns.
-	 * @author freezy@xbmc.org
+	 * @author freezy <freezy@xbmc.org>
 	 */
 	interface AlbumsColumns {
 		final static String PREFIX = "album_";
@@ -86,7 +86,7 @@ public class AudioContract {
 	
 	/**
 	 * Constants for artists columns.
-	 * @author freezy@xbmc.org
+	 * @author freezy <freezy@xbmc.org>
 	 */
 	interface ArtistsColumns {
 		final static String PREFIX = "artist_";
@@ -101,7 +101,7 @@ public class AudioContract {
 	 * An album is a collection of songs with additional information such as a special "album artist", 
 	 * release year and associated genres.
 	 *  
-	 * @author freezy@xbmc.org
+	 * @author freezy <freezy@xbmc.org>
 	 */
 	public static class Albums implements AlbumsColumns, BaseColumns {
 		public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_ALBUMS).build();
@@ -126,7 +126,7 @@ public class AudioContract {
 	/**
 	 * An artist in this context is only a string with an associated ID.
 	 * 
-	 * @author freezy@xbmc.org
+	 * @author freezy <freezy@xbmc.org>
 	 */
 	public static class Artists implements ArtistsColumns, BaseColumns {
 		public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_ARTISTS).build();

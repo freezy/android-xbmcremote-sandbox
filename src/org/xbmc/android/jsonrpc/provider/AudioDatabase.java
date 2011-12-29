@@ -40,7 +40,7 @@ import android.util.Log;
  * This class, along with the other ones in this package was closely inspired by
  * Google's official iosched app, see http://code.google.com/p/iosched/
  * 
- * @author freezy@xbmc.org
+ * @author freezy <freezy@xbmc.org>
  */
 public class AudioDatabase extends SQLiteOpenHelper {
 

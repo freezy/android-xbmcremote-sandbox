@@ -27,7 +27,7 @@ import org.json.JSONObject;
 /**
  * Creates request objects for the audio library.
  * 
- * @author freezy@xbmc.org
+ * @author freezy <freezy@xbmc.org>
  */
 public class AudioLibraryAPI extends AbstractAPI {
 	
@@ -42,7 +42,7 @@ public class AudioLibraryAPI extends AbstractAPI {
 			getParameters(request).put("genreid", genreId);
 		}
 		if (fields != null && fields.length > 0) {
-			getParameters(request).put("fields", toJSONArray(fields));
+			getParameters(request).put("properties", toJSONArray(fields));
 		}
 		return request;
 	}
@@ -65,7 +65,7 @@ public class AudioLibraryAPI extends AbstractAPI {
 			getParameters(request).put("genreid", genreId);
 		}
 		if (fields != null && fields.length > 0) {
-			getParameters(request).put("fields", toJSONArray(fields));
+			getParameters(request).put("properties", toJSONArray(fields));
 		}
 		return request;
 	}

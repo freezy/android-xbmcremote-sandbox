@@ -47,7 +47,7 @@ import android.util.Log;
  * This class was closely inspired by Google's official iosched app, see
  * http://code.google.com/p/iosched/
  * 
- * @author freezy@xbmc.org
+ * @author freezy <freezy@xbmc.org>
  */
 public abstract class JsonHandler {
 	
@@ -72,7 +72,18 @@ public abstract class JsonHandler {
         try {
         	
 			final JSONTokener tokener = new JSONTokener(response.toString());
-			final JSONObject result = ((JSONObject)tokener.nextValue()).getJSONObject("result");
+			final JSONObject responseObj = (JSONObject)tokener.nextValue();
+			if (responseObj.has("error")) {
+				final JSONObject error = responseObj.getJSONObject("error");
+				Log.e(TAG, "[JSON-RPC] " + error.getString("message"));
+				Log.e(TAG, "[JSON-RPC] " + response);
+				throw new HandlerException("Error " + error.getInt("code") + ": " + error.getString("message"));
+			}
+			if (!responseObj.has("result")) {
+				Log.e(TAG, "[JSON-RPC] " + response);
+				throw new HandlerException("Neither result nor error object found in response.");
+			}
+			final JSONObject result = responseObj.getJSONObject("result");
         	
             final ArrayList<ContentProviderOperation> batch = parse(result, resolver);
             final long start = System.currentTimeMillis();

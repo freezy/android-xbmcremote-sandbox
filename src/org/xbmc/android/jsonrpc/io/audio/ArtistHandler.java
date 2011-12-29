@@ -40,7 +40,7 @@ import android.util.Log;
  * Handles one-way synchronization between XBMC's <tt>artist</tt> table and the local
  * {@link Artists} table.
  * 
- * @author freezy@xbmc.org
+ * @author freezy <freezy@xbmc.org>
  */
 public class ArtistHandler extends JsonHandler {
 	

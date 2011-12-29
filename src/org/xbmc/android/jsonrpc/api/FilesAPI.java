@@ -26,8 +26,8 @@ import org.json.JSONObject;
 
 /**
  * Creates request objects for the files API.
- *  
- * @author freezy@xbmc.org
+ * 
+ * @author freezy <freezy@xbmc.org>
  */
 public class FilesAPI extends AbstractAPI {
 	
@@ -35,6 +35,11 @@ public class FilesAPI extends AbstractAPI {
 	
 	/**
 	 * Gets the sources of the media windows
+	 * 
+	 * Curl example:
+	 * <code>
+	 * curl -i -X POST -d '{"jsonrpc": "2.0", "method": "Files.GetSources", "params": { "media": "music"}, "id": 1}' http://localhost:8080/jsonrpc
+	 * </code>
 	 * 
 	 * @param media Media type, see {@link Media} constants. If null, defaults to <tt>video</tt>.
 	 */
@@ -49,6 +54,11 @@ public class FilesAPI extends AbstractAPI {
 
 	/**
 	 * Returns the contents of a directory
+	 * 
+	 * Curl example:
+	 * <code>
+	 * curl -i -X POST -d '{"jsonrpc": "2.0", "method": "Files.GetSources", "params": { "directory": "V:\\mp3\\archive\\"}, "id": 1}' http://localhost:8080/jsonrpc
+	 * </code>
 	 * 
 	 * @param directory Which directory to list
 	 */

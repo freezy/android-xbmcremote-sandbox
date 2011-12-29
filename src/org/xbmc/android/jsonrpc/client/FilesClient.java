@@ -35,7 +35,7 @@ import android.util.Log;
 /**
  * Real time access to the Files API.
  * 
- * @author freezy@xbmc.org
+ * @author freezy <freezy@xbmc.org>
  */
 public class FilesClient extends AbstractClient {
 	
@@ -110,7 +110,7 @@ public class FilesClient extends AbstractClient {
 			
 			// 3. parse the result and unserialize the JSON object into real {@link Source} objects.
 			if (result != null) {
-				final JSONArray sources = result.getJSONArray("shares");
+				final JSONArray sources = result.getJSONArray("sources");
 				final ArrayList<Source> ret = new ArrayList<Source>(sources.length());
 				for (int i = 0; i < sources.length(); i++) {
 					final JSONObject source = sources.getJSONObject(i);
