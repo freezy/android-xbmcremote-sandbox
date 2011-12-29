@@ -173,7 +173,6 @@ public class ActivityHelper {
 
 		} else {
 			// Add logo
-			Log.d(TAG, "Adding logo to action bar..");
 			ImageButton logo = new ImageButton(mActivity, null, R.attr.actionbarCompatLogoStyle);
 			logo.setOnClickListener(homeClickListener);
 			actionBarCompat.addView(logo);
@@ -258,7 +257,7 @@ public class ActivityHelper {
 		actionBar.addView(actionButton);
 
 		if (separatorAfter) {
-			actionBar.addView(separator);
+		//	actionBar.addView(separator);
 		}
 
 		return actionButton;

@@ -40,7 +40,6 @@ public class HomeActivity extends BaseActivity {
 		FragmentManager fm = getSupportFragmentManager();
 
 	}
-
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
@@ -61,5 +60,4 @@ public class HomeActivity extends BaseActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
 }

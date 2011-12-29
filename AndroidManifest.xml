@@ -5,7 +5,6 @@
 	<uses-sdk android:minSdkVersion="7" android:targetSdkVersion="11" />
 	<application 
 		android:icon="@drawable/icon" 
-		android:logo="@drawable/actionbar_compat_logo"
 		android:label="@string/app_name"
 		android:theme="@style/Theme.XBMCRemote"
         android:hardwareAccelerated="true">

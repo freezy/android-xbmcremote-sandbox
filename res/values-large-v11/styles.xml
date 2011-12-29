@@ -12,13 +12,8 @@
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-  -->
-
+-->
 <resources>
-    <style name="Theme.XBMCRemote.Home" parent="style/Theme.XBMCRemote">
-        <item name="android:windowBackground">@drawable/bg_gradient_light</item>
-        <item name="android:actionBarStyle">@style/ActionBar</item>
-    </style>
 
     <style name="ListItemContainerBase">
         <item name="android:minHeight">?android:attr/listPreferredItemHeight</item>
@@ -26,7 +21,6 @@
     </style>
 
     <!-- body content -->
-
     <style name="TextHeaderSub">
         <item name="android:textSize">@dimen/text_size_medium</item>
         <item name="android:textStyle">normal</item>
@@ -41,4 +35,5 @@
         <item name="android:textColor">@color/body_text_1</item>
         <item name="android:textIsSelectable">true</item>
     </style>
+
 </resources>

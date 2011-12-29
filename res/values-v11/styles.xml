@@ -12,9 +12,10 @@
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-  -->
+-->
 
 <resources>
+
     <!-- Start with the Holographic Light theme -->
     <style name="Theme.XBMCRemote" parent="android:style/Theme.Holo.Light">
         <item name="android:windowBackground">@drawable/bg_gradient_dark_horizontal</item>
@@ -27,19 +28,29 @@
 
     <style name="Theme.XBMCRemote.Home" parent="style/Theme.XBMCRemote">
         <item name="android:windowBackground">@drawable/bg_gradient_light</item>
-        <item name="android:actionBarStyle">@style/ActionBar</item>
+        <item name="android:actionBarStyle">@style/ActionBarHome</item>
     </style>
 
     <style name="ActionBar" parent="android:style/Widget.Holo.Light.ActionBar">
-        <item name="android:layout_width">fill_parent</item>
+        <item name="android:textColor">@color/actionbar_text</item>
         <item name="android:background">@drawable/bg_gradient_dark_horizontal</item>
-        <item name="android:orientation">horizontal</item>
-        <item name="android:textColor">@color/accent_1</item>
         <item name="android:titleTextStyle">@style/ActionBarText</item>
     </style>
-
-    <style name="ActionBarText" parent="android:style/TextAppearance.Holo.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/accent_1</item>
-        <item name="android:textStyle">bold</item>
+    
+    <style name="ActionBarHome" parent="style/ActionBar">
+        <item name="android:logo">@drawable/actionbar_compat_logo</item>
     </style>
+    
+    <style name="ActionBarText" parent="android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/actionbar_text</item>
+        <item name="android:shadowColor">@color/actionbar_shadow</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">0.00001</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
 </resources>
