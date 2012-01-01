@@ -89,7 +89,7 @@ public class AudioSyncService extends IntentService {
 					AudioLibraryAPI.AlbumFields.ARTISTID,
 					AudioLibraryAPI.AlbumFields.YEAR };
 
-			mRemoteExecutor.executePost(URL, audiolib.getArtists(false, null, null), new ArtistHandler());
+			mRemoteExecutor.executePost(URL, audiolib.getArtists(false, null), new ArtistHandler());
 			mRemoteExecutor.executePost(URL, audiolib.getAlbums(null, null, albumFields), new AlbumHandler());
 
 			Log.i(TAG, "All done, remote sync took " + (System.currentTimeMillis() - startRemote) + "ms.");
@@ -106,8 +106,10 @@ public class AudioSyncService extends IntentService {
 		}
 
 		// Announce success to any surface listener
-		if (receiver != null)
+		if (receiver != null) {
 			receiver.send(STATUS_FINISHED, Bundle.EMPTY);
+		}
+		
 		Log.d(TAG, "Sync finished!");
 		Log.d(TAG, "onHandleIntent() done in " + (System.currentTimeMillis() - start) + "ms.");
 	}

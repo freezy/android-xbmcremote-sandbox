@@ -33,6 +33,15 @@ public class AudioLibraryAPI extends AbstractAPI {
 	
 	private final static String PREFIX = "AudioLibrary.";
 	
+	/**
+	 * Retrieve all albums.
+	 * 
+	 * @param artistId If not null, only fetch albums for this artist.
+	 * @param genreId If not null, only fetch albums of this genre.
+	 * @param fields Additional fields to return, see constants at {@link AlbumFields}.
+	 * @return
+	 * @throws JSONException
+	 */
 	public JSONObject getAlbums(Long artistId, Long genreId, String[] fields) throws JSONException {
 		final JSONObject request = createRequest("GetAlbums");
 		if (artistId != null) {
@@ -51,18 +60,14 @@ public class AudioLibraryAPI extends AbstractAPI {
 	 * Retrieve all artists.
 	 * 
 	 * @param albumartistsOnly Whether or not to include artists only appearing in compilations. If the parameter is not passed or is passed as null the GUI setting will be used
-	 * @param genreId 
-	 * @param fields Array of strings, see constants at {@link ArtistFields}.
+	 * @param fields Additional fields to return, see constants at {@link ArtistFields}.
 	 * @return
 	 * @throws JSONException
 	 */
-	public JSONObject getArtists(Boolean albumartistsOnly, Long genreId, String[] fields) throws JSONException {
+	public JSONObject getArtists(Boolean albumartistsOnly, String[] fields) throws JSONException {
 		final JSONObject request = createRequest("GetArtists");
 		if (albumartistsOnly != null) {
 			getParameters(request).put("albumartistsonly", albumartistsOnly);
-		}
-		if (genreId != null) {
-			getParameters(request).put("genreid", genreId);
 		}
 		if (fields != null && fields.length > 0) {
 			getParameters(request).put("properties", toJSONArray(fields));
@@ -70,6 +75,10 @@ public class AudioLibraryAPI extends AbstractAPI {
 		return request;
 	}
 	
+	/**
+	 * Field definitions for artists.
+	 * @author freezy <freezy@xbmc.org>
+	 */
 	public interface ArtistFields {
 		final String INSTRUMENT = "instrument";
 		final String STYLE = "style";
@@ -86,6 +95,10 @@ public class AudioLibraryAPI extends AbstractAPI {
 		final String THUMBNAIL = "thumbnail";
 	}
 	
+	/**
+	 * Field definitions for albums.
+	 * @author freezy <freezy@xbmc.org>
+	 */
 	public interface AlbumFields {
 		final String TITLE = "title";
 		final String DESCRIPTION = "description";

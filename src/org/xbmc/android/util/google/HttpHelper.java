@@ -1,4 +1,4 @@
-package org.xbmc.android.util;
+package org.xbmc.android.util.google;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -1,23 +1,27 @@
 /*
- * Copyright 2011 Google Inc.
+ *      Copyright (C) 2005-2015 Team XBMC
+ *      http://xbmc.org
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *  This Program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2, or (at your option)
+ *  any later version.
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *  This Program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with XBMC Remote; see the file license.  If not, write to
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
+ *  http://www.gnu.org/copyleft/gpl.html
+ *
  */
 
 package org.xbmc.android.util;
 
 import java.util.List;
-import java.util.TimeZone;
 
 import android.content.Context;
 import android.content.Intent;
@@ -28,7 +32,6 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.text.Html;
@@ -41,15 +44,11 @@ import android.widget.TextView;
 
 /**
  * An assortment of UI helpers.
+ * 
+ * @see http://code.google.com/p/iosched/source/browse/android/src/com/google/android/apps/iosched/util/UIUtils.java
+ * @author freezy <freezy@xbmc.org>
  */
 public class UIUtils {
-    /**
-     * Time zone to use when formatting all session times. To always use the
-     * phone local time, use {@link TimeZone#getDefault()}.
-     */
-    public static final TimeZone CONFERENCE_TIME_ZONE = TimeZone.getTimeZone("America/Los_Angeles");
-
-    public static final Uri CONFERENCE_URL = Uri.parse("http://www.google.com/events/io/2011/");
 
     private static StyleSpan sBoldSpan = new StyleSpan(Typeface.BOLD);
 

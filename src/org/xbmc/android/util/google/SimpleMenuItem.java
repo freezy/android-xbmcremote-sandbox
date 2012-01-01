@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-package org.xbmc.android.util;
+package org.xbmc.android.util.google;
+
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;

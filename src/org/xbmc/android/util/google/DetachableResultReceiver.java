@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.xbmc.android.util;
+package org.xbmc.android.util.google;
 
 import android.os.Bundle;
 import android.os.Handler;

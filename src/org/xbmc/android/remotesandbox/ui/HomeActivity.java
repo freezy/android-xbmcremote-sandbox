@@ -19,9 +19,12 @@
  *
  */
 
-package org.xbmc.android.remotesandbox;
+package org.xbmc.android.remotesandbox.ui;
 
-import org.xbmc.android.remotesandbox.ui.BaseActivity;
+import org.xbmc.android.remotesandbox.R;
+import org.xbmc.android.remotesandbox.R.id;
+import org.xbmc.android.remotesandbox.R.layout;
+import org.xbmc.android.remotesandbox.R.menu;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;

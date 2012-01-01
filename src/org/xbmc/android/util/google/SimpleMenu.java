@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.xbmc.android.util;
+package org.xbmc.android.util.google;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -26,6 +26,7 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 
 import java.util.ArrayList;
+
 
 /**
  * A <em>really</em> dumb implementation of the {@link Menu} interface, that's only useful for our

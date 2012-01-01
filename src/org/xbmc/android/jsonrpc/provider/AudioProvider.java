@@ -28,7 +28,7 @@ import org.xbmc.android.jsonrpc.provider.AudioContract.Albums;
 import org.xbmc.android.jsonrpc.provider.AudioContract.Artists;
 import org.xbmc.android.jsonrpc.provider.AudioDatabase.Tables;
 import org.xbmc.android.jsonrpc.service.AudioSyncService;
-import org.xbmc.android.util.SelectionBuilder;
+import org.xbmc.android.util.google.SelectionBuilder;
 
 import android.app.Activity;
 import android.content.ContentProvider;

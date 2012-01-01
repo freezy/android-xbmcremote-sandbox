@@ -1,28 +1,34 @@
 /*
- * Copyright 2011 Google Inc.
+ *      Copyright (C) 2005-2015 Team XBMC
+ *      http://xbmc.org
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *  This Program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2, or (at your option)
+ *  any later version.
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *  This Program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *  You should have received a copy of the GNU General Public License
+ *  along with XBMC Remote; see the file license.  If not, write to
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
+ *  http://www.gnu.org/copyleft/gpl.html
+ *
  */
 
-package org.xbmc.android.util;
+package org.xbmc.android.remotesandbox.ui.helper;
 
-import org.xbmc.android.remotesandbox.HomeActivity;
 import org.xbmc.android.remotesandbox.R;
+import org.xbmc.android.remotesandbox.ui.HomeActivity;
+import org.xbmc.android.util.UIUtils;
+import org.xbmc.android.util.google.SimpleMenu;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,13 +43,18 @@ import android.widget.TextView;
 
 /**
  * A class that handles some common activity-related functionality in the app,
- * such as setting up the action bar. This class provides functioanlity useful
- * for both phones and tablets, and does not require any Android 3.0-specific
- * features.
+ * such as setting up the action bar for Android <3.0 devices. This class 
+ * provides functionality useful for both phones and tablets, and does not require 
+ * any Android 3.0-specific features.
+ * <p>
+ * For 3.0-specific functionality, see {@link ActivityHelperHoneycomb}.
+ * 
+ * @see http://code.google.com/p/iosched/source/browse/android/src/com/google/android/apps/iosched/util/ActivityHelper.java
+ * @author freezy <freezy@xbmc.org>
  */
 public class ActivityHelper {
 	
-	private static final String TAG = ActivityHelper.class.getSimpleName();
+	//private static final String TAG = ActivityHelper.class.getSimpleName();
 	
 	protected Activity mActivity;
 
@@ -56,10 +67,18 @@ public class ActivityHelper {
 		return UIUtils.isHoneycomb() ? new ActivityHelperHoneycomb(activity) : new ActivityHelper(activity);
 	}
 
+	/**
+	 * Hidden constructor.
+	 * @param activity
+	 */
 	protected ActivityHelper(Activity activity) {
 		mActivity = activity;
 	}
 
+	/**
+	 * Run this in every {@link Activity}'s onPostCreate(). 
+	 * @param savedInstanceState
+	 */
 	public void onPostCreate(Bundle savedInstanceState) {
 		// Create the action bar
 		SimpleMenu menu = new SimpleMenu(mActivity);
@@ -71,11 +90,21 @@ public class ActivityHelper {
 		}
 	}
 
+	/**
+	 * Run this in every {@link Activity}'s onCreateOptionsMenu(). 
+	 * @param menu
+	 * @return
+	 */
 	public boolean onCreateOptionsMenu(Menu menu) {
 		mActivity.getMenuInflater().inflate(R.menu.default_menu_items, menu);
 		return false;
 	}
 
+	/**
+	 * Run this in every {@link Activity}'s onOptionsItemSelected().
+	 * @param item
+	 * @return
+	 */
 	public boolean onOptionsItemSelected(MenuItem item) {
 		 switch (item.getItemId()) { 
 		 	case R.id.menu_search: 
@@ -116,7 +145,7 @@ public class ActivityHelper {
 
 	/**
 	 * Invoke "home" action, returning to
-	 * {@link com.google.android.apps.iosched.ui.HomeActivity}.
+	 * {@link org.xbmc.android.remotesandbox.ui.HomeActivity}.
 	 */
 	public void goHome() {
 		if (mActivity instanceof HomeActivity) {
@@ -127,9 +156,9 @@ public class ActivityHelper {
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		mActivity.startActivity(intent);
 
-/*		if (!UIUtils.isHoneycomb()) {
+		if (!UIUtils.isHoneycomb()) {
 			mActivity.overridePendingTransition(R.anim.home_enter, R.anim.home_exit);
-		}*/
+		}
 	}
 
 	/**
@@ -151,11 +180,11 @@ public class ActivityHelper {
 			return;
 		}
 
-		LinearLayout.LayoutParams springLayoutParams = new LinearLayout.LayoutParams(0,
-				ViewGroup.LayoutParams.FILL_PARENT);
+		final LinearLayout.LayoutParams springLayoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.FILL_PARENT);
 		springLayoutParams.weight = 1;
 
 		View.OnClickListener homeClickListener = new View.OnClickListener() {
+			@Override
 			public void onClick(View view) {
 				goHome();
 			}
@@ -194,12 +223,12 @@ public class ActivityHelper {
 			return;
 		}
 
-		/*final View colorstrip = mActivity.findViewById(R.id.colorstrip);
+		final View colorstrip = mActivity.findViewById(R.id.colorstrip);
 		if (colorstrip == null) {
 			return;
 		}
 
-		colorstrip.setBackgroundColor(color);*/
+		colorstrip.setBackgroundColor(color);
 	}
 
 	/**

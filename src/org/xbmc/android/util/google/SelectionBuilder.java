@@ -20,11 +20,12 @@
  * -Changed package name
  */
 
-package org.xbmc.android.util;
+package org.xbmc.android.util.google;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
+
 
 import android.content.ContentValues;
 import android.database.Cursor;

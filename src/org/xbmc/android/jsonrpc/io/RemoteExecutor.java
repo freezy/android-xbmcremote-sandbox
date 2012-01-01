@@ -35,7 +35,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.StringEntity;
 import org.json.JSONObject;
 import org.xbmc.android.jsonrpc.io.JsonHandler.HandlerException;
-import org.xbmc.android.util.HttpHelper;
+import org.xbmc.android.util.google.HttpHelper;
 import org.xmlpull.v1.XmlPullParser;
 
 import android.content.ContentResolver;
