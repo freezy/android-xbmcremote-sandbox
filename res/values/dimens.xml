@@ -42,4 +42,10 @@
     <dimen name="speaker_image_padding">8dp</dimen>
     <dimen name="vendor_image_size">100dp</dimen>
 
+    <!-- tablet stuff -->
+    <dimen name="tablet_padding_home">25dp</dimen>
+    <dimen name="dashbox_title">45dp</dimen>
+    <dimen name="dashbox_title_text">32dp</dimen>
+    <dimen name="dashbox_padding">10dp</dimen>
+
 </resources>

@@ -35,4 +35,11 @@
     <color name="block_column_1">#ff0fabff</color>
     <color name="block_column_2">#ffdf1831</color>
     <color name="block_column_3">#ff009939</color>
+    
+    <color name="dark1">#242424</color>
+    <color name="dark2">#525252</color>
+    <color name="light1">#fff</color>
+    <color name="light2">#bcbcbc</color>
+    
+    <color name="semitrans_dark">#40000000</color>
 </resources>

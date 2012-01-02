@@ -45,5 +45,10 @@
         <attr name="maskDrawable" format="reference" />
         <attr name="borderDrawable" format="reference" />
     </declare-styleable>
+    
+    <declare-styleable name="DashboardBoxLayout">
+        <attr name="icon" format="reference" />
+        <attr name="title" format="string" />
+    </declare-styleable>
 
 </resources>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+     <RelativeLayout style="@style/DashboxTitle" >
+
+         <ImageView
+             android:id="@+id/dashboardbox_icon"
+             style="@style/DashboxImage"
+             android:layout_alignParentLeft="true"
+             android:src="@drawable/ic_dashboard_movies" />
+
+         <TextView
+             android:id="@+id/dashboardbox_title"
+             style="@style/DashboxTitleText"
+             android:layout_toRightOf="@id/dashboardbox_icon" />
+
+         <ImageView
+             style="@style/DashboxImage"
+             android:layout_alignParentRight="true"
+             android:src="@drawable/ic_dashboard_more" />
+     </RelativeLayout>
+     
+     <GridView
+         android:id="@+id/dashboardbox_grid"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:layout_marginTop="30dp" />
+ </merge>
+ 

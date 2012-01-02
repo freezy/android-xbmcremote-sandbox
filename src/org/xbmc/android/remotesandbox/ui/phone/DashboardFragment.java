@@ -19,11 +19,12 @@
  *
  */
 
-package org.xbmc.android.remotesandbox.ui;
+package org.xbmc.android.remotesandbox.ui.phone;
 
 import java.util.ArrayList;
 
 import org.xbmc.android.remotesandbox.R;
+import org.xbmc.android.remotesandbox.ui.MusicPagerActivity;
 
 import android.app.Activity;
 import android.content.Intent;
