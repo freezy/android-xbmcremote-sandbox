@@ -42,4 +42,7 @@
     <color name="light2">#bcbcbc</color>
     
     <color name="semitrans_dark">#40000000</color>
+    
+    <color name="dashboardbox_title">#fff</color>
+    <color name="dashboardbox_title_shadow">#80000000</color>
 </resources>

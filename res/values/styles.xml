@@ -102,6 +102,7 @@
         <item name="android:layout_weight">1</item>
         <item name="android:layout_marginLeft">@dimen/tablet_padding_home</item>
         <item name="android:background">@color/semitrans_dark</item>
+        <item name="android:orientation">vertical</item>
     </style>
     
     <style name="DashboxTitle">
@@ -115,8 +116,12 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">@dimen/dashbox_padding</item>
         <item name="android:textSize">@dimen/dashbox_title_text</item>
-        <item name="android:textColor">@color/actionbar_text</item>
+        <item name="android:textColor">@color/dashboardbox_title</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:shadowColor">@color/dashboardbox_title_shadow</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">-1</item>
+        <item name="android:shadowRadius">0.00001</item>
         <item name="android:gravity">center_vertical</item>
     </style>
     

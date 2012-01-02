@@ -21,115 +21,87 @@
 
 package org.xbmc.android.remotesandbox.ui.tablet;
 
-import java.util.ArrayList;
-
+import org.xbmc.android.jsonrpc.provider.AudioContract;
+import org.xbmc.android.jsonrpc.provider.AudioDatabase.Tables;
 import org.xbmc.android.remotesandbox.R;
-import org.xbmc.android.remotesandbox.ui.MusicPagerActivity;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.provider.BaseColumns;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.CursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class DashboardFragment extends Fragment {
 	
-	private static final int HOME_ACTION_REMOTE = 0;
-	private static final int HOME_ACTION_MUSIC = 1;
-	private static final int HOME_ACTION_VIDEOS = 2;
+	private final static String TAG = DashboardFragment.class.getSimpleName();
 
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		Log.e(TAG, "Creating view..");
 		final View root = inflater.inflate(R.layout.fragment_dashboard, null);
-		//final GridView grid = (GridView)root.findViewById(R.id.dashboard_grid);
-		//setupDashboardItems(grid);
+		final DashboardBoxLayout musicBox = (DashboardBoxLayout) root.findViewById(R.id.dashboardbox_music);
+		setupLastestAlbums((ListView) musicBox.findViewById(R.id.dashboardbox_list));
 		return root;
 	}
-	
-	private void setupDashboardItems(GridView menuGrid) {
-		
-		final ArrayList<HomeItem> homeItems = new ArrayList<HomeItem>();
-		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-		if (prefs.getBoolean("setting_show_home_music", true))
-			homeItems.add(new HomeItem(HOME_ACTION_MUSIC, R.drawable.home_ic_music, "Music", "Listen to"));
-		
-		menuGrid.setAdapter(new HomeAdapter(getActivity(), homeItems));
-		menuGrid.setOnItemClickListener(getHomeMenuOnClickListener());
-		menuGrid.setSelected(true);
-		menuGrid.setSelection(0);		
-	}
-	
-	private OnItemClickListener getHomeMenuOnClickListener() {
-		return new OnItemClickListener() {
 
-			public void onItemClick(AdapterView<?> listView, View v, int position, long ID) {
-				HomeItem item = (HomeItem)listView.getAdapter().getItem(position);
-				Intent intent = null;
-				switch (item.ID) {
-					case HOME_ACTION_REMOTE:
-					case HOME_ACTION_MUSIC:
-					case HOME_ACTION_VIDEOS:
-						intent = new Intent(v.getContext(), MusicPagerActivity.class);
-						break;
-				}
-				if (intent != null) {
-					getActivity().startActivity(intent);
-				}
-			}
-			
-		};
-	}
-	
-	private class HomeAdapter extends ArrayAdapter<HomeItem> {
-		private Activity mActivity;
-		HomeAdapter(Activity activity, ArrayList<HomeItem> items) {
-			super(activity, R.layout.list_item_dashboard, items);
-			mActivity = activity;
-		}
-		public View getView(int position, View convertView, ViewGroup parent) {
-			View row;
-			
-			if (convertView == null) {
-				LayoutInflater inflater = mActivity.getLayoutInflater();
-				row = inflater.inflate(R.layout.list_item_dashboard, null);
-			} else {
-				row = convertView;
-			}
-			
-			HomeItem item = this.getItem(position);
-			final TextView supertitle = (TextView)row.findViewById(R.id.dashboard_supertitle);
-			final TextView title = (TextView)row.findViewById(R.id.dashboard_title);
-			final ImageView icon = (ImageView)row.findViewById(R.id.dashboard_icon);
+	private void setupLastestAlbums(ListView list) {
 
-			title.setText(item.title);
-			supertitle.setText(item.subtitle);
-			icon.setImageResource(item.icon);
-			
-			return row;
-		}
+		final Cursor c = getActivity().getContentResolver().query(AudioContract.Albums.CONTENT_URI,
+				AlbumsQuery.PROJECTION, null, null, AudioContract.Albums.DEFAULT_SORT);
+		list.setAdapter(new AlbumsAdapter(getActivity().getApplicationContext(), c));
+		Log.e(TAG, "Album list setup.");
 	}
-	
-	private class HomeItem {
-		public final int ID, icon;
-		public final String title, subtitle;
-		
-		public HomeItem(int ID, int icon, String title, String subtitle) {
-			this.ID = ID;
-			this.icon = icon;
-			this.title = title;
-			this.subtitle = subtitle;
+
+	/**
+	 * {@link CursorAdapter} that renders a {@link AlbumsQuery}.
+	 */
+	private class AlbumsAdapter extends CursorAdapter {
+
+		public AlbumsAdapter(Context context, Cursor cursor) {
+			super(context, cursor, false);
+		}
+
+		/** {@inheritDoc} */
+		@Override
+		public View newView(Context context, Cursor cursor, ViewGroup parent) {
+			return getActivity().getLayoutInflater().inflate(R.layout.list_item_threelabels, parent, false);
+		}
+
+		/** {@inheritDoc} */
+		@Override
+		public void bindView(View view, Context context, Cursor cursor) {
+			final TextView titleView = (TextView) view.findViewById(R.id.item_title);
+			final TextView subtitleView = (TextView) view.findViewById(R.id.item_subtitle);
+			final TextView subsubtitleView = (TextView) view.findViewById(R.id.item_subsubtitle);
+
+			titleView.setText(cursor.getString(AlbumsQuery.TITLE));
+			subtitleView.setText(cursor.getString(AlbumsQuery.ARTIST));
+			subsubtitleView.setText(cursor.getString(AlbumsQuery.YEAR));
 		}
 	}
 
+	/**
+	 * {@link org.xbmc.android.jsonrpc.provider.AudioContract.Albums} query
+	 * parameters.
+	 */
+	private interface AlbumsQuery {
+		// int _TOKEN = 0x1;
+
+		String[] PROJECTION = { Tables.ALBUMS + "." + BaseColumns._ID, AudioContract.Albums.ID,
+				AudioContract.Albums.TITLE, AudioContract.Albums.YEAR, AudioContract.Artists.NAME };
+
+		// int _ID = 0;
+		// int ID = 1;
+		int TITLE = 2;
+		int YEAR = 3;
+		int ARTIST = 4;
+	}
+	
 }

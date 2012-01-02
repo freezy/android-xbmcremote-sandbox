@@ -19,10 +19,9 @@
              android:src="@drawable/ic_dashboard_more" />
      </RelativeLayout>
      
-     <GridView
-         android:id="@+id/dashboardbox_grid"
+     <ListView
+         android:id="@+id/dashboardbox_list"
          android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:layout_marginTop="30dp" />
+         android:layout_height="match_parent" />
  </merge>
  

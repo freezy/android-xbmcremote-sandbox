@@ -96,6 +96,7 @@ public class FilesAPI extends AbstractAPI {
 		 * Absolute path of the source, can also be addon://, etc.
 		 */
 		public final String path;
+		
 		public Source(String label, String file) {
 			this.label = label;
 			this.path = file;
