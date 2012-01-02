@@ -45,4 +45,5 @@
     
     <color name="dashboardbox_title">#fff</color>
     <color name="dashboardbox_title_shadow">#80000000</color>
+    <color name="dashboardbox_bg_pressed">#80000000</color>
 </resources>

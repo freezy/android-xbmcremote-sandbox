@@ -24,39 +24,46 @@ package org.xbmc.android.remotesandbox.ui.tablet;
 import org.xbmc.android.jsonrpc.provider.AudioContract;
 import org.xbmc.android.jsonrpc.provider.AudioDatabase.Tables;
 import org.xbmc.android.remotesandbox.R;
+import org.xbmc.android.remotesandbox.ui.MusicPagerActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.CursorAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
 public class DashboardFragment extends Fragment {
 	
-	private final static String TAG = DashboardFragment.class.getSimpleName();
+	//private final static String TAG = DashboardFragment.class.getSimpleName();
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		Log.e(TAG, "Creating view..");
 		final View root = inflater.inflate(R.layout.fragment_dashboard, null);
-		final DashboardBoxLayout musicBox = (DashboardBoxLayout) root.findViewById(R.id.dashboardbox_music);
-		setupLastestAlbums((ListView) musicBox.findViewById(R.id.dashboardbox_list));
+		setupLastestAlbums((DashboardBoxLayout) root.findViewById(R.id.dashboardbox_music));
 		return root;
 	}
 
-	private void setupLastestAlbums(ListView list) {
-
+	private void setupLastestAlbums(DashboardBoxLayout musicBox) {
+		final ListView list = (ListView) musicBox.findViewById(R.id.dashboardbox_list);
 		final Cursor c = getActivity().getContentResolver().query(AudioContract.Albums.CONTENT_URI,
 				AlbumsQuery.PROJECTION, null, null, AudioContract.Albums.DEFAULT_SORT);
 		list.setAdapter(new AlbumsAdapter(getActivity().getApplicationContext(), c));
-		Log.e(TAG, "Album list setup.");
+		
+		// on click open music pager for now (TODO use tablet optimized activity)
+		musicBox.setOnTitlebarClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				getActivity().startActivity(new Intent(v.getContext(), MusicPagerActivity.class));
+			}
+		});
 	}
 
 	/**

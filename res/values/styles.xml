@@ -107,8 +107,9 @@
     
     <style name="DashboxTitle">
         <item name="android:layout_width">match_parent</item>
+        <item name="android:clickable">true</item>
         <item name="android:layout_height">@dimen/dashbox_title</item>
-        <item name="android:background">@color/semitrans_dark</item>
+        <item name="android:background">@drawable/bg_dashboard_box_titlebar</item>
     </style>
 
     <style name="DashboxTitleText">

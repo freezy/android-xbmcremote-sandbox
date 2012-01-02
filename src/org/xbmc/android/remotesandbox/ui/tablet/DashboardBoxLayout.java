@@ -6,11 +6,14 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class DashboardBoxLayout extends LinearLayout {
+	
+	private OnClickListener mOnTitleClickListener; 
 
 	public DashboardBoxLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -29,6 +32,21 @@ public class DashboardBoxLayout extends LinearLayout {
         }
         final ImageView icon = (ImageView)findViewById(R.id.dashboardbox_icon);
         icon.setImageResource(a.getResourceId(R.styleable.DashboardBoxLayout_icon, R.drawable.ic_dashboard_movies));
+        
+        // enable title bar onclick
+        findViewById(R.id.dashboardbox_titlebar).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (mOnTitleClickListener != null) {
+					mOnTitleClickListener.onClick(v);
+				}
+			}
+		});
+	}
+	
+	public DashboardBoxLayout setOnTitlebarClickListener(OnClickListener listener) {
+		mOnTitleClickListener = listener;
+		return this;
 	}
 
 }

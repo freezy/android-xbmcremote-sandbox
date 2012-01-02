@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
-     <RelativeLayout style="@style/DashboxTitle" >
+     <RelativeLayout  
+         android:id="@+id/dashboardbox_titlebar"
+         style="@style/DashboxTitle">
 
          <ImageView
              android:id="@+id/dashboardbox_icon"
