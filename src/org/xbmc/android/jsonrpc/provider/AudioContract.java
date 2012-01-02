@@ -111,6 +111,8 @@ public class AudioContract {
 		
 		/** Default "ORDER BY" clause. */
 		public static final String DEFAULT_SORT = AlbumsColumns.TITLE + " ASC";
+		/** Latest adde albums first */
+		public static final String SORT_LATEST_FIRST = AlbumsColumns.ID + " DESC";
 		
 		/** Build {@link Uri} for requested {@link #ID}. */
 		public static Uri buildAlbumUri(String albumId) {

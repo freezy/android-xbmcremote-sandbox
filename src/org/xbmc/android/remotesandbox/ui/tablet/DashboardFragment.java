@@ -54,7 +54,7 @@ public class DashboardFragment extends Fragment {
 	private void setupLastestAlbums(DashboardBoxLayout musicBox) {
 		final ListView list = (ListView) musicBox.findViewById(R.id.dashboardbox_list);
 		final Cursor c = getActivity().getContentResolver().query(AudioContract.Albums.CONTENT_URI,
-				AlbumsQuery.PROJECTION, null, null, AudioContract.Albums.DEFAULT_SORT);
+				AlbumsQuery.PROJECTION, null, null, AudioContract.Albums.SORT_LATEST_FIRST);
 		list.setAdapter(new AlbumsAdapter(getActivity().getApplicationContext(), c));
 		
 		// on click open music pager for now (TODO use tablet optimized activity)
