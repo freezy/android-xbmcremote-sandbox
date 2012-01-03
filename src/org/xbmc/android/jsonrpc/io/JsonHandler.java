@@ -26,7 +26,6 @@ import java.util.ArrayList;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 import org.xmlpull.v1.XmlPullParser;
 
 import android.content.ContentProvider;
@@ -46,13 +45,13 @@ import android.util.Log;
  * <p>
  * This class was closely inspired by Google's official iosched app, see
  * http://code.google.com/p/iosched/
- * 
+ *
  * @author freezy <freezy@xbmc.org>
  */
 public abstract class JsonHandler {
-	
+
 	private static final String TAG = JsonHandler.class.getSimpleName();
-	
+
     private final String mAuthority;
 
     public JsonHandler(String authority) {
@@ -63,34 +62,19 @@ public abstract class JsonHandler {
 	 * Parse the given HTTP response body, turning into a series of
 	 * {@link ContentProviderOperation} that are immediately applied using the
 	 * given {@link ContentResolver}.
-     * 
+     *
      * @param response HTTP response body
      * @param resolver Content resolver
      * @throws HandlerException Re-thrown errors
      */
-    public void parseAndApply(StringBuilder response, ContentResolver resolver) throws HandlerException {
+    public void applyResult(JSONObject result, ContentResolver resolver) throws HandlerException {
         try {
-        	
-			final JSONTokener tokener = new JSONTokener(response.toString());
-			final JSONObject responseObj = (JSONObject)tokener.nextValue();
-			if (responseObj.has("error")) {
-				final JSONObject error = responseObj.getJSONObject("error");
-				Log.e(TAG, "[JSON-RPC] " + error.getString("message"));
-				Log.e(TAG, "[JSON-RPC] " + response);
-				throw new HandlerException("Error " + error.getInt("code") + ": " + error.getString("message"));
-			}
-			if (!responseObj.has("result")) {
-				Log.e(TAG, "[JSON-RPC] " + response);
-				throw new HandlerException("Neither result nor error object found in response.");
-			}
-			final JSONObject result = responseObj.getJSONObject("result");
-        	
             final ArrayList<ContentProviderOperation> batch = parse(result, resolver);
             final long start = System.currentTimeMillis();
+
             Log.i(TAG, "Starting to execute " + batch.size() + " batches..");
             resolver.applyBatch(mAuthority, batch);
             Log.i(TAG, "Execution done in " + (System.currentTimeMillis() - start) + "ms.");
-
         } catch (HandlerException e) {
             throw e;
         } catch (JSONException e) {
@@ -113,22 +97,22 @@ public abstract class JsonHandler {
 	 * Parse the HTTP body's de-serialized {@link JSONObject}, returning a set
 	 * of {@link ContentProviderOperation} that will bring the
 	 * {@link ContentProvider} into sync with the parsed data.
-     * 
+     *
      * @param result HTTP body de-serialized
      * @param resolver Content resolver
      * @return
      * @throws JSONException
      * @throws IOException
      */
-    public abstract ArrayList<ContentProviderOperation> parse(JSONObject result, ContentResolver resolver) 
-    		throws JSONException, IOException; 
+    public abstract ArrayList<ContentProviderOperation> parse(JSONObject result, ContentResolver resolver)
+    		throws JSONException, IOException;
 
     /**
      * General {@link IOException} that indicates a problem occured while
      * parsing or applying an {@link XmlPullParser}.
      */
     public static class HandlerException extends IOException {
-    	
+
 		public HandlerException(String message) {
             super(message);
         }
