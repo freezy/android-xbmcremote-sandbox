@@ -47,6 +47,7 @@
         
 		<!-- Services -->
 		<service android:name="org.xbmc.android.jsonrpc.service.AudioSyncService" />
+		<service android:name="org.xbmc.android.zeroconf.DiscoveryService" />
 		<service android:name="org.xbmc.android.account.authenticator.AuthenticationService" android:exported="true" >
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
