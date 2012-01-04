@@ -217,10 +217,16 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
         <item name="android:orientation">vertical</item>
-        <item name="android:paddingTop">5dip</item>
-        <item name="android:paddingBottom">13dip</item>
-        <item name="android:paddingLeft">20dip</item>
-        <item name="android:paddingRight">20dip</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">13dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+    </style>
+    <style name="AccountSetupText">
+		<item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:layout_marginBottom">5dp</item>
     </style>
     <style name="AccountSetupLabel">
     	<item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
@@ -238,6 +244,19 @@
 	    <item name="android:scrollHorizontally">true</item>
 	    <item name="android:capitalize">none</item>
 	    <item name="android:autoText">false</item>
+    </style>
+    <style name="AccountSetupButton">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:layout_gravity">center_horizontal</item>
+		<item name="android:minWidth">100dp</item>
+    </style>
+    
+    <style name="AccountSetupList">
+    	<item name="android:fadingEdge">none</item>
+    	<item name="android:scrollbars">none</item>
+    	<item name="android:divider">#a0a0a0</item>
+    	<item name="android:dividerHeight">1dip</item>
     </style>
 
 </resources>

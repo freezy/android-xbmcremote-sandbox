@@ -28,36 +28,41 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content">
 	
-    <ScrollView
+    <LinearLayout android:id="@+id/addaccount_zeroconf" 
         android:layout_width="fill_parent"
-        android:layout_height="0dip"
+        android:layout_height="0dp"
         android:layout_weight="1">
-        <LinearLayout android:id="@+id/credentials" style="@style/AccountSetupContainer">
-            <TextView
-                android:id="@+id/message"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dip" />
-            <TextView style="@style/AccountSetupLabel" android:text="@string/login_username_label" />
+        
+    	<!-- ZEROCONF HOSTS -->
+        <LinearLayout style="@style/AccountSetupContainer">
+			<TextView style="@style/AccountSetupText" android:id="@+id/addaccount_scan_text" />
+			<ListView
+				style="@style/AccountSetupList"
+				android:id="@+id/addaccount_hosts_list"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent">
+			</ListView>
+		    <Button style="@style/AccountSetupButton" android:id="@+id/addaccount_scan_button" android:text="@string/addaccount_scan_button" android:onClick="discoverHosts" />
+        </LinearLayout>
+    </LinearLayout>
+    	
+  	<!-- CREDENTIALS -->
+    <ScrollView android:id="@+id/addaccount_credentials" android:visibility="gone" 
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+		    
+        <LinearLayout style="@style/AccountSetupContainer">
+			<TextView style="@style/AccountSetupText" android:id="@+id/addaccount_credentials_text" />
+            <TextView style="@style/AccountSetupLabel" android:text="@string/addaccount_username_label" />
             <EditText style="@style/AccountSetupEditText" android:id="@+id/username_edit" android:inputType="textEmailAddress" />
-            <TextView
-                android:id="@+id/username_fixed"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:singleLine="true"
-                android:layout_marginTop="2dip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView style="@style/AccountSetupLabel" android:text="@string/login_password_label" />
+            <TextView style="@style/AccountSetupText" android:id="@+id/username_fixed" android:singleLine="true" />
+            <TextView style="@style/AccountSetupLabel" android:text="@string/addaccount_password_label" />
             <EditText style="@style/AccountSetupEditText" android:id="@+id/password_edit" android:password="true" android:inputType="textPassword" />
-            <TextView
-                android:id="@+id/message_bottom"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dip" />
+            <TextView style="@style/AccountSetupText" android:id="@+id/message_bottom" />
         </LinearLayout>
     </ScrollView>
+    
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -65,14 +70,12 @@
         android:minHeight="54dip"
         android:paddingTop="4dip"
         android:paddingLeft="2dip"
-        android:paddingRight="2dip">
-        <Button
-            android:id="@+id/ok_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:minWidth="100dip"
-            android:text="@string/login_ok_button"
-            android:onClick="handleLogin" />
+        android:paddingRight="2dip"
+        android:orientation="horizontal" >
+        
+        <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+		    <Button android:layout_alignParentLeft="true" style="@style/AccountSetupButton" android:id="@+id/addaccount_prev_button" android:text="@string/addaccount_prev_button" android:onClick="handleLogin" />
+	        <Button android:layout_alignParentRight="true" style="@style/AccountSetupButton" android:id="@+id/addaccount_next_button" android:text="@string/addaccount_next_button" android:onClick="handleLogin" />
+        </RelativeLayout>
     </FrameLayout>
 </LinearLayout>
