@@ -21,17 +21,28 @@
 
 package org.xbmc.android.remotesandbox.ui;
 
-import org.xbmc.android.remotesandbox.R;
-import org.xbmc.android.remotesandbox.R.id;
-import org.xbmc.android.remotesandbox.R.layout;
-import org.xbmc.android.remotesandbox.R.menu;
+import java.io.IOException;
 
+import javax.jmdns.JmDNS;
+import javax.jmdns.ServiceEvent;
+import javax.jmdns.ServiceListener;
+
+import org.xbmc.android.remotesandbox.R;
+
+import android.net.wifi.WifiManager;
+import android.net.wifi.WifiManager.MulticastLock;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class HomeActivity extends BaseActivity {
+	
+	private final static String TAG = HomeActivity.class.getSimpleName();
+	
+	private MulticastLock mLock;
+	private final static String ZEROCONF_SERVICE_JSONRPC = "_xbmc-jsonrpc._tcp.local.";
+	private final static String ZEROCONF_SERVICE_EVENTSERVER = "_xbmc-events._udp.local.";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +51,56 @@ public class HomeActivity extends BaseActivity {
 		setContentView(R.layout.activity_home);
 		getActivityHelper().setupActionBar(null, 0);
 
-		FragmentManager fm = getSupportFragmentManager();
+		// FragmentManager fm = getSupportFragmentManager();
+
+		WifiManager wifi = (WifiManager) getSystemService(android.content.Context.WIFI_SERVICE);
+		mLock = wifi.createMulticastLock("xbmc-zeroconf-discover");
+		mLock.setReferenceCounted(true);
+		mLock.acquire();
+		
+		new Thread() {
+			@Override
+			public void run() {
+				try {
+					        
+					final JmDNS jmdns = JmDNS.create();
+					final ServiceListener listener;
+					jmdns.addServiceListener(ZEROCONF_SERVICE_JSONRPC, listener = new ServiceListener() {
+						public void serviceResolved(ServiceEvent ev) {
+							Log.e(TAG, "Service resolved: " + ev.getInfo().getQualifiedName() + " port:" + ev.getInfo().getPort());
+						}
+
+						public void serviceRemoved(ServiceEvent ev) {
+							Log.e(TAG, "Service removed: " + ev.getName());
+						}
+
+						public void serviceAdded(ServiceEvent event) {
+							// Required to force serviceResolved to be called
+							// again
+							// (after the first search)
+							jmdns.requestServiceInfo(event.getType(), event.getName(), 1);
+						}
+					});
+
+					jmdns.removeServiceListener(ZEROCONF_SERVICE_JSONRPC, listener);
+					jmdns.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			};
+		}.start();
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (mLock != null) {
+			mLock.release();
+		}
 
 	}
+
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
