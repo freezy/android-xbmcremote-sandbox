@@ -16,15 +16,11 @@
 
 package org.xbmc.android.account.authenticator;
 
-import java.io.IOException;
-import java.net.InetAddress;
-
-import javax.jmdns.JmDNS;
-import javax.jmdns.ServiceEvent;
-import javax.jmdns.ServiceListener;
-
 import org.xbmc.android.account.Constants;
 import org.xbmc.android.remotesandbox.R;
+import org.xbmc.android.util.google.DetachableResultReceiver;
+import org.xbmc.android.zeroconf.DiscoveryService;
+import org.xbmc.android.zeroconf.XBMCHost;
 
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
@@ -34,8 +30,6 @@ import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.wifi.WifiManager;
-import android.net.wifi.WifiManager.MulticastLock;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.ContactsContract;
@@ -49,7 +43,7 @@ import android.widget.TextView;
 /**
  * Activity which displays login screen to the user.
  */
-public class AuthenticatorActivity extends AccountAuthenticatorActivity {
+public class AuthenticatorActivity extends AccountAuthenticatorActivity implements DetachableResultReceiver.Receiver {
 
 	public static final String PARAM_CONFIRMCREDENTIALS = "confirmCredentials";
 	public static final String PARAM_PASSWORD = "password";
@@ -62,6 +56,8 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	private Thread mAuthThread;
 	private String mAuthtoken;
 	private String mAuthtokenType;
+	
+	private DetachableResultReceiver mReceiver;
 
 	/**
 	 * If set we are just checking that the user knows their credentials; this
@@ -109,11 +105,28 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		mUsernameEdit.setText(mUsername);
 		mMessage.setText(getMessage());
 		
-        mHandler.postDelayed(new Runnable() {
-            public void run() {
-                setUp();
-            }
-            }, 1000);
+		// define result receiver for zeroconf data
+		mReceiver = new DetachableResultReceiver(new Handler());
+		mReceiver.setReceiver(this);
+		
+		// discover zeroconf hosts
+		final Intent discoveryIntent = new Intent(Intent.ACTION_SEARCH, null, this, DiscoveryService.class);
+		discoveryIntent.putExtra(DiscoveryService.EXTRA_STATUS_RECEIVER, mReceiver);
+		startService(discoveryIntent);
+	}
+	
+
+	@Override
+	public void onReceiveResult(int resultCode, Bundle resultData) {
+		switch (resultCode) {
+			case DiscoveryService.STATUS_RESOLVED:
+				final XBMCHost host = (XBMCHost)resultData.getParcelable(DiscoveryService.EXTRA_HOST);
+				Log.i(TAG, "Received host data: " + host);
+				break;
+			default:
+				break;
+		}
+		
 	}
 
 	/*
@@ -273,92 +286,4 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		showDialog(0);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	MulticastLock mMulticastLock;
-    Handler mHandler = new Handler();
-
-
-    private String type = "_xbmc-jsonrpc._tcp.local.";
-    private JmDNS jmdns = null;
-    private ServiceListener listener = null;
-    private void setUp() {
-       final WifiManager wifi = (WifiManager)getSystemService(android.content.Context.WIFI_SERVICE);
-        mMulticastLock = wifi.createMulticastLock("xbmc-zeroconf-discover");
-        mMulticastLock.setReferenceCounted(true);
-        mMulticastLock.acquire();
-        
-        new Thread() {
-        	@Override
-        	public void run() {
-        		try {
-        			jmdns = JmDNS.create();
-        			jmdns.addServiceListener(type, listener = new ServiceListener() {
-        				
-        				@Override
-        				public void serviceResolved(ServiceEvent ev) {
-        					InetAddress[] addresses = ev.getInfo().getInet4Addresses();
-        					for (int i = 0; i < addresses.length; i++) {
-        						notifyUser("Service resolved: " + ev.getInfo().getQualifiedName() + " (" + addresses[i].getHostAddress() + ") port:" + ev.getInfo().getPort());
-        					}
-        				}
-        				
-        				@Override
-        				public void serviceRemoved(ServiceEvent ev) {
-        					notifyUser("Service removed: " + ev.getName());
-        				}
-        				
-        				@Override
-        				public void serviceAdded(ServiceEvent event) {
-        					// Required to force serviceResolved to be called again (after the first search)
-        					jmdns.requestServiceInfo(event.getType(), event.getName(), 1);
-        				}
-        			});
-        		} catch (IOException e) {
-        			e.printStackTrace();
-        			return;
-        		}
-        	}
-        }.start();
-    }
-
-
-	private void notifyUser(final String msg) {
-		Log.e(TAG, msg);
-	}
-
-    @Override
-        protected void onStart() {
-        super.onStart();
-        //new Thread(){public void run() {setUp();}}.start();
-    }
-
-	@Override
-	protected void onStop() {
-		if (jmdns != null) {
-			if (listener != null) {
-				jmdns.removeServiceListener(type, listener);
-				listener = null;
-			}
-			jmdns.unregisterAllServices();
-			try {
-				jmdns.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			jmdns = null;
-		}
-		mMulticastLock.release();
-		super.onStop();
-	}
 }
