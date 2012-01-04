@@ -32,7 +32,6 @@ import javax.jmdns.ServiceListener;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
 import android.os.Bundle;
@@ -49,14 +48,17 @@ public class DiscoveryService extends IntentService {
 
 	private static final String TAG = DiscoveryService.class.getSimpleName();
 
+	private static final int TIMEOUT = 2000;
 	private static final String SERVICENAME_JSONRPC = "_xbmc-jsonrpc._tcp.local.";
 	
 	public static final int STATUS_RESOLVED = 0x1;
+	public static final int STATUS_FINISHED = 0x2;
 	public static final int STATUS_ERROR = 0xff;
 
 	public static final String EXTRA_STATUS_RECEIVER = "org.xbmc.android.zeroconf.extra.STATUS_RECEIVER";
 	public static final String EXTRA_HOST = "org.xbmc.android.zeroconf.extra.HOST";
 
+	private WifiManager mWifiManager;
 	private MulticastLock mMulticastLock;
 	private InetAddress mWifiAddress = null;
 	private JmDNS mJmDns = null;
@@ -70,36 +72,40 @@ public class DiscoveryService extends IntentService {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		
-		Log.i(TAG, "Starting zeroconf discovery service...");
-		
+		mWifiManager = (WifiManager) getSystemService(android.content.Context.WIFI_SERVICE);
 	}
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		
-		Log.i(TAG, "Handelling new intent...");
-
-		final WifiManager wifi = (WifiManager) getSystemService(android.content.Context.WIFI_SERVICE);
-		final WifiInfo info = wifi.getConnectionInfo();
-		mMulticastLock = wifi.createMulticastLock("xbmc-zeroconf-discover");
-		mMulticastLock.setReferenceCounted(true);
-		mMulticastLock.acquire();
-		
 		try {
-			int ipAddress = info.getIpAddress();
-			mWifiAddress = InetAddress.getByName(android.text.format.Formatter.formatIpAddress(ipAddress));
+			final int ipAddress = mWifiManager.getConnectionInfo().getIpAddress();
+			if (ipAddress != 0) {
+				mWifiAddress = InetAddress.getByName(android.text.format.Formatter.formatIpAddress(ipAddress));
+				Log.i(TAG, "Discovering XBMC hosts through " + mWifiAddress.getHostAddress() + "...");
+			} else {
+				Log.i(TAG, "Discovering XBMC hosts on all interfaces...");
+			}
 		} catch (UnknownHostException e) {
 			Log.e(TAG, "Cannot parse Wifi IP address.", e);
 		}
 		
 		final ResultReceiver receiver = intent.getParcelableExtra(EXTRA_STATUS_RECEIVER);
+		acquireMulticastLock();
 		new Thread() {
 			@Override
 			public void run() {
 				listen(receiver);
 			};
 		}.start();
+		
+		try {
+			Thread.sleep(TIMEOUT);
+		} catch (InterruptedException e) {
+			Log.e(TAG, "Error sleeping " + TIMEOUT + "ms.", e);
+		}
+		receiver.send(STATUS_FINISHED, Bundle.EMPTY);
+		releaseMulticastLock();
 	}
 	
 	/**
@@ -137,8 +143,8 @@ public class DiscoveryService extends IntentService {
 				}
 			});
 		} catch (IOException e) {
-			e.printStackTrace();
-			return;
+			Log.e(TAG, "Error listening to multicast: " + e.getMessage(), e);
+			receiver.send(STATUS_ERROR, Bundle.EMPTY);
 		}
 	}
 	
@@ -176,9 +182,16 @@ public class DiscoveryService extends IntentService {
 			}
 		}
 	}
+	
+	private void acquireMulticastLock() {
+		mMulticastLock = mWifiManager.createMulticastLock("xbmc-zeroconf-discover");
+		mMulticastLock.setReferenceCounted(true);
+		mMulticastLock.acquire();
+		Log.d(TAG, "Multicast lock acquired.");
+	}
 
-	@Override
-	public void onDestroy() {
+	private void releaseMulticastLock() {
+		Log.d(TAG, "Multicast lock released.");
 		if (mJmDns != null) {
 			if (mListener != null) {
 				mJmDns.removeServiceListener(SERVICENAME_JSONRPC, mListener);
@@ -193,7 +206,5 @@ public class DiscoveryService extends IntentService {
 			mJmDns = null;
 		}
 		mMulticastLock.release();
-		Log.i(TAG, "Zeroconf discovery service stopped.");
-		super.onDestroy();
 	}
 }

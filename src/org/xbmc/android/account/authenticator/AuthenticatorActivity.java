@@ -41,7 +41,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.ContactsContract;
-import android.provider.MediaStore.Images.ImageColumns;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -49,9 +48,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -82,10 +82,10 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 	private Boolean mConfirmCredentials = false;
 
 	/** for posting authentication attempts back to UI thread */
-//	private final Handler mHandler = new Handler();
 	private TextView mMessage;
 	private String mPassword;
 	private EditText mPasswordEdit;
+	private ImageButton mDiscoverButton;
 
 	/** Was the original caller asking for an entirely new account? */
 	protected boolean mRequestNewAccount = false;
@@ -120,6 +120,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 		mMessage = (TextView) findViewById(R.id.addaccount_credentials_text);
 		mUsernameEdit = (EditText) findViewById(R.id.username_edit);
 		mPasswordEdit = (EditText) findViewById(R.id.password_edit);
+		mDiscoverButton = (ImageButton) findViewById(R.id.addaccount_scan_button);
 
 		mUsernameEdit.setText(mUsername);
 		mMessage.setText(getMessage());
@@ -129,12 +130,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 		mReceiver.setReceiver(this);
 		
 		mDiscoveredHostsView = (Spinner)findViewById(R.id.addaccount_hosts_list);
-
-/*		mDiscoveredHosts.add(new XBMCHost("192.168.12.123", "myhostname", 8080));
-		mDiscoveredHosts.add(new XBMCHost("1.2.3.4", "test 2", 213));
-		mDiscoveredHosts.add(new XBMCHost("1.2.3.4", "test 3", 432));
-		mDiscoveredHostsView.setAdapter(new DiscoveredHostsAdapter(this, mDiscoveredHosts));*/
-//		mDiscoveredHostsView.setAdapter(new ArrayAdapter<XBMCHost>(this, android.R.layout.simple_spinner_item, mDiscoveredHosts));
 	}
 	
 
@@ -146,6 +141,9 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 				mDiscoveredHosts.add(host);
 				Log.i(TAG, "Received host data: " + host);
 				mDiscoveredHostsView.setAdapter(new DiscoveredHostsAdapter(this, mDiscoveredHosts));
+				break;
+			case DiscoveryService.STATUS_FINISHED:
+				mDiscoverButton.setEnabled(true);
 				break;
 			default:
 				break;
@@ -223,6 +221,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 	}
 	
 	public void discoverHosts(View view) {
+		mDiscoverButton.setEnabled(false);
 		mDiscoveredHosts.clear();
 		runDiscovery();
 	}
