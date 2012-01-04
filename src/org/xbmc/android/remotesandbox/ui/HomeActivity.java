@@ -21,10 +21,9 @@
 
 package org.xbmc.android.remotesandbox.ui;
 
+import android.support.v4.app.Fragment;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.remotesandbox.R.id;
-import org.xbmc.android.remotesandbox.R.layout;
-import org.xbmc.android.remotesandbox.R.menu;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -33,23 +32,32 @@ import android.view.MenuItem;
 
 public class HomeActivity extends BaseActivity {
 
-	@Override
+    private final FragmentManager mFragementManager = getSupportFragmentManager();
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_home);
 		getActivityHelper().setupActionBar(null, 0);
 
-		FragmentManager fm = getSupportFragmentManager();
-
-	}
+    }
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
 		getActivityHelper().setupHomeActivity();
 	}
 
-	@Override
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Fragment fragment = mFragementManager.findFragmentById(id.fragment_dashboard);
+        if(fragment != null){
+            mFragementManager.beginTransaction().remove(fragment).commit();
+        }
+    }
+
+    @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.refresh_menu_items, menu);
 		super.onCreateOptionsMenu(menu);
