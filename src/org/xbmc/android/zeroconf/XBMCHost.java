@@ -79,7 +79,7 @@ public class XBMCHost implements Parcelable {
 	
 	@Override
 	public String toString() {
-		return mAddress + ":" + mPort + " (" + mHost + ")";
+		return mHost + " - " + mAddress + ":" + mPort;
 	}
 
 }

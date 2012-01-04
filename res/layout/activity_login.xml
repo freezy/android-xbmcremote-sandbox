@@ -34,16 +34,29 @@
         android:layout_weight="1">
         
     	<!-- ZEROCONF HOSTS -->
-        <LinearLayout style="@style/AccountSetupContainer">
-			<TextView style="@style/AccountSetupText" android:id="@+id/addaccount_scan_text" />
-			<ListView
-				style="@style/AccountSetupList"
-				android:id="@+id/addaccount_hosts_list"
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent">
-			</ListView>
-		    <Button style="@style/AccountSetupButton" android:id="@+id/addaccount_scan_button" android:text="@string/addaccount_scan_button" android:onClick="discoverHosts" />
-        </LinearLayout>
+        <RelativeLayout style="@style/AccountSetupContainer">
+			<TextView style="@style/AccountSetupText" android:id="@+id/addaccount_scan_text" android:text="@string/addaccount_scan_text" android:gravity="center"/>
+
+		    <ImageButton 
+		        android:src="@android:drawable/ic_popup_sync"
+		        android:id="@+id/addaccount_scan_button" 
+		        android:text="@string/addaccount_scan_button"
+		        android:layout_marginLeft="@dimen/body_padding_medium"
+		        android:layout_width="50dp" 
+		        android:layout_height="48dp" 
+		        android:layout_below="@id/addaccount_scan_text" 
+		        android:layout_alignParentRight="true"
+		        android:onClick="discoverHosts" 
+		        android:contentDescription="@string/addaccount_scan_text" />
+		    
+			<Spinner
+			    android:id="@+id/addaccount_hosts_list"
+		        android:layout_toLeftOf="@id/addaccount_scan_button"
+		        android:layout_alignBottom="@id/addaccount_scan_button"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content" />
+        	</RelativeLayout>
+
     </LinearLayout>
     	
   	<!-- CREDENTIALS -->

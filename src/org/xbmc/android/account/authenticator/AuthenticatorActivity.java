@@ -41,6 +41,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.ContactsContract;
+import android.provider.MediaStore.Images.ImageColumns;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -49,7 +50,10 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 /**
@@ -89,7 +93,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 	private String mUsername;
 	private EditText mUsernameEdit;
 	
-	private ListView mDiscoveredHostsView;
+	private Spinner mDiscoveredHostsView;
 	private final ArrayList<XBMCHost> mDiscoveredHosts = new ArrayList<XBMCHost>();
 
 	/**
@@ -124,10 +128,13 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 		mReceiver = new DetachableResultReceiver(new Handler());
 		mReceiver.setReceiver(this);
 		
-		mDiscoveredHostsView = (ListView)findViewById(R.id.addaccount_hosts_list);
+		mDiscoveredHostsView = (Spinner)findViewById(R.id.addaccount_hosts_list);
 
-		mDiscoveredHosts.add(new XBMCHost("1.2.3.4", "test", 123));
-		mDiscoveredHostsView.setAdapter(new DiscoveredHostsAdapter(this, mDiscoveredHosts));
+/*		mDiscoveredHosts.add(new XBMCHost("192.168.12.123", "myhostname", 8080));
+		mDiscoveredHosts.add(new XBMCHost("1.2.3.4", "test 2", 213));
+		mDiscoveredHosts.add(new XBMCHost("1.2.3.4", "test 3", 432));
+		mDiscoveredHostsView.setAdapter(new DiscoveredHostsAdapter(this, mDiscoveredHosts));*/
+//		mDiscoveredHostsView.setAdapter(new ArrayAdapter<XBMCHost>(this, android.R.layout.simple_spinner_item, mDiscoveredHosts));
 	}
 	
 
@@ -146,19 +153,20 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 		
 	}
 	
-	private class DiscoveredHostsAdapter extends ArrayAdapter<XBMCHost> {
+	private class DiscoveredHostsAdapter extends ArrayAdapter<XBMCHost> implements SpinnerAdapter {
 		final LayoutInflater mInflater;
 		public DiscoveredHostsAdapter(Context context, ArrayList<XBMCHost> items) {
-			super(context, 0, items);
+			super(context, android.R.layout.simple_spinner_item, items);
 			mInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
 		
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
+		public View getDropDownView(int position, View convertView, ViewGroup parent) {
 			View row;
 	 
 			if (null == convertView) {
 				row = mInflater.inflate(R.layout.list_item_threelabels, null);
+				((ImageView) row.findViewById(R.id.item_icon)).setImageResource(R.drawable.icon);
 			} else {
 				row = convertView;
 			}
@@ -215,6 +223,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 	}
 	
 	public void discoverHosts(View view) {
+		mDiscoveredHosts.clear();
 		runDiscovery();
 	}
 	
