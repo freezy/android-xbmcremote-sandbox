@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.ResultReceiver;
 import android.util.Log;
 
@@ -31,6 +32,7 @@ public class DiscoveryService extends IntentService {
 
 	private JmDNS mJmDns = null;
 	private ServiceListener mListener = null;
+	private Handler mHandler = new Handler();
 
 	public DiscoveryService() {
 		super(TAG);
@@ -51,8 +53,20 @@ public class DiscoveryService extends IntentService {
 	protected void onHandleIntent(Intent intent) {
 		
 		Log.i(TAG, "Handelling new intent...");
-		
 		final ResultReceiver receiver = intent.getParcelableExtra(EXTRA_STATUS_RECEIVER);
+		mHandler.postDelayed(new Runnable() {
+			public void run() {
+				listen(receiver);
+			}
+		}, 500);
+	}
+	
+	/**
+	 * Launches the zeroconf listener
+	 * 
+	 * @param receiver Callback
+	 */
+	private void listen(final ResultReceiver receiver) {
 		
 		try {
 			mJmDns = JmDNS.create();
@@ -62,10 +76,11 @@ public class DiscoveryService extends IntentService {
 				public void serviceResolved(ServiceEvent ev) {
 					Log.e(TAG, "Service resolved: " + ev.getInfo().getQualifiedName() + ") port:" + ev.getInfo().getPort());
 					final InetAddress[] addresses = ev.getInfo().getInet4Addresses();
+					final String hostname = ev.getInfo().getServer().replace(".local.", "");
 					XBMCHost host = null;
 					for (int i = 0; i < addresses.length; ) {
 						Log.e(TAG, "IP address: " + addresses[i].getHostAddress());
-						host = new XBMCHost(addresses[i].getHostAddress(), ev.getInfo().getQualifiedName(), ev.getInfo().getPort());
+						host = new XBMCHost(addresses[i].getHostAddress(), hostname, ev.getInfo().getPort());
 						break;
 					}
 					
