@@ -211,5 +211,33 @@
         <item name="android:textSize">@dimen/text_size_small</item>
         <item name="android:background">@drawable/btn</item>
     </style>
+    
+    <style name="AccountSetupContainer">
+    	<item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingTop">5dip</item>
+        <item name="android:paddingBottom">13dip</item>
+        <item name="android:paddingLeft">20dip</item>
+        <item name="android:paddingRight">20dip</item>
+    </style>
+    <style name="AccountSetupLabel">
+    	<item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_marginTop">2dp</item>
+    </style>
+    <style name="AccountSetupEditText">
+	    <item name="android:singleLine">true</item>
+	    <item name="android:layout_width">fill_parent</item>
+	    <item name="android:layout_height">wrap_content</item>
+	    <item name="android:minWidth">250dp</item>
+	    <item name="android:scrollHorizontally">true</item>
+	    <item name="android:capitalize">none</item>
+	    <item name="android:autoText">false</item>
+    </style>
 
 </resources>
