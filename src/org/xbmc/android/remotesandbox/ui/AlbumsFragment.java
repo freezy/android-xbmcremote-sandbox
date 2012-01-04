@@ -21,18 +21,12 @@
 
 package org.xbmc.android.remotesandbox.ui;
 
-import org.xbmc.android.jsonrpc.provider.AudioContract;
-import org.xbmc.android.jsonrpc.provider.AudioDatabase.Tables;
-import org.xbmc.android.jsonrpc.service.AudioSyncService;
-import org.xbmc.android.remotesandbox.R;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.provider.ContactsContract.Contacts;
-import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -43,8 +37,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+import org.xbmc.android.jsonrpc.provider.AudioContract;
+import org.xbmc.android.jsonrpc.provider.AudioDatabase.Tables;
+import org.xbmc.android.jsonrpc.service.AudioSyncService;
+import org.xbmc.android.remotesandbox.R;
 
-public class AlbumsFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class AlbumsFragment extends ReloadableListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 	
 	private static final String TAG = AlbumsFragment.class.getSimpleName();
 
@@ -69,9 +67,6 @@ public class AlbumsFragment extends ListFragment implements LoaderManager.Loader
 
 		// Give some text to display if there is no data.
 		setEmptyText(getResources().getString(R.string.empty_albums));
-
-		// We have a menu item to show in action bar.
-		setHasOptionsMenu(true);
 
 		// Create an empty adapter we will use to display the loaded data.
 		mAdapter = new AlbumsAdapter(getActivity());
@@ -186,8 +181,11 @@ public class AlbumsFragment extends ListFragment implements LoaderManager.Loader
 			subsubtitleView.setText(cursor.getString(AlbumsQuery.YEAR));
 		}
 	}
-	
-	/**
+
+
+
+
+    /**
 	 * {@link org.xbmc.android.jsonrpc.provider.AudioContract.Albums}
 	 * query parameters.
 	 */

@@ -21,22 +21,20 @@
 
 package org.xbmc.android.remotesandbox.ui;
 
-import java.util.ArrayList;
-
-import org.xbmc.android.jsonrpc.service.AudioSyncService;
-import org.xbmc.android.jsonrpc.service.AudioSyncService.RefreshObserver;
-import org.xbmc.android.remotesandbox.R;
-import org.xbmc.android.util.google.DetachableResultReceiver;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+import org.xbmc.android.jsonrpc.service.AudioSyncService;
+import org.xbmc.android.jsonrpc.service.AudioSyncService.RefreshObserver;
+import org.xbmc.android.remotesandbox.R;
+import org.xbmc.android.util.google.DetachableResultReceiver;
+
+import java.util.ArrayList;
 
 public class MusicPagerActivity extends BaseFragmentTabsActivity {
 	
@@ -46,7 +44,7 @@ public class MusicPagerActivity extends BaseFragmentTabsActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		final FragmentManager fm = getSupportFragmentManager();
 		
 		mSyncStatusUpdaterFragment = (SyncStatusUpdaterFragment) fm.findFragmentByTag(SyncStatusUpdaterFragment.TAG);
@@ -66,13 +64,6 @@ public class MusicPagerActivity extends BaseFragmentTabsActivity {
 		addTab("files", "Files", SourcesFragment.class, R.drawable.tab_ic_folder);
 	}
 	
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.refresh_menu_items, menu);
-        super.onCreateOptionsMenu(menu);
-        return true;
-    }
-    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_refresh) {
