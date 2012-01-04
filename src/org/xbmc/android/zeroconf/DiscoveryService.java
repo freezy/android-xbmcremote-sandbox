@@ -22,7 +22,9 @@
 package org.xbmc.android.zeroconf;
 
 import java.io.IOException;
+import java.net.Inet6Address;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import javax.jmdns.JmDNS;
 import javax.jmdns.ServiceEvent;
@@ -30,10 +32,10 @@ import javax.jmdns.ServiceListener;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.ResultReceiver;
 import android.util.Log;
 
@@ -56,10 +58,10 @@ public class DiscoveryService extends IntentService {
 	public static final String EXTRA_HOST = "org.xbmc.android.zeroconf.extra.HOST";
 
 	private MulticastLock mMulticastLock;
+	private InetAddress mWifiAddress = null;
 	private JmDNS mJmDns = null;
 	
 	private ServiceListener mListener = null;
-	private Handler mHandler = new Handler();
 
 	public DiscoveryService() {
 		super(TAG);
@@ -70,22 +72,34 @@ public class DiscoveryService extends IntentService {
 		super.onCreate();
 		
 		Log.i(TAG, "Starting zeroconf discovery service...");
-		final WifiManager wifi = (WifiManager) getSystemService(android.content.Context.WIFI_SERVICE);
-		mMulticastLock = wifi.createMulticastLock("xbmc-zeroconf-discover");
-		mMulticastLock.setReferenceCounted(true);
-		mMulticastLock.acquire();
+		
 	}
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		
 		Log.i(TAG, "Handelling new intent...");
+
+		final WifiManager wifi = (WifiManager) getSystemService(android.content.Context.WIFI_SERVICE);
+		final WifiInfo info = wifi.getConnectionInfo();
+		mMulticastLock = wifi.createMulticastLock("xbmc-zeroconf-discover");
+		mMulticastLock.setReferenceCounted(true);
+		mMulticastLock.acquire();
+		
+		try {
+			int ipAddress = info.getIpAddress();
+			mWifiAddress = InetAddress.getByName(android.text.format.Formatter.formatIpAddress(ipAddress));
+		} catch (UnknownHostException e) {
+			Log.e(TAG, "Cannot parse Wifi IP address.", e);
+		}
+		
 		final ResultReceiver receiver = intent.getParcelableExtra(EXTRA_STATUS_RECEIVER);
-		mHandler.postDelayed(new Runnable() {
+		new Thread() {
+			@Override
 			public void run() {
 				listen(receiver);
-			}
-		}, 500);
+			};
+		}.start();
 	}
 	
 	/**
@@ -96,39 +110,27 @@ public class DiscoveryService extends IntentService {
 	private void listen(final ResultReceiver receiver) {
 		
 		try {
-			mJmDns = JmDNS.create();
+			if (mWifiAddress == null) {
+				mJmDns = JmDNS.create();
+			} else {
+				mJmDns = JmDNS.create(mWifiAddress);
+			}
 			mJmDns.addServiceListener(SERVICENAME_JSONRPC, mListener = new ServiceListener() {
 				
 				@Override
-				public void serviceResolved(ServiceEvent ev) {
-					final InetAddress[] addresses = ev.getInfo().getInet4Addresses();
-					final String hostname = ev.getInfo().getServer().replace(".local.", "");
-					XBMCHost host = null;
-					for (int i = 0; i < addresses.length; ) {
-						Log.e(TAG, "IP address: " + addresses[i].getHostAddress());
-						host = new XBMCHost(addresses[i].getHostAddress(), hostname, ev.getInfo().getPort());
-						break;
-					}
-					
-					if (receiver != null) {
-						if (host != null) {
-							final Bundle bundle = new Bundle();
-							bundle.putParcelable(EXTRA_HOST, host);
-							receiver.send(STATUS_RESOLVED, bundle);
-						} else {
-							receiver.send(STATUS_ERROR, Bundle.EMPTY);
-						}
-					}
+				public void serviceResolved(ServiceEvent event) {
+					Log.d(TAG, "Service resolved: " + event.getName() + " / " + event.getType());
+					notifyEvent(receiver, event);
 				}
 				
 				@Override
-				public void serviceRemoved(ServiceEvent ev) {
-					Log.d(TAG, "Service removed: " + ev.getName());
+				public void serviceRemoved(ServiceEvent event) {
+					Log.d(TAG, "Service removed: " + event.getName() + " / " + event.getType());
 				}
 				
 				@Override
 				public void serviceAdded(ServiceEvent event) {
-					Log.d(TAG, "Service added.");
+					Log.d(TAG, "Service added:" + event.getName() + " / " + event.getType());
 					// Required to force serviceResolved to be called
 					// again (after the first search)
 					mJmDns.requestServiceInfo(event.getType(), event.getName(), 1);
@@ -137,6 +139,41 @@ public class DiscoveryService extends IntentService {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return;
+		}
+	}
+	
+	private void notifyEvent(ResultReceiver receiver, ServiceEvent event) {
+		final InetAddress[] addresses = event.getInfo().getInet4Addresses();
+		final String hostname = event.getInfo().getServer().replace(".local.", "");
+		XBMCHost host = null;
+		if (addresses.length == 0) {
+			Inet6Address[] v6addresses = event.getInfo().getInet6Addresses();
+			if (v6addresses.length == 0) {
+				Log.e(TAG, "Could not obtain IP address for " + event.getInfo().toString());
+				receiver.send(STATUS_ERROR, Bundle.EMPTY);
+				return;
+			} else {
+				for (int i = 0; i < v6addresses.length; ) {
+					host = new XBMCHost(v6addresses[i].getHostAddress(), hostname, event.getInfo().getPort());
+					break;
+				}
+			}
+		} else {
+			for (int i = 0; i < addresses.length; ) {
+				Log.i(TAG, "IP address: " + addresses[i].getHostAddress());
+				host = new XBMCHost(addresses[i].getHostAddress(), hostname, event.getInfo().getPort());
+				break;
+			}
+		}
+		
+		if (receiver != null) {
+			if (host != null) {
+				final Bundle bundle = new Bundle();
+				bundle.putParcelable(EXTRA_HOST, host);
+				receiver.send(STATUS_RESOLVED, bundle);
+			} else {
+				receiver.send(STATUS_ERROR, Bundle.EMPTY);
+			}
 		}
 	}
 
