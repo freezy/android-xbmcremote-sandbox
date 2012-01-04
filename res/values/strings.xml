@@ -14,9 +14,11 @@
 	<string name="toast_sync_error">Sync error: <xliff:g id="error">%1$s</xliff:g></string>
 	<string name="toast_music_db_updated">Music database updated.</string>
 
-	<string name="login_username_label">Username</string>
-	<string name="login_password_label">Password</string>
-	<string name="login_ok_button">Sign in</string>
+	<string name="addaccount_username_label">Username</string>
+	<string name="addaccount_password_label">Password</string>
+	<string name="addaccount_next_button">Next</string>
+	<string name="addaccount_prev_button">Previous</string>
+	<string name="addaccount_scan_button">Scan</string>
 	<string name="authenticator_label">XBMC Host</string>
 	<string name="authenticator_progress">Authenticating\u2026</string>
 

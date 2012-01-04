@@ -21,6 +21,8 @@
 
 package org.xbmc.android.account.authenticator;
 
+import java.util.ArrayList;
+
 import org.xbmc.android.account.Constants;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.util.google.DetachableResultReceiver;
@@ -33,6 +35,7 @@ import android.accounts.AccountManager;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,9 +43,13 @@ import android.os.Handler;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 /**
@@ -81,6 +88,9 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 
 	private String mUsername;
 	private EditText mUsernameEdit;
+	
+	private ListView mDiscoveredHostsView;
+	private final ArrayList<XBMCHost> mDiscoveredHosts = new ArrayList<XBMCHost>();
 
 	/**
 	 * {@inheritDoc}
@@ -103,7 +113,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 		setContentView(R.layout.activity_login);
 		getWindow().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, android.R.drawable.ic_dialog_alert);
 
-		mMessage = (TextView) findViewById(R.id.message);
+		mMessage = (TextView) findViewById(R.id.addaccount_credentials_text);
 		mUsernameEdit = (EditText) findViewById(R.id.username_edit);
 		mPasswordEdit = (EditText) findViewById(R.id.password_edit);
 
@@ -114,10 +124,10 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 		mReceiver = new DetachableResultReceiver(new Handler());
 		mReceiver.setReceiver(this);
 		
-		// discover zeroconf hosts
-		final Intent discoveryIntent = new Intent(Intent.ACTION_SEARCH, null, this, DiscoveryService.class);
-		discoveryIntent.putExtra(DiscoveryService.EXTRA_STATUS_RECEIVER, mReceiver);
-		startService(discoveryIntent);
+		mDiscoveredHostsView = (ListView)findViewById(R.id.addaccount_hosts_list);
+
+		mDiscoveredHosts.add(new XBMCHost("1.2.3.4", "test", 123));
+		mDiscoveredHostsView.setAdapter(new DiscoveredHostsAdapter(this, mDiscoveredHosts));
 	}
 	
 
@@ -126,12 +136,40 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 		switch (resultCode) {
 			case DiscoveryService.STATUS_RESOLVED:
 				final XBMCHost host = (XBMCHost)resultData.getParcelable(DiscoveryService.EXTRA_HOST);
+				mDiscoveredHosts.add(host);
 				Log.i(TAG, "Received host data: " + host);
+				mDiscoveredHostsView.setAdapter(new DiscoveredHostsAdapter(this, mDiscoveredHosts));
 				break;
 			default:
 				break;
 		}
 		
+	}
+	
+	private class DiscoveredHostsAdapter extends ArrayAdapter<XBMCHost> {
+		final LayoutInflater mInflater;
+		public DiscoveredHostsAdapter(Context context, ArrayList<XBMCHost> items) {
+			super(context, 0, items);
+			mInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		}
+		
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View row;
+	 
+			if (null == convertView) {
+				row = mInflater.inflate(R.layout.list_item_threelabels, null);
+			} else {
+				row = convertView;
+			}
+	 
+			final XBMCHost host = getItem(position);
+			final TextView line1 = (TextView) row.findViewById(R.id.item_title);
+			final TextView line2 = (TextView) row.findViewById(R.id.item_subtitle);
+			line1.setText(host.getHost());
+			line2.setText(host.getAddress() + ":" + host.getPort());
+			return row;
+		}
 	}
 
 	/*
@@ -174,6 +212,18 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 			// Start authenticating...
 			//mAuthThread = NetworkUtilities.attemptAuth(mUsername, mPassword, mHandler, AuthenticatorActivity.this);
 		}
+	}
+	
+	public void discoverHosts(View view) {
+		runDiscovery();
+	}
+	
+	private void runDiscovery() {
+		
+		// discover zeroconf hosts
+		final Intent discoveryIntent = new Intent(Intent.ACTION_SEARCH, null, this, DiscoveryService.class);
+		discoveryIntent.putExtra(DiscoveryService.EXTRA_STATUS_RECEIVER, mReceiver);
+		startService(discoveryIntent);
 	}
 
 	/**
