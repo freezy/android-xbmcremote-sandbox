@@ -20,6 +20,8 @@ Oh, and you probably want to update the IP for your XBMC, that's hard coded at `
 
 Currently, there is a home screen and a screen for the music library, which contains three tabs the user can fling through. Clicking on the refresh button will trigger the service getting artists and albums from XBMC. These are the only entities implemented so far.
 
+Then there is a tablet layout for the home activity as well as a consistent action bar for all Android versions. It's far from final, but we now can keep completely separate layouts depending on the type of the device.
+
 
 ## Next Steps
 
