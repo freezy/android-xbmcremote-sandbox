@@ -1,3 +1,24 @@
+/*
+ *      Copyright (C) 2005-2015 Team XBMC
+ *      http://xbmc.org
+ *
+ *  This Program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2, or (at your option)
+ *  any later version.
+ *
+ *  This Program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with XBMC Remote; see the file license.  If not, write to
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
+ *  http://www.gnu.org/copyleft/gpl.html
+ *
+ */
+
 package org.xbmc.android.zeroconf;
 
 import java.io.IOException;
@@ -16,6 +37,12 @@ import android.os.Handler;
 import android.os.ResultReceiver;
 import android.util.Log;
 
+/**
+ * This service scans for xbmc-jsonrpc hosts and returns one by one by using the
+ * callback receiver.
+ * 
+ * @author freezy <freezy@xbmc.org>
+ */
 public class DiscoveryService extends IntentService {
 
 	private static final String TAG = DiscoveryService.class.getSimpleName();
@@ -29,8 +56,8 @@ public class DiscoveryService extends IntentService {
 	public static final String EXTRA_HOST = "org.xbmc.android.zeroconf.extra.HOST";
 
 	private MulticastLock mMulticastLock;
-
 	private JmDNS mJmDns = null;
+	
 	private ServiceListener mListener = null;
 	private Handler mHandler = new Handler();
 
@@ -74,7 +101,6 @@ public class DiscoveryService extends IntentService {
 				
 				@Override
 				public void serviceResolved(ServiceEvent ev) {
-					Log.e(TAG, "Service resolved: " + ev.getInfo().getQualifiedName() + ") port:" + ev.getInfo().getPort());
 					final InetAddress[] addresses = ev.getInfo().getInet4Addresses();
 					final String hostname = ev.getInfo().getServer().replace(".local.", "");
 					XBMCHost host = null;
