@@ -40,6 +40,7 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.widget.TextView;
 
 /**
@@ -131,6 +132,12 @@ public class UIUtils {
         return (context.getResources().getConfiguration().screenLayout
                 & Configuration.SCREENLAYOUT_SIZE_MASK)
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+    }
+    
+    public static boolean isEmulator() {
+    	Log.e("product", Build.PRODUCT);
+    	Log.e("model", Build.MODEL);
+    	return true;
     }
 
     public static boolean isHoneycombTablet(Context context) {
