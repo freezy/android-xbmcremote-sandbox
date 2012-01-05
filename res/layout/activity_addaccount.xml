@@ -28,106 +28,112 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content">
         
-   	<!-- ZEROCONF HOSTS -->
-    <RelativeLayout
-    	android:id="@+id/addaccount_zeroconf"
-    	style="@style/AccountSetupContainer"
-    	android:layout_width="fill_parent"
-    	android:layout_height="fill_parent" >
-    	
-    	<TextView
-			android:id="@+id/addaccount_zeroconf_scan_text"
-			style="@style/AccountSetupText"
-			android:gravity="center"
-			android:text="@string/addaccount_scan_text" />
-    	
-		<ImageButton 
-	        android:id="@+id/addaccount_zeroconf_scan_button" 
-	        android:src="@android:drawable/ic_popup_sync"
-	        android:text="@string/addaccount_scan_button"
-	        android:layout_marginLeft="@dimen/body_padding_medium"
-	        android:layout_width="50dp" 
-	        android:layout_height="48dp" 
-	        android:layout_below="@id/addaccount_zeroconf_scan_text" 
-	        android:layout_alignParentRight="true"
-	        android:onClick="discoverHosts" 
-	        android:contentDescription="@string/addaccount_scan_text" />
-	    
-	    <ProgressBar
-	    	style="?android:attr/progressBarStyleSmall"
-	    	android:id="@+id/addaccount_zeroconf_progressbar"
-	    	android:layout_marginRight="20dp"
-	    	android:layout_marginTop="13dp"
-	        android:layout_width="wrap_content" 
-	        android:layout_height="wrap_content" 
-	        android:layout_below="@id/addaccount_zeroconf_scan_text" 
-	    	android:layout_alignParentRight="true"
-	    	android:layout_centerVertical="true"
-	    	android:visibility="gone" />
-	    
-		<Spinner
-		    android:id="@+id/addaccount_zeroconf_spinner"
-	        android:layout_toLeftOf="@id/addaccount_zeroconf_scan_button"
-	        android:layout_alignBottom="@id/addaccount_zeroconf_scan_button"
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-		    android:enabled="false" 
-		    android:visibility="invisible"/>
-	    
-	    <Button 
-	    	style="@style/AccountSetupButton"
-	    	android:layout_below="@id/addaccount_zeroconf_spinner" 
-	    	android:layout_alignParentRight="true" 
-	    	android:layout_marginTop="@dimen/body_padding_medium"
-	    	android:id="@+id/addaccount_manualsetup" 
-	    	android:text="@string/addaccount_manualadd_button" 
-	    	android:onClick="handleLogin" />
-
-	    <TextView
-	    	android:id="@+id/addaccount_zeroconf_spinnertext"
-	    	android:layout_width="match_parent"
-	    	android:layout_height="wrap_content"
-	    	android:layout_marginTop="8dp"
-	    	android:layout_alignTop="@id/addaccount_zeroconf_spinner"
-	    	android:layout_alignBottom="@id/addaccount_zeroconf_spinner"
-	    	android:layout_alignParentLeft="true"
-	    	android:text="@string/addaccount_scanning"
-	    	android:textAppearance="?android:attr/textAppearanceMedium"
-	    	/>
-	    
-     </RelativeLayout>
-     
-    <!-- FINISHED -->
-    <RelativeLayout
-    	android:id="@+id/addaccount_finished"
-    	style="@style/AccountSetupContainer"
-    	android:layout_width="fill_parent"
-    	android:layout_height="fill_parent"
-    	android:visibility="gone" >
-	    
-        <TextView 
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:text="Congrats." />	
-        	
-	</RelativeLayout>
-
-  	<!-- CREDENTIALS -->
-    <ScrollView android:id="@+id/addaccount_credentials" android:visibility="gone" 
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+   	<ViewFlipper 
+   	    android:id="@+id/addaccount_flipper"
+   	    android:layout_width="fill_parent"
+    	android:layout_height="fill_parent">
+   	    
+	   	<!-- ZEROCONF HOSTS (0) -->
+	    <RelativeLayout
+	    	android:id="@+id/addaccount_zeroconf"
+	    	style="@style/AccountSetupContainer"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="fill_parent" >
+	    	
+	    	<TextView
+				android:id="@+id/addaccount_zeroconf_scan_text"
+				style="@style/AccountSetupText"
+				android:gravity="center"
+				android:text="@string/addaccount_scan_text" />
+	    	
+			<ImageButton 
+		        android:id="@+id/addaccount_zeroconf_scan_button" 
+		        android:src="@android:drawable/ic_popup_sync"
+		        android:text="@string/addaccount_scan_button"
+		        android:layout_marginLeft="@dimen/body_padding_medium"
+		        android:layout_width="50dp" 
+		        android:layout_height="48dp" 
+		        android:layout_below="@id/addaccount_zeroconf_scan_text" 
+		        android:layout_alignParentRight="true"
+		        android:onClick="discoverHosts" 
+		        android:contentDescription="@string/addaccount_scan_text" />
 		    
-        <LinearLayout style="@style/AccountSetupContainer">
-			<TextView style="@style/AccountSetupText" android:id="@+id/addaccount_credentials_text" />
-            <TextView style="@style/AccountSetupLabel" android:text="@string/addaccount_username_label" />
-            <EditText style="@style/AccountSetupEditText" android:id="@+id/username_edit" android:inputType="textEmailAddress" />
-            <TextView style="@style/AccountSetupText" android:id="@+id/username_fixed" android:singleLine="true" />
-            <TextView style="@style/AccountSetupLabel" android:text="@string/addaccount_password_label" />
-            <EditText style="@style/AccountSetupEditText" android:id="@+id/password_edit" android:password="true" android:inputType="textPassword" />
-            <TextView style="@style/AccountSetupText" android:id="@+id/message_bottom" />
-        </LinearLayout>
-    </ScrollView>
+		    <ProgressBar
+		    	style="?android:attr/progressBarStyleSmall"
+		    	android:id="@+id/addaccount_zeroconf_progressbar"
+		    	android:layout_marginRight="20dp"
+		    	android:layout_marginTop="13dp"
+		        android:layout_width="wrap_content" 
+		        android:layout_height="wrap_content" 
+		        android:layout_below="@id/addaccount_zeroconf_scan_text" 
+		    	android:layout_alignParentRight="true"
+		    	android:layout_centerVertical="true"
+		    	android:visibility="gone" />
+		    
+			<Spinner
+			    android:id="@+id/addaccount_zeroconf_spinner"
+		        android:layout_toLeftOf="@id/addaccount_zeroconf_scan_button"
+		        android:layout_alignBottom="@id/addaccount_zeroconf_scan_button"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:enabled="false" 
+			    android:visibility="invisible"/>
+		    
+		    <Button 
+		    	style="@style/AccountSetupButton"
+		    	android:layout_below="@id/addaccount_zeroconf_spinner" 
+		    	android:layout_alignParentRight="true" 
+		    	android:layout_marginTop="@dimen/body_padding_medium"
+		    	android:id="@+id/addaccount_manualsetup" 
+		    	android:text="@string/addaccount_manualadd_button" 
+		    	android:onClick="handleLogin" />
+	
+		    <TextView
+		    	android:id="@+id/addaccount_zeroconf_spinnertext"
+		    	android:layout_width="match_parent"
+		    	android:layout_height="wrap_content"
+		    	android:layout_marginTop="8dp"
+		    	android:layout_alignTop="@id/addaccount_zeroconf_spinner"
+		    	android:layout_alignBottom="@id/addaccount_zeroconf_spinner"
+		    	android:layout_alignParentLeft="true"
+		    	android:text="@string/addaccount_scanning"
+		    	android:textAppearance="?android:attr/textAppearanceMedium"
+		    	/>
+		    
+	     </RelativeLayout>
+	     
+	    <!-- FINISHED -->
+	    <RelativeLayout
+	    	android:id="@+id/addaccount_finished"
+	    	style="@style/AccountSetupContainer"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="fill_parent"
+	    	 >
+		    
+	        <TextView 
+		    	android:id="@+id/addaccount_finished_text"
+	        	android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content" />	
+	        	
+		</RelativeLayout>
+	
+	  	<!-- CREDENTIALS -->
+	    <ScrollView android:id="@+id/addaccount_credentials"
+	        android:layout_width="fill_parent"
+	        android:layout_height="0dp"
+	        android:layout_weight="1">
+			    
+	        <LinearLayout style="@style/AccountSetupContainer">
+				<TextView style="@style/AccountSetupText" android:id="@+id/addaccount_credentials_text" />
+	            <TextView style="@style/AccountSetupLabel" android:text="@string/addaccount_username_label" />
+	            <EditText style="@style/AccountSetupEditText" android:id="@+id/username_edit" android:inputType="textEmailAddress" />
+	            <TextView style="@style/AccountSetupText" android:id="@+id/username_fixed" android:singleLine="true" />
+	            <TextView style="@style/AccountSetupLabel" android:text="@string/addaccount_password_label" />
+	            <EditText style="@style/AccountSetupEditText" android:id="@+id/password_edit" android:password="true" android:inputType="textPassword" />
+	            <TextView style="@style/AccountSetupText" android:id="@+id/message_bottom" />
+	        </LinearLayout>
+	    </ScrollView>
+   	</ViewFlipper>
     
   	<!-- BOTTOM BUTTON BAR -->
     <FrameLayout

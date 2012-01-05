@@ -35,14 +35,11 @@ import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.ContactsContract;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,9 +54,14 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 /**
- * Activity which displays login screen to the user.
+ * A "wizard" which guides the user through adding a new XBMC host setting.
+ * It first tries to find hosts in the network using zeroconf, but also 
+ * gives the user the possibility to manually add a host.
+ * 
+ * @author freezy <freezy@xbmc.org>
  */
 public class AuthenticatorActivity extends AccountAuthenticatorActivity implements DetachableResultReceiver.Receiver {
 
@@ -72,20 +74,19 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 
 	private AccountManager mAccountManager;
 	private Thread mAuthThread;
-	private String mAuthtoken;
-	private String mAuthtokenType;
 	private final Handler mHandler = new Handler();
 	
 	private DetachableResultReceiver mReceiver;
 	
 	/* Those are the different states of the "wizard". */
-	private static final int STATE_ZEROCONF = 0x01;
-	private static final int STATE_FINISHED = 0x02;
+	private static final int PAGE_ZEROCONF = 0x01;
+	private static final int PAGE_FINISHED = 0x02;
 	
-	private int mCurrentState = STATE_ZEROCONF;
+	private int mCurrentPage = PAGE_ZEROCONF;
 	
 	private int mApiVersion = -1;
 	private Version mXbmcVersion = null;
+	private XBMCHost mHost = null;
 
 	/**
 	 * If set we are just checking that the user knows their credentials; this
@@ -94,9 +95,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 	private Boolean mConfirmCredentials = false;
 
 	/** cache reference to views */
-	private View mPageCredentials;
-	private View mPageZeroconf;
-	private View mPageFinished;
+	private ViewFlipper mFlipper;
 	private TextView mMessage;
 	private String mPassword;
 	private EditText mPasswordEdit;
@@ -104,6 +103,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 	private ProgressBar mZeroconfProgressBar;
 	private Spinner mZeroconfSpinner;
 	private TextView mZeroconfSpinnerText;
+	private TextView mFinishedText;
 	private Button mButtonNext;
 	private Button mButtonPrev;
 
@@ -121,28 +121,15 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 	 */
 	@Override
 	public void onCreate(Bundle icicle) {
-		
-		Log.i(TAG, "onCreate(" + icicle + ")");
 		super.onCreate(icicle);
 		
-		mAccountManager = AccountManager.get(this);
-		final Intent intent = getIntent();
-		mUsername = intent.getStringExtra(PARAM_USERNAME);
-		mAuthtokenType = intent.getStringExtra(PARAM_AUTHTOKEN_TYPE);
-		mRequestNewAccount = mUsername == null;
-		mConfirmCredentials = intent.getBooleanExtra(PARAM_CONFIRMCREDENTIALS, false);
-
-		Log.i(TAG, "    request new: " + mRequestNewAccount);
+		// set layout params
 		requestWindowFeature(Window.FEATURE_LEFT_ICON);
 		setContentView(R.layout.activity_addaccount);
 		getWindow().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, android.R.drawable.ic_dialog_info);
-		
-		// pages
-		mPageCredentials = findViewById(R.id.addaccount_credentials);
-		mPageZeroconf = findViewById(R.id.addaccount_zeroconf);
-		mPageFinished = findViewById(R.id.addaccount_finished);
 
 		// common views
+		mFlipper = (ViewFlipper) findViewById(R.id.addaccount_flipper);
 		mButtonNext = (Button)findViewById(R.id.addaccount_next_button);
 		mButtonPrev = (Button)findViewById(R.id.addaccount_prev_button);
 		
@@ -157,7 +144,11 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 		mUsernameEdit = (EditText) findViewById(R.id.username_edit);
 		mPasswordEdit = (EditText) findViewById(R.id.password_edit);
 		mUsernameEdit.setText(mUsername);
-		mMessage.setText(getMessage());
+		
+		// finished view
+		mFinishedText = (TextView) findViewById(R.id.addaccount_finished_text);
+		
+		mAccountManager = AccountManager.get(this);
 		
 		// define result receiver for zeroconf data
 		mReceiver = new DetachableResultReceiver(new Handler());
@@ -166,18 +157,30 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 		discoverHosts(null);
 	}
 	
-	private void switchPage() {
+	private void flipPage(int page) {
+		int currentPage = mCurrentPage;
+		while (currentPage != page) {
+			if (currentPage < page) {
+				++currentPage;
+				mFlipper.showNext();
+			} else {
+				--currentPage;
+				mFlipper.showPrevious();
+			}
+		}
+		mCurrentPage = page;
 		
-		switch(mCurrentState) {
-			case STATE_ZEROCONF:
-				mPageZeroconf.setVisibility(View.VISIBLE);
-				mPageCredentials.setVisibility(View.GONE);
-				mPageFinished.setVisibility(View.GONE);
+		// update layouts
+		switch (page) {
+			case PAGE_ZEROCONF:
+				mButtonPrev.setVisibility(View.GONE);
+				mButtonNext.setVisibility(View.VISIBLE);
 				break;
-			case STATE_FINISHED:
-				mPageZeroconf.setVisibility(View.GONE);
-				mPageCredentials.setVisibility(View.GONE);
-				mPageFinished.setVisibility(View.VISIBLE);
+			case PAGE_FINISHED:
+				mButtonPrev.setVisibility(View.GONE);
+				mButtonNext.setVisibility(View.VISIBLE);
+				mButtonNext.setText(R.string.addaccount_close_button);
+				mFinishedText.setText("Found XBMC version " + mXbmcVersion + " running API v" + mApiVersion + ".");
 				break;
 		}
 	}
@@ -202,10 +205,9 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 			case DiscoveryService.STATUS_FINISHED:
 				if (mDiscoveredHosts.isEmpty()) {
 					mZeroconfSpinnerText.setText(R.string.addaccount_nothingfound);
-				} else {
-					mZeroconfDiscoverButton.setVisibility(View.VISIBLE);
-					mZeroconfProgressBar.setVisibility(View.GONE);
 				}
+				mZeroconfDiscoverButton.setVisibility(View.VISIBLE);
+				mZeroconfProgressBar.setVisibility(View.GONE);
 				break;
 			default:
 				break;
@@ -261,21 +263,26 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 	}
 	
 	public void handlePrev(View view) {
-		switch (mCurrentState) {
-		case STATE_ZEROCONF:
+		switch (mCurrentPage) {
+		case PAGE_ZEROCONF:
 			
 			break;
 		}
 	}
 	
 	public void handleNext(View view) {
-		switch (mCurrentState) {
+		switch (mCurrentPage) {
 			/*
 			 * From the zeroconf screen, probe XBMC.  
 			 */
-			case STATE_ZEROCONF: {
+			case PAGE_ZEROCONF: {
+				mHost = (XBMCHost)mZeroconfSpinner.getSelectedItem();
 				showProgress();
-				mAuthThread = NetworkUtilities.attemptProbe((XBMCHost)mZeroconfSpinner.getSelectedItem(), mHandler, AuthenticatorActivity.this);
+				mAuthThread = NetworkUtilities.attemptProbe(mHost, mHandler, AuthenticatorActivity.this);
+				break;
+			}
+			case PAGE_FINISHED: {
+				finishUp();
 				break;
 			}
 			
@@ -284,27 +291,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 		}
 	}
 
-	/**
-	 * Handles onClick event on the Submit button. Sends username/password to
-	 * the server for authentication.
-	 * 
-	 * @param view
-	 *            The Submit button for which this method is invoked
-	 */
-	public void handleLogin(View view) {
-		if (mRequestNewAccount) {
-			mUsername = mUsernameEdit.getText().toString();
-		}
-		mPassword = mPasswordEdit.getText().toString();
-		if (TextUtils.isEmpty(mUsername) || TextUtils.isEmpty(mPassword)) {
-			mMessage.setText(getMessage());
-		} else {
-			showProgress();
-			// Start authenticating...
-			//mAuthThread = NetworkUtilities.attemptAuth(mUsername, mPassword, mHandler, AuthenticatorActivity.this);
-		}
-	}
-	
 	public void discoverHosts(View view) {
 		mZeroconfDiscoverButton.setVisibility(View.INVISIBLE);
 		mZeroconfProgressBar.setVisibility(View.VISIBLE);
@@ -328,55 +314,18 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 		discoveryIntent.putExtra(DiscoveryService.EXTRA_STATUS_RECEIVER, mReceiver);
 		startService(discoveryIntent);
 	}
-
-	/**
-	 * Called when response is received from the server for confirm credentials
-	 * request. See onAuthenticationResult(). Sets the
-	 * AccountAuthenticatorResult which is sent back to the caller.
-	 * 
-	 * @param the
-	 *            confirmCredentials result.
-	 */
-	protected void finishConfirmCredentials(boolean result) {
-		Log.i(TAG, "finishConfirmCredentials()");
-		final Account account = new Account(mUsername, Constants.ACCOUNT_TYPE);
-		mAccountManager.setPassword(account, mPassword);
-		final Intent intent = new Intent();
-		intent.putExtra(AccountManager.KEY_BOOLEAN_RESULT, result);
-		setAccountAuthenticatorResult(intent.getExtras());
-		setResult(RESULT_OK, intent);
-		finish();
-	}
-
-	/**
-	 * 
-	 * Called when response is received from the server for authentication
-	 * request. See onAuthenticationResult(). Sets the
-	 * AccountAuthenticatorResult which is sent back to the caller. Also sets
-	 * the authToken in AccountManager for this account.
-	 * 
-	 * @param the
-	 *            confirmCredentials result.
-	 */
-
-	protected void finishLogin() {
+	
+	
+	protected void finishUp() {
 		Log.i(TAG, "finishLogin()");
-		final Account account = new Account(mUsername, Constants.ACCOUNT_TYPE);
-
-		if (mRequestNewAccount) {
-			mAccountManager.addAccountExplicitly(account, mPassword, null);
-			// Set contacts sync for this account.
-			ContentResolver.setSyncAutomatically(account, ContactsContract.AUTHORITY, true);
-		} else {
-			mAccountManager.setPassword(account, mPassword);
-		}
+		final Account account = new Account(mHost.getHost(), Constants.ACCOUNT_TYPE);
+		final Bundle data = new Bundle();
+		data.putString(Constants.DATA_ADDRESS, mHost.getAddress());
+		data.putString(Constants.DATA_PORT, String.valueOf(mHost.getPort()));
+		mAccountManager.addAccountExplicitly(account, null, data);
 		final Intent intent = new Intent();
-		mAuthtoken = mPassword;
-		intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, mUsername);
+		intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, mHost.getHost());
 		intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, Constants.ACCOUNT_TYPE);
-		if (mAuthtokenType != null && mAuthtokenType.equals(Constants.AUTHTOKEN_TYPE)) {
-			intent.putExtra(AccountManager.KEY_AUTHTOKEN, mAuthtoken);
-		}
 		setAccountAuthenticatorResult(intent.getExtras());
 		setResult(RESULT_OK, intent);
 		finish();
@@ -397,58 +346,10 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 		Log.i(TAG, "Found XBMC with API version " + apiVersion + ".");
 		Log.i(TAG, "Found XBMC at version " + xbmcVersion + ".");
 		hideProgress();
-		mCurrentState = STATE_FINISHED;
-		switchPage();
+		flipPage(PAGE_FINISHED);
 		
 	}
 
-	/**
-	 * Called when the authentication process completes (see attemptLogin()).
-	 */
-	public void onAuthenticationResult(boolean result) {
-		Log.i(TAG, "onAuthenticationResult(" + result + ")");
-		// Hide the progress dialog
-		hideProgress();
-		if (result) {
-			if (!mConfirmCredentials) {
-				finishLogin();
-			} else {
-				finishConfirmCredentials(true);
-			}
-		} else {
-			Log.e(TAG, "onAuthenticationResult: failed to authenticate");
-			if (mRequestNewAccount) {
-				// "Please enter a valid username/password.
-				//mMessage.setText(getText(R.string.login_activity_loginfail_text_both));
-				mMessage.setText("both failed.");
-			} else {
-				// "Please enter a valid password." (Used when the
-				// account is already in the database but the password
-				// doesn't work.)
-				mMessage.setText("password failed.");
-				//mMessage.setText(getText(R.string.login_activity_loginfail_text_pwonly));
-			}
-		}
-	}
-
-	/**
-	 * Returns the message to be displayed at the top of the login dialog box.
-	 */
-	private CharSequence getMessage() {
-		if (TextUtils.isEmpty(mUsername)) {
-			// If no username, then we ask the user to log in using an
-			// appropriate service.
-			//final CharSequence msg = getText(R.string.login_activity_newaccount_text);
-			final CharSequence msg = "new account";
-			return msg;
-		}
-		if (TextUtils.isEmpty(mPassword)) {
-			// We have an account but no password
-			//return getText(R.string.login_activity_loginfail_text_pwmissing);
-			return "login failed, password missing.";
-		}
-		return null;
-	}
 
 	/**
 	 * Shows the progress UI for a lengthy operation.
