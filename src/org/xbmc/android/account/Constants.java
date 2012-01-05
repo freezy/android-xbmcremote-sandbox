@@ -19,6 +19,11 @@ package org.xbmc.android.account;
 public class Constants {
 
 	/**
+	 * Minumal API level of XBMC's JSON-RPC API.
+	 */
+	public static final int MIN_JSONRPC_API = 3;
+	
+	/**
 	 * Account type string.
 	 */
 	public static final String ACCOUNT_TYPE = "org.xbmc.android.remote";

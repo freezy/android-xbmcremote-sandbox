@@ -72,7 +72,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 
 	private AccountManager mAccountManager;
 	private Thread mAuthThread;
-	private Thread mProbeThread;
 	private String mAuthtoken;
 	private String mAuthtokenType;
 	private final Handler mHandler = new Handler();
@@ -81,6 +80,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 	
 	/* Those are the different states of the "wizard". */
 	private static final int STATE_ZEROCONF = 0x01;
+	private static final int STATE_FINISHED = 0x02;
 	
 	private int mCurrentState = STATE_ZEROCONF;
 	
@@ -94,6 +94,9 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 	private Boolean mConfirmCredentials = false;
 
 	/** cache reference to views */
+	private View mPageCredentials;
+	private View mPageZeroconf;
+	private View mPageFinished;
 	private TextView mMessage;
 	private String mPassword;
 	private EditText mPasswordEdit;
@@ -133,6 +136,11 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 		requestWindowFeature(Window.FEATURE_LEFT_ICON);
 		setContentView(R.layout.activity_addaccount);
 		getWindow().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, android.R.drawable.ic_dialog_info);
+		
+		// pages
+		mPageCredentials = findViewById(R.id.addaccount_credentials);
+		mPageZeroconf = findViewById(R.id.addaccount_zeroconf);
+		mPageFinished = findViewById(R.id.addaccount_finished);
 
 		// common views
 		mButtonNext = (Button)findViewById(R.id.addaccount_next_button);
@@ -156,6 +164,22 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 		mReceiver.setReceiver(this);
 		
 		discoverHosts(null);
+	}
+	
+	private void switchPage() {
+		
+		switch(mCurrentState) {
+			case STATE_ZEROCONF:
+				mPageZeroconf.setVisibility(View.VISIBLE);
+				mPageCredentials.setVisibility(View.GONE);
+				mPageFinished.setVisibility(View.GONE);
+				break;
+			case STATE_FINISHED:
+				mPageZeroconf.setVisibility(View.GONE);
+				mPageCredentials.setVisibility(View.GONE);
+				mPageFinished.setVisibility(View.VISIBLE);
+				break;
+		}
 	}
 	
 
@@ -367,9 +391,15 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 	
 	public void onProbeResult(int apiVersion, Version xbmcVersion) {
 		
+		mApiVersion = apiVersion;
+		mXbmcVersion = xbmcVersion;
+		
 		Log.i(TAG, "Found XBMC with API version " + apiVersion + ".");
 		Log.i(TAG, "Found XBMC at version " + xbmcVersion + ".");
 		hideProgress();
+		mCurrentState = STATE_FINISHED;
+		switchPage();
+		
 	}
 
 	/**

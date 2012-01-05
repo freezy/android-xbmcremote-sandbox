@@ -95,7 +95,22 @@
 	    	android:textAppearance="?android:attr/textAppearanceMedium"
 	    	/>
 	    
-      	</RelativeLayout>
+     </RelativeLayout>
+     
+    <!-- FINISHED -->
+    <RelativeLayout
+    	android:id="@+id/addaccount_finished"
+    	style="@style/AccountSetupContainer"
+    	android:layout_width="fill_parent"
+    	android:layout_height="fill_parent"
+    	android:visibility="gone" >
+	    
+        <TextView 
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:text="Congrats." />	
+        	
+	</RelativeLayout>
 
   	<!-- CREDENTIALS -->
     <ScrollView android:id="@+id/addaccount_credentials" android:visibility="gone" 
