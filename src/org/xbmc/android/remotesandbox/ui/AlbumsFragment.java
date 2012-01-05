@@ -185,7 +185,7 @@ public class AlbumsFragment extends ReloadableListFragment implements LoaderMana
 
 
 
-    /**
+	/**
 	 * {@link org.xbmc.android.jsonrpc.provider.AudioContract.Albums}
 	 * query parameters.
 	 */

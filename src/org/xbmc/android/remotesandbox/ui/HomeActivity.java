@@ -32,32 +32,33 @@ import android.view.MenuItem;
 
 public class HomeActivity extends BaseActivity {
 
-    private final FragmentManager mFragementManager = getSupportFragmentManager();
+	private final FragmentManager mFragementManager = getSupportFragmentManager();
 
-    @Override
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_home);
 		getActivityHelper().setupActionBar(null, 0);
 
-    }
+	}
+
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
 		getActivityHelper().setupHomeActivity();
 	}
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Fragment fragment = mFragementManager.findFragmentById(id.fragment_dashboard);
-        if(fragment != null){
-            mFragementManager.beginTransaction().remove(fragment).commit();
-        }
-    }
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Fragment fragment = mFragementManager.findFragmentById(id.fragment_dashboard);
+		if (fragment != null) {
+			mFragementManager.beginTransaction().remove(fragment).commit();
+		}
+	}
 
-    @Override
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.refresh_menu_items, menu);
 		super.onCreateOptionsMenu(menu);
