@@ -52,6 +52,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -86,6 +87,12 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 	private String mPassword;
 	private EditText mPasswordEdit;
 	private ImageButton mDiscoverButton;
+	private ProgressBar mProgressBar;
+	private Spinner mSpinner;
+	private TextView mSpinnerText;
+	
+	private Button mButtonNext;
+	private Button mButtonPrev;
 
 	/** Was the original caller asking for an entirely new account? */
 	protected boolean mRequestNewAccount = false;
@@ -93,7 +100,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 	private String mUsername;
 	private EditText mUsernameEdit;
 	
-	private Spinner mDiscoveredHostsView;
 	private final ArrayList<XBMCHost> mDiscoveredHosts = new ArrayList<XBMCHost>();
 
 	/**
@@ -121,6 +127,12 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 		mUsernameEdit = (EditText) findViewById(R.id.username_edit);
 		mPasswordEdit = (EditText) findViewById(R.id.password_edit);
 		mDiscoverButton = (ImageButton) findViewById(R.id.addaccount_scan_button);
+		mProgressBar = (ProgressBar) findViewById(R.id.addaccount_progressbar);
+		mSpinner = (Spinner)findViewById(R.id.addaccount_hosts_list);
+		mSpinnerText = (TextView) findViewById(R.id.addaccount_spinnertext);
+		
+		mButtonNext = (Button)findViewById(R.id.addaccount_next_button);
+		mButtonPrev = (Button)findViewById(R.id.addaccount_prev_button);
 
 		mUsernameEdit.setText(mUsername);
 		mMessage.setText(getMessage());
@@ -129,7 +141,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 		mReceiver = new DetachableResultReceiver(new Handler());
 		mReceiver.setReceiver(this);
 		
-		mDiscoveredHostsView = (Spinner)findViewById(R.id.addaccount_hosts_list);
+		discoverHosts(null);
 	}
 	
 
@@ -137,13 +149,25 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 	public void onReceiveResult(int resultCode, Bundle resultData) {
 		switch (resultCode) {
 			case DiscoveryService.STATUS_RESOLVED:
+				// only toggle views the first time
+				if (mDiscoveredHosts.isEmpty()) {
+					mButtonNext.setEnabled(true);
+					mSpinnerText.setVisibility(View.GONE);
+					mSpinner.setVisibility(View.VISIBLE);
+				}
 				final XBMCHost host = (XBMCHost)resultData.getParcelable(DiscoveryService.EXTRA_HOST);
 				mDiscoveredHosts.add(host);
 				Log.i(TAG, "Received host data: " + host);
-				mDiscoveredHostsView.setAdapter(new DiscoveredHostsAdapter(this, mDiscoveredHosts));
+				mSpinner.setAdapter(new DiscoveredHostsAdapter(this, mDiscoveredHosts));
 				break;
+				
 			case DiscoveryService.STATUS_FINISHED:
-				mDiscoverButton.setEnabled(true);
+				if (mDiscoveredHosts.isEmpty()) {
+					mSpinnerText.setText(R.string.addaccount_nothingfound);
+				} else {
+					mDiscoverButton.setVisibility(View.VISIBLE);
+					mProgressBar.setVisibility(View.GONE);
+				}
 				break;
 			default:
 				break;
@@ -221,8 +245,18 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 	}
 	
 	public void discoverHosts(View view) {
-		mDiscoverButton.setEnabled(false);
+		mDiscoverButton.setVisibility(View.INVISIBLE);
+		mProgressBar.setVisibility(View.VISIBLE);
+		
+		mSpinnerText.setText(R.string.addaccount_scanning);
+		mSpinner.setAdapter(new DiscoveredHostsAdapter(this, new ArrayList<XBMCHost>(0)));
 		mDiscoveredHosts.clear();
+		
+		mSpinner.setVisibility(View.INVISIBLE);
+		mSpinnerText.setVisibility(View.VISIBLE);
+		
+		mButtonNext.setEnabled(false);
+		
 		runDiscovery();
 	}
 	

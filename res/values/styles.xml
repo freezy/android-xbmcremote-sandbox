@@ -220,14 +220,14 @@
         <item name="android:orientation">vertical</item>
         <item name="android:paddingTop">5dp</item>
         <item name="android:paddingBottom">13dp</item>
-        <item name="android:paddingLeft">20dp</item>
-        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingLeft">@dimen/body_padding_medium</item>
+        <item name="android:paddingRight">@dimen/body_padding_medium</item>
     </style>
     <style name="AccountSetupText">
 		<item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
 		<item name="android:layout_width">wrap_content</item>
 		<item name="android:layout_height">wrap_content</item>
-		<item name="android:layout_marginBottom">5dp</item>
+		<item name="android:layout_marginBottom">@dimen/body_padding_medium</item>
     </style>
     <style name="AccountSetupLabel">
     	<item name="android:textAppearance">?android:attr/textAppearanceSmall</item>

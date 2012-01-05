@@ -27,37 +27,76 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content">
-	
-    <LinearLayout android:id="@+id/addaccount_zeroconf" 
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
         
-    	<!-- ZEROCONF HOSTS -->
-        <RelativeLayout style="@style/AccountSetupContainer">
-			<TextView style="@style/AccountSetupText" android:id="@+id/addaccount_scan_text" android:text="@string/addaccount_scan_text" android:gravity="center"/>
+   	<!-- ZEROCONF HOSTS -->
+    <RelativeLayout
+    	android:id="@+id/addaccount_zeroconf"
+    	style="@style/AccountSetupContainer"
+    	android:layout_width="fill_parent"
+    	android:layout_height="fill_parent" >
+    	
+    	<TextView
+			android:id="@+id/addaccount_scan_text"
+			style="@style/AccountSetupText"
+			android:gravity="center"
+			android:text="@string/addaccount_scan_text" />
+    	
+		<ImageButton 
+	        android:src="@android:drawable/ic_popup_sync"
+	        android:id="@+id/addaccount_scan_button" 
+	        android:text="@string/addaccount_scan_button"
+	        android:layout_marginLeft="@dimen/body_padding_medium"
+	        android:layout_width="50dp" 
+	        android:layout_height="48dp" 
+	        android:layout_below="@id/addaccount_scan_text" 
+	        android:layout_alignParentRight="true"
+	        android:onClick="discoverHosts" 
+	        android:contentDescription="@string/addaccount_scan_text" />
+	    
+	    <ProgressBar
+	    	style="?android:attr/progressBarStyleSmall"
+	    	android:id="@+id/addaccount_progressbar"
+	    	android:layout_marginRight="20dp"
+	    	android:layout_marginTop="13dp"
+	        android:layout_width="wrap_content" 
+	        android:layout_height="wrap_content" 
+	        android:layout_below="@id/addaccount_scan_text" 
+	    	android:layout_alignParentRight="true"
+	    	android:layout_centerVertical="true"
+	    	android:visibility="gone" />
+	    
+		<Spinner
+		    android:id="@+id/addaccount_hosts_list"
+	        android:layout_toLeftOf="@id/addaccount_scan_button"
+	        android:layout_alignBottom="@id/addaccount_scan_button"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:enabled="false" 
+		    android:visibility="invisible"/>
+	    
+	    <Button 
+	    	style="@style/AccountSetupButton"
+	    	android:layout_below="@id/addaccount_hosts_list" 
+	    	android:layout_alignParentRight="true" 
+	    	android:layout_marginTop="@dimen/body_padding_medium"
+	    	android:id="@+id/addaccount_manualsetup" 
+	    	android:text="@string/addaccount_manualadd_button" 
+	    	android:onClick="handleLogin" />
 
-		    <ImageButton 
-		        android:src="@android:drawable/ic_popup_sync"
-		        android:id="@+id/addaccount_scan_button" 
-		        android:text="@string/addaccount_scan_button"
-		        android:layout_marginLeft="@dimen/body_padding_medium"
-		        android:layout_width="50dp" 
-		        android:layout_height="48dp" 
-		        android:layout_below="@id/addaccount_scan_text" 
-		        android:layout_alignParentRight="true"
-		        android:onClick="discoverHosts" 
-		        android:contentDescription="@string/addaccount_scan_text" />
-		    
-			<Spinner
-			    android:id="@+id/addaccount_hosts_list"
-		        android:layout_toLeftOf="@id/addaccount_scan_button"
-		        android:layout_alignBottom="@id/addaccount_scan_button"
-			    android:layout_width="match_parent"
-			    android:layout_height="wrap_content" />
-        	</RelativeLayout>
+	    <TextView
+	    	android:id="@+id/addaccount_spinnertext"
+	    	android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:layout_marginTop="8dp"
+	    	android:layout_alignTop="@+id/addaccount_hosts_list"
+	    	android:layout_alignBottom="@+id/addaccount_hosts_list"
+	    	android:layout_alignParentLeft="true"
+	    	android:text="@string/addaccount_scanning"
+	    	android:textAppearance="?android:attr/textAppearanceMedium"
+	    	/>
+	    
+      	</RelativeLayout>
 
-    </LinearLayout>
     	
   	<!-- CREDENTIALS -->
     <ScrollView android:id="@+id/addaccount_credentials" android:visibility="gone" 
@@ -76,19 +115,36 @@
         </LinearLayout>
     </ScrollView>
     
+  	<!-- BOTTOM BUTTON BAR -->
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="#c6c3c6"
-        android:minHeight="54dip"
-        android:paddingTop="4dip"
-        android:paddingLeft="2dip"
-        android:paddingRight="2dip"
+        android:minHeight="54dp"
+        android:paddingTop="4dp"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
         android:orientation="horizontal" >
         
-        <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
-		    <Button android:layout_alignParentLeft="true" style="@style/AccountSetupButton" android:id="@+id/addaccount_prev_button" android:text="@string/addaccount_prev_button" android:onClick="handleLogin" />
-	        <Button android:layout_alignParentRight="true" style="@style/AccountSetupButton" android:id="@+id/addaccount_next_button" android:text="@string/addaccount_next_button" android:onClick="handleLogin" />
-        </RelativeLayout>
-    </FrameLayout>
+        <RelativeLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content" >
+
+			<Button
+				style="@style/AccountSetupButton"
+				android:id="@+id/addaccount_prev_button"
+				android:layout_alignParentLeft="true"
+				android:onClick="handleLogin"
+				android:text="@string/addaccount_prev_button" 
+				android:visibility="gone" />
+
+			<Button
+				style="@style/AccountSetupButton"
+				android:id="@+id/addaccount_next_button"
+				android:layout_alignParentRight="true"
+				android:onClick="handleLogin"
+				android:text="@string/addaccount_next_button" 
+				android:enabled="false" />
+		</RelativeLayout>
+	</FrameLayout>
 </LinearLayout>

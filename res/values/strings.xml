@@ -18,8 +18,11 @@
 	<string name="addaccount_password_label">Password</string>
 	<string name="addaccount_next_button">Next</string>
 	<string name="addaccount_prev_button">Previous</string>
+	<string name="addaccount_manualadd_button">Manually Add</string>
 	<string name="addaccount_scan_button">Rescan</string>
-	<string name="addaccount_scan_text">Scanning your network for XBMC hosts. Please make sure that XBMC is running and has Zeroconf is enabled.</string>
+	<string name="addaccount_scanning">Scanning...</string>
+	<string name="addaccount_nothingfound">XBMC not found.</string>
+	<string name="addaccount_scan_text">Scanning your network for XBMC hosts. Please make sure that XBMC is running and Zeroconf is enabled.</string>
 	<string name="authenticator_label">XBMC Host</string>
 	<string name="authenticator_progress">Authenticating\u2026</string>
 
