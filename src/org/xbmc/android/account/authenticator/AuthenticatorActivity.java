@@ -25,8 +25,6 @@ import java.util.ArrayList;
 
 import org.xbmc.android.account.Constants;
 import org.xbmc.android.jsonrpc.api.ApplicationAPI.Version;
-import org.xbmc.android.jsonrpc.client.ApplicationClient;
-import org.xbmc.android.jsonrpc.client.JsonRpcClient;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.util.google.DetachableResultReceiver;
 import org.xbmc.android.zeroconf.DiscoveryService;
@@ -74,8 +72,10 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 
 	private AccountManager mAccountManager;
 	private Thread mAuthThread;
+	private Thread mProbeThread;
 	private String mAuthtoken;
 	private String mAuthtokenType;
+	private final Handler mHandler = new Handler();
 	
 	private DetachableResultReceiver mReceiver;
 	
@@ -250,22 +250,8 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 			 * From the zeroconf screen, probe XBMC.  
 			 */
 			case STATE_ZEROCONF: {
-				mAuthThread = new Thread() {
-					@Override
-					public void run() {
-						final XBMCHost host = (XBMCHost)mZeroconfSpinner.getSelectedItem();
-						final JsonRpcClient jsonClient = new JsonRpcClient(host);
-						final ApplicationClient appClient = new ApplicationClient(host);
-						mApiVersion = jsonClient.getVersion(null);
-						mXbmcVersion = appClient.getVersion(null);
-						
-						Log.i(TAG, "Found XBMC with API version " + mApiVersion + ".");
-						Log.i(TAG, "Found XBMC at version " + mXbmcVersion + ".");
-						hideProgress();
-					}
-				};
 				showProgress();
-				mAuthThread.start();
+				mAuthThread = NetworkUtilities.attemptProbe((XBMCHost)mZeroconfSpinner.getSelectedItem(), mHandler, AuthenticatorActivity.this);
 				break;
 			}
 			
@@ -377,6 +363,13 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 	 */
 	protected void hideProgress() {
 		dismissDialog(0);
+	}
+	
+	public void onProbeResult(int apiVersion, Version xbmcVersion) {
+		
+		Log.i(TAG, "Found XBMC with API version " + apiVersion + ".");
+		Log.i(TAG, "Found XBMC at version " + xbmcVersion + ".");
+		hideProgress();
 	}
 
 	/**
