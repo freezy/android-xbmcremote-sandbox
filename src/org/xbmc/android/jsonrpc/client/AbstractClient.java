@@ -94,8 +94,8 @@ public abstract class AbstractClient {
 			
 			final HttpResponse resp = httpClient.execute(request);
 			final int status = resp.getStatusLine().getStatusCode();
-			if (status != HttpStatus.SC_OK && errorHandler != null) {
-				errorHandler.handleError(ErrorHandler.UNEXPECTED_SERVER_RESPONSE, "Unexpected server response " + resp.getStatusLine() + " for " + request.getRequestLine());
+			if (status != HttpStatus.SC_OK) {
+				handleError(errorHandler, ErrorHandler.UNEXPECTED_SERVER_RESPONSE, "Unexpected server response " + resp.getStatusLine() + " for " + request.getRequestLine());
 			} else {
 				input = resp.getEntity().getContent();
 				final BufferedReader reader = new BufferedReader(new InputStreamReader(input, "UTF-8"), 8192);
@@ -107,42 +107,30 @@ public abstract class AbstractClient {
 				
 				final JSONTokener tokener = new JSONTokener(sb.toString());
 				final JSONObject response = ((JSONObject)tokener.nextValue());
-				if (response.has("error") && errorHandler != null) {
-					errorHandler.handleError(ErrorHandler.API_ERROR, response.getJSONObject("error").getString("message"));
+				if (response.has("error")) {
+					handleError(errorHandler, ErrorHandler.API_ERROR, response.getJSONObject("error").getString("message"));
 				} else if (response.has("result")) {
 					return response.getJSONObject("result");
 				} else {
-					if (errorHandler != null) {
-						errorHandler.handleError(ErrorHandler.NO_RESULT_FOUND, "No 'result' element in JSON response.");
-					}
+					handleError(errorHandler, ErrorHandler.NO_RESULT_FOUND, "No 'result' element in JSON response.");
 					Log.e(TAG, "RESPONSE: " + sb.toString());
 				}
 			}
 		} catch (UnsupportedEncodingException e) {
 			Log.e(TAG, e.getMessage(), e);
-			if (errorHandler != null) {
-				errorHandler.handleError(ErrorHandler.UNSUPPORTED_ENCODING, e.getMessage());
-			}
+			handleError(errorHandler, ErrorHandler.UNSUPPORTED_ENCODING, e.getMessage());
 		} catch (IllegalStateException e) {
 			Log.e(TAG, e.getMessage(), e);
-			if (errorHandler != null) {
-				errorHandler.handleError(ErrorHandler.ILLEGAL_STATE, e.getMessage());
-			}
+			handleError(errorHandler, ErrorHandler.ILLEGAL_STATE, e.getMessage());
 		} catch (HttpHostConnectException e) {
 			Log.e(TAG, e.getMessage(), e);
-			if (errorHandler != null) {
-				errorHandler.handleError(ErrorHandler.HOST_CONNECTION, e.getMessage());
-			}
+			handleError(errorHandler, ErrorHandler.HOST_CONNECTION, e.getMessage());
 		} catch (IOException e) {
 			Log.e(TAG, e.getMessage(), e);
-			if (errorHandler != null) {
-				errorHandler.handleError(ErrorHandler.IO_EXCEPTION, e.getMessage());
-			}
+			handleError(errorHandler, ErrorHandler.IO_EXCEPTION, e.getMessage());
 		} catch (JSONException e) {
 			Log.e(TAG, e.getMessage(), e);
-			if (errorHandler != null) {
-				errorHandler.handleError(ErrorHandler.JSON_EXCEPTION, e.getMessage());
-			}
+			handleError(errorHandler, ErrorHandler.JSON_EXCEPTION, e.getMessage());
 		} finally {
 			if (input != null) {
 				try {
@@ -181,5 +169,17 @@ public abstract class AbstractClient {
 		 * @param message Error message in english. For translations, refer to the error code.
 		 */
 		void handleError(int code, String message);
+	}
+	
+	/**
+	 * Handles errors, even if the callback is null.
+	 * @param handler Error handler which can be null.
+	 * @param code
+	 * @param message
+	 */
+	protected void handleError(ErrorHandler handler, int code, String message) {
+		if (handler != null) {
+			handler.handleError(code, message);
+		}
 	}
 }

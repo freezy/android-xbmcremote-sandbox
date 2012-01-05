@@ -25,7 +25,6 @@ import java.util.ArrayList;
 
 import org.xbmc.android.account.Constants;
 import org.xbmc.android.jsonrpc.api.ApplicationAPI.Version;
-import org.xbmc.android.jsonrpc.client.AbstractClient;
 import org.xbmc.android.jsonrpc.client.ApplicationClient;
 import org.xbmc.android.jsonrpc.client.JsonRpcClient;
 import org.xbmc.android.remotesandbox.R;
@@ -84,6 +83,9 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 	private static final int STATE_ZEROCONF = 0x01;
 	
 	private int mCurrentState = STATE_ZEROCONF;
+	
+	private int mApiVersion = -1;
+	private Version mXbmcVersion = null;
 
 	/**
 	 * If set we are just checking that the user knows their credentials; this
@@ -248,29 +250,17 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 			 * From the zeroconf screen, probe XBMC.  
 			 */
 			case STATE_ZEROCONF: {
-				final XBMCHost host = (XBMCHost)mZeroconfSpinner.getSelectedItem();
 				mAuthThread = new Thread() {
 					@Override
 					public void run() {
+						final XBMCHost host = (XBMCHost)mZeroconfSpinner.getSelectedItem();
 						final JsonRpcClient jsonClient = new JsonRpcClient(host);
-						final int version = jsonClient.getVersion(new AbstractClient.ErrorHandler() {
-							@Override
-							public void handleError(int code, String message) {
-								Log.e(TAG, "Error getting API version (" + code + "): " + message);
-							}
-						});
-						Log.i(TAG, "Found XBMC with API version " + version + ".");
-						
 						final ApplicationClient appClient = new ApplicationClient(host);
-						final Version v = appClient.getVersion(new AbstractClient.ErrorHandler() {
-							@Override
-							public void handleError(int code, String message) {
-								Log.e(TAG, "Error getting XBMC version (" + code + "): " + message);
-							}
-						});
-						if (v != null) {
-							Log.i(TAG, "Found XBMC " + v.major + "." + v.minor + " " + v.tag + ", (" + v.revision + ")");
-						}
+						mApiVersion = jsonClient.getVersion(null);
+						mXbmcVersion = appClient.getVersion(null);
+						
+						Log.i(TAG, "Found XBMC with API version " + mApiVersion + ".");
+						Log.i(TAG, "Found XBMC at version " + mXbmcVersion + ".");
 						hideProgress();
 					}
 				};

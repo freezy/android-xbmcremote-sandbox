@@ -88,5 +88,9 @@ public class ApplicationAPI extends AbstractAPI {
 			this.revision = apiResponse.getString("revision");
 			this.tag = apiResponse.getString("tag");
 		}
+		@Override
+		public String toString() {
+			return major + "." + minor + " " + tag + ", (" + revision + ")";
+		}
 	}
 }

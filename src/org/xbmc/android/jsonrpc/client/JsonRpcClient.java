@@ -49,7 +49,7 @@ public class JsonRpcClient extends AbstractClient {
 	}
 	
 	/**
-	 * Returns the API version of XBMC's JSON-RPC implementatino.
+	 * Returns the API version of XBMC's JSON-RPC implementation.
 	 * 
 	 * @param errorHandler Error handler
 	 * @return API version or -1 on error.
@@ -70,7 +70,7 @@ public class JsonRpcClient extends AbstractClient {
 			}
 		} catch (JSONException e) {
 			Log.e(TAG, e.getMessage(), e);
-			errorHandler.handleError(ErrorHandler.JSON_EXCEPTION, e.getMessage());
+			
 		}
 		return -1;
 	}

@@ -68,9 +68,10 @@ public class ApplicationClient extends AbstractClient {
 			if (result != null) {
 				return new ApplicationAPI.Version(result.getJSONObject("version"));
 			}
+			
 		} catch (JSONException e) {
 			Log.e(TAG, e.getMessage(), e);
-			errorHandler.handleError(ErrorHandler.JSON_EXCEPTION, e.getMessage());
+			handleError(errorHandler, ErrorHandler.JSON_EXCEPTION, e.getMessage());
 		}
 		return null;
 	}
