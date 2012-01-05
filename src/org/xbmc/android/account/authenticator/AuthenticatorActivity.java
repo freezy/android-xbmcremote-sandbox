@@ -110,8 +110,8 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 		
 		Log.i(TAG, "onCreate(" + icicle + ")");
 		super.onCreate(icicle);
+		
 		mAccountManager = AccountManager.get(this);
-		Log.i(TAG, "loading data from Intent");
 		final Intent intent = getIntent();
 		mUsername = intent.getStringExtra(PARAM_USERNAME);
 		mAuthtokenType = intent.getStringExtra(PARAM_AUTHTOKEN_TYPE);
@@ -120,20 +120,24 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 
 		Log.i(TAG, "    request new: " + mRequestNewAccount);
 		requestWindowFeature(Window.FEATURE_LEFT_ICON);
-		setContentView(R.layout.activity_login);
-		getWindow().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, android.R.drawable.ic_dialog_alert);
+		setContentView(R.layout.activity_addaccount);
+		getWindow().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, android.R.drawable.ic_dialog_info);
 
+		// common views
+		mButtonNext = (Button)findViewById(R.id.addaccount_next_button);
+		mButtonPrev = (Button)findViewById(R.id.addaccount_prev_button);
+		
+		// zeroconf view
+		mDiscoverButton = (ImageButton) findViewById(R.id.addaccount_zeroconf_scan_button);
+		mProgressBar = (ProgressBar) findViewById(R.id.addaccount_zeroconf_progressbar);
+		mSpinner = (Spinner)findViewById(R.id.addaccount_zeroconf_spinner);
+		mSpinnerText = (TextView) findViewById(R.id.addaccount_zeroconf_spinnertext);
+		
+		// credentials view
 		mMessage = (TextView) findViewById(R.id.addaccount_credentials_text);
 		mUsernameEdit = (EditText) findViewById(R.id.username_edit);
 		mPasswordEdit = (EditText) findViewById(R.id.password_edit);
-		mDiscoverButton = (ImageButton) findViewById(R.id.addaccount_scan_button);
-		mProgressBar = (ProgressBar) findViewById(R.id.addaccount_progressbar);
-		mSpinner = (Spinner)findViewById(R.id.addaccount_hosts_list);
-		mSpinnerText = (TextView) findViewById(R.id.addaccount_spinnertext);
 		
-		mButtonNext = (Button)findViewById(R.id.addaccount_next_button);
-		mButtonPrev = (Button)findViewById(R.id.addaccount_prev_button);
-
 		mUsernameEdit.setText(mUsername);
 		mMessage.setText(getMessage());
 		
@@ -172,7 +176,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 			default:
 				break;
 		}
-		
 	}
 	
 	private class DiscoveredHostsAdapter extends ArrayAdapter<XBMCHost> implements SpinnerAdapter {
