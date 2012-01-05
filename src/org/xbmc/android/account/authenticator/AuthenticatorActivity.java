@@ -24,6 +24,10 @@ package org.xbmc.android.account.authenticator;
 import java.util.ArrayList;
 
 import org.xbmc.android.account.Constants;
+import org.xbmc.android.jsonrpc.api.ApplicationAPI.Version;
+import org.xbmc.android.jsonrpc.client.AbstractClient;
+import org.xbmc.android.jsonrpc.client.ApplicationClient;
+import org.xbmc.android.jsonrpc.client.JsonRpcClient;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.util.google.DetachableResultReceiver;
 import org.xbmc.android.zeroconf.DiscoveryService;
@@ -75,6 +79,11 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 	private String mAuthtokenType;
 	
 	private DetachableResultReceiver mReceiver;
+	
+	/* Those are the different states of the "wizard". */
+	private static final int STATE_ZEROCONF = 0x01;
+	
+	private int mCurrentState = STATE_ZEROCONF;
 
 	/**
 	 * If set we are just checking that the user knows their credentials; this
@@ -82,15 +91,14 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 	 */
 	private Boolean mConfirmCredentials = false;
 
-	/** for posting authentication attempts back to UI thread */
+	/** cache reference to views */
 	private TextView mMessage;
 	private String mPassword;
 	private EditText mPasswordEdit;
-	private ImageButton mDiscoverButton;
-	private ProgressBar mProgressBar;
-	private Spinner mSpinner;
-	private TextView mSpinnerText;
-	
+	private ImageButton mZeroconfDiscoverButton;
+	private ProgressBar mZeroconfProgressBar;
+	private Spinner mZeroconfSpinner;
+	private TextView mZeroconfSpinnerText;
 	private Button mButtonNext;
 	private Button mButtonPrev;
 
@@ -101,6 +109,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 	private EditText mUsernameEdit;
 	
 	private final ArrayList<XBMCHost> mDiscoveredHosts = new ArrayList<XBMCHost>();
+	
 
 	/**
 	 * {@inheritDoc}
@@ -128,16 +137,15 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 		mButtonPrev = (Button)findViewById(R.id.addaccount_prev_button);
 		
 		// zeroconf view
-		mDiscoverButton = (ImageButton) findViewById(R.id.addaccount_zeroconf_scan_button);
-		mProgressBar = (ProgressBar) findViewById(R.id.addaccount_zeroconf_progressbar);
-		mSpinner = (Spinner)findViewById(R.id.addaccount_zeroconf_spinner);
-		mSpinnerText = (TextView) findViewById(R.id.addaccount_zeroconf_spinnertext);
+		mZeroconfDiscoverButton = (ImageButton) findViewById(R.id.addaccount_zeroconf_scan_button);
+		mZeroconfProgressBar = (ProgressBar) findViewById(R.id.addaccount_zeroconf_progressbar);
+		mZeroconfSpinner = (Spinner)findViewById(R.id.addaccount_zeroconf_spinner);
+		mZeroconfSpinnerText = (TextView) findViewById(R.id.addaccount_zeroconf_spinnertext);
 		
 		// credentials view
 		mMessage = (TextView) findViewById(R.id.addaccount_credentials_text);
 		mUsernameEdit = (EditText) findViewById(R.id.username_edit);
 		mPasswordEdit = (EditText) findViewById(R.id.password_edit);
-		
 		mUsernameEdit.setText(mUsername);
 		mMessage.setText(getMessage());
 		
@@ -156,21 +164,21 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 				// only toggle views the first time
 				if (mDiscoveredHosts.isEmpty()) {
 					mButtonNext.setEnabled(true);
-					mSpinnerText.setVisibility(View.GONE);
-					mSpinner.setVisibility(View.VISIBLE);
+					mZeroconfSpinnerText.setVisibility(View.GONE);
+					mZeroconfSpinner.setVisibility(View.VISIBLE);
 				}
 				final XBMCHost host = (XBMCHost)resultData.getParcelable(DiscoveryService.EXTRA_HOST);
 				mDiscoveredHosts.add(host);
 				Log.i(TAG, "Received host data: " + host);
-				mSpinner.setAdapter(new DiscoveredHostsAdapter(this, mDiscoveredHosts));
+				mZeroconfSpinner.setAdapter(new DiscoveredHostsAdapter(this, mDiscoveredHosts));
 				break;
 				
 			case DiscoveryService.STATUS_FINISHED:
 				if (mDiscoveredHosts.isEmpty()) {
-					mSpinnerText.setText(R.string.addaccount_nothingfound);
+					mZeroconfSpinnerText.setText(R.string.addaccount_nothingfound);
 				} else {
-					mDiscoverButton.setVisibility(View.VISIBLE);
-					mProgressBar.setVisibility(View.GONE);
+					mZeroconfDiscoverButton.setVisibility(View.VISIBLE);
+					mZeroconfProgressBar.setVisibility(View.GONE);
 				}
 				break;
 			default:
@@ -211,7 +219,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		final ProgressDialog dialog = new ProgressDialog(this);
-		dialog.setMessage(getText(R.string.authenticator_progress));
+		dialog.setMessage(getText(R.string.addaccount_progress_checkingapiversion));
 		dialog.setIndeterminate(true);
 		dialog.setCancelable(true);
 		dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -224,6 +232,56 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 			}
 		});
 		return dialog;
+	}
+	
+	public void handlePrev(View view) {
+		switch (mCurrentState) {
+		case STATE_ZEROCONF:
+			
+			break;
+		}
+	}
+	
+	public void handleNext(View view) {
+		switch (mCurrentState) {
+			/*
+			 * From the zeroconf screen, probe XBMC.  
+			 */
+			case STATE_ZEROCONF: {
+				final XBMCHost host = (XBMCHost)mZeroconfSpinner.getSelectedItem();
+				mAuthThread = new Thread() {
+					@Override
+					public void run() {
+						final JsonRpcClient jsonClient = new JsonRpcClient(host);
+						final int version = jsonClient.getVersion(new AbstractClient.ErrorHandler() {
+							@Override
+							public void handleError(int code, String message) {
+								Log.e(TAG, "Error getting API version (" + code + "): " + message);
+							}
+						});
+						Log.i(TAG, "Found XBMC with API version " + version + ".");
+						
+						final ApplicationClient appClient = new ApplicationClient(host);
+						final Version v = appClient.getVersion(new AbstractClient.ErrorHandler() {
+							@Override
+							public void handleError(int code, String message) {
+								Log.e(TAG, "Error getting XBMC version (" + code + "): " + message);
+							}
+						});
+						if (v != null) {
+							Log.i(TAG, "Found XBMC " + v.major + "." + v.minor + " " + v.tag + ", (" + v.revision + ")");
+						}
+						hideProgress();
+					}
+				};
+				showProgress();
+				mAuthThread.start();
+				break;
+			}
+			
+			default:
+				break;
+		}
 	}
 
 	/**
@@ -248,15 +306,15 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 	}
 	
 	public void discoverHosts(View view) {
-		mDiscoverButton.setVisibility(View.INVISIBLE);
-		mProgressBar.setVisibility(View.VISIBLE);
+		mZeroconfDiscoverButton.setVisibility(View.INVISIBLE);
+		mZeroconfProgressBar.setVisibility(View.VISIBLE);
 		
-		mSpinnerText.setText(R.string.addaccount_scanning);
-		mSpinner.setAdapter(new DiscoveredHostsAdapter(this, new ArrayList<XBMCHost>(0)));
+		mZeroconfSpinnerText.setText(R.string.addaccount_scanning);
+		mZeroconfSpinner.setAdapter(new DiscoveredHostsAdapter(this, new ArrayList<XBMCHost>(0)));
 		mDiscoveredHosts.clear();
 		
-		mSpinner.setVisibility(View.INVISIBLE);
-		mSpinnerText.setVisibility(View.VISIBLE);
+		mZeroconfSpinner.setVisibility(View.INVISIBLE);
+		mZeroconfSpinnerText.setVisibility(View.VISIBLE);
 		
 		mButtonNext.setEnabled(false);
 		

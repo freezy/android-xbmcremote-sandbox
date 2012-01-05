@@ -42,7 +42,7 @@
         </activity>
         
 		<activity android:name="org.xbmc.android.account.authenticator.AuthenticatorActivity"
-            android:label="@string/authenticator_label"
+            android:label="@string/addaccount_authenticator_label"
             android:theme="@android:style/Theme.Dialog"
             android:excludeFromRecents="true" />
         

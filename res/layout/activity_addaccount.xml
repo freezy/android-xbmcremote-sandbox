@@ -97,7 +97,6 @@
 	    
       	</RelativeLayout>
 
-    	
   	<!-- CREDENTIALS -->
     <ScrollView android:id="@+id/addaccount_credentials" android:visibility="gone" 
         android:layout_width="fill_parent"
@@ -134,17 +133,17 @@
 				style="@style/AccountSetupButton"
 				android:id="@+id/addaccount_prev_button"
 				android:layout_alignParentLeft="true"
-				android:onClick="handleLogin"
 				android:text="@string/addaccount_prev_button" 
-				android:visibility="gone" />
+				android:visibility="gone"
+				android:onClick="handlePrev" />
 
 			<Button
 				style="@style/AccountSetupButton"
 				android:id="@+id/addaccount_next_button"
 				android:layout_alignParentRight="true"
-				android:onClick="handleLogin"
 				android:text="@string/addaccount_next_button" 
-				android:enabled="false" />
+				android:enabled="false"
+				android:onClick="handleNext" />
 		</RelativeLayout>
 	</FrameLayout>
 </LinearLayout>

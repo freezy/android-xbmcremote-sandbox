@@ -38,6 +38,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.xbmc.android.jsonrpc.service.AudioSyncService;
 import org.xbmc.android.util.google.HttpHelper;
+import org.xbmc.android.zeroconf.XBMCHost;
 
 import android.util.Log;
 
@@ -51,6 +52,26 @@ public abstract class AbstractClient {
 	
 	private final static String TAG = AbstractClient.class.getSimpleName();
 	
+	private final static String URL_SUFFIX = "/jsonrpc";
+	
+	private final XBMCHost mHost;
+	
+	/**
+	 * Empty constructor
+	 */
+	protected AbstractClient() {
+		mHost = null;
+	}
+	
+	/**
+	 * Sometimes we don't want the standard host to be used, but another one,
+	 * for example when we're adding a new account and probing for version.
+	 * @param host
+	 */
+	protected AbstractClient(XBMCHost host) {
+		mHost = host;
+	}
+	
 	/**
 	 * Synchronously posts the request object to XBMC's JSONRPC API and returns
 	 * the unserialized response as {@link JSONObject}.
@@ -62,7 +83,7 @@ public abstract class AbstractClient {
 	protected JSONObject execute(JSONObject entity, ErrorHandler errorHandler) {
 		
 		final HttpClient httpClient = HttpHelper.getHttpClient();
-		final HttpPost request = new HttpPost(AudioSyncService.URL);
+		final HttpPost request = new HttpPost(getUrl());
 		InputStream input = null;
 		
 		try {
@@ -130,6 +151,14 @@ public abstract class AbstractClient {
 			}
 		}
 		return null;
+	}
+	
+	private String getUrl() {
+		if (mHost == null) {
+			return AudioSyncService.URL;
+		} else {
+			return "http://" + mHost.getAddress() + ":" + mHost.getPort() + URL_SUFFIX;
+		}
 	}
 	
 	/**
