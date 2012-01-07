@@ -32,7 +32,7 @@ import android.os.Handler;
 /**
  * Provides helper threads for the add account procedure.
  * 
- * @author freezy <freezy@hosts.ch>
+ * @author freezy <freezy@xbmc.org>
  */
 public class NetworkUtilities {
 	

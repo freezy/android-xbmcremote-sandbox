@@ -56,6 +56,13 @@
             </intent-filter>
             <meta-data android:name="android.accounts.AccountAuthenticator" android:resource="@xml/authenticator" />
         </service>
+        <service android:name="org.xbmc.android.account.syncadapter.SyncService" android:exported="true" >
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+            <meta-data android:name="android.content.SyncAdapter" android:resource="@xml/syncadapter" />
+            <meta-data android:name="android.provider.CONTACTS_STRUCTURE" android:resource="@xml/contacts" />
+        </service>
         
 		<!-- Providers -->
 		<provider android:name="org.xbmc.android.jsonrpc.provider.AudioProvider" android:authorities="org.xbmc.android.jsonrpc" />

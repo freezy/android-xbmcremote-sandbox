@@ -19,33 +19,40 @@
  *
  */
 
-package org.xbmc.android.account;
+package org.xbmc.android.account.syncadapter;
+
+import android.app.Service;
+import android.content.Intent;
+import android.os.IBinder;
 
 /**
- * Account-related constants.
- * 
- * This will probably move somewhere else more central eventually.
+ * Service to handle Account sync. This is invoked with an intent with action
+ * ACTION_AUTHENTICATOR_INTENT. It instantiates the syncadapter and returns its
+ * IBinder.
  * 
  * @author freezy <freezy@xbmc.org>
  */
-public class Constants {
+public class SyncService extends Service {
+	private static final Object sSyncAdapterLock = new Object();
+	private static SyncAdapter sSyncAdapter = null;
 
-	/**
-	 * Minumal API level of XBMC's JSON-RPC API.
+	/*
+	 * {@inheritDoc}
 	 */
-	public static final int MIN_JSONRPC_API = 3;
-	
-	/**
-	 * Account type string.
-	 */
-	public static final String ACCOUNT_TYPE = "org.xbmc.android.remote";
+	@Override
+	public void onCreate() {
+		synchronized (sSyncAdapterLock) {
+			if (sSyncAdapter == null) {
+				sSyncAdapter = new SyncAdapter(getApplicationContext(), true);
+			}
+		}
+	}
 
-	/**
-	 * Authtoken type string.
+	/*
+	 * {@inheritDoc}
 	 */
-	public static final String AUTHTOKEN_TYPE = "org.xbmc.android.remote";
-	
-	public static final String DATA_ADDRESS = "org.xbmc.android.account.ADDRESS";
-	public static final String DATA_PORT = "org.xbmc.android.account.PORT";
-
+	@Override
+	public IBinder onBind(Intent intent) {
+		return sSyncAdapter.getSyncAdapterBinder();
+	}
 }
