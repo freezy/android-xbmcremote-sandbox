@@ -33,6 +33,7 @@ import android.os.IBinder;
  * @author freezy <freezy@xbmc.org>
  */
 public class SyncService extends Service {
+	
 	private static final Object sSyncAdapterLock = new Object();
 	private static SyncAdapter sSyncAdapter = null;
 

@@ -24,7 +24,6 @@
 
 <!-- The attributes in this XML file provide configuration information -->
 <!-- for the SyncAdapter. -->
-
 <sync-adapter xmlns:android="http://schemas.android.com/apk/res/android"
     android:contentAuthority="org.xbmc.android.jsonrp"
     android:accountType="org.xbmc.android.remote"
