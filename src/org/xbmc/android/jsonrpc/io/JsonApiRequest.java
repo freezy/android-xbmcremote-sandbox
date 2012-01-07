@@ -6,13 +6,12 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-import org.xbmc.android.jsonrpc.io.JsonHandler.HandlerException;
-
 import android.util.Log;
 
 /**
@@ -35,12 +34,12 @@ public class JsonApiRequest {
 	 * @return JSONObject of the JSON-RPC result.
 	 * @throws HandlerException
 	 */
-	public static JSONObject execute(String url, JSONObject entity) throws HandlerException {
+	public static JSONObject execute(String url, JSONObject entity) throws ApiException {
 		try {
 			String response = postRequest(new URL(url), entity.toString());
 			return parseResponse(response);
-		} catch (IOException e) {
-			throw new HandlerException("Error performing HTTP request.", e);
+		} catch(MalformedURLException e) {
+			throw new ApiException(ApiException.MALFORMED_URL, e.getMessage(), e);
 		}
 	}
 
@@ -53,49 +52,52 @@ public class JsonApiRequest {
 	 * @throws HandlerException
 	 * @throws IOException
 	 */
-	private static String postRequest(URL url, String entity) throws IOException {
-		final HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-
-		conn.setRequestMethod("POST");
-		conn.setRequestProperty("Content-Type", "application/json");
-		conn.setRequestProperty("User-Agent", buildUserAgent());
-
-		conn.setConnectTimeout(REQUEST_TIMEOUT);
-		conn.setReadTimeout(REQUEST_TIMEOUT);
-
-		conn.setDoOutput(true);
-
+	private static String postRequest(URL url, String entity) throws ApiException {
 		try {
-			OutputStreamWriter output = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
-			output.write(entity);
-			output.close();
-		} catch(UnsupportedEncodingException e) {
-			throw new HandlerException("Unable to convert request entity to UTF-8");
-		}
+			final HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 
-		Log.i(TAG, "POST request: " + conn.getURL());
-		Log.i(TAG, "POST entity:" + entity);
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Content-Type", "application/json");
+			conn.setRequestProperty("User-Agent", buildUserAgent());
 
-		StringBuilder response = new StringBuilder();
-		BufferedReader reader = null;
+			conn.setConnectTimeout(REQUEST_TIMEOUT);
+			conn.setReadTimeout(REQUEST_TIMEOUT);
 
-		try {
-			reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"), 8192);
-			String line;
-			while((line = reader.readLine()) != null) {
-				response.append(line);
+			conn.setDoOutput(true);
+
+			try {
+				OutputStreamWriter output = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
+				output.write(entity);
+				output.close();
+			} catch(UnsupportedEncodingException e) {
+				throw new ApiException(ApiException.UNSUPPORTED_ENCODING, "Unable to convert request to UTF-8", e);
 			}
-		} catch(UnsupportedEncodingException e) {
-			throw new HandlerException("Unable to covert HTTP response to UTF-8");
-		} finally {
-			if (reader != null) {
-				reader.close();
+
+			Log.i(TAG, "POST request: " + conn.getURL());
+			Log.i(TAG, "POST entity:" + entity);
+
+			StringBuilder response = new StringBuilder();
+			BufferedReader reader = null;
+
+			try {
+				reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"), 8192);
+				String line;
+				while((line = reader.readLine()) != null) {
+					response.append(line);
+				}
+			} catch(UnsupportedEncodingException e) {
+				throw new ApiException(ApiException.UNSUPPORTED_ENCODING, "Unable to covert HTTP response to UTF-8", e);
+			} finally {
+				if (reader != null) {
+					reader.close();
+				}
 			}
+
+			Log.i(TAG, "POST response: " + response.toString());
+			return response.toString();
+		} catch(IOException e) {
+			throw new ApiException(ApiException.IO_EXCEPTION, e.getMessage(), e);
 		}
-
-		Log.i(TAG, "POST response: " + response.toString());
-
-		return response.toString();
 	}
 
 	/**
@@ -108,7 +110,7 @@ public class JsonApiRequest {
 	 * @return JSONObject of the result contained in the response.
 	 * @throws HandlerException
 	 */
-	private static JSONObject parseResponse(String response) throws HandlerException {
+	private static JSONObject parseResponse(String response) throws ApiException {
 		try {
 			final JSONTokener tokener = new JSONTokener(response.toString());
 			final JSONObject obj = (JSONObject)tokener.nextValue();
@@ -117,17 +119,17 @@ public class JsonApiRequest {
 				final JSONObject error = obj.getJSONObject("error");
 				Log.e(TAG, "[JSON-RPC] " + error.getString("message"));
 				Log.e(TAG, "[JSON-RPC] " + response);
-				throw new HandlerException("Error " + error.getInt("code") + ": " + error.getString("message"));
+				throw new ApiException(ApiException.RESPONSE_ERROR, "Error " + error.getInt("code") + ": " + error.getString("message"), null);
 			}
 
 			if (!obj.has("result")) {
 				Log.e(TAG, "[JSON-RPC] " + response);
-				throw new HandlerException("Neither result nor error object found in response.");
+				throw new ApiException(ApiException.RESPONSE_ERROR, "Neither result nor error object found in response.", null);
 			}
 
 			return obj.getJSONObject("result");
 		} catch(JSONException e) {
-			throw new HandlerException("Problem parsing JSON response", e);
+			throw new ApiException(ApiException.JSON_EXCEPTION, "Neither result nor error object found in response.", e);
 		}
 	}
 

@@ -22,8 +22,8 @@
 package org.xbmc.android.jsonrpc.client;
 
 import org.json.JSONObject;
+import org.xbmc.android.jsonrpc.io.ApiException;
 import org.xbmc.android.jsonrpc.io.JsonApiRequest;
-import org.xbmc.android.jsonrpc.io.JsonHandler.HandlerException;
 import org.xbmc.android.jsonrpc.service.AudioSyncService;
 import org.xbmc.android.zeroconf.XBMCHost;
 
@@ -69,10 +69,10 @@ public abstract class AbstractClient {
 		JSONObject result = null;
 
 		try {
-			result = JsonApiRequest.execute(getUrl(), entity);
-		} catch(HandlerException e) {
+			result = JsonApiRequest.execute(AudioSyncService.URL, entity);
+		} catch(ApiException e) {
 			if (errorHandler != null) {
-				errorHandler.handleError(ErrorHandler.API_ERROR, e.getMessage());
+				errorHandler.handleError(e);
 			}
 		}
 
@@ -92,21 +92,12 @@ public abstract class AbstractClient {
 	 * executed on the UI thread.
 	 */
 	public interface ErrorHandler {
-		public final static int UNEXPECTED_SERVER_RESPONSE = 1000;
-		public final static int UNSUPPORTED_ENCODING = 1001;
-		public final static int ILLEGAL_STATE = 1002;
-		public final static int IO_EXCEPTION = 1003;
-		public final static int JSON_EXCEPTION = 1004;
-		public final static int API_ERROR = 1005;
-		public final static int NO_RESULT_FOUND = 1006;
-		public final static int HOST_CONNECTION = 1007;
-
 		/**
 		 * Implement your error logic here.
 		 * @param code Error code as defined above
 		 * @param message Error message in english. For translations, refer to the error code.
 		 */
-		void handleError(int code, String message);
+		void handleError(ApiException e);
 	}
 
 	/**
@@ -115,9 +106,9 @@ public abstract class AbstractClient {
 	 * @param code
 	 * @param message
 	 */
-	protected void handleError(ErrorHandler handler, int code, String message) {
+	protected void handleError(ErrorHandler handler, ApiException e) {
 		if (handler != null) {
-			handler.handleError(code, message);
+			handler.handleError(e);
 		}
 	}
 }

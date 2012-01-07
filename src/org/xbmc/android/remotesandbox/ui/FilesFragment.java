@@ -26,6 +26,7 @@ import java.util.List;
 import org.xbmc.android.jsonrpc.api.FilesAPI.File;
 import org.xbmc.android.jsonrpc.client.AbstractClient.ErrorHandler;
 import org.xbmc.android.jsonrpc.client.FilesClient;
+import org.xbmc.android.jsonrpc.io.ApiException;
 import org.xbmc.android.jsonrpc.service.AudioSyncService;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.util.ListLoader;
@@ -50,7 +51,7 @@ import android.widget.Toast;
 public class FilesFragment extends ListFragment implements LoaderManager.LoaderCallbacks<List<File>> {
 
 	private static final String TAG = FilesFragment.class.getSimpleName();
-	
+
 	public static final String EXTRA_PATH = "org.xbmc.android.extra.PATH";
 
 	// This is the Adapter being used to display the list's data.
@@ -82,7 +83,7 @@ public class FilesFragment extends ListFragment implements LoaderManager.LoaderC
 		// Create an empty adapter we will use to display the loaded data.
 		mAdapter = new SourceListAdapter(getActivity());
 		setListAdapter(mAdapter);
-		
+
 		mPath = getActivity().getIntent().getExtras().getString(EXTRA_PATH);
 
 		// Start out with a progress indicator.
@@ -119,12 +120,12 @@ public class FilesFragment extends ListFragment implements LoaderManager.LoaderC
 				final FilesClient filesClient = new FilesClient();
 				return filesClient.getDirectory(mPath, new ErrorHandler() {
 					@Override
-					public void handleError(int code, final String message) {
-						Log.e(TAG, "ERROR " + code + ": " + message);
+					public void handleError(final ApiException e) {
+						Log.e(TAG, "ERROR " + e.getCode() + ": " + e.getMessage());
 						h.post(new Runnable() {
 							@Override
 							public void run() {
-								Toast.makeText(getActivity(), "ERROR: " + message, Toast.LENGTH_LONG).show();
+								Toast.makeText(getActivity(), "ERROR: " + e.getMessage(), Toast.LENGTH_LONG).show();
 							}
 						});
 					}
@@ -139,7 +140,7 @@ public class FilesFragment extends ListFragment implements LoaderManager.LoaderC
 		if (!isVisible()) {
 			return;
 		}
-	
+
 		// Set the new data in the adapter.
 		mAdapter.setData(data);
 

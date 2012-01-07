@@ -26,8 +26,6 @@ import java.util.ArrayList;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xmlpull.v1.XmlPullParser;
-
 import android.content.ContentProvider;
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
@@ -67,7 +65,7 @@ public abstract class JsonHandler {
      * @param resolver Content resolver
      * @throws HandlerException Re-thrown errors
      */
-    public void applyResult(JSONObject result, ContentResolver resolver) throws HandlerException {
+    public void applyResult(JSONObject result, ContentResolver resolver) throws ApiException {
         try {
             final ArrayList<ContentProviderOperation> batch = parse(result, resolver);
             final long start = System.currentTimeMillis();
@@ -75,12 +73,8 @@ public abstract class JsonHandler {
             Log.i(TAG, "Starting to execute " + batch.size() + " batches..");
             resolver.applyBatch(mAuthority, batch);
             Log.i(TAG, "Execution done in " + (System.currentTimeMillis() - start) + "ms.");
-        } catch (HandlerException e) {
-            throw e;
         } catch (JSONException e) {
-            throw new HandlerException("Problem parsing JSON response", e);
-        } catch (IOException e) {
-            throw new HandlerException("Problem reading response", e);
+            throw new ApiException(ApiException.JSON_EXCEPTION, "Problem reading json", e);
         } catch (RemoteException e) {
             // Failed binder transactions aren't recoverable
             throw new RuntimeException("Problem applying batch operation", e);
@@ -104,32 +98,5 @@ public abstract class JsonHandler {
      * @throws JSONException
      * @throws IOException
      */
-    public abstract ArrayList<ContentProviderOperation> parse(JSONObject result, ContentResolver resolver)
-    		throws JSONException, IOException;
-
-    /**
-     * General {@link IOException} that indicates a problem occured while
-     * parsing or applying an {@link XmlPullParser}.
-     */
-    public static class HandlerException extends IOException {
-
-		public HandlerException(String message) {
-            super(message);
-        }
-
-        public HandlerException(String message, Throwable cause) {
-            super(message);
-            initCause(cause);
-        }
-
-        @Override
-        public String toString() {
-            if (getCause() != null) {
-                return getLocalizedMessage() + ": " + getCause();
-            } else {
-                return getLocalizedMessage();
-            }
-        }
-        private static final long serialVersionUID = 9183136825983873790L;
-    }
+    public abstract ArrayList<ContentProviderOperation> parse(JSONObject result, ContentResolver resolver) throws JSONException;
 }

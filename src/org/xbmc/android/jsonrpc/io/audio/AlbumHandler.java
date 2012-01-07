@@ -21,7 +21,6 @@
 
 package org.xbmc.android.jsonrpc.io.audio;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -41,11 +40,11 @@ import android.util.Log;
 /**
  * Handles one-way synchronization between XBMC's <tt>album</tt> table and the local
  * {@link Albums} table.
- * 
+ *
  * @author freezy <freezy@xbmc.org>
  */
 public class AlbumHandler extends JsonHandler {
-	
+
 	private final static String TAG = AlbumHandler.class.getSimpleName();
 
 	public AlbumHandler() {
@@ -53,15 +52,15 @@ public class AlbumHandler extends JsonHandler {
 	}
 
 	@Override
-	public ArrayList<ContentProviderOperation> parse(JSONObject result, ContentResolver resolver) 
-			throws JSONException, IOException {
-		
+	public ArrayList<ContentProviderOperation> parse(JSONObject result, ContentResolver resolver)
+			throws JSONException {
+
 		Log.d(TAG, "Building queries for album's drop and create.");
-		
+
 		final long now = System.currentTimeMillis();
 		final ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
 		final JSONArray albums = result.getJSONArray("albums");
-		
+
 		// first, delete all
 		batch.add(ContentProviderOperation.newDelete(Albums.CONTENT_URI).build());
 		for (int i = 0; i < albums.length(); i++) {
