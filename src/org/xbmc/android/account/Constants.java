@@ -47,5 +47,6 @@ public class Constants {
 	
 	public static final String DATA_ADDRESS = "org.xbmc.android.account.ADDRESS";
 	public static final String DATA_PORT = "org.xbmc.android.account.PORT";
+	
 
 }
