@@ -36,67 +36,67 @@ import android.util.Log;
 /**
  * Abstract class that handles reading and parsing an JSON-serialized API
  * response into a set of {@link ContentProviderOperation}. It catches
- * recoverable network exceptions and re-throws them as {@link HandlerException}.
+ * recoverable network exceptions and re-throws them as {@link HandlerException}. 
  * Any local {@link ContentProvider} exceptions are considered unrecoverable.
  * <p>
  * This class is only designed to handle simple one-way synchronization.
  * <p>
  * This class was closely inspired by Google's official iosched app, see
  * http://code.google.com/p/iosched/
- *
+ * 
  * @author freezy <freezy@xbmc.org>
  */
 public abstract class JsonHandler {
 
 	private static final String TAG = JsonHandler.class.getSimpleName();
 
-    private final String mAuthority;
+	private final String mAuthority;
 
-    public JsonHandler(String authority) {
-        mAuthority = authority;
-    }
+	public JsonHandler(String authority) {
+		mAuthority = authority;
+	}
 
 	/**
 	 * Parse the given HTTP response body, turning into a series of
 	 * {@link ContentProviderOperation} that are immediately applied using the
 	 * given {@link ContentResolver}.
-     *
-     * @param response HTTP response body
-     * @param resolver Content resolver
-     * @throws HandlerException Re-thrown errors
-     */
-    public void applyResult(JSONObject result, ContentResolver resolver) throws ApiException {
-        try {
-            final ArrayList<ContentProviderOperation> batch = parse(result, resolver);
-            final long start = System.currentTimeMillis();
+	 * 
+	 * @param response HTTP response body
+	 * @param resolver Content resolver
+	 * @throws HandlerException Re-thrown errors
+	 */
+	public void applyResult(JSONObject result, ContentResolver resolver) throws ApiException {
+		try {
+			final ArrayList<ContentProviderOperation> batch = parse(result, resolver);
+			final long start = System.currentTimeMillis();
 
-            Log.i(TAG, "Starting to execute " + batch.size() + " batches..");
-            resolver.applyBatch(mAuthority, batch);
-            Log.i(TAG, "Execution done in " + (System.currentTimeMillis() - start) + "ms.");
-        } catch (JSONException e) {
-            throw new ApiException(ApiException.JSON_EXCEPTION, "Problem reading json", e);
-        } catch (RemoteException e) {
-            // Failed binder transactions aren't recoverable
-            throw new RuntimeException("Problem applying batch operation", e);
-        } catch (OperationApplicationException e) {
-            // Failures like constraint violation aren't recoverable
-            // TODO: write unit tests to exercise full provider
-            // TODO: consider catching version checking asserts here, and then
-            // wrapping around to retry parsing again.
-            throw new RuntimeException("Problem applying batch operation", e);
-        }
-    }
+			Log.i(TAG, "Starting to execute " + batch.size() + " batches..");
+			resolver.applyBatch(mAuthority, batch);
+			Log.i(TAG, "Execution done in " + (System.currentTimeMillis() - start) + "ms.");
+		} catch (JSONException e) {
+			throw new ApiException(ApiException.JSON_EXCEPTION, "Problem reading json", e);
+		} catch (RemoteException e) {
+			// Failed binder transactions aren't recoverable
+			throw new RuntimeException("Problem applying batch operation", e);
+		} catch (OperationApplicationException e) {
+			// Failures like constraint violation aren't recoverable
+			// TODO: consider catching version checking asserts here, and then
+			// wrapping around to retry parsing again.
+			throw new RuntimeException("Problem applying batch operation", e);
+		}
+	}
 
-    /**
+	/**
 	 * Parse the HTTP body's de-serialized {@link JSONObject}, returning a set
 	 * of {@link ContentProviderOperation} that will bring the
 	 * {@link ContentProvider} into sync with the parsed data.
-     *
-     * @param result HTTP body de-serialized
-     * @param resolver Content resolver
-     * @return
-     * @throws JSONException
-     * @throws IOException
-     */
-    public abstract ArrayList<ContentProviderOperation> parse(JSONObject result, ContentResolver resolver) throws JSONException;
+	 * 
+	 * @param result HTTP body de-serialized
+	 * @param resolver Content resolver
+	 * @return
+	 * @throws JSONException
+	 * @throws IOException
+	 */
+	public abstract ArrayList<ContentProviderOperation> parse(JSONObject result, ContentResolver resolver)
+			throws JSONException;
 }

@@ -7,6 +7,7 @@ public class ApiException extends Exception {
 	public static int UNSUPPORTED_ENCODING = 1002;
 	public static int JSON_EXCEPTION = 1003;
 	public static int RESPONSE_ERROR = 1004;
+	public static int API_ERROR = 1005;
 
 	private int code;
 

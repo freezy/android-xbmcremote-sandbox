@@ -86,7 +86,7 @@ public class JsonApiRequest {
 					response.append(line);
 				}
 			} catch(UnsupportedEncodingException e) {
-				throw new ApiException(ApiException.UNSUPPORTED_ENCODING, "Unable to covert HTTP response to UTF-8", e);
+				throw new ApiException(ApiException.UNSUPPORTED_ENCODING, "Unable to convert HTTP response to UTF-8", e);
 			} finally {
 				if (reader != null) {
 					reader.close();
@@ -119,7 +119,7 @@ public class JsonApiRequest {
 				final JSONObject error = obj.getJSONObject("error");
 				Log.e(TAG, "[JSON-RPC] " + error.getString("message"));
 				Log.e(TAG, "[JSON-RPC] " + response);
-				throw new ApiException(ApiException.RESPONSE_ERROR, "Error " + error.getInt("code") + ": " + error.getString("message"), null);
+				throw new ApiException(ApiException.API_ERROR, "Error " + error.getInt("code") + ": " + error.getString("message"), null);
 			}
 
 			if (!obj.has("result")) {

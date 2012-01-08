@@ -32,6 +32,7 @@ import org.xbmc.android.zeroconf.XBMCHost;
  * inclusively error handling.
  *
  * @author freezy <freezy@xbmc.org>
+ * @author Joel Stemmer <stemmertech@gmail.com>
  */
 public abstract class AbstractClient {
 
@@ -69,18 +70,27 @@ public abstract class AbstractClient {
 		JSONObject result = null;
 
 		try {
-			result = JsonApiRequest.execute(AudioSyncService.URL, entity);
-		} catch(ApiException e) {
-			if (errorHandler != null) {
-				errorHandler.handleError(e);
-			}
+			result = JsonApiRequest.execute(getUrl(), entity);
+		} catch (ApiException e) {
+			handleError(errorHandler, e);
 		}
 
 		return result;
 	}
 
+	/**
+	 * Returns the URL of XBMC to connect to.
+	 * 
+	 * The URL already contains the JSON-RPC prefix, e.g.:
+	 * 		<code>http://192.168.0.100:8080/jsonrpc</code>
+	 * <p/>
+	 * If the client was instantiated with an explicit host, it trumps the current
+	 * host settings.
+	 * @return
+	 */
 	private String getUrl() {
 		if (mHost == null) {
+			// FIXME this should read the URL from the currently selected account.
 			return AudioSyncService.URL;
 		} else {
 			return "http://" + mHost.getAddress() + ":" + mHost.getPort() + URL_SUFFIX;

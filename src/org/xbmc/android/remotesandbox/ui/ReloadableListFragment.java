@@ -45,6 +45,5 @@ abstract class ReloadableListFragment extends ListFragment {
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.refresh_menu_items, menu);
-
 	}
 }
