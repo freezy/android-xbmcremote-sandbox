@@ -36,6 +36,7 @@ import org.xbmc.android.jsonrpc.provider.AudioContract.SyncColumns;
 
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.util.Log;
 
 /**
@@ -73,6 +74,29 @@ public class AlbumHandler extends JsonHandler {
 			builder.withValue(Albums.PREFIX + Artists.ID, album.getString(AudioLibraryAPI.AlbumFields.ARTISTID));
 			builder.withValue(Albums.YEAR, album.getString(AudioLibraryAPI.AlbumFields.YEAR));
 			batch.add(builder.build());
+		}
+		return batch;
+	}
+
+	@Override
+	public ContentValues[] newParse(JSONObject result, ContentResolver resolver)
+			throws JSONException, IOException {
+		Log.d(TAG, "Building queries for album's drop and create.");
+		
+		final long now = System.currentTimeMillis();
+		final JSONArray albums = result.getJSONArray("albums");
+		
+		final ContentValues[] batch = new ContentValues[albums.length()];
+		
+		
+		for (int i = 0; i < albums.length(); i++) {
+			final JSONObject album = albums.getJSONObject(i);
+			batch[i] = new ContentValues();
+			batch[i].put(SyncColumns.UPDATED, now);
+			batch[i].put(Albums.ID, album.getString("albumid"));
+			batch[i].put(Albums.TITLE, album.getString(AudioLibraryAPI.AlbumFields.TITLE));
+			batch[i].put(Albums.PREFIX + Artists.ID, album.getString(AudioLibraryAPI.AlbumFields.ARTISTID));
+			batch[i].put(Albums.YEAR, album.getString(AudioLibraryAPI.AlbumFields.YEAR));
 		}
 		return batch;
 	}

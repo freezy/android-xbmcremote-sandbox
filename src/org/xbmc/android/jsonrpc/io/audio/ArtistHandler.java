@@ -27,13 +27,16 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xbmc.android.jsonrpc.api.AudioLibraryAPI;
 import org.xbmc.android.jsonrpc.io.JsonHandler;
 import org.xbmc.android.jsonrpc.provider.AudioContract;
+import org.xbmc.android.jsonrpc.provider.AudioContract.Albums;
 import org.xbmc.android.jsonrpc.provider.AudioContract.Artists;
 import org.xbmc.android.jsonrpc.provider.AudioContract.SyncColumns;
 
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.util.Log;
 
 /**
@@ -70,6 +73,27 @@ public class ArtistHandler extends JsonHandler {
 			builder.withValue(Artists.ID, artist.getString("artistid"));
 			builder.withValue(Artists.NAME, artist.getString("artist"));
 			batch.add(builder.build());
+		}
+		return batch;
+	}
+
+	@Override
+	public ContentValues[] newParse(JSONObject result, ContentResolver resolver)
+			throws JSONException, IOException {
+		Log.d(TAG, "Building queries for artist's drop and create.");
+		
+		final long now = System.currentTimeMillis();
+		final JSONArray artists = result.getJSONArray("artists");
+		
+		final ContentValues[] batch = new ContentValues[artists.length()];
+		
+		
+		for (int i = 0; i < artists.length(); i++) {
+			final JSONObject artist = artists.getJSONObject(i);
+			batch[i] = new ContentValues();
+			batch[i].put(SyncColumns.UPDATED, now);
+			batch[i].put(Artists.ID, artist.getString("artistid"));
+			batch[i].put(Artists.NAME, artist.getString("artist"));
 		}
 		return batch;
 	}

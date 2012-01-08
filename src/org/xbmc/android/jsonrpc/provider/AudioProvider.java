@@ -24,8 +24,13 @@ package org.xbmc.android.jsonrpc.provider;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.json.JSONObject;
+import org.xbmc.android.jsonrpc.api.AudioLibraryAPI;
 import org.xbmc.android.jsonrpc.provider.AudioContract.Albums;
+import org.xbmc.android.jsonrpc.provider.AudioContract.AlbumsColumns;
 import org.xbmc.android.jsonrpc.provider.AudioContract.Artists;
+import org.xbmc.android.jsonrpc.provider.AudioContract.ArtistsColumns;
+import org.xbmc.android.jsonrpc.provider.AudioContract.SyncColumns;
 import org.xbmc.android.jsonrpc.provider.AudioDatabase.Tables;
 import org.xbmc.android.jsonrpc.service.AudioSyncService;
 import org.xbmc.android.util.google.SelectionBuilder;
@@ -40,7 +45,9 @@ import android.content.OperationApplicationException;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.net.Uri;
+import android.provider.BaseColumns;
 import android.util.Log;
 
 /**
@@ -259,4 +266,84 @@ public class AudioProvider extends ContentProvider {
                 + Artists.ID + ")";
     }
 
+        
+    @Override
+    public int bulkInsert(Uri uri, ContentValues[] values) {
+    	final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+    	final int match = sUriMatcher.match(uri);
+    	switch(match){
+    	case ALBUMS:{
+                    int numInserted= 0;
+    		db.beginTransaction();
+    		try {
+    			//delete all rows in table
+    			db.delete("albums", null, null);
+    			
+    			//insert new rows into table    			
+                //standard SQL insert statement, that can be reused
+    			SQLiteStatement insert = 
+    				db.compileStatement("insert into " + "albums"
+    						+ "("  
+    						+ SyncColumns.UPDATED
+    						+ "," + AlbumsColumns.ID 
+    						+ "," + AlbumsColumns.TITLE
+    						+ "," + AlbumsColumns.PREFIX + Artists.ID    						 
+    						+ "," + AlbumsColumns.YEAR + ")"
+    						+" values " + "(?,?,?,?,?)");
+    			
+    			
+    			final long now = System.currentTimeMillis();
+    			for (ContentValues value : values){
+                    insert.bindLong(1, now);
+    				insert.bindString(2, value.getAsString(Albums.ID));
+    				insert.bindString(3, value.getAsString(Albums.TITLE));
+    				insert.bindString(4, value.getAsString(Albums.PREFIX + Artists.ID));
+    				insert.bindString(5, value.getAsString(Albums.YEAR));
+    				insert.executeInsert();
+    			}
+    			db.setTransactionSuccessful();
+                numInserted = values.length;
+                
+    		} finally {
+    			db.endTransaction();
+    			getContext().getContentResolver().notifyChange(uri, null);
+    		}
+    		return numInserted;
+    	}
+    case ARTISTS:{
+        int numInserted= 0;
+db.beginTransaction();
+try {
+	//delete all rows in table
+	db.delete("artists", null, null);
+	//insert new rows into table		
+    //standard SQL insert statement, that can be reused
+	SQLiteStatement insert = 
+		db.compileStatement("insert into " + "artists"
+				+ "(" 
+				+ SyncColumns.UPDATED
+				+ "," + ArtistsColumns.ID 
+				+ "," + ArtistsColumns.NAME + ")"
+				+" values " + "(?,?,?)");
+	
+	
+	final long now = System.currentTimeMillis();
+	for (ContentValues value : values){
+		insert.bindLong(1, (now));
+		insert.bindString(2, value.getAsString(Artists.ID));
+		insert.bindString(3, value.getAsString(Artists.NAME));
+		insert.executeInsert();
+	}
+	db.setTransactionSuccessful();
+    numInserted = values.length;
+} finally {
+	db.endTransaction();
+	getContext().getContentResolver().notifyChange(uri, null);
+}
+return numInserted;
+}	
+    	default:
+    		throw new UnsupportedOperationException("unsupported uri: " + uri);
+    	}}
+    	
 }

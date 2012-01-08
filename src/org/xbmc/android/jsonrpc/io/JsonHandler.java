@@ -27,11 +27,14 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.xbmc.android.jsonrpc.provider.AudioContract.Albums;
+import org.xbmc.android.jsonrpc.provider.AudioContract.Artists;
 import org.xmlpull.v1.XmlPullParser;
 
 import android.content.ContentProvider;
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
 import android.util.Log;
@@ -70,8 +73,7 @@ public abstract class JsonHandler {
      */
     public void parseAndApply(StringBuilder response, ContentResolver resolver) throws HandlerException {
         try {
-        	
-			final JSONTokener tokener = new JSONTokener(response.toString());
+        	final JSONTokener tokener = new JSONTokener(response.toString());
 			final JSONObject responseObj = (JSONObject)tokener.nextValue();
 			if (responseObj.has("error")) {
 				final JSONObject error = responseObj.getJSONObject("error");
@@ -85,10 +87,23 @@ public abstract class JsonHandler {
 			}
 			final JSONObject result = responseObj.getJSONObject("result");
         	
-            final ArrayList<ContentProviderOperation> batch = parse(result, resolver);
+            //final ArrayList<ContentProviderOperation> batch = parse(result, resolver);
             final long start = System.currentTimeMillis();
-            Log.i(TAG, "Starting to execute " + batch.size() + " batches..");
-            resolver.applyBatch(mAuthority, batch);
+            //Log.i(TAG, "Starting to execute " + batch.size() + " batches..");
+            //resolver.applyBatch(mAuthority, batch);
+            //currently apply batch which deletes all albums and then adds again. can improve this using bulk insert.
+            final ContentValues [] newBatch = newParse(result, resolver);
+            Log.i(TAG, "Starting to execute " + newBatch.length + " batches..");
+            //resolver.delete(Artists.CONTENT_URI, null,null);
+            if(result.has("artists")){
+        		Log.d(TAG, "@@@@@@@@@@artists");
+        		resolver.bulkInsert(Artists.CONTENT_URI, newBatch);
+        	}else if(result.has("albums")){
+        		Log.d(TAG, "@@@@@@@@@@albums");
+        		resolver.bulkInsert(Albums.CONTENT_URI, newBatch);
+        	}
+            
+            //resolver.notifyChange(Artists.CONTENT_URI, observer);
             Log.i(TAG, "Execution done in " + (System.currentTimeMillis() - start) + "ms.");
 
         } catch (HandlerException e) {
@@ -97,15 +112,6 @@ public abstract class JsonHandler {
             throw new HandlerException("Problem parsing JSON response", e);
         } catch (IOException e) {
             throw new HandlerException("Problem reading response", e);
-        } catch (RemoteException e) {
-            // Failed binder transactions aren't recoverable
-            throw new RuntimeException("Problem applying batch operation", e);
-        } catch (OperationApplicationException e) {
-            // Failures like constraint violation aren't recoverable
-            // TODO: write unit tests to exercise full provider
-            // TODO: consider catching version checking asserts here, and then
-            // wrapping around to retry parsing again.
-            throw new RuntimeException("Problem applying batch operation", e);
         }
     }
 
@@ -123,6 +129,7 @@ public abstract class JsonHandler {
     public abstract ArrayList<ContentProviderOperation> parse(JSONObject result, ContentResolver resolver) 
     		throws JSONException, IOException; 
 
+    public abstract ContentValues[] newParse(JSONObject result, ContentResolver resolver)throws JSONException, IOException; 
     /**
      * General {@link IOException} that indicates a problem occured while
      * parsing or applying an {@link XmlPullParser}.

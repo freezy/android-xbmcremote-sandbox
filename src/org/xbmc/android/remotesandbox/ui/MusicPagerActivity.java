@@ -51,7 +51,7 @@ public class MusicPagerActivity extends BaseFragmentTabsActivity {
 		if (mSyncStatusUpdaterFragment == null) {
 			mSyncStatusUpdaterFragment = new SyncStatusUpdaterFragment(mRefreshObservers);
 			fm.beginTransaction().add(mSyncStatusUpdaterFragment, SyncStatusUpdaterFragment.TAG).commit();
-			// triggerRefresh();
+			triggerRefresh();
 		} else {
 			mSyncStatusUpdaterFragment.setRefreshObservers(mRefreshObservers);
 		}
