@@ -68,15 +68,15 @@ public abstract class JsonHandler {
 		try {
 			final long start = System.currentTimeMillis();
 
-            final ContentValues [] newBatch = parse(result, resolver);
-            Log.i(TAG, "Starting to execute " + newBatch.length + " batches..");
-            
-            if(result.has("artists")){
-        		resolver.bulkInsert(Artists.CONTENT_URI, newBatch);
-        	}else if(result.has("albums")){
-        		resolver.bulkInsert(Albums.CONTENT_URI, newBatch);
-        	}
-            
+			final ContentValues[] newBatch = parse(result, resolver);
+			Log.i(TAG, "Starting to execute " + newBatch.length + " batches..");
+
+			if (result.has("artists")) {
+				resolver.bulkInsert(Artists.CONTENT_URI, newBatch);
+			} else if (result.has("albums")) {
+				resolver.bulkInsert(Albums.CONTENT_URI, newBatch);
+			}
+
 			Log.i(TAG, "Execution done in " + (System.currentTimeMillis() - start) + "ms.");
 		} catch (JSONException e) {
 			throw new ApiException(ApiException.JSON_EXCEPTION, "Problem reading json", e);

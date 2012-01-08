@@ -21,8 +21,6 @@
 
 package org.xbmc.android.jsonrpc.io.audio;
 
-import java.util.ArrayList;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,7 +31,6 @@ import org.xbmc.android.jsonrpc.provider.AudioContract.Albums;
 import org.xbmc.android.jsonrpc.provider.AudioContract.Artists;
 import org.xbmc.android.jsonrpc.provider.AudioContract.SyncColumns;
 
-import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.util.Log;
@@ -51,8 +48,6 @@ public class AlbumHandler extends JsonHandler {
 	public AlbumHandler() {
 		super(AudioContract.CONTENT_AUTHORITY);
 	}
-
-	
 
 	@Override
 	public ContentValues[] parse(JSONObject result, ContentResolver resolver)
