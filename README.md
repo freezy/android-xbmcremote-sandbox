@@ -30,8 +30,8 @@ There are a few things I'd like to have working until we start integrating the c
 * Implement the file browse tab which will *not* query the database but XBMC directly - of course not *everything* is fetched via the local database.
 * Make action bar buttons dynamic depending on selected page (e.g. there should be no refresh button when the file browse page is selected).
 * Create a layout that looks good on Honeycomb. See also [Blog article here](http://android-developers.blogspot.com/2011/09/preparing-for-handsets.html) and [here](http://android-developers.blogspot.com/2011/04/customizing-action-bar.html).
-* Figure out a faster way to manage updates. Right now, everything is re-inserted, with a `ON CONFLICT REPLACE` constraint on the ID. Importing 1.200 artists and 500 albums takes about 10 seconds. Seems pretty slow to me.
-* Switch to `HttpURLConnection` instead of Apache client. See also [Blog article here](http://android-developers.blogspot.com/2011/09/androids-http-clients.html).
+* <del>Figure out a faster way to manage updates. Right now, everything is re-inserted, with a `ON CONFLICT REPLACE` constraint on the ID. Importing 1.200 artists and 500 albums takes about 10 seconds. Seems pretty slow to me.</del>
+* <del>Switch to `HttpURLConnection` instead of Apache client. See also [Blog article here](http://android-developers.blogspot.com/2011/09/androids-http-clients.html).</del>
 * Move as much layout stuff as possible to styles.
 * Add sorting to lists.
 * Use AccountManager for managing XBMC instances. See also [Blog article here](http://www.c99.org/2010/01/23/writing-an-android-sync-provider-part-1/).
