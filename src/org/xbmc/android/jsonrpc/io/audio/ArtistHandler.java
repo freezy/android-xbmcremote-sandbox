@@ -53,32 +53,10 @@ public class ArtistHandler extends JsonHandler {
 		super(AudioContract.CONTENT_AUTHORITY);
 	}
 
-	@Override
-	public ArrayList<ContentProviderOperation> parse(JSONObject result, ContentResolver resolver) 
-			throws JSONException, IOException {
-		
-		Log.d(TAG, "Building queries for artist's drop and create.");
-		
-		final long now = System.currentTimeMillis();
-		final ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
-		final JSONArray artists = result.getJSONArray("artists");
-		
-		// first, delete all
-		batch.add(ContentProviderOperation.newDelete(Artists.CONTENT_URI).build());
-//		for (int i = 0; i < 50; i++) {
-		for (int i = 0; i < artists.length(); i++) {
-			final JSONObject artist = artists.getJSONObject(i);
-			final ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(Artists.CONTENT_URI);
-			builder.withValue(SyncColumns.UPDATED, now);
-			builder.withValue(Artists.ID, artist.getString("artistid"));
-			builder.withValue(Artists.NAME, artist.getString("artist"));
-			batch.add(builder.build());
-		}
-		return batch;
-	}
+	
 
 	@Override
-	public ContentValues[] newParse(JSONObject result, ContentResolver resolver)
+	public ContentValues[] parse(JSONObject result, ContentResolver resolver)
 			throws JSONException, IOException {
 		Log.d(TAG, "Building queries for artist's drop and create.");
 		

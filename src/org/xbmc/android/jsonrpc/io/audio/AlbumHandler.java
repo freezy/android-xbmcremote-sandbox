@@ -53,33 +53,10 @@ public class AlbumHandler extends JsonHandler {
 		super(AudioContract.CONTENT_AUTHORITY);
 	}
 
-	@Override
-	public ArrayList<ContentProviderOperation> parse(JSONObject result, ContentResolver resolver) 
-			throws JSONException, IOException {
-		
-		Log.d(TAG, "Building queries for album's drop and create.");
-		
-		final long now = System.currentTimeMillis();
-		final ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
-		final JSONArray albums = result.getJSONArray("albums");
-		
-		// first, delete all
-		batch.add(ContentProviderOperation.newDelete(Albums.CONTENT_URI).build());
-		for (int i = 0; i < albums.length(); i++) {
-			final JSONObject album = albums.getJSONObject(i);
-			final ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(Albums.CONTENT_URI);
-			builder.withValue(SyncColumns.UPDATED, now);
-			builder.withValue(Albums.ID, album.getString("albumid"));
-			builder.withValue(Albums.TITLE, album.getString(AudioLibraryAPI.AlbumFields.TITLE));
-			builder.withValue(Albums.PREFIX + Artists.ID, album.getString(AudioLibraryAPI.AlbumFields.ARTISTID));
-			builder.withValue(Albums.YEAR, album.getString(AudioLibraryAPI.AlbumFields.YEAR));
-			batch.add(builder.build());
-		}
-		return batch;
-	}
+	
 
 	@Override
-	public ContentValues[] newParse(JSONObject result, ContentResolver resolver)
+	public ContentValues[] parse(JSONObject result, ContentResolver resolver)
 			throws JSONException, IOException {
 		Log.d(TAG, "Building queries for album's drop and create.");
 		

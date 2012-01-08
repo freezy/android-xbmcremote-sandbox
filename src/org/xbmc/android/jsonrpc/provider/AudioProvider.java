@@ -44,6 +44,7 @@ import android.content.Context;
 import android.content.OperationApplicationException;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.net.Uri;
@@ -266,7 +267,7 @@ public class AudioProvider extends ContentProvider {
                 + Artists.ID + ")";
     }
 
-        
+    
     @Override
     public int bulkInsert(Uri uri, ContentValues[] values) {
     	final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
@@ -344,6 +345,8 @@ return numInserted;
 }	
     	default:
     		throw new UnsupportedOperationException("unsupported uri: " + uri);
-    	}}
+    	}
+    	}
+ 
     	
 }
