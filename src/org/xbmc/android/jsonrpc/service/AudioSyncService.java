@@ -45,7 +45,7 @@ import android.util.Log;
  */
 public class AudioSyncService extends IntentService {
 
-	public static final String URL = "http://192.168.1.6:8081/jsonrpc";
+	public static final String URL = "http://192.168.0.100:8080/jsonrpc";
 	
 	private static final String TAG = AudioSyncService.class.getSimpleName();
 

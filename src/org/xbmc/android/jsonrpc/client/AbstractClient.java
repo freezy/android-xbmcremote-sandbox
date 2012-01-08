@@ -68,7 +68,6 @@ public abstract class AbstractClient {
 	 */
 	protected JSONObject execute(JSONObject entity, ErrorHandler errorHandler) {
 		JSONObject result = null;
-
 		try {
 			result = JsonApiRequest.execute(getUrl(), entity);
 		} catch (ApiException e) {
