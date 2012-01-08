@@ -21,17 +21,19 @@
 
 package org.xbmc.android.remotesandbox.ui;
 
-import android.support.v4.app.Fragment;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.remotesandbox.R.id;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class HomeActivity extends BaseActivity {
-
+	
+	private final static String TAG = HomeActivity.class.getSimpleName();
+	
 	private final FragmentManager mFragementManager = getSupportFragmentManager();
 
 	@Override
@@ -40,6 +42,13 @@ public class HomeActivity extends BaseActivity {
 
 		setContentView(R.layout.activity_home);
 		getActivityHelper().setupActionBar(null, 0);
+		
+/*		final AccountManager am = AccountManager.get(this);
+		final Account[] accounts = am.getAccountsByType(Constants.ACCOUNT_TYPE);
+		for (Account account : accounts) {
+			Log.e(TAG, "Address: " + am.getUserData(account, Constants.DATA_ADDRESS));
+			Log.e(TAG, "Port: " + am.getUserData(account, Constants.DATA_PORT));
+		}*/
 
 	}
 

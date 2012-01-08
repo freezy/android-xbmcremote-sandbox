@@ -24,24 +24,22 @@
     android:background="@android:color/white"
     style="@style/ListItemContainer">
     
-    <!-- TODO: swap out with better star drawable when disabled -->
-    <ImageView android:id="@+id/item_indicator"
-        android:layout_gravity="top|right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/indicator_starred"
-        android:visibility="gone" />
         
+    <!-- TODO: swap out with better star drawable when disabled -->
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         style="@style/ListItemContent">
         
+	    <ImageView android:id="@+id/item_icon"
+            android:layout_alignParentLeft="true"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" />
+        
         <TextView android:id="@+id/item_title"
         	style="@style/ListItemTitle"
         	android:text="Primary Title"
-            android:layout_toLeftOf="@id/item_indicator"
-            android:layout_alignParentLeft="true"
+            android:layout_toRightOf="@id/item_icon"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
             
@@ -49,8 +47,8 @@
         	style="@style/ListItemSubtitle"
         	android:text="Secondary Title"
             android:layout_below="@id/item_title"
-            android:layout_toLeftOf="@id/item_indicator"
-            android:layout_alignParentLeft="true"
+            android:layout_toRightOf="@id/item_icon"
+            android:layout_alignLeft="@id/item_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
             

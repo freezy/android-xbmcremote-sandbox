@@ -77,20 +77,21 @@ public class AudioSyncService extends IntentService {
 		Log.d(TAG, "Starting onHandleIntent(intent=" + intent.toString() + ")...");
 
 		final ResultReceiver receiver = intent.getParcelableExtra(EXTRA_STATUS_RECEIVER);
-		if (receiver != null)
+		if (receiver != null) {
 			receiver.send(STATUS_RUNNING, Bundle.EMPTY);
+		}
 
 		try {
 			final long startRemote = System.currentTimeMillis();
 			final AudioLibraryAPI audiolib = new AudioLibraryAPI();
 
-			final String[] albumFields = { 
-					AudioLibraryAPI.AlbumFields.TITLE, 
+			final String[] albumFields = {
+					AudioLibraryAPI.AlbumFields.TITLE,
 					AudioLibraryAPI.AlbumFields.ARTISTID,
 					AudioLibraryAPI.AlbumFields.YEAR };
 
-			mRemoteExecutor.executePost(URL, audiolib.getArtists(false, null), new ArtistHandler());
-			mRemoteExecutor.executePost(URL, audiolib.getAlbums(null, null, albumFields), new AlbumHandler());
+			mRemoteExecutor.execute(AudioSyncService.URL, audiolib.getArtists(false, null), new ArtistHandler());
+			mRemoteExecutor.execute(AudioSyncService.URL, audiolib.getAlbums(null, null, albumFields), new AlbumHandler());
 
 			Log.i(TAG, "All done, remote sync took " + (System.currentTimeMillis() - startRemote) + "ms.");
 
@@ -109,7 +110,7 @@ public class AudioSyncService extends IntentService {
 		if (receiver != null) {
 			receiver.send(STATUS_FINISHED, Bundle.EMPTY);
 		}
-		
+
 		Log.d(TAG, "Sync finished!");
 		Log.d(TAG, "onHandleIntent() done in " + (System.currentTimeMillis() - start) + "ms.");
 	}
@@ -117,5 +118,5 @@ public class AudioSyncService extends IntentService {
 	public interface RefreshObserver {
 		public void onRefreshed();
 	}
-	
+
 }

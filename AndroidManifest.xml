@@ -2,41 +2,76 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="org.xbmc.android.remotesandbox" android:versionCode="1"
 	android:versionName="1.0">
+	
+	<!-- Compatibility -->
 	<uses-sdk android:minSdkVersion="7" android:targetSdkVersion="11" />
+	
+	<!-- Permissions -->
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+	<uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+	<uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
+	
 	<application 
 		android:icon="@drawable/icon" 
 		android:label="@string/app_name"
 		android:theme="@style/Theme.XBMCRemote"
-        android:hardwareAccelerated="true">
-        
+		android:hardwareAccelerated="true">
+		
+		<!-- Activities -->
 		<activity 
 			android:name=".ui.HomeActivity"
 			android:theme="@style/Theme.XBMCRemote.Home"
 			android:label="@string/app_name">
 			<intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
 		</activity>
 		
 		<activity
-            android:name="org.xbmc.android.remotesandbox.ui.MusicPagerActivity"
-            android:label="@string/title_music">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.TAB" />
-                <data android:mimeType="vnd.android.cursor.dir/vnd.xbmc.album" />
-            </intent-filter>
-        </activity>
-                    
+			android:name="org.xbmc.android.remotesandbox.ui.MusicPagerActivity"
+			android:label="@string/title_music">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.TAB" />
+				<data android:mimeType="vnd.android.cursor.dir/vnd.xbmc.album" />
+			</intent-filter>
+		</activity>
+		
+		<activity android:name="org.xbmc.android.account.authenticator.AuthenticatorActivity"
+			android:label="@string/addaccount_authenticator_label"
+			android:theme="@android:style/Theme.Dialog"
+			android:excludeFromRecents="true">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		
+		<!-- Services -->
 		<service android:name="org.xbmc.android.jsonrpc.service.AudioSyncService" />
-		<provider android:name="org.xbmc.android.jsonrpc.provider.AudioProvider"
-			android:authorities="org.xbmc.android.jsonrpc" />
+		<service android:name="org.xbmc.android.zeroconf.DiscoveryService" />
+		<service android:name="org.xbmc.android.account.authenticator.AuthenticationService" android:exported="true" >
+			<intent-filter>
+				<action android:name="android.accounts.AccountAuthenticator" />
+			</intent-filter>
+			<meta-data android:name="android.accounts.AccountAuthenticator" android:resource="@xml/authenticator" />
+		</service>
+		
+		<service android:name="org.xbmc.android.account.syncadapter.SyncService" android:exported="true" >
+			<intent-filter>
+				<action android:name="android.content.SyncAdapter" />
+			</intent-filter>
+			<meta-data android:name="android.content.SyncAdapter" android:resource="@xml/syncadapter" />
+			<meta-data android:name="android.provider.CONTACTS_STRUCTURE" android:resource="@xml/contacts" />
+		</service>
+		
+		<!-- Providers -->
+		<provider android:name="org.xbmc.android.jsonrpc.provider.AudioProvider" android:authorities="org.xbmc.android.jsonrpc" />
+		
 	</application>
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	
-	<uses-permission android:name="android.permission.READ_CONTACTS" />
-	
 </manifest>

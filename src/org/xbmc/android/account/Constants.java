@@ -19,31 +19,34 @@
  *
  */
 
-package org.xbmc.android.remotesandbox.ui;
-
-import android.os.Bundle;
-import android.support.v4.app.ListFragment;
-import android.view.Menu;
-import android.view.MenuInflater;
-import org.xbmc.android.remotesandbox.R;
+package org.xbmc.android.account;
 
 /**
- * Abstract Superclass for reloadable Lists. provides the options menu reload
- * button.
+ * Account-related constants.
  * 
- * TODO: Click handling if action does not handle it.
+ * This will probably move somewhere else more central eventually.
+ * 
+ * @author freezy <freezy@xbmc.org>
  */
-abstract class ReloadableListFragment extends ListFragment {
+public class Constants {
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
-	}
+	/**
+	 * Minumal API level of XBMC's JSON-RPC API.
+	 */
+	public static final int MIN_JSONRPC_API = 3;
+	
+	/**
+	 * Account type string.
+	 */
+	public static final String ACCOUNT_TYPE = "org.xbmc.android.remote";
 
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.refresh_menu_items, menu);
-	}
+	/**
+	 * Authtoken type string.
+	 */
+	public static final String AUTHTOKEN_TYPE = "org.xbmc.android.remote";
+	
+	public static final String DATA_ADDRESS = "org.xbmc.android.account.ADDRESS";
+	public static final String DATA_PORT = "org.xbmc.android.account.PORT";
+	
+
 }

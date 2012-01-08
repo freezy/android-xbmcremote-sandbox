@@ -26,6 +26,7 @@ import java.util.List;
 import org.xbmc.android.jsonrpc.api.FilesAPI.Source;
 import org.xbmc.android.jsonrpc.client.AbstractClient.ErrorHandler;
 import org.xbmc.android.jsonrpc.client.FilesClient;
+import org.xbmc.android.jsonrpc.io.ApiException;
 import org.xbmc.android.jsonrpc.service.AudioSyncService;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.util.ListLoader;
@@ -115,12 +116,12 @@ public class SourcesFragment extends ListFragment implements LoaderManager.Loade
 				final FilesClient filesClient = new FilesClient();
 				return filesClient.getMusicSources(new ErrorHandler() {
 					@Override
-					public void handleError(int code, final String message) {
-						Log.e(TAG, "ERROR " + code + ": " + message);
+					public void handleError(final ApiException e) {
+						Log.e(TAG, "ERROR " + e.getCode() + ": " + e.getMessage());
 						h.post(new Runnable() {
 							@Override
 							public void run() {
-								Toast.makeText(getActivity(), "ERROR: " + message, Toast.LENGTH_LONG).show();
+								Toast.makeText(getActivity(), "ERROR: " + e.getMessage(), Toast.LENGTH_LONG).show();
 							}
 						});
 					}
@@ -135,7 +136,7 @@ public class SourcesFragment extends ListFragment implements LoaderManager.Loade
 		if (!isVisible()) {
 			return;
 		}
-	
+
 		// Set the new data in the adapter.
 		mAdapter.setData(data);
 

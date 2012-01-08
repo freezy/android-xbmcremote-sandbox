@@ -19,31 +19,41 @@
  *
  */
 
-package org.xbmc.android.remotesandbox.ui;
+package org.xbmc.android.account.syncadapter;
 
-import android.os.Bundle;
-import android.support.v4.app.ListFragment;
-import android.view.Menu;
-import android.view.MenuInflater;
-import org.xbmc.android.remotesandbox.R;
+import android.app.Service;
+import android.content.Intent;
+import android.os.IBinder;
 
 /**
- * Abstract Superclass for reloadable Lists. provides the options menu reload
- * button.
+ * Service to handle Account sync. This is invoked with an intent with action
+ * ACTION_AUTHENTICATOR_INTENT. It instantiates the syncadapter and returns its
+ * IBinder.
  * 
- * TODO: Click handling if action does not handle it.
+ * @author freezy <freezy@xbmc.org>
  */
-abstract class ReloadableListFragment extends ListFragment {
+public class SyncService extends Service {
+	
+	private static final Object sSyncAdapterLock = new Object();
+	private static SyncAdapter sSyncAdapter = null;
 
+	/*
+	 * {@inheritDoc}
+	 */
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
+	public void onCreate() {
+		synchronized (sSyncAdapterLock) {
+			if (sSyncAdapter == null) {
+				sSyncAdapter = new SyncAdapter(getApplicationContext(), true);
+			}
+		}
 	}
 
+	/*
+	 * {@inheritDoc}
+	 */
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.refresh_menu_items, menu);
+	public IBinder onBind(Intent intent) {
+		return sSyncAdapter.getSyncAdapterBinder();
 	}
 }
