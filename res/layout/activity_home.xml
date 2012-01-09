@@ -4,13 +4,11 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <include layout="@layout/actionbar" />
-
     <fragment
         android:id="@+id/fragment_dashboard"
         android:name="org.xbmc.android.remotesandbox.ui.phone.DashboardFragment"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="0dp"
         android:layout_weight="1" >
     </fragment>
 
