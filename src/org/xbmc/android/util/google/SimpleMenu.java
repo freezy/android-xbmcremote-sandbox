@@ -27,11 +27,11 @@ import android.view.SubMenu;
 
 import java.util.ArrayList;
 
-
 /**
- * A <em>really</em> dumb implementation of the {@link Menu} interface, that's only useful for our
- * old-actionbar purposes. See <code>com.android.internal.view.menu.MenuBuilder</code> in AOSP for
- * a more complete implementation.
+ * A <em>really</em> dumb implementation of the {@link android.view.Menu} interface, that's only
+ * useful for our actionbar-compat purposes. See
+ * <code>com.android.internal.view.menu.MenuBuilder</code> in AOSP for a more complete
+ * implementation.
  */
 public class SimpleMenu implements Menu {
 

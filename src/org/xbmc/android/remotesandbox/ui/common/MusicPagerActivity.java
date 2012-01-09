@@ -92,7 +92,7 @@ public class MusicPagerActivity extends BaseFragmentTabsActivity {
 		final long start = System.currentTimeMillis();
 		Log.d(TAG, "Starting updateRefreshStatus()...");
 
-		getActivityHelper().setRefreshActionButtonCompatState(refreshing);
+		//getActivityHelper().setRefreshActionButtonCompatState(refreshing);
 		Log.d(TAG, "updateRefreshStatus() done in " + (System.currentTimeMillis() - start) + "ms.");
 	}
 

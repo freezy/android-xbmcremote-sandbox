@@ -27,6 +27,7 @@ import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.remotesandbox.ui.common.MusicPagerActivity;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -75,17 +76,17 @@ public class DashboardFragment extends Fragment {
 
 			public void onItemClick(AdapterView<?> listView, View v, int position, long ID) {
 				HomeItem item = (HomeItem)listView.getAdapter().getItem(position);
-				Intent intent = null;
+				final Intent intent = new Intent();
 				switch (item.ID) {
 					case HOME_ACTION_REMOTE:
 					case HOME_ACTION_MUSIC:
 					case HOME_ACTION_VIDEOS:
-						intent = new Intent(v.getContext(), MusicPagerActivity.class);
+						intent.setClass(getActivity(), MusicPagerActivity.class);
 						break;
+					default:
+						return;
 				}
-				if (intent != null) {
-					getActivity().startActivity(intent);
-				}
+				startActivity(intent);
 			}
 			
 		};

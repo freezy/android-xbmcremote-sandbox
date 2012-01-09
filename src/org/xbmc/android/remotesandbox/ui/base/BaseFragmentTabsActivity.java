@@ -46,7 +46,7 @@ import android.widget.TextView;
  * {@link com.google.android.apps.iosched.ui.BaseSinglePaneActivity#onCreatePane()}
  * .
  */
-public abstract class BaseFragmentTabsActivity extends BaseActivity {
+public abstract class BaseFragmentTabsActivity extends ActionBarActivity {
 	
 	private TabHost mTabHost;
 	private TabWidget mTabWidget;
@@ -72,10 +72,10 @@ public abstract class BaseFragmentTabsActivity extends BaseActivity {
 		mTabHost.setup();
 		mTabsAdapter = new TabsAdapter(this, mTabHost, mViewPager);
 		
-		getActivityHelper().setupActionBar(getTitle(), 0);
+		//getActivityHelper().setupActionBar(getTitle(), 0);
 
 		final String customTitle = getIntent().getStringExtra(Intent.EXTRA_TITLE);
-		getActivityHelper().setActionBarTitle(customTitle != null ? customTitle : getTitle());
+		//getActivityHelper().setActionBarTitle(customTitle != null ? customTitle : getTitle());
 
 		if (savedInstanceState == null) {
 			onCreateTabs();

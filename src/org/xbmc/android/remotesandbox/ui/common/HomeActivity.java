@@ -23,7 +23,7 @@ package org.xbmc.android.remotesandbox.ui.common;
 
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.remotesandbox.R.id;
-import org.xbmc.android.remotesandbox.ui.base.BaseActivity;
+import org.xbmc.android.remotesandbox.ui.base.ActionBarActivity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,7 +31,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class HomeActivity extends BaseActivity {
+public class HomeActivity extends ActionBarActivity {
 	
 	private final static String TAG = HomeActivity.class.getSimpleName();
 	
@@ -42,7 +42,7 @@ public class HomeActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_home);
-		getActivityHelper().setupActionBar(null, 0);
+		//getActivityHelper().setupActionBar(null, 0);
 		
 /*		final AccountManager am = AccountManager.get(this);
 		final Account[] accounts = am.getAccountsByType(Constants.ACCOUNT_TYPE);
@@ -56,7 +56,7 @@ public class HomeActivity extends BaseActivity {
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		getActivityHelper().setupHomeActivity();
+		//getActivityHelper().setupHomeActivity();
 	}
 
 	@Override

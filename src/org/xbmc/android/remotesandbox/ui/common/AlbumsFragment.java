@@ -33,6 +33,8 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -82,6 +84,13 @@ public class AlbumsFragment extends ReloadableListFragment implements LoaderMana
 		getLoaderManager().initLoader(0, null, this);
 	}
 
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		// TODO Auto-generated method stub
+		super.onCreateOptionsMenu(menu, inflater);
+	}
+	
+	
 	public boolean onQueryTextChange(String newText) {
 		// Called when the action bar search text has changed. Update
 		// the search filter, and restart the loader to do a new query
