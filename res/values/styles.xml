@@ -103,6 +103,7 @@
     <!-- Style for the home button in the actionbar (left icon) ON THE HOME PAGE -->
     <style name="ActionBarCompatHomeItemHome" parent="style/ActionBarCompatItemBase">
         <item name="android:paddingLeft">@dimen/body_padding_medium</item>
+        <item name="android:paddingRight">@dimen/body_padding_medium</item>
         <item name="android:src">@drawable/actionbar_logo</item>
     </style>
     
