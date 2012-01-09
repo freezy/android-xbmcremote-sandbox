@@ -190,7 +190,11 @@ public class ActionBarHelperBase extends ActionBarHelper {
         if (itemId == R.id.menu_refresh) {
             actionButton.setId(R.id.actionbar_compat_item_refresh);
         }
-        actionButton.setImageDrawable(item.getIcon());
+        
+        // added [freezy]: only set home icon if it's not already set by a style.
+        if (itemId == android.R.id.home && actionButton.getDrawable() == null) {
+        	actionButton.setImageDrawable(item.getIcon());
+        }
         actionButton.setScaleType(ImageView.ScaleType.CENTER);
         actionButton.setContentDescription(item.getTitle());
         actionButton.setOnClickListener(new View.OnClickListener() {

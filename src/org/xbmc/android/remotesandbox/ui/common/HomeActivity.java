@@ -22,26 +22,23 @@
 package org.xbmc.android.remotesandbox.ui.common;
 
 import org.xbmc.android.remotesandbox.R;
-import org.xbmc.android.remotesandbox.R.id;
 import org.xbmc.android.remotesandbox.ui.base.ActionBarActivity;
+import org.xbmc.android.remotesandbox.ui.base.ActionBarHelper;
+import org.xbmc.android.remotesandbox.ui.base.ActionBarHelperBase;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class HomeActivity extends ActionBarActivity {
 	
-	private final static String TAG = HomeActivity.class.getSimpleName();
+//	private final static String TAG = HomeActivity.class.getSimpleName();
 	
-	private final FragmentManager mFragementManager = getSupportFragmentManager();
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
-		//getActivityHelper().setupActionBar(null, 0);
+		setTitle(null);
 		
 /*		final AccountManager am = AccountManager.get(this);
 		final Account[] accounts = am.getAccountsByType(Constants.ACCOUNT_TYPE);
@@ -50,21 +47,6 @@ public class HomeActivity extends ActionBarActivity {
 			Log.e(TAG, "Port: " + am.getUserData(account, Constants.DATA_PORT));
 		}*/
 
-	}
-
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		//getActivityHelper().setupHomeActivity();
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		Fragment fragment = mFragementManager.findFragmentById(id.fragment_dashboard);
-		if (fragment != null) {
-			mFragementManager.beginTransaction().remove(fragment).commit();
-		}
 	}
 
 	@Override

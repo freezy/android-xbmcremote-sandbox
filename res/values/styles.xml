@@ -40,8 +40,10 @@
     <!-- Special style for the home screen (has different icon) -->
     <style name="Theme.XBMCRemote.Home" parent="style/Theme.XBMCRemote">
         <item name="android:windowBackground">@drawable/bg_gradient_light</item>
+        <item name="actionbarCompatItemHomeStyle">@style/ActionBarCompatHomeItemHome</item>
     </style>
 
+    
     <!-- ######################################################################## -->
     <!-- # ACTION BAR                                                           # -->
     <!-- ######################################################################## -->
@@ -89,12 +91,19 @@
         <item name="android:shadowRadius">0.00001</item>
     </style>
 
-    <!-- Style for non-homescreen action buttons in the actionbar -->
+    <!-- Style for action buttons in the actionbar (right icons) -->
     <style name="ActionBarCompatItem" parent="style/ActionBarCompatItemBase">
     </style>
 
-    <!-- Style for homescreen action buttons in the actionbar -->
+    <!-- Style for the home button in the actionbar (left icon) -->
     <style name="ActionBarCompatHomeItem" parent="style/ActionBarCompatItemBase">
+        <item name="android:src">@drawable/icon</item>
+    </style>
+    
+    <!-- Style for the home button in the actionbar (left icon) ON THE HOME PAGE -->
+    <style name="ActionBarCompatHomeItemHome" parent="style/ActionBarCompatItemBase">
+        <item name="android:paddingLeft">@dimen/body_padding_medium</item>
+        <item name="android:src">@drawable/actionbar_logo</item>
     </style>
     
     
@@ -139,7 +148,12 @@
 		<item name="android:layout_marginLeft">@dimen/dashboardbox_padding</item>
 		<item name="android:layout_centerVertical">true</item>
     </style>
-
+    
+    
+    <!-- ######################################################################## -->
+    <!-- # LISTS                                                                # -->
+    <!-- ######################################################################## -->
+    
     <style name="ListItemTitle">
         <item name="android:layout_marginLeft">5dp</item>
         <item name="android:textStyle">bold</item>
@@ -175,6 +189,12 @@
         <item name="android:paddingBottom">8dp</item>
     </style>
 
+    
+        
+    <!-- ######################################################################## -->
+    <!-- # ACCOUNT SETUP                                                        # -->
+    <!-- ######################################################################## -->
+    
     <style name="AccountSetupContainer">
     	<item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>

@@ -24,7 +24,7 @@
     
     <dimen name="actionbar_compat_height">48dp</dimen> <!-- before: 45dp -->
     <dimen name="actionbar_compat_button_width">48dp</dimen>
-    <dimen name="actionbar_compat_button_home_width">56dp</dimen>    
+    <dimen name="actionbar_compat_button_home_width">-2px</dimen>     <!-- -2 = wrap_content -->
     
     <dimen name="whats_on_height">70dp</dimen>
     <dimen name="whats_on_item_padding">10dp</dimen>

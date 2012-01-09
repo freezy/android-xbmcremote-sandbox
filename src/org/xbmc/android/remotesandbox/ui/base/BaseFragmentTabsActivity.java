@@ -27,7 +27,6 @@ import org.xbmc.android.jsonrpc.service.AudioSyncService.RefreshObserver;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.util.google.TabsAdapter;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -70,7 +69,7 @@ public abstract class BaseFragmentTabsActivity extends ActionBarActivity {
 		mViewPager = (ViewPager) findViewById(R.id.tab_pager);
 
 		mTabHost.setup();
-		mTabsAdapter = null;//new TabsAdapter(this, mTabHost, mViewPager);
+		mTabsAdapter = new TabsAdapter(this, mTabHost, mViewPager);
 		
 		//getActivityHelper().setupActionBar(getTitle(), 0);
 

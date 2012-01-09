@@ -27,12 +27,12 @@ import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.remotesandbox.ui.common.MusicPagerActivity;
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +48,7 @@ public class DashboardFragment extends Fragment {
 	private static final int HOME_ACTION_REMOTE = 0;
 	private static final int HOME_ACTION_MUSIC = 1;
 	private static final int HOME_ACTION_VIDEOS = 2;
-
+	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,36 +62,35 @@ public class DashboardFragment extends Fragment {
 		
 		final ArrayList<HomeItem> homeItems = new ArrayList<HomeItem>();
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-		if (prefs.getBoolean("setting_show_home_music", true))
+		
+		if (prefs.getBoolean("setting_show_home_music", true)) {
 			homeItems.add(new HomeItem(HOME_ACTION_MUSIC, R.drawable.home_ic_music, "Music", "Listen to"));
+		}
 		
 		menuGrid.setAdapter(new HomeAdapter(getActivity(), homeItems));
-		menuGrid.setOnItemClickListener(getHomeMenuOnClickListener());
+		menuGrid.setOnItemClickListener(mHomeMenuOnClickListener);
 		menuGrid.setSelected(true);
-		menuGrid.setSelection(0);		
+		menuGrid.setSelection(0);
 	}
 	
-	private OnItemClickListener getHomeMenuOnClickListener() {
-		return new OnItemClickListener() {
-
-			public void onItemClick(AdapterView<?> listView, View v, int position, long ID) {
-				HomeItem item = (HomeItem)listView.getAdapter().getItem(position);
-				final Intent intent = new Intent();
-				switch (item.ID) {
-					case HOME_ACTION_REMOTE:
-					case HOME_ACTION_MUSIC:
-					case HOME_ACTION_VIDEOS:
-						intent.setClass(getActivity(), MusicPagerActivity.class);
-						break;
-					default:
-						return;
-				}
-				startActivity(intent);
+	private final OnItemClickListener mHomeMenuOnClickListener = new OnItemClickListener() {
+		@Override
+		public void onItemClick(AdapterView<?> listView, View v, int position, long ID) {
+			HomeItem item = (HomeItem) listView.getAdapter().getItem(position);
+			final Intent intent = new Intent();
+			switch (item.ID) {
+				case HOME_ACTION_REMOTE:
+				case HOME_ACTION_MUSIC:
+				case HOME_ACTION_VIDEOS:
+					intent.setClass(v.getContext(), MusicPagerActivity.class);
+					break;
+				default:
+					return;
 			}
-			
-		};
-	}
-	
+			startActivity(intent);
+		}
+	};
+
 	private class HomeAdapter extends ArrayAdapter<HomeItem> {
 		private Activity mActivity;
 		HomeAdapter(Activity activity, ArrayList<HomeItem> items) {

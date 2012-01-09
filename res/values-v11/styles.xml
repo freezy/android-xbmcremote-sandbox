@@ -38,11 +38,11 @@
         <item name="android:textColor">@color/actionbar_title_color</item>
         <item name="android:background">@drawable/bg_gradient_dark_horizontal</item>
         <item name="android:titleTextStyle">@style/ActionBarTitle</item>
-        <item name="android:icon">@drawable/ic_home</item>
+        <item name="android:icon">@drawable/icon</item>
     </style>
     
     <style name="ActionBarHome" parent="style/ActionBar">
-        <item name="android:logo">@drawable/actionbar_compat_logo</item>
+        <item name="android:logo">@drawable/actionbar_logo</item>
     </style>
     
     <style name="ActionBarTitle" parent="android:style/TextAppearance.Holo.Widget.ActionBar.Title">
