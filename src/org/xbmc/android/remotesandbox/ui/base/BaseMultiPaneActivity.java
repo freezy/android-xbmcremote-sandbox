@@ -37,9 +37,9 @@ import android.support.v4.app.FragmentTransaction;
  * fragments for activities when intents are fired using
  * {@link BaseActivity#openActivityOrFragment(android.content.Intent)}.
  */
-public abstract class BaseMultiPaneActivity extends BaseActivity {
+public abstract class BaseMultiPaneActivity extends ActionBarActivity {
     /** {@inheritDoc} */
-    @Override
+/*    @Override
     public void openActivityOrFragment(final Intent intent) {
         final PackageManager pm = getPackageManager();
         List<ResolveInfo> resolveInfoList = pm
@@ -70,7 +70,7 @@ public abstract class BaseMultiPaneActivity extends BaseActivity {
             }
         }
         super.openActivityOrFragment(intent);
-    }
+    }*/
 
     /**
      * Callback that's triggered to find out if a fragment can substitute the given activity class.

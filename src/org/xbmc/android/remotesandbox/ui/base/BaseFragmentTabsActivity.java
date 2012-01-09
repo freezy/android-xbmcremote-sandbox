@@ -70,11 +70,11 @@ public abstract class BaseFragmentTabsActivity extends ActionBarActivity {
 		mViewPager = (ViewPager) findViewById(R.id.tab_pager);
 
 		mTabHost.setup();
-		mTabsAdapter = new TabsAdapter(this, mTabHost, mViewPager);
+		mTabsAdapter = null;//new TabsAdapter(this, mTabHost, mViewPager);
 		
 		//getActivityHelper().setupActionBar(getTitle(), 0);
 
-		final String customTitle = getIntent().getStringExtra(Intent.EXTRA_TITLE);
+		//final String customTitle = getIntent().getStringExtra(Intent.EXTRA_TITLE);
 		//getActivityHelper().setActionBarTitle(customTitle != null ? customTitle : getTitle());
 
 		if (savedInstanceState == null) {

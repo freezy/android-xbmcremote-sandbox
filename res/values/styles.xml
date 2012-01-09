@@ -19,10 +19,11 @@
   -->
 
 <resources>
+    
     <!-- Base application theme is the default theme. -->
     <style name="Theme" parent="android:style/Theme" />
 
-    <!-- Variation on the Light theme that turns off the title -->
+    <!-- Our global style for all screens -->
     <style name="Theme.XBMCRemote" parent="android:style/Theme.Light">
     	
         <item name="android:windowTitleSize">@dimen/actionbar_compat_height</item>
@@ -34,27 +35,14 @@
         <item name="actionbarCompatItemStyle">@style/ActionBarCompatItem</item>
         <item name="actionbarCompatItemHomeStyle">@style/ActionBarCompatHomeItem</item>
         <item name="actionbarCompatProgressIndicatorStyle">@style/ActionBarCompatProgressIndicator</item>
-            	
-    	
-        <item name="android:windowNoTitle">true</item>
-
-        <!-- custom attributes -->
-        <item name="textHeaderMaxLines">@integer/text_header_max_lines</item>
-        <item name="trackAbstractMaxLines">@integer/track_abstract_max_lines</item>
-
-        <!-- for programmatic instantiation -->
-        <item name="actionbarCompatButtonStyle">@style/ActionBarCompatButton</item>
-        <item name="actionbarCompatSeparatorStyle">@style/ActionBarCompatSeparator</item>
-        <item name="actionbarCompatLogoStyle">@style/ActionBarCompatLogo</item>
-        <item name="actionbarCompatTextStyle">@style/ActionBarCompatText</item>
     </style>
 
-    <!-- Start with the Holographic Light theme -->
+    <!-- Special style for the home screen (has different icon) -->
     <style name="Theme.XBMCRemote.Home" parent="style/Theme.XBMCRemote">
         <item name="android:windowBackground">@drawable/bg_gradient_light</item>
     </style>
 
-    <!--  start new action bar styles  -->
+    <!-- Style of the actionbar -->
     <style name="ActionBarCompat">
         <item name="android:id">@id/actionbar_compat</item>
         <item name="android:layout_width">fill_parent</item>
@@ -63,83 +51,48 @@
         <item name="android:background">@drawable/bg_gradient_dark_horizontal</item>
     </style>
 
-
+    <!-- Base style for the action buttons in the actionbar -->
     <style name="ActionBarCompatItemBase">
         <!-- layout_width/height must be set in code -->
         <item name="android:scaleType">center</item>
         <item name="android:background">@drawable/actionbar_compat_item</item>
     </style>
 
+    <!-- Style of the action bar's progress indicator -->
     <style name="ActionBarCompatProgressIndicator" parent="android:style/Widget.ProgressBar.Large">
         <item name="android:indeterminate">true</item>
     </style>
 
+    <!-- Actionbar title -->
     <style name="ActionBarCompatTitleBase">
         <item name="android:id">@id/actionbar_compat_title</item>
         <!-- layout_width/height/weight must be set in code -->
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:paddingLeft">6dp</item>
-        <item name="android:paddingRight">6dp</item>
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">marquee</item>
     </style>
 
+    <!-- Actionbar title -->
     <style name="ActionBarCompatTitle" parent="style/ActionBarCompatTitleBase">
-        <item name="android:textColor">@color/actionbar_title_color</item>
-    </style>
-
-    <style name="ActionBarCompatItem" parent="style/ActionBarCompatItemBase">
-    </style>
-
-    <style name="ActionBarCompatHomeItem" parent="style/ActionBarCompatItemBase">
-    </style>
-    <!-- end new action bar styles -->
-    
-    
-    <style name="ActionBarCompatButton">
-        <item name="android:layout_width">@dimen/actionbar_compat_height</item>
-        <item name="android:layout_height">fill_parent</item>
-        <item name="android:scaleType">center</item>
-        <item name="android:background">@drawable/actionbar_compat_button</item>
-    </style>
-
-    <style name="ActionBarCompatSeparator">
-        <item name="android:layout_width">2px</item>
-        <item name="android:layout_height">fill_parent</item>
-        <item name="android:background">@drawable/actionbar_compat_separator</item>
-    </style>
-
-    <style name="ActionBarCompatLogo">
-        <item name="android:id">@id/actionbar_compat_logo</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">fill_parent</item>
-        <item name="android:clickable">false</item>
-        <item name="android:scaleType">center</item>
-        <item name="android:paddingLeft">10dp</item>
-        <item name="android:paddingTop">15dp</item>
-        <!-- item name="android:contentDescription">@string/description_logo</item-->
-        <item name="android:src">@drawable/actionbar_compat_logo</item>
-    </style>
-
-    <style name="ActionBarCompatText">
-        <item name="android:id">@id/actionbar_compat_text</item>
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">fill_parent</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:textSize">@dimen/text_size_medium</item>
-        <item name="android:paddingLeft">12dp</item>
-        <item name="android:paddingRight">12dp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/actionbar_text</item>
+        <item name="android:textColor">@color/actionbar_title_color</item>
         <item name="android:shadowColor">@color/actionbar_shadow</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">0.00001</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:ellipsize">end</item>
     </style>
+
+    <!-- Style for non-homescreen action buttons in the actionbar -->
+    <style name="ActionBarCompatItem" parent="style/ActionBarCompatItemBase">
+    </style>
+
+    <!-- Style for homescreen action buttons in the actionbar -->
+    <style name="ActionBarCompatHomeItem" parent="style/ActionBarCompatItemBase">
+    </style>
+    
     
     <style name="Dashbox">
         <item name="android:layout_width">0dp</item>
@@ -220,7 +173,6 @@
         <item name="android:textSize">@dimen/text_size_xlarge</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/body_text_1</item>
-        <item name="android:maxLines">?attr/textHeaderMaxLines</item>
         <item name="android:ellipsize">end</item>
         <item name="android:textIsSelectable">true</item>
     </style>

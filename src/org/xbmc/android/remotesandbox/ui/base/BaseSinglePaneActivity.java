@@ -22,7 +22,6 @@
 package org.xbmc.android.remotesandbox.ui.base;
 
 import org.xbmc.android.remotesandbox.R;
-import org.xbmc.android.remotesandbox.ui.base.BaseActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,21 +34,21 @@ import android.support.v4.app.Fragment;
  * {@link com.google.android.apps.iosched.ui.BaseSinglePaneActivity#onCreatePane()}
  * .
  */
-public abstract class BaseSinglePaneActivity extends BaseActivity {
+public abstract class BaseSinglePaneActivity extends ActionBarActivity {
 	private Fragment mFragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_singlepane_empty);
-		getActivityHelper().setupActionBar(getTitle(), 0);
+//		getActivityHelper().setupActionBar(getTitle(), 0);
 
-		final String customTitle = getIntent().getStringExtra(Intent.EXTRA_TITLE);
-		getActivityHelper().setActionBarTitle(customTitle != null ? customTitle : getTitle());
+//		final String customTitle = getIntent().getStringExtra(Intent.EXTRA_TITLE);
+//		getActivityHelper().setActionBarTitle(customTitle != null ? customTitle : getTitle());
 
 		if (savedInstanceState == null) {
 			mFragment = onCreatePane();
-			mFragment.setArguments(intentToFragmentArguments(getIntent()));
+//			mFragment.setArguments(intentToFragmentArguments(getIntent()));
 
 			getSupportFragmentManager().beginTransaction().add(R.id.root_container, mFragment).commit();
 		}
