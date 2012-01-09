@@ -31,19 +31,19 @@
     android:paddingTop="@dimen/tablet_padding_home" >
 
     <org.xbmc.android.remotesandbox.ui.tablet.DashboardBoxLayout 
-        style="@style/Dashbox"
+        style="@style/DashboardBox"
         android:id="@+id/dashboardbox_movies"
         xbmcremote:icon="@drawable/ic_dashboard_movies"
         xbmcremote:title="Movies" />
 
     <org.xbmc.android.remotesandbox.ui.tablet.DashboardBoxLayout 
-        style="@style/Dashbox"
+        style="@style/DashboardBox"
         android:id="@+id/dashboardbox_tv"
         xbmcremote:icon="@drawable/ic_dashboard_tv"
         xbmcremote:title="TV Shows" />
 
     <org.xbmc.android.remotesandbox.ui.tablet.DashboardBoxLayout 
-        style="@style/Dashbox"
+        style="@style/DashboardBox"
         android:id="@+id/dashboardbox_music"
         xbmcremote:icon="@drawable/ic_dashboard_music"
         xbmcremote:title="Music" />

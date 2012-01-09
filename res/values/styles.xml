@@ -42,6 +42,10 @@
         <item name="android:windowBackground">@drawable/bg_gradient_light</item>
     </style>
 
+    <!-- ######################################################################## -->
+    <!-- # ACTION BAR                                                           # -->
+    <!-- ######################################################################## -->
+    
     <!-- Style of the actionbar -->
     <style name="ActionBarCompat">
         <item name="android:id">@id/actionbar_compat</item>
@@ -63,7 +67,7 @@
         <item name="android:indeterminate">true</item>
     </style>
 
-    <!-- Actionbar title -->
+    <!-- Actionbar title base -->
     <style name="ActionBarCompatTitleBase">
         <item name="android:id">@id/actionbar_compat_title</item>
         <!-- layout_width/height/weight must be set in code -->
@@ -94,7 +98,11 @@
     </style>
     
     
-    <style name="Dashbox">
+    <!-- ######################################################################## -->
+    <!-- # DASHBOARD BOX                                                        # -->
+    <!-- ######################################################################## -->
+    
+    <style name="DashboardBox">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
@@ -103,18 +111,18 @@
         <item name="android:orientation">vertical</item>
     </style>
     
-    <style name="DashboxTitle">
+    <style name="DashboardBoxTitle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:clickable">true</item>
-        <item name="android:layout_height">@dimen/dashbox_title</item>
+        <item name="android:layout_height">@dimen/dashboardbox_title</item>
         <item name="android:background">@drawable/bg_dashboard_box_titlebar</item>
     </style>
 
-    <style name="DashboxTitleText">
+    <style name="DashboardBoxTitleText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">@dimen/dashbox_padding</item>
-        <item name="android:textSize">@dimen/dashbox_title_text</item>
+        <item name="android:layout_marginLeft">@dimen/dashboardbox_padding</item>
+        <item name="android:textSize">@dimen/dashboardbox_title_text</item>
         <item name="android:textColor">@color/dashboardbox_title</item>
         <item name="android:textStyle">bold</item>
         <item name="android:shadowColor">@color/dashboardbox_title_shadow</item>
@@ -124,11 +132,11 @@
         <item name="android:gravity">center_vertical</item>
     </style>
     
-    <style name="DashboxImage">
+    <style name="DashboardBoxImage">
 		<item name="android:layout_width">wrap_content</item>
 		<item name="android:layout_height">wrap_content</item>
-		<item name="android:layout_marginRight">@dimen/dashbox_padding</item>
-		<item name="android:layout_marginLeft">@dimen/dashbox_padding</item>
+		<item name="android:layout_marginRight">@dimen/dashboardbox_padding</item>
+		<item name="android:layout_marginLeft">@dimen/dashboardbox_padding</item>
 		<item name="android:layout_centerVertical">true</item>
     </style>
 
@@ -167,49 +175,6 @@
         <item name="android:paddingBottom">8dp</item>
     </style>
 
-    <!-- body content -->
-
-    <style name="TextHeader">
-        <item name="android:textSize">@dimen/text_size_xlarge</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/body_text_1</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:textIsSelectable">true</item>
-    </style>
-
-    <style name="TextHeaderSub">
-        <item name="android:textSize">@dimen/text_size_small</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:textColor">@color/body_text_2</item>
-        <item name="android:textIsSelectable">true</item>
-    </style>
-
-    <style name="TextHeader2">
-        <item name="android:textSize">@dimen/text_size_medium</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/accent_1</item>
-        <item name="android:textIsSelectable">true</item>
-    </style>
-
-    <style name="TextHeader3">
-        <item name="android:textSize">@dimen/text_size_medium</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/body_text_1</item>
-        <item name="android:textIsSelectable">true</item>
-    </style>
-
-    <style name="TextBody">
-        <item name="android:textSize">@dimen/text_size_small</item>
-        <item name="android:lineSpacingMultiplier">1.1</item>
-        <item name="android:textColor">@color/body_text_1</item>
-        <item name="android:textIsSelectable">true</item>
-    </style>
-
-    <style name="PushButton">
-        <item name="android:textSize">@dimen/text_size_small</item>
-        <item name="android:background">@drawable/btn</item>
-    </style>
-    
     <style name="AccountSetupContainer">
     	<item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
