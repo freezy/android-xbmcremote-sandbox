@@ -19,9 +19,9 @@
 	http://www.gnu.org/copyleft/gpl.html
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/menu_refresh"
+    <item android:id="@id/menu_refresh"
         android:icon="@drawable/menu_ic_refresh"
         android:title="@string/description_refresh"
         android:orderInCategory="1"
-        android:showAsAction="ifRoom" />
+        android:showAsAction="always" />
 </menu>

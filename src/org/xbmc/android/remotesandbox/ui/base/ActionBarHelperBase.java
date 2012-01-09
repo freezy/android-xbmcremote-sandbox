@@ -192,7 +192,7 @@ public class ActionBarHelperBase extends ActionBarHelper {
         }
         
         // added [freezy]: only set home icon if it's not already set by a style.
-        if (itemId == android.R.id.home && actionButton.getDrawable() == null) {
+        if (itemId != android.R.id.home || actionButton.getDrawable() == null) {
         	actionButton.setImageDrawable(item.getIcon());
         }
         actionButton.setScaleType(ImageView.ScaleType.CENTER);

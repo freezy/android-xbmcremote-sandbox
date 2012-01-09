@@ -28,6 +28,7 @@ import org.xbmc.android.remotesandbox.ui.base.ActionBarHelperBase;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 public class HomeActivity extends ActionBarActivity {
@@ -52,8 +53,10 @@ public class HomeActivity extends ActionBarActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.refresh_menu_items, menu);
-		super.onCreateOptionsMenu(menu);
-		return true;
+
+        // Calling super after populating the menu is necessary here to ensure that the
+        // action bar helpers have a chance to handle this event.
+        return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override

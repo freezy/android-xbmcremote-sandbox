@@ -32,7 +32,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,12 +42,17 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * The phone dashboard only contains the already-known menu which contains
+ * various links to sections and other helpful stuff.
+ * 
+ * @author freezy <freezy@xbmc.org>
+ */
 public class DashboardFragment extends Fragment {
 	
 	private static final int HOME_ACTION_REMOTE = 0;
 	private static final int HOME_ACTION_MUSIC = 1;
 	private static final int HOME_ACTION_VIDEOS = 2;
-	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,6 +62,11 @@ public class DashboardFragment extends Fragment {
 		return root;
 	}
 	
+	/**
+	 * Adds all our menu items to the grid.
+	 * 
+	 * @param menuGrid
+	 */
 	private void setupDashboardItems(GridView menuGrid) {
 		
 		final ArrayList<HomeItem> homeItems = new ArrayList<HomeItem>();
@@ -73,6 +82,9 @@ public class DashboardFragment extends Fragment {
 		menuGrid.setSelection(0);
 	}
 	
+	/**
+	 * Defines what happens when the user taps on one of the dashboard items.
+	 */
 	private final OnItemClickListener mHomeMenuOnClickListener = new OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> listView, View v, int position, long ID) {
@@ -91,6 +103,11 @@ public class DashboardFragment extends Fragment {
 		}
 	};
 
+	/**
+	 * The list adapter for the list containing the dashboard items.
+	 * 
+	 * @author freezy <freezy@xbmc.org>
+	 */
 	private class HomeAdapter extends ArrayAdapter<HomeItem> {
 		private Activity mActivity;
 		HomeAdapter(Activity activity, ArrayList<HomeItem> items) {
@@ -120,6 +137,11 @@ public class DashboardFragment extends Fragment {
 		}
 	}
 	
+	/**
+	 * An item of the dashboard.
+	 * 
+	 * @author freezy <freezy@xbmc.org>
+	 */
 	private class HomeItem {
 		public final int ID, icon;
 		public final String title, subtitle;

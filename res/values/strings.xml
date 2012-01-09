@@ -6,6 +6,7 @@
 	<string name="empty_artists">No artists found.</string>
 	<string name="empty_music_sources">No music sources found.</string>
 	
+	<string name="title_empty"></string>
 	<string name="title_music">Music Library</string>
 	
 	<string name="description_search">Search</string>
