@@ -28,7 +28,7 @@ Then there is a tablet layout for the home activity as well as a consistent acti
 There are a few things I'd like to have working until we start integrating the code with the real thing (feel free to request more):
 
 * Implement the file browse tab which will *not* query the database but XBMC directly - of course not *everything* is fetched via the local database.
-* Make action bar buttons dynamic depending on selected page (e.g. there should be no refresh button when the file browse page is selected).
+* Make action bar buttons dynamic depending on selected page (e.g. there should be no refresh button when the file browse page is selected). [See also](https://plus.google.com/114581058829301125332/posts/DAkRT9BLR6t).
 * Create a layout that looks good on Honeycomb. See also [Blog article here](http://android-developers.blogspot.com/2011/09/preparing-for-handsets.html) and [here](http://android-developers.blogspot.com/2011/04/customizing-action-bar.html).
 * Figure out a faster way to manage updates. Right now, everything is re-inserted, with a `ON CONFLICT REPLACE` constraint on the ID. Importing 1.200 artists and 500 albums takes about 10 seconds. Seems pretty slow to me.
 * Switch to `HttpURLConnection` instead of Apache client. See also [Blog article here](http://android-developers.blogspot.com/2011/09/androids-http-clients.html).
