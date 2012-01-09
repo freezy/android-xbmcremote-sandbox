@@ -19,7 +19,7 @@
  *
  */
 
-package org.xbmc.android.remotesandbox.ui.helper;
+package org.xbmc.android.remotesandbox.ui.base;
 
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.util.UIUtils;

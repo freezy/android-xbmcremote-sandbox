@@ -19,10 +19,10 @@
  *
  */
 
-package org.xbmc.android.remotesandbox.ui.helper;
+package org.xbmc.android.remotesandbox.ui.base;
 
 import org.xbmc.android.remotesandbox.R;
-import org.xbmc.android.remotesandbox.ui.HomeActivity;
+import org.xbmc.android.remotesandbox.ui.common.HomeActivity;
 import org.xbmc.android.util.UIUtils;
 import org.xbmc.android.util.google.SimpleMenu;
 
@@ -145,7 +145,7 @@ public class ActivityHelper {
 
 	/**
 	 * Invoke "home" action, returning to
-	 * {@link org.xbmc.android.remotesandbox.ui.HomeActivity}.
+	 * {@link org.xbmc.android.remotesandbox.ui.common.HomeActivity}.
 	 */
 	public void goHome() {
 		if (mActivity instanceof HomeActivity) {

@@ -19,7 +19,7 @@
  *
  */
 
-package org.xbmc.android.remotesandbox.ui;
+package org.xbmc.android.remotesandbox.ui.base;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -33,7 +33,7 @@ import org.xbmc.android.remotesandbox.R;
  * 
  * TODO: Click handling if action does not handle it.
  */
-abstract class ReloadableListFragment extends ListFragment {
+public abstract class ReloadableListFragment extends ListFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

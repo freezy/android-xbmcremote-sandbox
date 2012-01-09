@@ -19,7 +19,7 @@
  *
  */
 
-package org.xbmc.android.remotesandbox.ui;
+package org.xbmc.android.remotesandbox.ui.common;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -33,6 +33,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -41,10 +42,12 @@ import org.xbmc.android.jsonrpc.provider.AudioContract;
 import org.xbmc.android.jsonrpc.provider.AudioDatabase.Tables;
 import org.xbmc.android.jsonrpc.service.AudioSyncService;
 import org.xbmc.android.remotesandbox.R;
+import org.xbmc.android.remotesandbox.ui.base.BaseFragmentTabsActivity;
+import org.xbmc.android.remotesandbox.ui.base.ReloadableListFragment;
 
-public class AlbumsFragment extends ReloadableListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ArtistsFragment extends ReloadableListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 	
-	private static final String TAG = AlbumsFragment.class.getSimpleName();
+	private static final String TAG = ArtistsFragment.class.getSimpleName();
 
 	// This is the Adapter being used to display the list's data.
 	private CursorAdapter mAdapter;
@@ -56,8 +59,8 @@ public class AlbumsFragment extends ReloadableListFragment implements LoaderMana
 		
 		@Override
 		public void onRefreshed() {
-			Log.d(TAG, "Refreshing Albums from database.");
-			getLoaderManager().restartLoader(0, null, AlbumsFragment.this);
+			Log.d(TAG, "Refreshing Artists from database.");
+			getLoaderManager().restartLoader(0, null, ArtistsFragment.this);
 		}
 	};
 
@@ -66,10 +69,10 @@ public class AlbumsFragment extends ReloadableListFragment implements LoaderMana
 		super.onActivityCreated(savedInstanceState);
 
 		// Give some text to display if there is no data.
-		setEmptyText(getResources().getString(R.string.empty_albums));
+		setEmptyText(getResources().getString(R.string.empty_artists));
 
 		// Create an empty adapter we will use to display the loaded data.
-		mAdapter = new AlbumsAdapter(getActivity());
+		mAdapter = new ArtistsAdapter(getActivity());
 		setListAdapter(mAdapter);
 
 		// Start out with a progress indicator.
@@ -107,8 +110,8 @@ public class AlbumsFragment extends ReloadableListFragment implements LoaderMana
 			baseUri = Contacts.CONTENT_URI;
 		}
 
-		return new CursorLoader(getActivity(), AudioContract.Albums.CONTENT_URI, AlbumsQuery.PROJECTION, null, null,
-				AudioContract.Albums.DEFAULT_SORT);
+		return new CursorLoader(getActivity(), AudioContract.Artists.CONTENT_URI, ArtistsQuery.PROJECTION, null, null,
+				AudioContract.Artists.DEFAULT_SORT);
 	}
 
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
@@ -117,7 +120,7 @@ public class AlbumsFragment extends ReloadableListFragment implements LoaderMana
 		if (!isVisible()) {
 			return;
 		}
-
+		
 		// Swap the new cursor in. (The framework will take care of closing the
 		// old cursor once we return.)
 		mAdapter.swapCursor(data);
@@ -153,58 +156,48 @@ public class AlbumsFragment extends ReloadableListFragment implements LoaderMana
 			((BaseFragmentTabsActivity)getActivity()).unregisterRefreshObserver(mRefreshObserver);
 		}
 	}
-	
 	/**
-	 * {@link CursorAdapter} that renders a {@link AlbumsQuery}.
+	 * {@link CursorAdapter} that renders a {@link ArtistsQuery}.
 	 */
-	private class AlbumsAdapter extends CursorAdapter {
+	public static class ArtistsAdapter extends CursorAdapter {
+		
+		private final LayoutInflater mInflater;
 
-		public AlbumsAdapter(Context context) {
+		public ArtistsAdapter(Context context) {
 			super(context, null, false);
+			mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
 
 		/** {@inheritDoc} */
 		@Override
 		public View newView(Context context, Cursor cursor, ViewGroup parent) {
-			return getActivity().getLayoutInflater().inflate(R.layout.list_item_threelabels, parent, false);
+			return mInflater.inflate(R.layout.list_item_onelabel, parent, false);
 		}
 
 		/** {@inheritDoc} */
 		@Override
 		public void bindView(View view, Context context, Cursor cursor) {
 			final TextView titleView = (TextView) view.findViewById(R.id.item_title);
-			final TextView subtitleView = (TextView) view.findViewById(R.id.item_subtitle);
-			final TextView subsubtitleView = (TextView) view.findViewById(R.id.item_subsubtitle);
-
-			titleView.setText(cursor.getString(AlbumsQuery.TITLE));
-			subtitleView.setText(cursor.getString(AlbumsQuery.ARTIST));
-			subsubtitleView.setText(cursor.getString(AlbumsQuery.YEAR));
+			titleView.setText(cursor.getString(ArtistsQuery.NAME));
 		}
 	}
-
-
-
-
+	
 	/**
-	 * {@link org.xbmc.android.jsonrpc.provider.AudioContract.Albums}
+	 * {@link org.xbmc.android.jsonrpc.provider.AudioContract.Artists}
 	 * query parameters.
 	 */
-	private interface AlbumsQuery {
+	private interface ArtistsQuery {
 //		int _TOKEN = 0x1;
 
 		String[] PROJECTION = { 
-				Tables.ALBUMS + "." + BaseColumns._ID, 
-				AudioContract.Albums.ID,
-				AudioContract.Albums.TITLE, 
-				AudioContract.Albums.YEAR,
+				Tables.ARTISTS + "." + BaseColumns._ID, 
+				AudioContract.Artists.ID,
 				AudioContract.Artists.NAME
 		};
 
 //		int _ID = 0;
 //		int ID = 1;
-		int TITLE = 2;
-		int YEAR = 3;
-		int ARTIST = 4;
+		int NAME = 2;
 	}
 
 }

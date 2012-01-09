@@ -19,10 +19,11 @@
  *
  */
 
-package org.xbmc.android.remotesandbox.ui;
+package org.xbmc.android.remotesandbox.ui.common;
 
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.remotesandbox.R.id;
+import org.xbmc.android.remotesandbox.ui.base.BaseActivity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

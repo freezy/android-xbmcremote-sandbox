@@ -24,7 +24,7 @@ package org.xbmc.android.remotesandbox.ui.tablet;
 import org.xbmc.android.jsonrpc.provider.AudioContract;
 import org.xbmc.android.jsonrpc.provider.AudioDatabase.Tables;
 import org.xbmc.android.remotesandbox.R;
-import org.xbmc.android.remotesandbox.ui.MusicPagerActivity;
+import org.xbmc.android.remotesandbox.ui.common.MusicPagerActivity;
 
 import android.content.Context;
 import android.content.Intent;

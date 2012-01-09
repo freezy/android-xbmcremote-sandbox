@@ -19,16 +19,17 @@
  *
  */
 
-package org.xbmc.android.remotesandbox.ui;
+package org.xbmc.android.remotesandbox.ui.common;
 
 import java.util.List;
 
-import org.xbmc.android.jsonrpc.api.FilesAPI.File;
+import org.xbmc.android.jsonrpc.api.FilesAPI.Source;
 import org.xbmc.android.jsonrpc.client.AbstractClient.ErrorHandler;
 import org.xbmc.android.jsonrpc.client.FilesClient;
 import org.xbmc.android.jsonrpc.io.ApiException;
 import org.xbmc.android.jsonrpc.service.AudioSyncService;
 import org.xbmc.android.remotesandbox.R;
+import org.xbmc.android.remotesandbox.ui.base.BaseFragmentTabsActivity;
 import org.xbmc.android.util.ListLoader;
 import org.xbmc.android.util.ListLoader.Worker;
 
@@ -48,25 +49,22 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class FilesFragment extends ListFragment implements LoaderManager.LoaderCallbacks<List<File>> {
+public class SourcesFragment extends ListFragment implements LoaderManager.LoaderCallbacks<List<Source>> {
 
-	private static final String TAG = FilesFragment.class.getSimpleName();
-
-	public static final String EXTRA_PATH = "org.xbmc.android.extra.PATH";
+	private static final String TAG = SourcesFragment.class.getSimpleName();
 
 	// This is the Adapter being used to display the list's data.
 	private SourceListAdapter mAdapter;
 
 	// If non-null, this is the current filter the user has provided.
 	private String mCurrentFilter;
-	private String mPath;
 
 	private final AudioSyncService.RefreshObserver mRefreshObserver = new AudioSyncService.RefreshObserver() {
 
 		@Override
 		public void onRefreshed() {
 			Log.d(TAG, "Refreshing Artists from database.");
-			getLoaderManager().restartLoader(0, null, FilesFragment.this);
+			getLoaderManager().restartLoader(0, null, SourcesFragment.this);
 		}
 	};
 
@@ -83,8 +81,6 @@ public class FilesFragment extends ListFragment implements LoaderManager.LoaderC
 		// Create an empty adapter we will use to display the loaded data.
 		mAdapter = new SourceListAdapter(getActivity());
 		setListAdapter(mAdapter);
-
-		mPath = getActivity().getIntent().getExtras().getString(EXTRA_PATH);
 
 		// Start out with a progress indicator.
 		setListShown(false);
@@ -106,19 +102,20 @@ public class FilesFragment extends ListFragment implements LoaderManager.LoaderC
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		// Insert desired behavior here.
-		Log.i("FragmentComplexList", "Item clicked: " + id);
+		Source source = (Source)getListAdapter().getItem(position);
+		Log.i("FragmentComplexList", "Item clicked: " + source.path);
 	}
 
 	@Override
-	public Loader<List<File>> onCreateLoader(int id, Bundle args) {
+	public Loader<List<Source>> onCreateLoader(int id, Bundle args) {
 		// This is called when a new Loader needs to be created. This
 		// sample only has one Loader with no arguments, so it is simple.
 		final Handler h = new Handler();
-		return new ListLoader<File>(getActivity(), new Worker<File>() {
+		return new ListLoader<Source>(getActivity(), new Worker<Source>() {
 			@Override
-			public List<File> doWork() {
+			public List<Source> doWork() {
 				final FilesClient filesClient = new FilesClient();
-				return filesClient.getDirectory(mPath, new ErrorHandler() {
+				return filesClient.getMusicSources(new ErrorHandler() {
 					@Override
 					public void handleError(final ApiException e) {
 						Log.e(TAG, "ERROR " + e.getCode() + ": " + e.getMessage());
@@ -135,7 +132,7 @@ public class FilesFragment extends ListFragment implements LoaderManager.LoaderC
 	}
 
 	@Override
-	public void onLoadFinished(Loader<List<File>> loader, List<File> data) {
+	public void onLoadFinished(Loader<List<Source>> loader, List<Source> data) {
 
 		if (!isVisible()) {
 			return;
@@ -153,7 +150,7 @@ public class FilesFragment extends ListFragment implements LoaderManager.LoaderC
 	}
 
 	@Override
-	public void onLoaderReset(Loader<List<File>> loader) {
+	public void onLoaderReset(Loader<List<Source>> loader) {
 		// Clear the data in the adapter.
 		mAdapter.setData(null);
 	}
@@ -175,7 +172,7 @@ public class FilesFragment extends ListFragment implements LoaderManager.LoaderC
 		}
 	}
 
-	public static class SourceListAdapter extends ArrayAdapter<File> {
+	public static class SourceListAdapter extends ArrayAdapter<Source> {
 		private final LayoutInflater mInflater;
 
 		public SourceListAdapter(Context context) {
@@ -183,10 +180,10 @@ public class FilesFragment extends ListFragment implements LoaderManager.LoaderC
 			mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
 
-		public void setData(List<File> data) {
+		public void setData(List<Source> data) {
 			clear();
 			if (data != null) {
-				for (File source : data) {
+				for (Source source : data) {
 					add(source);
 				}
 			}
@@ -204,7 +201,7 @@ public class FilesFragment extends ListFragment implements LoaderManager.LoaderC
 			} else {
 				view = convertView;
 			}
-			File item = getItem(position);
+			Source item = getItem(position);
 			((TextView) view.findViewById(R.id.item_title)).setText(item.label);
 
 			return view;

@@ -19,9 +19,10 @@
  *
  */
 
-package org.xbmc.android.remotesandbox.ui;
+package org.xbmc.android.remotesandbox.ui.base;
 
 import java.util.List;
+
 
 import android.content.Intent;
 import android.content.pm.PackageManager;

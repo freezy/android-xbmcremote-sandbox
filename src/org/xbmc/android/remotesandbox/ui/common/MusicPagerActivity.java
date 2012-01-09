@@ -19,7 +19,7 @@
  *
  */
 
-package org.xbmc.android.remotesandbox.ui;
+package org.xbmc.android.remotesandbox.ui.common;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,6 +32,7 @@ import android.widget.Toast;
 import org.xbmc.android.jsonrpc.service.AudioSyncService;
 import org.xbmc.android.jsonrpc.service.AudioSyncService.RefreshObserver;
 import org.xbmc.android.remotesandbox.R;
+import org.xbmc.android.remotesandbox.ui.base.BaseFragmentTabsActivity;
 import org.xbmc.android.util.google.DetachableResultReceiver;
 
 import java.util.ArrayList;

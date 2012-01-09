@@ -19,9 +19,7 @@
  *
  */
 
-package org.xbmc.android.remotesandbox.ui;
-
-import org.xbmc.android.remotesandbox.ui.helper.ActivityHelper;
+package org.xbmc.android.remotesandbox.ui.base;
 
 import android.content.Intent;
 import android.net.Uri;
