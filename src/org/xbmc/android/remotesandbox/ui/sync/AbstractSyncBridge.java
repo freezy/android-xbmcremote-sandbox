@@ -27,6 +27,12 @@ import org.xbmc.android.util.google.DetachableResultReceiver;
 import android.app.Activity;
 import android.os.Bundle;
 
+/**
+ * Reusuable component that bridges calling the service from an activity
+ * and treating the result in the user interface.
+ *  
+ * @author freezy <freezy@xbmc.org>
+ */
 public interface AbstractSyncBridge {
 	
 	/**

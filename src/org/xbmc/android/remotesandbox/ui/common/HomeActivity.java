@@ -30,7 +30,7 @@ import android.os.Bundle;
 
 public class HomeActivity extends ReloadableActionBarActivity {
 
-	private final static String TAG = HomeActivity.class.getSimpleName();
+//	private final static String TAG = HomeActivity.class.getSimpleName();
 	private final static AudioSyncBridge SYNCBRIDGE = new AudioSyncBridge();
 
 	@Override

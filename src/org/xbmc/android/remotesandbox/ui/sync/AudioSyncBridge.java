@@ -33,7 +33,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 /**
- * Treats audio syncing.
+ * Manages audio sync in the UI.
  * 
  * @author freezy <freezy@xbmc.org>
  */

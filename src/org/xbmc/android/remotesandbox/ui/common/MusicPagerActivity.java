@@ -57,17 +57,6 @@ public class MusicPagerActivity extends BaseFragmentTabsActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		final FragmentManager fm = getSupportFragmentManager();
-		
-		mSyncStatusUpdaterFragment = (SyncStatusUpdaterFragment) fm.findFragmentByTag(SyncStatusUpdaterFragment.TAG);
-		if (mSyncStatusUpdaterFragment == null) {
-			mSyncStatusUpdaterFragment = new SyncStatusUpdaterFragment(mRefreshObservers);
-			fm.beginTransaction().add(mSyncStatusUpdaterFragment, SyncStatusUpdaterFragment.TAG).commit();
-			triggerRefresh();
-		} else {
-			mSyncStatusUpdaterFragment.setRefreshObservers(mRefreshObservers);
-		}
 	}
 
 	@Override
@@ -75,37 +64,6 @@ public class MusicPagerActivity extends BaseFragmentTabsActivity {
 		addTab("albums", "Albums", AlbumsFragment.class, R.drawable.tab_ic_album);
 		addTab("artists", "Artists", ArtistsFragment.class, R.drawable.tab_ic_artist);
 		addTab("files", "Files", SourcesFragment.class, R.drawable.tab_ic_folder);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == R.id.menu_refresh) {
-			triggerRefresh();
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	private void triggerRefresh() {
-		final long start = System.currentTimeMillis();
-		Log.d(TAG, "Starting triggerRefresh()...");
-
-		final Intent intent = new Intent(Intent.ACTION_SYNC, null, this, AudioSyncService.class);
-		intent.putExtra(AudioSyncService.EXTRA_STATUS_RECEIVER, mSyncStatusUpdaterFragment.mReceiver);
-		startService(intent);
-
-/*		if (mTagStreamFragment != null) {
-			mTagStreamFragment.refresh();
-		}*/
-		Log.d(TAG, "triggerRefresh() done in " + (System.currentTimeMillis() - start ) + "ms.");
-	}
-
-	private void updateRefreshStatus(boolean refreshing) {
-		final long start = System.currentTimeMillis();
-		Log.d(TAG, "Starting updateRefreshStatus()...");
-
-		//getActivityHelper().setRefreshActionButtonCompatState(refreshing);
-		Log.d(TAG, "updateRefreshStatus() done in " + (System.currentTimeMillis() - start) + "ms.");
 	}
 
 	/**
@@ -164,15 +122,10 @@ public class MusicPagerActivity extends BaseFragmentTabsActivity {
 				}
 			}
 
-			activity.updateRefreshStatus(mSyncing);
+			//activity.updateRefreshStatus(mSyncing);
 			Log.d(TAG, "onReceiveResult() done in " + (System.currentTimeMillis() - start) + "ms.");
 		}
 
-		@Override
-		public void onActivityCreated(Bundle savedInstanceState) {
-			super.onActivityCreated(savedInstanceState);
-			((MusicPagerActivity) getActivity()).updateRefreshStatus(mSyncing);
-		}
 		
 		public void setRefreshObservers(ArrayList<RefreshObserver> observers) {
 			mRefreshObservers = observers;

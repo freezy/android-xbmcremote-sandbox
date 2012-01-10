@@ -21,11 +21,15 @@
 
 package org.xbmc.android.remotesandbox.ui.base;
 
+import org.xbmc.android.remotesandbox.R;
+
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import org.xbmc.android.remotesandbox.R;
+import android.view.MenuItem;
+
 
 /**
  * Abstract Superclass for reloadable Lists. provides the options menu reload
@@ -34,16 +38,31 @@ import org.xbmc.android.remotesandbox.R;
  * TODO: Click handling if action does not handle it.
  */
 public abstract class ReloadableListFragment extends ListFragment {
-
+	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	public void onActivityCreated(Bundle savedInstanceState) {
+		Log.d("ReloadableListFragment", "onActivityCreated");
 		setHasOptionsMenu(true);
+		super.onActivityCreated(savedInstanceState);
 	}
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		Log.d("ReloadableListFragment", "onCreate");
+		setHasOptionsMenu(true);
+		super.onCreate(savedInstanceState);
+	}
+	
+	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		Log.d("ReloadableListFragment", "onCreateOptionsMenu");
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.refresh_menu_items, menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		Log.d("ReloadableListFragment", "onOptionsItemSelected");
+		return super.onOptionsItemSelected(item);
 	}
 }
