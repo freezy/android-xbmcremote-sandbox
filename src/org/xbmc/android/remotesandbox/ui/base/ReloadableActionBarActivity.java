@@ -21,11 +21,16 @@
 
 package org.xbmc.android.remotesandbox.ui.base;
 
+import java.util.ArrayList;
+
+import org.xbmc.android.jsonrpc.service.AudioSyncService.RefreshObserver;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.remotesandbox.ui.sync.AbstractSyncBridge;
+import org.xbmc.android.remotesandbox.ui.sync.AudioSyncBridge;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -36,7 +41,11 @@ import android.view.MenuItem;
  */
 public abstract class ReloadableActionBarActivity extends ActionBarActivity {
 
+	private final static String TAG = ReloadableActionBarActivity.class.getSimpleName();
+	
 	private boolean mSyncing = false;
+	protected final ArrayList<RefreshObserver> mRefreshObservers = new ArrayList<RefreshObserver>(); 
+	
 	
 	/**
 	 * Excecuted when the sync button is pressed.
@@ -77,5 +86,17 @@ public abstract class ReloadableActionBarActivity extends ActionBarActivity {
 		mSyncing = syncing;
 	}
 
+	public synchronized void registerRefreshObserver(RefreshObserver observer) {
+		mRefreshObservers.add(observer);
+		Log.d(TAG, "Registered refresh observer.");
+	}
+	
+	public synchronized void unregisterRefreshObserver(RefreshObserver observer) {
+		if (mRefreshObservers.remove(observer)) {
+			Log.d(TAG, "Unregistered refresh observer.");
+		} else {
+			Log.w(TAG, "Could not find observer, NOT unregistering!");
+		}
+	}
 	
 }

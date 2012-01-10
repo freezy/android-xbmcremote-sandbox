@@ -21,6 +21,13 @@
 
 package org.xbmc.android.remotesandbox.ui.common;
 
+import org.xbmc.android.jsonrpc.provider.AudioContract;
+import org.xbmc.android.jsonrpc.provider.AudioDatabase.Tables;
+import org.xbmc.android.jsonrpc.service.AudioSyncService;
+import org.xbmc.android.jsonrpc.service.AudioSyncService.RefreshObserver;
+import org.xbmc.android.remotesandbox.R;
+import org.xbmc.android.remotesandbox.ui.base.ReloadableListFragment;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -38,12 +45,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
-import org.xbmc.android.jsonrpc.provider.AudioContract;
-import org.xbmc.android.jsonrpc.provider.AudioDatabase.Tables;
-import org.xbmc.android.jsonrpc.service.AudioSyncService;
-import org.xbmc.android.remotesandbox.R;
-import org.xbmc.android.remotesandbox.ui.base.BaseFragmentTabsActivity;
-import org.xbmc.android.remotesandbox.ui.base.ReloadableListFragment;
 
 public class ArtistsFragment extends ReloadableListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 	
@@ -82,6 +83,18 @@ public class ArtistsFragment extends ReloadableListFragment implements LoaderMan
 		// or start a new one.
 		getLoaderManager().initLoader(0, null, this);
 	}
+	
+
+	@Override
+	protected RefreshObserver getRefreshObserver() {
+		return mRefreshObserver;
+	}
+
+	@Override
+	protected void restartLoader() {
+		getLoaderManager().restartLoader(0, null, this);
+	}
+
 
 	public boolean onQueryTextChange(String newText) {
 		// Called when the action bar search text has changed. Update
@@ -140,22 +153,6 @@ public class ArtistsFragment extends ReloadableListFragment implements LoaderMan
 		mAdapter.swapCursor(null);
 	}
 	
-	@Override
-	public void onResume() {
-		super.onResume();
-		if (getActivity() instanceof BaseFragmentTabsActivity) {
-			((BaseFragmentTabsActivity)getActivity()).registerRefreshObserver(mRefreshObserver);
-		}
-		getLoaderManager().restartLoader(0, null, this);
-	}
-	
-	@Override
-	public void onPause() {
-		super.onPause();
-		if (getActivity() instanceof BaseFragmentTabsActivity) {
-			((BaseFragmentTabsActivity)getActivity()).unregisterRefreshObserver(mRefreshObserver);
-		}
-	}
 	/**
 	 * {@link CursorAdapter} that renders a {@link ArtistsQuery}.
 	 */
@@ -199,5 +196,4 @@ public class ArtistsFragment extends ReloadableListFragment implements LoaderMan
 //		int ID = 1;
 		int NAME = 2;
 	}
-
 }

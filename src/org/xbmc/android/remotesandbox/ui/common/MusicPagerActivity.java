@@ -36,6 +36,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -63,6 +64,18 @@ public class MusicPagerActivity extends BaseFragmentTabsActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		final FragmentManager fm = getSupportFragmentManager();
+
+		mSyncStatusUpdaterFragment = (SyncStatusUpdaterFragment) fm.findFragmentByTag(SyncStatusUpdaterFragment.TAG);
+		if (mSyncStatusUpdaterFragment == null) {
+			mSyncStatusUpdaterFragment = new SyncStatusUpdaterFragment(mRefreshObservers);
+			fm.beginTransaction().add(mSyncStatusUpdaterFragment, SyncStatusUpdaterFragment.TAG).commit();
+			//triggerRefresh();
+		} else {
+			mSyncStatusUpdaterFragment.setRefreshObservers(mRefreshObservers);
+		}
+		
 	}
 
 	@Override

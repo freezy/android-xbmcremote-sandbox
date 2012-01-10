@@ -21,14 +21,9 @@
 
 package org.xbmc.android.remotesandbox.ui.base;
 
-import org.xbmc.android.remotesandbox.R;
+import org.xbmc.android.jsonrpc.service.AudioSyncService.RefreshObserver;
 
-import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 
 
 /**
@@ -39,30 +34,23 @@ import android.view.MenuItem;
  */
 public abstract class ReloadableListFragment extends ListFragment {
 	
+	protected abstract RefreshObserver getRefreshObserver();
+	protected abstract void restartLoader();
+	
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		Log.d("ReloadableListFragment", "onActivityCreated");
-		setHasOptionsMenu(true);
-		super.onActivityCreated(savedInstanceState);
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		Log.d("ReloadableListFragment", "onCreate");
-		setHasOptionsMenu(true);
-		super.onCreate(savedInstanceState);
+	public void onResume() {
+		super.onResume();
+		if (getActivity() instanceof ReloadableActionBarActivity) {
+			((ReloadableActionBarActivity)getActivity()).registerRefreshObserver(getRefreshObserver());
+		}
+		restartLoader();
 	}
 	
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		Log.d("ReloadableListFragment", "onCreateOptionsMenu");
-		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.refresh_menu_items, menu);
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		Log.d("ReloadableListFragment", "onOptionsItemSelected");
-		return super.onOptionsItemSelected(item);
+	public void onPause() {
+		super.onPause();
+		if (getActivity() instanceof ReloadableActionBarActivity) {
+			((ReloadableActionBarActivity)getActivity()).unregisterRefreshObserver(getRefreshObserver());
+		}
 	}
 }

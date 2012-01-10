@@ -21,6 +21,13 @@
 
 package org.xbmc.android.remotesandbox.ui.common;
 
+import org.xbmc.android.jsonrpc.provider.AudioContract;
+import org.xbmc.android.jsonrpc.provider.AudioDatabase.Tables;
+import org.xbmc.android.jsonrpc.service.AudioSyncService;
+import org.xbmc.android.jsonrpc.service.AudioSyncService.RefreshObserver;
+import org.xbmc.android.remotesandbox.R;
+import org.xbmc.android.remotesandbox.ui.base.ReloadableListFragment;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -33,18 +40,10 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
-import org.xbmc.android.jsonrpc.provider.AudioContract;
-import org.xbmc.android.jsonrpc.provider.AudioDatabase.Tables;
-import org.xbmc.android.jsonrpc.service.AudioSyncService;
-import org.xbmc.android.remotesandbox.R;
-import org.xbmc.android.remotesandbox.ui.base.BaseFragmentTabsActivity;
-import org.xbmc.android.remotesandbox.ui.base.ReloadableListFragment;
 
 public class AlbumsFragment extends ReloadableListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 	
@@ -57,7 +56,6 @@ public class AlbumsFragment extends ReloadableListFragment implements LoaderMana
 	private String mCurrentFilter;
 	
 	private final AudioSyncService.RefreshObserver mRefreshObserver = new AudioSyncService.RefreshObserver() {
-		
 		@Override
 		public void onRefreshed() {
 			Log.d(TAG, "Refreshing Albums from database.");
@@ -85,11 +83,14 @@ public class AlbumsFragment extends ReloadableListFragment implements LoaderMana
 	}
 
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		// TODO Auto-generated method stub
-		super.onCreateOptionsMenu(menu, inflater);
+	protected RefreshObserver getRefreshObserver() {
+		return mRefreshObserver;
 	}
 	
+	@Override
+	protected void restartLoader() {
+		getLoaderManager().restartLoader(0, null, this);		
+	}
 	
 	public boolean onQueryTextChange(String newText) {
 		// Called when the action bar search text has changed. Update
@@ -148,23 +149,6 @@ public class AlbumsFragment extends ReloadableListFragment implements LoaderMana
 		mAdapter.swapCursor(null);
 	}
 	
-	@Override
-	public void onResume() {
-		super.onResume();
-		if (getActivity() instanceof BaseFragmentTabsActivity) {
-			((BaseFragmentTabsActivity)getActivity()).registerRefreshObserver(mRefreshObserver);
-		}
-		getLoaderManager().restartLoader(0, null, this);
-	}
-	
-	@Override
-	public void onPause() {
-		super.onPause();
-		if (getActivity() instanceof BaseFragmentTabsActivity) {
-			((BaseFragmentTabsActivity)getActivity()).unregisterRefreshObserver(mRefreshObserver);
-		}
-	}
-	
 	/**
 	 * {@link CursorAdapter} that renders a {@link AlbumsQuery}.
 	 */
@@ -217,5 +201,4 @@ public class AlbumsFragment extends ReloadableListFragment implements LoaderMana
 		int YEAR = 3;
 		int ARTIST = 4;
 	}
-
 }
