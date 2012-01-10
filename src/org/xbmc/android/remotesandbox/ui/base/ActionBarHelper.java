@@ -94,4 +94,11 @@ public abstract class ActionBarHelper {
     public MenuInflater getMenuInflater(MenuInflater superMenuInflater) {
         return superMenuInflater;
     }
+    
+    /**
+     * Shows/hides a menu item.
+     * @param menuId Menu item to show/hide
+     * @param visible Show it true, hide if false.
+     */
+    public abstract void setItemVisibility(int menuId, boolean visible);
 }

@@ -52,6 +52,8 @@ public class ActionBarHelperBase extends ActionBarHelper {
     private static final String MENU_ATTR_SHOW_AS_ACTION = "showAsAction";
 
     protected Set<Integer> mActionItemIds = new HashSet<Integer>();
+    
+    private Menu mOptionsMenu;
 
     protected ActionBarHelperBase(Activity activity) {
         super(activity);
@@ -134,6 +136,8 @@ public class ActionBarHelperBase extends ActionBarHelper {
         for (Integer id : mActionItemIds) {
             menu.findItem(id).setVisible(false);
         }
+        // keep a reference to the menu to modify it as we need
+        mOptionsMenu = menu;
         return true;
     }
 
@@ -305,4 +309,31 @@ public class ActionBarHelperBase extends ActionBarHelper {
         }
 
     }
+    
+	@Override
+	public void setItemVisibility(int view, boolean visible) {
+
+		/*
+		 * In the Pre-3.0 implementation MenuItems are displayed into either the
+		 * Action Bar or OptionsMenu. Items placed in the Action Bar are set to
+		 * not visible in the OptionsMenu but are in-fact still there.
+		 */
+		View action = getActionBarCompat().findViewById(view);
+
+		if (action != null) {
+			if (visible)
+				action.setVisibility(View.VISIBLE);
+			else
+				action.setVisibility(View.GONE);
+		} else {
+
+			if (mOptionsMenu != null) {
+				MenuItem item = mOptionsMenu.findItem(view);
+				if (item != null) {
+					item.setVisible(visible);
+					mActivity.onPrepareOptionsMenu(mOptionsMenu);
+				}
+			}
+		}
+	}
 }

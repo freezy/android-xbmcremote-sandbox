@@ -69,12 +69,24 @@ public class ActionBarHelperHoneycomb extends ActionBarHelper {
         }
     }
 
-    /**
-     * Returns a {@link Context} suitable for inflating layouts for the action bar. The
-     * implementation for this method in {@link ActionBarHelperICS} asks the action bar for a
-     * themed context.
-     */
-    protected Context getActionBarThemedContext() {
-        return mActivity;
-    }
+	/**
+	 * Returns a {@link Context} suitable for inflating layouts for the action
+	 * bar. The implementation for this method in {@link ActionBarHelperICS}
+	 * asks the action bar for a themed context.
+	 */
+	protected Context getActionBarThemedContext() {
+		return mActivity;
+	}
+
+	@Override
+	public void setItemVisibility(int menuId, boolean visible) {
+		MenuItem item = mOptionsMenu.findItem(menuId);
+
+		if (item != null) {
+			item.setVisible(visible);
+		}
+
+		mActivity.onPrepareOptionsMenu(mOptionsMenu);
+	}
+
 }
