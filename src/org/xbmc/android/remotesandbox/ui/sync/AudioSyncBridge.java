@@ -37,7 +37,7 @@ import android.widget.Toast;
  * 
  * @author freezy <freezy@xbmc.org>
  */
-public class AudioSyncBridge implements AbstractSyncBridge, DetachableResultReceiver.Receiver {
+public class AudioSyncBridge extends AbstractSyncBridge implements DetachableResultReceiver.Receiver {
 	
 	private final static String TAG = AudioSyncBridge.class.getSimpleName();
 	

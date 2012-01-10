@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import org.xbmc.android.jsonrpc.service.AudioSyncService.RefreshObserver;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.remotesandbox.ui.sync.AbstractSyncBridge;
-import org.xbmc.android.remotesandbox.ui.sync.AudioSyncBridge;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -45,7 +44,6 @@ public abstract class ReloadableActionBarActivity extends ActionBarActivity {
 	
 	private boolean mSyncing = false;
 	protected final ArrayList<RefreshObserver> mRefreshObservers = new ArrayList<RefreshObserver>(); 
-	
 	
 	/**
 	 * Excecuted when the sync button is pressed.

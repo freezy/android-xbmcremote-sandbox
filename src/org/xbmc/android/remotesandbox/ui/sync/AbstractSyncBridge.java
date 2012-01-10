@@ -31,7 +31,7 @@ import android.os.Handler;
  *  
  * @author freezy <freezy@xbmc.org>
  */
-public interface AbstractSyncBridge {
+public abstract class AbstractSyncBridge {
 	
 	/**
 	 * Excecuted when the sync button is pressed.
@@ -39,6 +39,6 @@ public interface AbstractSyncBridge {
 	 * @param actionbarHelper Reference to actionbar helper
 	 * @param receiver Reference to detachable receiver
 	 */
-	public void sync(ReloadableActionBarActivity activity, Handler handler);
+	public abstract void sync(ReloadableActionBarActivity activity, Handler handler);
 	
 }

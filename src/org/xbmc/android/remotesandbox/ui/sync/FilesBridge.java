@@ -31,7 +31,7 @@ import android.util.Log;
  * 
  * @author freezy <freezy@xbmc.org>
  */
-public class FilesBridge implements AbstractSyncBridge {
+public class FilesBridge extends AbstractSyncBridge {
 	
 	private final static String TAG = AudioSyncBridge.class.getSimpleName();
 
