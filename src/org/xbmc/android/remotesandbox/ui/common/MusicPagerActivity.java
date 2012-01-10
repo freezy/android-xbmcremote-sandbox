@@ -37,6 +37,18 @@ import org.xbmc.android.util.google.DetachableResultReceiver;
 
 import java.util.ArrayList;
 
+/**
+ * Music activity contains multiple tabs. 
+ * 
+ * So far, there are:
+ *    - Albums
+ *    - Artists
+ *    - Files
+ *    
+ * Albums and files are read from the local database, while files are read live from XBMC.
+ * 
+ * @author freezy <freezy@xbmc.org>
+ */
 public class MusicPagerActivity extends BaseFragmentTabsActivity {
 	
 	private static final String TAG = MusicPagerActivity.class.getSimpleName();

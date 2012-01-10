@@ -96,12 +96,12 @@ public class AudioSyncService extends IntentService {
 			Log.i(TAG, "All done, remote sync took " + (System.currentTimeMillis() - startRemote) + "ms.");
 
 		} catch (Exception e) {
-			Log.e(TAG, "Problem while syncing", e);
+			Log.e(TAG, "Problem while syncing.", e);
 
 			if (receiver != null) {
 				// Pass back error to surface listener
 				final Bundle bundle = new Bundle();
-				bundle.putString(Intent.EXTRA_TEXT, e.toString());
+				bundle.putString(Intent.EXTRA_TEXT, e.getMessage());
 				receiver.send(STATUS_ERROR, bundle);
 			}
 		}
