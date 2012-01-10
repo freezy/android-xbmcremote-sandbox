@@ -29,6 +29,7 @@ import org.xbmc.android.remotesandbox.ui.sync.AbstractSyncBridge;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,19 +45,28 @@ public abstract class ReloadableActionBarActivity extends ActionBarActivity {
 	
 	private boolean mSyncing = false;
 	protected final ArrayList<RefreshObserver> mRefreshObservers = new ArrayList<RefreshObserver>(); 
+	private AbstractSyncBridge mSyncBridge;
 	
 	/**
 	 * Excecuted when the sync button is pressed.
 	 */
 	protected abstract AbstractSyncBridge getSyncBridge();
-
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getActionBarHelper().setRefreshActionItemState(mSyncing);
+		final FragmentManager fm = getSupportFragmentManager();
+		mSyncBridge = (AbstractSyncBridge)fm.findFragmentByTag(AbstractSyncBridge.TAG);
+		if (mSyncBridge == null) {
+			mSyncBridge = getSyncBridge();
+			fm.beginTransaction().add(mSyncBridge, AbstractSyncBridge.TAG).commit();
+			Log.i(TAG, "Added bridge fragment to activity.");
+		} else {
+			mSyncBridge.setRefreshObservers(mRefreshObservers);
+			Log.i(TAG, "Updated refresh observers.");
+		}
 	}
-	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -67,13 +77,12 @@ public abstract class ReloadableActionBarActivity extends ActionBarActivity {
 		// action bar helpers have a chance to handle this event.
 		return super.onCreateOptionsMenu(menu);
 	}
-	
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_refresh:
-				getSyncBridge().sync(this, new Handler());
+				getSyncBridge().sync(new Handler());
 				break;
 		}
 		return super.onOptionsItemSelected(item);

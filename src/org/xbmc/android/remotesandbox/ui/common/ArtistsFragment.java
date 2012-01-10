@@ -93,6 +93,7 @@ public class ArtistsFragment extends ReloadableListFragment implements LoaderMan
 	@Override
 	protected void restartLoader() {
 		getLoaderManager().restartLoader(0, null, this);
+		Log.i(TAG, "Albums reloaded from database.");
 	}
 
 

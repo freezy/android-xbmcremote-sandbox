@@ -58,7 +58,6 @@ public abstract class BaseFragmentTabsActivity extends ReloadableActionBarActivi
 		Log.d(TAG, "Starting onCreate()...");
 		setContentView(R.layout.activity_fragment_tabs_pager);
 		
-		final HorizontalScrollView scroller = (HorizontalScrollView) findViewById(R.id.tab_scroller);
 		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
 		mTabWidget = (TabWidget) findViewById(android.R.id.tabs);
 		mViewPager = (ViewPager) findViewById(R.id.tab_pager);
@@ -80,6 +79,7 @@ public abstract class BaseFragmentTabsActivity extends ReloadableActionBarActivi
 			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
 		}
 		
+		final HorizontalScrollView scroller = (HorizontalScrollView)findViewById(R.id.tab_scroller);
 		mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
 			@Override
 			public void onTabChanged(String tabId) {

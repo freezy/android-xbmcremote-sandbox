@@ -90,6 +90,7 @@ public class AlbumsFragment extends ReloadableListFragment implements LoaderMana
 	@Override
 	protected void restartLoader() {
 		getLoaderManager().restartLoader(0, null, this);		
+		Log.i(TAG, "Albums reloaded from database.");
 	}
 	
 	public boolean onQueryTextChange(String newText) {

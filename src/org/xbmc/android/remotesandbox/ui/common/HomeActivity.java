@@ -31,8 +31,7 @@ import android.os.Bundle;
 public class HomeActivity extends ReloadableActionBarActivity {
 
 //	private final static String TAG = HomeActivity.class.getSimpleName();
-	private final static AudioSyncBridge SYNCBRIDGE = new AudioSyncBridge();
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,7 +49,7 @@ public class HomeActivity extends ReloadableActionBarActivity {
 
 	@Override
 	protected AbstractSyncBridge getSyncBridge() {
-		return SYNCBRIDGE;
+		return new AudioSyncBridge(mRefreshObservers);
 	}
 
 }

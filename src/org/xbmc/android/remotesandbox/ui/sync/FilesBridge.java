@@ -21,7 +21,9 @@
 
 package org.xbmc.android.remotesandbox.ui.sync;
 
-import org.xbmc.android.remotesandbox.ui.base.ReloadableActionBarActivity;
+import java.util.ArrayList;
+
+import org.xbmc.android.jsonrpc.service.AudioSyncService.RefreshObserver;
 
 import android.os.Handler;
 import android.util.Log;
@@ -35,8 +37,12 @@ public class FilesBridge extends AbstractSyncBridge {
 	
 	private final static String TAG = AudioSyncBridge.class.getSimpleName();
 
+	public FilesBridge(ArrayList<RefreshObserver> observers) {
+		super(observers);
+	}
+
 	@Override
-	public void sync(ReloadableActionBarActivity activity, Handler handler) {
+	public void sync(Handler handler) {
 		final long start = System.currentTimeMillis();
 		Log.d(TAG, "Started nothing in " + (System.currentTimeMillis() - start ) + "ms.");
 	}

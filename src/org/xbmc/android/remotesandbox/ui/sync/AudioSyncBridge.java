@@ -21,7 +21,10 @@
 
 package org.xbmc.android.remotesandbox.ui.sync;
 
+import java.util.ArrayList;
+
 import org.xbmc.android.jsonrpc.service.AudioSyncService;
+import org.xbmc.android.jsonrpc.service.AudioSyncService.RefreshObserver;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.remotesandbox.ui.base.ReloadableActionBarActivity;
 import org.xbmc.android.util.google.DetachableResultReceiver;
@@ -38,15 +41,18 @@ import android.widget.Toast;
  * @author freezy <freezy@xbmc.org>
  */
 public class AudioSyncBridge extends AbstractSyncBridge implements DetachableResultReceiver.Receiver {
-	
+
 	private final static String TAG = AudioSyncBridge.class.getSimpleName();
 	
-	private ReloadableActionBarActivity mActivity;
+	public AudioSyncBridge(ArrayList<RefreshObserver> observers) {
+		super(observers);
+	}
 	
 	@Override
-	public void sync(ReloadableActionBarActivity activity, Handler handler) {
+	public void sync(Handler handler) {
 		
 		final long start = System.currentTimeMillis();
+		final ReloadableActionBarActivity activity = getReloadableActivity();
 		final DetachableResultReceiver receiver = new DetachableResultReceiver(handler);
 		receiver.setReceiver(this);
 		
@@ -57,13 +63,12 @@ public class AudioSyncBridge extends AbstractSyncBridge implements DetachableRes
 		activity.startService(intent);
 		Log.d(TAG, "Triggered audio sync in " + (System.currentTimeMillis() - start ) + "ms.");
 		
-		mActivity = activity;
 	}
 
 	@Override
 	public void onReceiveResult(int resultCode, Bundle resultData) {
 		final long start = System.currentTimeMillis();
-		final ReloadableActionBarActivity activity = mActivity;
+		final ReloadableActionBarActivity activity = getReloadableActivity();
 		final boolean syncing;
 		switch (resultCode) {
 			case AudioSyncService.STATUS_RUNNING: {
@@ -73,6 +78,7 @@ public class AudioSyncBridge extends AbstractSyncBridge implements DetachableRes
 			case AudioSyncService.STATUS_FINISHED: {
 				syncing = false;
 				Toast.makeText(activity, R.string.toast_synced_all, Toast.LENGTH_SHORT).show();
+				notifyObservers();
 				break;
 			}
 			case AudioSyncService.STATUS_ERROR: {
@@ -87,6 +93,6 @@ public class AudioSyncBridge extends AbstractSyncBridge implements DetachableRes
 				break;
 		}
 		Log.d(TAG, "Audio refresh callback processed in " + (System.currentTimeMillis() - start) + "ms.");
-		mActivity.setSyncing(syncing);
+		updateSyncStatus(syncing);
 	}
 }
