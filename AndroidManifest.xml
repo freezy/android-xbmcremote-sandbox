@@ -24,7 +24,7 @@
 		<activity 
 			android:name="org.xbmc.android.remotesandbox.ui.common.HomeActivity"
 			android:theme="@style/Theme.XBMCRemote.Home" 
-			android:label="@string/title_empty">
+			android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />

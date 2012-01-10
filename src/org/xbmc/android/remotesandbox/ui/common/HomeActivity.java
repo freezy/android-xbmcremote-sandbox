@@ -21,22 +21,22 @@
 
 package org.xbmc.android.remotesandbox.ui.common;
 
-import org.xbmc.android.jsonrpc.service.AudioSyncService;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.remotesandbox.ui.base.ReloadableActionBarActivity;
+import org.xbmc.android.remotesandbox.ui.sync.AbstractSyncBridge;
+import org.xbmc.android.remotesandbox.ui.sync.AudioSyncBridge;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
 public class HomeActivity extends ReloadableActionBarActivity {
 
 	private final static String TAG = HomeActivity.class.getSimpleName();
+	private final static AudioSyncBridge SYNCBRIDGE = new AudioSyncBridge();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setTitle(null);
 		setContentView(R.layout.activity_home);
 
 		/*
@@ -46,46 +46,11 @@ public class HomeActivity extends ReloadableActionBarActivity {
 		 * am.getUserData(account, Constants.DATA_ADDRESS)); Log.e(TAG, "Port: "
 		 * + am.getUserData(account, Constants.DATA_PORT)); }
 		 */
-
 	}
 
 	@Override
-	protected void onSyncPressed() {
-		final long start = System.currentTimeMillis();
-		Toast.makeText(this, R.string.toast_syncing_all, Toast.LENGTH_SHORT).show();
-		final Intent intent = new Intent(Intent.ACTION_SYNC, null, this, AudioSyncService.class);
-		intent.putExtra(AudioSyncService.EXTRA_STATUS_RECEIVER, mReceiver);
-		getActionBarHelper().setRefreshActionItemState(true);
-		startService(intent);
-		Log.d(TAG, "Triggered global refresh in " + (System.currentTimeMillis() - start ) + "ms.");
+	protected AbstractSyncBridge getSyncBridge() {
+		return SYNCBRIDGE;
 	}
 
-	@Override
-	protected boolean onSyncResult(int resultCode, Bundle resultData) {
-		final long start = System.currentTimeMillis();
-		final boolean syncing;
-		switch (resultCode) {
-			case AudioSyncService.STATUS_RUNNING: {
-				syncing = true;
-				break;
-			}
-			case AudioSyncService.STATUS_FINISHED: {
-				syncing = false;
-				Toast.makeText(this, R.string.toast_synced_all, Toast.LENGTH_SHORT).show();
-				break;
-			}
-			case AudioSyncService.STATUS_ERROR: {
-				// Error happened down in SyncService, show as toast.
-				syncing = false;
-				final String errorText = getString(R.string.toast_sync_error, resultData.getString(Intent.EXTRA_TEXT));
-				Toast.makeText(this, errorText, Toast.LENGTH_LONG).show();
-				break;
-			}
-			default:
-				syncing = false;
-				break;
-		}
-		Log.d(TAG, "Global refresh callback processed in " + (System.currentTimeMillis() - start) + "ms.");
-		return syncing;
-	}
 }
