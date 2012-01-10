@@ -21,21 +21,23 @@
 
 package org.xbmc.android.remotesandbox.ui.common;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.util.Log;
-import android.view.MenuItem;
-import android.widget.Toast;
+import java.util.ArrayList;
+
 import org.xbmc.android.jsonrpc.service.AudioSyncService;
 import org.xbmc.android.jsonrpc.service.AudioSyncService.RefreshObserver;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.remotesandbox.ui.base.BaseFragmentTabsActivity;
+import org.xbmc.android.remotesandbox.ui.sync.AbstractSyncBridge;
+import org.xbmc.android.remotesandbox.ui.sync.AudioSyncBridge;
+import org.xbmc.android.remotesandbox.ui.sync.FilesBridge;
 import org.xbmc.android.util.google.DetachableResultReceiver;
 
-import java.util.ArrayList;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Music activity contains multiple tabs. 
@@ -54,6 +56,10 @@ public class MusicPagerActivity extends BaseFragmentTabsActivity {
 	private static final String TAG = MusicPagerActivity.class.getSimpleName();
 	private SyncStatusUpdaterFragment mSyncStatusUpdaterFragment;
 	
+	private static final String TAB_ALBUMS = "albums";
+	private static final String TAB_ARTISTS = "artists";
+	private static final String TAB_FILES = "files";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -61,9 +67,19 @@ public class MusicPagerActivity extends BaseFragmentTabsActivity {
 
 	@Override
 	protected void onCreateTabs() {
-		addTab("albums", "Albums", AlbumsFragment.class, R.drawable.tab_ic_album);
-		addTab("artists", "Artists", ArtistsFragment.class, R.drawable.tab_ic_artist);
-		addTab("files", "Files", SourcesFragment.class, R.drawable.tab_ic_folder);
+		addTab(TAB_ALBUMS, R.string.tab_music_albums, AlbumsFragment.class, R.drawable.tab_ic_album);
+		addTab(TAB_ARTISTS, R.string.tab_music_artists, ArtistsFragment.class, R.drawable.tab_ic_artist);
+		addTab(TAB_FILES, R.string.tab_music_files, SourcesFragment.class, R.drawable.tab_ic_folder);
+	}
+
+	@Override
+	protected AbstractSyncBridge getSyncBridge() {
+		// depending on selected tab, return a different sync bridge
+		if (getCurrentTabTag().equals(TAB_FILES)) {
+			return new FilesBridge();
+		} else {
+			return new AudioSyncBridge();
+		}
 	}
 
 	/**
@@ -131,4 +147,5 @@ public class MusicPagerActivity extends BaseFragmentTabsActivity {
 			mRefreshObservers = observers;
 		}
 	}
+
 }

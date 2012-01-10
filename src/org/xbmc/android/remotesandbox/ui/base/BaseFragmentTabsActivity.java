@@ -45,7 +45,7 @@ import android.widget.TextView;
  * {@link com.google.android.apps.iosched.ui.BaseSinglePaneActivity#onCreatePane()}
  * .
  */
-public abstract class BaseFragmentTabsActivity extends ActionBarActivity {
+public abstract class BaseFragmentTabsActivity extends ReloadableActionBarActivity {
 	
 	private TabHost mTabHost;
 	private TabWidget mTabWidget;
@@ -98,15 +98,15 @@ public abstract class BaseFragmentTabsActivity extends ActionBarActivity {
 
 	}
 	
-	protected void addTab(String key, String label, Class<?> fragment, int imageResource) {
+	protected void addTab(String key, int labelResId, Class<?> fragment, int imageResource) {
 		final long start = System.currentTimeMillis();
 		Log.d(TAG, "Starting addTab()...");
 		final View tabIndicator = LayoutInflater.from(this).inflate(R.layout.tab, mTabWidget, false);
 		final TextView title = (TextView) tabIndicator.findViewById(R.id.tab_title);
 		final ImageView icon = (ImageView) tabIndicator.findViewById(R.id.tab_icon);
-		title.setText(label);
+		title.setText(labelResId);
 		icon.setImageResource(imageResource);
-		mTabsAdapter.addTab(mTabHost.newTabSpec(key).setIndicator(tabIndicator), label, fragment, null);
+		mTabsAdapter.addTab(mTabHost.newTabSpec(key).setIndicator(tabIndicator), null, fragment, null);
         Log.d(TAG, "addTab() done in " + (System.currentTimeMillis() - start ) + "ms.");
 	}
 	
@@ -127,6 +127,14 @@ public abstract class BaseFragmentTabsActivity extends ActionBarActivity {
 		} else {
 			Log.w(TAG, "Could not find observer, NOT unregistering!");
 		}
+	}
+	
+	/**
+	 * Returns the tag of the currently selected tab.
+	 * @return
+	 */
+	protected String getCurrentTabTag() {
+		return mTabHost.getCurrentTabTag();
 	}
 	
 	/**
