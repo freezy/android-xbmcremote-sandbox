@@ -36,7 +36,6 @@ import android.view.MenuItem;
  */
 public abstract class ReloadableActionBarActivity extends ActionBarActivity {
 
-
 	private boolean mSyncing = false;
 	
 	/**
@@ -67,7 +66,7 @@ public abstract class ReloadableActionBarActivity extends ActionBarActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_refresh:
-				getSyncBridge().start(this, getActionBarHelper(), new Handler());
+				getSyncBridge().sync(this, new Handler());
 				break;
 		}
 		return super.onOptionsItemSelected(item);

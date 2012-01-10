@@ -21,11 +21,8 @@
 
 package org.xbmc.android.remotesandbox.ui.sync;
 
-import org.xbmc.android.remotesandbox.ui.base.ActionBarHelper;
 import org.xbmc.android.remotesandbox.ui.base.ReloadableActionBarActivity;
 
-import android.app.Activity;
-import android.os.Bundle;
 import android.os.Handler;
 
 /**
@@ -42,15 +39,6 @@ public interface AbstractSyncBridge {
 	 * @param actionbarHelper Reference to actionbar helper
 	 * @param receiver Reference to detachable receiver
 	 */
-	public void start(ReloadableActionBarActivity activity, ActionBarHelper actionbarHelper, Handler handler);
+	public void sync(ReloadableActionBarActivity activity, Handler handler);
 	
-	/**
-	 * Executed when the sync process has terminated.
-	 * 
-	 * @param activity Reference to current activity
-	 * @param resultCode Result code of the sync process
-	 * @param resultData Result data of the sync process
-	 * @return Boolean indicating if still syncing or not.
-	 */
-	public boolean result(Activity activity, int resultCode, Bundle resultData);
 }
