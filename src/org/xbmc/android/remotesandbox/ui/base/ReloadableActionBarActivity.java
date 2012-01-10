@@ -23,7 +23,6 @@ package org.xbmc.android.remotesandbox.ui.base;
 
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.remotesandbox.ui.sync.AbstractSyncBridge;
-import org.xbmc.android.util.google.DetachableResultReceiver;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,30 +34,20 @@ import android.view.MenuItem;
  * 
  * @author freezy <freezy@xbmc.org>
  */
-public abstract class ReloadableActionBarActivity extends ActionBarActivity implements DetachableResultReceiver.Receiver {
+public abstract class ReloadableActionBarActivity extends ActionBarActivity {
 
-	private DetachableResultReceiver mReceiver;
+
 	private boolean mSyncing = false;
 	
 	/**
 	 * Excecuted when the sync button is pressed.
 	 */
 	protected abstract AbstractSyncBridge getSyncBridge();
-	
-	/**
-	 * Returns the detachable receiver.
-	 * @return
-	 */
-	protected DetachableResultReceiver getReceiver() {
-		return mReceiver;
-	}
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		mReceiver = new DetachableResultReceiver(new Handler());
-		mReceiver.setReceiver(this);
 		getActionBarHelper().setRefreshActionItemState(mSyncing);
 	}
 	
@@ -78,16 +67,16 @@ public abstract class ReloadableActionBarActivity extends ActionBarActivity impl
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_refresh:
-				getSyncBridge().start(this, getActionBarHelper(), getReceiver());
+				getSyncBridge().start(this, getActionBarHelper(), new Handler());
 				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 	
-	@Override
-	public void onReceiveResult(int resultCode, Bundle resultData) {
-		mSyncing = getSyncBridge().result(this, resultCode, resultData);;
-		getActionBarHelper().setRefreshActionItemState(mSyncing);
+	public void setSyncing(boolean syncing) {
+		getActionBarHelper().setRefreshActionItemState(syncing);
+		mSyncing = syncing;
 	}
+
 	
 }

@@ -22,10 +22,11 @@
 package org.xbmc.android.remotesandbox.ui.sync;
 
 import org.xbmc.android.remotesandbox.ui.base.ActionBarHelper;
-import org.xbmc.android.util.google.DetachableResultReceiver;
+import org.xbmc.android.remotesandbox.ui.base.ReloadableActionBarActivity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 
 /**
@@ -38,7 +39,7 @@ public class FilesBridge implements AbstractSyncBridge {
 	private final static String TAG = AudioSyncBridge.class.getSimpleName();
 
 	@Override
-	public void start(Activity activity, ActionBarHelper actionbarHelper, DetachableResultReceiver receiver) {
+	public void start(ReloadableActionBarActivity activity, ActionBarHelper actionbarHelper, Handler handler) {
 		final long start = System.currentTimeMillis();
 		Log.d(TAG, "Started nothing in " + (System.currentTimeMillis() - start ) + "ms.");
 	}
@@ -49,4 +50,5 @@ public class FilesBridge implements AbstractSyncBridge {
 		Log.d(TAG, "Ended nothing in " + (System.currentTimeMillis() - start ) + "ms.");
 		return false;
 	}
+
 }

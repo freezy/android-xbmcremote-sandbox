@@ -24,11 +24,13 @@ package org.xbmc.android.remotesandbox.ui.sync;
 import org.xbmc.android.jsonrpc.service.AudioSyncService;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.remotesandbox.ui.base.ActionBarHelper;
+import org.xbmc.android.remotesandbox.ui.base.ReloadableActionBarActivity;
 import org.xbmc.android.util.google.DetachableResultReceiver;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -37,19 +39,27 @@ import android.widget.Toast;
  * 
  * @author freezy <freezy@xbmc.org>
  */
-public class AudioSyncBridge implements AbstractSyncBridge {
+public class AudioSyncBridge implements AbstractSyncBridge, DetachableResultReceiver.Receiver {
 	
 	private final static String TAG = AudioSyncBridge.class.getSimpleName();
-
+	
+	private ReloadableActionBarActivity mActivity;
+	
 	@Override
-	public void start(Activity activity, ActionBarHelper actionbarHelper, DetachableResultReceiver receiver) {
+	public void start(ReloadableActionBarActivity activity, ActionBarHelper actionbarHelper, Handler handler) {
+		
 		final long start = System.currentTimeMillis();
+		final DetachableResultReceiver receiver = new DetachableResultReceiver(handler);
+		receiver.setReceiver(this);
+		
 		Toast.makeText(activity, R.string.toast_syncing_all, Toast.LENGTH_SHORT).show();
 		final Intent intent = new Intent(Intent.ACTION_SYNC, null, activity, AudioSyncService.class);
 		intent.putExtra(AudioSyncService.EXTRA_STATUS_RECEIVER, receiver);
 		actionbarHelper.setRefreshActionItemState(true);
 		activity.startService(intent);
 		Log.d(TAG, "Triggered audio sync in " + (System.currentTimeMillis() - start ) + "ms.");
+		
+		mActivity = activity;
 	}
 
 	@Override
@@ -79,5 +89,10 @@ public class AudioSyncBridge implements AbstractSyncBridge {
 		}
 		Log.d(TAG, "Audio refresh callback processed in " + (System.currentTimeMillis() - start) + "ms.");
 		return syncing;
+	}
+	
+	@Override
+	public void onReceiveResult(int resultCode, Bundle resultData) {
+		mActivity.setSyncing(result(mActivity, resultCode, resultData));
 	}
 }

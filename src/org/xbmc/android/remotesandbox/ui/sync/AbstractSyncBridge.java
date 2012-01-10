@@ -22,10 +22,11 @@
 package org.xbmc.android.remotesandbox.ui.sync;
 
 import org.xbmc.android.remotesandbox.ui.base.ActionBarHelper;
-import org.xbmc.android.util.google.DetachableResultReceiver;
+import org.xbmc.android.remotesandbox.ui.base.ReloadableActionBarActivity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 
 /**
  * Reusuable component that bridges calling the service from an activity
@@ -41,7 +42,7 @@ public interface AbstractSyncBridge {
 	 * @param actionbarHelper Reference to actionbar helper
 	 * @param receiver Reference to detachable receiver
 	 */
-	public void start(Activity activity, ActionBarHelper actionbarHelper, DetachableResultReceiver receiver);
+	public void start(ReloadableActionBarActivity activity, ActionBarHelper actionbarHelper, Handler handler);
 	
 	/**
 	 * Executed when the sync process has terminated.
