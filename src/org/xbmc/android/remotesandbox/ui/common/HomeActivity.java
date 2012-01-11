@@ -21,11 +21,13 @@
 
 package org.xbmc.android.remotesandbox.ui.common;
 
+import org.xbmc.android.jsonrpc.service.NotificationService;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.remotesandbox.ui.base.ReloadableActionBarActivity;
 import org.xbmc.android.remotesandbox.ui.sync.AbstractSyncBridge;
 import org.xbmc.android.remotesandbox.ui.sync.AudioSyncBridge;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 public class HomeActivity extends ReloadableActionBarActivity {
@@ -42,6 +44,8 @@ public class HomeActivity extends ReloadableActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setTitle(null);
 		setContentView(R.layout.activity_home);
+		
+		startService(new Intent(getApplicationContext(), NotificationService.class));
 
 		/*
 		 * final AccountManager am = AccountManager.get(this); final Account[]
