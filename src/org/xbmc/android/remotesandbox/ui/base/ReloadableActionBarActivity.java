@@ -30,6 +30,7 @@ import org.xbmc.android.remotesandbox.ui.sync.AbstractSyncBridge;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -65,30 +66,57 @@ public abstract class ReloadableActionBarActivity extends ActionBarActivity {
 	protected final ArrayList<RefreshObserver> mRefreshObservers = new ArrayList<RefreshObserver>(); 
 	
 	/**
-	 * Bridges that implement the sync procedure.
+	 * This can be used by subclasses to cast lists into arrays. 
 	 */
-	private AbstractSyncBridge mSyncBridge;
+	protected final static AbstractSyncBridge[] BRIDGEARRAY_TYPE = new AbstractSyncBridge[0];
 	
 	/**
-	 * Executed when the sync button is pressed. Returned objects must only be
-	 * instantiated once during the {@link #onCreate(Bundle)}, otherwise they 
-	 * won't be attached to the activity and will crash.
+	 * Initializes the sync bridges that are going to be used in this activity,
+	 * meaning attaching them to the activity.
+	 * <p>
+	 * This is the method where where all of them should be initialized and 
+	 * stored somewhere.
+	 * 
+	 * @return All sync bridges that are going to be used in this activity
+	 */
+	protected abstract AbstractSyncBridge[] initSyncBridges();
+	
+	/**
+	 * Executed when the sync button is pressed. Returned object must already
+	 * be instantiated by {@link #initSyncBridges()}, otherwise it won't be 
+	 * attached to the activity and will crash.
+	 * 
+	 * @return The sync bridge object that should be used for refreshing data
 	 */
 	protected abstract AbstractSyncBridge getSyncBridge();
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getActionBarHelper().setRefreshActionItemState(mSyncing);
 		final FragmentManager fm = getSupportFragmentManager();
-		mSyncBridge = (AbstractSyncBridge)fm.findFragmentByTag(AbstractSyncBridge.TAG);
-		if (mSyncBridge == null) {
-			mSyncBridge = getSyncBridge();
-			fm.beginTransaction().add(mSyncBridge, AbstractSyncBridge.TAG).commit();
-			Log.i(TAG, "Added bridge fragment to activity.");
-		} else {
-			mSyncBridge.setRefreshObservers(mRefreshObservers);
-			Log.i(TAG, "Updated refresh observers.");
+		
+		// get all sync bridges and attach them so the activity.
+		final AbstractSyncBridge[] bridges = initSyncBridges();
+		FragmentTransaction ft = null;
+		for (AbstractSyncBridge syncBridge : bridges) {
+			AbstractSyncBridge checkSyncBridge = (AbstractSyncBridge)fm.findFragmentByTag(syncBridge.getTagName());
+			if (checkSyncBridge == null) {
+				// begin transaction if first
+				if (ft == null) {
+					ft = fm.beginTransaction();
+				}
+				ft.add(syncBridge, syncBridge.getTagName());
+				Log.i(TAG, "Added " + syncBridge.getClass().getSimpleName() + " fragment to activity.");
+			} else {
+				syncBridge.setRefreshObservers(mRefreshObservers);
+				Log.i(TAG, "Updated refresh observers.");
+			}
+		}
+		// commit fragment transactions
+		if (ft != null) {
+			ft.commit();
 		}
 	}
 

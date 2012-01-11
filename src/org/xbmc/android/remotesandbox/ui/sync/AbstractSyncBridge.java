@@ -58,15 +58,6 @@ public abstract class AbstractSyncBridge extends Fragment {
 	public static final String TAG = AbstractSyncBridge.class.getSimpleName();
 	
 	/**
-	 * Triggers the synchronization process. Note that we're still on the main
-	 * thread here and any longer actions should either use a threaded service
-	 * or spawn a separate thread.
-	 * 
-	 * @param handler A handler that can be used to post back UI updates
-	 */
-	public abstract void sync(Handler handler);
-
-	/**
 	 * Keeps a local copy of the sync status.
 	 * Synchronizing when true, finished when false.
 	 */
@@ -77,15 +68,30 @@ public abstract class AbstractSyncBridge extends Fragment {
 	 * call them when new data is available.
 	 */
 	protected ArrayList<RefreshObserver> mRefreshObservers = new ArrayList<RefreshObserver>();
+	
+	/**
+	 * The tag name under which the fragment will be attached to the activity.
+	 */
+	final private String mTagName;
 
 	/**
 	 * Constructor.
 	 * @param observers Reference to the activity's observers.
 	 */
-	public AbstractSyncBridge(ArrayList<RefreshObserver> observers) {
+	public AbstractSyncBridge(String tagName, ArrayList<RefreshObserver> observers) {
 		mRefreshObservers = observers;
+		mTagName = tagName;
 	}
 	
+	/**
+	 * Triggers the synchronization process. Note that we're still on the main
+	 * thread here and any longer actions should either use a threaded service
+	 * or spawn a separate thread.
+	 * 
+	 * @param handler A handler that can be used to post back UI updates
+	 */
+	public abstract void sync(Handler handler);
+
 	/**
 	 * Returns the {@link ReloadableActionBarActivity} where the fragment is 
 	 * attached to.
@@ -129,6 +135,16 @@ public abstract class AbstractSyncBridge extends Fragment {
 	 */
 	public void setRefreshObservers(ArrayList<RefreshObserver> observers) {
 		mRefreshObservers = observers;
+	}
+	
+	/**
+	 * Returns the tag name under which the fragment will be attached to the
+	 * activity.
+	 * 
+	 * @return Tag name
+	 */
+	public String getTagName() {
+		return mTagName;
 	}
 
 	@Override

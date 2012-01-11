@@ -44,8 +44,13 @@ public class AudioSyncBridge extends AbstractSyncBridge implements DetachableRes
 
 	private final static String TAG = AudioSyncBridge.class.getSimpleName();
 	
+	/**
+	 * Sync status
+	 */
+	private boolean mSyncing = false;
+	
 	public AudioSyncBridge(ArrayList<RefreshObserver> observers) {
-		super(observers);
+		super(TAG, observers);
 	}
 	
 	@Override
@@ -72,20 +77,27 @@ public class AudioSyncBridge extends AbstractSyncBridge implements DetachableRes
 		final boolean syncing;
 		switch (resultCode) {
 			case AudioSyncService.STATUS_RUNNING: {
+				Log.d(TAG, "Got event: STATUS_RUNNING");
 				syncing = true;
 				break;
 			}
 			case AudioSyncService.STATUS_FINISHED: {
+				Log.d(TAG, "Got event: STATUS_FINISHED");
+				
+				// only notify if we're still syncing (i.e. no errors occurred).
+				if (mSyncing) {
+					Toast.makeText(activity, R.string.toast_synced_all, Toast.LENGTH_SHORT).show();
+					notifyObservers();
+				}
 				syncing = false;
-				Toast.makeText(activity, R.string.toast_synced_all, Toast.LENGTH_SHORT).show();
-				notifyObservers();
 				break;
 			}
 			case AudioSyncService.STATUS_ERROR: {
+				Log.d(TAG, "Got event: STATUS_ERROR");
 				// Error happened down in SyncService, show as toast.
-				syncing = false;
 				final String errorText = activity.getString(R.string.toast_sync_error, resultData.getString(Intent.EXTRA_TEXT));
 				Toast.makeText(activity, errorText, Toast.LENGTH_LONG).show();
+				syncing = false;
 				break;
 			}
 			default:
@@ -94,5 +106,6 @@ public class AudioSyncBridge extends AbstractSyncBridge implements DetachableRes
 		}
 		Log.d(TAG, "Audio refresh callback processed in " + (System.currentTimeMillis() - start) + "ms.");
 		updateSyncStatus(syncing);
+		mSyncing = syncing;
 	}
 }

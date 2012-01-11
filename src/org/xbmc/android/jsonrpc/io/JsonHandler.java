@@ -22,10 +22,12 @@
 package org.xbmc.android.jsonrpc.io;
 
 import java.io.IOException;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xbmc.android.jsonrpc.provider.AudioContract.Albums;
 import org.xbmc.android.jsonrpc.provider.AudioContract.Artists;
+
 import android.content.ContentProvider;
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
@@ -67,17 +69,26 @@ public abstract class JsonHandler {
 	public void applyResult(JSONObject result, ContentResolver resolver) throws ApiException {
 		try {
 			final long start = System.currentTimeMillis();
-
-			final ContentValues[] newBatch = parse(result, resolver);
-			Log.i(TAG, "Starting to execute " + newBatch.length + " batches..");
-
-			if (result.has("artists")) {
-				resolver.bulkInsert(Artists.CONTENT_URI, newBatch);
-			} else if (result.has("albums")) {
-				resolver.bulkInsert(Albums.CONTENT_URI, newBatch);
+			
+			if (result == null) {
+				// TODO handle empty response correctly.
+				Log.w(TAG, "Empty response. DEFINE what todo, ignoring now.");
+				
+			} else {
+				
+				final ContentValues[] newBatch = parse(result, resolver);
+				Log.i(TAG, "Starting to execute " + newBatch.length + " batches..");
+				
+				// need to move this to the subclass, we're abstract in here!
+				if (result.has("artists")) {
+					resolver.bulkInsert(Artists.CONTENT_URI, newBatch);
+					
+				} else if (result.has("albums")) {
+					resolver.bulkInsert(Albums.CONTENT_URI, newBatch);
+					
+				}
+				Log.i(TAG, "Execution done in " + (System.currentTimeMillis() - start) + "ms.");
 			}
-
-			Log.i(TAG, "Execution done in " + (System.currentTimeMillis() - start) + "ms.");
 		} catch (JSONException e) {
 			throw new ApiException(ApiException.JSON_EXCEPTION, "Problem reading json", e);
         } catch (IOException e) {

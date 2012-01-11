@@ -21,10 +21,13 @@
 
 package org.xbmc.android.remotesandbox.ui.common;
 
+import java.util.HashMap;
+
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.remotesandbox.ui.base.BaseFragmentTabsActivity;
 import org.xbmc.android.remotesandbox.ui.sync.AbstractSyncBridge;
 import org.xbmc.android.remotesandbox.ui.sync.AudioSyncBridge;
+import org.xbmc.android.remotesandbox.ui.sync.FilesBridge;
 
 /**
  * Music activity contains multiple tabs. 
@@ -46,7 +49,10 @@ public class MusicPagerActivity extends BaseFragmentTabsActivity {
 	private static final String TAB_ARTISTS = "artists";
 	private static final String TAB_FILES = "files";
 	
-	private AudioSyncBridge mSyncBridge = null;
+	private static final Integer SYNC_AUDIO = 0x01;
+	private static final Integer SYNC_FILES = 0x02;
+	
+	private final HashMap<Integer, AbstractSyncBridge> mSyncBridges = new HashMap<Integer, AbstractSyncBridge>();
 
 	@Override
 	protected void onCreateTabs() {
@@ -54,18 +60,24 @@ public class MusicPagerActivity extends BaseFragmentTabsActivity {
 		addTab(TAB_ARTISTS, R.string.tab_music_artists, ArtistsFragment.class, R.drawable.tab_ic_artist);
 		addTab(TAB_FILES, R.string.tab_music_files, SourcesFragment.class, R.drawable.tab_ic_folder);
 	}
+	
+	@Override
+	protected AbstractSyncBridge[] initSyncBridges() {
+		// use temp local var for faster access
+		final HashMap<Integer, AbstractSyncBridge> syncBridges = mSyncBridges;
+		syncBridges.put(SYNC_AUDIO, new AudioSyncBridge(mRefreshObservers));
+		syncBridges.put(SYNC_FILES, new FilesBridge(mRefreshObservers));
+		return syncBridges.values().toArray(BRIDGEARRAY_TYPE);
+	}
 
 	@Override
 	protected AbstractSyncBridge getSyncBridge() {
-		if (mSyncBridge == null) {
-			mSyncBridge = new AudioSyncBridge(mRefreshObservers);
-		}
 		// depending on selected tab, return a different sync bridge
-		return mSyncBridge;
-/*		if (getCurrentTabTag().equals(TAB_FILES)) {
-			return new FilesBridge(mRefreshObservers);
+		if (getCurrentTabTag().equals(TAB_FILES)) {
+			return mSyncBridges.get(SYNC_FILES);
 		} else {
-		}*/
+			return mSyncBridges.get(SYNC_AUDIO);
+		}
 	}
 
 }

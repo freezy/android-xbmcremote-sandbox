@@ -51,12 +51,15 @@ public class HomeActivity extends ReloadableActionBarActivity {
 		 * + am.getUserData(account, Constants.DATA_PORT)); }
 		 */
 	}
+	
+	@Override
+	protected AbstractSyncBridge[] initSyncBridges() {
+		mSyncBridge = new AudioSyncBridge(mRefreshObservers); 
+		return new AbstractSyncBridge[]{ mSyncBridge };
+	}
 
 	@Override
 	protected AbstractSyncBridge getSyncBridge() {
-		if (mSyncBridge == null) {
-			mSyncBridge = new AudioSyncBridge(mRefreshObservers); 
-		}
 		return mSyncBridge;
 	}
 

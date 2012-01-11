@@ -59,10 +59,10 @@ public class JsonRpcClient extends AbstractClient {
 		try {
 			
 			// 1. get the request object from our API implementation
-			JSONObject request = api.version();
+			final JSONObject request = api.version();
 			
 			// 2. POST the object to XBMC's JSON-RPC API
-			JSONObject result = execute(request, errorHandler);
+			final JSONObject result = execute(request, errorHandler);
 			
 			// 3. parse the result
 			if (result != null) {

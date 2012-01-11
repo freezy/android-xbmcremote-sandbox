@@ -67,8 +67,8 @@ public class FilesClient extends AbstractClient {
 
 		try {
 
-			JSONObject request = api.getDirectory(directory);
-			JSONObject result = execute(request, errorHandler);
+			final JSONObject request = api.getDirectory(directory);
+			final JSONObject result = execute(request, errorHandler);
 
 			if (result != null) {
 				final JSONArray files = result.getJSONArray("files");
@@ -104,10 +104,10 @@ public class FilesClient extends AbstractClient {
 		try {
 
 			// 1. get the request object from our API implementation
-			JSONObject request = api.getSources(media);
+			final JSONObject request = api.getSources(media);
 
 			// 2. POST the object to XBMC's JSON-RPC API
-			JSONObject result = execute(request, errorHandler);
+			final JSONObject result = execute(request, errorHandler);
 
 			// 3. parse the result and unserialize the JSON object into real {@link Source} objects.
 			if (result != null) {

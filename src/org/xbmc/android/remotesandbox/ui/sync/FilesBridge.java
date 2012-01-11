@@ -38,12 +38,14 @@ public class FilesBridge extends AbstractSyncBridge {
 	private final static String TAG = AudioSyncBridge.class.getSimpleName();
 
 	public FilesBridge(ArrayList<RefreshObserver> observers) {
-		super(observers);
+		super(TAG, observers);
 	}
 
 	@Override
 	public void sync(Handler handler) {
 		final long start = System.currentTimeMillis();
+		updateSyncStatus(false);
+		notifyObservers();
 		Log.d(TAG, "Started nothing in " + (System.currentTimeMillis() - start ) + "ms.");
 	}
 	

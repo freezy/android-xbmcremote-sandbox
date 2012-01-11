@@ -150,10 +150,14 @@ public class JsonApiRequest {
 				Log.e(TAG, "[JSON-RPC] " + response);
 				throw new ApiException(ApiException.RESPONSE_ERROR, "Neither result nor error object found in response.", null);
 			}
+			
+			if (obj.isNull("result")) {
+				return null;
+			}
 
 			return obj.getJSONObject("result");
 		} catch(JSONException e) {
-			throw new ApiException(ApiException.JSON_EXCEPTION, "Neither result nor error object found in response.", e);
+			throw new ApiException(ApiException.JSON_EXCEPTION, "Parse error: " + e.getMessage(), e);
 		}
 	}
 
