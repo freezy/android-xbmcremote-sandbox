@@ -21,18 +21,20 @@
 
 package org.xbmc.android.remotesandbox.ui.common;
 
-import org.xbmc.android.jsonrpc.service.NotificationService;
+import org.json.JSONObject;
+import org.xbmc.android.jsonrpc.NotificationManager;
+import org.xbmc.android.jsonrpc.NotificationManager.NotificationObserver;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.remotesandbox.ui.base.ReloadableActionBarActivity;
 import org.xbmc.android.remotesandbox.ui.sync.AbstractSyncBridge;
 import org.xbmc.android.remotesandbox.ui.sync.AudioSyncBridge;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 public class HomeActivity extends ReloadableActionBarActivity {
 
-//	private final static String TAG = HomeActivity.class.getSimpleName();
+	private final static String TAG = HomeActivity.class.getSimpleName();
 	
 	/**
 	 * Sync bridge for global refresh.
@@ -45,7 +47,15 @@ public class HomeActivity extends ReloadableActionBarActivity {
 		setTitle(null);
 		setContentView(R.layout.activity_home);
 		
-		startService(new Intent(getApplicationContext(), NotificationService.class));
+		final NotificationManager nm = NotificationManager.getInstance(getApplicationContext());
+		
+		nm.registerHandler(new NotificationObserver() {
+			@Override
+			public void handleNotification(JSONObject data) {
+				Log.i(TAG, "Received notification: " + data.toString());
+			}
+		});
+		
 
 		/*
 		 * final AccountManager am = AccountManager.get(this); final Account[]
