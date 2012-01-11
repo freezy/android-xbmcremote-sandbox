@@ -25,6 +25,7 @@ import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.util.google.TabsAdapter;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,26 +37,37 @@ import android.widget.TabWidget;
 import android.widget.TextView;
 
 /**
- * A {@link BaseActivity} that simply contains a single fragment. The intent
- * used to invoke this activity is forwarded to the fragment as arguments during
- * fragment instantiation. Derived activities should only need to implement
- * {@link com.google.android.apps.iosched.ui.BaseSinglePaneActivity#onCreatePane()}
- * .
+ * Contains a view pager with multiple tabs through whose the user can swipe
+ * through.
+ * <p/>
+ * Every tab is a {@link Fragment}. In order to add those, call {@link #addTab(String, int, Class, int)}
+ * in {@link #onCreateTabs()}.
+ * <p/>
+ * Note that currently this activity is designed for phones, not tablets.
+ * 
+ * @author freezy <freezy@xbmc.org>
  */
 public abstract class BaseFragmentTabsActivity extends ReloadableActionBarActivity {
+
+	private final static String TAG = BaseFragmentTabsActivity.class.getSimpleName();
+	private final static String EXTRA_TAB = "tab";
 	
 	private TabHost mTabHost;
 	private TabWidget mTabWidget;
 	private TabsAdapter mTabsAdapter;
 	private ViewPager mViewPager;
 	
-	private final static String TAG = BaseFragmentTabsActivity.class.getSimpleName();
+	/**
+	 * Called in <code>onCreate</code> when the fragment constituting this
+	 * activity is needed. The returned fragment's arguments will be set to the
+	 * intent used to invoke this activity.
+	 */
+	protected abstract void onCreateTabs();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		final long start = System.currentTimeMillis();
-		Log.d(TAG, "Starting onCreate()...");
 		setContentView(R.layout.activity_fragment_tabs_pager);
 		
 		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
@@ -64,19 +76,11 @@ public abstract class BaseFragmentTabsActivity extends ReloadableActionBarActivi
 
 		mTabHost.setup();
 		mTabsAdapter = new TabsAdapter(this, mTabHost, mViewPager);
-		
-		//getActivityHelper().setupActionBar(getTitle(), 0);
-
-		//final String customTitle = getIntent().getStringExtra(Intent.EXTRA_TITLE);
-		//getActivityHelper().setActionBarTitle(customTitle != null ? customTitle : getTitle());
 
 		if (savedInstanceState == null) {
 			onCreateTabs();
-			//mFragment = onCreatePane();
-			//mFragment.setArguments(intentToFragmentArguments(getIntent()));
-
 		} else {
-			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
+			mTabHost.setCurrentTabByTag(savedInstanceState.getString(EXTRA_TAB));
 		}
 		
 		final HorizontalScrollView scroller = (HorizontalScrollView)findViewById(R.id.tab_scroller);
@@ -93,22 +97,24 @@ public abstract class BaseFragmentTabsActivity extends ReloadableActionBarActivi
 
 	}
 	
-	protected void addTab(String key, int labelResId, Class<?> fragment, int imageResource) {
+	/**
+	 * Adds a new tab to the pager. Run this only from {@link #onCreateTabs()}.
+	 *  
+	 * @param key A unique name for the tab
+	 * @param labelResId Resource ID for the label shown in the tab
+	 * @param fragment Which fragment should be instantiated
+	 * @param imageResId Resource ID for the icon shown in the tab
+	 */
+	protected void addTab(String key, int labelResId, Class<?> fragment, int imageResId) {
 		final long start = System.currentTimeMillis();
 		Log.d(TAG, "Starting addTab()...");
 		final View tabIndicator = LayoutInflater.from(this).inflate(R.layout.tab, mTabWidget, false);
 		final TextView title = (TextView) tabIndicator.findViewById(R.id.tab_title);
 		final ImageView icon = (ImageView) tabIndicator.findViewById(R.id.tab_icon);
 		title.setText(labelResId);
-		icon.setImageResource(imageResource);
+		icon.setImageResource(imageResId);
 		mTabsAdapter.addTab(mTabHost.newTabSpec(key).setIndicator(tabIndicator), null, fragment, null);
         Log.d(TAG, "addTab() done in " + (System.currentTimeMillis() - start ) + "ms.");
-	}
-	
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putString("tab", mTabHost.getCurrentTabTag());
 	}
 	
 	/**
@@ -118,11 +124,12 @@ public abstract class BaseFragmentTabsActivity extends ReloadableActionBarActivi
 	protected String getCurrentTabTag() {
 		return mTabHost.getCurrentTabTag();
 	}
+
 	
-	/**
-	 * Called in <code>onCreate</code> when the fragment constituting this
-	 * activity is needed. The returned fragment's arguments will be set to the
-	 * intent used to invoke this activity.
-	 */
-	protected abstract void onCreateTabs();
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putString(EXTRA_TAB, mTabHost.getCurrentTabTag());
+	}
+
 }

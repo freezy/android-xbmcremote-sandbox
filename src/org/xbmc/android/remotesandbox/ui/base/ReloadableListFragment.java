@@ -27,14 +27,23 @@ import android.support.v4.app.ListFragment;
 
 
 /**
- * Abstract Superclass for reloadable Lists. provides the options menu reload
- * button.
+ * Abstract superclass for reloadable Lists.
  * 
- * TODO: Click handling if action does not handle it.
+ * All it does right now is registering the observers.
+ * 
+ * @author freezy <freezy@xbmc.org>
  */
 public abstract class ReloadableListFragment extends ListFragment {
 	
+	/**
+	 * Returns the observer of the fragment so the bridge can notify them.
+	 * @return
+	 */
 	protected abstract RefreshObserver getRefreshObserver();
+	
+	/**
+	 * Makes the fragment refresh itself.
+	 */
 	protected abstract void restartLoader();
 	
 	@Override
