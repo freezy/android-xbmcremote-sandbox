@@ -32,6 +32,11 @@ public class HomeActivity extends ReloadableActionBarActivity {
 
 //	private final static String TAG = HomeActivity.class.getSimpleName();
 	
+	/**
+	 * Sync bridge for global refresh.
+	 */
+	private AudioSyncBridge mSyncBridge;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,7 +54,10 @@ public class HomeActivity extends ReloadableActionBarActivity {
 
 	@Override
 	protected AbstractSyncBridge getSyncBridge() {
-		return new AudioSyncBridge(mRefreshObservers);
+		if (mSyncBridge == null) {
+			mSyncBridge = new AudioSyncBridge(mRefreshObservers); 
+		}
+		return mSyncBridge;
 	}
 
 }

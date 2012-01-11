@@ -96,7 +96,7 @@ public abstract class AbstractSyncBridge extends Fragment {
 	protected ReloadableActionBarActivity getReloadableActivity() {
 		final Activity activity = getActivity();
 		if (activity == null) {
-			throw new RuntimeException("Bridge fragment is null!");
+			throw new RuntimeException("Bridge fragment's activity is null!");
 		}
 		if (activity instanceof ReloadableActionBarActivity) {
 			return (ReloadableActionBarActivity)activity;
