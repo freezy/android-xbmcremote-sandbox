@@ -31,15 +31,26 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 /**
- * Reusuable component that bridges calling the service from an activity and
- * treating the result in the user interface.
+ * Reusable component that bridges asynchronous sync calls to the activity.
+ * <p/>
+ * There are two main reason for it being a non-UI fragment:
+ *    <ol><li>It's retained across configuration changes</li>
+ *    <li>Easy access to the activity</li></ol>
  * 
- * A non-UI fragment, retained across configuration changes, that updates its
- * activity's UI when sync status changes.
+ * It's up to the implementing class to support any callback receiver, for 
+ * instance when calling a sync service. All it has to do from the moment the 
+ * sync process is triggered by {@link #sync()} is running 
+ * {@link #updateSyncStatus(boolean)} and {@link #notifyObservers()} if there 
+ * is any data to be updated.
+ * <p/>
+ * Instantiation of any subclass is always triggered by 
+ * {@link ReloadableActionBarActivity#getSyncBridge()}. It's also at 
+ * {@link ReloadableActionBarActivity} where the fragment will be added to the
+ * Activity's view.
  * 
+ * @see ReloadableActionBarActivity
  * @author freezy <freezy@xbmc.org>
  */
 public abstract class AbstractSyncBridge extends Fragment {
@@ -47,36 +58,41 @@ public abstract class AbstractSyncBridge extends Fragment {
 	public static final String TAG = AbstractSyncBridge.class.getSimpleName();
 	
 	/**
-	 * Excecuted when the sync button is pressed.
+	 * Triggers the synchronization process. Note that we're still on the main
+	 * thread here and any longer actions should either use a threaded service
+	 * or spawn a separate thread.
 	 * 
-	 * @param activity Reference to current activity
-	 * @param actionbarHelper Reference to actionbar helper
-	 * @param receiver Reference to detachable receiver
+	 * @param handler A handler that can be used to post back UI updates
 	 */
 	public abstract void sync(Handler handler);
 
+	/**
+	 * Keeps a local copy of the sync status.
+	 * Synchronizing when true, finished when false.
+	 */
 	private boolean mSyncing = false;
 
+	/**
+	 * A reference to {@link ReloadableActionBarActivity}'s observers so we can
+	 * call them when new data is available.
+	 */
 	protected ArrayList<RefreshObserver> mRefreshObservers = new ArrayList<RefreshObserver>();
 
+	/**
+	 * Constructor.
+	 * @param observers Reference to the activity's observers.
+	 */
 	public AbstractSyncBridge(ArrayList<RefreshObserver> observers) {
 		mRefreshObservers = observers;
 	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setRetainInstance(true);
-	}
 	
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		Log.e(TAG, "onActivityCreated()");
-		super.onActivityCreated(savedInstanceState);
-		getReloadableActivity().setSyncing(mSyncing);
-		//((ReloadableActionBarActivity)getActivity()).setSyncing(mSyncing);
-	}
-	
+	/**
+	 * Returns the {@link ReloadableActionBarActivity} where the fragment is 
+	 * attached to.
+	 *  
+	 * @return Activity the fragment is attached to. 
+	 * @throws RuntimeException in case of wrong type or null.
+	 */
 	protected ReloadableActionBarActivity getReloadableActivity() {
 		final Activity activity = getActivity();
 		if (activity == null) {
@@ -88,19 +104,44 @@ public abstract class AbstractSyncBridge extends Fragment {
 		throw new RuntimeException("Sync bridge must be connected to a ReloadableActionBarActivity, " + activity.getClass().getSimpleName() + " found.");
 	}
 	
+	/**
+	 * Tells every attached observers to refresh themselves. Every subclass 
+	 * should run this upon successful result.
+	 */
 	protected void notifyObservers() {
 		for (AudioSyncService.RefreshObserver observer : mRefreshObservers) {
 			observer.onRefreshed();
 		}
 	}
 	
+	/**
+	 * Updates the sync button in the UI.
+	 * @param syncing
+	 */
 	protected void updateSyncStatus(boolean syncing) {
+		mSyncing = syncing;
 		getReloadableActivity().setSyncing(syncing);
 	}
-
+	
+	/**
+	 * Resets the observers, e.g. when an activity is recreated.
+	 * @param observers
+	 */
 	public void setRefreshObservers(ArrayList<RefreshObserver> observers) {
 		mRefreshObservers = observers;
 	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		// make it retained over configuration changes
+		setRetainInstance(true);
+	}
 	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		getReloadableActivity().setSyncing(mSyncing);
+	}
 
 }

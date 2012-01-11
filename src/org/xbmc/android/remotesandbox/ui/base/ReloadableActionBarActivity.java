@@ -35,7 +35,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 /**
- * Action bar activity that contains a sync action.
+ * Manages the sync button's state and behavior.
+ * <p>
+ * Any activity extending this class must provide an {@link AbstractSyncBridge}
+ * which is triggered when the user taps on the sync button. In order to do
+ * this, {@link #getSyncBridge()} must be implemented.
+ * <p>
+ * This class also keeps track of any observers that may need to be updated
+ * when new data arrives. It's however up to the {@link AbstractSyncBridge}
+ * implementations to call the update through {@link AbstractSyncBridge#notifyObservers()}.
+ * <p>
+ * The sync button itself is automatically injected into the action bar using
+ * the {@link R.id.menu_refresh} menu.
  * 
  * @author freezy <freezy@xbmc.org>
  */
@@ -43,12 +54,25 @@ public abstract class ReloadableActionBarActivity extends ActionBarActivity {
 
 	private final static String TAG = ReloadableActionBarActivity.class.getSimpleName();
 	
+	/**
+	 * If true, progress animation is displayed, otherwise static refresh button.
+	 */
 	private boolean mSyncing = false;
+	
+	/**
+	 * List of observers to be called upon success.
+	 */
 	protected final ArrayList<RefreshObserver> mRefreshObservers = new ArrayList<RefreshObserver>(); 
+	
+	/**
+	 * Bridges that implement the sync procedure.
+	 */
 	private AbstractSyncBridge mSyncBridge;
 	
 	/**
-	 * Excecuted when the sync button is pressed.
+	 * Executed when the sync button is pressed. Returned objects must only be
+	 * instantiated once during the {@link #onCreate(Bundle)}, otherwise they 
+	 * won't be attached to the activity and will crash.
 	 */
 	protected abstract AbstractSyncBridge getSyncBridge();
 	
@@ -68,13 +92,42 @@ public abstract class ReloadableActionBarActivity extends ActionBarActivity {
 		}
 	}
 
+	/**
+	 * Updates the status of the sync button (progress vs. sync button).
+	 * @param syncing
+	 */
+	public void setSyncing(boolean syncing) {
+		getActionBarHelper().setRefreshActionItemState(syncing);
+		mSyncing = syncing;
+	}
+	
+	/**
+	 * Registers a new observer.
+	 * @param observer
+	 */
+	public synchronized void registerRefreshObserver(RefreshObserver observer) {
+		mRefreshObservers.add(observer);
+		Log.d(TAG, "Registered refresh observer.");
+	}
+	
+	/**
+	 * Unregisters an observer.
+	 * @param observer
+	 */
+	public synchronized void unregisterRefreshObserver(RefreshObserver observer) {
+		if (mRefreshObservers.remove(observer)) {
+			Log.d(TAG, "Unregistered refresh observer.");
+		} else {
+			Log.w(TAG, "Could not find observer, NOT unregistering!");
+		}
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		// add the refresh button
 		getMenuInflater().inflate(R.menu.refresh_menu_items, menu);
-
 		// Calling super after populating the menu is necessary here to ensure
-		// that the
-		// action bar helpers have a chance to handle this event.
+		// that the action bar helpers have a chance to handle this event.
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -86,24 +139,6 @@ public abstract class ReloadableActionBarActivity extends ActionBarActivity {
 				break;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-	
-	public void setSyncing(boolean syncing) {
-		getActionBarHelper().setRefreshActionItemState(syncing);
-		mSyncing = syncing;
-	}
-
-	public synchronized void registerRefreshObserver(RefreshObserver observer) {
-		mRefreshObservers.add(observer);
-		Log.d(TAG, "Registered refresh observer.");
-	}
-	
-	public synchronized void unregisterRefreshObserver(RefreshObserver observer) {
-		if (mRefreshObservers.remove(observer)) {
-			Log.d(TAG, "Unregistered refresh observer.");
-		} else {
-			Log.w(TAG, "Could not find observer, NOT unregistering!");
-		}
 	}
 	
 }
