@@ -42,16 +42,98 @@ public class PlayerEvent {
 	public static class OnPlay extends AbstractEvent {
 		public final static String METHOD = "Player.OnPlay";
 		public final Data data;
-		public OnPlay(JSONObject event) throws JSONException {
-			super(event);
-			data = new Data(event.getJSONObject("data"));
+		public OnPlay(JSONObject obj) throws JSONException {
+			super(obj);
+			data = new Data(obj.getJSONObject("data"));
 		}
 		@Override
 		public String toString() {
-			return 	"Item " + data.item.id + " (" + data.item.type + ") with player " + data.player.playerId + " at speed " + data.player.speed + ".";
+			return 	"PLAY: Item " + data.item + " with player " + data.player.playerId + " at speed " + data.player.speed + ".";
+		}
+	}
+	
+	/**
+	 * Playback of a media item has been paused. If there is no ID available
+	 * extra information will be provided.
+	 */
+	public static class OnPause extends AbstractEvent {
+		public final static String METHOD = "Player.OnPause";
+		public final Data data;
+		public OnPause(JSONObject obj) throws JSONException {
+			super(obj);
+			data = new Data(obj.getJSONObject("data"));
+		}
+		@Override
+		public String toString() {
+			return 	"PAUSE: Item " + data.item + " with player " + data.player.playerId + " at speed " + data.player.speed + ".";
+		}
+	}
+	
+	/**
+	 * Playback of a media item has been stopped. If there is no ID available
+	 * extra information will be provided.
+	 */
+	public static class OnStop extends AbstractEvent {
+		public final static String METHOD = "Player.OnStop";
+		public final Data data;
+		public OnStop(JSONObject obj) throws JSONException {
+			super(obj);
+			data = new Data(obj.getJSONObject("data"));
+		}
+		@Override
+		public String toString() {
+			return 	"STOP: Item " + data.item + ".";
+		}
+		public static class Data {
+			public final Item item;
+			public Data (JSONObject obj) throws JSONException {
+				item = new Item(obj.getJSONObject("item"));
+			}
+		}
+	}
+	
+	/**
+	 * Speed of the playback of a media item has been changed. If there is no ID
+	 * available extra information will be provided.
+	 */
+	public static class OnSpeedChanged extends AbstractEvent {
+		public final static String METHOD = "Player.OnSpeedChanged";
+		public final Data data;
+		public OnSpeedChanged(JSONObject obj) throws JSONException {
+			super(obj);
+			data = new Data(obj.getJSONObject("data"));
+		}
+		@Override
+		public String toString() {
+			return 	"SPEED-CHANGE: Item " + data.item + " with player " + data.player.playerId + " at speed " + data.player.speed + ".";
 		}
 	}
 
+	/**
+	 * The playback position has been changed. If there is no ID available extra
+	 * information will be provided.
+	 */
+	public static class OnSeek extends AbstractEvent {
+	public final static String METHOD = "Player.OnSeek";
+		public final Data data;
+		public OnSeek(JSONObject obj) throws JSONException {
+			super(obj);
+			data = new Data(obj.getJSONObject("data"));
+		}
+		public static class Data {
+			public final Item item;
+			public final PlayerSeek player;
+			public Data (JSONObject obj) throws JSONException {
+				item = new Item(obj.getJSONObject("item"));
+				player = new PlayerSeek(obj.getJSONObject("player"));
+			}
+		}
+		@Override
+		public String toString() {
+			return 	"SEEK: Item " + data.item + " with player " + data.player.playerId + " to " + data.player.time + " at " + data.player.seekoffset + ".";
+		}
+	}
+	
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
 	 *  types: https://github.com/xbmc/xbmc/blob/master/xbmc/interfaces/json-rpc/types.json
@@ -61,9 +143,9 @@ public class PlayerEvent {
 		public final static String TYPE = "Player.Notifications.Data";
 		public final Item item;
 		public final Player player;
-		public Data (JSONObject event) throws JSONException {
-			item = new Item(event.getJSONObject("item"));
-			player = new Player(event.getJSONObject("player"));
+		public Data (JSONObject obj) throws JSONException {
+			item = new Item(obj.getJSONObject("item"));
+			player = new Player(obj.getJSONObject("player"));
 		}
 	}
 	
@@ -79,17 +161,22 @@ public class PlayerEvent {
 		public final String album;
 		public final String artist;
 		public final int track;
-		public Item (JSONObject event) throws JSONException {
-			type = Type.parse(event.getString("type"));
-			id = AbstractEvent.parseInt(event, "id");
-			title = AbstractEvent.parseString(event, "title");
-			year = AbstractEvent.parseInt(event, "year");
-			episode = AbstractEvent.parseInt(event, "episode");
-			season = AbstractEvent.parseInt(event, "season");
-			showtitle = AbstractEvent.parseString(event, "showtitle");
-			album = AbstractEvent.parseString(event, "album");
-			artist = AbstractEvent.parseString(event, "artist");
-			track = AbstractEvent.parseInt(event, "track");
+		public Item (JSONObject obj) throws JSONException {
+			type = Type.parse(obj.getString("type"));
+			id = AbstractEvent.parseInt(obj, "id");
+			title = AbstractEvent.parseString(obj, "title");
+			year = AbstractEvent.parseInt(obj, "year");
+			episode = AbstractEvent.parseInt(obj, "episode");
+			season = AbstractEvent.parseInt(obj, "season");
+			showtitle = AbstractEvent.parseString(obj, "showtitle");
+			album = AbstractEvent.parseString(obj, "album");
+			artist = AbstractEvent.parseString(obj, "artist");
+			track = AbstractEvent.parseInt(obj, "track");
+		}
+		@Override
+		public String toString() {
+			return Type.stringValue(type) + "(" + id + ")";
+			
 		}
 		
 		public static class Type {
@@ -113,6 +200,16 @@ public class PlayerEvent {
 					return UNKNOWN;
 				}
 			}
+			public static String stringValue(int type) {
+				switch (type) {
+				case MOVIE: return "Movie";
+				case EPISODE: return "Episode";
+				case MUSICVIDEO: return "Musicvideo";
+				case SONG: return "Song";
+				case UNKNOWN: 
+				default: return "Unknown";
+				}
+			}
 		}
 	}
 	
@@ -120,17 +217,37 @@ public class PlayerEvent {
 		public final static String TYPE = "Player.Notifications.Player";
 		public final int playerId;
 		public final int speed;
-		public Player (JSONObject event) throws JSONException {
-			playerId = event.getInt("playerid");
-			speed = event.has("speed") ? event.getInt("speed") : 0;
+		public Player (JSONObject obj) throws JSONException {
+			playerId = obj.getInt("playerid");
+			speed = obj.has("speed") ? obj.getInt("speed") : 0;
 		}
 	}
 	
 	public static class PlayerSeek extends Player {
 		public final static String TYPE = "Player.Notifications.Player.Seek";
-		// TODO
-		public PlayerSeek(JSONObject event) throws JSONException {
-			super(event);
+		public final GlobalTime time;
+		public final GlobalTime seekoffset;
+		public PlayerSeek(JSONObject obj) throws JSONException {
+			super(obj);
+			time = new GlobalTime(obj.getJSONObject("time"));
+			seekoffset = new GlobalTime(obj.getJSONObject("seekoffset"));
+		}
+	}
+	
+	public static class GlobalTime {
+		public final int hours;
+		public final int minutes;
+		public final int seconds;
+		public final int milliseconds;
+		public GlobalTime(JSONObject obj) throws JSONException {
+			hours = obj.getInt("hours");
+			minutes = obj.getInt("minutes");
+			seconds = obj.getInt("seconds");
+			milliseconds = obj.getInt("milliseconds");
+		}
+		@Override
+		public String toString() {
+			return String.format("%02d:%02d:%02d.%03d", hours, minutes, seconds, milliseconds);
 		}
 	}
 	

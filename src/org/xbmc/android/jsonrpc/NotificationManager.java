@@ -82,6 +82,14 @@ public class NotificationManager extends ResultReceiver {
 			}
 			if (method.equals(PlayerEvent.OnPlay.METHOD)) {
 				return new PlayerEvent.OnPlay(params);
+			} else if (method.equals(PlayerEvent.OnPause.METHOD)) {
+				return new PlayerEvent.OnPause(params);
+			} else if (method.equals(PlayerEvent.OnStop.METHOD)) {
+				return new PlayerEvent.OnStop(params);
+			} else if (method.equals(PlayerEvent.OnSpeedChanged.METHOD)) {
+				return new PlayerEvent.OnSpeedChanged(params);
+			} else if (method.equals(PlayerEvent.OnSeek.METHOD)) {
+				return new PlayerEvent.OnSeek(params);
 			}
 		} catch (JSONException e) {
 			Log.e(TAG, "Error parsing event, returning null (" + e.getMessage() + ")", e);
