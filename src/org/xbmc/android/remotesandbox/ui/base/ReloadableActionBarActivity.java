@@ -101,19 +101,20 @@ public abstract class ReloadableActionBarActivity extends ActionBarActivity {
 		final AbstractSyncBridge[] bridges = initSyncBridges();
 		FragmentTransaction ft = null;
 		for (AbstractSyncBridge syncBridge : bridges) {
-			AbstractSyncBridge checkSyncBridge = (AbstractSyncBridge)fm.findFragmentByTag(syncBridge.getTagName());
-			if (checkSyncBridge == null) {
-				// begin transaction if first
-				if (ft == null) {
-					ft = fm.beginTransaction();
-				}
-				ft.add(syncBridge, syncBridge.getTagName());
-				Log.i(TAG, "Added " + syncBridge.getClass().getSimpleName() + " fragment to activity.");
-			} else {
-				syncBridge.setRefreshObservers(mRefreshObservers);
-				Log.i(TAG, "Updated refresh observers.");
+			if (ft == null) {
+				ft = fm.beginTransaction();
 			}
+			AbstractSyncBridge checkSyncBridge = (AbstractSyncBridge)fm.findFragmentByTag(syncBridge.getTagName());
+			if (checkSyncBridge != null) {
+				// This syncBridge already exists, so we'll replace it.
+				ft.remove(checkSyncBridge);
+				Log.i(TAG, "Updated refresh observers.");
+				syncBridge.setRefreshObservers(mRefreshObservers);
+			}
+			Log.i(TAG, "Added " + syncBridge.getClass().getSimpleName() + " fragment to activity.");
+			ft.add(syncBridge, syncBridge.getTagName());
 		}
+
 		// commit fragment transactions
 		if (ft != null) {
 			ft.commit();
