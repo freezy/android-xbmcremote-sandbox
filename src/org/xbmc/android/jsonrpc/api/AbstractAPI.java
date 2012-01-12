@@ -61,7 +61,7 @@ abstract class AbstractAPI {
 	protected JSONObject createRequest(String methodName) throws JSONException {
 		final JSONObject request = new JSONObject();
 		request.put("jsonrpc", "2.0");
-		request.put("id", System.currentTimeMillis());
+		request.put("id", String.valueOf(System.currentTimeMillis()));
 		request.put("method", getPrefix() + methodName);
 		return request;
 	}
