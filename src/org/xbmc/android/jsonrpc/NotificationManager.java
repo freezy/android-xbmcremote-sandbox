@@ -28,6 +28,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.xbmc.android.jsonrpc.notification.AbstractEvent;
 import org.xbmc.android.jsonrpc.notification.PlayerEvent;
+import org.xbmc.android.jsonrpc.notification.SystemEvent;
 import org.xbmc.android.jsonrpc.service.NotificationService;
 
 import android.content.Context;
@@ -90,6 +91,14 @@ public class NotificationManager extends ResultReceiver {
 				return new PlayerEvent.OnSpeedChanged(params);
 			} else if (method.equals(PlayerEvent.OnSeek.METHOD)) {
 				return new PlayerEvent.OnSeek(params);
+			} else if (method.equals(SystemEvent.OnQuit.METHOD)) {
+				return new SystemEvent.OnQuit(params);
+			} else if (method.equals(SystemEvent.OnRestart.METHOD)) {
+				return new SystemEvent.OnRestart(params);
+			} else if (method.equals(SystemEvent.OnWake.METHOD)) {
+				return new SystemEvent.OnWake(params);
+			} else if (method.equals(SystemEvent.OnLowBattery.METHOD)) {
+				return new SystemEvent.OnLowBattery(params);
 			}
 		} catch (JSONException e) {
 			Log.e(TAG, "Error parsing event, returning null (" + e.getMessage() + ")", e);
