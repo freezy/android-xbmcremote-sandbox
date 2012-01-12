@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.xbmc.android.jsonrpc.notification.AbstractEvent;
+import org.xbmc.android.jsonrpc.notification.PlayerEvent;
 import org.xbmc.android.jsonrpc.service.NotificationService;
 
 import android.content.Context;
@@ -36,8 +38,8 @@ import android.util.Log;
 
 /**
  * Manages the Notification service.
- * 
- * Register your obervers here.
+ * <p>
+ * Register your observers here.
  * 
  * @author freezy <freezy@xbmc.org>
  */
@@ -59,7 +61,7 @@ public class NotificationManager extends ResultReceiver {
 				try {
 					final JSONTokener tokener = new JSONTokener(jsonResponse);
 					final JSONObject notification = (JSONObject)tokener.nextValue();
-					notifyHandlers(notification);
+					notifyObservers(notification);
 				} catch (JSONException e) {
 					Log.e(TAG, "Exception parsing response: " + jsonResponse, e);
 				}
@@ -67,32 +69,53 @@ public class NotificationManager extends ResultReceiver {
 		}
 	}
 	
-	private void notifyHandlers(JSONObject notification) {
-		final ArrayList<NotificationObserver> notificationHandlers = sNotificationObservers;
-		for (NotificationObserver handler : notificationHandlers) {
-			handler.handleNotification(notification);
+	public AbstractEvent parse(JSONObject event) {
+		String method;
+		try {
+			method = event.getString("method");
+			if (method == null) {
+				throw new JSONException("No element \"method\" found.");
+			}
+			final JSONObject params = event.getJSONObject("params");
+			if (params == null) {
+				throw new JSONException("No element \"params\" found.");
+			}
+			if (method.equals(PlayerEvent.OnPlay.METHOD)) {
+				return new PlayerEvent.OnPlay(params);
+			}
+		} catch (JSONException e) {
+			Log.e(TAG, "Error parsing event, returning null (" + e.getMessage() + ")", e);
+			return null;
+		}
+		return null;
+	}
+	
+	private void notifyObservers(JSONObject notification) {
+		final ArrayList<NotificationObserver> observers = sNotificationObservers;
+		for (NotificationObserver observer : observers) {
+			observer.handleNotification(notification);
 		}
 	}
 	
-	public NotificationManager registerHandler(NotificationObserver handler) {
-		final ArrayList<NotificationObserver> notificationHandlers = sNotificationObservers;
+	public NotificationManager registerObserver(NotificationObserver observer) {
+		final ArrayList<NotificationObserver> observers = sNotificationObservers;
 
-		// start service if no handler.
-		if (notificationHandlers.isEmpty()) {
+		// start service if no observer.
+		if (observers.isEmpty()) {
 			final Intent intent = new Intent(Intent.ACTION_SYNC, null, mContext, NotificationService.class);
 			intent.putExtra(NotificationService.EXTRA_STATUS_RECEIVER, this);
 			mContext.startService(intent);
 		}
-		notificationHandlers.add(handler);
+		observers.add(observer);
 		return this;
 	}
 	
-	public NotificationManager unregisterHandler(NotificationObserver handler) {
-		final ArrayList<NotificationObserver> notificationHandlers = sNotificationObservers;
-		notificationHandlers.remove(handler);
+	public NotificationManager unregisterObserver(NotificationObserver observer) {
+		final ArrayList<NotificationObserver> observers = sNotificationObservers;
+		observers.remove(observer);
 		
-		// stop service if no more handlers.
-		if (notificationHandlers.isEmpty()) {
+		// stop service if no more observers.
+		if (observers.isEmpty()) {
 			mContext.stopService(new Intent(mContext, NotificationService.class));
 		}
 		return this;
