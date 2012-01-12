@@ -69,7 +69,7 @@ public class NotificationService extends IntentService {
 		BufferedReader in = null;
 
 		try {
-			socket = new Socket(InetAddress.getByName("192.168.0.100"), 9090);
+			socket = new Socket(InetAddress.getByName("192.100.120.114"), 9090);
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		} catch (UnknownHostException e) {
 			Log.e(TAG, "Unknown host: " + e.getMessage(), e);
