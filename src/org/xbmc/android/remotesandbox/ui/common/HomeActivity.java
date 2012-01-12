@@ -24,6 +24,7 @@ package org.xbmc.android.remotesandbox.ui.common;
 import org.json.JSONObject;
 import org.xbmc.android.jsonrpc.NotificationManager;
 import org.xbmc.android.jsonrpc.NotificationManager.NotificationObserver;
+import org.xbmc.android.jsonrpc.notification.AbstractEvent;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.remotesandbox.ui.base.ReloadableActionBarActivity;
 import org.xbmc.android.remotesandbox.ui.sync.AbstractSyncBridge;
@@ -49,10 +50,12 @@ public class HomeActivity extends ReloadableActionBarActivity {
 		
 		final NotificationManager nm = NotificationManager.getInstance(getApplicationContext());
 		
-		nm.registerHandler(new NotificationObserver() {
+		nm.registerObserver(new NotificationObserver() {
 			@Override
 			public void handleNotification(JSONObject data) {
 				Log.i(TAG, "Received notification: " + data.toString());
+				AbstractEvent e = nm.parse(data);
+				Log.i(TAG, "Parsed event: " + e);
 			}
 		});
 		
