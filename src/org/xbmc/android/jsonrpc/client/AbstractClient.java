@@ -36,7 +36,7 @@ import org.xbmc.android.zeroconf.XBMCHost;
  */
 public abstract class AbstractClient {
 
-	private final static String TAG = AbstractClient.class.getSimpleName();
+//	private final static String TAG = AbstractClient.class.getSimpleName();
 
 	private final static String URL_SUFFIX = "/jsonrpc";
 

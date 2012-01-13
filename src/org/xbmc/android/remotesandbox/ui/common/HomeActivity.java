@@ -48,17 +48,6 @@ public class HomeActivity extends ReloadableActionBarActivity {
 		setTitle(null);
 		setContentView(R.layout.activity_home);
 		
-		final NotificationManager nm = NotificationManager.getInstance(getApplicationContext());
-		
-		nm.registerObserver(new NotificationObserver() {
-			@Override
-			public void handleNotification(JSONObject data) {
-				Log.i(TAG, "Received notification: " + data.toString());
-				AbstractEvent e = nm.parse(data);
-				Log.i(TAG, "Parsed event: " + e);
-			}
-		});
-		
 
 		/*
 		 * final AccountManager am = AccountManager.get(this); final Account[]
