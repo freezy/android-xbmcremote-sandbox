@@ -52,14 +52,18 @@ import android.util.Log;
 public class NotificationManager {
 
 	private static final String TAG = NotificationManager.class.getSimpleName();
-	private static NotificationManager INSTANCE = null;
 	
-	private final static ArrayList<NotificationObserver> sNotificationObservers = new ArrayList<NotificationManager.NotificationObserver>(); 
+	private final ArrayList<NotificationObserver> sNotificationObservers = new ArrayList<NotificationManager.NotificationObserver>(); 
 
 	private final Context mContext;
 	boolean mIsBound;
+	
+	public NotificationManager(Context c) {
+		mContext = c;
+	}
 
 	public AbstractEvent parse(JSONObject event) {
+
 		String method;
 		try {
 			method = event.getString("method");
@@ -108,8 +112,10 @@ public class NotificationManager {
 
 		// start service if no observer.
 		if (observers.isEmpty()) {
+			Log.i(TAG, "Starting service...");
 			mContext.startService(new Intent(mContext, NotificationService.class));
-			mContext.bindService(new Intent(mContext, NotificationService.class), mConnection, Context.BIND_AUTO_CREATE);
+			Log.i(TAG, "Binding service...");
+			bindService();
 		}
 		observers.add(observer);
 		return this;
@@ -121,8 +127,10 @@ public class NotificationManager {
 		
 		// stop service if no more observers.
 		if (observers.isEmpty()) {
-			mContext.unbindService(mConnection);
-			mContext.stopService(new Intent(mContext, NotificationService.class));
+			Log.i(TAG, "Unbinding service...");
+			unbindService();
+//			Log.i(TAG, "Stopping service...");
+//			mContext.stopService(new Intent(mContext, NotificationService.class));
 		}
 		return this;
 	}
@@ -130,24 +138,30 @@ public class NotificationManager {
 	public static interface NotificationObserver {
 		public void handleNotification(JSONObject data);
 	}
+
 	
-	public static NotificationManager getInstance(Context c) {
-		if (INSTANCE == null) {
-			INSTANCE = new NotificationManager(c);
-		}
-		return INSTANCE;
+	void bindService() {
+		mContext.bindService(new Intent(mContext, NotificationService.class), mConnection, Context.BIND_AUTO_CREATE);
+		mIsBound = true;
 	}
 	
-	public NotificationManager() {
-		throw new RuntimeException("Cannot call constructor directly, use getInstance().");
-	}
-	
-	private NotificationManager(Context c) {
-		mContext = c;
-	}
-	
-	
-	
+	void unbindService() {
+        if (mIsBound) {
+            // If we have received the service, and hence registered with it, then now is the time to unregister.
+            if (mService != null) {
+                try {
+                    Message msg = Message.obtain(null, NotificationService.MSG_UNREGISTER_CLIENT);
+                    msg.replyTo = mMessenger;
+                    mService.send(msg);
+                } catch (RemoteException e) {
+                    // There is nothing special we need to do if the service has crashed.
+                }
+            }
+            // Detach our existing connection.
+            mContext.unbindService(mConnection);
+            mIsBound = false;
+        }
+    }
 	
 	
 	final Messenger mMessenger = new Messenger(new IncomingHandler());

@@ -11,5 +11,17 @@
         android:layout_height="0dp"
         android:layout_weight="1" >
     </fragment>
+    <fragment
+        android:id="@+id/fragment_nowplaying1"
+        android:name="org.xbmc.android.remotesandbox.ui.common.NowPlayingFragment"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_nowplaying2"
+        android:name="org.xbmc.android.remotesandbox.ui.common.NowPlayingFragment"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+    </fragment>
 
 </LinearLayout>

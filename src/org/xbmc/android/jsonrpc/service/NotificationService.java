@@ -68,6 +68,8 @@ public class NotificationService extends IntentService {
 	 */
 	final Messenger mMessenger = new Messenger(new IncomingHandler());
 	
+	private Socket mSocket = null;
+	
 	/**
 	 * Keeps track of all current registered clients.
 	 */
@@ -92,9 +94,9 @@ public class NotificationService extends IntentService {
 		BufferedReader in = null;
 
 		try {
-			
-			final InetSocketAddress sockaddr = new InetSocketAddress("192.100.120.114", 9090);
+			final InetSocketAddress sockaddr = new InetSocketAddress("192.168.0.100", 9090);
 			socket = new Socket();
+			mSocket = socket;
 			socket.setSoTimeout(0); // no timeout for reading from connection.
 			socket.connect(sockaddr, SOCKET_TIMEOUT);
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -106,7 +108,7 @@ public class NotificationService extends IntentService {
 			return;
 		}
 		
-		// i counts curly brackets so we know when to parse the json object. { = 123, } = 125
+		// i counts curly brackets so we know when to parse the json object. { = 0x7b, } = 0x7d
 		int i = 0;
 		boolean started = false;
 		StringBuffer sb = new StringBuffer();
@@ -114,11 +116,11 @@ public class NotificationService extends IntentService {
 			Log.i(TAG, "Listening on TCP socket..");
 			int c;
 			while ((c = in.read()) != -1) {
-				if (c == 123) {
+				if (c == 0x7b) {
 					i++;
 					started = true;
 				}
-				if (c == 125) {
+				if (c == 0x7d) {
 					i--;
 				}
 				if (started) { // don't append to string buffer unless "{" is received
@@ -135,7 +137,7 @@ public class NotificationService extends IntentService {
 				}
 			}
 			in.close();
-			Log.e(TAG, "TCP socket closed.");
+			Log.i(TAG, "TCP socket closed.");
 
 		} catch (IOException e) {
 			Log.e(TAG, "I/O error while reading: " + e.getMessage(), e);
@@ -155,16 +157,34 @@ public class NotificationService extends IntentService {
 	
 	@Override
 	public IBinder onBind(Intent intent) {
+		Log.i(TAG, "Bound to new client.");
 		return mMessenger.getBinder();
+	}
+	
+	@Override
+	public boolean onUnbind(Intent intent) {
+		final boolean ret = super.onUnbind(intent);
+		if (mClients.size() == 0) {
+			Log.i(TAG, "No more client, shutting down service.");
+			try {
+				mSocket.shutdownInput();
+				mSocket.close();
+			} catch (IOException e) {
+				Log.e(TAG, "Error closing socket.", e);
+			}
+			stopSelf();
+		}
+		return ret;
 	}
 	
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		Log.i(TAG, "Notification service destroyed.");
+		Log.d(TAG, "Notification service destroyed.");
 	}
 
 	private void notifyClients(String data) {
+		Log.i(TAG, "Notifying " + mClients.size() + " clients.");
 		for (int i = mClients.size() - 1; i >= 0; i--) {
 			try {
 				Bundle b = new Bundle();
@@ -185,15 +205,17 @@ public class NotificationService extends IntentService {
 	/**
 	 * Handler of incoming messages from clients.
 	 */
-	private class IncomingHandler extends Handler { // 
+	private class IncomingHandler extends Handler {
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case MSG_REGISTER_CLIENT:
 				mClients.add(msg.replyTo);
+				Log.d(TAG, "Registered new client.");
 				break;
 			case MSG_UNREGISTER_CLIENT:
 				mClients.remove(msg.replyTo);
+				Log.d(TAG, "Unregistered client.");
 				break;
 			default:
 				super.handleMessage(msg);
