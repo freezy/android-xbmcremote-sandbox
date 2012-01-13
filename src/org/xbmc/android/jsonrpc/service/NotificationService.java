@@ -29,6 +29,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+import org.xbmc.android.jsonrpc.NotificationManager;
+
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
@@ -42,6 +44,22 @@ import android.util.Log;
 /**
  * A service which connects to JSON-RPC's TCP API and listens for data to
  * arrive.
+ * <p>
+ * Multiple clients can be connected to this service. When the last client
+ * quits, the service closes the TCP socket and shuts itself down.
+ * <p>
+ * Client/service communication goes via a {@link Messenger} binder. The 
+ * service processes the following messages:
+ * <ul><li>{@link #MSG_REGISTER_CLIENT} registers a new client.</li>
+ *     <li>{@link #MSG_UNREGISTER_CLIENT} removes a client.</li></ul>
+ *     
+ * Messages sent *to* the client are the following:
+ * <ul><li>{@link #MSG_SET_JSON_DATA} sends a received JSON notification to the
+ *          client.</li></ul>
+ *          
+ * This class should probably not be used directly, you more likely want to use
+ * {@link NotificationManager}, which parses the server response and returns
+ * easily treatable POJOs to the client.
  * 
  * @author freezy <freezy@xbmc.org>
  */
@@ -49,15 +67,10 @@ public class NotificationService extends IntentService {
 
 	public final static String TAG = NotificationService.class.getSimpleName();
 	
-	public static final String EXTRA_STATUS_RECEIVER = "org.xbmc.android.jsonprc.extra.STATUS_RECEIVER";
-	public static final String EXTRA_JSON_DATA = "org.xbmc.android.jsonprc.extra.JSON_DATA";
-	
 	private static final int SOCKET_TIMEOUT = 5000;
 
-	public static final int STATUS_RUNNING = 0x1;
-	public static final int STATUS_JSON_RESPONSE = 0x2;
-	public static final int STATUS_ERROR = 0x3;
-	public static final int STATUS_RESTARTING = 0x4;
+	public static final String EXTRA_STATUS_RECEIVER = "org.xbmc.android.jsonprc.extra.STATUS_RECEIVER";
+	public static final String EXTRA_JSON_DATA = "org.xbmc.android.jsonprc.extra.JSON_DATA";
 
 	public static final int MSG_REGISTER_CLIENT = 1;
 	public static final int MSG_UNREGISTER_CLIENT = 2;
@@ -66,16 +79,22 @@ public class NotificationService extends IntentService {
 	/**
 	 * Target we publish for clients to send messages to IncomingHandler.
 	 */
-	final Messenger mMessenger = new Messenger(new IncomingHandler());
-	
-	private Socket mSocket = null;
+	private final Messenger mMessenger = new Messenger(new IncomingHandler());
+
+	/**
+	 * Keeps track of all currently registered clients.
+	 */
+	private final ArrayList<Messenger> mClients = new ArrayList<Messenger>();
 	
 	/**
-	 * Keeps track of all current registered clients.
+	 * Reference to the socket, so we shut it down properly.
 	 */
-	ArrayList<Messenger> mClients = new ArrayList<Messenger>();
-	   
+	private Socket mSocket = null;
 	
+	   
+	/**
+	 * Empty class constructor.
+	 */
 	public NotificationService() {
 		super(TAG);
 	}
@@ -83,20 +102,21 @@ public class NotificationService extends IntentService {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		Log.i(TAG, "Notification service started.");
+		Log.d(TAG, "Notification service created.");
 	}
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		
-		Log.i(TAG, "Starting TCP client...");
+		long s = System.currentTimeMillis();
+		Log.d(TAG, "Starting TCP client...");
 		Socket socket = null;
 		BufferedReader in = null;
 
 		try {
 			final InetSocketAddress sockaddr = new InetSocketAddress("192.168.0.100", 9090);
 			socket = new Socket();
-			mSocket = socket;
+			mSocket = socket;       // update class reference
 			socket.setSoTimeout(0); // no timeout for reading from connection.
 			socket.connect(sockaddr, SOCKET_TIMEOUT);
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -113,11 +133,14 @@ public class NotificationService extends IntentService {
 		boolean started = false;
 		StringBuffer sb = new StringBuffer();
 		try {
-			Log.i(TAG, "Listening on TCP socket..");
+			Log.i(TAG, "Connected to TCP socket in " + (System.currentTimeMillis() - s) + "ms");
 			int c;
 			while ((c = in.read()) != -1) {
 				if (c == 0x7b) {
 					i++;
+					if (!started) {
+						s = System.currentTimeMillis();
+					}
 					started = true;
 				}
 				if (c == 0x7d) {
@@ -128,7 +151,8 @@ public class NotificationService extends IntentService {
 				}
 				
 				if (sb.length() > 0 && i == 0) {
-					Log.i(TAG, "Sending " + sb.length() + " bytes of JSON data to clients.");
+					Log.d(TAG, "RESPONSE: " + sb.toString());
+					Log.i(TAG, "Read " + sb.length() + " bytes in " + (System.currentTimeMillis() - s) + "ms. Notifying " + mClients.size() + " clients.");
 					notifyClients(sb.toString());
 					
 					// reset stringbuffer
@@ -165,13 +189,7 @@ public class NotificationService extends IntentService {
 	public boolean onUnbind(Intent intent) {
 		final boolean ret = super.onUnbind(intent);
 		if (mClients.size() == 0) {
-			Log.i(TAG, "No more client, shutting down service.");
-			try {
-				mSocket.shutdownInput();
-				mSocket.close();
-			} catch (IOException e) {
-				Log.e(TAG, "Error closing socket.", e);
-			}
+			Log.i(TAG, "No more clients, shutting down service.");
 			stopSelf();
 		}
 		return ret;
@@ -180,9 +198,22 @@ public class NotificationService extends IntentService {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		try {
+			final Socket socket = mSocket;
+			if (socket != null) {
+				socket.shutdownInput();
+				socket.close();
+			}
+		} catch (IOException e) {
+			Log.e(TAG, "Error closing socket.", e);
+		}
 		Log.d(TAG, "Notification service destroyed.");
 	}
 
+	/**
+	 * Sends the received JSON-data to all connected clients.
+	 * @param data
+	 */
 	private void notifyClients(String data) {
 		Log.i(TAG, "Notifying " + mClients.size() + " clients.");
 		for (int i = mClients.size() - 1; i >= 0; i--) {
@@ -198,6 +229,7 @@ public class NotificationService extends IntentService {
 				// through the list from back to front so this is safe to do
 				// inside the loop.
 				mClients.remove(i);
+				stopSelf();
 			}
 		}
 	}

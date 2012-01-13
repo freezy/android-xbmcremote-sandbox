@@ -53,18 +53,52 @@ public class NotificationManager {
 
 	private static final String TAG = NotificationManager.class.getSimpleName();
 	
-	private final ArrayList<NotificationObserver> sNotificationObservers = new ArrayList<NotificationManager.NotificationObserver>(); 
+	/**
+	 * Keeps track of the observers.
+	 */
+	private final ArrayList<NotificationObserver> mNotificationObservers = new ArrayList<NotificationManager.NotificationObserver>(); 
 
+	/**
+	 * Reference to context
+	 */
 	private final Context mContext;
+	
+	/**
+	 * True if bound to service, false otherwise.
+	 */
 	boolean mIsBound;
 	
+	/**
+	 * The reference through which we receive messages from the service
+	 */
+	private final Messenger mMessenger = new Messenger(new IncomingHandler());
+	
+	/**
+	 * The reference through which we send messages to the service
+	 */
+	private Messenger mService = null;
+	
+	
+	/**
+	 * Class constructor
+	 * @param c Application context
+	 */
 	public NotificationManager(Context c) {
 		mContext = c;
 	}
 
-	public AbstractEvent parse(JSONObject event) {
+	/**
+	 * Converts a JSON object to a POJO (plain simple java object) of our 
+	 * model.
+	 * 
+	 * @param event The JSON object
+	 * @return
+	 */
+	private AbstractEvent parse(JSONObject event) {
 
 		String method;
+		AbstractEvent pojoEvent;
+		final long s = System.currentTimeMillis();
 		try {
 			method = event.getString("method");
 			if (method == null) {
@@ -75,97 +109,126 @@ public class NotificationManager {
 				throw new JSONException("No element \"params\" found.");
 			}
 			if (method.equals(PlayerEvent.OnPlay.METHOD)) {
-				return new PlayerEvent.OnPlay(params);
+				pojoEvent = new PlayerEvent.OnPlay(params);
 			} else if (method.equals(PlayerEvent.OnPause.METHOD)) {
-				return new PlayerEvent.OnPause(params);
+				pojoEvent = new PlayerEvent.OnPause(params);
 			} else if (method.equals(PlayerEvent.OnStop.METHOD)) {
-				return new PlayerEvent.OnStop(params);
+				pojoEvent = new PlayerEvent.OnStop(params);
 			} else if (method.equals(PlayerEvent.OnSpeedChanged.METHOD)) {
-				return new PlayerEvent.OnSpeedChanged(params);
+				pojoEvent = new PlayerEvent.OnSpeedChanged(params);
 			} else if (method.equals(PlayerEvent.OnSeek.METHOD)) {
-				return new PlayerEvent.OnSeek(params);
+				pojoEvent = new PlayerEvent.OnSeek(params);
 			} else if (method.equals(SystemEvent.OnQuit.METHOD)) {
-				return new SystemEvent.OnQuit(params);
+				pojoEvent = new SystemEvent.OnQuit(params);
 			} else if (method.equals(SystemEvent.OnRestart.METHOD)) {
-				return new SystemEvent.OnRestart(params);
+				pojoEvent = new SystemEvent.OnRestart(params);
 			} else if (method.equals(SystemEvent.OnWake.METHOD)) {
-				return new SystemEvent.OnWake(params);
+				pojoEvent = new SystemEvent.OnWake(params);
 			} else if (method.equals(SystemEvent.OnLowBattery.METHOD)) {
-				return new SystemEvent.OnLowBattery(params);
+				pojoEvent = new SystemEvent.OnLowBattery(params);
+			} else {
+				pojoEvent = null;
 			}
 		} catch (JSONException e) {
 			Log.e(TAG, "Error parsing event, returning null (" + e.getMessage() + ")", e);
-			return null;
+			pojoEvent = null;
 		}
-		return null;
+		Log.i(TAG, "JSON object serialized into POJO in " + (System.currentTimeMillis() - s) + "ms.");
+		return pojoEvent;
 	}
 	
+	/**
+	 * Notifies all connected observers of a new arriving notification.
+	 * 
+	 * @param notification The notification to send
+	 */
 	private void notifyObservers(JSONObject notification) {
-		final ArrayList<NotificationObserver> observers = sNotificationObservers;
+		final ArrayList<NotificationObserver> observers = mNotificationObservers;
 		for (NotificationObserver observer : observers) {
-			observer.handleNotification(notification);
+			observer.handleNotification(parse(notification));
 		}
 	}
 	
+	/**
+	 * Adds a new observer.
+	 * 
+	 * @param observer New observer
+	 * @return Class instance
+	 */
 	public NotificationManager registerObserver(NotificationObserver observer) {
-		final ArrayList<NotificationObserver> observers = sNotificationObservers;
+		final ArrayList<NotificationObserver> observers = mNotificationObservers;
 
 		// start service if no observer.
 		if (observers.isEmpty()) {
-			Log.i(TAG, "Starting service...");
 			mContext.startService(new Intent(mContext, NotificationService.class));
-			Log.i(TAG, "Binding service...");
 			bindService();
 		}
 		observers.add(observer);
 		return this;
 	}
 	
+	/**
+	 * Removes a previously added observer.
+	 * 
+	 * @param observer Observer to remove
+	 * @return Class instance
+	 */
 	public NotificationManager unregisterObserver(NotificationObserver observer) {
-		final ArrayList<NotificationObserver> observers = sNotificationObservers;
+		final ArrayList<NotificationObserver> observers = mNotificationObservers;
 		observers.remove(observer);
 		
 		// stop service if no more observers.
 		if (observers.isEmpty()) {
-			Log.i(TAG, "Unbinding service...");
 			unbindService();
-//			Log.i(TAG, "Stopping service...");
-//			mContext.stopService(new Intent(mContext, NotificationService.class));
 		}
 		return this;
 	}
 	
+	/**
+	 * Observer interface that handles arriving notifications.
+	 * 
+	 * @author freezy <freezy@xbmc.org>
+	 */
 	public static interface NotificationObserver {
-		public void handleNotification(JSONObject data);
+		/**
+		 * Handle an arriving notification in here.
+		 * @param notification
+		 */
+		public void handleNotification(AbstractEvent notification);
 	}
 
 	
-	void bindService() {
+	/**
+	 * Binds the connection to the notification service.
+	 */
+	private void bindService() {
 		mContext.bindService(new Intent(mContext, NotificationService.class), mConnection, Context.BIND_AUTO_CREATE);
 		mIsBound = true;
 	}
 	
-	void unbindService() {
-        if (mIsBound) {
-            // If we have received the service, and hence registered with it, then now is the time to unregister.
-            if (mService != null) {
-                try {
-                    Message msg = Message.obtain(null, NotificationService.MSG_UNREGISTER_CLIENT);
-                    msg.replyTo = mMessenger;
-                    mService.send(msg);
-                } catch (RemoteException e) {
-                    // There is nothing special we need to do if the service has crashed.
-                }
-            }
-            // Detach our existing connection.
-            mContext.unbindService(mConnection);
-            mIsBound = false;
-        }
-    }
-	
-	
-	final Messenger mMessenger = new Messenger(new IncomingHandler());
-	Messenger mService = null;
+	/**
+	 * Unbinds the connection from the notification service. This is done by
+	 * notifying the service first and then terminating the connection.
+	 */
+	private void unbindService() {
+		if (mIsBound) {
+			// If we have received the service, and hence registered with it,
+			// then now is the time to unregister.
+			if (mService != null) {
+				try {
+					Message msg = Message.obtain(null, NotificationService.MSG_UNREGISTER_CLIENT);
+					msg.replyTo = mMessenger;
+					mService.send(msg);
+				} catch (RemoteException e) {
+					// There is nothing special we need to do if the service has
+					// crashed.
+				}
+			}
+			// Detach our existing connection.
+			mContext.unbindService(mConnection);
+			mIsBound = false;
+		}
+	}
 	
 	private final ServiceConnection mConnection = new ServiceConnection() {
 		public void onServiceConnected(ComponentName className, IBinder service) {
@@ -189,24 +252,32 @@ public class NotificationManager {
 		}
 	};
 	
+	/**
+	 * The handler from the receiving service.
+	 * <p>
+	 * In here we add the logic of what happens when we get messages from the 
+	 * notification service.
+	 * 
+	 * @author freezy <freezy@xbmc.org>
+	 */
 	private class IncomingHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-            case NotificationService.MSG_SET_JSON_DATA:
-                final String jsonResponse = msg.getData().getString(NotificationService.EXTRA_JSON_DATA);
-				try {
-					final JSONTokener tokener = new JSONTokener(jsonResponse);
-					final JSONObject notification = (JSONObject)tokener.nextValue();
-					notifyObservers(notification);
-				} catch (JSONException e) {
-					Log.e(TAG, "Exception parsing response: " + jsonResponse, e);
-				}
-                break;
-            default:
-                super.handleMessage(msg);
-            }
-        }
-    }
-	
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+				case NotificationService.MSG_SET_JSON_DATA:
+					final String jsonResponse = msg.getData().getString(NotificationService.EXTRA_JSON_DATA);
+					try {
+						final JSONTokener tokener = new JSONTokener(jsonResponse);
+						final JSONObject notification = (JSONObject) tokener.nextValue();
+						notifyObservers(notification);
+					} catch (JSONException e) {
+						Log.e(TAG, "Exception parsing response: " + jsonResponse, e);
+					}
+					break;
+				default:
+					super.handleMessage(msg);
+			}
+		}
+	}
+
 }

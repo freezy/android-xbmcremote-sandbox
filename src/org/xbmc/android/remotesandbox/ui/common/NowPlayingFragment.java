@@ -1,6 +1,5 @@
 package org.xbmc.android.remotesandbox.ui.common;
 
-import org.json.JSONObject;
 import org.xbmc.android.jsonrpc.NotificationManager;
 import org.xbmc.android.jsonrpc.NotificationManager.NotificationObserver;
 import org.xbmc.android.jsonrpc.notification.AbstractEvent;
@@ -43,10 +42,9 @@ public class NowPlayingFragment extends Fragment {
 		nm = new NotificationManager(getActivity().getApplicationContext());
 		mPlayerObserver = new NotificationObserver() {
 			@Override
-			public void handleNotification(JSONObject data) {
-				AbstractEvent e = nm.parse(data);
-				mStatusText.setText(e.toString());
-				Log.i(TAG, "Parsed event: " + e);
+			public void handleNotification(AbstractEvent notification) {
+				mStatusText.setText(notification.toString());
+				Log.i(TAG, "Parsed event: " + notification);
 			}
 		};
 		
