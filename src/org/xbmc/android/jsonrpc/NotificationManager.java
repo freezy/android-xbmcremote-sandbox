@@ -31,10 +31,15 @@ import org.xbmc.android.jsonrpc.notification.PlayerEvent;
 import org.xbmc.android.jsonrpc.notification.SystemEvent;
 import org.xbmc.android.jsonrpc.service.NotificationService;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.ResultReceiver;
+import android.content.ServiceConnection;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.util.Log;
 
 /**
@@ -44,7 +49,7 @@ import android.util.Log;
  * 
  * @author freezy <freezy@xbmc.org>
  */
-public class NotificationManager extends ResultReceiver {
+public class NotificationManager {
 
 	private static final String TAG = NotificationManager.class.getSimpleName();
 	private static NotificationManager INSTANCE = null;
@@ -52,24 +57,8 @@ public class NotificationManager extends ResultReceiver {
 	private final static ArrayList<NotificationObserver> sNotificationObservers = new ArrayList<NotificationManager.NotificationObserver>(); 
 
 	private final Context mContext;
+	boolean mIsBound;
 
-	@Override
-	public void onReceiveResult(int resultCode, Bundle resultData) {
-		Log.e(TAG, "Received notification: " + resultCode);
-		switch (resultCode) {
-			case NotificationService.STATUS_JSON_RESPONSE:
-				final String jsonResponse = resultData.getString(NotificationService.EXTRA_JSON_DATA);
-				try {
-					final JSONTokener tokener = new JSONTokener(jsonResponse);
-					final JSONObject notification = (JSONObject)tokener.nextValue();
-					notifyObservers(notification);
-				} catch (JSONException e) {
-					Log.e(TAG, "Exception parsing response: " + jsonResponse, e);
-				}
-				break;
-		}
-	}
-	
 	public AbstractEvent parse(JSONObject event) {
 		String method;
 		try {
@@ -119,9 +108,8 @@ public class NotificationManager extends ResultReceiver {
 
 		// start service if no observer.
 		if (observers.isEmpty()) {
-			final Intent intent = new Intent(Intent.ACTION_SYNC, null, mContext, NotificationService.class);
-			intent.putExtra(NotificationService.EXTRA_STATUS_RECEIVER, this);
-			mContext.startService(intent);
+			mContext.startService(new Intent(mContext, NotificationService.class));
+			mContext.bindService(new Intent(mContext, NotificationService.class), mConnection, Context.BIND_AUTO_CREATE);
 		}
 		observers.add(observer);
 		return this;
@@ -133,6 +121,7 @@ public class NotificationManager extends ResultReceiver {
 		
 		// stop service if no more observers.
 		if (observers.isEmpty()) {
+			mContext.unbindService(mConnection);
 			mContext.stopService(new Intent(mContext, NotificationService.class));
 		}
 		return this;
@@ -150,12 +139,60 @@ public class NotificationManager extends ResultReceiver {
 	}
 	
 	public NotificationManager() {
-		super(null);
 		throw new RuntimeException("Cannot call constructor directly, use getInstance().");
 	}
 	
 	private NotificationManager(Context c) {
-		super(null);
 		mContext = c;
 	}
+	
+	
+	
+	
+	
+	final Messenger mMessenger = new Messenger(new IncomingHandler());
+	Messenger mService = null;
+	
+	private final ServiceConnection mConnection = new ServiceConnection() {
+		public void onServiceConnected(ComponentName className, IBinder service) {
+			mService = new Messenger(service);
+			Log.w(TAG, "Connected to notification service.");
+			try {
+				Message msg = Message.obtain(null, NotificationService.MSG_REGISTER_CLIENT);
+				msg.replyTo = mMessenger;
+				mService.send(msg);
+			} catch (RemoteException e) {
+				// In this case the service has crashed before we could even do
+				// anything with it
+			}
+		}
+
+		public void onServiceDisconnected(ComponentName className) {
+			// This is called when the connection with the service has been
+			// unexpectedly disconnected - process crashed.
+			mService = null;
+			Log.w(TAG, "Service disconnected.");
+		}
+	};
+	
+	private class IncomingHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+            case NotificationService.MSG_SET_JSON_DATA:
+                final String jsonResponse = msg.getData().getString(NotificationService.EXTRA_JSON_DATA);
+				try {
+					final JSONTokener tokener = new JSONTokener(jsonResponse);
+					final JSONObject notification = (JSONObject)tokener.nextValue();
+					notifyObservers(notification);
+				} catch (JSONException e) {
+					Log.e(TAG, "Exception parsing response: " + jsonResponse, e);
+				}
+                break;
+            default:
+                super.handleMessage(msg);
+            }
+        }
+    }
+	
 }

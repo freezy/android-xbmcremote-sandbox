@@ -23,8 +23,11 @@ package org.xbmc.android.remotesandbox.ui.phone;
 
 import java.util.ArrayList;
 
+import org.json.JSONObject;
+import org.xbmc.android.jsonrpc.NotificationManager;
+import org.xbmc.android.jsonrpc.NotificationManager.NotificationObserver;
+import org.xbmc.android.jsonrpc.notification.AbstractEvent;
 import org.xbmc.android.remotesandbox.R;
-import org.xbmc.android.remotesandbox.ui.common.MusicPagerActivity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -32,6 +35,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,14 +54,19 @@ import android.widget.TextView;
  */
 public class DashboardFragment extends Fragment {
 	
+	private final static String TAG = DashboardFragment.class.getSimpleName();
+	
 	private static final int HOME_ACTION_REMOTE = 0;
 	private static final int HOME_ACTION_MUSIC = 1;
 	private static final int HOME_ACTION_VIDEOS = 2;
+	
+	private NotificationObserver mPlayerObserver = null;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View root = inflater.inflate(R.layout.fragment_dashboard, null);
 		final GridView grid = (GridView)root.findViewById(R.id.dashboard_grid);
+		setupChronometer();
 		setupDashboardItems(grid);
 		return root;
 	}
@@ -82,6 +91,19 @@ public class DashboardFragment extends Fragment {
 		menuGrid.setSelection(0);
 	}
 	
+	private void setupChronometer() {
+		final NotificationManager nm = NotificationManager.getInstance(getActivity().getApplicationContext());
+		mPlayerObserver = new NotificationObserver() {
+			@Override
+			public void handleNotification(JSONObject data) {
+				Log.i(TAG, "Received notification: " + data.toString());
+				AbstractEvent e = nm.parse(data);
+				Log.i(TAG, "Parsed event: " + e);
+			}
+		};
+		nm.registerObserver(mPlayerObserver);
+	}
+	
 	/**
 	 * Defines what happens when the user taps on one of the dashboard items.
 	 */
@@ -94,12 +116,14 @@ public class DashboardFragment extends Fragment {
 				case HOME_ACTION_REMOTE:
 				case HOME_ACTION_MUSIC:
 				case HOME_ACTION_VIDEOS:
-					intent.setClass(v.getContext(), MusicPagerActivity.class);
+					final NotificationManager nm = NotificationManager.getInstance(getActivity().getApplicationContext());
+					nm.unregisterObserver(mPlayerObserver);
+					//intent.setClass(v.getContext(), MusicPagerActivity.class);
 					break;
 				default:
 					return;
 			}
-			startActivity(intent);
+			//startActivity(intent);
 		}
 	};
 
