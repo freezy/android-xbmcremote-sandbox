@@ -23,6 +23,7 @@ package org.xbmc.android.jsonrpc.notification;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xbmc.android.jsonrpc.api.model.GlobalModel;
 
 /**
  * Parses Player.* events.
@@ -225,32 +226,13 @@ public class PlayerEvent {
 	
 	public static class PlayerSeek extends Player {
 		public final static String TYPE = "Player.Notifications.Player.Seek";
-		public final GlobalTime time;
-		public final GlobalTime seekoffset;
+		public final GlobalModel.Time time;
+		public final GlobalModel.Time seekoffset;
 		public PlayerSeek(JSONObject obj) throws JSONException {
 			super(obj);
-			time = new GlobalTime(obj.getJSONObject("time"));
-			seekoffset = new GlobalTime(obj.getJSONObject("seekoffset"));
+			time = new GlobalModel.Time(obj.getJSONObject("time"));
+			seekoffset = new GlobalModel.Time(obj.getJSONObject("seekoffset"));
 		}
 	}
-	
-	public static class GlobalTime {
-		public final int hours;
-		public final int minutes;
-		public final int seconds;
-		public final int milliseconds;
-		public GlobalTime(JSONObject obj) throws JSONException {
-			hours = obj.getInt("hours");
-			minutes = obj.getInt("minutes");
-			seconds = obj.getInt("seconds");
-			milliseconds = obj.getInt("milliseconds");
-		}
-		@Override
-		public String toString() {
-			return String.format("%02d:%02d:%02d.%03d", hours, minutes, seconds, milliseconds);
-		}
-	}
-	
-	
 	
 }

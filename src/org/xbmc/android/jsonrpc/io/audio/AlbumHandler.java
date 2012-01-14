@@ -24,7 +24,7 @@ package org.xbmc.android.jsonrpc.io.audio;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xbmc.android.jsonrpc.api.AudioLibraryAPI;
+import org.xbmc.android.jsonrpc.api.model.AudioModel;
 import org.xbmc.android.jsonrpc.io.JsonHandler;
 import org.xbmc.android.jsonrpc.provider.AudioContract;
 import org.xbmc.android.jsonrpc.provider.AudioContract.Albums;
@@ -65,9 +65,9 @@ public class AlbumHandler extends JsonHandler {
 			batch[i] = new ContentValues();
 			batch[i].put(SyncColumns.UPDATED, now);
 			batch[i].put(Albums.ID, album.getString("albumid"));
-			batch[i].put(Albums.TITLE, album.getString(AudioLibraryAPI.AlbumFields.TITLE));
-			batch[i].put(Albums.PREFIX + Artists.ID, album.getString(AudioLibraryAPI.AlbumFields.ARTISTID));
-			batch[i].put(Albums.YEAR, album.getString(AudioLibraryAPI.AlbumFields.YEAR));
+			batch[i].put(Albums.TITLE, album.getString(AudioModel.AlbumFields.TITLE));
+			batch[i].put(Albums.PREFIX + Artists.ID, album.getString(AudioModel.AlbumFields.ARTISTID));
+			batch[i].put(Albums.YEAR, album.getString(AudioModel.AlbumFields.YEAR));
 		}
 		return batch;
 	}

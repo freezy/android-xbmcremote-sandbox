@@ -95,39 +95,43 @@ public class NotificationManager {
 	 * @return
 	 */
 	private AbstractEvent parse(JSONObject event) {
-
-		String method;
+		
 		AbstractEvent pojoEvent;
 		final long s = System.currentTimeMillis();
 		try {
-			method = event.getString("method");
-			if (method == null) {
-				throw new JSONException("No element \"method\" found.");
-			}
-			final JSONObject params = event.getJSONObject("params");
-			if (params == null) {
-				throw new JSONException("No element \"params\" found.");
-			}
-			if (method.equals(PlayerEvent.OnPlay.METHOD)) {
-				pojoEvent = new PlayerEvent.OnPlay(params);
-			} else if (method.equals(PlayerEvent.OnPause.METHOD)) {
-				pojoEvent = new PlayerEvent.OnPause(params);
-			} else if (method.equals(PlayerEvent.OnStop.METHOD)) {
-				pojoEvent = new PlayerEvent.OnStop(params);
-			} else if (method.equals(PlayerEvent.OnSpeedChanged.METHOD)) {
-				pojoEvent = new PlayerEvent.OnSpeedChanged(params);
-			} else if (method.equals(PlayerEvent.OnSeek.METHOD)) {
-				pojoEvent = new PlayerEvent.OnSeek(params);
-			} else if (method.equals(SystemEvent.OnQuit.METHOD)) {
-				pojoEvent = new SystemEvent.OnQuit(params);
-			} else if (method.equals(SystemEvent.OnRestart.METHOD)) {
-				pojoEvent = new SystemEvent.OnRestart(params);
-			} else if (method.equals(SystemEvent.OnWake.METHOD)) {
-				pojoEvent = new SystemEvent.OnWake(params);
-			} else if (method.equals(SystemEvent.OnLowBattery.METHOD)) {
-				pojoEvent = new SystemEvent.OnLowBattery(params);
-			} else {
+			
+			// if "id" is supplied that means we're getting a response to a
+			// previous request, not a notification.
+			if (event.has("id")) {
+				
+				
 				pojoEvent = null;
+			// parse notification
+			} else {
+				final String method = event.getString("method");
+				final JSONObject params = event.getJSONObject("params");
+				
+				if (method.equals(PlayerEvent.OnPlay.METHOD)) {
+					pojoEvent = new PlayerEvent.OnPlay(params);
+				} else if (method.equals(PlayerEvent.OnPause.METHOD)) {
+					pojoEvent = new PlayerEvent.OnPause(params);
+				} else if (method.equals(PlayerEvent.OnStop.METHOD)) {
+					pojoEvent = new PlayerEvent.OnStop(params);
+				} else if (method.equals(PlayerEvent.OnSpeedChanged.METHOD)) {
+					pojoEvent = new PlayerEvent.OnSpeedChanged(params);
+				} else if (method.equals(PlayerEvent.OnSeek.METHOD)) {
+					pojoEvent = new PlayerEvent.OnSeek(params);
+				} else if (method.equals(SystemEvent.OnQuit.METHOD)) {
+					pojoEvent = new SystemEvent.OnQuit(params);
+				} else if (method.equals(SystemEvent.OnRestart.METHOD)) {
+					pojoEvent = new SystemEvent.OnRestart(params);
+				} else if (method.equals(SystemEvent.OnWake.METHOD)) {
+					pojoEvent = new SystemEvent.OnWake(params);
+				} else if (method.equals(SystemEvent.OnLowBattery.METHOD)) {
+					pojoEvent = new SystemEvent.OnLowBattery(params);
+				} else {
+					pojoEvent = null;
+				}
 			}
 		} catch (JSONException e) {
 			Log.e(TAG, "Error parsing event, returning null (" + e.getMessage() + ")", e);
@@ -206,6 +210,18 @@ public class NotificationManager {
 		mIsBound = true;
 	}
 	
+	private void postData(String data) {
+		if (mService != null) {
+			try {
+				final Message msg = Message.obtain(null, NotificationService.MSG_SEND_JSON_DATA, data);
+				msg.replyTo = mMessenger;
+				mService.send(msg);
+			} catch (RemoteException e) {
+				
+			}
+		}
+	}
+	
 	/**
 	 * Unbinds the connection from the notification service. This is done by
 	 * notifying the service first and then terminating the connection.
@@ -216,10 +232,11 @@ public class NotificationManager {
 			// then now is the time to unregister.
 			if (mService != null) {
 				try {
-					Message msg = Message.obtain(null, NotificationService.MSG_UNREGISTER_CLIENT);
+					final Message msg = Message.obtain(null, NotificationService.MSG_UNREGISTER_CLIENT);
 					msg.replyTo = mMessenger;
 					mService.send(msg);
 				} catch (RemoteException e) {
+					Log.e(TAG, "Error unregistering client: " + e.getMessage(), e);
 					// There is nothing special we need to do if the service has
 					// crashed.
 				}
@@ -230,15 +247,19 @@ public class NotificationManager {
 		}
 	}
 	
+	/**
+	 * Connection used to communicate with the service.
+	 */
 	private final ServiceConnection mConnection = new ServiceConnection() {
 		public void onServiceConnected(ComponentName className, IBinder service) {
 			mService = new Messenger(service);
 			Log.w(TAG, "Connected to notification service.");
 			try {
-				Message msg = Message.obtain(null, NotificationService.MSG_REGISTER_CLIENT);
+				final Message msg = Message.obtain(null, NotificationService.MSG_REGISTER_CLIENT);
 				msg.replyTo = mMessenger;
 				mService.send(msg);
 			} catch (RemoteException e) {
+				Log.e(TAG, "Error registering client: " + e.getMessage(), e);
 				// In this case the service has crashed before we could even do
 				// anything with it
 			}
@@ -264,12 +285,13 @@ public class NotificationManager {
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
-				case NotificationService.MSG_SET_JSON_DATA:
+				case NotificationService.MSG_RECEIVE_JSON_DATA:
 					final String jsonResponse = msg.getData().getString(NotificationService.EXTRA_JSON_DATA);
 					try {
 						final JSONTokener tokener = new JSONTokener(jsonResponse);
 						final JSONObject notification = (JSONObject) tokener.nextValue();
 						notifyObservers(notification);
+						postData("{\"jsonrpc\": \"2.0\", \"method\": \"Application.GetProperties\", \"id\": \"666\", \"params\": { \"properties\": [ \"version\" ] } }\n");
 					} catch (JSONException e) {
 						Log.e(TAG, "Exception parsing response: " + jsonResponse, e);
 					}

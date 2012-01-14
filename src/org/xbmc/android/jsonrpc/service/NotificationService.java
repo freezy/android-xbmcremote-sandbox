@@ -22,8 +22,10 @@
 package org.xbmc.android.jsonrpc.service;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -54,7 +56,7 @@ import android.util.Log;
  *     <li>{@link #MSG_UNREGISTER_CLIENT} removes a client.</li></ul>
  *     
  * Messages sent *to* the client are the following:
- * <ul><li>{@link #MSG_SET_JSON_DATA} sends a received JSON notification to the
+ * <ul><li>{@link #MSG_RECEIVE_JSON_DATA} sends a received JSON notification to the
  *          client.</li></ul>
  *          
  * This class should probably not be used directly, you more likely want to use
@@ -74,7 +76,8 @@ public class NotificationService extends IntentService {
 
 	public static final int MSG_REGISTER_CLIENT = 1;
 	public static final int MSG_UNREGISTER_CLIENT = 2;
-	public static final int MSG_SET_JSON_DATA = 3;	
+	public static final int MSG_RECEIVE_JSON_DATA = 3;	
+	public static final int MSG_SEND_JSON_DATA = 4;
 	
 	/**
 	 * Target we publish for clients to send messages to IncomingHandler.
@@ -90,6 +93,11 @@ public class NotificationService extends IntentService {
 	 * Reference to the socket, so we shut it down properly.
 	 */
 	private Socket mSocket = null;
+	
+	/**
+	 * Output writer so we can also write stuff to the socket.
+	 */
+	private BufferedWriter mOut = null;
 	
 	   
 	/**
@@ -120,6 +128,7 @@ public class NotificationService extends IntentService {
 			socket.setSoTimeout(0); // no timeout for reading from connection.
 			socket.connect(sockaddr, SOCKET_TIMEOUT);
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			mOut = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 		} catch (UnknownHostException e) {
 			Log.e(TAG, "Unknown host: " + e.getMessage(), e);
 			return;
@@ -161,6 +170,7 @@ public class NotificationService extends IntentService {
 				}
 			}
 			in.close();
+			mOut.close();
 			Log.i(TAG, "TCP socket closed.");
 
 		} catch (IOException e) {
@@ -172,6 +182,9 @@ public class NotificationService extends IntentService {
 				}
 				if (in != null) {
 					in.close();
+				}
+				if (mOut != null) {
+					mOut.close();
 				}
 			} catch (IOException e) {
 				// do nothing.
@@ -220,7 +233,7 @@ public class NotificationService extends IntentService {
 			try {
 				Bundle b = new Bundle();
 				b.putString(EXTRA_JSON_DATA, data);
-				Message msg = Message.obtain(null, MSG_SET_JSON_DATA);
+				Message msg = Message.obtain(null, MSG_RECEIVE_JSON_DATA);
 				msg.setData(b);
 				mClients.get(i).send(msg);
 
@@ -249,6 +262,16 @@ public class NotificationService extends IntentService {
 				mClients.remove(msg.replyTo);
 				Log.d(TAG, "Unregistered client.");
 				break;
+			case MSG_SEND_JSON_DATA:
+				final String data = (String)msg.obj;
+				Log.d(TAG, "Sending data to server.");
+				Log.d(TAG, "REQUEST: " + data);
+					try {
+						mOut.write(data);
+						mOut.flush();
+					} catch (IOException e) {
+						Log.e(TAG, "Error writing to socket: " + e.getMessage(), e);
+					}
 			default:
 				super.handleMessage(msg);
 			}

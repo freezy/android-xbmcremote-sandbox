@@ -97,4 +97,12 @@ abstract class AbstractAPI {
 		}
 		return array;
 	}
+	
+	public static int parseInt(JSONObject obj, String key) throws JSONException {
+		return obj.has(key) ? obj.getInt(key) : -1;
+	}
+	
+	public static String parseString(JSONObject obj, String key) throws JSONException {
+		return obj.has(key) ? obj.getString(key) : null;
+	}
 }

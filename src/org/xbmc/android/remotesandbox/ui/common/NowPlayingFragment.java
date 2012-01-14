@@ -43,8 +43,10 @@ public class NowPlayingFragment extends Fragment {
 		mPlayerObserver = new NotificationObserver() {
 			@Override
 			public void handleNotification(AbstractEvent notification) {
-				mStatusText.setText(notification.toString());
-				Log.i(TAG, "Parsed event: " + notification);
+				if (notification != null) {
+					mStatusText.setText(notification.toString());
+				}
+				Log.i(TAG, "Received event: " + notification);
 			}
 		};
 		
