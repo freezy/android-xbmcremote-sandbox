@@ -111,24 +111,24 @@ public class NotificationManager {
 				final String method = event.getString("method");
 				final JSONObject params = event.getJSONObject("params");
 				
-				if (method.equals(PlayerEvent.OnPlay.METHOD)) {
-					pojoEvent = new PlayerEvent.OnPlay(params);
-				} else if (method.equals(PlayerEvent.OnPause.METHOD)) {
-					pojoEvent = new PlayerEvent.OnPause(params);
-				} else if (method.equals(PlayerEvent.OnStop.METHOD)) {
-					pojoEvent = new PlayerEvent.OnStop(params);
-				} else if (method.equals(PlayerEvent.OnSpeedChanged.METHOD)) {
-					pojoEvent = new PlayerEvent.OnSpeedChanged(params);
-				} else if (method.equals(PlayerEvent.OnSeek.METHOD)) {
-					pojoEvent = new PlayerEvent.OnSeek(params);
-				} else if (method.equals(SystemEvent.OnQuit.METHOD)) {
-					pojoEvent = new SystemEvent.OnQuit(params);
-				} else if (method.equals(SystemEvent.OnRestart.METHOD)) {
-					pojoEvent = new SystemEvent.OnRestart(params);
-				} else if (method.equals(SystemEvent.OnWake.METHOD)) {
-					pojoEvent = new SystemEvent.OnWake(params);
-				} else if (method.equals(SystemEvent.OnLowBattery.METHOD)) {
-					pojoEvent = new SystemEvent.OnLowBattery(params);
+				if (method.equals(PlayerEvent.Play.METHOD)) {
+					pojoEvent = new PlayerEvent.Play(params);
+				} else if (method.equals(PlayerEvent.Pause.METHOD)) {
+					pojoEvent = new PlayerEvent.Pause(params);
+				} else if (method.equals(PlayerEvent.Stop.METHOD)) {
+					pojoEvent = new PlayerEvent.Stop(params);
+				} else if (method.equals(PlayerEvent.SpeedChanged.METHOD)) {
+					pojoEvent = new PlayerEvent.SpeedChanged(params);
+				} else if (method.equals(PlayerEvent.Seek.METHOD)) {
+					pojoEvent = new PlayerEvent.Seek(params);
+				} else if (method.equals(SystemEvent.Quit.METHOD)) {
+					pojoEvent = new SystemEvent.Quit(params);
+				} else if (method.equals(SystemEvent.Restart.METHOD)) {
+					pojoEvent = new SystemEvent.Restart(params);
+				} else if (method.equals(SystemEvent.Wake.METHOD)) {
+					pojoEvent = new SystemEvent.Wake(params);
+				} else if (method.equals(SystemEvent.LowBattery.METHOD)) {
+					pojoEvent = new SystemEvent.LowBattery(params);
 				} else {
 					pojoEvent = null;
 				}

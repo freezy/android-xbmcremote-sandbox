@@ -40,10 +40,10 @@ public class PlayerEvent {
 	 * Playback of a media item has been started or the playback speed has
 	 * changed. If there is no ID available extra information will be provided.
 	 */
-	public static class OnPlay extends AbstractEvent {
+	public static class Play extends AbstractEvent {
 		public final static String METHOD = "Player.OnPlay";
 		public final Data data;
-		public OnPlay(JSONObject obj) throws JSONException {
+		public Play(JSONObject obj) throws JSONException {
 			super(obj);
 			data = new Data(obj.getJSONObject("data"));
 		}
@@ -57,10 +57,10 @@ public class PlayerEvent {
 	 * Playback of a media item has been paused. If there is no ID available
 	 * extra information will be provided.
 	 */
-	public static class OnPause extends AbstractEvent {
+	public static class Pause extends AbstractEvent {
 		public final static String METHOD = "Player.OnPause";
 		public final Data data;
-		public OnPause(JSONObject obj) throws JSONException {
+		public Pause(JSONObject obj) throws JSONException {
 			super(obj);
 			data = new Data(obj.getJSONObject("data"));
 		}
@@ -74,10 +74,10 @@ public class PlayerEvent {
 	 * Playback of a media item has been stopped. If there is no ID available
 	 * extra information will be provided.
 	 */
-	public static class OnStop extends AbstractEvent {
+	public static class Stop extends AbstractEvent {
 		public final static String METHOD = "Player.OnStop";
 		public final Data data;
-		public OnStop(JSONObject obj) throws JSONException {
+		public Stop(JSONObject obj) throws JSONException {
 			super(obj);
 			data = new Data(obj.getJSONObject("data"));
 		}
@@ -97,10 +97,10 @@ public class PlayerEvent {
 	 * Speed of the playback of a media item has been changed. If there is no ID
 	 * available extra information will be provided.
 	 */
-	public static class OnSpeedChanged extends AbstractEvent {
+	public static class SpeedChanged extends AbstractEvent {
 		public final static String METHOD = "Player.OnSpeedChanged";
 		public final Data data;
-		public OnSpeedChanged(JSONObject obj) throws JSONException {
+		public SpeedChanged(JSONObject obj) throws JSONException {
 			super(obj);
 			data = new Data(obj.getJSONObject("data"));
 		}
@@ -114,10 +114,10 @@ public class PlayerEvent {
 	 * The playback position has been changed. If there is no ID available extra
 	 * information will be provided.
 	 */
-	public static class OnSeek extends AbstractEvent {
+	public static class Seek extends AbstractEvent {
 	public final static String METHOD = "Player.OnSeek";
 		public final Data data;
-		public OnSeek(JSONObject obj) throws JSONException {
+		public Seek(JSONObject obj) throws JSONException {
 			super(obj);
 			data = new Data(obj.getJSONObject("data"));
 		}

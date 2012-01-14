@@ -38,9 +38,9 @@ public class SystemEvent {
 	/**
 	 * XBMC will be closed.
 	 */
-	public static class OnQuit extends AbstractEvent {
+	public static class Quit extends AbstractEvent {
 		public final static String METHOD = "System.OnQuit";
-		public OnQuit(JSONObject obj) throws JSONException {
+		public Quit(JSONObject obj) throws JSONException {
 			super(obj);
 		}
 		@Override
@@ -52,9 +52,9 @@ public class SystemEvent {
 	/**
 	 * The system will be restarted.
 	 */
-	public static class OnRestart extends AbstractEvent {
+	public static class Restart extends AbstractEvent {
 		public final static String METHOD = "System.OnRestart";
-		public OnRestart(JSONObject obj) throws JSONException {
+		public Restart(JSONObject obj) throws JSONException {
 			super(obj);
 		}
 		@Override
@@ -66,9 +66,9 @@ public class SystemEvent {
 	/**
 	 * The system woke up from suspension.
 	 */
-	public static class OnWake extends AbstractEvent {
+	public static class Wake extends AbstractEvent {
 		public final static String METHOD = "System.OnWake";
-		public OnWake(JSONObject obj) throws JSONException {
+		public Wake(JSONObject obj) throws JSONException {
 			super(obj);
 		}
 		@Override
@@ -80,9 +80,9 @@ public class SystemEvent {
 	/**
 	 * The system woke up from suspension.
 	 */
-	public static class OnLowBattery extends AbstractEvent {
+	public static class LowBattery extends AbstractEvent {
 		public final static String METHOD = "System.OnLowBattery";
-		public OnLowBattery(JSONObject obj) throws JSONException {
+		public LowBattery(JSONObject obj) throws JSONException {
 			super(obj);
 		}
 		@Override
