@@ -22,12 +22,15 @@
 package org.xbmc.android.jsonrpc;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-import org.xbmc.android.jsonrpc.notification.AbstractEvent;
+import org.xbmc.android.jsonrpc.api.model.AbstractModel;
+import org.xbmc.android.jsonrpc.notification.FollowupRequest;
 import org.xbmc.android.jsonrpc.notification.PlayerEvent;
+import org.xbmc.android.jsonrpc.notification.PlayerObserver;
 import org.xbmc.android.jsonrpc.notification.SystemEvent;
 import org.xbmc.android.jsonrpc.service.NotificationService;
 
@@ -56,7 +59,8 @@ public class NotificationManager {
 	/**
 	 * Keeps track of the observers.
 	 */
-	private final ArrayList<NotificationObserver> mNotificationObservers = new ArrayList<NotificationManager.NotificationObserver>(); 
+	private final ArrayList<NotificationObserver> mNotificationObservers = new ArrayList<NotificationManager.NotificationObserver>();
+	private final HashMap<String, FollowupRequest<?>> mFollowups = new HashMap<String, FollowupRequest<?>>();
 
 	/**
 	 * Reference to context
@@ -78,7 +82,6 @@ public class NotificationManager {
 	 */
 	private Messenger mService = null;
 	
-	
 	/**
 	 * Class constructor
 	 * @param c Application context
@@ -86,7 +89,7 @@ public class NotificationManager {
 	public NotificationManager(Context c) {
 		mContext = c;
 	}
-
+	
 	/**
 	 * Converts a JSON object to a POJO (plain simple java object) of our 
 	 * model.
@@ -94,62 +97,78 @@ public class NotificationManager {
 	 * @param event The JSON object
 	 * @return
 	 */
-	private AbstractEvent parse(JSONObject event) {
+	private void parseAndNotify(JSONObject event) {
 		
-		AbstractEvent pojoEvent;
-		final long s = System.currentTimeMillis();
 		try {
 			
 			// if "id" is supplied that means we're getting a response to a
-			// previous request, not a notification.
+			// follow-up request, not a notification.
 			if (event.has("id")) {
+				final String id = event.getString("id");
+				final HashMap<String, FollowupRequest<?>> followups = mFollowups;
+				if (followups.containsKey(id)) {
+					Log.i(TAG, "Received follow-up response.");
+					handleFollowUp(followups.get(id).respond(event.getJSONObject("result").getJSONObject("songdetails")));
+					followups.remove(id);
+				} else {
+					Log.w(TAG, "Got response with unknown id " + id + ".");
+				}
 				
-				
-				pojoEvent = null;
 			// parse notification
 			} else {
 				final String method = event.getString("method");
 				final JSONObject params = event.getJSONObject("params");
 				
+				final ArrayList<NotificationObserver> observers = mNotificationObservers;
 				if (method.equals(PlayerEvent.Play.METHOD)) {
-					pojoEvent = new PlayerEvent.Play(params);
+					final PlayerEvent.Play notification = new PlayerEvent.Play(params);
+					for (NotificationObserver observer : observers) {
+						handleFollowUp(observer.getPlayerObserver().onPlay(notification));
+					}
 				} else if (method.equals(PlayerEvent.Pause.METHOD)) {
-					pojoEvent = new PlayerEvent.Pause(params);
+					final PlayerEvent.Pause notification = new PlayerEvent.Pause(params);
+					for (NotificationObserver observer : observers) {
+						handleFollowUp(observer.getPlayerObserver().onPause(notification));
+					}
 				} else if (method.equals(PlayerEvent.Stop.METHOD)) {
-					pojoEvent = new PlayerEvent.Stop(params);
+					final PlayerEvent.Stop notification = new PlayerEvent.Stop(params);
+					for (NotificationObserver observer : observers) {
+						handleFollowUp(observer.getPlayerObserver().onStop(notification));
+					}
 				} else if (method.equals(PlayerEvent.SpeedChanged.METHOD)) {
-					pojoEvent = new PlayerEvent.SpeedChanged(params);
+					final PlayerEvent.SpeedChanged notification = new PlayerEvent.SpeedChanged(params);
+					for (NotificationObserver observer : observers) {
+						handleFollowUp(observer.getPlayerObserver().onSpeedChanged(notification));
+					}
 				} else if (method.equals(PlayerEvent.Seek.METHOD)) {
-					pojoEvent = new PlayerEvent.Seek(params);
+					final PlayerEvent.Seek notification = new PlayerEvent.Seek(params);
+					for (NotificationObserver observer : observers) {
+						handleFollowUp(observer.getPlayerObserver().onSeek(notification));
+					}
 				} else if (method.equals(SystemEvent.Quit.METHOD)) {
-					pojoEvent = new SystemEvent.Quit(params);
+					new SystemEvent.Quit(params);
 				} else if (method.equals(SystemEvent.Restart.METHOD)) {
-					pojoEvent = new SystemEvent.Restart(params);
+					new SystemEvent.Restart(params);
 				} else if (method.equals(SystemEvent.Wake.METHOD)) {
-					pojoEvent = new SystemEvent.Wake(params);
+					new SystemEvent.Wake(params);
 				} else if (method.equals(SystemEvent.LowBattery.METHOD)) {
-					pojoEvent = new SystemEvent.LowBattery(params);
-				} else {
-					pojoEvent = null;
-				}
+					new SystemEvent.LowBattery(params);
+				} 
 			}
 		} catch (JSONException e) {
 			Log.e(TAG, "Error parsing event, returning null (" + e.getMessage() + ")", e);
-			pojoEvent = null;
 		}
-		Log.i(TAG, "JSON object serialized into POJO in " + (System.currentTimeMillis() - s) + "ms.");
-		return pojoEvent;
 	}
 	
 	/**
-	 * Notifies all connected observers of a new arriving notification.
+	 * If not null, save the follow-up request and dump it to the seocket.
 	 * 
-	 * @param notification The notification to send
+	 * @param followUp Received follow-up request or null 
 	 */
-	private void notifyObservers(JSONObject notification) {
-		final ArrayList<NotificationObserver> observers = mNotificationObservers;
-		for (NotificationObserver observer : observers) {
-			observer.handleNotification(parse(notification));
+	private <T extends AbstractModel> void handleFollowUp(FollowupRequest<T> followUp) {
+		if (followUp != null) {
+			mFollowups.put(followUp.getId(), followUp);
+			postData(followUp.getRequest().toString() + "\n");
 		}
 	}
 	
@@ -198,7 +217,7 @@ public class NotificationManager {
 		 * Handle an arriving notification in here.
 		 * @param notification
 		 */
-		public void handleNotification(AbstractEvent notification);
+		public PlayerObserver getPlayerObserver();
 	}
 
 	
@@ -289,9 +308,7 @@ public class NotificationManager {
 					final String jsonResponse = msg.getData().getString(NotificationService.EXTRA_JSON_DATA);
 					try {
 						final JSONTokener tokener = new JSONTokener(jsonResponse);
-						final JSONObject notification = (JSONObject) tokener.nextValue();
-						notifyObservers(notification);
-						postData("{\"jsonrpc\": \"2.0\", \"method\": \"Application.GetProperties\", \"id\": \"666\", \"params\": { \"properties\": [ \"version\" ] } }\n");
+						parseAndNotify((JSONObject) tokener.nextValue());
 					} catch (JSONException e) {
 						Log.e(TAG, "Exception parsing response: " + jsonResponse, e);
 					}

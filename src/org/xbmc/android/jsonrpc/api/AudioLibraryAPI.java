@@ -86,7 +86,7 @@ public class AudioLibraryAPI extends AbstractAPI {
 	 * @throws JSONException
 	 */
 	public JSONObject getSongDetails(int songid, String... fields) throws JSONException {
-		final JSONObject request = createRequest("GetArtists");
+		final JSONObject request = createRequest("GetSongDetails");
 		getParameters(request).put("songid", songid);
 		if (fields != null && fields.length > 0) {
 			getParameters(request).put("properties", toJSONArray(fields));

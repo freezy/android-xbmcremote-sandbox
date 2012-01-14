@@ -161,10 +161,10 @@ public class NotificationService extends IntentService {
 				
 				if (sb.length() > 0 && i == 0) {
 					Log.d(TAG, "RESPONSE: " + sb.toString());
-					Log.i(TAG, "Read " + sb.length() + " bytes in " + (System.currentTimeMillis() - s) + "ms. Notifying " + mClients.size() + " clients.");
+					Log.i(TAG, "Read " + sb.length() + " bytes in " + (System.currentTimeMillis() - s) + "ms.");
 					notifyClients(sb.toString());
 					
-					// reset stringbuffer
+					// reset string buffer
 					sb = new StringBuffer();
 					started = false;
 				}

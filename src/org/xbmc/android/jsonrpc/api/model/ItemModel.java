@@ -24,14 +24,21 @@ package org.xbmc.android.jsonrpc.api.model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ItemModel extends AbstractModel {
+/**
+ * Defines all types in the <code>Item.*</code> namespace.
+ * 
+ * @author freezy <freezy@xbmc.org>
+ */
+public class ItemModel {
 	
-	private static final String PREFIX = "Item.";
-
-	public static class BaseDetails {
+	public static class BaseDetails extends AbstractModel {
 		public final static String TYPE = "Item.Details.Base";
-		public final String label;
-		public BaseDetails(JSONObject obj) throws JSONException {
+		public String label;
+		public BaseDetails()  {
+			mType = TYPE;
+		}
+		@Override
+		public void setData(JSONObject obj) throws JSONException {
 			label = obj.getString("label");
 		}
 	}
@@ -43,11 +50,5 @@ public class ItemModel extends AbstractModel {
 
 	public interface BaseFields {
 		
-	}
-	
-	
-	@Override
-	protected String getPrefix() {
-		return PREFIX;
 	}
 }

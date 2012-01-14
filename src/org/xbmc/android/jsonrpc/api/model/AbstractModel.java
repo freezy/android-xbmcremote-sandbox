@@ -25,14 +25,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public abstract class AbstractModel {
-
-	/**
-	 * JSON-RPC's "namespace", similar to the API, but for the model.
-	 * 
-	 * @return JSON-RPC's namespace prefix, suffixed with a dot (".").
-	 */
-	protected abstract String getPrefix();
-
+	
+	protected String mType;
+	
+	public abstract void setData(JSONObject obj) throws JSONException;
+	
 	/**
 	 * Tries to read an integer from JSON object.
 	 * 

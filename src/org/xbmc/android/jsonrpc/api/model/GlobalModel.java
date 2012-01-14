@@ -24,17 +24,27 @@ package org.xbmc.android.jsonrpc.api.model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class GlobalModel extends AbstractModel {
+/**
+ * Defines all types in the <code>Global.*</code> namespace.
+ * 
+ * @author freezy <freezy@xbmc.org>
+ */
+public class GlobalModel {
 	
-	private static final String PREFIX = "Global.";
-	
-	public static class Time {
+	public static class Time extends AbstractModel {
 		public final static String TYPE = "Global.Time";
-		public final int hours;
-		public final int minutes;
-		public final int seconds;
-		public final int milliseconds;
+		public int hours;
+		public int minutes;
+		public int seconds;
+		public int milliseconds;
+		public Time() {
+			mType = TYPE;
+		}
 		public Time(JSONObject obj) throws JSONException {
+			setData(obj);
+		}
+		@Override
+		public void setData(JSONObject obj) throws JSONException {
 			hours = obj.getInt("hours");
 			minutes = obj.getInt("minutes");
 			seconds = obj.getInt("seconds");
@@ -46,8 +56,4 @@ public class GlobalModel extends AbstractModel {
 		}
 	}
 
-	@Override
-	protected String getPrefix() {
-		return PREFIX;
-	}
 }

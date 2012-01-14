@@ -1,8 +1,15 @@
 package org.xbmc.android.remotesandbox.ui.common;
 
+import org.json.JSONException;
 import org.xbmc.android.jsonrpc.NotificationManager;
 import org.xbmc.android.jsonrpc.NotificationManager.NotificationObserver;
-import org.xbmc.android.jsonrpc.notification.AbstractEvent;
+import org.xbmc.android.jsonrpc.api.AudioLibraryAPI;
+import org.xbmc.android.jsonrpc.api.model.AbstractModel;
+import org.xbmc.android.jsonrpc.api.model.AudioModel;
+import org.xbmc.android.jsonrpc.api.model.AudioModel.SongDetails;
+import org.xbmc.android.jsonrpc.notification.FollowupRequest;
+import org.xbmc.android.jsonrpc.notification.PlayerEvent.Play;
+import org.xbmc.android.jsonrpc.notification.PlayerObserver;
 import org.xbmc.android.remotesandbox.R;
 
 import android.os.Bundle;
@@ -42,11 +49,26 @@ public class NowPlayingFragment extends Fragment {
 		nm = new NotificationManager(getActivity().getApplicationContext());
 		mPlayerObserver = new NotificationObserver() {
 			@Override
-			public void handleNotification(AbstractEvent notification) {
-				if (notification != null) {
-					mStatusText.setText(notification.toString());
-				}
-				Log.i(TAG, "Received event: " + notification);
+			public PlayerObserver getPlayerObserver() {
+				
+				return new PlayerObserver() {
+					@Override
+					public FollowupRequest<AudioModel.SongDetails> onPlay(final Play notification) {
+						mStatusText.setText(notification.toString());
+						final AudioLibraryAPI audioApi = new AudioLibraryAPI();
+						try {
+							return new FollowupRequest<AudioModel.SongDetails>(audioApi.getSongDetails(notification.data.item.id), AudioModel.SongDetails.class) {
+								@Override
+								protected <U extends AbstractModel> FollowupRequest<U> onResponse(SongDetails response) {
+									Log.i(TAG, "Got song details: " + response.label);
+									return null;
+								}
+							};
+						} catch (JSONException e) {
+							return null;
+						}
+					}
+				};
 			}
 		};
 		

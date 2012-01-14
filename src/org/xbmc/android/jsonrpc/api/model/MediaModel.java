@@ -24,24 +24,25 @@ package org.xbmc.android.jsonrpc.api.model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MediaModel extends AbstractModel {
-	
-	private static final String PREFIX = "Media.";
-
+/**
+ * Defines all types in the <code>Media.*</code> namespace.
+ * 
+ * @author freezy <freezy@xbmc.org>
+ */
+public class MediaModel {
 	
 	public static class BaseDetails extends ItemModel.BaseDetails {
 		public final static String TYPE = "Media.Details.Base";
-		public final String fanart;
-		public final String thumbnail;
-		public BaseDetails(JSONObject obj) throws JSONException {
-			super(obj);
+		public String fanart;
+		public String thumbnail;
+		public BaseDetails() {
+			mType = TYPE;
+		}
+		@Override
+		public void setData(JSONObject obj) throws JSONException {
+			super.setData(obj);
 			fanart = parseString(obj, "fanart");
 			thumbnail = parseString(obj, "thumbnail");
 		}
-	}
-	
-	@Override
-	protected String getPrefix() {
-		return PREFIX;
 	}
 }

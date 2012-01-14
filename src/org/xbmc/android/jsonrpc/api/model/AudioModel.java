@@ -24,29 +24,40 @@ package org.xbmc.android.jsonrpc.api.model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class AudioModel extends AbstractModel {
-	
-	private static final String PREFIX = "Audio.";
+/**
+ * Defines all types in the <code>Audio.*</code> namespace.
+ * 
+ * @author freezy <freezy@xbmc.org>
+ */
+public class AudioModel {
 	
 	public static class BaseDetails extends MediaModel.BaseDetails {
 		public final static String TYPE = "Audio.Details.Base";
-		public final String genre;
-		public BaseDetails(JSONObject obj) throws JSONException {
-			super(obj);
+		public String genre;
+		public BaseDetails() {
+			mType = TYPE;
+		}
+		@Override
+		public void setData(JSONObject obj) throws JSONException {
+			super.setData(obj);
 			genre = parseString(obj, "genre");
 		}
 	}
 	
 	public static class MediaDetails extends BaseDetails {
 		public final static String TYPE = "Audio.Details.Media";
-		public final String title;
-		public final String artist;
-		public final int year;
-		public final int rating;
-		public final String musicbrainzalbumid;
-		public final String musicbrainzalbumartistid;
-		public MediaDetails(JSONObject obj) throws JSONException {
-			super(obj);
+		public String title;
+		public String artist;
+		public int year;
+		public int rating;
+		public String musicbrainzalbumid;
+		public String musicbrainzalbumartistid;
+		public MediaDetails() {
+			mType = TYPE;
+		}
+		@Override
+		public void setData(JSONObject obj) throws JSONException {
+			super.setData(obj);
 			title = parseString(obj, "title");
 			artist = parseString(obj, "artist");
 			year = parseInt(obj, "year");
@@ -62,21 +73,25 @@ public class AudioModel extends AbstractModel {
 	
 	public static class SongDetails extends MediaDetails {
 		public final static String TYPE = "Audio.Details.Song";
-		public final int songid;
-		public final String file;
-		public final String albumartist;
-		public final String album;
-		public final int track;
-		public final int duration;
-		public final String comment;
-		public final String lyrics;
-		public final int playcount;
-		public final String musicbrainztrackid;
-		public final String musicbrainzartistid;
-		public final int artistid;
-		public final int albumid;
-		public SongDetails(JSONObject obj) throws JSONException {
-			super(obj);
+		public int songid;
+		public String file;
+		public String albumartist;
+		public String album;
+		public int track;
+		public int duration;
+		public String comment;
+		public String lyrics;
+		public int playcount;
+		public String musicbrainztrackid;
+		public String musicbrainzartistid;
+		public int artistid;
+		public int albumid;
+		public SongDetails() {
+			mType = TYPE;
+		}
+		@Override
+		public void setData(JSONObject obj) throws JSONException {
+			super.setData(obj);
 			songid = obj.getInt("songid");
 			file = parseString(obj, "file");
 			albumartist = parseString(obj, "albumartist");
@@ -170,10 +185,4 @@ public class AudioModel extends AbstractModel {
 		final String ARTISTID = "artistid";
 	}
 	
-	
-	
-	@Override
-	protected String getPrefix() {
-		return PREFIX;
-	}
 }
