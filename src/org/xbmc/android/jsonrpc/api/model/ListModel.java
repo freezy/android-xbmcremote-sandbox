@@ -23,38 +23,48 @@ package org.xbmc.android.jsonrpc.api.model;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xbmc.android.jsonrpc.api.FilesAPI.File;
+import org.xbmc.android.jsonrpc.api.FilesAPI.OneLabelledNavigation;
 
 /**
- * Defines all types in the <code>Global.*</code> namespace.
+ * Defines all types in the <code>List.*</code> namespace.
  * 
  * @author freezy <freezy@xbmc.org>
  */
-public final class GlobalModel {
+public final class ListModel {
 	
-	public static class Time extends AbstractModel {
-		public final static String TYPE = "Global.Time";
-		public int hours;
-		public int minutes;
-		public int seconds;
-		public int milliseconds;
-		public Time() {
+	public static class SourceItem extends ItemModel.BaseDetails implements OneLabelledNavigation {
+		public final static String TYPE = "List.Items.Sources";
+		public String file;
+		public SourceItem()  {
 			mType = TYPE;
 		}
-		public Time(JSONObject obj) throws JSONException {
+		public SourceItem(JSONObject obj) throws JSONException {
 			this();
 			setData(obj);
 		}
 		@Override
 		public void setData(JSONObject obj) throws JSONException {
-			hours = obj.getInt("hours");
-			minutes = obj.getInt("minutes");
-			seconds = obj.getInt("seconds");
-			milliseconds = obj.getInt("milliseconds");
+			super.setData(obj);
+			file = obj.getString("file");
 		}
 		@Override
-		public String toString() {
-			return String.format("%02d:%02d:%02d.%03d", hours, minutes, seconds, milliseconds);
+		public String getLabel() {
+			return label;
+		}
+		@Override
+		public int getType() {
+			return File.FILETYPE_SOURCE;
+		}
+		@Override
+		public String getPath() {
+			return file;
 		}
 	}
+	
+	
+	/*========================================================================* 
+	 *  FIELDS 
+	 *========================================================================*/
 
 }

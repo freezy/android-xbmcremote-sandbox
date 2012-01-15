@@ -21,40 +21,27 @@
 
 package org.xbmc.android.jsonrpc.api.model;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
- * Defines all types in the <code>Global.*</code> namespace.
+ * Defines all types in the <code>Files.*</code> namespace.
  * 
  * @author freezy <freezy@xbmc.org>
  */
-public final class GlobalModel {
+public final class FilesModel {
 	
-	public static class Time extends AbstractModel {
-		public final static String TYPE = "Global.Time";
-		public int hours;
-		public int minutes;
-		public int seconds;
-		public int milliseconds;
-		public Time() {
-			mType = TYPE;
-		}
-		public Time(JSONObject obj) throws JSONException {
-			this();
-			setData(obj);
-		}
-		@Override
-		public void setData(JSONObject obj) throws JSONException {
-			hours = obj.getInt("hours");
-			minutes = obj.getInt("minutes");
-			seconds = obj.getInt("seconds");
-			milliseconds = obj.getInt("milliseconds");
-		}
-		@Override
-		public String toString() {
-			return String.format("%02d:%02d:%02d.%03d", hours, minutes, seconds, milliseconds);
-		}
+	
+	/*========================================================================* 
+	 *  FIELDS 
+	 *========================================================================*/
+	
+	/**
+	 * Files.Media
+	 */
+	public interface Media {
+		final String VIDEO = "video";
+		final String MUSIC = "music";
+		final String PICTURES = "pictures";
+		final String FILES = "files";
+		final String PROGRAMS = "programs";
 	}
-
 }

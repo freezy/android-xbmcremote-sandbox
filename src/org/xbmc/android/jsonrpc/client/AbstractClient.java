@@ -22,6 +22,8 @@
 package org.xbmc.android.jsonrpc.client;
 
 import org.json.JSONObject;
+import org.xbmc.android.jsonrpc.api.FilesAPI;
+import org.xbmc.android.jsonrpc.api.call.AbstractCall;
 import org.xbmc.android.jsonrpc.io.ApiException;
 import org.xbmc.android.jsonrpc.io.JsonApiRequest;
 import org.xbmc.android.jsonrpc.service.AudioSyncService;
@@ -36,7 +38,7 @@ import org.xbmc.android.zeroconf.XBMCHost;
  */
 public abstract class AbstractClient {
 
-//	private final static String TAG = AbstractClient.class.getSimpleName();
+	private final static String TAG = AbstractClient.class.getSimpleName();
 
 	private final static String URL_SUFFIX = "/jsonrpc";
 
@@ -56,6 +58,30 @@ public abstract class AbstractClient {
 	 */
 	protected AbstractClient(XBMCHost host) {
 		mHost = host;
+	}
+	
+
+	/**
+	 * Returns all sources of a specific media type. If nothing found, an empty
+	 * list is returned.
+	 *
+	 * @param media Media type, see constants at {@link FilesAPI.Media}.
+	 * @param errorHandler Error handler
+	 * @return Sources or empty list if nothing found.
+	 */
+	protected JSONObject executenew(AbstractCall<?> api, ErrorHandler errorHandler) {
+		
+			// 1. get the request object from our API implementation
+			final JSONObject request = api.getRequest();
+
+			// 2. POST the object to XBMC's JSON-RPC API
+			final JSONObject result = execute(request, errorHandler);
+
+			// 3. parse the result and unserialize the JSON object into real {@link Source} objects.
+			if (result != null) {
+				api.setResult(result);
+			}
+		return null;
 	}
 
 	/**

@@ -29,6 +29,8 @@ import org.json.JSONObject;
 import org.xbmc.android.jsonrpc.api.FilesAPI;
 import org.xbmc.android.jsonrpc.api.FilesAPI.File;
 import org.xbmc.android.jsonrpc.api.FilesAPI.Source;
+import org.xbmc.android.jsonrpc.api.call.Files;
+import org.xbmc.android.jsonrpc.api.model.ListModel;
 import org.xbmc.android.jsonrpc.io.ApiException;
 
 import android.util.Log;
@@ -50,8 +52,16 @@ public class FilesClient extends AbstractClient {
 	 * @param errorHandler Error handler
 	 * @return List of all music sources
 	 */
-	public ArrayList<Source> getMusicSources(ErrorHandler errorHandler) {
-		return getSources(FilesAPI.Media.MUSIC, errorHandler);
+	public ArrayList<ListModel.SourceItem> getMusicSources(ErrorHandler errorHandler) {
+		try {
+			final Files.GetSources apicall = new Files.GetSources(FilesAPI.Media.MUSIC);
+			executenew(apicall, errorHandler);
+			return apicall.getResults();
+		} catch (JSONException e) {
+			Log.e(TAG, e.getMessage(), e);
+			errorHandler.handleError(new ApiException(ApiException.JSON_EXCEPTION, e.getMessage(), e));
+		}
+		return new ArrayList<ListModel.SourceItem>(0);
 	}
 
 

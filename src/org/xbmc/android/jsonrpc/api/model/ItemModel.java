@@ -29,7 +29,7 @@ import org.json.JSONObject;
  * 
  * @author freezy <freezy@xbmc.org>
  */
-public class ItemModel {
+public final class ItemModel {
 	
 	public static class BaseDetails extends AbstractModel {
 		public final static String TYPE = "Item.Details.Base";
