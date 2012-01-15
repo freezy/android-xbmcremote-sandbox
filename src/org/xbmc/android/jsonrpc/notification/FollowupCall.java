@@ -21,11 +21,9 @@
 
 package org.xbmc.android.jsonrpc.notification;
 
-import org.json.JSONException;
 import org.json.JSONObject;
+import org.xbmc.android.jsonrpc.api.call.AbstractCall;
 import org.xbmc.android.jsonrpc.api.model.AbstractModel;
-
-import android.util.Log;
 
 /**
  * A request posted immediately after receiving a notification, in order to 
@@ -37,45 +35,32 @@ import android.util.Log;
  * @author freezy <freezy@xbmc.org>
  * @param <T> Response format of the API call
  */
-public abstract class FollowupRequest<T extends AbstractModel> {
+public abstract class FollowupCall<T extends AbstractModel> {
 	
-	private static final String TAG = FollowupRequest.class.getSimpleName();
+//	private static final String TAG = FollowupCall.class.getSimpleName();
 	
-	private final JSONObject mRequest;
-	private final Class<T> mClass;
+	private final AbstractCall<T> mApiCall;
 	
-	public FollowupRequest(JSONObject request, Class<T> c) {
-		mRequest = request;
-		mClass = c;
+	public FollowupCall(AbstractCall<T> apiCall) {
+		mApiCall = apiCall;
 	}
 	
-	protected abstract <U extends AbstractModel> FollowupRequest<U> onResponse(T response);
-
+	protected abstract <U extends AbstractModel> FollowupCall<U> onResponse(T response);
+	
+	public <U extends AbstractModel> FollowupCall<U> respond(JSONObject result) {
+		mApiCall.setResult(result);
+		return onResponse(mApiCall.getResult());
+	}
+	
 	public JSONObject getRequest() {
-		return mRequest;
+		return mApiCall.getRequest();
 	}
-	
-	public <U extends AbstractModel> FollowupRequest<U> respond(JSONObject response) {
-		try {
-			T obj = mClass.newInstance();
-			obj.setData(response);
-			return onResponse(obj);
-		} catch (JSONException e) {
-			Log.e(TAG, "Cannot parse JSON data: " + response + ": " + e.getMessage(), e);
-		} catch (InstantiationException e) {
-			Log.e(TAG, "Cannot instantiate class " + mClass.getSimpleName() + ": " + e.getMessage(), e);
-		} catch (IllegalAccessException e) {
-			Log.e(TAG, "Illegal access while instantiating class " + mClass.getSimpleName() + ": " + e.getMessage(), e);
-		}
-		return null;
+
+	public AbstractCall<T> getApiCall() {
+		return mApiCall;
 	}
 	
 	public String getId() {
-		try {
-			return mRequest.getString("id");
-		} catch (JSONException e) {
-			Log.e(TAG, "Cannot get \"id\" field from request: " + mRequest, e);
-		}
-		return null;
+		return mApiCall.getId();
 	}
 }

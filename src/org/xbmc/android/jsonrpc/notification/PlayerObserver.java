@@ -36,19 +36,19 @@ import org.xbmc.android.jsonrpc.notification.PlayerEvent.Stop;
  */
 public abstract class PlayerObserver {
 	
-	public FollowupRequest<? extends AbstractModel> onPlay(Play notification) {
+	public FollowupCall<? extends AbstractModel> onPlay(Play notification) {
 		return null;
 	}
-	public FollowupRequest<? extends AbstractModel> onPause(Pause notification) {
+	public FollowupCall<? extends AbstractModel> onPause(Pause notification) {
 		return null;
 	}
-	public FollowupRequest<? extends AbstractModel> onStop(Stop notification) {
+	public FollowupCall<? extends AbstractModel> onStop(Stop notification) {
 		return null;
 	}
-	public FollowupRequest<? extends AbstractModel> onSpeedChanged(SpeedChanged notification) {
+	public FollowupCall<? extends AbstractModel> onSpeedChanged(SpeedChanged notification) {
 		return null;
 	}
-	public FollowupRequest<? extends AbstractModel> onSeek(Seek notification) {
+	public FollowupCall<? extends AbstractModel> onSeek(Seek notification) {
 		return null;
 	}
 }

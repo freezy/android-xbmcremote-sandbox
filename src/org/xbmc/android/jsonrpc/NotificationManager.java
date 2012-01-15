@@ -28,7 +28,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.xbmc.android.jsonrpc.api.model.AbstractModel;
-import org.xbmc.android.jsonrpc.notification.FollowupRequest;
+import org.xbmc.android.jsonrpc.notification.FollowupCall;
 import org.xbmc.android.jsonrpc.notification.PlayerEvent;
 import org.xbmc.android.jsonrpc.notification.PlayerObserver;
 import org.xbmc.android.jsonrpc.notification.SystemEvent;
@@ -60,7 +60,7 @@ public class NotificationManager {
 	 * Keeps track of the observers.
 	 */
 	private final ArrayList<NotificationObserver> mNotificationObservers = new ArrayList<NotificationManager.NotificationObserver>();
-	private final HashMap<String, FollowupRequest<?>> mFollowups = new HashMap<String, FollowupRequest<?>>();
+	private final HashMap<String, FollowupCall<?>> mFollowups = new HashMap<String, FollowupCall<?>>();
 
 	/**
 	 * Reference to context
@@ -105,10 +105,10 @@ public class NotificationManager {
 			// follow-up request, not a notification.
 			if (event.has("id")) {
 				final String id = event.getString("id");
-				final HashMap<String, FollowupRequest<?>> followups = mFollowups;
+				final HashMap<String, FollowupCall<?>> followups = mFollowups;
 				if (followups.containsKey(id)) {
 					Log.i(TAG, "Received follow-up response.");
-					handleFollowUp(followups.get(id).respond(event.getJSONObject("result").getJSONObject("songdetails")));
+					handleFollowUp(followups.get(id).respond(event.getJSONObject("result")));
 					followups.remove(id);
 				} else {
 					Log.w(TAG, "Got response with unknown id " + id + ".");
@@ -165,7 +165,7 @@ public class NotificationManager {
 	 * 
 	 * @param followUp Received follow-up request or null 
 	 */
-	private <T extends AbstractModel> void handleFollowUp(FollowupRequest<T> followUp) {
+	private <T extends AbstractModel> void handleFollowUp(FollowupCall<T> followUp) {
 		if (followUp != null) {
 			mFollowups.put(followUp.getId(), followUp);
 			postData(followUp.getRequest().toString() + "\n");

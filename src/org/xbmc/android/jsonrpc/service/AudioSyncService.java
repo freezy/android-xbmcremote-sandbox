@@ -21,7 +21,7 @@
 
 package org.xbmc.android.jsonrpc.service;
 
-import org.xbmc.android.jsonrpc.api.AudioLibraryAPI;
+import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
 import org.xbmc.android.jsonrpc.api.model.AudioModel;
 import org.xbmc.android.jsonrpc.io.RemoteExecutor;
 import org.xbmc.android.jsonrpc.io.audio.AlbumHandler;
@@ -84,15 +84,14 @@ public class AudioSyncService extends IntentService {
 
 		try {
 			final long startRemote = System.currentTimeMillis();
-			final AudioLibraryAPI audiolib = new AudioLibraryAPI();
 
 			final String[] albumFields = {
 					AudioModel.AlbumFields.TITLE,
 					AudioModel.AlbumFields.ARTISTID,
 					AudioModel.AlbumFields.YEAR };
 
-			mRemoteExecutor.execute(AudioSyncService.URL, audiolib.getArtists(false), new ArtistHandler());
-			mRemoteExecutor.execute(AudioSyncService.URL, audiolib.getAlbums(null, null, albumFields), new AlbumHandler());
+			mRemoteExecutor.execute(AudioSyncService.URL, new AudioLibrary.GetArtists(false, null), new ArtistHandler());
+			mRemoteExecutor.execute(AudioSyncService.URL, new AudioLibrary.GetAlbums(null, null, albumFields), new AlbumHandler());
 
 			Log.i(TAG, "All done, remote sync took " + (System.currentTimeMillis() - startRemote) + "ms.");
 

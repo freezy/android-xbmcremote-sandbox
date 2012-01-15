@@ -19,40 +19,15 @@
  *
  */
 
-package org.xbmc.android.jsonrpc.api.model;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+package org.xbmc.android.remotesandbox.notsurewheretoput;
 
 /**
- * Defines all types in the <code>Item.*</code> namespace.
- * 
+ * A scrolling item with one label.
+ *
  * @author freezy <freezy@xbmc.org>
  */
-public final class ItemModel {
-	
-	public static class BaseDetails extends AbstractModel {
-		public final static String TYPE = "Item.Details.Base";
-		public String label;
-		public BaseDetails()  {
-			mType = TYPE;
-		}
-		@Override
-		public void setData(JSONObject obj) throws JSONException {
-			label = obj.getString("label");
-		}
-		@Override
-		public String toString() {
-			return label;
-		}
-	}
-	
-	
-	/*========================================================================* 
-	 *  FIELDS 
-	 *========================================================================*/
-
-	public interface BaseFields {
-		
-	}
+public interface OneLabelledNavigation {
+	public String getLabel();
+	public int getType();
+	public String getPath();
 }

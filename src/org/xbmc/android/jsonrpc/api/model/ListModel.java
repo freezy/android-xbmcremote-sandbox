@@ -23,8 +23,7 @@ package org.xbmc.android.jsonrpc.api.model;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xbmc.android.jsonrpc.api.FilesAPI.File;
-import org.xbmc.android.jsonrpc.api.FilesAPI.OneLabelledNavigation;
+import org.xbmc.android.remotesandbox.notsurewheretoput.OneLabelledNavigation;
 
 /**
  * Defines all types in the <code>List.*</code> namespace.
@@ -54,7 +53,7 @@ public final class ListModel {
 		}
 		@Override
 		public int getType() {
-			return File.FILETYPE_SOURCE;
+			return FileItem.FileType.SOURCE;
 		}
 		@Override
 		public String getPath() {
@@ -83,6 +82,7 @@ public final class ListModel {
 			public final static int FILE = 1;
 			public final static int DIRECTORY = 2;
 			public final static int UNKNOWN = -1;
+			public final static int SOURCE = -2;
 		}
 		private static int parseFileType(String filetype) {
 			if (filetype.equalsIgnoreCase("file")) {

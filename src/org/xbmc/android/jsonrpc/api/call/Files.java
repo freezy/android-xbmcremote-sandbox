@@ -43,15 +43,14 @@ public final class Files {
 	/**
 	 * Returns all sources of a specific media type. If nothing found, an empty
 	 * list is returned.
+	 *  <p/>
+	 *  Curl example:
+	 *    <code>curl -i -X POST -d '{"jsonrpc": "2.0", "method": "Files.GetSources", "params": { "media": "music"}, "id": 1}' http://localhost:8080/jsonrpc</code>
 	 */
 	public static class GetSources extends AbstractCall<ListModel.SourceItem> {
 		private static final String NAME = "GetSources";
 		/**
-		 *  Gets the sources of the media windows.
-		 *  <p/>
-		 *  Curl example:
-		 *    <code>curl -i -X POST -d '{"jsonrpc": "2.0", "method": "Files.GetSources", "params": { "media": "music"}, "id": 1}' http://localhost:8080/jsonrpc</code>
-		 *    
+		 * Gets the sources of the media windows.
 		 * @param media Media type, see {@link FilesModel.Media} constants. If null, defaults to <tt>video</tt>.
 		 * @throws JSONException
 		 */

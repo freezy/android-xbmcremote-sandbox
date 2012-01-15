@@ -71,6 +71,37 @@ public final class AudioModel {
 		}
 	}
 	
+	public static class AlbumDetails extends MediaDetails {
+		public final static String TYPE = "Audio.Details.Album";
+		public int albumid;
+		public String description;
+		public String theme;
+		public String mood;
+		public String style;
+		public String type;
+		public String albumlabel;
+		public int artistid;
+		public AlbumDetails() {
+			mType = TYPE;
+		}
+		public AlbumDetails(JSONObject obj) throws JSONException {
+			this();
+			setData(obj);
+		}
+		@Override
+		public void setData(JSONObject obj) throws JSONException {
+			super.setData(obj);
+			albumid = obj.getInt("albumid");
+			description = parseString(obj, "description");
+			theme = parseString(obj, "theme");
+			mood = parseString(obj, "mood");
+			style = parseString(obj, "style");
+			type = parseString(obj, "type");
+			albumlabel = parseString(obj, "albumlabel");
+			artistid = parseInt(obj, "artistid");
+		}
+	}
+	
 	public static class SongDetails extends MediaDetails {
 		public final static String TYPE = "Audio.Details.Song";
 		public int songid;
@@ -88,6 +119,10 @@ public final class AudioModel {
 		public int albumid;
 		public SongDetails() {
 			mType = TYPE;
+		}
+		public SongDetails(JSONObject obj) throws JSONException {
+			this();
+			setData(obj);
 		}
 		@Override
 		public void setData(JSONObject obj) throws JSONException {
@@ -109,6 +144,45 @@ public final class AudioModel {
 		@Override
 		public String toString() {
 			return String.format("%s by %s (%d) on %s", title, artist, year, album);
+		}
+	}
+	
+	public static class ArtistDetails extends BaseDetails {
+		public final static String TYPE = "Audio.Details.Artist";
+		public int artistid;
+		public String artist;
+		public String instrument;
+		public String style;
+		public String mood;
+		public String born;
+		public String formed;
+		public String description;
+		public String died;
+		public String disbanded;
+		public String yearsactive;
+		public String musicbrainzartistid;
+		public ArtistDetails() {
+			mType = TYPE;
+		}
+		public ArtistDetails(JSONObject obj) throws JSONException {
+			this();
+			setData(obj);
+		}
+		@Override
+		public void setData(JSONObject obj) throws JSONException {
+			super.setData(obj);
+			artistid = obj.getInt("artistid");
+			artist = obj.getString("artist");
+			instrument = parseString(obj, "instrument");
+			style = parseString(obj, "style");
+			mood = parseString(obj, "mood");
+			born = parseString(obj, "born");
+			formed = parseString(obj, "formed");
+			description = parseString(obj, "description");
+			died = parseString(obj, "died");
+			disbanded = parseString(obj, "disbanded");
+			yearsactive = parseString(obj, "yearsactive");
+			musicbrainzartistid = parseString(obj, "musicbrainzartistid");
 		}
 	}
 	

@@ -188,6 +188,14 @@ public abstract class AbstractCall<T> {
 	}
 	
 	/**
+	 * Returns the generated ID of the request.
+	 * @return Generated ID of the request
+	 */
+	public String getId() {
+		return mId;
+	}
+	
+	/**
 	 * Parses the result if the API method returns a single item.
 	 * <p/>
 	 * Either this <b>or</b> {@link #parseMany(JSONObject)} must be overridden
@@ -216,22 +224,52 @@ public abstract class AbstractCall<T> {
 	}
 	
 	/**
-	 * Adds a string parameter to the request object.
+	 * Adds a string parameter to the request object (only if not null).
 	 * @param name Name of the parameter
 	 * @param value Value of the parameter
 	 * @throws JSONException
 	 */
 	protected void addParameter(String name, String value) throws JSONException {
-		getParameters().put(name, value);
+		if (value != null) {
+			getParameters().put(name, value);
+		}
 	}
 	
 	/**
-	 * Adds an array of strings to the request object
+	 * Adds an integer parameter to the request object (only if not null).
+	 * @param name Name of the parameter
+	 * @param value Value of the parameter
+	 * @throws JSONException
+	 */
+	protected void addParameter(String name, Integer value) throws JSONException {
+		if (value != null) {
+			getParameters().put(name, value);
+		}
+	}
+	
+	/**
+	 * Adds a boolean parameter to the request object (only if not null).
+	 * @param name Name of the parameter
+	 * @param value Value of the parameter
+	 * @throws JSONException
+	 */
+	protected void addParameter(String name, Boolean value) throws JSONException {
+		if (value != null) {
+			getParameters().put(name, value);
+		}
+	}
+	
+	/**
+	 * Adds an array of strings to the request object (only if not null and not empty).
 	 * @param name Name of the parameter
 	 * @param values String values
 	 * @throws JSONException
 	 */
 	protected void addParameter(String name, String[] values) throws JSONException {
+		// don't add if nothing to add
+		if (values == null || values.length == 0) {
+			return;
+		}
 		final JSONArray props = new JSONArray();
 		for (int i = 0; i < values.length; i++) {
 			props.put(values[i]);
