@@ -33,12 +33,9 @@ public final class ItemModel {
 	
 	public static class BaseDetails extends AbstractModel {
 		public final static String TYPE = "Item.Details.Base";
-		public String label;
-		public BaseDetails()  {
+		public final String label;
+		public BaseDetails(JSONObject obj) throws JSONException {
 			mType = TYPE;
-		}
-		@Override
-		public void setData(JSONObject obj) throws JSONException {
 			label = obj.getString("label");
 		}
 		@Override

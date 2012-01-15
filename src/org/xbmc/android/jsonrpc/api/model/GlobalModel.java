@@ -33,19 +33,12 @@ public final class GlobalModel {
 	
 	public static class Time extends AbstractModel {
 		public final static String TYPE = "Global.Time";
-		public int hours;
-		public int minutes;
-		public int seconds;
-		public int milliseconds;
-		public Time() {
-			mType = TYPE;
-		}
+		public final int hours;
+		public final int minutes;
+		public final int seconds;
+		public final int milliseconds;
 		public Time(JSONObject obj) throws JSONException {
-			this();
-			setData(obj);
-		}
-		@Override
-		public void setData(JSONObject obj) throws JSONException {
+			mType = TYPE;
 			hours = obj.getInt("hours");
 			minutes = obj.getInt("minutes");
 			seconds = obj.getInt("seconds");

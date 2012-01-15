@@ -33,14 +33,11 @@ public final class MediaModel {
 	
 	public static class BaseDetails extends ItemModel.BaseDetails {
 		public final static String TYPE = "Media.Details.Base";
-		public String fanart;
-		public String thumbnail;
-		public BaseDetails() {
+		public final String fanart;
+		public final String thumbnail;
+		public BaseDetails(JSONObject obj) throws JSONException {
+			super(obj);
 			mType = TYPE;
-		}
-		@Override
-		public void setData(JSONObject obj) throws JSONException {
-			super.setData(obj);
 			fanart = parseString(obj, "fanart");
 			thumbnail = parseString(obj, "thumbnail");
 		}

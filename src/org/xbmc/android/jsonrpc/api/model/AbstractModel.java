@@ -28,8 +28,6 @@ public abstract class AbstractModel {
 	
 	protected String mType;
 	
-	public abstract void setData(JSONObject obj) throws JSONException;
-	
 	/**
 	 * Tries to read an integer from JSON object.
 	 * 

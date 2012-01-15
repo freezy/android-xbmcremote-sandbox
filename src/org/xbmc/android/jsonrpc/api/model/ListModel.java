@@ -34,17 +34,10 @@ public final class ListModel {
 	
 	public static class SourceItem extends ItemModel.BaseDetails implements OneLabelledNavigation {
 		public final static String TYPE = "List.Items.Sources";
-		public String file;
-		public SourceItem()  {
-			mType = TYPE;
-		}
+		public final String file;
 		public SourceItem(JSONObject obj) throws JSONException {
-			this();
-			setData(obj);
-		}
-		@Override
-		public void setData(JSONObject obj) throws JSONException {
-			super.setData(obj);
+			super(obj);
+			mType = TYPE;
 			file = obj.getString("file");
 		}
 		@Override
@@ -63,18 +56,11 @@ public final class ListModel {
 	
 	public static class FileItem extends ItemModel.BaseDetails {
 		public final static String TYPE = "List.Items.Sources";
-		public String file;
-		public int filetype;
-		public FileItem()  {
-			mType = TYPE;
-		}
+		public final String file;
+		public final int filetype;
 		public FileItem(JSONObject obj) throws JSONException {
-			this();
-			setData(obj);
-		}
-		@Override
-		public void setData(JSONObject obj) throws JSONException {
-			super.setData(obj);
+			super(obj);
+			mType = TYPE;
 			file = obj.getString("file");
 			filetype = parseFileType(obj.getString("file"));
 		}

@@ -34,18 +34,11 @@ public final class ApplicationModel {
 	public static class PropertyValue extends AbstractModel {
 		public final static String TYPE = "Application.Property.Value";
 		public int volume;
-		public Boolean muted;
-		public String name;
-		public Version version;
-		public PropertyValue()  {
-			mType = TYPE;
-		}
+		public final Boolean muted;
+		public final String name;
+		public final Version version;
 		public PropertyValue(JSONObject obj) throws JSONException {
-			this();
-			setData(obj);
-		}
-		@Override
-		public void setData(JSONObject obj) throws JSONException {
+			mType = TYPE;
 			volume = parseInt(obj, "volume");
 			muted = parseBoolean(obj, "muted");
 			name = parseString(obj, "name");
