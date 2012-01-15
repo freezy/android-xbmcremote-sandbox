@@ -28,6 +28,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xbmc.android.jsonrpc.api.model.FilesModel;
 import org.xbmc.android.jsonrpc.api.model.ListModel;
+import org.xbmc.android.jsonrpc.api.model.ListModel.FileItem;
 import org.xbmc.android.jsonrpc.api.model.ListModel.SourceItem;
 
 /**
@@ -96,6 +97,16 @@ public final class Files {
 		public GetDirectory(String directory, String media) throws JSONException {
 			this(directory);
 			addParameter("media", media);
+		}
+		@Override
+		protected ArrayList<FileItem> parseMany(JSONObject obj) throws JSONException {
+			final JSONArray files = obj.getJSONArray("files");
+			final ArrayList<ListModel.FileItem> ret = new ArrayList<ListModel.FileItem>(files.length());
+			for (int i = 0; i < files.length(); i++) {
+				final JSONObject file = files.getJSONObject(i);
+				ret.add(new ListModel.FileItem(file));
+			}
+			return ret;
 		}
 		@Override
 		protected String getName() {
