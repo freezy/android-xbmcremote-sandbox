@@ -29,6 +29,7 @@ import org.xbmc.android.jsonrpc.api.FilesAPI.OneLabelledNavigation;
 /**
  * Creates request objects for the video library.
  * 
+ * @deprecated
  * @author freezy <freezy@xbmc.org>
  */
 public class VideoLibraryAPI extends AbstractAPI {

@@ -24,7 +24,7 @@ package org.xbmc.android.account.authenticator;
 import java.util.ArrayList;
 
 import org.xbmc.android.account.Constants;
-import org.xbmc.android.jsonrpc.api.ApplicationAPI.Version;
+import org.xbmc.android.jsonrpc.api.model.ApplicationModel.PropertyValue.Version;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.util.google.DetachableResultReceiver;
 import org.xbmc.android.zeroconf.DiscoveryService;

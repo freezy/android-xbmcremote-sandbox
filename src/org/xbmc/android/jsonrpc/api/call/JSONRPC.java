@@ -19,32 +19,46 @@
  *
  */
 
-package org.xbmc.android.jsonrpc.api;
+package org.xbmc.android.jsonrpc.api.call;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Creates request objects for the JSONRPC API (self-querying stuff).
+ * Implements JSON-RPC API methods for the "JSONRPC" namespace.
  * 
  * @author freezy <freezy@xbmc.org>
  */
-public class JsonRpcAPI extends AbstractAPI {
+public final class JSONRPC {
 	
 	private final static String PREFIX = "JSONRPC.";
 	
 	/**
-	 * Gets the version of the JSON-RPC API.
-	 * 
-	 * Curl example:
-	 * 		<code>curl -i -X POST -d '{"jsonrpc": "2.0", "method": "JSONRPC.Version", "id": "1" }' http://localhost:8080/jsonrpc</code>
+	 * Retrieve the jsonrpc protocol version
 	 */
-	public JSONObject version() throws JSONException {
-		return createRequest("Version");
-	}
-
-	@Override
-	protected String getPrefix() {
-		return PREFIX;
+	public static class Version extends AbstractCall<Integer> {
+		private static final String NAME = "Version";
+		/**
+		 * Gets the version of the JSON-RPC API.
+		 * <p/>
+		 * Curl example:
+		 * 		<code>curl -i -X POST -d '{"jsonrpc": "2.0", "method": "JSONRPC.Version", "id": "1" }' http://localhost:8080/jsonrpc</code>
+		 * @throws JSONException
+		 */
+		public Version() throws JSONException {
+			super();
+		}
+		@Override
+		protected Integer parseOne(JSONObject obj) throws JSONException {
+			return obj.getInt("version");
+		}
+		@Override
+		protected String getName() {
+			return PREFIX + NAME;
+		}
+		@Override
+		protected boolean returnsList() {
+			return false;
+		}
 	}
 }

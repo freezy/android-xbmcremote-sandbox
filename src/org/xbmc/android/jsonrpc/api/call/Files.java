@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xbmc.android.jsonrpc.api.FilesAPI.Media;
 import org.xbmc.android.jsonrpc.api.model.FilesModel;
 import org.xbmc.android.jsonrpc.api.model.ListModel;
 import org.xbmc.android.jsonrpc.api.model.ListModel.SourceItem;
@@ -47,14 +46,18 @@ public final class Files {
 	public static class GetSources extends AbstractCall<ListModel.SourceItem> {
 		private static final String NAME = "GetSources";
 		/**
-		 * Class constructor takes API method's arguments.
-		 * @param media Media type, see constants at {@link FilesModel.Media}.
+		 *  Gets the sources of the media windows.
+		 *  <p/>
+		 *  Curl example:
+		 *    <code>curl -i -X POST -d '{"jsonrpc": "2.0", "method": "Files.GetSources", "params": { "media": "music"}, "id": 1}' http://localhost:8080/jsonrpc</code>
+		 *    
+		 * @param media Media type, see {@link FilesModel.Media} constants. If null, defaults to <tt>video</tt>.
 		 * @throws JSONException
 		 */
 		public GetSources(String media) throws JSONException {
 			super();
 			if (media == null) {
-				media = Media.VIDEO;
+				media = FilesModel.Media.VIDEO;
 			}
 			addParameter("media", media);
 		}
@@ -76,5 +79,32 @@ public final class Files {
 		protected boolean returnsList() {
 			return true;
 		}
+	}
+	
+	/**
+	 * Get the directories and files in the given directory.
+	 */
+	public static class GetDirectory extends AbstractCall<ListModel.FileItem> {
+		private static final String NAME = "GetDirectory";
+		public GetDirectory(String directory) throws JSONException {
+			super();
+			if (directory == null || directory.isEmpty()) {
+				throw new IllegalArgumentException("Directory parameter must not be null or empty.");
+			}
+			addParameter("directory", directory);
+		}
+		public GetDirectory(String directory, String media) throws JSONException {
+			this(directory);
+			addParameter("media", media);
+		}
+		@Override
+		protected String getName() {
+			return NAME;
+		}
+		@Override
+		protected boolean returnsList() {
+			return true;
+		}
+		
 	}
 }

@@ -21,103 +21,22 @@
 
 package org.xbmc.android.jsonrpc.api;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Creates request objects for the files API.
  * 
+ * @deprecated
  * @author freezy <freezy@xbmc.org>
  */
 public class FilesAPI extends AbstractAPI {
 	
 	private final static String PREFIX = "Files.";
-	
-	/**
-	 * Gets the sources of the media windows.
-	 * 
-	 * Curl example:
-	 * 		<code>curl -i -X POST -d '{"jsonrpc": "2.0", "method": "Files.GetSources", "params": { "media": "music"}, "id": 1}' http://localhost:8080/jsonrpc</code>
-	 * 
-	 * @param media Media type, see {@link Media} constants. If null, defaults to <tt>video</tt>.
-	 */
-	public JSONObject getSources(String media) throws JSONException {
-		final JSONObject request = createRequest("GetSources");
-		if (media == null) {
-			media = Media.VIDEO;
-		}
-		getParameters(request).put("media", media);
-		return request;
-	}
-
-	/**
-	 * Returns the contents of a directory.
-	 * 
-	 * Curl example:
-	 * 		<code>curl -i -X POST -d '{"jsonrpc": "2.0", "method": "Files.GetSources", "params": { "directory": "V:\\mp3\\archive\\"}, "id": 1}' http://localhost:8080/jsonrpc</code>
-	 * 
-	 * @param directory Which directory to list
-	 */
-	public JSONObject getDirectory(String directory) throws JSONException {
-		final JSONObject request = createRequest("GetSources");
-		if (directory == null || directory.isEmpty()) {
-			throw new IllegalArgumentException("Directory parameter must not be null or empty.");
-		}
-		getParameters(request).put("directory", directory);
-		return request;
-	}
-
-	/**
-	 * Media types
-	 */
-	public interface Media {
-		final String VIDEO = "video";
-		final String MUSIC = "music";
-		final String PICTURES = "pictures";
-		final String FILES = "files";
-		final String PROGRAMS = "programs";
-	}
 
 	@Override
 	protected String getPrefix() {
 		return PREFIX;
 	}
-	
-	
-	/**
-	 * Transfer object for sources.
-	 */
-	public static class Source implements OneLabelledNavigation {
-		/**
-		 * Label of the source
-		 */
-		public final String label;
-		/**
-		 * Absolute path of the source, can also be addon://, etc.
-		 */
-		public final String path;
-		
-		public Source(String label, String file) {
-			this.label = label;
-			this.path = file;
-		}
-		public String toString() {
-			return label + " (" + path + ")";
-		}
-		
-		@Override
-		public String getLabel() {
-			return label;
-		}
-		@Override
-		public int getType() {
-			return File.FILETYPE_SOURCE;
-		}
-		@Override
-		public String getPath() {
-			return path;
-		}
-	}
+
 	
 	/**
 	 * Transfer object for files and folders

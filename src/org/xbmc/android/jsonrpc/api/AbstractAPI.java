@@ -36,6 +36,7 @@ import org.json.JSONObject;
  * 	curl -i -X POST -d '{"jsonrpc": "2.0", "method": "JSONRPC.Introspect", "params": { }, "id": 1}' http://localhost:8080/jsonrpc
  * </code>
  * 
+ * @deprecated
  * @see http://wiki.xbmc.org/index.php?title=JSON-RPC_API/v3
  * @author freezy <freezy@xbmc.org>
  */

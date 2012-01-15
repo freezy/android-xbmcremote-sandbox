@@ -62,6 +62,39 @@ public final class ListModel {
 		}
 	}
 	
+	public static class FileItem extends ItemModel.BaseDetails {
+		public final static String TYPE = "List.Items.Sources";
+		public String file;
+		public int filetype;
+		public FileItem()  {
+			mType = TYPE;
+		}
+		public FileItem(JSONObject obj) throws JSONException {
+			this();
+			setData(obj);
+		}
+		@Override
+		public void setData(JSONObject obj) throws JSONException {
+			super.setData(obj);
+			file = obj.getString("file");
+			filetype = parseFileType(obj.getString("file"));
+		}
+		public interface FileType {
+			public final static int FILE = 1;
+			public final static int DIRECTORY = 2;
+			public final static int UNKNOWN = -1;
+		}
+		private static int parseFileType(String filetype) {
+			if (filetype.equalsIgnoreCase("file")) {
+				return FileType.FILE;
+			}
+			if (filetype.equalsIgnoreCase("directory")) {
+				return FileType.DIRECTORY;
+			}
+			return FileType.UNKNOWN;
+		}
+	}
+	
 	
 	/*========================================================================* 
 	 *  FIELDS 

@@ -23,7 +23,7 @@ package org.xbmc.android.remotesandbox.ui.common;
 
 import java.util.List;
 
-import org.xbmc.android.jsonrpc.api.FilesAPI.File;
+import org.xbmc.android.jsonrpc.api.model.ListModel;
 import org.xbmc.android.jsonrpc.client.AbstractClient.ErrorHandler;
 import org.xbmc.android.jsonrpc.client.FilesClient;
 import org.xbmc.android.jsonrpc.io.ApiException;
@@ -49,7 +49,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class FilesFragment extends ListFragment implements LoaderManager.LoaderCallbacks<List<File>> {
+public class FilesFragment extends ListFragment implements LoaderManager.LoaderCallbacks<List<ListModel.FileItem>> {
 
 	private static final String TAG = FilesFragment.class.getSimpleName();
 
@@ -111,13 +111,13 @@ public class FilesFragment extends ListFragment implements LoaderManager.LoaderC
 	}
 
 	@Override
-	public Loader<List<File>> onCreateLoader(int id, Bundle args) {
+	public Loader<List<ListModel.FileItem>> onCreateLoader(int id, Bundle args) {
 		// This is called when a new Loader needs to be created. This
 		// sample only has one Loader with no arguments, so it is simple.
 		final Handler h = new Handler();
-		return new ListLoader<File>(getActivity(), new Worker<File>() {
+		return new ListLoader<ListModel.FileItem>(getActivity(), new Worker<ListModel.FileItem>() {
 			@Override
-			public List<File> doWork() {
+			public List<ListModel.FileItem> doWork() {
 				final FilesClient filesClient = new FilesClient();
 				return filesClient.getDirectory(mPath, new ErrorHandler() {
 					@Override
@@ -136,7 +136,7 @@ public class FilesFragment extends ListFragment implements LoaderManager.LoaderC
 	}
 
 	@Override
-	public void onLoadFinished(Loader<List<File>> loader, List<File> data) {
+	public void onLoadFinished(Loader<List<ListModel.FileItem>> loader, List<ListModel.FileItem> data) {
 
 		if (!isVisible()) {
 			return;
@@ -154,7 +154,7 @@ public class FilesFragment extends ListFragment implements LoaderManager.LoaderC
 	}
 
 	@Override
-	public void onLoaderReset(Loader<List<File>> loader) {
+	public void onLoaderReset(Loader<List<ListModel.FileItem>> loader) {
 		// Clear the data in the adapter.
 		mAdapter.setData(null);
 	}
@@ -176,7 +176,7 @@ public class FilesFragment extends ListFragment implements LoaderManager.LoaderC
 		}
 	}
 
-	public static class SourceListAdapter extends ArrayAdapter<File> {
+	public static class SourceListAdapter extends ArrayAdapter<ListModel.FileItem> {
 		private final LayoutInflater mInflater;
 
 		public SourceListAdapter(Context context) {
@@ -184,10 +184,10 @@ public class FilesFragment extends ListFragment implements LoaderManager.LoaderC
 			mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
 
-		public void setData(List<File> data) {
+		public void setData(List<ListModel.FileItem> data) {
 			clear();
 			if (data != null) {
-				for (File source : data) {
+				for (ListModel.FileItem source : data) {
 					add(source);
 				}
 			}
@@ -205,7 +205,7 @@ public class FilesFragment extends ListFragment implements LoaderManager.LoaderC
 			} else {
 				view = convertView;
 			}
-			File item = getItem(position);
+			ListModel.FileItem item = getItem(position);
 			((TextView) view.findViewById(R.id.item_title)).setText(item.label);
 
 			return view;

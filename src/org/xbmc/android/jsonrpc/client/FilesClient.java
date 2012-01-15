@@ -23,13 +23,9 @@ package org.xbmc.android.jsonrpc.client;
 
 import java.util.ArrayList;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-import org.xbmc.android.jsonrpc.api.FilesAPI;
-import org.xbmc.android.jsonrpc.api.FilesAPI.File;
-import org.xbmc.android.jsonrpc.api.FilesAPI.Source;
 import org.xbmc.android.jsonrpc.api.call.Files;
+import org.xbmc.android.jsonrpc.api.model.FilesModel;
 import org.xbmc.android.jsonrpc.api.model.ListModel;
 import org.xbmc.android.jsonrpc.io.ApiException;
 
@@ -44,8 +40,6 @@ public class FilesClient extends AbstractClient {
 
 	private final static String TAG = FilesClient.class.getSimpleName();
 
-	private final FilesAPI api = new FilesAPI();
-
 	/**
 	 * Returns all music sources.
 	 *
@@ -54,8 +48,8 @@ public class FilesClient extends AbstractClient {
 	 */
 	public ArrayList<ListModel.SourceItem> getMusicSources(ErrorHandler errorHandler) {
 		try {
-			final Files.GetSources apicall = new Files.GetSources(FilesAPI.Media.MUSIC);
-			executenew(apicall, errorHandler);
+			final Files.GetSources apicall = new Files.GetSources(FilesModel.Media.MUSIC);
+			execute(apicall, errorHandler);
 			return apicall.getResults();
 		} catch (JSONException e) {
 			Log.e(TAG, e.getMessage(), e);
@@ -63,8 +57,7 @@ public class FilesClient extends AbstractClient {
 		}
 		return new ArrayList<ListModel.SourceItem>(0);
 	}
-
-
+	
 	/**
 	 * Returns all files of a specific folder. If nothing found, an empty
 	 * list is returned.
@@ -73,66 +66,16 @@ public class FilesClient extends AbstractClient {
 	 * @param errorHandler Error handler
 	 * @return Folder contents or empty list if nothing found.
 	 */
-	public ArrayList<File> getDirectory(String directory, ErrorHandler errorHandler) {
-
+	public ArrayList<ListModel.FileItem> getDirectory(String directory, ErrorHandler errorHandler) {
 		try {
-
-			final JSONObject request = api.getDirectory(directory);
-			final JSONObject result = execute(request, errorHandler);
-
-			if (result != null) {
-				final JSONArray files = result.getJSONArray("files");
-				final ArrayList<File> ret = new ArrayList<File>(files.length());
-				for (int i = 0; i < files.length(); i++) {
-					final JSONObject f = files.getJSONObject(i);
-					final File file = new File(f.getString("file"), f.getString("filetype"), f.getString("label"));
-					if (f.has("type")) {
-						file.setType(f.getString("type"));
-					}
-					ret.add(file);
-				}
-				return ret;
-			}
+			final Files.GetDirectory apicall = new Files.GetDirectory(directory);
+			execute(apicall, errorHandler);
+			return apicall.getResults();
 		} catch (JSONException e) {
 			Log.e(TAG, e.getMessage(), e);
 			errorHandler.handleError(new ApiException(ApiException.JSON_EXCEPTION, e.getMessage(), e));
 		}
-		return new ArrayList<File>();
+		return new ArrayList<ListModel.FileItem>(0);
 	}
 
-
-	/**
-	 * Returns all sources of a specific media type. If nothing found, an empty
-	 * list is returned.
-	 *
-	 * @param media Media type, see constants at {@link FilesAPI.Media}.
-	 * @param errorHandler Error handler
-	 * @return Sources or empty list if nothing found.
-	 */
-	private ArrayList<Source> getSources(String media, ErrorHandler errorHandler) {
-
-		try {
-
-			// 1. get the request object from our API implementation
-			final JSONObject request = api.getSources(media);
-
-			// 2. POST the object to XBMC's JSON-RPC API
-			final JSONObject result = execute(request, errorHandler);
-
-			// 3. parse the result and unserialize the JSON object into real {@link Source} objects.
-			if (result != null) {
-				final JSONArray sources = result.getJSONArray("sources");
-				final ArrayList<Source> ret = new ArrayList<Source>(sources.length());
-				for (int i = 0; i < sources.length(); i++) {
-					final JSONObject source = sources.getJSONObject(i);
-					ret.add(new Source(source.getString("label"), source.getString("file")));
-				}
-				return ret;
-			}
-		} catch (JSONException e) {
-			Log.e(TAG, e.getMessage(), e);
-			errorHandler.handleError(new ApiException(ApiException.JSON_EXCEPTION, e.getMessage(), e));
-		}
-		return new ArrayList<Source>();
-	}
 }

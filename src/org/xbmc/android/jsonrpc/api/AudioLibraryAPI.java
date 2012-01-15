@@ -29,6 +29,7 @@ import org.xbmc.android.jsonrpc.api.model.AudioModel.AlbumFields;
 /**
  * Creates request objects for the audio library.
  * 
+ * @deprecated
  * @author freezy <freezy@xbmc.org>
  */
 public class AudioLibraryAPI extends AbstractAPI {

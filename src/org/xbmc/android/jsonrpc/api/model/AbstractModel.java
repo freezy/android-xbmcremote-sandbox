@@ -53,4 +53,16 @@ public abstract class AbstractModel {
 	public static String parseString(JSONObject obj, String key) throws JSONException {
 		return obj.has(key) ? obj.getString(key) : null;
 	}
+	
+	/**
+	 * Tries to read an boolean from JSON object.
+	 * 
+	 * @param obj JSON object
+	 * @param key Key
+	 * @return String value if found, null otherwise.
+	 * @throws JSONException
+	 */
+	public static Boolean parseBoolean(JSONObject obj, String key) throws JSONException {
+		return obj.has(key) ? obj.getBoolean(key) : null;
+	}
 }

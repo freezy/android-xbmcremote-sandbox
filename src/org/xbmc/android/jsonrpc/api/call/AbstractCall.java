@@ -226,6 +226,20 @@ public abstract class AbstractCall<T> {
 	}
 	
 	/**
+	 * Adds an array of strings to the request object
+	 * @param name Name of the parameter
+	 * @param values String values
+	 * @throws JSONException
+	 */
+	protected void addParameter(String name, String[] values) throws JSONException {
+		final JSONArray props = new JSONArray();
+		for (int i = 0; i < values.length; i++) {
+			props.put(values[i]);
+		}
+		getParameters().put(name, props);
+	}
+	
+	/**
 	 * Returns the parameters array. Use this to add any parameters.
 	 * @param request
 	 * @return
