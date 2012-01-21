@@ -22,7 +22,7 @@
 package org.xbmc.android.jsonrpc.client;
 
 import org.json.JSONObject;
-import org.xbmc.android.jsonrpc.api.call.AbstractCall;
+import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.io.ApiException;
 import org.xbmc.android.jsonrpc.io.JsonApiRequest;
 import org.xbmc.android.jsonrpc.service.AudioSyncService;

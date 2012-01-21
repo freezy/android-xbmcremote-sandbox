@@ -22,8 +22,8 @@
 package org.xbmc.android.jsonrpc.notification;
 
 import org.json.JSONObject;
-import org.xbmc.android.jsonrpc.api.call.AbstractCall;
-import org.xbmc.android.jsonrpc.api.model.AbstractModel;
+import org.xbmc.android.jsonrpc.api.AbstractCall;
+import org.xbmc.android.jsonrpc.api.AbstractModel;
 
 /**
  * A request posted immediately after receiving a notification, in order to 

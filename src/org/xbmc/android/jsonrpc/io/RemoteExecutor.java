@@ -23,7 +23,7 @@ package org.xbmc.android.jsonrpc.io;
 
 import org.apache.http.client.methods.HttpUriRequest;
 import org.json.JSONObject;
-import org.xbmc.android.jsonrpc.api.call.AbstractCall;
+import org.xbmc.android.jsonrpc.api.AbstractCall;
 
 import android.content.ContentResolver;
 

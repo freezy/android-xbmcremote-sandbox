@@ -23,6 +23,7 @@ package org.xbmc.android.jsonrpc.api.call;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.model.ApplicationModel;
 import org.xbmc.android.jsonrpc.api.model.ApplicationModel.PropertyValue;
 

@@ -23,6 +23,7 @@ package org.xbmc.android.jsonrpc.api.model;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xbmc.android.jsonrpc.api.AbstractModel;
 
 /**
  * Defines all types in the <code>Item.*</code> namespace.

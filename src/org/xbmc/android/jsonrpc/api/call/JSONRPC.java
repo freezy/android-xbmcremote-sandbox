@@ -23,6 +23,7 @@ package org.xbmc.android.jsonrpc.api.call;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xbmc.android.jsonrpc.api.AbstractCall;
 
 /**
  * Implements JSON-RPC API methods for the "JSONRPC" namespace.

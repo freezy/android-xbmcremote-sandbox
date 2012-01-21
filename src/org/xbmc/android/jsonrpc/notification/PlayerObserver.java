@@ -21,7 +21,7 @@
 
 package org.xbmc.android.jsonrpc.notification;
 
-import org.xbmc.android.jsonrpc.api.model.AbstractModel;
+import org.xbmc.android.jsonrpc.api.AbstractModel;
 import org.xbmc.android.jsonrpc.notification.PlayerEvent.Pause;
 import org.xbmc.android.jsonrpc.notification.PlayerEvent.Play;
 import org.xbmc.android.jsonrpc.notification.PlayerEvent.Seek;
