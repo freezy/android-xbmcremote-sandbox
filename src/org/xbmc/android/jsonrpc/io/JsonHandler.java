@@ -72,21 +72,13 @@ public abstract class JsonHandler {
 			
 			if (result == null) {
 				// TODO handle empty response correctly.
-				Log.w(TAG, "Empty response. DEFINE what todo, ignoring now.");
+				Log.w(TAG, "Empty response. DEFINE what to do, ignoring now.");
 				
 			} else {
 				
 				final ContentValues[] newBatch = parse(result, resolver);
 				Log.i(TAG, "Starting to execute " + newBatch.length + " batches..");
-				
-				// need to move this to the subclass, we're abstract in here!
-				if (result.has("artists")) {
-					resolver.bulkInsert(Artists.CONTENT_URI, newBatch);
-					
-				} else if (result.has("albums")) {
-					resolver.bulkInsert(Albums.CONTENT_URI, newBatch);
-					
-				}
+				insert(resolver, newBatch);
 				Log.i(TAG, "Execution done in " + (System.currentTimeMillis() - start) + "ms.");
 			}
 		} catch (JSONException e) {
@@ -107,6 +99,9 @@ public abstract class JsonHandler {
 	 * @throws JSONException
 	 * @throws IOException
 	 */
+    protected abstract ContentValues[] parse(JSONObject result, ContentResolver resolver) throws JSONException, IOException;
     
-    public abstract ContentValues[] parse(JSONObject result, ContentResolver resolver)throws JSONException, IOException; 
+    protected abstract void insert(ContentResolver resolver, ContentValues[] batch);
+    
+    
 }

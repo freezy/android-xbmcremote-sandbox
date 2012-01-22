@@ -50,7 +50,7 @@ public class ArtistHandler extends JsonHandler {
 	}
 
 	@Override
-	public ContentValues[] parse(JSONObject response, ContentResolver resolver)
+	protected ContentValues[] parse(JSONObject response, ContentResolver resolver)
 			throws JSONException {
 		Log.d(TAG, "Building queries for artist's drop and create.");
 
@@ -69,7 +69,12 @@ public class ArtistHandler extends JsonHandler {
 			batch[i].put(Artists.NAME, artist.getString(AudioModel.ArtistDetails.ARTIST));
 		}
 	
-		Log.d(TAG, "Artist queries built in " + (System.currentTimeMillis() - now) + "ms.");
+		Log.d(TAG, batch.length + " artist queries built in " + (System.currentTimeMillis() - now) + "ms.");
 		return batch;
+	}
+
+	@Override
+	protected void insert(ContentResolver resolver, ContentValues[] batch) {
+		resolver.bulkInsert(Artists.CONTENT_URI, batch);
 	}
 }

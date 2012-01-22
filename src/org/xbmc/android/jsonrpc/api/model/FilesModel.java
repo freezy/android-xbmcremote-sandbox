@@ -19,30 +19,15 @@
  *
  */
 
-package org.xbmc.android.jsonrpc.api.modelold;
+package org.xbmc.android.jsonrpc.api.model;
 
 
-/**
- * Defines all types in the <code>Files.*</code> namespace.
- * 
- * @deprecated
- * @author freezy <freezy@xbmc.org>
- */
 public final class FilesModel {
-	
-	
-	/*========================================================================* 
-	 *  FIELDS 
-	 *========================================================================*/
-	
-	/**
-	 * Files.Media
-	 */
 	public interface Media {
-		final String VIDEO = "video";
-		final String MUSIC = "music";
-		final String PICTURES = "pictures";
-		final String FILES = "files";
-		final String PROGRAMS = "programs";
+		public final String VIDEO = "video";
+		public final String MUSIC = "music";
+		public final String PICTURES = "pictures";
+		public final String FILES = "files";
+		public final String PROGRAMS = "programs";
 	}
 }

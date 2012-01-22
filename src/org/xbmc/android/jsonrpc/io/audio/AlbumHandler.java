@@ -25,7 +25,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
-import org.xbmc.android.jsonrpc.api.AbstractModel;
 import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
 import org.xbmc.android.jsonrpc.api.model.AudioModel;
 import org.xbmc.android.jsonrpc.io.JsonHandler;
@@ -53,7 +52,7 @@ public class AlbumHandler extends JsonHandler {
 	}
 
 	@Override
-	public ContentValues[] parse(JSONObject result, ContentResolver resolver) throws JSONException {
+	protected ContentValues[] parse(JSONObject result, ContentResolver resolver) throws JSONException {
 		
 		final long now = System.currentTimeMillis();
 		Log.d(TAG, "Building queries for album's drop and create.");
@@ -72,8 +71,13 @@ public class AlbumHandler extends JsonHandler {
 			batch[i].put(Albums.PREFIX + Artists.ID, album.getString(AudioModel.AlbumDetails.ARTISTID));
 			batch[i].put(Albums.YEAR, album.getString(AudioModel.AlbumDetails.YEAR));
 		}
-		Log.d(TAG, "Album queries built in " + (System.currentTimeMillis() - now) + "ms.");
+		Log.d(TAG, batch.length + " album queries built in " + (System.currentTimeMillis() - now) + "ms.");
 		return batch;
+	}
+
+	@Override
+	protected void insert(ContentResolver resolver, ContentValues[] batch) {
+		resolver.bulkInsert(Albums.CONTENT_URI, batch);
 	}
 
 }

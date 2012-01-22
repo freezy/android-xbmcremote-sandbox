@@ -21,17 +21,12 @@
 
 package org.xbmc.android.remotesandbox.ui.common;
 
-import org.json.JSONObject;
-import org.xbmc.android.jsonrpc.NotificationManager;
-import org.xbmc.android.jsonrpc.NotificationManager.NotificationObserver;
-import org.xbmc.android.jsonrpc.notification.AbstractEvent;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.remotesandbox.ui.base.ReloadableActionBarActivity;
 import org.xbmc.android.remotesandbox.ui.sync.AbstractSyncBridge;
 import org.xbmc.android.remotesandbox.ui.sync.AudioSyncBridge;
 
 import android.os.Bundle;
-import android.util.Log;
 
 public class HomeActivity extends ReloadableActionBarActivity {
 
