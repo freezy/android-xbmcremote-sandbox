@@ -61,6 +61,10 @@ public final class ApplicationModel {
 				return major + "." + minor + " " + tag + ", (" + revision + ")";
 			}
 		}
+		@Override
+		public JSONObject toJSONObject() throws JSONException {
+			return null;
+		}
 	}
 	
 	

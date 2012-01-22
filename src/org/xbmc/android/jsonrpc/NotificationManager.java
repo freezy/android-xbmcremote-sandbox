@@ -27,7 +27,7 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-import org.xbmc.android.jsonrpc.api.model.AbstractModel;
+import org.xbmc.android.jsonrpc.api.AbstractModel;
 import org.xbmc.android.jsonrpc.notification.FollowupCall;
 import org.xbmc.android.jsonrpc.notification.PlayerEvent;
 import org.xbmc.android.jsonrpc.notification.PlayerObserver;
@@ -108,7 +108,7 @@ public class NotificationManager {
 				final HashMap<String, FollowupCall<?>> followups = mFollowups;
 				if (followups.containsKey(id)) {
 					Log.i(TAG, "Received follow-up response.");
-					handleFollowUp(followups.get(id).respond(event.getJSONObject("result")));
+					handleFollowUp(followups.get(id).respond(event));
 					followups.remove(id);
 				} else {
 					Log.w(TAG, "Got response with unknown id " + id + ".");

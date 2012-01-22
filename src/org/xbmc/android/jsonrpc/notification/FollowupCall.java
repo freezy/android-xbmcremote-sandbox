@@ -47,8 +47,8 @@ public abstract class FollowupCall<T extends AbstractModel> {
 	
 	protected abstract <U extends AbstractModel> FollowupCall<U> onResponse(T response);
 	
-	public <U extends AbstractModel> FollowupCall<U> respond(JSONObject result) {
-		mApiCall.setResult(result);
+	public <U extends AbstractModel> FollowupCall<U> respond(JSONObject response) {
+		mApiCall.setResponse(response);
 		return onResponse(mApiCall.getResult());
 	}
 	

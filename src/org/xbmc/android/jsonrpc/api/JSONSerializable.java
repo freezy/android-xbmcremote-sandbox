@@ -19,41 +19,22 @@
  *
  */
 
-package org.xbmc.android.jsonrpc.api.model;
+package org.xbmc.android.jsonrpc.api;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xbmc.android.jsonrpc.api.AbstractModel;
 
 /**
- * Defines all types in the <code>Global.*</code> namespace.
- * 
+ * All model objects of this API must implement this interface. 
+ *
  * @author freezy <freezy@xbmc.org>
  */
-public final class GlobalModel {
+public interface JSONSerializable {
 	
-	public static class Time extends AbstractModel {
-		public final static String TYPE = "Global.Time";
-		public final int hours;
-		public final int minutes;
-		public final int seconds;
-		public final int milliseconds;
-		public Time(JSONObject obj) throws JSONException {
-			mType = TYPE;
-			hours = obj.getInt("hours");
-			minutes = obj.getInt("minutes");
-			seconds = obj.getInt("seconds");
-			milliseconds = obj.getInt("milliseconds");
-		}
-		@Override
-		public String toString() {
-			return String.format("%02d:%02d:%02d.%03d", hours, minutes, seconds, milliseconds);
-		}
-		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-	}
-
+	/**
+	 * Returns a JSON-serialized version of this object.
+	 * @return
+	 */
+	public abstract JSONObject toJSONObject() throws JSONException;
+	
 }

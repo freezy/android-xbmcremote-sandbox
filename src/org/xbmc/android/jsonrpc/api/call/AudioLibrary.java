@@ -27,6 +27,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
+import org.xbmc.android.jsonrpc.api.AbstractModel;
 import org.xbmc.android.jsonrpc.api.model.AudioModel;
 
 /**
@@ -153,5 +154,73 @@ public final class AudioLibrary {
 		}
 	}
 	
+	
+	/**
+	 * Exports all items from the audio library
+	 * <p/>
+	 * API Name: <code>AudioLibrary.Export</code>
+	 * <p/>
+	 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
+	 */
+	public static class Export extends AbstractCall<String> { 
+		private static final String NAME = "Export";
+		/**
+		 * Exports all items from the audio library
+		 * @param options 
+		 * @throws JSONException
+		 */
+		public Export(Path options) throws JSONException {
+			super();
+			addParameter("options", options);
+		}
+		/**
+		 * Exports all items from the audio library
+		 * @param options 
+		 * @throws JSONException
+		 */
+		public Export(ImagesOverwrite options) throws JSONException {
+			super();
+			addParameter("options", options);
+		}
+		/**
+		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
+		 */
+		public static class Path extends AbstractModel {
+			public final String path;
+			public Path(String path) {
+				this.path = path;
+			}
+			@Override
+			public JSONObject toJSONObject() throws JSONException {
+				final JSONObject obj = new JSONObject();
+				obj.put("path", path);
+				return obj;
+			}
+		}
+		/**
+		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
+		 */
+		public static class ImagesOverwrite extends AbstractModel {
+			public final boolean images;
+			public final boolean overwrite;
+			public ImagesOverwrite(boolean images, boolean overwrite) {
+				this.images = images;
+				this.overwrite = overwrite;
+			}
+			@Override
+			public JSONObject toJSONObject() throws JSONException {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		}
+		@Override
+		protected String getName() {
+			return PREFIX + NAME;
+		}
+		@Override
+		protected boolean returnsList() {
+			return false;
+		}
+	}
 	
 }

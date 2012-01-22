@@ -27,10 +27,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public abstract class AbstractModel {
+public abstract class AbstractModel implements JSONSerializable {
 	
 	protected String mType;
-	
+
 	/**
 	 * Tries to read an integer from JSON object.
 	 * 
@@ -70,7 +70,7 @@ public abstract class AbstractModel {
 	public static double parseDouble(JSONObject obj, String key) throws JSONException {
 		return obj.has(key) ? obj.getDouble(key) : null;
 	}
-	
+
 	public static ArrayList<String> getStringArray(JSONObject obj, String key) throws JSONException {
 		if (obj.has(key)) {
 			final JSONArray a = obj.getJSONArray(key);
@@ -94,4 +94,5 @@ public abstract class AbstractModel {
 		}
 		return new ArrayList<Integer>(0);
 	}
+	
 }

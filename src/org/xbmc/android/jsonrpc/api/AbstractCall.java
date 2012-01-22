@@ -137,10 +137,13 @@ public abstract class AbstractCall<T> {
 	}
 	
 	/**
-	 * Sets the result object once the data has arrived.
+	 * Sets the response object once the data has arrived.
+	 * </p>
+	 * This must be the root object of the response, containing the
+	 * <tt>result</tt> object.
 	 * @param result
 	 */
-	public void setResult(JSONObject result) {
+	public void setResponse(JSONObject result) {
 		mResult = result;
 	}
 
@@ -192,6 +195,16 @@ public abstract class AbstractCall<T> {
 	 */
 	public String getId() {
 		return mId;
+	}
+	
+	/**
+	 * Gets the result object from a response.
+	 * @param obj
+	 * @return
+	 * @throws JSONException
+	 */
+	protected JSONObject parseResult(JSONObject obj) throws JSONException {
+		return obj.getJSONObject("result");
 	}
 	
 	/**
@@ -255,6 +268,18 @@ public abstract class AbstractCall<T> {
 	protected void addParameter(String name, Boolean value) throws JSONException {
 		if (value != null) {
 			getParameters().put(name, value);
+		}
+	}
+	
+	protected void addParameter(String name, Double value) throws JSONException {
+		if (value != null) {
+			getParameters().put(name, value);
+		}
+	}
+	
+	protected void addParameter(String name, AbstractModel value) throws JSONException {
+		if (value != null) {
+			getParameters().put(name, value.toJSONObject());
 		}
 	}
 	

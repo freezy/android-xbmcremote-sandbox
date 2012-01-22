@@ -53,7 +53,7 @@ public class JsonApiRequest {
 	 *
 	 * @param url
 	 * @param entity
-	 * @return JSONObject of the JSON-RPC result.
+	 * @return JSONObject of the JSON-RPC response.
 	 * @throws HandlerException
 	 */
 	public static JSONObject execute(String url, JSONObject entity) throws ApiException {
@@ -131,7 +131,7 @@ public class JsonApiRequest {
 	 * is thrown.
 	 *
 	 * @param response
-	 * @return JSONObject of the result contained in the response.
+	 * @return JSONObject Root node of the server response, unserialized as JSONObject.
 	 * @throws HandlerException
 	 */
 	private static JSONObject parseResponse(String response) throws ApiException {
@@ -155,7 +155,7 @@ public class JsonApiRequest {
 				return null;
 			}
 
-			return obj.getJSONObject("result");
+			return obj;
 		} catch(JSONException e) {
 			throw new ApiException(ApiException.JSON_EXCEPTION, "Parse error: " + e.getMessage(), e);
 		}

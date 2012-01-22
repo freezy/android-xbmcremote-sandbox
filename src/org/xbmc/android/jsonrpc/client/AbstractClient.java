@@ -74,16 +74,16 @@ public abstract class AbstractClient {
 		final JSONObject request = api.getRequest();
 
 		// 2. POST the object to XBMC's JSON-RPC API
-		JSONObject result = null;
+		JSONObject response = null;
 		try {
-			result = JsonApiRequest.execute(getUrl(), request);
+			response = JsonApiRequest.execute(getUrl(), request);
 		} catch (ApiException e) {
 			handleError(errorHandler, e);
 		}
 
 		// 3. parse the result and unserialize the JSON object into real {@link Source} objects.
-		if (result != null) {
-			api.setResult(result);
+		if (response != null) {
+			api.setResponse(response);
 		}
 	}
 

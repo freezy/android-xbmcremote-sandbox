@@ -43,6 +43,11 @@ public final class ItemModel {
 		public String toString() {
 			return label;
 		}
+		@Override
+		public JSONObject toJSONObject() throws JSONException {
+			// TODO Auto-generated method stub
+			return null;
+		}
 	}
 	
 	
