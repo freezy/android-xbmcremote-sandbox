@@ -19,17 +19,18 @@
  *
  */
 
-package org.xbmc.android.jsonrpc.api.call;
+package org.xbmc.android.jsonrpc.api.callold;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
-import org.xbmc.android.jsonrpc.api.model.ApplicationModel;
-import org.xbmc.android.jsonrpc.api.model.ApplicationModel.PropertyValue;
+import org.xbmc.android.jsonrpc.api.modelold.ApplicationModel;
+import org.xbmc.android.jsonrpc.api.modelold.ApplicationModel.PropertyValue;
 
 /**
  * Implements JSON-RPC API methods for the "Application" namespace.
  * 
+ * @deprecated
  * @author freezy <freezy@xbmc.org>
  */
 public final class Application {

@@ -30,7 +30,7 @@ import org.json.JSONObject;
 public abstract class AbstractModel implements JSONSerializable {
 	
 	protected String mType;
-
+	
 	/**
 	 * Tries to read an integer from JSON object.
 	 * 

@@ -46,7 +46,7 @@ public class FilesClient extends AbstractClient {
 	 * @param errorHandler Error handler
 	 * @return List of all music sources
 	 */
-	public ArrayList<ListModel.SourceItem> getMusicSources(ErrorHandler errorHandler) {
+	public ArrayList<ListModel.SourcesItem> getMusicSources(ErrorHandler errorHandler) {
 		try {
 			final Files.GetSources apicall = new Files.GetSources(FilesModel.Media.MUSIC);
 			execute(apicall, errorHandler);
@@ -55,7 +55,7 @@ public class FilesClient extends AbstractClient {
 			Log.e(TAG, e.getMessage(), e);
 			errorHandler.handleError(new ApiException(ApiException.JSON_EXCEPTION, e.getMessage(), e));
 		}
-		return new ArrayList<ListModel.SourceItem>(0);
+		return new ArrayList<ListModel.SourcesItem>(0);
 	}
 	
 	/**
@@ -68,7 +68,7 @@ public class FilesClient extends AbstractClient {
 	 */
 	public ArrayList<ListModel.FileItem> getDirectory(String directory, ErrorHandler errorHandler) {
 		try {
-			final Files.GetDirectory apicall = new Files.GetDirectory(directory);
+			final Files.GetDirectory apicall = new Files.GetDirectory(directory, null);
 			execute(apicall, errorHandler);
 			return apicall.getResults();
 		} catch (JSONException e) {

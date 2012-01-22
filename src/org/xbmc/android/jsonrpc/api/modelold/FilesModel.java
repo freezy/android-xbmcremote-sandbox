@@ -19,43 +19,30 @@
  *
  */
 
-package org.xbmc.android.jsonrpc.api.model;
+package org.xbmc.android.jsonrpc.api.modelold;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.xbmc.android.jsonrpc.api.AbstractModel;
 
 /**
- * Defines all types in the <code>Item.*</code> namespace.
+ * Defines all types in the <code>Files.*</code> namespace.
  * 
+ * @deprecated
  * @author freezy <freezy@xbmc.org>
  */
-public final class ItemModel {
-	
-	public static class BaseDetails extends AbstractModel {
-		public final static String TYPE = "Item.Details.Base";
-		public final String label;
-		public BaseDetails(JSONObject obj) throws JSONException {
-			mType = TYPE;
-			label = obj.getString("label");
-		}
-		@Override
-		public String toString() {
-			return label;
-		}
-		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-	}
+public final class FilesModel {
 	
 	
 	/*========================================================================* 
 	 *  FIELDS 
 	 *========================================================================*/
-
-	public interface BaseFields {
-		
+	
+	/**
+	 * Files.Media
+	 */
+	public interface Media {
+		final String VIDEO = "video";
+		final String MUSIC = "music";
+		final String PICTURES = "pictures";
+		final String FILES = "files";
+		final String PROGRAMS = "programs";
 	}
 }

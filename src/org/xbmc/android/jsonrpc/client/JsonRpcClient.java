@@ -56,7 +56,7 @@ public class JsonRpcClient extends AbstractClient {
 		try {
 			final JSONRPC.Version apicall = new JSONRPC.Version();
 			execute(apicall, errorHandler);
-			return apicall.getResult();
+			return Integer.parseInt(apicall.getResult());
 		} catch (JSONException e) {
 			Log.e(TAG, e.getMessage(), e);
 			errorHandler.handleError(new ApiException(ApiException.JSON_EXCEPTION, e.getMessage(), e));

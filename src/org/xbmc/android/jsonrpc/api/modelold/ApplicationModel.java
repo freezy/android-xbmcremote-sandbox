@@ -19,7 +19,7 @@
  *
  */
 
-package org.xbmc.android.jsonrpc.api.model;
+package org.xbmc.android.jsonrpc.api.modelold;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +28,7 @@ import org.xbmc.android.jsonrpc.api.AbstractModel;
 /**
  * Defines all types in the <code>Application.*</code> namespace.
  * 
+ * @deprecated
  * @author freezy <freezy@xbmc.org>
  */
 public final class ApplicationModel {

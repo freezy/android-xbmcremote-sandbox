@@ -19,12 +19,13 @@
  *
  */
 
-package org.xbmc.android.jsonrpc.api.model;
+package org.xbmc.android.jsonrpc.api.modelold;
 
 
 /**
  * Defines all types in the <code>Video.*</code> namespace.
  * 
+ * @deprecated
  * @author freezy <freezy@xbmc.org>
  */
 public final class VideoModel {

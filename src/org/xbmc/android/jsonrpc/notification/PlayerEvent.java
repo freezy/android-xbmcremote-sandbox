@@ -23,7 +23,7 @@ package org.xbmc.android.jsonrpc.notification;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xbmc.android.jsonrpc.api.model.GlobalModel;
+import org.xbmc.android.jsonrpc.api.modelold.GlobalModel;
 
 /**
  * Parses Player.* events.

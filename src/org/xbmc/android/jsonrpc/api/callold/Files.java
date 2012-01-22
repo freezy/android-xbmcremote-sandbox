@@ -19,7 +19,7 @@
  *
  */
 
-package org.xbmc.android.jsonrpc.api.call;
+package org.xbmc.android.jsonrpc.api.callold;
 
 import java.util.ArrayList;
 
@@ -27,14 +27,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
-import org.xbmc.android.jsonrpc.api.model.FilesModel;
-import org.xbmc.android.jsonrpc.api.model.ListModel;
-import org.xbmc.android.jsonrpc.api.model.ListModel.FileItem;
-import org.xbmc.android.jsonrpc.api.model.ListModel.SourceItem;
+import org.xbmc.android.jsonrpc.api.modelold.FilesModel;
+import org.xbmc.android.jsonrpc.api.modelold.ListModel;
+import org.xbmc.android.jsonrpc.api.modelold.ListModel.FileItem;
+import org.xbmc.android.jsonrpc.api.modelold.ListModel.SourceItem;
 
 /**
  * Implements JSON-RPC API methods for the "Files" namespace.
  * 
+ * @deprecated
  * @author freezy <freezy@xbmc.org>
  */
 public final class Files {

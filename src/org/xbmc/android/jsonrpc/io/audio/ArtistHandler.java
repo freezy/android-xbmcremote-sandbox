@@ -24,6 +24,8 @@ package org.xbmc.android.jsonrpc.io.audio;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
+import org.xbmc.android.jsonrpc.api.model.AudioModel;
 import org.xbmc.android.jsonrpc.io.JsonHandler;
 import org.xbmc.android.jsonrpc.provider.AudioContract;
 import org.xbmc.android.jsonrpc.provider.AudioContract.Artists;
@@ -42,29 +44,32 @@ import android.util.Log;
 public class ArtistHandler extends JsonHandler {
 
 	private final static String TAG = ArtistHandler.class.getSimpleName();
-
+	
 	public ArtistHandler() {
 		super(AudioContract.CONTENT_AUTHORITY);
 	}
 
 	@Override
-	public ContentValues[] parse(JSONObject result, ContentResolver resolver)
+	public ContentValues[] parse(JSONObject response, ContentResolver resolver)
 			throws JSONException {
 		Log.d(TAG, "Building queries for artist's drop and create.");
 
 		final long now = System.currentTimeMillis();
-		final JSONArray artists = result.getJSONArray("artists");
-
+			
+		// we intentionally don't use the API for de-serializing but access the 
+		// JSON objects directly for performance reasons.
+		final JSONArray artists = response.getJSONObject("result").getJSONArray(AudioLibrary.GetArtists.RESULTS);
+		
 		final ContentValues[] batch = new ContentValues[artists.length()];
-		
-		
 		for (int i = 0; i < artists.length(); i++) {
 			final JSONObject artist = artists.getJSONObject(i);
 			batch[i] = new ContentValues();
 			batch[i].put(SyncColumns.UPDATED, now);
-			batch[i].put(Artists.ID, artist.getString("artistid"));
-			batch[i].put(Artists.NAME, artist.getString("artist"));
+			batch[i].put(Artists.ID, artist.getString(AudioModel.ArtistDetails.ARTISTID));
+			batch[i].put(Artists.NAME, artist.getString(AudioModel.ArtistDetails.ARTIST));
 		}
+	
+		Log.d(TAG, "Artist queries built in " + (System.currentTimeMillis() - now) + "ms.");
 		return batch;
 	}
 }

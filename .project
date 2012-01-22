@@ -30,4 +30,16 @@
 		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/org/xbmc/android/jsonrpc/api/call</name>
+			<type>2</type>
+			<location>//192.168.0.11/Temp/java/callgen</location>
+		</link>
+		<link>
+			<name>src/org/xbmc/android/jsonrpc/api/model</name>
+			<type>2</type>
+			<location>//192.168.0.11/Temp/java/modelgen</location>
+		</link>
+	</linkedResources>
 </projectDescription>

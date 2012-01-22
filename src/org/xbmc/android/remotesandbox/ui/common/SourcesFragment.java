@@ -49,7 +49,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SourcesFragment extends ListFragment implements LoaderManager.LoaderCallbacks<List<ListModel.SourceItem>> {
+public class SourcesFragment extends ListFragment implements LoaderManager.LoaderCallbacks<List<ListModel.SourcesItem>> {
 
 	private static final String TAG = SourcesFragment.class.getSimpleName();
 
@@ -102,18 +102,18 @@ public class SourcesFragment extends ListFragment implements LoaderManager.Loade
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		// Insert desired behavior here.
-		ListModel.SourceItem source = (ListModel.SourceItem)getListAdapter().getItem(position);
+		ListModel.SourcesItem source = (ListModel.SourcesItem)getListAdapter().getItem(position);
 		Log.i("FragmentComplexList", "Item clicked: " + source.file);
 	}
 
 	@Override
-	public Loader<List<ListModel.SourceItem>> onCreateLoader(int id, Bundle args) {
+	public Loader<List<ListModel.SourcesItem>> onCreateLoader(int id, Bundle args) {
 		// This is called when a new Loader needs to be created. This
 		// sample only has one Loader with no arguments, so it is simple.
 		final Handler h = new Handler();
-		return new ListLoader<ListModel.SourceItem>(getActivity(), new Worker<ListModel.SourceItem>() {
+		return new ListLoader<ListModel.SourcesItem>(getActivity(), new Worker<ListModel.SourcesItem>() {
 			@Override
-			public List<ListModel.SourceItem> doWork() {
+			public List<ListModel.SourcesItem> doWork() {
 				final FilesClient filesClient = new FilesClient();
 				return filesClient.getMusicSources(new ErrorHandler() {
 					@Override
@@ -132,7 +132,7 @@ public class SourcesFragment extends ListFragment implements LoaderManager.Loade
 	}
 
 	@Override
-	public void onLoadFinished(Loader<List<ListModel.SourceItem>> loader, List<ListModel.SourceItem> data) {
+	public void onLoadFinished(Loader<List<ListModel.SourcesItem>> loader, List<ListModel.SourcesItem> data) {
 
 		if (!isVisible()) {
 			return;
@@ -150,7 +150,7 @@ public class SourcesFragment extends ListFragment implements LoaderManager.Loade
 	}
 
 	@Override
-	public void onLoaderReset(Loader<List<ListModel.SourceItem>> loader) {
+	public void onLoaderReset(Loader<List<ListModel.SourcesItem>> loader) {
 		// Clear the data in the adapter.
 		mAdapter.setData(null);
 	}
@@ -172,7 +172,7 @@ public class SourcesFragment extends ListFragment implements LoaderManager.Loade
 		}
 	}
 
-	public static class SourceListAdapter extends ArrayAdapter<ListModel.SourceItem> {
+	public static class SourceListAdapter extends ArrayAdapter<ListModel.SourcesItem> {
 		private final LayoutInflater mInflater;
 
 		public SourceListAdapter(Context context) {
@@ -180,10 +180,10 @@ public class SourcesFragment extends ListFragment implements LoaderManager.Loade
 			mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
 
-		public void setData(List<ListModel.SourceItem> data) {
+		public void setData(List<ListModel.SourcesItem> data) {
 			clear();
 			if (data != null) {
-				for (ListModel.SourceItem source : data) {
+				for (ListModel.SourcesItem source : data) {
 					add(source);
 				}
 			}
@@ -201,7 +201,7 @@ public class SourcesFragment extends ListFragment implements LoaderManager.Loade
 			} else {
 				view = convertView;
 			}
-			ListModel.SourceItem item = getItem(position);
+			ListModel.SourcesItem item = getItem(position);
 			((TextView) view.findViewById(R.id.item_title)).setText(item.label);
 
 			return view;

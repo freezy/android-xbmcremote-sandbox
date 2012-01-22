@@ -24,6 +24,9 @@ package org.xbmc.android.jsonrpc.io.audio;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xbmc.android.jsonrpc.api.AbstractCall;
+import org.xbmc.android.jsonrpc.api.AbstractModel;
+import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
 import org.xbmc.android.jsonrpc.api.model.AudioModel;
 import org.xbmc.android.jsonrpc.io.JsonHandler;
 import org.xbmc.android.jsonrpc.provider.AudioContract;
@@ -50,25 +53,26 @@ public class AlbumHandler extends JsonHandler {
 	}
 
 	@Override
-	public ContentValues[] parse(JSONObject result, ContentResolver resolver)
-			throws JSONException {
-		Log.d(TAG, "Building queries for album's drop and create.");
-
+	public ContentValues[] parse(JSONObject result, ContentResolver resolver) throws JSONException {
+		
 		final long now = System.currentTimeMillis();
-		final JSONArray albums = result.getJSONArray("albums");
+		Log.d(TAG, "Building queries for album's drop and create.");
+		
+		// we intentionally don't use the API for de-serializing but access the 
+		// JSON objects directly for performance reasons.
+		final JSONArray albums = result.getJSONObject(AbstractCall.RESULT).getJSONArray(AudioLibrary.GetAlbums.RESULTS);
 
 		final ContentValues[] batch = new ContentValues[albums.length()];
-		
-		
 		for (int i = 0; i < albums.length(); i++) {
 			final JSONObject album = albums.getJSONObject(i);
 			batch[i] = new ContentValues();
 			batch[i].put(SyncColumns.UPDATED, now);
-			batch[i].put(Albums.ID, album.getString("albumid"));
-			batch[i].put(Albums.TITLE, album.getString(AudioModel.AlbumFields.TITLE));
-			batch[i].put(Albums.PREFIX + Artists.ID, album.getString(AudioModel.AlbumFields.ARTISTID));
-			batch[i].put(Albums.YEAR, album.getString(AudioModel.AlbumFields.YEAR));
+			batch[i].put(Albums.ID, album.getString(AudioModel.AlbumDetails.ALBUMID));
+			batch[i].put(Albums.TITLE, album.getString(AudioModel.AlbumDetails.TITLE));
+			batch[i].put(Albums.PREFIX + Artists.ID, album.getString(AudioModel.AlbumDetails.ARTISTID));
+			batch[i].put(Albums.YEAR, album.getString(AudioModel.AlbumDetails.YEAR));
 		}
+		Log.d(TAG, "Album queries built in " + (System.currentTimeMillis() - now) + "ms.");
 		return batch;
 	}
 

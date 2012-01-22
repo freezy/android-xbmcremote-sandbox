@@ -19,35 +19,30 @@
  *
  */
 
-package org.xbmc.android.jsonrpc.api.model;
+package org.xbmc.android.jsonrpc.api.modelold;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xbmc.android.jsonrpc.api.AbstractModel;
 
 /**
- * Defines all types in the <code>Global.*</code> namespace.
+ * Defines all types in the <code>Item.*</code> namespace.
  * 
+ * @deprecated
  * @author freezy <freezy@xbmc.org>
  */
-public final class GlobalModel {
+public final class ItemModel {
 	
-	public static class Time extends AbstractModel {
-		public final static String TYPE = "Global.Time";
-		public final int hours;
-		public final int minutes;
-		public final int seconds;
-		public final int milliseconds;
-		public Time(JSONObject obj) throws JSONException {
+	public static class BaseDetails extends AbstractModel {
+		public final static String TYPE = "Item.Details.Base";
+		public final String label;
+		public BaseDetails(JSONObject obj) throws JSONException {
 			mType = TYPE;
-			hours = obj.getInt("hours");
-			minutes = obj.getInt("minutes");
-			seconds = obj.getInt("seconds");
-			milliseconds = obj.getInt("milliseconds");
+			label = obj.getString("label");
 		}
 		@Override
 		public String toString() {
-			return String.format("%02d:%02d:%02d.%03d", hours, minutes, seconds, milliseconds);
+			return label;
 		}
 		@Override
 		public JSONObject toJSONObject() throws JSONException {
@@ -55,5 +50,13 @@ public final class GlobalModel {
 			return null;
 		}
 	}
+	
+	
+	/*========================================================================* 
+	 *  FIELDS 
+	 *========================================================================*/
 
+	public interface BaseFields {
+		
+	}
 }

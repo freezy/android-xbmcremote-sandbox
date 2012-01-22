@@ -19,7 +19,7 @@
  *
  */
 
-package org.xbmc.android.jsonrpc.api.call;
+package org.xbmc.android.jsonrpc.api.callold;
 
 import java.util.ArrayList;
 
@@ -28,11 +28,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.AbstractModel;
-import org.xbmc.android.jsonrpc.api.model.AudioModel;
+import org.xbmc.android.jsonrpc.api.modelold.AudioModel;
 
 /**
  * Implements JSON-RPC API methods for the "AudioLibrary" namespace.
  * 
+ * @deprecated
  * @author freezy <freezy@xbmc.org>
  */
 public final class AudioLibrary {

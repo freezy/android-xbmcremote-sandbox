@@ -19,7 +19,7 @@
  *
  */
 
-package org.xbmc.android.jsonrpc.api.model;
+package org.xbmc.android.jsonrpc.api.modelold;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,6 +27,7 @@ import org.json.JSONObject;
 /**
  * Defines all types in the <code>Audio.*</code> namespace.
  * 
+ * @deprecated
  * @author freezy <freezy@xbmc.org>
  */
 public final class AudioModel {

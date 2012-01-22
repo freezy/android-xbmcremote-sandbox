@@ -70,6 +70,8 @@ public abstract class AbstractCall<T> {
 	
 	private static final String TAG = AbstractCall.class.getSimpleName();
 	
+	public static final String RESULT = "result";
+	
 	/**
 	 * Name of the node containing parameters in the JSON-RPC request
 	 */

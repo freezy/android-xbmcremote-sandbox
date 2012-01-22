@@ -90,7 +90,7 @@ public abstract class JsonHandler {
 				Log.i(TAG, "Execution done in " + (System.currentTimeMillis() - start) + "ms.");
 			}
 		} catch (JSONException e) {
-			throw new ApiException(ApiException.JSON_EXCEPTION, "Problem reading json", e);
+			throw new ApiException(ApiException.JSON_EXCEPTION, "Problem reading JSON response.", e);
         } catch (IOException e) {
 			e.printStackTrace();
 		} 
