@@ -91,7 +91,7 @@ public class NotificationManager {
 	}
 	
 	/**
-	 * Converts a JSON object to a POJO (plain simple java object) of our 
+	 * Converts a JSON object to a POJO (plain old java object) of our 
 	 * model.
 	 * 
 	 * @param event The JSON object
@@ -169,6 +169,14 @@ public class NotificationManager {
 		if (followUp != null) {
 			mFollowups.put(followUp.getId(), followUp);
 			postData(followUp.getRequest().toString() + "\n");
+		}
+	}
+	private void handleFollowUps(FollowupCall<? extends AbstractModel>[] followupCalls) {
+		if (followupCalls != null) {
+			for (FollowupCall<? extends AbstractModel> followUp : followupCalls) {
+				mFollowups.put(followUp.getId(), followUp);
+				postData(followUp.getRequest().toString() + "\n");
+			}
 		}
 	}
 	

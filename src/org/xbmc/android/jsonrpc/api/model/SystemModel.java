@@ -47,10 +47,10 @@ public final class SystemModel {
 		public static final String CANSHUTDOWN = "canshutdown";
 		public static final String CANSUSPEND = "cansuspend";
 		// class members
-		public final boolean canhibernate;
-		public final boolean canreboot;
-		public final boolean canshutdown;
-		public final boolean cansuspend;
+		public final Boolean canhibernate;
+		public final Boolean canreboot;
+		public final Boolean canshutdown;
+		public final Boolean cansuspend;
 		/**
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a PropertyValue object
@@ -69,7 +69,7 @@ public final class SystemModel {
 		 * @param canshutdown 
 		 * @param cansuspend 
 		 */
-		public PropertyValue(boolean canhibernate, boolean canreboot, boolean canshutdown, boolean cansuspend) {
+		public PropertyValue(Boolean canhibernate, Boolean canreboot, Boolean canshutdown, Boolean cansuspend) {
 			this.canhibernate = canhibernate;
 			this.canreboot = canreboot;
 			this.canshutdown = canshutdown;

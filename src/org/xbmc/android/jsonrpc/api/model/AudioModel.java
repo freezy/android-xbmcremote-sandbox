@@ -46,7 +46,7 @@ public final class AudioModel {
 		// class members
 		public final int albumid;
 		public final String albumlabel;
-		public final int artistid;
+		public final Integer artistid;
 		public final String description;
 		public final String mood;
 		public final String style;
@@ -246,9 +246,9 @@ public final class AudioModel {
 		public final String artist;
 		public final String musicbrainzalbumartistid;
 		public final String musicbrainzalbumid;
-		public final int rating;
+		public final Integer rating;
 		public final String title;
-		public final int year;
+		public final Integer year;
 		/**
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a MediaDetails object
@@ -315,17 +315,17 @@ public final class AudioModel {
 		// class members
 		public final String album;
 		public final String albumartist;
-		public final int albumid;
-		public final int artistid;
+		public final Integer albumid;
+		public final Integer artistid;
 		public final String comment;
-		public final int duration;
+		public final Integer duration;
 		public final String file;
 		public final String lyrics;
 		public final String musicbrainzartistid;
 		public final String musicbrainztrackid;
-		public final int playcount;
+		public final Integer playcount;
 		public final int songid;
-		public final int track;
+		public final Integer track;
 		/**
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a SongDetails object

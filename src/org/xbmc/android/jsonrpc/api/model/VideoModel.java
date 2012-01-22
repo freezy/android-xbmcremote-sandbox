@@ -98,7 +98,7 @@ public final class VideoModel {
 		// field names
 		public static final String PLAYCOUNT = "playcount";
 		// class members
-		public final int playcount;
+		public final Integer playcount;
 		/**
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a BaseDetails object
@@ -153,15 +153,15 @@ public final class VideoModel {
 		public static final String WRITER = "writer";
 		// class members
 		public final ArrayList<VideoModel.Cast> cast;
-		public final int episode;
+		public final Integer episode;
 		public final int episodeid;
 		public final String firstaired;
 		public final String originaltitle;
 		public final String productioncode;
-		public final double rating;
-		public final int season;
+		public final Double rating;
+		public final Integer season;
 		public final String showtitle;
-		public final int tvshowid;
+		public final Integer tvshowid;
 		public final String votes;
 		public final String writer;
 		/**
@@ -413,18 +413,18 @@ public final class VideoModel {
 		public final String plotoutline;
 		public final String premiered;
 		public final String productioncode;
-		public final double rating;
+		public final Double rating;
 		public final ArrayList<String> set;
 		public final ArrayList<Integer> setid;
 		public final String showlink;
 		public final String sorttitle;
 		public final String studio;
 		public final String tagline;
-		public final int top250;
+		public final Integer top250;
 		public final String trailer;
 		public final String votes;
 		public final String writer;
-		public final int year;
+		public final Integer year;
 		/**
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a MovieDetails object
@@ -616,8 +616,8 @@ public final class VideoModel {
 		public final String genre;
 		public final int musicvideoid;
 		public final String studio;
-		public final int track;
-		public final int year;
+		public final Integer track;
+		public final Integer year;
 		/**
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a MusicVideoDetails object
@@ -675,10 +675,10 @@ public final class VideoModel {
 		public static final String SHOWTITLE = "showtitle";
 		public static final String TVSHOWID = "tvshowid";
 		// class members
-		public final int episode;
+		public final Integer episode;
 		public final int season;
 		public final String showtitle;
-		public final int tvshowid;
+		public final Integer tvshowid;
 		/**
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a SeasonDetails object
@@ -741,19 +741,19 @@ public final class VideoModel {
 		public static final String YEAR = "year";
 		// class members
 		public final ArrayList<VideoModel.Cast> cast;
-		public final int episode;
+		public final Integer episode;
 		public final String episodeguide;
 		public final String genre;
 		public final String imdbnumber;
 		public final String mpaa;
 		public final String originaltitle;
 		public final String premiered;
-		public final double rating;
+		public final Double rating;
 		public final String sorttitle;
 		public final String studio;
 		public final int tvshowid;
 		public final String votes;
-		public final int year;
+		public final Integer year;
 		/**
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a TVShowDetails object
@@ -942,8 +942,8 @@ public final class VideoModel {
 		public static final String POSITION = "position";
 		public static final String TOTAL = "total";
 		// class members
-		public final double position;
-		public final double total;
+		public final Double position;
+		public final Double total;
 		/**
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a Resume object
@@ -958,7 +958,7 @@ public final class VideoModel {
 		 * @param position 
 		 * @param total 
 		 */
-		public Resume(double position, double total) {
+		public Resume(Double position, Double total) {
 			this.position = position;
 			this.total = total;
 		}
@@ -1070,7 +1070,7 @@ public final class VideoModel {
 			public static final String CODEC = "codec";
 			public static final String LANGUAGE = "language";
 			// class members
-			public final int channels;
+			public final Integer channels;
 			public final String codec;
 			public final String language;
 			/**
@@ -1088,7 +1088,7 @@ public final class VideoModel {
 			 * @param codec 
 			 * @param language 
 			 */
-			public Audio(int channels, String codec, String language) {
+			public Audio(Integer channels, String codec, String language) {
 				this.channels = channels;
 				this.codec = codec;
 				this.language = language;
@@ -1174,11 +1174,11 @@ public final class VideoModel {
 			public static final String HEIGHT = "height";
 			public static final String WIDTH = "width";
 			// class members
-			public final double aspect;
+			public final Double aspect;
 			public final String codec;
-			public final int duration;
-			public final int height;
-			public final int width;
+			public final Integer duration;
+			public final Integer height;
+			public final Integer width;
 			/**
 			 * Construct from JSON object.
 			 * @param obj JSON object representing a Video object
@@ -1198,7 +1198,7 @@ public final class VideoModel {
 			 * @param height 
 			 * @param width 
 			 */
-			public Video(double aspect, String codec, int duration, int height, int width) {
+			public Video(Double aspect, String codec, Integer duration, Integer height, Integer width) {
 				this.aspect = aspect;
 				this.codec = codec;
 				this.duration = duration;

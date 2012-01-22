@@ -48,10 +48,10 @@ public final class ApplicationModel {
 		public static final String VERSION = "version";
 		public static final String VOLUME = "volume";
 		// class members
-		public final boolean muted;
+		public final Boolean muted;
 		public final String name;
 		public final Version version;
-		public final int volume;
+		public final Integer volume;
 		/**
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a PropertyValue object
@@ -70,7 +70,7 @@ public final class ApplicationModel {
 		 * @param version 
 		 * @param volume 
 		 */
-		public PropertyValue(boolean muted, String name, Version version, int volume) {
+		public PropertyValue(Boolean muted, String name, Version version, Integer volume) {
 			this.muted = muted;
 			this.name = name;
 			this.version = version;

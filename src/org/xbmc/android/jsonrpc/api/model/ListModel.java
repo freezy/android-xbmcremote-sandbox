@@ -124,15 +124,15 @@ public final class ListModel {
 		// class members
 		public final String album;
 		public final String albumartist;
-		public final int albumid;
-		public final int artistid;
+		public final Integer albumid;
+		public final Integer artistid;
 		public final ArrayList<VideoModel.Cast> cast;
 		public final String comment;
 		public final String country;
-		public final int duration;
-		public final int episode;
+		public final Integer duration;
+		public final Integer episode;
 		public final String firstaired;
-		public final int id;
+		public final Integer id;
 		public final String imdbnumber;
 		public final String lyrics;
 		public final String mpaa;
@@ -142,17 +142,17 @@ public final class ListModel {
 		public final String plotoutline;
 		public final String premiered;
 		public final String productioncode;
-		public final int season;
+		public final Integer season;
 		public final ArrayList<String> set;
 		public final ArrayList<Integer> setid;
 		public final String showlink;
 		public final String showtitle;
 		public final String studio;
 		public final String tagline;
-		public final int top250;
-		public final int track;
+		public final Integer top250;
+		public final Integer track;
 		public final String trailer;
-		public final int tvshowid;
+		public final Integer tvshowid;
 		/**
 		 * One of: <tt>unknown</tt>, <tt>movie</tt>, <tt>episode</tt>, <tt>musicvideo</tt>, <tt>song</tt>, <tt>picture</tt>.
 		 */
@@ -364,8 +364,8 @@ public final class ListModel {
 		public static final String END = "end";
 		public static final String START = "start";
 		// class members
-		public final int end;
-		public final int start;
+		public final Integer end;
+		public final Integer start;
 		/**
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a Limits object
@@ -380,7 +380,7 @@ public final class ListModel {
 		 * @param end 
 		 * @param start 
 		 */
-		public Limits(int end, int start) {
+		public Limits(Integer end, Integer start) {
 			this.end = end;
 			this.start = start;
 		}
@@ -420,8 +420,8 @@ public final class ListModel {
 		public static final String START = "start";
 		public static final String TOTAL = "total";
 		// class members
-		public final int end;
-		public final int start;
+		public final Integer end;
+		public final Integer start;
 		public final int total;
 		/**
 		 * Construct from JSON object.
@@ -439,7 +439,7 @@ public final class ListModel {
 		 * @param start 
 		 * @param total 
 		 */
-		public LimitsReturned(int end, int start, int total) {
+		public LimitsReturned(Integer end, Integer start, int total) {
 			this.end = end;
 			this.start = start;
 			this.total = total;
@@ -481,7 +481,7 @@ public final class ListModel {
 		public static final String METHOD = "method";
 		public static final String ORDER = "order";
 		// class members
-		public final boolean ignorearticle;
+		public final Boolean ignorearticle;
 		/**
 		 * One of: <tt>none</tt>, <tt>label</tt>, <tt>date</tt>, <tt>size</tt>, <tt>file</tt>, <tt>drivetype</tt>, <tt>track</tt>, <tt>duration</tt>, <tt>title</tt>, <tt>artist</tt>, <tt>album</tt>, <tt>genre</tt>, <tt>year</tt>, <tt>videorating</tt>, <tt>programcount</tt>, <tt>playlist</tt>, <tt>episode</tt>, <tt>videotitle</tt>, <tt>sorttitle</tt>, <tt>productioncode</tt>, <tt>songrating</tt>, <tt>mpaarating</tt>, <tt>videoruntime</tt>, <tt>studio</tt>, <tt>fullpath</tt>, <tt>lastplayed</tt>, <tt>unsorted</tt>, <tt>max</tt>.
 		 */
@@ -506,7 +506,7 @@ public final class ListModel {
 		 * @param method 
 		 * @param order 
 		 */
-		public Sort(boolean ignorearticle, String method, String order) {
+		public Sort(Boolean ignorearticle, String method, String order) {
 			this.ignorearticle = ignorearticle;
 			this.method = method;
 			this.order = order;

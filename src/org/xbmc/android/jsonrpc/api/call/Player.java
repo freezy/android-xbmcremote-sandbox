@@ -453,13 +453,13 @@ public final class Player {
 			public static final String POSITION = "position";
 			// class members
 			public final int playlistid;
-			public final int position;
+			public final Integer position;
 			/**
 			 * Construct object with native values for later serialization.
 			 * @param playlistid 
 			 * @param position 
 			 */
-			public PlaylistidPosition(int playlistid, int position) {
+			public PlaylistidPosition(int playlistid, Integer position) {
 				this.playlistid = playlistid;
 				this.position = position;
 			}
@@ -481,15 +481,15 @@ public final class Player {
 			public static final String RECURSIVE = "recursive";
 			// class members
 			public final String path;
-			public final boolean random;
-			public final boolean recursive;
+			public final Boolean random;
+			public final Boolean recursive;
 			/**
 			 * Construct object with native values for later serialization.
 			 * @param path 
 			 * @param random 
 			 * @param recursive 
 			 */
-			public PathRandomRecursive(String path, boolean random, boolean recursive) {
+			public PathRandomRecursive(String path, Boolean random, Boolean recursive) {
 				this.path = path;
 				this.random = random;
 				this.recursive = recursive;
@@ -663,7 +663,7 @@ public final class Player {
 			public static final String TIME = "time";
 			public static final String TOTALTIME = "totaltime";
 			// class members
-			public final double percentage;
+			public final Double percentage;
 			public final GlobalModel.Time time;
 			public final GlobalModel.Time totaltime;
 			/**
@@ -681,7 +681,7 @@ public final class Player {
 			 * @param time 
 			 * @param totaltime 
 			 */
-			public SeekResult(double percentage, GlobalModel.Time time, GlobalModel.Time totaltime) {
+			public SeekResult(Double percentage, GlobalModel.Time time, GlobalModel.Time totaltime) {
 				this.percentage = percentage;
 				this.time = time;
 				this.totaltime = totaltime;
@@ -723,10 +723,10 @@ public final class Player {
 			public static final String MINUTES = "minutes";
 			public static final String SECONDS = "seconds";
 			// class members
-			public final int hours;
-			public final int milliseconds;
-			public final int minutes;
-			public final int seconds;
+			public final Integer hours;
+			public final Integer milliseconds;
+			public final Integer minutes;
+			public final Integer seconds;
 			/**
 			 * Construct object with native values for later serialization.
 			 * @param hours 
@@ -734,7 +734,7 @@ public final class Player {
 			 * @param minutes 
 			 * @param seconds 
 			 */
-			public HoursMillisecondsMinutesSeconds(int hours, int milliseconds, int minutes, int seconds) {
+			public HoursMillisecondsMinutesSeconds(Integer hours, Integer milliseconds, Integer minutes, Integer seconds) {
 				this.hours = hours;
 				this.milliseconds = milliseconds;
 				this.minutes = minutes;

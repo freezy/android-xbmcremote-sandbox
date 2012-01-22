@@ -27,13 +27,14 @@
         android:id="@+id/nowplaying_connect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Connect" />
+        android:text="On" />
 
-    <Button
-        android:id="@+id/nowplaying_disconnect"
+    <Chronometer
+        android:id="@+id/nowplaying_chronometer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Disconnect" />
+        android:paddingRight="5dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
 
     <TextView
         android:id="@+id/nowplaying_status"

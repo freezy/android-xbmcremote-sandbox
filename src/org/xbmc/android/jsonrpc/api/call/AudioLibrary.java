@@ -130,17 +130,17 @@ public final class AudioLibrary {
 			/**
 			 * Whether to export thumbnails and fanart images.
 			 */
-			public final boolean images;
+			public final Boolean images;
 			/**
 			 * Whether to overwrite existing exported files.
 			 */
-			public final boolean overwrite;
+			public final Boolean overwrite;
 			/**
 			 * Construct object with native values for later serialization.
 			 * @param images Whether to export thumbnails and fanart images 
 			 * @param overwrite Whether to overwrite existing exported files 
 			 */
-			public ImagesOverwrite(boolean images, boolean overwrite) {
+			public ImagesOverwrite(Boolean images, Boolean overwrite) {
 				this.images = images;
 				this.overwrite = overwrite;
 			}

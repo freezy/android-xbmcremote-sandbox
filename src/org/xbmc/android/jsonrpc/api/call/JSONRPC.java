@@ -73,7 +73,7 @@ public final class JSONRPC {
 			/**
 			 * Whether or not to print the schema for referenced types.
 			 */
-			public final boolean getreferences;
+			public final Boolean getreferences;
 			/**
 			 * Name of a namespace, method or type.
 			 */
@@ -89,7 +89,7 @@ public final class JSONRPC {
 			 * @param id Name of a namespace, method or type 
 			 * @param type Type of the given name 
 			 */
-			public GetreferencesIdType(boolean getreferences, String id, String type) {
+			public GetreferencesIdType(Boolean getreferences, String id, String type) {
 				this.getreferences = getreferences;
 				this.id = id;
 				this.type = type;

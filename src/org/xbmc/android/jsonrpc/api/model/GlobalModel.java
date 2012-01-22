@@ -143,5 +143,12 @@ public final class GlobalModel {
 			}
 			return new ArrayList<GlobalModel.Time>(0);
 		}
+		/**
+		 * Returns time in milliseconds.
+		 * @return Time in milliseconds
+		 */
+		public long getMilliseconds() {
+			return hours * 3600000 + minutes * 60000 + seconds * 1000 + milliseconds;
+		}
 	}
 }

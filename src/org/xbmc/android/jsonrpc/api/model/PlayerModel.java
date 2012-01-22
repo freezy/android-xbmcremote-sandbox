@@ -217,13 +217,13 @@ public final class PlayerModel {
 		public final String type;
 		public final int id;
 		public final String title;
-		public final int year;
-		public final int episode;
-		public final int season;
+		public final Integer year;
+		public final Integer episode;
+		public final Integer season;
 		public final String showtitle;
 		public final String album;
 		public final String artist;
-		public final int track;
+		public final Integer track;
 		/**
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a NotificationsItem object
@@ -254,7 +254,7 @@ public final class PlayerModel {
 		 * @param artist 
 		 * @param track 
 		 */
-		public NotificationsItem(String type, int id, String title, int year, int episode, int season, String showtitle, String album, String artist, int track) {
+		public NotificationsItem(String type, int id, String title, Integer year, Integer episode, Integer season, String showtitle, String album, String artist, Integer track) {
 			this.type = type;
 			this.id = id;
 			this.title = title;
@@ -288,7 +288,7 @@ public final class PlayerModel {
 		 */
 		public class TypeNotificationsItem extends NotificationsItem {
 			public TypeNotificationsItem(String type) {
-				super(type, -1, null, -1, -1, -1, null, null, null, -1);
+				super(type, -1, null, null, null, null, null, null, null, null);
 			}
 		}
 		/**
@@ -299,7 +299,7 @@ public final class PlayerModel {
 		 */
 		public class IdTypeNotificationsItem extends NotificationsItem {
 			public IdTypeNotificationsItem(int id, String type) {
-				super(type, id, null, -1, -1, -1, null, null, null, -1);
+				super(type, id, null, null, null, null, null, null, null, null);
 			}
 		}
 		/**
@@ -310,8 +310,8 @@ public final class PlayerModel {
 		 * @see PlayerModel.NotificationsItemType
 		 */
 		public class TitleTypeYearNotificationsItem extends NotificationsItem {
-			public TitleTypeYearNotificationsItem(String title, String type, int year) {
-				super(type, -1, title, year, -1, -1, null, null, null, -1);
+			public TitleTypeYearNotificationsItem(String title, String type, Integer year) {
+				super(type, -1, title, year, null, null, null, null, null, null);
 			}
 		}
 		/**
@@ -324,8 +324,8 @@ public final class PlayerModel {
 		 * @see PlayerModel.NotificationsItemType
 		 */
 		public class EpisodeSeasonShowtitleTitleTypeNotificationsItem extends NotificationsItem {
-			public EpisodeSeasonShowtitleTitleTypeNotificationsItem(int episode, int season, String showtitle, String title, String type) {
-				super(type, -1, title, -1, episode, season, showtitle, null, null, -1);
+			public EpisodeSeasonShowtitleTitleTypeNotificationsItem(Integer episode, Integer season, String showtitle, String title, String type) {
+				super(type, -1, title, null, episode, season, showtitle, null, null, null);
 			}
 		}
 		/**
@@ -338,7 +338,7 @@ public final class PlayerModel {
 		 */
 		public class AlbumArtistTitleTypeNotificationsItem extends NotificationsItem {
 			public AlbumArtistTitleTypeNotificationsItem(String album, String artist, String title, String type) {
-				super(type, -1, title, -1, -1, -1, null, album, artist, -1);
+				super(type, -1, title, null, null, null, null, album, artist, null);
 			}
 		}
 		/**
@@ -351,8 +351,8 @@ public final class PlayerModel {
 		 * @see PlayerModel.NotificationsItemType
 		 */
 		public class AlbumArtistTitleTrackTypeNotificationsItem extends NotificationsItem {
-			public AlbumArtistTitleTrackTypeNotificationsItem(String album, String artist, String title, int track, String type) {
-				super(type, -1, title, -1, -1, -1, null, album, artist, track);
+			public AlbumArtistTitleTrackTypeNotificationsItem(String album, String artist, String title, Integer track, String type) {
+				super(type, -1, title, null, null, null, null, album, artist, track);
 			}
 		}
 		/**
@@ -391,7 +391,7 @@ public final class PlayerModel {
 		public static final String SPEED = "speed";
 		// class members
 		public final int playerid;
-		public final int speed;
+		public final Integer speed;
 		/**
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a NotificationsPlayer object
@@ -406,7 +406,7 @@ public final class PlayerModel {
 		 * @param playerid 
 		 * @param speed 
 		 */
-		public NotificationsPlayer(int playerid, int speed) {
+		public NotificationsPlayer(int playerid, Integer speed) {
 			this.playerid = playerid;
 			this.speed = speed;
 		}
@@ -537,23 +537,23 @@ public final class PlayerModel {
 		public static final String TYPE = "type";
 		// class members
 		public final ArrayList<PlayerModel.AudioStreamExtended> audiostreams;
-		public final boolean canchangespeed;
-		public final boolean canmove;
-		public final boolean canrepeat;
-		public final boolean canrotate;
-		public final boolean canseek;
-		public final boolean canshuffle;
-		public final boolean canzoom;
+		public final Boolean canchangespeed;
+		public final Boolean canmove;
+		public final Boolean canrepeat;
+		public final Boolean canrotate;
+		public final Boolean canseek;
+		public final Boolean canshuffle;
+		public final Boolean canzoom;
 		public final PlayerModel.AudioStreamExtended currentaudiostream;
 		public final PlayerModel.Subtitle currentsubtitle;
-		public final boolean partymode;
-		public final double percentage;
-		public final int playlistid;
-		public final int position;
+		public final Boolean partymode;
+		public final Double percentage;
+		public final Integer playlistid;
+		public final Integer position;
 		public final String repeat;
-		public final boolean shuffled;
-		public final int speed;
-		public final boolean subtitleenabled;
+		public final Boolean shuffled;
+		public final Integer speed;
+		public final Boolean subtitleenabled;
 		public final ArrayList<PlayerModel.Subtitle> subtitles;
 		public final GlobalModel.Time time;
 		public final GlobalModel.Time totaltime;
@@ -612,7 +612,7 @@ public final class PlayerModel {
 		 * @param totaltime 
 		 * @param type 
 		 */
-		public PropertyValue(ArrayList<PlayerModel.AudioStreamExtended> audiostreams, boolean canchangespeed, boolean canmove, boolean canrepeat, boolean canrotate, boolean canseek, boolean canshuffle, boolean canzoom, PlayerModel.AudioStreamExtended currentaudiostream, PlayerModel.Subtitle currentsubtitle, boolean partymode, double percentage, int playlistid, int position, String repeat, boolean shuffled, int speed, boolean subtitleenabled, ArrayList<PlayerModel.Subtitle> subtitles, GlobalModel.Time time, GlobalModel.Time totaltime, String type) {
+		public PropertyValue(ArrayList<PlayerModel.AudioStreamExtended> audiostreams, Boolean canchangespeed, Boolean canmove, Boolean canrepeat, Boolean canrotate, Boolean canseek, Boolean canshuffle, Boolean canzoom, PlayerModel.AudioStreamExtended currentaudiostream, PlayerModel.Subtitle currentsubtitle, Boolean partymode, Double percentage, Integer playlistid, Integer position, String repeat, Boolean shuffled, Integer speed, Boolean subtitleenabled, ArrayList<PlayerModel.Subtitle> subtitles, GlobalModel.Time time, GlobalModel.Time totaltime, String type) {
 			this.audiostreams = audiostreams;
 			this.canchangespeed = canchangespeed;
 			this.canmove = canmove;
@@ -705,7 +705,7 @@ public final class PlayerModel {
 		// field names
 		public static final String SPEED = "speed";
 		// class members
-		public final int speed;
+		public final Integer speed;
 		/**
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a Speed object
@@ -718,7 +718,7 @@ public final class PlayerModel {
 		 * Construct object with native values for later serialization.
 		 * @param speed 
 		 */
-		public Speed(int speed) {
+		public Speed(Integer speed) {
 			this.speed = speed;
 		}
 		@Override

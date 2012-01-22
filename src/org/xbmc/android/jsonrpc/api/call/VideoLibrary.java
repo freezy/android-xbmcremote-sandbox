@@ -132,22 +132,22 @@ public final class VideoLibrary {
 			/**
 			 * Whether to export actor thumbnails.
 			 */
-			public final boolean actorthumbs;
+			public final Boolean actorthumbs;
 			/**
 			 * Whether to export thumbnails and fanart images.
 			 */
-			public final boolean images;
+			public final Boolean images;
 			/**
 			 * Whether to overwrite existing exported files.
 			 */
-			public final boolean overwrite;
+			public final Boolean overwrite;
 			/**
 			 * Construct object with native values for later serialization.
 			 * @param actorthumbs Whether to export actor thumbnails 
 			 * @param images Whether to export thumbnails and fanart images 
 			 * @param overwrite Whether to overwrite existing exported files 
 			 */
-			public ActorthumbsImagesOverwrite(boolean actorthumbs, boolean images, boolean overwrite) {
+			public ActorthumbsImagesOverwrite(Boolean actorthumbs, Boolean images, Boolean overwrite) {
 				this.actorthumbs = actorthumbs;
 				this.images = images;
 				this.overwrite = overwrite;

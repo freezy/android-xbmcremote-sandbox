@@ -63,11 +63,17 @@ public abstract class AbstractModel implements JSONSerializable {
 	 * @return String value if found, null otherwise.
 	 * @throws JSONException
 	 */
-	public static boolean parseBoolean(JSONObject obj, String key) throws JSONException {
-		return obj.has(key) ? obj.getBoolean(key) : null;
+	public static Boolean parseBoolean(JSONObject obj, String key) throws JSONException {
+		final boolean hasKey = obj.has(key);
+		if (hasKey) {
+			return obj.getBoolean(key);
+		} else {
+			return null;
+		}
+//		return obj.has(key) ? obj.getBoolean(key) : null;
 	}
 	
-	public static double parseDouble(JSONObject obj, String key) throws JSONException {
+	public static Double parseDouble(JSONObject obj, String key) throws JSONException {
 		return obj.has(key) ? obj.getDouble(key) : null;
 	}
 

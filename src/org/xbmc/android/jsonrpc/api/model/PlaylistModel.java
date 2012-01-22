@@ -227,7 +227,7 @@ public final class PlaylistModel {
 		public static final String SIZE = "size";
 		public static final String TYPE = "type";
 		// class members
-		public final int size;
+		public final Integer size;
 		public final String type;
 		/**
 		 * Construct from JSON object.
@@ -243,7 +243,7 @@ public final class PlaylistModel {
 		 * @param size 
 		 * @param type 
 		 */
-		public PropertyValue(int size, String type) {
+		public PropertyValue(Integer size, String type) {
 			this.size = size;
 			this.type = type;
 		}
