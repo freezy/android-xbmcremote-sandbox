@@ -22,8 +22,8 @@
 package org.xbmc.android.jsonrpc.client;
 
 import org.json.JSONException;
-import org.json.JSONObject;
-import org.xbmc.android.jsonrpc.api.JsonRpcAPI;
+import org.xbmc.android.jsonrpc.api.call.JSONRPC;
+import org.xbmc.android.jsonrpc.io.ApiException;
 import org.xbmc.android.zeroconf.XBMCHost;
 
 import android.util.Log;
@@ -37,8 +37,6 @@ public class JsonRpcClient extends AbstractClient {
 	
 	private final static String TAG = JsonRpcClient.class.getSimpleName();
 	
-	private final JsonRpcAPI api = new JsonRpcAPI();
-
 	/**
 	 * Sometimes we don't want the standard host to be used, but another one,
 	 * for example when we're adding a new account and probing for version.
@@ -50,28 +48,20 @@ public class JsonRpcClient extends AbstractClient {
 	
 	/**
 	 * Returns the API version of XBMC's JSON-RPC implementation.
-	 * 
+	 *
 	 * @param errorHandler Error handler
 	 * @return API version or -1 on error.
 	 */
 	public int getVersion(ErrorHandler errorHandler) {
-		
 		try {
-			
-			// 1. get the request object from our API implementation
-			final JSONObject request = api.version();
-			
-			// 2. POST the object to XBMC's JSON-RPC API
-			final JSONObject result = execute(request, errorHandler);
-			
-			// 3. parse the result
-			if (result != null) {
-				return result.getInt("version");
-			}
+			final JSONRPC.Version apicall = new JSONRPC.Version();
+			execute(apicall, errorHandler);
+			return apicall.getResult();
 		} catch (JSONException e) {
 			Log.e(TAG, e.getMessage(), e);
-			
+			errorHandler.handleError(new ApiException(ApiException.JSON_EXCEPTION, e.getMessage(), e));
 		}
 		return -1;
 	}
+	
 }

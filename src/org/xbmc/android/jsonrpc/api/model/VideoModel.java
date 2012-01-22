@@ -19,46 +19,27 @@
  *
  */
 
-package org.xbmc.android.jsonrpc.api;
+package org.xbmc.android.jsonrpc.api.model;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.xbmc.android.jsonrpc.api.FilesAPI.File;
-import org.xbmc.android.jsonrpc.api.FilesAPI.OneLabelledNavigation;
 
 /**
- * Creates request objects for the video library.
+ * Defines all types in the <code>Video.*</code> namespace.
  * 
  * @author freezy <freezy@xbmc.org>
  */
-public class VideoLibraryAPI extends AbstractAPI {
+public final class VideoModel {
 	
-	private final static String PREFIX = "VideoLibrary.";
+
 	
-	/**
-	 * Retrieve all movies.
-	 * 
-	 * 	Curl example:
-	 * 		<code>curl -i -X POST -d '{"jsonrpc": "2.0", "method": "VideoLibrary.getMovies", "params": { "properties": [ "director", "year" ] }, "id": 1}' http://localhost:8080/jsonrpc</code>
-	 * 
-	 * @param fields Additional fields to return, see constants at {@link MovieFields}.
-	 * @return
-	 * @throws JSONException
-	 */
-	public JSONObject getMovies(String[] fields) throws JSONException {
-		final JSONObject request = createRequest("GetAlbums");
-		if (fields != null && fields.length > 0) {
-			getParameters(request).put("properties", toJSONArray(fields));
-		}
-		return request;
-	}
+	
+	/*========================================================================* 
+	 *  FIELDS 
+	 *========================================================================*/
 	
 	/**
-	 * Field definitions for movies.
-	 * @author freezy <freezy@xbmc.org>
+	 * Video.Fields.Movie
 	 */
-	public interface MovieFields {
-		
+	public interface MovieFields extends ItemModel.BaseFields {
 		final String TITLE = "title";
 		final String GENRE = "genre";
 		final String YEAR = "year";
@@ -92,46 +73,4 @@ public class VideoLibraryAPI extends AbstractAPI {
 		final String RESUME = "resume";
 		final String SETTID = "setid";
 	}
-	
-	@Override
-	protected String getPrefix() {
-		return PREFIX;
-	}
-	
-	
-	/**
-	 * Transfer object for movies.
-	 */
-	public static class Movie implements OneLabelledNavigation {
-		/**
-		 * Label of the source
-		 */
-		public final String label;
-		/**
-		 * Absolute path of the source, can also be addon://, etc.
-		 */
-		public final String path;
-		
-		public Movie(String label, String file) {
-			this.label = label;
-			this.path = file;
-		}
-		public String toString() {
-			return label + " (" + path + ")";
-		}
-		
-		@Override
-		public String getLabel() {
-			return label;
-		}
-		@Override
-		public int getType() {
-			return File.FILETYPE_SOURCE;
-		}
-		@Override
-		public String getPath() {
-			return path;
-		}
-	}
-
 }

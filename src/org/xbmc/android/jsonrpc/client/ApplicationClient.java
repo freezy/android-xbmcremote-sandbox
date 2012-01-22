@@ -22,8 +22,8 @@
 package org.xbmc.android.jsonrpc.client;
 
 import org.json.JSONException;
-import org.json.JSONObject;
-import org.xbmc.android.jsonrpc.api.ApplicationAPI;
+import org.xbmc.android.jsonrpc.api.call.Application;
+import org.xbmc.android.jsonrpc.api.model.ApplicationModel;
 import org.xbmc.android.jsonrpc.io.ApiException;
 import org.xbmc.android.zeroconf.XBMCHost;
 
@@ -38,8 +38,6 @@ public class ApplicationClient extends AbstractClient {
 
 	private final static String TAG = ApplicationClient.class.getSimpleName();
 
-	private final ApplicationAPI api = new ApplicationAPI();
-
 	/**
 	 * Sometimes we don't want the standard host to be used, but another one,
 	 * for example when we're adding a new account and probing for version.
@@ -50,29 +48,19 @@ public class ApplicationClient extends AbstractClient {
 	}
 
 	/**
-	 * Returns version object of XBMC.
+	 * Returns the version of XBMC.
 	 *
 	 * @param errorHandler Error handler
-	 * @return XBMC version
+	 * @return Version object containing XBMC's version.
 	 */
-	public ApplicationAPI.Version getVersion(ErrorHandler errorHandler) {
-
+	public ApplicationModel.PropertyValue.Version getVersion(ErrorHandler errorHandler) {
 		try {
-
-			// 1. get the request object from our API implementation
-			JSONObject request = api.getProperties(ApplicationAPI.PropertyName.VERSION);
-
-			// 2. POST the object to XBMC's JSON-RPC API
-			JSONObject result = execute(request, errorHandler);
-
-			// 3. parse the result
-			if (result != null) {
-				return new ApplicationAPI.Version(result.getJSONObject("version"));
-			}
-
+			final Application.GetProperties apicall = new Application.GetProperties(ApplicationModel.PropertyName.VERSION);
+			execute(apicall, errorHandler);
+			return apicall.getResult().version;
 		} catch (JSONException e) {
 			Log.e(TAG, e.getMessage(), e);
-			handleError(errorHandler, new ApiException(ApiException.JSON_EXCEPTION, e.getMessage(), e));
+			errorHandler.handleError(new ApiException(ApiException.JSON_EXCEPTION, e.getMessage(), e));
 		}
 		return null;
 	}

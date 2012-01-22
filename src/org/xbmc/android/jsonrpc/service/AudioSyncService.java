@@ -21,7 +21,8 @@
 
 package org.xbmc.android.jsonrpc.service;
 
-import org.xbmc.android.jsonrpc.api.AudioLibraryAPI;
+import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
+import org.xbmc.android.jsonrpc.api.model.AudioModel;
 import org.xbmc.android.jsonrpc.io.RemoteExecutor;
 import org.xbmc.android.jsonrpc.io.audio.AlbumHandler;
 import org.xbmc.android.jsonrpc.io.audio.ArtistHandler;
@@ -45,7 +46,7 @@ import android.util.Log;
  */
 public class AudioSyncService extends IntentService {
 
-	public static final String URL = "http://192.100.120.114:8088/jsonrpc";
+	public static final String URL = "http://192.168.0.100:8080/jsonrpc";
 	
 	private static final String TAG = AudioSyncService.class.getSimpleName();
 
@@ -83,15 +84,14 @@ public class AudioSyncService extends IntentService {
 
 		try {
 			final long startRemote = System.currentTimeMillis();
-			final AudioLibraryAPI audiolib = new AudioLibraryAPI();
 
 			final String[] albumFields = {
-					AudioLibraryAPI.AlbumFields.TITLE,
-					AudioLibraryAPI.AlbumFields.ARTISTID,
-					AudioLibraryAPI.AlbumFields.YEAR };
+					AudioModel.AlbumFields.TITLE,
+					AudioModel.AlbumFields.ARTISTID,
+					AudioModel.AlbumFields.YEAR };
 
-			mRemoteExecutor.execute(AudioSyncService.URL, audiolib.getArtists(false, null), new ArtistHandler());
-			mRemoteExecutor.execute(AudioSyncService.URL, audiolib.getAlbums(null, null, albumFields), new AlbumHandler());
+			mRemoteExecutor.execute(AudioSyncService.URL, new AudioLibrary.GetArtists(false, null), new ArtistHandler());
+			mRemoteExecutor.execute(AudioSyncService.URL, new AudioLibrary.GetAlbums(null, null, albumFields), new AlbumHandler());
 
 			Log.i(TAG, "All done, remote sync took " + (System.currentTimeMillis() - startRemote) + "ms.");
 

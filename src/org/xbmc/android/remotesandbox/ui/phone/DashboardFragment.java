@@ -50,6 +50,8 @@ import android.widget.TextView;
  */
 public class DashboardFragment extends Fragment {
 	
+//	private final static String TAG = DashboardFragment.class.getSimpleName();
+	
 	private static final int HOME_ACTION_REMOTE = 0;
 	private static final int HOME_ACTION_MUSIC = 1;
 	private static final int HOME_ACTION_VIDEOS = 2;

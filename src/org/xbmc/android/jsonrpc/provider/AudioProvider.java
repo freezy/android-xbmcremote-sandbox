@@ -24,8 +24,6 @@ package org.xbmc.android.jsonrpc.provider;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.json.JSONObject;
-import org.xbmc.android.jsonrpc.api.AudioLibraryAPI;
 import org.xbmc.android.jsonrpc.provider.AudioContract.Albums;
 import org.xbmc.android.jsonrpc.provider.AudioContract.AlbumsColumns;
 import org.xbmc.android.jsonrpc.provider.AudioContract.Artists;
@@ -44,11 +42,9 @@ import android.content.Context;
 import android.content.OperationApplicationException;
 import android.content.UriMatcher;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.net.Uri;
-import android.provider.BaseColumns;
 import android.util.Log;
 
 /**

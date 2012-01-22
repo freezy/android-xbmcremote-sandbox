@@ -21,7 +21,7 @@
 
 package org.xbmc.android.account.authenticator;
 
-import org.xbmc.android.jsonrpc.api.ApplicationAPI.Version;
+import org.xbmc.android.jsonrpc.api.model.ApplicationModel.PropertyValue.Version;
 import org.xbmc.android.jsonrpc.client.ApplicationClient;
 import org.xbmc.android.jsonrpc.client.JsonRpcClient;
 import org.xbmc.android.zeroconf.XBMCHost;

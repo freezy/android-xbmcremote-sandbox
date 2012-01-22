@@ -23,6 +23,7 @@ package org.xbmc.android.jsonrpc.io;
 
 import org.apache.http.client.methods.HttpUriRequest;
 import org.json.JSONObject;
+import org.xbmc.android.jsonrpc.api.AbstractCall;
 
 import android.content.ContentResolver;
 
@@ -48,8 +49,8 @@ public class RemoteExecutor {
 	 * Execute api request, passing a valid response through
 	 * {@link JsonHandler#applyResult(JSONObject, ContentResolver)}.
 	 */
-	public void execute(String url, JSONObject entity, JsonHandler handler) throws ApiException {
-		JSONObject result = JsonApiRequest.execute(url, entity);
+	public void execute(String url, AbstractCall<?> apicall, JsonHandler handler) throws ApiException {
+		JSONObject result = JsonApiRequest.execute(url, apicall.getRequest());
 		handler.applyResult(result, mResolver);
 	}
 }

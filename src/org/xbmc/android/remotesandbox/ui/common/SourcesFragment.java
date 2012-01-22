@@ -23,7 +23,7 @@ package org.xbmc.android.remotesandbox.ui.common;
 
 import java.util.List;
 
-import org.xbmc.android.jsonrpc.api.FilesAPI.Source;
+import org.xbmc.android.jsonrpc.api.model.ListModel;
 import org.xbmc.android.jsonrpc.client.AbstractClient.ErrorHandler;
 import org.xbmc.android.jsonrpc.client.FilesClient;
 import org.xbmc.android.jsonrpc.io.ApiException;
@@ -49,7 +49,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SourcesFragment extends ListFragment implements LoaderManager.LoaderCallbacks<List<Source>> {
+public class SourcesFragment extends ListFragment implements LoaderManager.LoaderCallbacks<List<ListModel.SourceItem>> {
 
 	private static final String TAG = SourcesFragment.class.getSimpleName();
 
@@ -102,18 +102,18 @@ public class SourcesFragment extends ListFragment implements LoaderManager.Loade
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		// Insert desired behavior here.
-		Source source = (Source)getListAdapter().getItem(position);
-		Log.i("FragmentComplexList", "Item clicked: " + source.path);
+		ListModel.SourceItem source = (ListModel.SourceItem)getListAdapter().getItem(position);
+		Log.i("FragmentComplexList", "Item clicked: " + source.file);
 	}
 
 	@Override
-	public Loader<List<Source>> onCreateLoader(int id, Bundle args) {
+	public Loader<List<ListModel.SourceItem>> onCreateLoader(int id, Bundle args) {
 		// This is called when a new Loader needs to be created. This
 		// sample only has one Loader with no arguments, so it is simple.
 		final Handler h = new Handler();
-		return new ListLoader<Source>(getActivity(), new Worker<Source>() {
+		return new ListLoader<ListModel.SourceItem>(getActivity(), new Worker<ListModel.SourceItem>() {
 			@Override
-			public List<Source> doWork() {
+			public List<ListModel.SourceItem> doWork() {
 				final FilesClient filesClient = new FilesClient();
 				return filesClient.getMusicSources(new ErrorHandler() {
 					@Override
@@ -132,7 +132,7 @@ public class SourcesFragment extends ListFragment implements LoaderManager.Loade
 	}
 
 	@Override
-	public void onLoadFinished(Loader<List<Source>> loader, List<Source> data) {
+	public void onLoadFinished(Loader<List<ListModel.SourceItem>> loader, List<ListModel.SourceItem> data) {
 
 		if (!isVisible()) {
 			return;
@@ -150,7 +150,7 @@ public class SourcesFragment extends ListFragment implements LoaderManager.Loade
 	}
 
 	@Override
-	public void onLoaderReset(Loader<List<Source>> loader) {
+	public void onLoaderReset(Loader<List<ListModel.SourceItem>> loader) {
 		// Clear the data in the adapter.
 		mAdapter.setData(null);
 	}
@@ -172,7 +172,7 @@ public class SourcesFragment extends ListFragment implements LoaderManager.Loade
 		}
 	}
 
-	public static class SourceListAdapter extends ArrayAdapter<Source> {
+	public static class SourceListAdapter extends ArrayAdapter<ListModel.SourceItem> {
 		private final LayoutInflater mInflater;
 
 		public SourceListAdapter(Context context) {
@@ -180,10 +180,10 @@ public class SourcesFragment extends ListFragment implements LoaderManager.Loade
 			mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
 
-		public void setData(List<Source> data) {
+		public void setData(List<ListModel.SourceItem> data) {
 			clear();
 			if (data != null) {
-				for (Source source : data) {
+				for (ListModel.SourceItem source : data) {
 					add(source);
 				}
 			}
@@ -201,7 +201,7 @@ public class SourcesFragment extends ListFragment implements LoaderManager.Loade
 			} else {
 				view = convertView;
 			}
-			Source item = getItem(position);
+			ListModel.SourceItem item = getItem(position);
 			((TextView) view.findViewById(R.id.item_title)).setText(item.label);
 
 			return view;
