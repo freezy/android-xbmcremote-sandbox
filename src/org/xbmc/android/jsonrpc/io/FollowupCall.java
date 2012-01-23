@@ -19,7 +19,7 @@
  *
  */
 
-package org.xbmc.android.jsonrpc.notification;
+package org.xbmc.android.jsonrpc.io;
 
 import org.json.JSONObject;
 import org.xbmc.android.jsonrpc.api.AbstractCall;

@@ -89,8 +89,8 @@ public class AudioSyncService extends IntentService {
 			final AudioLibrary.GetAlbums getAlbumsAPI = new AudioLibrary.GetAlbums(null, null, 
 					AudioModel.AlbumFields.TITLE, AudioModel.AlbumFields.ARTISTID, AudioModel.AlbumFields.YEAR);
 			
-			mRemoteExecutor.execute(AudioSyncService.URL, getArtistsAPI, new ArtistHandler());
-			mRemoteExecutor.execute(AudioSyncService.URL, getAlbumsAPI, new AlbumHandler());
+			mRemoteExecutor.execute(getApplicationContext(), AudioSyncService.URL, getArtistsAPI, new ArtistHandler());
+			mRemoteExecutor.execute(getApplicationContext(), AudioSyncService.URL, getAlbumsAPI, new AlbumHandler());
 
 			Log.i(TAG, "All done, remote sync took " + (System.currentTimeMillis() - startRemote) + "ms.");
 

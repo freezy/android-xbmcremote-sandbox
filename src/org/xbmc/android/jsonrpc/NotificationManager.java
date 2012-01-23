@@ -23,12 +23,15 @@ package org.xbmc.android.jsonrpc;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.AbstractModel;
-import org.xbmc.android.jsonrpc.notification.FollowupCall;
+import org.xbmc.android.jsonrpc.io.ApiCallback;
+import org.xbmc.android.jsonrpc.io.FollowupCall;
 import org.xbmc.android.jsonrpc.notification.PlayerEvent;
 import org.xbmc.android.jsonrpc.notification.PlayerObserver;
 import org.xbmc.android.jsonrpc.notification.SystemEvent;
@@ -60,7 +63,9 @@ public class NotificationManager {
 	 * Keeps track of the observers.
 	 */
 	private final ArrayList<NotificationObserver> mNotificationObservers = new ArrayList<NotificationManager.NotificationObserver>();
+	private final HashMap<String, ApiCallback<?>> mCallbacks = new HashMap<String, ApiCallback<?>>();
 	private final HashMap<String, FollowupCall<?>> mFollowups = new HashMap<String, FollowupCall<?>>();
+	private final LinkedList<String> mPostData = new LinkedList<String>();
 
 	/**
 	 * Reference to context
@@ -102,17 +107,30 @@ public class NotificationManager {
 		try {
 			
 			// if "id" is supplied that means we're getting a response to a
-			// follow-up request, not a notification.
+			// follow-up request (or a call), not a notification.
 			if (event.has("id")) {
 				final String id = event.getString("id");
-				final HashMap<String, FollowupCall<?>> followups = mFollowups;
-				if (followups.containsKey(id)) {
-					Log.i(TAG, "Received follow-up response.");
-					handleFollowUp(followups.get(id).respond(event));
-					followups.remove(id);
+				
+				// 1. check call-back stack
+				final HashMap<String, ApiCallback<?>> callbacks = mCallbacks;
+				if (callbacks.containsKey(id)) {
+					Log.i(TAG, "Received call response.");
+					callbacks.get(id).setResponse(event);
+					callbacks.remove(id);
+					Log.i(TAG, "Removed callback (" + mCallbacks.size() + ").");
 				} else {
-					Log.w(TAG, "Got response with unknown id " + id + ".");
+					
+					// 2. check follow-up stack
+					final HashMap<String, FollowupCall<?>> followups = mFollowups;
+					if (followups.containsKey(id)) {
+						Log.i(TAG, "Received follow-up response.");
+						handleFollowUp(followups.get(id).respond(event));
+						followups.remove(id);
+					} else {
+						Log.w(TAG, "Got response with unknown id " + id + ".");
+					}
 				}
+				
 				
 			// parse notification
 			} else {
@@ -171,14 +189,6 @@ public class NotificationManager {
 			postData(followUp.getRequest().toString() + "\n");
 		}
 	}
-	private void handleFollowUps(FollowupCall<? extends AbstractModel>[] followupCalls) {
-		if (followupCalls != null) {
-			for (FollowupCall<? extends AbstractModel> followUp : followupCalls) {
-				mFollowups.put(followUp.getId(), followUp);
-				postData(followUp.getRequest().toString() + "\n");
-			}
-		}
-	}
 	
 	/**
 	 * Adds a new observer.
@@ -190,11 +200,29 @@ public class NotificationManager {
 		final ArrayList<NotificationObserver> observers = mNotificationObservers;
 
 		// start service if no observer.
-		if (observers.isEmpty()) {
+		if (observers.isEmpty() && mCallbacks.isEmpty()) {
 			mContext.startService(new Intent(mContext, NotificationService.class));
 			bindService();
 		}
 		observers.add(observer);
+		return this;
+	}
+	
+	public <T> NotificationManager call(AbstractCall<T> call, ApiCallback<T> callback) {
+		final HashMap<String, ApiCallback<?>> callbacks = mCallbacks;
+		
+		// start service if no observer.
+		if (mNotificationObservers.isEmpty() && callbacks.isEmpty()) {
+			mContext.startService(new Intent(mContext, NotificationService.class));
+			bindService();
+		}
+		// piggy-back the api call object, but only if we need it later for deserialization:
+		if (callback.doDeserialize()) {
+			callback.setCall(call);
+		}
+		callbacks.put(call.getId(), callback);
+		Log.i(TAG, "Saved callback (" + mCallbacks.size() + ").");
+		postData(call.getRequest().toString() + "\n");
 		return this;
 	}
 	
@@ -227,6 +255,10 @@ public class NotificationManager {
 		 */
 		public PlayerObserver getPlayerObserver();
 	}
+	
+	public static interface ApiCaller {
+		public void onReponse(AbstractCall<?> call);
+	}
 
 	
 	/**
@@ -244,7 +276,12 @@ public class NotificationManager {
 				msg.replyTo = mMessenger;
 				mService.send(msg);
 			} catch (RemoteException e) {
-				
+				Log.e(TAG, "Error posting message to service: " + e.getMessage(), e);
+			}
+		} else {
+			// service not yet started, saving data:
+			synchronized (mPostData) {
+				mPostData.add(data);
 			}
 		}
 	}
@@ -285,10 +322,17 @@ public class NotificationManager {
 				final Message msg = Message.obtain(null, NotificationService.MSG_REGISTER_CLIENT);
 				msg.replyTo = mMessenger;
 				mService.send(msg);
+				
 			} catch (RemoteException e) {
 				Log.e(TAG, "Error registering client: " + e.getMessage(), e);
 				// In this case the service has crashed before we could even do
 				// anything with it
+			}
+			// now check if there are lost requests:
+			final LinkedList<String> postData = mPostData;
+			while (!postData.isEmpty()) {
+				Log.d(TAG, "Posting lost request...");
+				postData(postData.poll());
 			}
 		}
 
@@ -311,6 +355,7 @@ public class NotificationManager {
 	private class IncomingHandler extends Handler {
 		@Override
 		public void handleMessage(Message msg) {
+			Log.i(TAG, "Got message: " + msg.what);
 			switch (msg.what) {
 				case NotificationService.MSG_RECEIVE_JSON_DATA:
 					final String jsonResponse = msg.getData().getString(NotificationService.EXTRA_JSON_DATA);
@@ -319,6 +364,19 @@ public class NotificationManager {
 						parseAndNotify((JSONObject) tokener.nextValue());
 					} catch (JSONException e) {
 						Log.e(TAG, "Exception parsing response: " + jsonResponse, e);
+					}
+					break;
+				case NotificationService.MSG_ERROR:
+					final String message = msg.getData().getString(NotificationService.EXTRA_ERROR_MESSAGE);
+					final int code = msg.getData().getInt(NotificationService.EXTRA_ERROR_CODE);
+					final HashMap<String, ApiCallback<?>> callBacks = mCallbacks;
+					Log.e(TAG, "Received error: " + message);
+					synchronized (mCallbacks) {
+						Log.i(TAG, "Notifiying " + callBacks.size() + " callbacks.");
+						for (String key : callBacks.keySet()) {
+							callBacks.get(key).onError(code, message);
+							callBacks.remove(key);
+						}
 					}
 					break;
 				default:

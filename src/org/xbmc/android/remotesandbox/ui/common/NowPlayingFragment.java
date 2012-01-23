@@ -10,7 +10,7 @@ import org.xbmc.android.jsonrpc.api.model.AudioModel;
 import org.xbmc.android.jsonrpc.api.model.AudioModel.SongDetails;
 import org.xbmc.android.jsonrpc.api.model.PlayerModel;
 import org.xbmc.android.jsonrpc.api.model.PlayerModel.PropertyValue;
-import org.xbmc.android.jsonrpc.notification.FollowupCall;
+import org.xbmc.android.jsonrpc.io.FollowupCall;
 import org.xbmc.android.jsonrpc.notification.PlayerEvent;
 import org.xbmc.android.jsonrpc.notification.PlayerEvent.Pause;
 import org.xbmc.android.jsonrpc.notification.PlayerEvent.Play;
