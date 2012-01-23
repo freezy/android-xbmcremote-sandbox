@@ -22,6 +22,7 @@
 package org.xbmc.android.jsonrpc.api;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -71,6 +72,8 @@ public abstract class AbstractCall<T> {
 	private static final String TAG = AbstractCall.class.getSimpleName();
 	
 	public static final String RESULT = "result";
+	
+	private final static Random RND = new Random(System.currentTimeMillis());
 	
 	/**
 	 * Name of the node containing parameters in the JSON-RPC request
@@ -124,7 +127,8 @@ public abstract class AbstractCall<T> {
 	 */
 	protected AbstractCall() throws JSONException {
 		final JSONObject request = mRequest;
-		mId = String.valueOf(System.currentTimeMillis());
+		
+		mId = String.valueOf(RND.nextLong());
 		request.put("jsonrpc", "2.0");
 		request.put("id", mId);
 		request.put("method", getName());

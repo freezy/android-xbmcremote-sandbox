@@ -70,7 +70,8 @@ public class NotificationService extends IntentService {
 
 	public final static String TAG = NotificationService.class.getSimpleName();
 	
-	private static final int SOCKET_TIMEOUT = 1000;
+	private static final int SOCKET_TIMEOUT = 5000;
+	private static final int PRINT_MAX_CHARS = 5000;
 
 	public static final String EXTRA_STATUS_RECEIVER = "org.xbmc.android.jsonprc.extra.STATUS_RECEIVER";
 	public static final String EXTRA_JSON_DATA = "org.xbmc.android.jsonprc.extra.JSON_DATA";
@@ -130,7 +131,7 @@ public class NotificationService extends IntentService {
 		BufferedReader in = null;
 
 		try {
-			final InetSocketAddress sockaddr = new InetSocketAddress("192.100.120.114", 9090);
+			final InetSocketAddress sockaddr = new InetSocketAddress("192.168.0.100", 9090);
 			socket = new Socket();
 			mSocket = socket;       // update class reference
 			socket.setSoTimeout(0); // no timeout for reading from connection.
@@ -184,7 +185,7 @@ public class NotificationService extends IntentService {
 				}
 				
 				if (sb.length() > 0 && i == 0) {
-					Log.d(TAG, "RESPONSE: " + sb.toString());
+					Log.d(TAG, "RESPONSE: " + (sb.length() > PRINT_MAX_CHARS ? sb.toString().substring(0, PRINT_MAX_CHARS) : sb.toString()));
 					Log.i(TAG, "Read " + sb.length() + " bytes in " + (System.currentTimeMillis() - s) + "ms.");
 					notifyClients(sb.toString());
 					
@@ -262,6 +263,7 @@ public class NotificationService extends IntentService {
 				mClients.get(i).send(msg);
 
 			} catch (RemoteException e) {
+				Log.e(TAG, "Cannot send data to client: " + e.getMessage(), e);
 				// The client is dead. Remove it from the list; we are going
 				// through the list from back to front so this is safe to do
 				// inside the loop.
@@ -284,6 +286,7 @@ public class NotificationService extends IntentService {
 				Log.i(TAG, "Sent error to client " + i + ".");
 				
 			} catch (RemoteException e) {
+				Log.e(TAG, "Cannot send errors to client: " + e.getMessage(), e);
 				// The client is dead. Remove it from the list; we are going
 				// through the list from back to front so this is safe to do
 				// inside the loop.

@@ -54,19 +54,13 @@ public class RemoteExecutor {
 	 * Execute api request, passing a valid response through
 	 * {@link JsonHandler#applyResult(JSONObject, ContentResolver)}.
 	 */
-	public <T> void execute(Context c, String url, AbstractCall<T> apicall, final JsonHandler handler) throws ApiException {
+	public <T> void execute(NotificationManager nm, AbstractCall<T> apicall, final JsonHandler handler) throws ApiException {
 		//JSONObject result = JsonApiRequest.execute(url, apicall.getRequest());
-		final NotificationManager nm = new NotificationManager(c);
-		Log.d(TAG, "Remotely executing request for " + url);
-		
-		// we need to block here
-		final CountDownLatch latch = new CountDownLatch(1);
-		nm.call(apicall, new ApiCallback<T>() {
+/*		nm.call(apicall, new ApiCallback<T>() {
 			@Override
 			public void onResponse(JSONObject response) throws ApiException {
 				Log.d(TAG, "Got JSON response: " + response.toString());
 				handler.applyResult(response, mResolver);
-				latch.countDown();
 			}
 			@Override
 			public boolean doDeserialize() {
@@ -75,14 +69,8 @@ public class RemoteExecutor {
 			@Override
 			public void onError(int code, String message) {
 				Log.e(TAG, "Error " + code + ": " + message);
-				latch.countDown();
 			}
-		});
+		});*/
 		
-		try {
-			latch.await();
-		} catch (InterruptedException e) {
-			Log.e(TAG, "Error waiting for " + nm.getClass().getSimpleName() + " to finish.", e);
-		}
 	}
 }

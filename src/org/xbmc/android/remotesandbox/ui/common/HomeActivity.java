@@ -21,12 +21,22 @@
 
 package org.xbmc.android.remotesandbox.ui.common;
 
+import org.json.JSONException;
+import org.xbmc.android.jsonrpc.NotificationManager;
+import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
+import org.xbmc.android.jsonrpc.io.ApiException;
+import org.xbmc.android.jsonrpc.io.RemoteExecutor;
+import org.xbmc.android.jsonrpc.io.audio.ArtistHandler;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.remotesandbox.ui.base.ReloadableActionBarActivity;
 import org.xbmc.android.remotesandbox.ui.sync.AbstractSyncBridge;
 import org.xbmc.android.remotesandbox.ui.sync.AudioSyncBridge;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 public class HomeActivity extends ReloadableActionBarActivity {
 
@@ -42,6 +52,23 @@ public class HomeActivity extends ReloadableActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setTitle(null);
 		setContentView(R.layout.activity_home);
+		final Button testBtn = (Button)findViewById(R.id.home_testbtn);
+		testBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				try {
+					final RemoteExecutor remoteExecutor = new RemoteExecutor(getContentResolver());
+					AudioLibrary.GetArtists getArtistsAPI;
+					getArtistsAPI = new AudioLibrary.GetArtists(false, null);
+					final NotificationManager nm = new NotificationManager(getApplicationContext());
+					remoteExecutor.execute(nm, getArtistsAPI, new ArtistHandler());
+				} catch (ApiException e) {
+					Log.e(TAG, "API Exception: " + e.getMessage(), e);
+				} catch (JSONException e) {
+					Log.e(TAG, "JSON Exception: " + e.getMessage(), e);
+				}
+			}
+		});
 		
 
 		/*

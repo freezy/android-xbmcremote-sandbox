@@ -30,7 +30,6 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.AbstractModel;
-import org.xbmc.android.jsonrpc.io.ApiCallback;
 import org.xbmc.android.jsonrpc.io.FollowupCall;
 import org.xbmc.android.jsonrpc.notification.PlayerEvent;
 import org.xbmc.android.jsonrpc.notification.PlayerObserver;
@@ -63,7 +62,8 @@ public class NotificationManager {
 	 * Keeps track of the observers.
 	 */
 	private final ArrayList<NotificationObserver> mNotificationObservers = new ArrayList<NotificationManager.NotificationObserver>();
-	private final HashMap<String, ApiCallback<?>> mCallbacks = new HashMap<String, ApiCallback<?>>();
+	private final HashMap<String, ApiCallback> mCallbacks = new HashMap<String, ApiCallback>();
+	private final HashMap<String, Integer> mCallbackIds = new HashMap<String, Integer>();
 	private final HashMap<String, FollowupCall<?>> mFollowups = new HashMap<String, FollowupCall<?>>();
 	private final LinkedList<String> mPostData = new LinkedList<String>();
 
@@ -112,11 +112,13 @@ public class NotificationManager {
 				final String id = event.getString("id");
 				
 				// 1. check call-back stack
-				final HashMap<String, ApiCallback<?>> callbacks = mCallbacks;
+				final HashMap<String, ApiCallback> callbacks = mCallbacks;
+				final HashMap<String, Integer> callbackIds = mCallbackIds;
 				if (callbacks.containsKey(id)) {
 					Log.i(TAG, "Received call response.");
-					callbacks.get(id).setResponse(event);
+					callbacks.get(id).onResponse(callbackIds.get(id), event);
 					callbacks.remove(id);
+					callbackIds.remove(id);
 					Log.i(TAG, "Removed callback (" + mCallbacks.size() + ").");
 				} else {
 					
@@ -208,19 +210,19 @@ public class NotificationManager {
 		return this;
 	}
 	
-	public <T> NotificationManager call(AbstractCall<T> call, ApiCallback<T> callback) {
-		final HashMap<String, ApiCallback<?>> callbacks = mCallbacks;
+	
+	public <T> NotificationManager call(int what, AbstractCall<T> call, ApiCallback callback) {
+		final HashMap<String, ApiCallback> callbacks = mCallbacks;
 		
 		// start service if no observer.
 		if (mNotificationObservers.isEmpty() && callbacks.isEmpty()) {
+			Log.i(TAG, "Starting and binding service.");
 			mContext.startService(new Intent(mContext, NotificationService.class));
 			bindService();
 		}
-		// piggy-back the api call object, but only if we need it later for deserialization:
-		if (callback.doDeserialize()) {
-			callback.setCall(call);
-		}
+
 		callbacks.put(call.getId(), callback);
+		mCallbackIds.put(call.getId(), what);
 		Log.i(TAG, "Saved callback (" + mCallbacks.size() + ").");
 		postData(call.getRequest().toString() + "\n");
 		return this;
@@ -256,8 +258,9 @@ public class NotificationManager {
 		public PlayerObserver getPlayerObserver();
 	}
 	
-	public static interface ApiCaller {
-		public void onReponse(AbstractCall<?> call);
+	public static interface ApiCallback {
+		public void onResponse(int what, JSONObject response);
+		public void onError(int code, String message);
 	}
 
 	
@@ -280,9 +283,8 @@ public class NotificationManager {
 			}
 		} else {
 			// service not yet started, saving data:
-			synchronized (mPostData) {
-				mPostData.add(data);
-			}
+			Log.i(TAG, "Saving post data for later.");
+			mPostData.add(data);
 		}
 	}
 	
@@ -369,7 +371,7 @@ public class NotificationManager {
 				case NotificationService.MSG_ERROR:
 					final String message = msg.getData().getString(NotificationService.EXTRA_ERROR_MESSAGE);
 					final int code = msg.getData().getInt(NotificationService.EXTRA_ERROR_CODE);
-					final HashMap<String, ApiCallback<?>> callBacks = mCallbacks;
+					final HashMap<String, ApiCallback> callBacks = mCallbacks;
 					Log.e(TAG, "Received error: " + message);
 					synchronized (mCallbacks) {
 						Log.i(TAG, "Notifiying " + callBacks.size() + " callbacks.");

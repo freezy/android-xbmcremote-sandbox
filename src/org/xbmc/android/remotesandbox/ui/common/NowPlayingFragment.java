@@ -60,7 +60,6 @@ public class NowPlayingFragment extends Fragment {
 				return new PlayerObserver() {
 					@Override
 					public FollowupCall<? extends AbstractModel> onPlay(final Play notification) {
-						final long onPlayReceived = System.currentTimeMillis();
 						final int currentlyPlayingId = notification.data.item.id;
 						final int currentPlayer = notification.data.player.playerId;
 						final int currentType = notification.data.item.type;
@@ -70,8 +69,7 @@ public class NowPlayingFragment extends Fragment {
 								@SuppressWarnings("unchecked")
 								protected <U extends AbstractModel> FollowupCall<U> onResponse(PropertyValue response) {
 									Log.i(TAG, "Setting clock to " + response.time.getMilliseconds() + "ms (" + SystemClock.elapsedRealtime() + ").");
-									final long lag = System.currentTimeMillis() - onPlayReceived;
-									mChronometer.setBase(SystemClock.elapsedRealtime() - response.time.getMilliseconds() + lag * 2);
+									mChronometer.setBase(SystemClock.elapsedRealtime() - response.time.getMilliseconds());
 									mChronometer.start();
 									try {
 										switch (currentType) {
