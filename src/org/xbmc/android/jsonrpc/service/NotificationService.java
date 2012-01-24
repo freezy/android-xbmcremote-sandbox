@@ -24,7 +24,6 @@ package org.xbmc.android.jsonrpc.service;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -32,6 +31,10 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import org.codehaus.jackson.JsonFactory;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.xbmc.android.jsonrpc.NotificationManager;
 
 import android.app.IntentService;
@@ -131,12 +134,12 @@ public class NotificationService extends IntentService {
 		BufferedReader in = null;
 
 		try {
-			final InetSocketAddress sockaddr = new InetSocketAddress("192.168.0.100", 9090);
+			final InetSocketAddress sockaddr = new InetSocketAddress("192.100.120.114", 9090);
 			socket = new Socket();
 			mSocket = socket;       // update class reference
 			socket.setSoTimeout(0); // no timeout for reading from connection.
 			socket.connect(sockaddr, SOCKET_TIMEOUT);
-			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			//in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			mOut = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 		} catch (UnknownHostException e) {
 			Log.e(TAG, "Unknown host: " + e.getMessage(), e);
@@ -169,7 +172,17 @@ public class NotificationService extends IntentService {
 			int i = 0;
 			// now listen to socket
 			int c;
-			while ((c = in.read()) != -1) {
+			Log.i(TAG, "Setting up Jackson..");
+			final ObjectMapper mapper = new ObjectMapper();
+			final JsonFactory jf = mapper.getJsonFactory();
+			final JsonParser jp = jf.createJsonParser(socket.getInputStream());
+			int n = 0;
+			Log.i(TAG, "Reading using Jackson: ");
+			JsonNode node = null;
+			while ((node = mapper.readTree(jp)) != null) {
+				Log.i(TAG, "READ: " + node.toString());
+			}
+/*			while ((c = in.read()) != -1) {
 				if (c == 0x7b) {
 					i++;
 					if (!started) {
@@ -194,7 +207,7 @@ public class NotificationService extends IntentService {
 					started = false;
 				}
 			}
-			in.close();
+			in.close();*/
 			mOut.close();
 			Log.i(TAG, "TCP socket closed.");
 
@@ -252,12 +265,12 @@ public class NotificationService extends IntentService {
 	 * Sends the received JSON-data to all connected clients.
 	 * @param data
 	 */
-	private void notifyClients(String data) {
+	private void notifyClients(JsonNode node) {
 		Log.i(TAG, "Notifying " + mClients.size() + " clients.");
 		for (int i = mClients.size() - 1; i >= 0; i--) {
 			try {
 				final Bundle b = new Bundle();
-				b.putString(EXTRA_JSON_DATA, data);
+				b.put(EXTRA_JSON_DATA, data);
 				Message msg = Message.obtain(null, MSG_RECEIVE_JSON_DATA);
 				msg.setData(b);
 				mClients.get(i).send(msg);
