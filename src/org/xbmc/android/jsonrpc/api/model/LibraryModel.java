@@ -86,6 +86,7 @@ public final class LibraryModel {
 		 */
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
 			parcel.writeValue(genreid);
 			parcel.writeValue(thumbnail);
 			parcel.writeValue(title);

@@ -175,6 +175,7 @@ public final class VideoModel {
 		 */
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
 			parcel.writeValue(playcount);
 		}
 		@Override
@@ -300,6 +301,7 @@ public final class VideoModel {
 		 */
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
 			parcel.writeInt(cast.size());
 			for (VideoModel.Cast item : cast) {
 				parcel.writeParcelable(item, flags);
@@ -417,6 +419,7 @@ public final class VideoModel {
 		 */
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
 			parcel.writeValue(director);
 			parcel.writeValue(resume);
 			parcel.writeValue(runtime);
@@ -507,6 +510,7 @@ public final class VideoModel {
 		 */
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
 			parcel.writeValue(file);
 			parcel.writeValue(lastplayed);
 			parcel.writeValue(plot);
@@ -587,6 +591,7 @@ public final class VideoModel {
 		 */
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
 			parcel.writeValue(title);
 		}
 		@Override
@@ -752,6 +757,7 @@ public final class VideoModel {
 		 */
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
 			parcel.writeInt(cast.size());
 			for (VideoModel.Cast item : cast) {
 				parcel.writeParcelable(item, flags);
@@ -891,6 +897,7 @@ public final class VideoModel {
 		 */
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
 			parcel.writeValue(setid);
 		}
 		@Override
@@ -972,6 +979,7 @@ public final class VideoModel {
 		 */
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
 			parcel.writeInt(movies.size());
 			for (VideoModel.MovieDetails item : movies) {
 				parcel.writeParcelable(item, flags);
@@ -1079,6 +1087,7 @@ public final class VideoModel {
 		 */
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
 			parcel.writeValue(album);
 			parcel.writeValue(artist);
 			parcel.writeValue(genre);
@@ -1179,6 +1188,7 @@ public final class VideoModel {
 		 */
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
 			parcel.writeValue(episode);
 			parcel.writeValue(season);
 			parcel.writeValue(showtitle);
@@ -1318,6 +1328,7 @@ public final class VideoModel {
 		 */
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
 			parcel.writeInt(cast.size());
 			for (VideoModel.Cast item : cast) {
 				parcel.writeParcelable(item, flags);

@@ -184,6 +184,7 @@ public final class PlayerModel {
 		 */
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
 			parcel.writeValue(bitrate);
 			parcel.writeValue(channels);
 			parcel.writeValue(codec);
@@ -680,6 +681,7 @@ public final class PlayerModel {
 		 */
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
 			parcel.writeValue(seekoffset);
 			parcel.writeValue(time);
 		}

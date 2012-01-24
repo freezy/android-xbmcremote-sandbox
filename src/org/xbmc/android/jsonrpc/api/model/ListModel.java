@@ -270,6 +270,7 @@ public final class ListModel {
 		 */
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
 			parcel.writeValue(album);
 			parcel.writeValue(albumartist);
 			parcel.writeValue(albumid);
@@ -440,6 +441,7 @@ public final class ListModel {
 		 */
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
 			parcel.writeValue(file);
 			parcel.writeValue(filetype);
 		}
@@ -516,6 +518,7 @@ public final class ListModel {
 		 */
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
 			parcel.writeValue(file);
 		}
 		@Override

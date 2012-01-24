@@ -106,6 +106,7 @@ public final class AudioModel {
 		 */
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
 			parcel.writeValue(albumid);
 			parcel.writeValue(albumlabel);
 			parcel.writeValue(artistid);
@@ -240,6 +241,7 @@ public final class AudioModel {
 		 */
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
 			parcel.writeValue(artist);
 			parcel.writeValue(artistid);
 			parcel.writeValue(born);
@@ -338,6 +340,7 @@ public final class AudioModel {
 		 */
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
 			parcel.writeValue(genre);
 		}
 		@Override
@@ -434,6 +437,7 @@ public final class AudioModel {
 		 */
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
 			parcel.writeValue(artist);
 			parcel.writeValue(musicbrainzalbumartistid);
 			parcel.writeValue(musicbrainzalbumid);
@@ -568,6 +572,7 @@ public final class AudioModel {
 		 */
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
 			parcel.writeValue(album);
 			parcel.writeValue(albumartist);
 			parcel.writeValue(albumid);

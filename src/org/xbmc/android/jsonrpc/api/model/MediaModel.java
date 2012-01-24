@@ -82,6 +82,7 @@ public final class MediaModel {
 		 */
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
 			parcel.writeValue(fanart);
 			parcel.writeValue(thumbnail);
 		}
