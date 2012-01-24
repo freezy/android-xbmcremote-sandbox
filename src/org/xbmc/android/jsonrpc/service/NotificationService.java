@@ -270,6 +270,7 @@ public class NotificationService extends IntentService {
 		for (int i = mClients.size() - 1; i >= 0; i--) {
 			try {
 				final Bundle b = new Bundle();
+				b.putSerializable(EXTRA_JSON_DATA, node);
 				b.put(EXTRA_JSON_DATA, data);
 				Message msg = Message.obtain(null, MSG_RECEIVE_JSON_DATA);
 				msg.setData(b);
