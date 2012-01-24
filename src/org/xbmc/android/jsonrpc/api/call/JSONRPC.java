@@ -21,6 +21,8 @@
 
 package org.xbmc.android.jsonrpc.api.call;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -102,6 +104,42 @@ public final class JSONRPC {
 				obj.put(TYPE, type);
 				return obj;
 			}
+			/**
+			 * Flatten this object into a Parcel.
+			 * @param parcel the Parcel in which the object should be written
+			 * @param flags additional flags about how the object should be written
+			 */
+			@Override
+			public void writeToParcel(Parcel parcel, int flags) {
+				parcel.writeValue(getreferences);
+				parcel.writeValue(id);
+				parcel.writeValue(type);
+			}
+			@Override
+			public int describeContents() {
+				return 0;
+			}
+			/**
+			* Construct via parcel
+			*/
+			protected GetreferencesIdType(Parcel parcel) {
+				getreferences = parcel.readInt() == 1;
+				id = parcel.readString();
+				type = parcel.readString();
+			}
+			/**
+			* Generates instances of this Parcelable class from a Parcel.
+			*/
+			public static final Parcelable.Creator<GetreferencesIdType> CREATOR = new Parcelable.Creator<GetreferencesIdType>() {
+				@Override
+				public GetreferencesIdType createFromParcel(Parcel parcel) {
+					return new GetreferencesIdType(parcel);
+				}
+				@Override
+				public GetreferencesIdType[] newArray(int n) {
+					return new GetreferencesIdType[n];
+				}
+			};
 		}
 		@Override
 		protected String getName() {
@@ -253,6 +291,52 @@ public final class JSONRPC {
 				}
 				return new ArrayList<PermissionResult>(0);
 			}
+			/**
+			 * Flatten this object into a Parcel.
+			 * @param parcel the Parcel in which the object should be written
+			 * @param flags additional flags about how the object should be written
+			 */
+			@Override
+			public void writeToParcel(Parcel parcel, int flags) {
+				parcel.writeValue(controlnotify);
+				parcel.writeValue(controlplayback);
+				parcel.writeValue(controlpower);
+				parcel.writeValue(navigate);
+				parcel.writeValue(readdata);
+				parcel.writeValue(removedata);
+				parcel.writeValue(updatedata);
+				parcel.writeValue(writefile);
+			}
+			@Override
+			public int describeContents() {
+				return 0;
+			}
+			/**
+			* Construct via parcel
+			*/
+			protected PermissionResult(Parcel parcel) {
+				controlnotify = parcel.readInt() == 1;
+				controlplayback = parcel.readInt() == 1;
+				controlpower = parcel.readInt() == 1;
+				navigate = parcel.readInt() == 1;
+				readdata = parcel.readInt() == 1;
+				removedata = parcel.readInt() == 1;
+				updatedata = parcel.readInt() == 1;
+				writefile = parcel.readInt() == 1;
+			}
+			/**
+			* Generates instances of this Parcelable class from a Parcel.
+			*/
+			public static final Parcelable.Creator<PermissionResult> CREATOR = new Parcelable.Creator<PermissionResult>() {
+				@Override
+				public PermissionResult createFromParcel(Parcel parcel) {
+					return new PermissionResult(parcel);
+				}
+				@Override
+				public PermissionResult[] newArray(int n) {
+					return new PermissionResult[n];
+				}
+			};
 		}
 		@Override
 		protected String getName() {

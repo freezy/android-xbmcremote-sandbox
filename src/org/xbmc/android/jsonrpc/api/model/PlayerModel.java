@@ -21,6 +21,8 @@
 
 package org.xbmc.android.jsonrpc.api.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -88,6 +90,42 @@ public final class PlayerModel {
 			}
 			return new ArrayList<PlayerModel.AudioStream>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(index);
+			parcel.writeValue(language);
+			parcel.writeValue(name);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected AudioStream(Parcel parcel) {
+			index = parcel.readInt();
+			language = parcel.readString();
+			name = parcel.readString();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<AudioStream> CREATOR = new Parcelable.Creator<AudioStream>() {
+			@Override
+			public AudioStream createFromParcel(Parcel parcel) {
+				return new AudioStream(parcel);
+			}
+			@Override
+			public AudioStream[] newArray(int n) {
+				return new AudioStream[n];
+			}
+		};
 	}
 	/**
 	 * Player.Audio.Stream.Extended
@@ -139,6 +177,43 @@ public final class PlayerModel {
 			}
 			return new ArrayList<PlayerModel.AudioStreamExtended>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(bitrate);
+			parcel.writeValue(channels);
+			parcel.writeValue(codec);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected AudioStreamExtended(Parcel parcel) {
+			super(parcel);
+			bitrate = parcel.readInt();
+			channels = parcel.readInt();
+			codec = parcel.readString();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<AudioStreamExtended> CREATOR = new Parcelable.Creator<AudioStreamExtended>() {
+			@Override
+			public AudioStreamExtended createFromParcel(Parcel parcel) {
+				return new AudioStreamExtended(parcel);
+			}
+			@Override
+			public AudioStreamExtended[] newArray(int n) {
+				return new AudioStreamExtended[n];
+			}
+		};
 	}
 	/**
 	 * Player.Notifications.Data
@@ -194,6 +269,40 @@ public final class PlayerModel {
 			}
 			return new ArrayList<PlayerModel.NotificationsData>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(item);
+			parcel.writeValue(player);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected NotificationsData(Parcel parcel) {
+			item = parcel.<PlayerModel.NotificationsItem>readParcelable(PlayerModel.NotificationsItem.class.getClassLoader());
+			player = parcel.<PlayerModel.NotificationsPlayer>readParcelable(PlayerModel.NotificationsPlayer.class.getClassLoader());
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<NotificationsData> CREATOR = new Parcelable.Creator<NotificationsData>() {
+			@Override
+			public NotificationsData createFromParcel(Parcel parcel) {
+				return new NotificationsData(parcel);
+			}
+			@Override
+			public NotificationsData[] newArray(int n) {
+				return new NotificationsData[n];
+			}
+		};
 	}
 	/**
 	 * Player.Notifications.Item
@@ -371,6 +480,56 @@ public final class PlayerModel {
 			}
 			return new ArrayList<PlayerModel.NotificationsItem>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(type);
+			parcel.writeValue(id);
+			parcel.writeValue(title);
+			parcel.writeValue(year);
+			parcel.writeValue(episode);
+			parcel.writeValue(season);
+			parcel.writeValue(showtitle);
+			parcel.writeValue(album);
+			parcel.writeValue(artist);
+			parcel.writeValue(track);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected NotificationsItem(Parcel parcel) {
+			type = parcel.readString();
+			id = parcel.readInt();
+			title = parcel.readString();
+			year = parcel.readInt();
+			episode = parcel.readInt();
+			season = parcel.readInt();
+			showtitle = parcel.readString();
+			album = parcel.readString();
+			artist = parcel.readString();
+			track = parcel.readInt();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<NotificationsItem> CREATOR = new Parcelable.Creator<NotificationsItem>() {
+			@Override
+			public NotificationsItem createFromParcel(Parcel parcel) {
+				return new NotificationsItem(parcel);
+			}
+			@Override
+			public NotificationsItem[] newArray(int n) {
+				return new NotificationsItem[n];
+			}
+		};
 	}
 	public interface NotificationsItemType {
 		public final String UNKNOWN = "unknown";
@@ -433,6 +592,40 @@ public final class PlayerModel {
 			}
 			return new ArrayList<PlayerModel.NotificationsPlayer>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(playerid);
+			parcel.writeValue(speed);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected NotificationsPlayer(Parcel parcel) {
+			playerid = parcel.readInt();
+			speed = parcel.readInt();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<NotificationsPlayer> CREATOR = new Parcelable.Creator<NotificationsPlayer>() {
+			@Override
+			public NotificationsPlayer createFromParcel(Parcel parcel) {
+				return new NotificationsPlayer(parcel);
+			}
+			@Override
+			public NotificationsPlayer[] newArray(int n) {
+				return new NotificationsPlayer[n];
+			}
+		};
 	}
 	/**
 	 * Player.Notifications.Player.Seek
@@ -480,6 +673,41 @@ public final class PlayerModel {
 			}
 			return new ArrayList<PlayerModel.NotificationsPlayerSeek>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(seekoffset);
+			parcel.writeValue(time);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected NotificationsPlayerSeek(Parcel parcel) {
+			super(parcel);
+			seekoffset = parcel.<GlobalModel.Time>readParcelable(GlobalModel.Time.class.getClassLoader());
+			time = parcel.<GlobalModel.Time>readParcelable(GlobalModel.Time.class.getClassLoader());
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<NotificationsPlayerSeek> CREATOR = new Parcelable.Creator<NotificationsPlayerSeek>() {
+			@Override
+			public NotificationsPlayerSeek createFromParcel(Parcel parcel) {
+				return new NotificationsPlayerSeek(parcel);
+			}
+			@Override
+			public NotificationsPlayerSeek[] newArray(int n) {
+				return new NotificationsPlayerSeek[n];
+			}
+		};
 	}
 	public interface PropertyName {
 		public final String TYPE = "type";
@@ -689,6 +917,94 @@ public final class PlayerModel {
 			}
 			return new ArrayList<PlayerModel.PropertyValue>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeInt(audiostreams.size());
+			for (PlayerModel.AudioStreamExtended item : audiostreams) {
+				parcel.writeParcelable(item, flags);
+			}
+			parcel.writeValue(canchangespeed);
+			parcel.writeValue(canmove);
+			parcel.writeValue(canrepeat);
+			parcel.writeValue(canrotate);
+			parcel.writeValue(canseek);
+			parcel.writeValue(canshuffle);
+			parcel.writeValue(canzoom);
+			parcel.writeValue(currentaudiostream);
+			parcel.writeValue(currentsubtitle);
+			parcel.writeValue(partymode);
+			parcel.writeValue(percentage);
+			parcel.writeValue(playlistid);
+			parcel.writeValue(position);
+			parcel.writeValue(repeat);
+			parcel.writeValue(shuffled);
+			parcel.writeValue(speed);
+			parcel.writeValue(subtitleenabled);
+			parcel.writeInt(subtitles.size());
+			for (PlayerModel.Subtitle item : subtitles) {
+				parcel.writeParcelable(item, flags);
+			}
+			parcel.writeValue(time);
+			parcel.writeValue(totaltime);
+			parcel.writeValue(type);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected PropertyValue(Parcel parcel) {
+			final int audiostreamsSize = parcel.readInt();
+			audiostreams = new ArrayList<PlayerModel.AudioStreamExtended>(audiostreamsSize);
+			for (int i = 0; i < audiostreamsSize; i++) {
+				audiostreams.add(parcel.<PlayerModel.AudioStreamExtended>readParcelable(PlayerModel.AudioStreamExtended.class.getClassLoader()));
+			}
+			canchangespeed = parcel.readInt() == 1;
+			canmove = parcel.readInt() == 1;
+			canrepeat = parcel.readInt() == 1;
+			canrotate = parcel.readInt() == 1;
+			canseek = parcel.readInt() == 1;
+			canshuffle = parcel.readInt() == 1;
+			canzoom = parcel.readInt() == 1;
+			currentaudiostream = parcel.<PlayerModel.AudioStreamExtended>readParcelable(PlayerModel.AudioStreamExtended.class.getClassLoader());
+			currentsubtitle = parcel.<PlayerModel.Subtitle>readParcelable(PlayerModel.Subtitle.class.getClassLoader());
+			partymode = parcel.readInt() == 1;
+			percentage = parcel.readDouble();
+			playlistid = parcel.readInt();
+			position = parcel.readInt();
+			repeat = parcel.readString();
+			shuffled = parcel.readInt() == 1;
+			speed = parcel.readInt();
+			subtitleenabled = parcel.readInt() == 1;
+			final int subtitlesSize = parcel.readInt();
+			subtitles = new ArrayList<PlayerModel.Subtitle>(subtitlesSize);
+			for (int i = 0; i < subtitlesSize; i++) {
+				subtitles.add(parcel.<PlayerModel.Subtitle>readParcelable(PlayerModel.Subtitle.class.getClassLoader()));
+			}
+			time = parcel.<GlobalModel.Time>readParcelable(GlobalModel.Time.class.getClassLoader());
+			totaltime = parcel.<GlobalModel.Time>readParcelable(GlobalModel.Time.class.getClassLoader());
+			type = parcel.readString();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<PropertyValue> CREATOR = new Parcelable.Creator<PropertyValue>() {
+			@Override
+			public PropertyValue createFromParcel(Parcel parcel) {
+				return new PropertyValue(parcel);
+			}
+			@Override
+			public PropertyValue[] newArray(int n) {
+				return new PropertyValue[n];
+			}
+		};
 	}
 	public interface Repeat {
 		public final String OFF = "off";
@@ -743,6 +1059,38 @@ public final class PlayerModel {
 			}
 			return new ArrayList<PlayerModel.Speed>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(speed);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected Speed(Parcel parcel) {
+			speed = parcel.readInt();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Speed> CREATOR = new Parcelable.Creator<Speed>() {
+			@Override
+			public Speed createFromParcel(Parcel parcel) {
+				return new Speed(parcel);
+			}
+			@Override
+			public Speed[] newArray(int n) {
+				return new Speed[n];
+			}
+		};
 	}
 	/**
 	 * Player.Subtitle
@@ -804,6 +1152,42 @@ public final class PlayerModel {
 			}
 			return new ArrayList<PlayerModel.Subtitle>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(index);
+			parcel.writeValue(language);
+			parcel.writeValue(name);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected Subtitle(Parcel parcel) {
+			index = parcel.readInt();
+			language = parcel.readString();
+			name = parcel.readString();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Subtitle> CREATOR = new Parcelable.Creator<Subtitle>() {
+			@Override
+			public Subtitle createFromParcel(Parcel parcel) {
+				return new Subtitle(parcel);
+			}
+			@Override
+			public Subtitle[] newArray(int n) {
+				return new Subtitle[n];
+			}
+		};
 	}
 	public interface Type {
 		public final String VIDEO = "video";

@@ -21,6 +21,8 @@
 
 package org.xbmc.android.jsonrpc.api.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -77,6 +79,43 @@ public final class LibraryModel {
 			}
 			return new ArrayList<LibraryModel.GenreDetails>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(genreid);
+			parcel.writeValue(thumbnail);
+			parcel.writeValue(title);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected GenreDetails(Parcel parcel) {
+			super(parcel);
+			genreid = parcel.readInt();
+			thumbnail = parcel.readString();
+			title = parcel.readString();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GenreDetails> CREATOR = new Parcelable.Creator<GenreDetails>() {
+			@Override
+			public GenreDetails createFromParcel(Parcel parcel) {
+				return new GenreDetails(parcel);
+			}
+			@Override
+			public GenreDetails[] newArray(int n) {
+				return new GenreDetails[n];
+			}
+		};
 	}
 	public interface GenreFields {
 		public final String TITLE = "title";

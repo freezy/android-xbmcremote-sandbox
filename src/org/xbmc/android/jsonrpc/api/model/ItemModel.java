@@ -21,6 +21,8 @@
 
 package org.xbmc.android.jsonrpc.api.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -76,5 +78,37 @@ public final class ItemModel {
 			}
 			return new ArrayList<ItemModel.BaseDetails>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(label);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected BaseDetails(Parcel parcel) {
+			label = parcel.readString();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<BaseDetails> CREATOR = new Parcelable.Creator<BaseDetails>() {
+			@Override
+			public BaseDetails createFromParcel(Parcel parcel) {
+				return new BaseDetails(parcel);
+			}
+			@Override
+			public BaseDetails[] newArray(int n) {
+				return new BaseDetails[n];
+			}
+		};
 	}
 }

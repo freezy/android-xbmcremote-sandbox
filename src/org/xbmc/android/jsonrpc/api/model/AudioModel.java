@@ -21,6 +21,8 @@
 
 package org.xbmc.android.jsonrpc.api.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -97,6 +99,53 @@ public final class AudioModel {
 			}
 			return new ArrayList<AudioModel.AlbumDetails>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(albumid);
+			parcel.writeValue(albumlabel);
+			parcel.writeValue(artistid);
+			parcel.writeValue(description);
+			parcel.writeValue(mood);
+			parcel.writeValue(style);
+			parcel.writeValue(theme);
+			parcel.writeValue(type);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected AlbumDetails(Parcel parcel) {
+			super(parcel);
+			albumid = parcel.readInt();
+			albumlabel = parcel.readString();
+			artistid = parcel.readInt();
+			description = parcel.readString();
+			mood = parcel.readString();
+			style = parcel.readString();
+			theme = parcel.readString();
+			type = parcel.readString();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<AlbumDetails> CREATOR = new Parcelable.Creator<AlbumDetails>() {
+			@Override
+			public AlbumDetails createFromParcel(Parcel parcel) {
+				return new AlbumDetails(parcel);
+			}
+			@Override
+			public AlbumDetails[] newArray(int n) {
+				return new AlbumDetails[n];
+			}
+		};
 	}
 	/**
 	 * Audio.Details.Artist
@@ -184,6 +233,61 @@ public final class AudioModel {
 			}
 			return new ArrayList<AudioModel.ArtistDetails>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(artist);
+			parcel.writeValue(artistid);
+			parcel.writeValue(born);
+			parcel.writeValue(description);
+			parcel.writeValue(died);
+			parcel.writeValue(disbanded);
+			parcel.writeValue(formed);
+			parcel.writeValue(instrument);
+			parcel.writeValue(mood);
+			parcel.writeValue(musicbrainzartistid);
+			parcel.writeValue(style);
+			parcel.writeValue(yearsactive);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected ArtistDetails(Parcel parcel) {
+			super(parcel);
+			artist = parcel.readString();
+			artistid = parcel.readInt();
+			born = parcel.readString();
+			description = parcel.readString();
+			died = parcel.readString();
+			disbanded = parcel.readString();
+			formed = parcel.readString();
+			instrument = parcel.readString();
+			mood = parcel.readString();
+			musicbrainzartistid = parcel.readString();
+			style = parcel.readString();
+			yearsactive = parcel.readString();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<ArtistDetails> CREATOR = new Parcelable.Creator<ArtistDetails>() {
+			@Override
+			public ArtistDetails createFromParcel(Parcel parcel) {
+				return new ArtistDetails(parcel);
+			}
+			@Override
+			public ArtistDetails[] newArray(int n) {
+				return new ArtistDetails[n];
+			}
+		};
 	}
 	/**
 	 * Audio.Details.Base
@@ -227,6 +331,39 @@ public final class AudioModel {
 			}
 			return new ArrayList<AudioModel.BaseDetails>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(genre);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected BaseDetails(Parcel parcel) {
+			super(parcel);
+			genre = parcel.readString();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<BaseDetails> CREATOR = new Parcelable.Creator<BaseDetails>() {
+			@Override
+			public BaseDetails createFromParcel(Parcel parcel) {
+				return new BaseDetails(parcel);
+			}
+			@Override
+			public BaseDetails[] newArray(int n) {
+				return new BaseDetails[n];
+			}
+		};
 	}
 	/**
 	 * Audio.Details.Media
@@ -290,6 +427,49 @@ public final class AudioModel {
 			}
 			return new ArrayList<AudioModel.MediaDetails>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(artist);
+			parcel.writeValue(musicbrainzalbumartistid);
+			parcel.writeValue(musicbrainzalbumid);
+			parcel.writeValue(rating);
+			parcel.writeValue(title);
+			parcel.writeValue(year);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected MediaDetails(Parcel parcel) {
+			super(parcel);
+			artist = parcel.readString();
+			musicbrainzalbumartistid = parcel.readString();
+			musicbrainzalbumid = parcel.readString();
+			rating = parcel.readInt();
+			title = parcel.readString();
+			year = parcel.readInt();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<MediaDetails> CREATOR = new Parcelable.Creator<MediaDetails>() {
+			@Override
+			public MediaDetails createFromParcel(Parcel parcel) {
+				return new MediaDetails(parcel);
+			}
+			@Override
+			public MediaDetails[] newArray(int n) {
+				return new MediaDetails[n];
+			}
+		};
 	}
 	/**
 	 * Audio.Details.Song
@@ -381,6 +561,63 @@ public final class AudioModel {
 			}
 			return new ArrayList<AudioModel.SongDetails>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(album);
+			parcel.writeValue(albumartist);
+			parcel.writeValue(albumid);
+			parcel.writeValue(artistid);
+			parcel.writeValue(comment);
+			parcel.writeValue(duration);
+			parcel.writeValue(file);
+			parcel.writeValue(lyrics);
+			parcel.writeValue(musicbrainzartistid);
+			parcel.writeValue(musicbrainztrackid);
+			parcel.writeValue(playcount);
+			parcel.writeValue(songid);
+			parcel.writeValue(track);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected SongDetails(Parcel parcel) {
+			super(parcel);
+			album = parcel.readString();
+			albumartist = parcel.readString();
+			albumid = parcel.readInt();
+			artistid = parcel.readInt();
+			comment = parcel.readString();
+			duration = parcel.readInt();
+			file = parcel.readString();
+			lyrics = parcel.readString();
+			musicbrainzartistid = parcel.readString();
+			musicbrainztrackid = parcel.readString();
+			playcount = parcel.readInt();
+			songid = parcel.readInt();
+			track = parcel.readInt();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<SongDetails> CREATOR = new Parcelable.Creator<SongDetails>() {
+			@Override
+			public SongDetails createFromParcel(Parcel parcel) {
+				return new SongDetails(parcel);
+			}
+			@Override
+			public SongDetails[] newArray(int n) {
+				return new SongDetails[n];
+			}
+		};
 	}
 	public interface AlbumFields {
 		public final String TITLE = "title";

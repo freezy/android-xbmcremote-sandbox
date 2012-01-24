@@ -21,6 +21,8 @@
 
 package org.xbmc.android.jsonrpc.api.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -104,7 +106,7 @@ public final class ApplicationModel {
 		/**
 		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
 		 */
-		public static class Version implements JSONSerializable {
+		public static class Version implements JSONSerializable, Parcelable {
 			// field names
 			public static final String MAJOR = "major";
 			public static final String MINOR = "minor";
@@ -166,6 +168,82 @@ public final class ApplicationModel {
 				}
 				return new ArrayList<Version>(0);
 			}
+			/**
+			 * Flatten this object into a Parcel.
+			 * @param parcel the Parcel in which the object should be written
+			 * @param flags additional flags about how the object should be written
+			 */
+			@Override
+			public void writeToParcel(Parcel parcel, int flags) {
+				parcel.writeValue(major);
+				parcel.writeValue(minor);
+				parcel.writeValue(revision);
+				parcel.writeValue(tag);
+			}
+			@Override
+			public int describeContents() {
+				return 0;
+			}
+			/**
+			* Construct via parcel
+			*/
+			protected Version(Parcel parcel) {
+				major = parcel.readInt();
+				minor = parcel.readInt();
+				revision = parcel.readString();
+				tag = parcel.readString();
+			}
+			/**
+			* Generates instances of this Parcelable class from a Parcel.
+			*/
+			public static final Parcelable.Creator<Version> CREATOR = new Parcelable.Creator<Version>() {
+				@Override
+				public Version createFromParcel(Parcel parcel) {
+					return new Version(parcel);
+				}
+				@Override
+				public Version[] newArray(int n) {
+					return new Version[n];
+				}
+			};
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(muted);
+			parcel.writeValue(name);
+			parcel.writeValue(version);
+			parcel.writeValue(volume);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected PropertyValue(Parcel parcel) {
+			muted = parcel.readInt() == 1;
+			name = parcel.readString();
+			version = parcel.<Version>readParcelable(Version.class.getClassLoader());
+			volume = parcel.readInt();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<PropertyValue> CREATOR = new Parcelable.Creator<PropertyValue>() {
+			@Override
+			public PropertyValue createFromParcel(Parcel parcel) {
+				return new PropertyValue(parcel);
+			}
+			@Override
+			public PropertyValue[] newArray(int n) {
+				return new PropertyValue[n];
+			}
+		};
 	}
 }

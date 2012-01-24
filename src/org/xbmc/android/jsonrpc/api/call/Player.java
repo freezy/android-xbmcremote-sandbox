@@ -21,6 +21,8 @@
 
 package org.xbmc.android.jsonrpc.api.call;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -106,6 +108,40 @@ public final class Player {
 				}
 				return new ArrayList<GetActivePlayersResult>(0);
 			}
+			/**
+			 * Flatten this object into a Parcel.
+			 * @param parcel the Parcel in which the object should be written
+			 * @param flags additional flags about how the object should be written
+			 */
+			@Override
+			public void writeToParcel(Parcel parcel, int flags) {
+				parcel.writeValue(playerid);
+				parcel.writeValue(type);
+			}
+			@Override
+			public int describeContents() {
+				return 0;
+			}
+			/**
+			* Construct via parcel
+			*/
+			protected GetActivePlayersResult(Parcel parcel) {
+				playerid = parcel.readInt();
+				type = parcel.readString();
+			}
+			/**
+			* Generates instances of this Parcelable class from a Parcel.
+			*/
+			public static final Parcelable.Creator<GetActivePlayersResult> CREATOR = new Parcelable.Creator<GetActivePlayersResult>() {
+				@Override
+				public GetActivePlayersResult createFromParcel(Parcel parcel) {
+					return new GetActivePlayersResult(parcel);
+				}
+				@Override
+				public GetActivePlayersResult[] newArray(int n) {
+					return new GetActivePlayersResult[n];
+				}
+			};
 		}
 		@Override
 		protected String getName() {
@@ -470,6 +506,40 @@ public final class Player {
 				obj.put(POSITION, position);
 				return obj;
 			}
+			/**
+			 * Flatten this object into a Parcel.
+			 * @param parcel the Parcel in which the object should be written
+			 * @param flags additional flags about how the object should be written
+			 */
+			@Override
+			public void writeToParcel(Parcel parcel, int flags) {
+				parcel.writeValue(playlistid);
+				parcel.writeValue(position);
+			}
+			@Override
+			public int describeContents() {
+				return 0;
+			}
+			/**
+			* Construct via parcel
+			*/
+			protected PlaylistidPosition(Parcel parcel) {
+				playlistid = parcel.readInt();
+				position = parcel.readInt();
+			}
+			/**
+			* Generates instances of this Parcelable class from a Parcel.
+			*/
+			public static final Parcelable.Creator<PlaylistidPosition> CREATOR = new Parcelable.Creator<PlaylistidPosition>() {
+				@Override
+				public PlaylistidPosition createFromParcel(Parcel parcel) {
+					return new PlaylistidPosition(parcel);
+				}
+				@Override
+				public PlaylistidPosition[] newArray(int n) {
+					return new PlaylistidPosition[n];
+				}
+			};
 		}
 		/**
 		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
@@ -502,6 +572,42 @@ public final class Player {
 				obj.put(RECURSIVE, recursive);
 				return obj;
 			}
+			/**
+			 * Flatten this object into a Parcel.
+			 * @param parcel the Parcel in which the object should be written
+			 * @param flags additional flags about how the object should be written
+			 */
+			@Override
+			public void writeToParcel(Parcel parcel, int flags) {
+				parcel.writeValue(path);
+				parcel.writeValue(random);
+				parcel.writeValue(recursive);
+			}
+			@Override
+			public int describeContents() {
+				return 0;
+			}
+			/**
+			* Construct via parcel
+			*/
+			protected PathRandomRecursive(Parcel parcel) {
+				path = parcel.readString();
+				random = parcel.readInt() == 1;
+				recursive = parcel.readInt() == 1;
+			}
+			/**
+			* Generates instances of this Parcelable class from a Parcel.
+			*/
+			public static final Parcelable.Creator<PathRandomRecursive> CREATOR = new Parcelable.Creator<PathRandomRecursive>() {
+				@Override
+				public PathRandomRecursive createFromParcel(Parcel parcel) {
+					return new PathRandomRecursive(parcel);
+				}
+				@Override
+				public PathRandomRecursive[] newArray(int n) {
+					return new PathRandomRecursive[n];
+				}
+			};
 		}
 		@Override
 		protected String getName() {
@@ -710,6 +816,42 @@ public final class Player {
 				}
 				return new ArrayList<SeekResult>(0);
 			}
+			/**
+			 * Flatten this object into a Parcel.
+			 * @param parcel the Parcel in which the object should be written
+			 * @param flags additional flags about how the object should be written
+			 */
+			@Override
+			public void writeToParcel(Parcel parcel, int flags) {
+				parcel.writeValue(percentage);
+				parcel.writeValue(time);
+				parcel.writeValue(totaltime);
+			}
+			@Override
+			public int describeContents() {
+				return 0;
+			}
+			/**
+			* Construct via parcel
+			*/
+			protected SeekResult(Parcel parcel) {
+				percentage = parcel.readDouble();
+				time = parcel.<GlobalModel.Time>readParcelable(GlobalModel.Time.class.getClassLoader());
+				totaltime = parcel.<GlobalModel.Time>readParcelable(GlobalModel.Time.class.getClassLoader());
+			}
+			/**
+			* Generates instances of this Parcelable class from a Parcel.
+			*/
+			public static final Parcelable.Creator<SeekResult> CREATOR = new Parcelable.Creator<SeekResult>() {
+				@Override
+				public SeekResult createFromParcel(Parcel parcel) {
+					return new SeekResult(parcel);
+				}
+				@Override
+				public SeekResult[] newArray(int n) {
+					return new SeekResult[n];
+				}
+			};
 		}
 		/**
 			 * Time to seek to
@@ -749,6 +891,44 @@ public final class Player {
 				obj.put(SECONDS, seconds);
 				return obj;
 			}
+			/**
+			 * Flatten this object into a Parcel.
+			 * @param parcel the Parcel in which the object should be written
+			 * @param flags additional flags about how the object should be written
+			 */
+			@Override
+			public void writeToParcel(Parcel parcel, int flags) {
+				parcel.writeValue(hours);
+				parcel.writeValue(milliseconds);
+				parcel.writeValue(minutes);
+				parcel.writeValue(seconds);
+			}
+			@Override
+			public int describeContents() {
+				return 0;
+			}
+			/**
+			* Construct via parcel
+			*/
+			protected HoursMillisecondsMinutesSeconds(Parcel parcel) {
+				hours = parcel.readInt();
+				milliseconds = parcel.readInt();
+				minutes = parcel.readInt();
+				seconds = parcel.readInt();
+			}
+			/**
+			* Generates instances of this Parcelable class from a Parcel.
+			*/
+			public static final Parcelable.Creator<HoursMillisecondsMinutesSeconds> CREATOR = new Parcelable.Creator<HoursMillisecondsMinutesSeconds>() {
+				@Override
+				public HoursMillisecondsMinutesSeconds createFromParcel(Parcel parcel) {
+					return new HoursMillisecondsMinutesSeconds(parcel);
+				}
+				@Override
+				public HoursMillisecondsMinutesSeconds[] newArray(int n) {
+					return new HoursMillisecondsMinutesSeconds[n];
+				}
+			};
 		}
 		@Override
 		protected String getName() {

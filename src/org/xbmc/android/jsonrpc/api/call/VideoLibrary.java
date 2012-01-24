@@ -21,6 +21,8 @@
 
 package org.xbmc.android.jsonrpc.api.call;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -119,6 +121,38 @@ public final class VideoLibrary {
 				obj.put(PATH, path);
 				return obj;
 			}
+			/**
+			 * Flatten this object into a Parcel.
+			 * @param parcel the Parcel in which the object should be written
+			 * @param flags additional flags about how the object should be written
+			 */
+			@Override
+			public void writeToParcel(Parcel parcel, int flags) {
+				parcel.writeValue(path);
+			}
+			@Override
+			public int describeContents() {
+				return 0;
+			}
+			/**
+			* Construct via parcel
+			*/
+			protected Path(Parcel parcel) {
+				path = parcel.readString();
+			}
+			/**
+			* Generates instances of this Parcelable class from a Parcel.
+			*/
+			public static final Parcelable.Creator<Path> CREATOR = new Parcelable.Creator<Path>() {
+				@Override
+				public Path createFromParcel(Parcel parcel) {
+					return new Path(parcel);
+				}
+				@Override
+				public Path[] newArray(int n) {
+					return new Path[n];
+				}
+			};
 		}
 		/**
 		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
@@ -160,6 +194,42 @@ public final class VideoLibrary {
 				obj.put(OVERWRITE, overwrite);
 				return obj;
 			}
+			/**
+			 * Flatten this object into a Parcel.
+			 * @param parcel the Parcel in which the object should be written
+			 * @param flags additional flags about how the object should be written
+			 */
+			@Override
+			public void writeToParcel(Parcel parcel, int flags) {
+				parcel.writeValue(actorthumbs);
+				parcel.writeValue(images);
+				parcel.writeValue(overwrite);
+			}
+			@Override
+			public int describeContents() {
+				return 0;
+			}
+			/**
+			* Construct via parcel
+			*/
+			protected ActorthumbsImagesOverwrite(Parcel parcel) {
+				actorthumbs = parcel.readInt() == 1;
+				images = parcel.readInt() == 1;
+				overwrite = parcel.readInt() == 1;
+			}
+			/**
+			* Generates instances of this Parcelable class from a Parcel.
+			*/
+			public static final Parcelable.Creator<ActorthumbsImagesOverwrite> CREATOR = new Parcelable.Creator<ActorthumbsImagesOverwrite>() {
+				@Override
+				public ActorthumbsImagesOverwrite createFromParcel(Parcel parcel) {
+					return new ActorthumbsImagesOverwrite(parcel);
+				}
+				@Override
+				public ActorthumbsImagesOverwrite[] newArray(int n) {
+					return new ActorthumbsImagesOverwrite[n];
+				}
+			};
 		}
 		@Override
 		protected String getName() {
@@ -384,6 +454,49 @@ public final class VideoLibrary {
 				obj.put(SORT, sort.toJSONObject());
 				return obj;
 			}
+			/**
+			 * Flatten this object into a Parcel.
+			 * @param parcel the Parcel in which the object should be written
+			 * @param flags additional flags about how the object should be written
+			 */
+			@Override
+			public void writeToParcel(Parcel parcel, int flags) {
+				parcel.writeValue(limits);
+				parcel.writeInt(properties.size());
+				for (String item : properties) {
+					parcel.writeValue(item);
+				}
+				parcel.writeValue(sort);
+			}
+			@Override
+			public int describeContents() {
+				return 0;
+			}
+			/**
+			* Construct via parcel
+			*/
+			protected LimitsPropertiesSort(Parcel parcel) {
+				limits = parcel.<ListModel.Limits>readParcelable(ListModel.Limits.class.getClassLoader());
+				final int propertiesSize = parcel.readInt();
+				properties = new ArrayList<String>(propertiesSize);
+				for (int i = 0; i < propertiesSize; i++) {
+					properties.add(parcel.readString());
+				}
+				sort = parcel.<ListModel.Sort>readParcelable(ListModel.Sort.class.getClassLoader());
+			}
+			/**
+			* Generates instances of this Parcelable class from a Parcel.
+			*/
+			public static final Parcelable.Creator<LimitsPropertiesSort> CREATOR = new Parcelable.Creator<LimitsPropertiesSort>() {
+				@Override
+				public LimitsPropertiesSort createFromParcel(Parcel parcel) {
+					return new LimitsPropertiesSort(parcel);
+				}
+				@Override
+				public LimitsPropertiesSort[] newArray(int n) {
+					return new LimitsPropertiesSort[n];
+				}
+			};
 		}
 		@Override
 		protected String getName() {

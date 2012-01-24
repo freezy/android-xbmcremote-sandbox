@@ -21,6 +21,8 @@
 
 package org.xbmc.android.jsonrpc.api.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -87,6 +89,42 @@ public final class VideoModel {
 			}
 			return new ArrayList<VideoModel.Cast>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(name);
+			parcel.writeValue(role);
+			parcel.writeValue(thumbnail);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected Cast(Parcel parcel) {
+			name = parcel.readString();
+			role = parcel.readString();
+			thumbnail = parcel.readString();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Cast> CREATOR = new Parcelable.Creator<Cast>() {
+			@Override
+			public Cast createFromParcel(Parcel parcel) {
+				return new Cast(parcel);
+			}
+			@Override
+			public Cast[] newArray(int n) {
+				return new Cast[n];
+			}
+		};
 	}
 	/**
 	 * Video.Details.Base
@@ -130,6 +168,39 @@ public final class VideoModel {
 			}
 			return new ArrayList<VideoModel.BaseDetails>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(playcount);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected BaseDetails(Parcel parcel) {
+			super(parcel);
+			playcount = parcel.readInt();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<BaseDetails> CREATOR = new Parcelable.Creator<BaseDetails>() {
+			@Override
+			public BaseDetails createFromParcel(Parcel parcel) {
+				return new BaseDetails(parcel);
+			}
+			@Override
+			public BaseDetails[] newArray(int n) {
+				return new BaseDetails[n];
+			}
+		};
 	}
 	/**
 	 * Video.Details.Episode
@@ -222,6 +293,68 @@ public final class VideoModel {
 			}
 			return new ArrayList<VideoModel.EpisodeDetails>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeInt(cast.size());
+			for (VideoModel.Cast item : cast) {
+				parcel.writeParcelable(item, flags);
+			}
+			parcel.writeValue(episode);
+			parcel.writeValue(episodeid);
+			parcel.writeValue(firstaired);
+			parcel.writeValue(originaltitle);
+			parcel.writeValue(productioncode);
+			parcel.writeValue(rating);
+			parcel.writeValue(season);
+			parcel.writeValue(showtitle);
+			parcel.writeValue(tvshowid);
+			parcel.writeValue(votes);
+			parcel.writeValue(writer);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected EpisodeDetails(Parcel parcel) {
+			super(parcel);
+			final int castSize = parcel.readInt();
+			cast = new ArrayList<VideoModel.Cast>(castSize);
+			for (int i = 0; i < castSize; i++) {
+				cast.add(parcel.<VideoModel.Cast>readParcelable(VideoModel.Cast.class.getClassLoader()));
+			}
+			episode = parcel.readInt();
+			episodeid = parcel.readInt();
+			firstaired = parcel.readString();
+			originaltitle = parcel.readString();
+			productioncode = parcel.readString();
+			rating = parcel.readDouble();
+			season = parcel.readInt();
+			showtitle = parcel.readString();
+			tvshowid = parcel.readInt();
+			votes = parcel.readString();
+			writer = parcel.readString();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<EpisodeDetails> CREATOR = new Parcelable.Creator<EpisodeDetails>() {
+			@Override
+			public EpisodeDetails createFromParcel(Parcel parcel) {
+				return new EpisodeDetails(parcel);
+			}
+			@Override
+			public EpisodeDetails[] newArray(int n) {
+				return new EpisodeDetails[n];
+			}
+		};
 	}
 	/**
 	 * Video.Details.File
@@ -277,6 +410,45 @@ public final class VideoModel {
 			}
 			return new ArrayList<VideoModel.FileDetails>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(director);
+			parcel.writeValue(resume);
+			parcel.writeValue(runtime);
+			parcel.writeValue(streamdetails);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected FileDetails(Parcel parcel) {
+			super(parcel);
+			director = parcel.readString();
+			resume = parcel.<VideoModel.Resume>readParcelable(VideoModel.Resume.class.getClassLoader());
+			runtime = parcel.readString();
+			streamdetails = parcel.<VideoModel.Streams>readParcelable(VideoModel.Streams.class.getClassLoader());
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<FileDetails> CREATOR = new Parcelable.Creator<FileDetails>() {
+			@Override
+			public FileDetails createFromParcel(Parcel parcel) {
+				return new FileDetails(parcel);
+			}
+			@Override
+			public FileDetails[] newArray(int n) {
+				return new FileDetails[n];
+			}
+		};
 	}
 	/**
 	 * Video.Details.Item
@@ -328,6 +500,43 @@ public final class VideoModel {
 			}
 			return new ArrayList<VideoModel.ItemDetails>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(file);
+			parcel.writeValue(lastplayed);
+			parcel.writeValue(plot);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected ItemDetails(Parcel parcel) {
+			super(parcel);
+			file = parcel.readString();
+			lastplayed = parcel.readString();
+			plot = parcel.readString();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<ItemDetails> CREATOR = new Parcelable.Creator<ItemDetails>() {
+			@Override
+			public ItemDetails createFromParcel(Parcel parcel) {
+				return new ItemDetails(parcel);
+			}
+			@Override
+			public ItemDetails[] newArray(int n) {
+				return new ItemDetails[n];
+			}
+		};
 	}
 	/**
 	 * Video.Details.Media
@@ -371,6 +580,39 @@ public final class VideoModel {
 			}
 			return new ArrayList<VideoModel.MediaDetails>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(title);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected MediaDetails(Parcel parcel) {
+			super(parcel);
+			title = parcel.readString();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<MediaDetails> CREATOR = new Parcelable.Creator<MediaDetails>() {
+			@Override
+			public MediaDetails createFromParcel(Parcel parcel) {
+				return new MediaDetails(parcel);
+			}
+			@Override
+			public MediaDetails[] newArray(int n) {
+				return new MediaDetails[n];
+			}
+		};
 	}
 	/**
 	 * Video.Details.Movie
@@ -503,6 +745,102 @@ public final class VideoModel {
 			}
 			return new ArrayList<VideoModel.MovieDetails>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeInt(cast.size());
+			for (VideoModel.Cast item : cast) {
+				parcel.writeParcelable(item, flags);
+			}
+			parcel.writeValue(country);
+			parcel.writeValue(genre);
+			parcel.writeValue(imdbnumber);
+			parcel.writeValue(movieid);
+			parcel.writeValue(mpaa);
+			parcel.writeValue(originaltitle);
+			parcel.writeValue(plotoutline);
+			parcel.writeValue(premiered);
+			parcel.writeValue(productioncode);
+			parcel.writeValue(rating);
+			parcel.writeInt(set.size());
+			for (String item : set) {
+				parcel.writeValue(item);
+			}
+			parcel.writeInt(setid.size());
+			for (Integer item : setid) {
+				parcel.writeValue(item);
+			}
+			parcel.writeValue(showlink);
+			parcel.writeValue(sorttitle);
+			parcel.writeValue(studio);
+			parcel.writeValue(tagline);
+			parcel.writeValue(top250);
+			parcel.writeValue(trailer);
+			parcel.writeValue(votes);
+			parcel.writeValue(writer);
+			parcel.writeValue(year);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected MovieDetails(Parcel parcel) {
+			super(parcel);
+			final int castSize = parcel.readInt();
+			cast = new ArrayList<VideoModel.Cast>(castSize);
+			for (int i = 0; i < castSize; i++) {
+				cast.add(parcel.<VideoModel.Cast>readParcelable(VideoModel.Cast.class.getClassLoader()));
+			}
+			country = parcel.readString();
+			genre = parcel.readString();
+			imdbnumber = parcel.readString();
+			movieid = parcel.readInt();
+			mpaa = parcel.readString();
+			originaltitle = parcel.readString();
+			plotoutline = parcel.readString();
+			premiered = parcel.readString();
+			productioncode = parcel.readString();
+			rating = parcel.readDouble();
+			final int setSize = parcel.readInt();
+			set = new ArrayList<String>(setSize);
+			for (int i = 0; i < setSize; i++) {
+				set.add(parcel.readString());
+			}
+			final int setidSize = parcel.readInt();
+			setid = new ArrayList<Integer>(setidSize);
+			for (int i = 0; i < setidSize; i++) {
+				setid.add(parcel.readInt());
+			}
+			showlink = parcel.readString();
+			sorttitle = parcel.readString();
+			studio = parcel.readString();
+			tagline = parcel.readString();
+			top250 = parcel.readInt();
+			trailer = parcel.readString();
+			votes = parcel.readString();
+			writer = parcel.readString();
+			year = parcel.readInt();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<MovieDetails> CREATOR = new Parcelable.Creator<MovieDetails>() {
+			@Override
+			public MovieDetails createFromParcel(Parcel parcel) {
+				return new MovieDetails(parcel);
+			}
+			@Override
+			public MovieDetails[] newArray(int n) {
+				return new MovieDetails[n];
+			}
+		};
 	}
 	/**
 	 * Video.Details.MovieSet
@@ -546,6 +884,39 @@ public final class VideoModel {
 			}
 			return new ArrayList<VideoModel.MovieSetDetails>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(setid);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected MovieSetDetails(Parcel parcel) {
+			super(parcel);
+			setid = parcel.readInt();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<MovieSetDetails> CREATOR = new Parcelable.Creator<MovieSetDetails>() {
+			@Override
+			public MovieSetDetails createFromParcel(Parcel parcel) {
+				return new MovieSetDetails(parcel);
+			}
+			@Override
+			public MovieSetDetails[] newArray(int n) {
+				return new MovieSetDetails[n];
+			}
+		};
 	}
 	/**
 	 * Video.Details.MovieSet.Extended
@@ -594,6 +965,46 @@ public final class VideoModel {
 			}
 			return new ArrayList<VideoModel.DetailsMovieSetExtended>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeInt(movies.size());
+			for (VideoModel.MovieDetails item : movies) {
+				parcel.writeParcelable(item, flags);
+			}
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected DetailsMovieSetExtended(Parcel parcel) {
+			super(parcel);
+			final int moviesSize = parcel.readInt();
+			movies = new ArrayList<VideoModel.MovieDetails>(moviesSize);
+			for (int i = 0; i < moviesSize; i++) {
+				movies.add(parcel.<VideoModel.MovieDetails>readParcelable(VideoModel.MovieDetails.class.getClassLoader()));
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<DetailsMovieSetExtended> CREATOR = new Parcelable.Creator<DetailsMovieSetExtended>() {
+			@Override
+			public DetailsMovieSetExtended createFromParcel(Parcel parcel) {
+				return new DetailsMovieSetExtended(parcel);
+			}
+			@Override
+			public DetailsMovieSetExtended[] newArray(int n) {
+				return new DetailsMovieSetExtended[n];
+			}
+		};
 	}
 	/**
 	 * Video.Details.MusicVideo
@@ -661,6 +1072,51 @@ public final class VideoModel {
 			}
 			return new ArrayList<VideoModel.MusicVideoDetails>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(album);
+			parcel.writeValue(artist);
+			parcel.writeValue(genre);
+			parcel.writeValue(musicvideoid);
+			parcel.writeValue(studio);
+			parcel.writeValue(track);
+			parcel.writeValue(year);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected MusicVideoDetails(Parcel parcel) {
+			super(parcel);
+			album = parcel.readString();
+			artist = parcel.readString();
+			genre = parcel.readString();
+			musicvideoid = parcel.readInt();
+			studio = parcel.readString();
+			track = parcel.readInt();
+			year = parcel.readInt();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<MusicVideoDetails> CREATOR = new Parcelable.Creator<MusicVideoDetails>() {
+			@Override
+			public MusicVideoDetails createFromParcel(Parcel parcel) {
+				return new MusicVideoDetails(parcel);
+			}
+			@Override
+			public MusicVideoDetails[] newArray(int n) {
+				return new MusicVideoDetails[n];
+			}
+		};
 	}
 	/**
 	 * Video.Details.Season
@@ -716,6 +1172,45 @@ public final class VideoModel {
 			}
 			return new ArrayList<VideoModel.SeasonDetails>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(episode);
+			parcel.writeValue(season);
+			parcel.writeValue(showtitle);
+			parcel.writeValue(tvshowid);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected SeasonDetails(Parcel parcel) {
+			super(parcel);
+			episode = parcel.readInt();
+			season = parcel.readInt();
+			showtitle = parcel.readString();
+			tvshowid = parcel.readInt();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<SeasonDetails> CREATOR = new Parcelable.Creator<SeasonDetails>() {
+			@Override
+			public SeasonDetails createFromParcel(Parcel parcel) {
+				return new SeasonDetails(parcel);
+			}
+			@Override
+			public SeasonDetails[] newArray(int n) {
+				return new SeasonDetails[n];
+			}
+		};
 	}
 	/**
 	 * Video.Details.TVShow
@@ -816,6 +1311,72 @@ public final class VideoModel {
 			}
 			return new ArrayList<VideoModel.TVShowDetails>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeInt(cast.size());
+			for (VideoModel.Cast item : cast) {
+				parcel.writeParcelable(item, flags);
+			}
+			parcel.writeValue(episode);
+			parcel.writeValue(episodeguide);
+			parcel.writeValue(genre);
+			parcel.writeValue(imdbnumber);
+			parcel.writeValue(mpaa);
+			parcel.writeValue(originaltitle);
+			parcel.writeValue(premiered);
+			parcel.writeValue(rating);
+			parcel.writeValue(sorttitle);
+			parcel.writeValue(studio);
+			parcel.writeValue(tvshowid);
+			parcel.writeValue(votes);
+			parcel.writeValue(year);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected TVShowDetails(Parcel parcel) {
+			super(parcel);
+			final int castSize = parcel.readInt();
+			cast = new ArrayList<VideoModel.Cast>(castSize);
+			for (int i = 0; i < castSize; i++) {
+				cast.add(parcel.<VideoModel.Cast>readParcelable(VideoModel.Cast.class.getClassLoader()));
+			}
+			episode = parcel.readInt();
+			episodeguide = parcel.readString();
+			genre = parcel.readString();
+			imdbnumber = parcel.readString();
+			mpaa = parcel.readString();
+			originaltitle = parcel.readString();
+			premiered = parcel.readString();
+			rating = parcel.readDouble();
+			sorttitle = parcel.readString();
+			studio = parcel.readString();
+			tvshowid = parcel.readInt();
+			votes = parcel.readString();
+			year = parcel.readInt();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<TVShowDetails> CREATOR = new Parcelable.Creator<TVShowDetails>() {
+			@Override
+			public TVShowDetails createFromParcel(Parcel parcel) {
+				return new TVShowDetails(parcel);
+			}
+			@Override
+			public TVShowDetails[] newArray(int n) {
+				return new TVShowDetails[n];
+			}
+		};
 	}
 	public interface EpisodeFields {
 		public final String TITLE = "title";
@@ -985,6 +1546,40 @@ public final class VideoModel {
 			}
 			return new ArrayList<VideoModel.Resume>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(position);
+			parcel.writeValue(total);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected Resume(Parcel parcel) {
+			position = parcel.readDouble();
+			total = parcel.readDouble();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Resume> CREATOR = new Parcelable.Creator<Resume>() {
+			@Override
+			public Resume createFromParcel(Parcel parcel) {
+				return new Resume(parcel);
+			}
+			@Override
+			public Resume[] newArray(int n) {
+				return new Resume[n];
+			}
+		};
 	}
 	/**
 	 * Video.Streams
@@ -1064,7 +1659,7 @@ public final class VideoModel {
 		/**
 		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
 		 */
-		public static class Audio implements JSONSerializable {
+		public static class Audio implements JSONSerializable, Parcelable {
 			// field names
 			public static final String CHANNELS = "channels";
 			public static final String CODEC = "codec";
@@ -1117,11 +1712,47 @@ public final class VideoModel {
 				}
 				return new ArrayList<Audio>(0);
 			}
+			/**
+			 * Flatten this object into a Parcel.
+			 * @param parcel the Parcel in which the object should be written
+			 * @param flags additional flags about how the object should be written
+			 */
+			@Override
+			public void writeToParcel(Parcel parcel, int flags) {
+				parcel.writeValue(channels);
+				parcel.writeValue(codec);
+				parcel.writeValue(language);
+			}
+			@Override
+			public int describeContents() {
+				return 0;
+			}
+			/**
+			* Construct via parcel
+			*/
+			protected Audio(Parcel parcel) {
+				channels = parcel.readInt();
+				codec = parcel.readString();
+				language = parcel.readString();
+			}
+			/**
+			* Generates instances of this Parcelable class from a Parcel.
+			*/
+			public static final Parcelable.Creator<Audio> CREATOR = new Parcelable.Creator<Audio>() {
+				@Override
+				public Audio createFromParcel(Parcel parcel) {
+					return new Audio(parcel);
+				}
+				@Override
+				public Audio[] newArray(int n) {
+					return new Audio[n];
+				}
+			};
 		}
 		/**
 		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
 		 */
-		public static class Subtitle implements JSONSerializable {
+		public static class Subtitle implements JSONSerializable, Parcelable {
 			// field names
 			public static final String LANGUAGE = "language";
 			// class members
@@ -1162,11 +1793,43 @@ public final class VideoModel {
 				}
 				return new ArrayList<Subtitle>(0);
 			}
+			/**
+			 * Flatten this object into a Parcel.
+			 * @param parcel the Parcel in which the object should be written
+			 * @param flags additional flags about how the object should be written
+			 */
+			@Override
+			public void writeToParcel(Parcel parcel, int flags) {
+				parcel.writeValue(language);
+			}
+			@Override
+			public int describeContents() {
+				return 0;
+			}
+			/**
+			* Construct via parcel
+			*/
+			protected Subtitle(Parcel parcel) {
+				language = parcel.readString();
+			}
+			/**
+			* Generates instances of this Parcelable class from a Parcel.
+			*/
+			public static final Parcelable.Creator<Subtitle> CREATOR = new Parcelable.Creator<Subtitle>() {
+				@Override
+				public Subtitle createFromParcel(Parcel parcel) {
+					return new Subtitle(parcel);
+				}
+				@Override
+				public Subtitle[] newArray(int n) {
+					return new Subtitle[n];
+				}
+			};
 		}
 		/**
 		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
 		 */
-		public static class Video implements JSONSerializable {
+		public static class Video implements JSONSerializable, Parcelable {
 			// field names
 			public static final String ASPECT = "aspect";
 			public static final String CODEC = "codec";
@@ -1231,6 +1894,103 @@ public final class VideoModel {
 				}
 				return new ArrayList<Video>(0);
 			}
+			/**
+			 * Flatten this object into a Parcel.
+			 * @param parcel the Parcel in which the object should be written
+			 * @param flags additional flags about how the object should be written
+			 */
+			@Override
+			public void writeToParcel(Parcel parcel, int flags) {
+				parcel.writeValue(aspect);
+				parcel.writeValue(codec);
+				parcel.writeValue(duration);
+				parcel.writeValue(height);
+				parcel.writeValue(width);
+			}
+			@Override
+			public int describeContents() {
+				return 0;
+			}
+			/**
+			* Construct via parcel
+			*/
+			protected Video(Parcel parcel) {
+				aspect = parcel.readDouble();
+				codec = parcel.readString();
+				duration = parcel.readInt();
+				height = parcel.readInt();
+				width = parcel.readInt();
+			}
+			/**
+			* Generates instances of this Parcelable class from a Parcel.
+			*/
+			public static final Parcelable.Creator<Video> CREATOR = new Parcelable.Creator<Video>() {
+				@Override
+				public Video createFromParcel(Parcel parcel) {
+					return new Video(parcel);
+				}
+				@Override
+				public Video[] newArray(int n) {
+					return new Video[n];
+				}
+			};
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeInt(audio.size());
+			for (Audio item : audio) {
+				parcel.writeParcelable(item, flags);
+			}
+			parcel.writeInt(subtitle.size());
+			for (Subtitle item : subtitle) {
+				parcel.writeParcelable(item, flags);
+			}
+			parcel.writeInt(video.size());
+			for (Video item : video) {
+				parcel.writeParcelable(item, flags);
+			}
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected Streams(Parcel parcel) {
+			final int audioSize = parcel.readInt();
+			audio = new ArrayList<Audio>(audioSize);
+			for (int i = 0; i < audioSize; i++) {
+				audio.add(parcel.<Audio>readParcelable(Audio.class.getClassLoader()));
+			}
+			final int subtitleSize = parcel.readInt();
+			subtitle = new ArrayList<Subtitle>(subtitleSize);
+			for (int i = 0; i < subtitleSize; i++) {
+				subtitle.add(parcel.<Subtitle>readParcelable(Subtitle.class.getClassLoader()));
+			}
+			final int videoSize = parcel.readInt();
+			video = new ArrayList<Video>(videoSize);
+			for (int i = 0; i < videoSize; i++) {
+				video.add(parcel.<Video>readParcelable(Video.class.getClassLoader()));
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Streams> CREATOR = new Parcelable.Creator<Streams>() {
+			@Override
+			public Streams createFromParcel(Parcel parcel) {
+				return new Streams(parcel);
+			}
+			@Override
+			public Streams[] newArray(int n) {
+				return new Streams[n];
+			}
+		};
 	}
 }

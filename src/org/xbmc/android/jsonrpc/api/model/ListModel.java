@@ -21,6 +21,8 @@
 
 package org.xbmc.android.jsonrpc.api.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -261,6 +263,126 @@ public final class ListModel {
 			}
 			return new ArrayList<ListModel.AllItem>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(album);
+			parcel.writeValue(albumartist);
+			parcel.writeValue(albumid);
+			parcel.writeValue(artistid);
+			parcel.writeInt(cast.size());
+			for (VideoModel.Cast item : cast) {
+				parcel.writeParcelable(item, flags);
+			}
+			parcel.writeValue(comment);
+			parcel.writeValue(country);
+			parcel.writeValue(duration);
+			parcel.writeValue(episode);
+			parcel.writeValue(firstaired);
+			parcel.writeValue(id);
+			parcel.writeValue(imdbnumber);
+			parcel.writeValue(lyrics);
+			parcel.writeValue(mpaa);
+			parcel.writeValue(musicbrainzartistid);
+			parcel.writeValue(musicbrainztrackid);
+			parcel.writeValue(originaltitle);
+			parcel.writeValue(plotoutline);
+			parcel.writeValue(premiered);
+			parcel.writeValue(productioncode);
+			parcel.writeValue(season);
+			parcel.writeInt(set.size());
+			for (String item : set) {
+				parcel.writeValue(item);
+			}
+			parcel.writeInt(setid.size());
+			for (Integer item : setid) {
+				parcel.writeValue(item);
+			}
+			parcel.writeValue(showlink);
+			parcel.writeValue(showtitle);
+			parcel.writeValue(studio);
+			parcel.writeValue(tagline);
+			parcel.writeValue(top250);
+			parcel.writeValue(track);
+			parcel.writeValue(trailer);
+			parcel.writeValue(tvshowid);
+			parcel.writeValue(type);
+			parcel.writeValue(votes);
+			parcel.writeValue(writer);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected AllItem(Parcel parcel) {
+			super(parcel);
+			album = parcel.readString();
+			albumartist = parcel.readString();
+			albumid = parcel.readInt();
+			artistid = parcel.readInt();
+			final int castSize = parcel.readInt();
+			cast = new ArrayList<VideoModel.Cast>(castSize);
+			for (int i = 0; i < castSize; i++) {
+				cast.add(parcel.<VideoModel.Cast>readParcelable(VideoModel.Cast.class.getClassLoader()));
+			}
+			comment = parcel.readString();
+			country = parcel.readString();
+			duration = parcel.readInt();
+			episode = parcel.readInt();
+			firstaired = parcel.readString();
+			id = parcel.readInt();
+			imdbnumber = parcel.readString();
+			lyrics = parcel.readString();
+			mpaa = parcel.readString();
+			musicbrainzartistid = parcel.readString();
+			musicbrainztrackid = parcel.readString();
+			originaltitle = parcel.readString();
+			plotoutline = parcel.readString();
+			premiered = parcel.readString();
+			productioncode = parcel.readString();
+			season = parcel.readInt();
+			final int setSize = parcel.readInt();
+			set = new ArrayList<String>(setSize);
+			for (int i = 0; i < setSize; i++) {
+				set.add(parcel.readString());
+			}
+			final int setidSize = parcel.readInt();
+			setid = new ArrayList<Integer>(setidSize);
+			for (int i = 0; i < setidSize; i++) {
+				setid.add(parcel.readInt());
+			}
+			showlink = parcel.readString();
+			showtitle = parcel.readString();
+			studio = parcel.readString();
+			tagline = parcel.readString();
+			top250 = parcel.readInt();
+			track = parcel.readInt();
+			trailer = parcel.readString();
+			tvshowid = parcel.readInt();
+			type = parcel.readString();
+			votes = parcel.readString();
+			writer = parcel.readString();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<AllItem> CREATOR = new Parcelable.Creator<AllItem>() {
+			@Override
+			public AllItem createFromParcel(Parcel parcel) {
+				return new AllItem(parcel);
+			}
+			@Override
+			public AllItem[] newArray(int n) {
+				return new AllItem[n];
+			}
+		};
 	}
 	/**
 	 * List.Item.File
@@ -311,6 +433,41 @@ public final class ListModel {
 			}
 			return new ArrayList<ListModel.FileItem>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(file);
+			parcel.writeValue(filetype);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected FileItem(Parcel parcel) {
+			super(parcel);
+			file = parcel.readString();
+			filetype = parcel.readString();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<FileItem> CREATOR = new Parcelable.Creator<FileItem>() {
+			@Override
+			public FileItem createFromParcel(Parcel parcel) {
+				return new FileItem(parcel);
+			}
+			@Override
+			public FileItem[] newArray(int n) {
+				return new FileItem[n];
+			}
+		};
 	}
 	/**
 	 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
@@ -352,6 +509,39 @@ public final class ListModel {
 			}
 			return new ArrayList<ListModel.SourcesItem>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(file);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected SourcesItem(Parcel parcel) {
+			super(parcel);
+			file = parcel.readString();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<SourcesItem> CREATOR = new Parcelable.Creator<SourcesItem>() {
+			@Override
+			public SourcesItem createFromParcel(Parcel parcel) {
+				return new SourcesItem(parcel);
+			}
+			@Override
+			public SourcesItem[] newArray(int n) {
+				return new SourcesItem[n];
+			}
+		};
 	}
 	/**
 	 * List.Limits
@@ -407,6 +597,40 @@ public final class ListModel {
 			}
 			return new ArrayList<ListModel.Limits>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(end);
+			parcel.writeValue(start);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected Limits(Parcel parcel) {
+			end = parcel.readInt();
+			start = parcel.readInt();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Limits> CREATOR = new Parcelable.Creator<Limits>() {
+			@Override
+			public Limits createFromParcel(Parcel parcel) {
+				return new Limits(parcel);
+			}
+			@Override
+			public Limits[] newArray(int n) {
+				return new Limits[n];
+			}
+		};
 	}
 	/**
 	 * List.LimitsReturned
@@ -468,6 +692,42 @@ public final class ListModel {
 			}
 			return new ArrayList<ListModel.LimitsReturned>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(end);
+			parcel.writeValue(start);
+			parcel.writeValue(total);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected LimitsReturned(Parcel parcel) {
+			end = parcel.readInt();
+			start = parcel.readInt();
+			total = parcel.readInt();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<LimitsReturned> CREATOR = new Parcelable.Creator<LimitsReturned>() {
+			@Override
+			public LimitsReturned createFromParcel(Parcel parcel) {
+				return new LimitsReturned(parcel);
+			}
+			@Override
+			public LimitsReturned[] newArray(int n) {
+				return new LimitsReturned[n];
+			}
+		};
 	}
 	/**
 	 * List.Sort
@@ -535,5 +795,41 @@ public final class ListModel {
 			}
 			return new ArrayList<ListModel.Sort>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(ignorearticle);
+			parcel.writeValue(method);
+			parcel.writeValue(order);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected Sort(Parcel parcel) {
+			ignorearticle = parcel.readInt() == 1;
+			method = parcel.readString();
+			order = parcel.readString();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Sort> CREATOR = new Parcelable.Creator<Sort>() {
+			@Override
+			public Sort createFromParcel(Parcel parcel) {
+				return new Sort(parcel);
+			}
+			@Override
+			public Sort[] newArray(int n) {
+				return new Sort[n];
+			}
+		};
 	}
 }

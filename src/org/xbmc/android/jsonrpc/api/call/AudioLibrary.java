@@ -21,6 +21,8 @@
 
 package org.xbmc.android.jsonrpc.api.call;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -118,6 +120,38 @@ public final class AudioLibrary {
 				obj.put(PATH, path);
 				return obj;
 			}
+			/**
+			 * Flatten this object into a Parcel.
+			 * @param parcel the Parcel in which the object should be written
+			 * @param flags additional flags about how the object should be written
+			 */
+			@Override
+			public void writeToParcel(Parcel parcel, int flags) {
+				parcel.writeValue(path);
+			}
+			@Override
+			public int describeContents() {
+				return 0;
+			}
+			/**
+			* Construct via parcel
+			*/
+			protected Path(Parcel parcel) {
+				path = parcel.readString();
+			}
+			/**
+			* Generates instances of this Parcelable class from a Parcel.
+			*/
+			public static final Parcelable.Creator<Path> CREATOR = new Parcelable.Creator<Path>() {
+				@Override
+				public Path createFromParcel(Parcel parcel) {
+					return new Path(parcel);
+				}
+				@Override
+				public Path[] newArray(int n) {
+					return new Path[n];
+				}
+			};
 		}
 		/**
 		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
@@ -151,6 +185,40 @@ public final class AudioLibrary {
 				obj.put(OVERWRITE, overwrite);
 				return obj;
 			}
+			/**
+			 * Flatten this object into a Parcel.
+			 * @param parcel the Parcel in which the object should be written
+			 * @param flags additional flags about how the object should be written
+			 */
+			@Override
+			public void writeToParcel(Parcel parcel, int flags) {
+				parcel.writeValue(images);
+				parcel.writeValue(overwrite);
+			}
+			@Override
+			public int describeContents() {
+				return 0;
+			}
+			/**
+			* Construct via parcel
+			*/
+			protected ImagesOverwrite(Parcel parcel) {
+				images = parcel.readInt() == 1;
+				overwrite = parcel.readInt() == 1;
+			}
+			/**
+			* Generates instances of this Parcelable class from a Parcel.
+			*/
+			public static final Parcelable.Creator<ImagesOverwrite> CREATOR = new Parcelable.Creator<ImagesOverwrite>() {
+				@Override
+				public ImagesOverwrite createFromParcel(Parcel parcel) {
+					return new ImagesOverwrite(parcel);
+				}
+				@Override
+				public ImagesOverwrite[] newArray(int n) {
+					return new ImagesOverwrite[n];
+				}
+			};
 		}
 		@Override
 		protected String getName() {

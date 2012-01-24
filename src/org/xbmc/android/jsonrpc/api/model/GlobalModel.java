@@ -21,6 +21,8 @@
 
 package org.xbmc.android.jsonrpc.api.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -76,6 +78,38 @@ public final class GlobalModel {
 			}
 			return new ArrayList<GlobalModel.Configuration>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(notifications);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected Configuration(Parcel parcel) {
+			notifications = parcel.<ConfigurationModel.Notifications>readParcelable(ConfigurationModel.Notifications.class.getClassLoader());
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Configuration> CREATOR = new Parcelable.Creator<Configuration>() {
+			@Override
+			public Configuration createFromParcel(Parcel parcel) {
+				return new Configuration(parcel);
+			}
+			@Override
+			public Configuration[] newArray(int n) {
+				return new Configuration[n];
+			}
+		};
 	}
 	/**
 	 * Global.Time
@@ -143,6 +177,44 @@ public final class GlobalModel {
 			}
 			return new ArrayList<GlobalModel.Time>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(hours);
+			parcel.writeValue(milliseconds);
+			parcel.writeValue(minutes);
+			parcel.writeValue(seconds);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected Time(Parcel parcel) {
+			hours = parcel.readInt();
+			milliseconds = parcel.readInt();
+			minutes = parcel.readInt();
+			seconds = parcel.readInt();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Time> CREATOR = new Parcelable.Creator<Time>() {
+			@Override
+			public Time createFromParcel(Parcel parcel) {
+				return new Time(parcel);
+			}
+			@Override
+			public Time[] newArray(int n) {
+				return new Time[n];
+			}
+		};
 		/**
 		 * Returns time in milliseconds.
 		 * @return Time in milliseconds

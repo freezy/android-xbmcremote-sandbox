@@ -21,6 +21,8 @@
 
 package org.xbmc.android.jsonrpc.api.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -211,6 +213,54 @@ public final class PlaylistModel {
 			}
 			return new ArrayList<PlaylistModel.Item>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(file);
+			parcel.writeValue(directory);
+			parcel.writeValue(movieid);
+			parcel.writeValue(episodeid);
+			parcel.writeValue(musicvideoid);
+			parcel.writeValue(artistid);
+			parcel.writeValue(albumid);
+			parcel.writeValue(songid);
+			parcel.writeValue(genreid);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected Item(Parcel parcel) {
+			file = parcel.readString();
+			directory = parcel.readString();
+			movieid = parcel.readInt();
+			episodeid = parcel.readInt();
+			musicvideoid = parcel.readInt();
+			artistid = parcel.readInt();
+			albumid = parcel.readInt();
+			songid = parcel.readInt();
+			genreid = parcel.readInt();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Item> CREATOR = new Parcelable.Creator<Item>() {
+			@Override
+			public Item createFromParcel(Parcel parcel) {
+				return new Item(parcel);
+			}
+			@Override
+			public Item[] newArray(int n) {
+				return new Item[n];
+			}
+		};
 	}
 	public interface PropertyName {
 		public final String TYPE = "type";
@@ -270,6 +320,40 @@ public final class PlaylistModel {
 			}
 			return new ArrayList<PlaylistModel.PropertyValue>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(size);
+			parcel.writeValue(type);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected PropertyValue(Parcel parcel) {
+			size = parcel.readInt();
+			type = parcel.readString();
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<PropertyValue> CREATOR = new Parcelable.Creator<PropertyValue>() {
+			@Override
+			public PropertyValue createFromParcel(Parcel parcel) {
+				return new PropertyValue(parcel);
+			}
+			@Override
+			public PropertyValue[] newArray(int n) {
+				return new PropertyValue[n];
+			}
+		};
 	}
 	public interface Type {
 		public final String UNKNOWN = "unknown";

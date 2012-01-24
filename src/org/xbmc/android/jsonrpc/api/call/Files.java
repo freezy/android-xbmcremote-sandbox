@@ -21,6 +21,8 @@
 
 package org.xbmc.android.jsonrpc.api.call;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -204,6 +206,42 @@ public final class Files {
 				}
 				return new ArrayList<PrepareDownloadResult>(0);
 			}
+			/**
+			 * Flatten this object into a Parcel.
+			 * @param parcel the Parcel in which the object should be written
+			 * @param flags additional flags about how the object should be written
+			 */
+			@Override
+			public void writeToParcel(Parcel parcel, int flags) {
+				parcel.writeValue(details);
+				parcel.writeValue(mode);
+				parcel.writeValue(protocol);
+			}
+			@Override
+			public int describeContents() {
+				return 0;
+			}
+			/**
+			* Construct via parcel
+			*/
+			protected PrepareDownloadResult(Parcel parcel) {
+				details = parcel.readString();
+				mode = parcel.readString();
+				protocol = parcel.readString();
+			}
+			/**
+			* Generates instances of this Parcelable class from a Parcel.
+			*/
+			public static final Parcelable.Creator<PrepareDownloadResult> CREATOR = new Parcelable.Creator<PrepareDownloadResult>() {
+				@Override
+				public PrepareDownloadResult createFromParcel(Parcel parcel) {
+					return new PrepareDownloadResult(parcel);
+				}
+				@Override
+				public PrepareDownloadResult[] newArray(int n) {
+					return new PrepareDownloadResult[n];
+				}
+			};
 		}
 		@Override
 		protected String getName() {

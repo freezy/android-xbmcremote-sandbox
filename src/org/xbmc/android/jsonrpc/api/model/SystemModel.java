@@ -21,6 +21,8 @@
 
 package org.xbmc.android.jsonrpc.api.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -100,5 +102,43 @@ public final class SystemModel {
 			}
 			return new ArrayList<SystemModel.PropertyValue>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(canhibernate);
+			parcel.writeValue(canreboot);
+			parcel.writeValue(canshutdown);
+			parcel.writeValue(cansuspend);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected PropertyValue(Parcel parcel) {
+			canhibernate = parcel.readInt() == 1;
+			canreboot = parcel.readInt() == 1;
+			canshutdown = parcel.readInt() == 1;
+			cansuspend = parcel.readInt() == 1;
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<PropertyValue> CREATOR = new Parcelable.Creator<PropertyValue>() {
+			@Override
+			public PropertyValue createFromParcel(Parcel parcel) {
+				return new PropertyValue(parcel);
+			}
+			@Override
+			public PropertyValue[] newArray(int n) {
+				return new PropertyValue[n];
+			}
+		};
 	}
 }

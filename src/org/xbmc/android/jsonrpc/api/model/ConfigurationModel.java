@@ -21,6 +21,8 @@
 
 package org.xbmc.android.jsonrpc.api.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -106,5 +108,47 @@ public final class ConfigurationModel {
 			}
 			return new ArrayList<ConfigurationModel.Notifications>(0);
 		}
+		/**
+		 * Flatten this object into a Parcel.
+		 * @param parcel the Parcel in which the object should be written
+		 * @param flags additional flags about how the object should be written
+		 */
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeValue(audiolibrary);
+			parcel.writeValue(gui);
+			parcel.writeValue(other);
+			parcel.writeValue(player);
+			parcel.writeValue(system);
+			parcel.writeValue(videolibrary);
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		/**
+		* Construct via parcel
+		*/
+		protected Notifications(Parcel parcel) {
+			audiolibrary = parcel.readInt() == 1;
+			gui = parcel.readInt() == 1;
+			other = parcel.readInt() == 1;
+			player = parcel.readInt() == 1;
+			system = parcel.readInt() == 1;
+			videolibrary = parcel.readInt() == 1;
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Notifications> CREATOR = new Parcelable.Creator<Notifications>() {
+			@Override
+			public Notifications createFromParcel(Parcel parcel) {
+				return new Notifications(parcel);
+			}
+			@Override
+			public Notifications[] newArray(int n) {
+				return new Notifications[n];
+			}
+		};
 	}
 }
