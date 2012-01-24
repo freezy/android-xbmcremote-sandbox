@@ -27,7 +27,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public abstract class AbstractModel implements JSONSerializable {
+import android.os.Parcelable;
+
+public abstract class AbstractModel implements JSONSerializable, Parcelable {
 	
 	protected String mType;
 	
