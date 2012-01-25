@@ -46,20 +46,28 @@ import android.util.Log;
  * Provides simple access to XBMC's JSON-RPC API.
  * <p/>
  * It is used for two things:
- * <ol><li>Query JSON-API via persistent TCP socket</li>
+ * <ol><li>Query JSON-API via persistent TCP socket or HTTP</li>
  *     <li>Subscribe to notification events from XBMC</li></ol>
  * 
  * The TCP connection is managed by {@link ConnectionService}. The manager uses
  * a {@link Messenger} to communicate with the service using a {@link Handler}
  * on both sides (see {@link IncomingHandler}).
  * <p/>
- * The format of the exchanged messages depends on the direction in which they
- * are exchanged:
- * <ul><li>For messages sent <b>to</b> the service, the complete API call 
- *         object extending {@link AbstractCall} is sent.</li>
- *     <li>Messages coming <b>from</b> the service are de-seralized objects
- *         extending our {@link AbstractModel}.</li></ul>
- *          
+ * The data of the exchanged messages is wrapped into an {@link AbstractCall}
+ * object. This is due to the nature of the implementing classes:
+ * <ul><li>Messages sent <b>to</b> the service are de-serialized into a JSON
+ *         request and sent to XBMC's API.</li>
+ *     <li>Messages coming <b>from</b> the service are de-seralized into 
+ *         generic JSON objects using the Jackson library and can be converted
+ *         into {@link AbstractModel} children on demand.</li></ul>
+ * 
+ * <h3>Synchronization</h3>
+ * When syncing the local database we want to avoid the parcelization happening
+ * when sending the response back from <tt>ConnectionService</tt> to
+ * <tt>ConnectionManager</tt>. Therefore, <tt>call()</tt> can additionally 
+ * provide a {@link JsonHandler}, which will synchronize the local DB and only
+ * respond with a status code instead of the whole response (TBD).
+ * 
  * <h3>Follow-ups</h3>
  * When receiving a notification, sometimes more information is required. By
  * returning a  {@link FollowupCall} object, which is wrapper for a new {@link
@@ -68,7 +76,7 @@ import android.util.Log;
  *
  * @author freezy <freezy@xbmc.org>
  */
-public class ConnectionManager {
+public class ConnectionManager<T extends AbstractModel> {
 	
 	private static final String TAG = ConnectionManager.class.getSimpleName();
 	/**
@@ -94,7 +102,12 @@ public class ConnectionManager {
 	/**
 	 * List of currently processing API calls. Key is the ID of the API call.
 	 */
-	private final HashMap<String, ApiCallback> mCallbacks = new HashMap<String, ApiCallback>();
+	private final HashMap<String, ApiCallback<T>> mCallbacks = new HashMap<String, ApiCallback<T>>();
+	/**
+	 * Since we can't return the de-serialized object from the service, put the
+	 * response back into the received one and return the received one.
+	 */
+	private final HashMap<String, AbstractCall<T>> mCalls = new HashMap<String, AbstractCall<T>>();
 	/**
 	 * List of follow-ups
 	 */
@@ -120,10 +133,11 @@ public class ConnectionManager {
 	 * @param callback 
 	 * @return
 	 */
-	public <T> ConnectionManager call(AbstractCall<T> call, ApiCallback callback) {
+	public ConnectionManager<T> call(AbstractCall<T> call, ApiCallback<T> callback) {
 		// start service if not yet started
 		bindService();
 		mCallbacks.put(call.getId(), callback);
+		mCalls.put(call.getId(), call);
 		Log.i(TAG, "Saved callback (" + mCallbacks.size() + ").");
 		sendCall(call);
 		return this;
@@ -134,7 +148,7 @@ public class ConnectionManager {
 	 * @param observer New observer
 	 * @return Class instance
 	 */
-	public ConnectionManager registerObserver(NotificationObserver observer) {
+	public ConnectionManager<T> registerObserver(NotificationObserver observer) {
 		// start service if not yet started
 		bindService();
 		mObservers.add(observer);
@@ -146,7 +160,7 @@ public class ConnectionManager {
 	 * @param observer Observer to remove
 	 * @return Class instance
 	 */
-	public ConnectionManager unregisterObserver(NotificationObserver observer) {
+	public ConnectionManager<T> unregisterObserver(NotificationObserver observer) {
 		final ArrayList<NotificationObserver> observers = mObservers;
 		observers.remove(observer);
 		// stop service if no more observers.
@@ -263,17 +277,19 @@ public class ConnectionManager {
 		@Override
 		public void handleMessage(Message msg) {
 			Log.i(TAG, "Got message: " + msg.what);
-			final HashMap<String, ApiCallback> callbacks = mCallbacks;
+			final HashMap<String, ApiCallback<T>> callbacks = mCallbacks;
 			switch (msg.what) {
 				case ConnectionService.MSG_RECEIVE_APICALL:
-					final AbstractCall<?> apiCall = msg.getData().getParcelable(ConnectionService.EXTRA_APICALL);
-					if (apiCall != null) {
-						if (callbacks.containsKey(apiCall.getId())) {
-							final ApiCallback callback = callbacks.get(apiCall.getId());
-							callback.onResponse(apiCall);
-							Log.d(TAG, "Callback for " + apiCall.getName() + " sent back to caller.");
+					final AbstractCall<?> returnedApiCall = msg.getData().getParcelable(ConnectionService.EXTRA_APICALL);
+					if (returnedApiCall != null) {
+						if (callbacks.containsKey(returnedApiCall.getId())) {
+							final AbstractCall<T> receivedApiCall = mCalls.get(returnedApiCall.getId());
+							receivedApiCall.setResponse(returnedApiCall.getResponse());
+							final ApiCallback<T> callback = callbacks.get(returnedApiCall.getId());
+							callback.onResponse(receivedApiCall);
+							Log.d(TAG, "Callback for " + returnedApiCall.getName() + " sent back to caller.");
 						} else {
-							Log.w(TAG, "Unknown ID " + apiCall.getId() + " for " + apiCall.getName() + ", dropping.");
+							Log.w(TAG, "Unknown ID " + returnedApiCall.getId() + " for " + returnedApiCall.getName() + ", dropping.");
 						}
 					} else {
 						Log.e(TAG, "Error retrieving API call object from bundle.");
@@ -285,7 +301,7 @@ public class ConnectionManager {
 				case ConnectionService.MSG_ERROR:
 					final String message = msg.getData().getString(ConnectionService.EXTRA_ERROR_MESSAGE);
 					final int code = msg.getData().getInt(ConnectionService.EXTRA_ERROR_CODE);
-					final HashMap<String, ApiCallback> callBacks = mCallbacks;
+					final HashMap<String, ApiCallback<T>> callBacks = mCallbacks;
 					Log.e(TAG, "Received error: " + message);
 					synchronized (mCallbacks) {
 						Log.i(TAG, "Notifiying " + callBacks.size() + " callbacks.");
@@ -312,14 +328,4 @@ public class ConnectionManager {
 		 */
 		public PlayerObserver getPlayerObserver();
 	}
-	
-	/**
-	 * Async API call responses are sent back through this interface.  
-	 * @author freezy <freezy@xbmc.org>
-	 */
-	public static interface ApiCallback {
-		public void onResponse(AbstractCall<?> response);
-		public void onError(int code, String message);
-	}
-
 }

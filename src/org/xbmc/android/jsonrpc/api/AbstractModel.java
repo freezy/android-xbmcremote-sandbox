@@ -47,7 +47,7 @@ public abstract class AbstractModel implements JsonSerializable, Parcelable {
 	 * @throws JSONException
 	 */
 	public static int parseInt(ObjectNode node, String key) {
-		return node.get(key).getValueAsInt(-1);
+		return node.has(key) ? node.get(key).getIntValue() : -1;
 	}
 	
 	/**
@@ -59,7 +59,7 @@ public abstract class AbstractModel implements JsonSerializable, Parcelable {
 	 * @throws JSONException
 	 */
 	public static String parseString(ObjectNode node, String key) {
-		return node.get(key).getTextValue();
+		return node.has(key) ? node.get(key).getTextValue() : null;
 	}
 	
 	/**
@@ -80,7 +80,7 @@ public abstract class AbstractModel implements JsonSerializable, Parcelable {
 	}
 	
 	public static Double parseDouble(ObjectNode node, String key) {
-		return node.get(key).getDoubleValue();
+		return node.has(key) ? node.get(key).getDoubleValue() : null;
 	}
 
 	public static ArrayList<String> getStringArray(ObjectNode node, String key) {

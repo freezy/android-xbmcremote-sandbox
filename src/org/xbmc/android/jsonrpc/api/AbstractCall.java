@@ -155,6 +155,10 @@ public abstract class AbstractCall<T> implements Parcelable {
 	public void setResponse(JsonNode response) {
 		mResponse = (ObjectNode)response;
 	}
+	
+	public ObjectNode getResponse() {
+		return mResponse;
+	}
 
 	/**
 	 * Returns the result as a single item.

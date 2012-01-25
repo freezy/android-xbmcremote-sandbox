@@ -21,15 +21,14 @@
 
 package org.xbmc.android.remotesandbox.ui.common;
 
-import org.json.JSONException;
-import org.xbmc.android.jsonrpc.NotificationManager;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
-import org.xbmc.android.jsonrpc.api.model.AudioModel;
-import org.xbmc.android.jsonrpc.io.ApiException;
+import org.xbmc.android.jsonrpc.api.call.VideoLibrary;
+import org.xbmc.android.jsonrpc.api.model.AudioModel.AlbumDetails;
+import org.xbmc.android.jsonrpc.api.model.LibraryModel;
+import org.xbmc.android.jsonrpc.api.model.LibraryModel.GenreDetails;
+import org.xbmc.android.jsonrpc.io.ApiCallback;
 import org.xbmc.android.jsonrpc.io.ConnectionManager;
-import org.xbmc.android.jsonrpc.io.RemoteExecutor;
-import org.xbmc.android.jsonrpc.io.audio.ArtistHandler;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.remotesandbox.ui.base.ReloadableActionBarActivity;
 import org.xbmc.android.remotesandbox.ui.sync.AbstractSyncBridge;
@@ -57,24 +56,38 @@ public class HomeActivity extends ReloadableActionBarActivity {
 		setContentView(R.layout.activity_home);
 		final Button testBtn = (Button)findViewById(R.id.home_testbtn);
 		testBtn.setOnClickListener(new OnClickListener() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void onClick(View v) {
-				final ConnectionManager cm = new ConnectionManager(getApplicationContext());
-				cm.call(new AudioLibrary.GetAlbums(null, null), new ConnectionManager.ApiCallback() {
+			@SuppressWarnings("rawtypes")
+			final ConnectionManager cm = new ConnectionManager(getApplicationContext());
+			cm.call(new AudioLibrary.GetAlbums(null, null), new ApiCallback<AlbumDetails>() {
+				@Override
+				public void onResponse(AbstractCall<AlbumDetails> apiCall) {
+					final AlbumDetails details = apiCall.getResult();
+					Log.i(TAG, "Got response from " + apiCall.getName() + ". First album fetched: " + details.label);
+				}
+				@Override
+				public void onError(int code, String message) {
+				}
+			});
+			
+			cm.call(new VideoLibrary.GetGenres("movie"), new ApiCallback<LibraryModel.GenreDetails>() {
+				@Override
+				public void onResponse(AbstractCall<GenreDetails> apiCall) {
+					final GenreDetails details = apiCall.getResult();
+					Log.i(TAG, "Got response from " + apiCall.getName() + ". First genre fetched: " + details.label);
+				}
+				@Override
+				public void onError(int code, String message) {
+					// TODO Auto-generated method stub
 					
-					@Override
-					public void onResponse(AbstractCall<?> response) {
-						Log.i(TAG, "Got response from " + response.getName() + "!");
-					}
-					
-					@Override
-					public void onError(int code, String message) {
-						Log.e(TAG, "Something went wrong: " + message);
-					}
-				});
+				}
+			});
 				
 /*				try {
 					final RemoteExecutor remoteExecutor = new RemoteExecutor(getContentResolver());
+				Log.e(TAG, "Something went wrong: " + message);
 					AudioLibrary.GetArtists getArtistsAPI;
 					getArtistsAPI = new AudioLibrary.GetArtists(false, null);
 					final NotificationManager nm = new NotificationManager(getApplicationContext());
