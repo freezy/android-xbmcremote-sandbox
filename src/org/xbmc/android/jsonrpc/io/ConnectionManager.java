@@ -76,7 +76,7 @@ import android.util.Log;
  *
  * @author freezy <freezy@xbmc.org>
  */
-public class ConnectionManager<T extends AbstractModel> {
+public class ConnectionManager {
 	
 	private static final String TAG = ConnectionManager.class.getSimpleName();
 	/**
@@ -102,12 +102,12 @@ public class ConnectionManager<T extends AbstractModel> {
 	/**
 	 * List of currently processing API calls. Key is the ID of the API call.
 	 */
-	private final HashMap<String, ApiCallback<T>> mCallbacks = new HashMap<String, ApiCallback<T>>();
+	private final HashMap<String, ApiCallback<?>> mCallbacks = new HashMap<String, ApiCallback<?>>();
 	/**
 	 * Since we can't return the de-serialized object from the service, put the
 	 * response back into the received one and return the received one.
 	 */
-	private final HashMap<String, AbstractCall<T>> mCalls = new HashMap<String, AbstractCall<T>>();
+	private final HashMap<String, AbstractCall<?>> mCalls = new HashMap<String, AbstractCall<?>>();
 	/**
 	 * List of follow-ups
 	 */
@@ -133,7 +133,7 @@ public class ConnectionManager<T extends AbstractModel> {
 	 * @param callback 
 	 * @return
 	 */
-	public ConnectionManager<T> call(AbstractCall<T> call, ApiCallback<T> callback) {
+	public <T> ConnectionManager call(AbstractCall<T> call, ApiCallback<T> callback) {
 		// start service if not yet started
 		bindService();
 		mCallbacks.put(call.getId(), callback);
@@ -148,7 +148,7 @@ public class ConnectionManager<T extends AbstractModel> {
 	 * @param observer New observer
 	 * @return Class instance
 	 */
-	public ConnectionManager<T> registerObserver(NotificationObserver observer) {
+	public ConnectionManager registerObserver(NotificationObserver observer) {
 		// start service if not yet started
 		bindService();
 		mObservers.add(observer);
@@ -160,7 +160,7 @@ public class ConnectionManager<T extends AbstractModel> {
 	 * @param observer Observer to remove
 	 * @return Class instance
 	 */
-	public ConnectionManager<T> unregisterObserver(NotificationObserver observer) {
+	public ConnectionManager unregisterObserver(NotificationObserver observer) {
 		final ArrayList<NotificationObserver> observers = mObservers;
 		observers.remove(observer);
 		// stop service if no more observers.
@@ -277,16 +277,16 @@ public class ConnectionManager<T extends AbstractModel> {
 		@Override
 		public void handleMessage(Message msg) {
 			Log.i(TAG, "Got message: " + msg.what);
-			final HashMap<String, ApiCallback<T>> callbacks = mCallbacks;
+			final HashMap<String, ApiCallback<?>> callbacks = mCallbacks;
 			switch (msg.what) {
 				case ConnectionService.MSG_RECEIVE_APICALL:
 					final AbstractCall<?> returnedApiCall = msg.getData().getParcelable(ConnectionService.EXTRA_APICALL);
 					if (returnedApiCall != null) {
 						if (callbacks.containsKey(returnedApiCall.getId())) {
-							final AbstractCall<T> receivedApiCall = mCalls.get(returnedApiCall.getId());
+							final AbstractCall<?> receivedApiCall = mCalls.get(returnedApiCall.getId());
 							receivedApiCall.setResponse(returnedApiCall.getResponse());
-							final ApiCallback<T> callback = callbacks.get(returnedApiCall.getId());
-							callback.onResponse(receivedApiCall);
+							final ApiCallback<?> callback = callbacks.get(returnedApiCall.getId());
+							callback.onResponse((AbstractCall)receivedApiCall);
 							Log.d(TAG, "Callback for " + returnedApiCall.getName() + " sent back to caller.");
 						} else {
 							Log.w(TAG, "Unknown ID " + returnedApiCall.getId() + " for " + returnedApiCall.getName() + ", dropping.");
@@ -301,7 +301,7 @@ public class ConnectionManager<T extends AbstractModel> {
 				case ConnectionService.MSG_ERROR:
 					final String message = msg.getData().getString(ConnectionService.EXTRA_ERROR_MESSAGE);
 					final int code = msg.getData().getInt(ConnectionService.EXTRA_ERROR_CODE);
-					final HashMap<String, ApiCallback<T>> callBacks = mCallbacks;
+					final HashMap<String, ApiCallback<?>> callBacks = mCallbacks;
 					Log.e(TAG, "Received error: " + message);
 					synchronized (mCallbacks) {
 						Log.i(TAG, "Notifiying " + callBacks.size() + " callbacks.");

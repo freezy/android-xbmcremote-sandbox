@@ -56,10 +56,8 @@ public class HomeActivity extends ReloadableActionBarActivity {
 		setContentView(R.layout.activity_home);
 		final Button testBtn = (Button)findViewById(R.id.home_testbtn);
 		testBtn.setOnClickListener(new OnClickListener() {
-			@SuppressWarnings("unchecked")
 			@Override
 			public void onClick(View v) {
-			@SuppressWarnings("rawtypes")
 			final ConnectionManager cm = new ConnectionManager(getApplicationContext());
 			cm.call(new AudioLibrary.GetAlbums(null, null), new ApiCallback<AlbumDetails>() {
 				@Override
