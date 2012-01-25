@@ -24,9 +24,8 @@ package org.xbmc.android.jsonrpc.api.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import java.util.ArrayList;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractModel;
 
 public final class PlayerModel {
@@ -49,11 +48,11 @@ public final class PlayerModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a AudioStream object
 		 */
-		public AudioStream(JSONObject obj) throws JSONException {
+		public AudioStream(ObjectNode node) {
 			mType = API_TYPE;
-			index = obj.getInt(INDEX);
-			language = obj.getString(LANGUAGE);
-			name = obj.getString(NAME);
+			index = node.get(INDEX).getIntValue();
+			language = node.get(LANGUAGE).getTextValue();
+			name = node.get(NAME).getTextValue();
 		}
 		/**
 		 * Construct object with native values for later serialization.
@@ -67,24 +66,24 @@ public final class PlayerModel {
 			this.name = name;
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(INDEX, index);
-			obj.put(LANGUAGE, language);
-			obj.put(NAME, name);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(INDEX, index);
+			node.put(LANGUAGE, language);
+			node.put(NAME, name);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link PlayerModel.AudioStream} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<PlayerModel.AudioStream> getPlayerModelAudioStreamList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<PlayerModel.AudioStream> l = new ArrayList<PlayerModel.AudioStream>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new PlayerModel.AudioStream(a.getJSONObject(i)));
+		static ArrayList<PlayerModel.AudioStream> getPlayerModelAudioStreamList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<PlayerModel.AudioStream> l = new ArrayList<PlayerModel.AudioStream>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new PlayerModel.AudioStream((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -106,16 +105,16 @@ public final class PlayerModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected AudioStream(Parcel parcel) {
 			index = parcel.readInt();
 			language = parcel.readString();
 			name = parcel.readString();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<AudioStream> CREATOR = new Parcelable.Creator<AudioStream>() {
 			@Override
 			public AudioStream createFromParcel(Parcel parcel) {
@@ -146,32 +145,32 @@ public final class PlayerModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a AudioStreamExtended object
 		 */
-		public AudioStreamExtended(JSONObject obj) throws JSONException {
-			super(obj);
+		public AudioStreamExtended(ObjectNode node) {
+			super(node);
 			mType = API_TYPE;
-			bitrate = obj.getInt(BITRATE);
-			channels = obj.getInt(CHANNELS);
-			codec = obj.getString(CODEC);
+			bitrate = node.get(BITRATE).getIntValue();
+			channels = node.get(CHANNELS).getIntValue();
+			codec = node.get(CODEC).getTextValue();
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(BITRATE, bitrate);
-			obj.put(CHANNELS, channels);
-			obj.put(CODEC, codec);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(BITRATE, bitrate);
+			node.put(CHANNELS, channels);
+			node.put(CODEC, codec);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link PlayerModel.AudioStreamExtended} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<PlayerModel.AudioStreamExtended> getPlayerModelAudioStreamExtendedList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<PlayerModel.AudioStreamExtended> l = new ArrayList<PlayerModel.AudioStreamExtended>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new PlayerModel.AudioStreamExtended(a.getJSONObject(i)));
+		static ArrayList<PlayerModel.AudioStreamExtended> getPlayerModelAudioStreamExtendedList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<PlayerModel.AudioStreamExtended> l = new ArrayList<PlayerModel.AudioStreamExtended>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new PlayerModel.AudioStreamExtended((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -194,8 +193,8 @@ public final class PlayerModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected AudioStreamExtended(Parcel parcel) {
 			super(parcel);
 			bitrate = parcel.readInt();
@@ -203,8 +202,8 @@ public final class PlayerModel {
 			codec = parcel.readString();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<AudioStreamExtended> CREATOR = new Parcelable.Creator<AudioStreamExtended>() {
 			@Override
 			public AudioStreamExtended createFromParcel(Parcel parcel) {
@@ -233,10 +232,10 @@ public final class PlayerModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a NotificationsData object
 		 */
-		public NotificationsData(JSONObject obj) throws JSONException {
+		public NotificationsData(ObjectNode node) {
 			mType = API_TYPE;
-			item = new NotificationsItem(obj.getJSONObject(ITEM));
-			player = new PlayerModel.NotificationsPlayer(obj.getJSONObject(PLAYER));
+			item = new NotificationsItem((ObjectNode)node.get(ITEM));
+			player = new PlayerModel.NotificationsPlayer((ObjectNode)node.get(PLAYER));
 		}
 		/**
 		 * Construct object with native values for later serialization.
@@ -248,23 +247,23 @@ public final class PlayerModel {
 			this.player = player;
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(ITEM, item.toJSONObject());
-			obj.put(PLAYER, player.toJSONObject());
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(ITEM, item.toObjectNode());
+			node.put(PLAYER, player.toObjectNode());
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link PlayerModel.NotificationsData} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<PlayerModel.NotificationsData> getPlayerModelNotificationsDataList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<PlayerModel.NotificationsData> l = new ArrayList<PlayerModel.NotificationsData>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new PlayerModel.NotificationsData(a.getJSONObject(i)));
+		static ArrayList<PlayerModel.NotificationsData> getPlayerModelNotificationsDataList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<PlayerModel.NotificationsData> l = new ArrayList<PlayerModel.NotificationsData>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new PlayerModel.NotificationsData((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -285,15 +284,15 @@ public final class PlayerModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected NotificationsData(Parcel parcel) {
 			item = parcel.<PlayerModel.NotificationsItem>readParcelable(PlayerModel.NotificationsItem.class.getClassLoader());
 			player = parcel.<PlayerModel.NotificationsPlayer>readParcelable(PlayerModel.NotificationsPlayer.class.getClassLoader());
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<NotificationsData> CREATOR = new Parcelable.Creator<NotificationsData>() {
 			@Override
 			public NotificationsData createFromParcel(Parcel parcel) {
@@ -338,18 +337,18 @@ public final class PlayerModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a NotificationsItem object
 		 */
-		public NotificationsItem(JSONObject obj) throws JSONException {
+		public NotificationsItem(ObjectNode node) {
 			mType = API_TYPE;
-			type = obj.getString(TYPE);
-			id = obj.getInt(ID);
-			title = obj.getString(TITLE);
-			year = parseInt(obj, YEAR);
-			episode = parseInt(obj, EPISODE);
-			season = parseInt(obj, SEASON);
-			showtitle = parseString(obj, SHOWTITLE);
-			album = parseString(obj, ALBUM);
-			artist = parseString(obj, ARTIST);
-			track = parseInt(obj, TRACK);
+			type = node.get(TYPE).getTextValue();
+			id = node.get(ID).getIntValue();
+			title = node.get(TITLE).getTextValue();
+			year = parseInt(node, YEAR);
+			episode = parseInt(node, EPISODE);
+			season = parseInt(node, SEASON);
+			showtitle = parseString(node, SHOWTITLE);
+			album = parseString(node, ALBUM);
+			artist = parseString(node, ARTIST);
+			track = parseInt(node, TRACK);
 		}
 		/**
 		 * Construct object with native values for later serialization.
@@ -377,19 +376,19 @@ public final class PlayerModel {
 			this.track = track;
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(TYPE, type);
-			obj.put(ID, id);
-			obj.put(TITLE, title);
-			obj.put(YEAR, year);
-			obj.put(EPISODE, episode);
-			obj.put(SEASON, season);
-			obj.put(SHOWTITLE, showtitle);
-			obj.put(ALBUM, album);
-			obj.put(ARTIST, artist);
-			obj.put(TRACK, track);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(TYPE, type);
+			node.put(ID, id);
+			node.put(TITLE, title);
+			node.put(YEAR, year);
+			node.put(EPISODE, episode);
+			node.put(SEASON, season);
+			node.put(SHOWTITLE, showtitle);
+			node.put(ALBUM, album);
+			node.put(ARTIST, artist);
+			node.put(TRACK, track);
+			return node;
 		}
 		/**
 		 * An unknown item does not have any additional information.
@@ -467,15 +466,15 @@ public final class PlayerModel {
 		}
 		/**
 		 * Extracts a list of {@link PlayerModel.NotificationsItem} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<PlayerModel.NotificationsItem> getPlayerModelNotificationsItemList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<PlayerModel.NotificationsItem> l = new ArrayList<PlayerModel.NotificationsItem>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new PlayerModel.NotificationsItem(a.getJSONObject(i)));
+		static ArrayList<PlayerModel.NotificationsItem> getPlayerModelNotificationsItemList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<PlayerModel.NotificationsItem> l = new ArrayList<PlayerModel.NotificationsItem>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new PlayerModel.NotificationsItem((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -504,8 +503,8 @@ public final class PlayerModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected NotificationsItem(Parcel parcel) {
 			type = parcel.readString();
 			id = parcel.readInt();
@@ -519,8 +518,8 @@ public final class PlayerModel {
 			track = parcel.readInt();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<NotificationsItem> CREATOR = new Parcelable.Creator<NotificationsItem>() {
 			@Override
 			public NotificationsItem createFromParcel(Parcel parcel) {
@@ -556,10 +555,10 @@ public final class PlayerModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a NotificationsPlayer object
 		 */
-		public NotificationsPlayer(JSONObject obj) throws JSONException {
+		public NotificationsPlayer(ObjectNode node) {
 			mType = API_TYPE;
-			playerid = obj.getInt(PLAYERID);
-			speed = parseInt(obj, SPEED);
+			playerid = node.get(PLAYERID).getIntValue();
+			speed = parseInt(node, SPEED);
 		}
 		/**
 		 * Construct object with native values for later serialization.
@@ -571,23 +570,23 @@ public final class PlayerModel {
 			this.speed = speed;
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(PLAYERID, playerid);
-			obj.put(SPEED, speed);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(PLAYERID, playerid);
+			node.put(SPEED, speed);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link PlayerModel.NotificationsPlayer} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<PlayerModel.NotificationsPlayer> getPlayerModelNotificationsPlayerList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<PlayerModel.NotificationsPlayer> l = new ArrayList<PlayerModel.NotificationsPlayer>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new PlayerModel.NotificationsPlayer(a.getJSONObject(i)));
+		static ArrayList<PlayerModel.NotificationsPlayer> getPlayerModelNotificationsPlayerList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<PlayerModel.NotificationsPlayer> l = new ArrayList<PlayerModel.NotificationsPlayer>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new PlayerModel.NotificationsPlayer((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -608,15 +607,15 @@ public final class PlayerModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected NotificationsPlayer(Parcel parcel) {
 			playerid = parcel.readInt();
 			speed = parcel.readInt();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<NotificationsPlayer> CREATOR = new Parcelable.Creator<NotificationsPlayer>() {
 			@Override
 			public NotificationsPlayer createFromParcel(Parcel parcel) {
@@ -645,30 +644,30 @@ public final class PlayerModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a NotificationsPlayerSeek object
 		 */
-		public NotificationsPlayerSeek(JSONObject obj) throws JSONException {
-			super(obj);
+		public NotificationsPlayerSeek(ObjectNode node) {
+			super(node);
 			mType = API_TYPE;
-			seekoffset = obj.has(SEEKOFFSET) ? new GlobalModel.Time(obj.getJSONObject(SEEKOFFSET)) : null;
-			time = obj.has(TIME) ? new GlobalModel.Time(obj.getJSONObject(TIME)) : null;
+			seekoffset = node.has(SEEKOFFSET) ? new GlobalModel.Time((ObjectNode)node.get(SEEKOFFSET)) : null;
+			time = node.has(TIME) ? new GlobalModel.Time((ObjectNode)node.get(TIME)) : null;
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(SEEKOFFSET, seekoffset.toJSONObject());
-			obj.put(TIME, time.toJSONObject());
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(SEEKOFFSET, seekoffset.toObjectNode());
+			node.put(TIME, time.toObjectNode());
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link PlayerModel.NotificationsPlayerSeek} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<PlayerModel.NotificationsPlayerSeek> getPlayerModelNotificationsPlayerSeekList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<PlayerModel.NotificationsPlayerSeek> l = new ArrayList<PlayerModel.NotificationsPlayerSeek>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new PlayerModel.NotificationsPlayerSeek(a.getJSONObject(i)));
+		static ArrayList<PlayerModel.NotificationsPlayerSeek> getPlayerModelNotificationsPlayerSeekList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<PlayerModel.NotificationsPlayerSeek> l = new ArrayList<PlayerModel.NotificationsPlayerSeek>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new PlayerModel.NotificationsPlayerSeek((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -690,16 +689,16 @@ public final class PlayerModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected NotificationsPlayerSeek(Parcel parcel) {
 			super(parcel);
 			seekoffset = parcel.<GlobalModel.Time>readParcelable(GlobalModel.Time.class.getClassLoader());
 			time = parcel.<GlobalModel.Time>readParcelable(GlobalModel.Time.class.getClassLoader());
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<NotificationsPlayerSeek> CREATOR = new Parcelable.Creator<NotificationsPlayerSeek>() {
 			@Override
 			public NotificationsPlayerSeek createFromParcel(Parcel parcel) {
@@ -792,30 +791,30 @@ public final class PlayerModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a PropertyValue object
 		 */
-		public PropertyValue(JSONObject obj) throws JSONException {
+		public PropertyValue(ObjectNode node) {
 			mType = API_TYPE;
-			audiostreams = PlayerModel.AudioStreamExtended.getPlayerModelAudioStreamExtendedList(obj, AUDIOSTREAMS);
-			canchangespeed = parseBoolean(obj, CANCHANGESPEED);
-			canmove = parseBoolean(obj, CANMOVE);
-			canrepeat = parseBoolean(obj, CANREPEAT);
-			canrotate = parseBoolean(obj, CANROTATE);
-			canseek = parseBoolean(obj, CANSEEK);
-			canshuffle = parseBoolean(obj, CANSHUFFLE);
-			canzoom = parseBoolean(obj, CANZOOM);
-			currentaudiostream = obj.has(CURRENTAUDIOSTREAM) ? new PlayerModel.AudioStreamExtended(obj.getJSONObject(CURRENTAUDIOSTREAM)) : null;
-			currentsubtitle = obj.has(CURRENTSUBTITLE) ? new PlayerModel.Subtitle(obj.getJSONObject(CURRENTSUBTITLE)) : null;
-			partymode = parseBoolean(obj, PARTYMODE);
-			percentage = parseDouble(obj, PERCENTAGE);
-			playlistid = parseInt(obj, PLAYLISTID);
-			position = parseInt(obj, POSITION);
-			repeat = parseString(obj, REPEAT);
-			shuffled = parseBoolean(obj, SHUFFLED);
-			speed = parseInt(obj, SPEED);
-			subtitleenabled = parseBoolean(obj, SUBTITLEENABLED);
-			subtitles = PlayerModel.Subtitle.getPlayerModelSubtitleList(obj, SUBTITLES);
-			time = obj.has(TIME) ? new GlobalModel.Time(obj.getJSONObject(TIME)) : null;
-			totaltime = obj.has(TOTALTIME) ? new GlobalModel.Time(obj.getJSONObject(TOTALTIME)) : null;
-			type = parseString(obj, TYPE);
+			audiostreams = PlayerModel.AudioStreamExtended.getPlayerModelAudioStreamExtendedList(node, AUDIOSTREAMS);
+			canchangespeed = parseBoolean(node, CANCHANGESPEED);
+			canmove = parseBoolean(node, CANMOVE);
+			canrepeat = parseBoolean(node, CANREPEAT);
+			canrotate = parseBoolean(node, CANROTATE);
+			canseek = parseBoolean(node, CANSEEK);
+			canshuffle = parseBoolean(node, CANSHUFFLE);
+			canzoom = parseBoolean(node, CANZOOM);
+			currentaudiostream = node.has(CURRENTAUDIOSTREAM) ? new PlayerModel.AudioStreamExtended((ObjectNode)node.get(CURRENTAUDIOSTREAM)) : null;
+			currentsubtitle = node.has(CURRENTSUBTITLE) ? new PlayerModel.Subtitle((ObjectNode)node.get(CURRENTSUBTITLE)) : null;
+			partymode = parseBoolean(node, PARTYMODE);
+			percentage = parseDouble(node, PERCENTAGE);
+			playlistid = parseInt(node, PLAYLISTID);
+			position = parseInt(node, POSITION);
+			repeat = parseString(node, REPEAT);
+			shuffled = parseBoolean(node, SHUFFLED);
+			speed = parseInt(node, SPEED);
+			subtitleenabled = parseBoolean(node, SUBTITLEENABLED);
+			subtitles = PlayerModel.Subtitle.getPlayerModelSubtitleList(node, SUBTITLES);
+			time = node.has(TIME) ? new GlobalModel.Time((ObjectNode)node.get(TIME)) : null;
+			totaltime = node.has(TOTALTIME) ? new GlobalModel.Time((ObjectNode)node.get(TOTALTIME)) : null;
+			type = parseString(node, TYPE);
 		}
 		/**
 		 * Construct object with native values for later serialization.
@@ -867,53 +866,51 @@ public final class PlayerModel {
 			this.type = type;
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			final JSONArray audiostreamsArray = new JSONArray();
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			final ArrayNode audiostreamsArray = OM.createArrayNode();
 			for (PlayerModel.AudioStreamExtended item : audiostreams) {
-				audiostreamsArray.put(item.toJSONObject());
+				audiostreamsArray.add(item.toObjectNode());
 			}
-			audiostreamsArray.put(audiostreamsArray);
-			obj.put(AUDIOSTREAMS, audiostreamsArray);
-			obj.put(CANCHANGESPEED, canchangespeed);
-			obj.put(CANMOVE, canmove);
-			obj.put(CANREPEAT, canrepeat);
-			obj.put(CANROTATE, canrotate);
-			obj.put(CANSEEK, canseek);
-			obj.put(CANSHUFFLE, canshuffle);
-			obj.put(CANZOOM, canzoom);
-			obj.put(CURRENTAUDIOSTREAM, currentaudiostream.toJSONObject());
-			obj.put(CURRENTSUBTITLE, currentsubtitle.toJSONObject());
-			obj.put(PARTYMODE, partymode);
-			obj.put(PERCENTAGE, percentage);
-			obj.put(PLAYLISTID, playlistid);
-			obj.put(POSITION, position);
-			obj.put(REPEAT, repeat);
-			obj.put(SHUFFLED, shuffled);
-			obj.put(SPEED, speed);
-			obj.put(SUBTITLEENABLED, subtitleenabled);
-			final JSONArray subtitlesArray = new JSONArray();
+			node.put(AUDIOSTREAMS, audiostreamsArray);
+			node.put(CANCHANGESPEED, canchangespeed);
+			node.put(CANMOVE, canmove);
+			node.put(CANREPEAT, canrepeat);
+			node.put(CANROTATE, canrotate);
+			node.put(CANSEEK, canseek);
+			node.put(CANSHUFFLE, canshuffle);
+			node.put(CANZOOM, canzoom);
+			node.put(CURRENTAUDIOSTREAM, currentaudiostream.toObjectNode());
+			node.put(CURRENTSUBTITLE, currentsubtitle.toObjectNode());
+			node.put(PARTYMODE, partymode);
+			node.put(PERCENTAGE, percentage);
+			node.put(PLAYLISTID, playlistid);
+			node.put(POSITION, position);
+			node.put(REPEAT, repeat);
+			node.put(SHUFFLED, shuffled);
+			node.put(SPEED, speed);
+			node.put(SUBTITLEENABLED, subtitleenabled);
+			final ArrayNode subtitlesArray = OM.createArrayNode();
 			for (PlayerModel.Subtitle item : subtitles) {
-				subtitlesArray.put(item.toJSONObject());
+				subtitlesArray.add(item.toObjectNode());
 			}
-			subtitlesArray.put(subtitlesArray);
-			obj.put(SUBTITLES, subtitlesArray);
-			obj.put(TIME, time.toJSONObject());
-			obj.put(TOTALTIME, totaltime.toJSONObject());
-			obj.put(TYPE, type);
-			return obj;
+			node.put(SUBTITLES, subtitlesArray);
+			node.put(TIME, time.toObjectNode());
+			node.put(TOTALTIME, totaltime.toObjectNode());
+			node.put(TYPE, type);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link PlayerModel.PropertyValue} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<PlayerModel.PropertyValue> getPlayerModelPropertyValueList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<PlayerModel.PropertyValue> l = new ArrayList<PlayerModel.PropertyValue>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new PlayerModel.PropertyValue(a.getJSONObject(i)));
+		static ArrayList<PlayerModel.PropertyValue> getPlayerModelPropertyValueList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<PlayerModel.PropertyValue> l = new ArrayList<PlayerModel.PropertyValue>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new PlayerModel.PropertyValue((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -960,8 +957,8 @@ public final class PlayerModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected PropertyValue(Parcel parcel) {
 			final int audiostreamsSize = parcel.readInt();
 			audiostreams = new ArrayList<PlayerModel.AudioStreamExtended>(audiostreamsSize);
@@ -995,8 +992,8 @@ public final class PlayerModel {
 			type = parcel.readString();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<PropertyValue> CREATOR = new Parcelable.Creator<PropertyValue>() {
 			@Override
 			public PropertyValue createFromParcel(Parcel parcel) {
@@ -1028,9 +1025,9 @@ public final class PlayerModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a Speed object
 		 */
-		public Speed(JSONObject obj) throws JSONException {
+		public Speed(ObjectNode node) {
 			mType = API_TYPE;
-			speed = parseInt(obj, SPEED);
+			speed = parseInt(node, SPEED);
 		}
 		/**
 		 * Construct object with native values for later serialization.
@@ -1040,22 +1037,22 @@ public final class PlayerModel {
 			this.speed = speed;
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(SPEED, speed);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(SPEED, speed);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link PlayerModel.Speed} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<PlayerModel.Speed> getPlayerModelSpeedList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<PlayerModel.Speed> l = new ArrayList<PlayerModel.Speed>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new PlayerModel.Speed(a.getJSONObject(i)));
+		static ArrayList<PlayerModel.Speed> getPlayerModelSpeedList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<PlayerModel.Speed> l = new ArrayList<PlayerModel.Speed>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new PlayerModel.Speed((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -1075,14 +1072,14 @@ public final class PlayerModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected Speed(Parcel parcel) {
 			speed = parcel.readInt();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<Speed> CREATOR = new Parcelable.Creator<Speed>() {
 			@Override
 			public Speed createFromParcel(Parcel parcel) {
@@ -1113,11 +1110,11 @@ public final class PlayerModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a Subtitle object
 		 */
-		public Subtitle(JSONObject obj) throws JSONException {
+		public Subtitle(ObjectNode node) {
 			mType = API_TYPE;
-			index = obj.getInt(INDEX);
-			language = obj.getString(LANGUAGE);
-			name = obj.getString(NAME);
+			index = node.get(INDEX).getIntValue();
+			language = node.get(LANGUAGE).getTextValue();
+			name = node.get(NAME).getTextValue();
 		}
 		/**
 		 * Construct object with native values for later serialization.
@@ -1131,24 +1128,24 @@ public final class PlayerModel {
 			this.name = name;
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(INDEX, index);
-			obj.put(LANGUAGE, language);
-			obj.put(NAME, name);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(INDEX, index);
+			node.put(LANGUAGE, language);
+			node.put(NAME, name);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link PlayerModel.Subtitle} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<PlayerModel.Subtitle> getPlayerModelSubtitleList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<PlayerModel.Subtitle> l = new ArrayList<PlayerModel.Subtitle>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new PlayerModel.Subtitle(a.getJSONObject(i)));
+		static ArrayList<PlayerModel.Subtitle> getPlayerModelSubtitleList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<PlayerModel.Subtitle> l = new ArrayList<PlayerModel.Subtitle>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new PlayerModel.Subtitle((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -1170,16 +1167,16 @@ public final class PlayerModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected Subtitle(Parcel parcel) {
 			index = parcel.readInt();
 			language = parcel.readString();
 			name = parcel.readString();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<Subtitle> CREATOR = new Parcelable.Creator<Subtitle>() {
 			@Override
 			public Subtitle createFromParcel(Parcel parcel) {

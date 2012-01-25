@@ -24,9 +24,8 @@ package org.xbmc.android.jsonrpc.api.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import java.util.ArrayList;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractModel;
 
 public final class ConfigurationModel {
@@ -55,14 +54,14 @@ public final class ConfigurationModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a Notifications object
 		 */
-		public Notifications(JSONObject obj) throws JSONException {
+		public Notifications(ObjectNode node) {
 			mType = API_TYPE;
-			audiolibrary = obj.getBoolean(AUDIOLIBRARY);
-			gui = obj.getBoolean(GUI);
-			other = obj.getBoolean(OTHER);
-			player = obj.getBoolean(PLAYER);
-			system = obj.getBoolean(SYSTEM);
-			videolibrary = obj.getBoolean(VIDEOLIBRARY);
+			audiolibrary = node.get(AUDIOLIBRARY).getBooleanValue();
+			gui = node.get(GUI).getBooleanValue();
+			other = node.get(OTHER).getBooleanValue();
+			player = node.get(PLAYER).getBooleanValue();
+			system = node.get(SYSTEM).getBooleanValue();
+			videolibrary = node.get(VIDEOLIBRARY).getBooleanValue();
 		}
 		/**
 		 * Construct object with native values for later serialization.
@@ -82,27 +81,27 @@ public final class ConfigurationModel {
 			this.videolibrary = videolibrary;
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(AUDIOLIBRARY, audiolibrary);
-			obj.put(GUI, gui);
-			obj.put(OTHER, other);
-			obj.put(PLAYER, player);
-			obj.put(SYSTEM, system);
-			obj.put(VIDEOLIBRARY, videolibrary);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(AUDIOLIBRARY, audiolibrary);
+			node.put(GUI, gui);
+			node.put(OTHER, other);
+			node.put(PLAYER, player);
+			node.put(SYSTEM, system);
+			node.put(VIDEOLIBRARY, videolibrary);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link ConfigurationModel.Notifications} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<ConfigurationModel.Notifications> getConfigurationModelNotificationsList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<ConfigurationModel.Notifications> l = new ArrayList<ConfigurationModel.Notifications>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new ConfigurationModel.Notifications(a.getJSONObject(i)));
+		static ArrayList<ConfigurationModel.Notifications> getConfigurationModelNotificationsList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<ConfigurationModel.Notifications> l = new ArrayList<ConfigurationModel.Notifications>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new ConfigurationModel.Notifications((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -127,8 +126,8 @@ public final class ConfigurationModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected Notifications(Parcel parcel) {
 			audiolibrary = parcel.readInt() == 1;
 			gui = parcel.readInt() == 1;
@@ -138,8 +137,8 @@ public final class ConfigurationModel {
 			videolibrary = parcel.readInt() == 1;
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<Notifications> CREATOR = new Parcelable.Creator<Notifications>() {
 			@Override
 			public Notifications createFromParcel(Parcel parcel) {

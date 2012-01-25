@@ -23,10 +23,12 @@ package org.xbmc.android.jsonrpc.api.call;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+import java.io.IOException;
 import java.util.ArrayList;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.AbstractModel;
 import org.xbmc.android.jsonrpc.api.model.ListModel;
@@ -52,33 +54,57 @@ public final class Files {
 		 * @param properties One or more of: <tt>title</tt>, <tt>artist</tt>, <tt>albumartist</tt>, <tt>genre</tt>, <tt>year</tt>, <tt>rating</tt>, <tt>album</tt>, <tt>track</tt>, <tt>duration</tt>, <tt>comment</tt>, <tt>lyrics</tt>, <tt>musicbrainztrackid</tt>, <tt>musicbrainzartistid</tt>, <tt>musicbrainzalbumid</tt>, <tt>musicbrainzalbumartistid</tt>, <tt>playcount</tt>, <tt>fanart</tt>, <tt>director</tt>, <tt>trailer</tt>, <tt>tagline</tt>, <tt>plot</tt>, <tt>plotoutline</tt>, <tt>originaltitle</tt>, <tt>lastplayed</tt>, <tt>writer</tt>, <tt>studio</tt>, <tt>mpaa</tt>, <tt>cast</tt>, <tt>country</tt>, <tt>imdbnumber</tt>, <tt>premiered</tt>, <tt>productioncode</tt>, <tt>runtime</tt>, <tt>set</tt>, <tt>showlink</tt>, <tt>streamdetails</tt>, <tt>top250</tt>, <tt>votes</tt>, <tt>firstaired</tt>, <tt>season</tt>, <tt>episode</tt>, <tt>showtitle</tt>, <tt>thumbnail</tt>, <tt>file</tt>, <tt>resume</tt>, <tt>artistid</tt>, <tt>albumid</tt>, <tt>tvshowid</tt>, <tt>setid</tt>. See constants at {@link ListModel.AllFields}.
 		 * @see FilesModel.Media
 		 * @see ListModel.AllFields
-		 * @throws JSONException
 		 */
-		public GetDirectory(String directory, String media, String... properties) throws JSONException {
+		public GetDirectory(String directory, String media, String... properties) {
 			super();
 			addParameter("directory", directory);
 			addParameter("media", media);
 			addParameter("properties", properties);
 		}
 		@Override
-		protected ArrayList<ListModel.FileItem> parseMany(JSONObject obj) throws JSONException {
-			final JSONArray files = parseResult(obj).getJSONArray(RESULTS);
-			final ArrayList<ListModel.FileItem> ret = new ArrayList<ListModel.FileItem>(files.length());
-			for (int i = 0; i < files.length(); i++) {
-				final JSONObject item = files.getJSONObject(i);
+		protected ArrayList<ListModel.FileItem> parseMany(ObjectNode node) {
+			final ArrayNode files = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayList<ListModel.FileItem> ret = new ArrayList<ListModel.FileItem>(files.size());
+			for (int i = 0; i < files.size(); i++) {
+				final ObjectNode item = (ObjectNode)files.get(i);
 				ret.add(new ListModel.FileItem(item));
 			}
 			return ret;
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return true;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetDirectory(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetDirectory> CREATOR = new Parcelable.Creator<GetDirectory>() {
+			@Override
+			public GetDirectory createFromParcel(Parcel parcel) {
+				return new GetDirectory(parcel);
+			}
+			@Override
+			public GetDirectory[] newArray(int n) {
+				return new GetDirectory[n];
+			}
+		};
+}
 	/**
 	 * Get the sources of the media windows
 	 * <p/>
@@ -93,31 +119,55 @@ public final class Files {
 		 * Get the sources of the media windows
 		 * @param media One of: <tt>video</tt>, <tt>music</tt>, <tt>pictures</tt>, <tt>files</tt>, <tt>programs</tt>. See constants at {@link FilesModel.Media}.
 		 * @see FilesModel.Media
-		 * @throws JSONException
 		 */
-		public GetSources(String media) throws JSONException {
+		public GetSources(String media) {
 			super();
 			addParameter("media", media);
 		}
 		@Override
-		protected ArrayList<ListModel.SourcesItem> parseMany(JSONObject obj) throws JSONException {
-			final JSONArray sources = parseResult(obj).getJSONArray(RESULTS);
-			final ArrayList<ListModel.SourcesItem> ret = new ArrayList<ListModel.SourcesItem>(sources.length());
-			for (int i = 0; i < sources.length(); i++) {
-				final JSONObject item = sources.getJSONObject(i);
+		protected ArrayList<ListModel.SourcesItem> parseMany(ObjectNode node) {
+			final ArrayNode sources = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayList<ListModel.SourcesItem> ret = new ArrayList<ListModel.SourcesItem>(sources.size());
+			for (int i = 0; i < sources.size(); i++) {
+				final ObjectNode item = (ObjectNode)sources.get(i);
 				ret.add(new ListModel.SourcesItem(item));
 			}
 			return ret;
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return true;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetSources(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetSources> CREATOR = new Parcelable.Creator<GetSources>() {
+			@Override
+			public GetSources createFromParcel(Parcel parcel) {
+				return new GetSources(parcel);
+			}
+			@Override
+			public GetSources[] newArray(int n) {
+				return new GetSources[n];
+			}
+		};
+}
 	/**
 	 * Provides a way to download a given file (e.g. providing an URL to the real file location)
 	 * <p/>
@@ -130,15 +180,14 @@ public final class Files {
 		/**
 		 * Provides a way to download a given file (e.g. providing an URL to the real file location)
 		 * @param path 
-		 * @throws JSONException
 		 */
-		public PrepareDownload(String path) throws JSONException {
+		public PrepareDownload(String path) {
 			super();
 			addParameter("path", path);
 		}
 		@Override
-		protected PrepareDownload.PrepareDownloadResult parseOne(JSONObject obj) throws JSONException {
-			return new PrepareDownload.PrepareDownloadResult(parseResult(obj));
+		protected PrepareDownload.PrepareDownloadResult parseOne(ObjectNode node) {
+			return new PrepareDownload.PrepareDownloadResult((ObjectNode)parseResult(node));
 		}
 		/**
 		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
@@ -166,10 +215,10 @@ public final class Files {
 			 * Construct from JSON object.
 			 * @param obj JSON object representing a PrepareDownloadResult object
 			 */
-			public PrepareDownloadResult(JSONObject obj) throws JSONException {
-				details = obj.getString(DETAILS);
-				mode = obj.getString(MODE);
-				protocol = obj.getString(PROTOCOL);
+			public PrepareDownloadResult(ObjectNode node) {
+				details = node.get(DETAILS).getTextValue();
+				mode = node.get(MODE).getTextValue();
+				protocol = node.get(PROTOCOL).getTextValue();
 			}
 			/**
 			 * Construct object with native values for later serialization.
@@ -183,24 +232,24 @@ public final class Files {
 				this.protocol = protocol;
 			}
 			@Override
-			public JSONObject toJSONObject() throws JSONException {
-				final JSONObject obj = new JSONObject();
-				obj.put(DETAILS, details);
-				obj.put(MODE, mode);
-				obj.put(PROTOCOL, protocol);
-				return obj;
+			public ObjectNode toObjectNode() {
+				final ObjectNode node = OM.createObjectNode();
+				node.put(DETAILS, details);
+				node.put(MODE, mode);
+				node.put(PROTOCOL, protocol);
+				return node;
 			}
 			/**
 			 * Extracts a list of {@link PrepareDownloadResult} objects from a JSON array.
-			 * @param obj JSONObject containing the list of objects
+			 * @param obj ObjectNode containing the list of objects
 			 * @param key Key pointing to the node where the list is stored
 			 */
-			static ArrayList<PrepareDownloadResult> getPrepareDownloadResultList(JSONObject obj, String key) throws JSONException {
-				if (obj.has(key)) {
-					final JSONArray a = obj.getJSONArray(key);
-					final ArrayList<PrepareDownloadResult> l = new ArrayList<PrepareDownloadResult>(a.length());
-					for (int i = 0; i < a.length(); i++) {
-						l.add(new PrepareDownloadResult(a.getJSONObject(i)));
+			static ArrayList<PrepareDownloadResult> getPrepareDownloadResultList(ObjectNode node, String key) {
+				if (node.has(key)) {
+					final ArrayNode a = (ArrayNode)node.get(key);
+					final ArrayList<PrepareDownloadResult> l = new ArrayList<PrepareDownloadResult>(a.size());
+					for (int i = 0; i < a.size(); i++) {
+						l.add(new PrepareDownloadResult((ObjectNode)a.get(i)));
 					}
 					return l;
 				}
@@ -222,16 +271,16 @@ public final class Files {
 				return 0;
 			}
 			/**
-			* Construct via parcel
-			*/
+			 * Construct via parcel
+			 */
 			protected PrepareDownloadResult(Parcel parcel) {
 				details = parcel.readString();
 				mode = parcel.readString();
 				protocol = parcel.readString();
 			}
 			/**
-			* Generates instances of this Parcelable class from a Parcel.
-			*/
+			 * Generates instances of this Parcelable class from a Parcel.
+			 */
 			public static final Parcelable.Creator<PrepareDownloadResult> CREATOR = new Parcelable.Creator<PrepareDownloadResult>() {
 				@Override
 				public PrepareDownloadResult createFromParcel(Parcel parcel) {
@@ -244,12 +293,37 @@ public final class Files {
 			};
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected PrepareDownload(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<PrepareDownload> CREATOR = new Parcelable.Creator<PrepareDownload>() {
+			@Override
+			public PrepareDownload createFromParcel(Parcel parcel) {
+				return new PrepareDownload(parcel);
+			}
+			@Override
+			public PrepareDownload[] newArray(int n) {
+				return new PrepareDownload[n];
+			}
+		};
+}
 }

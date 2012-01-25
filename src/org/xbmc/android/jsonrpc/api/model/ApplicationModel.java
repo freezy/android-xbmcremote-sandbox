@@ -24,11 +24,10 @@ package org.xbmc.android.jsonrpc.api.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import java.util.ArrayList;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractModel;
-import org.xbmc.android.jsonrpc.api.JSONSerializable;
+import org.xbmc.android.jsonrpc.api.JsonSerializable;
 
 public final class ApplicationModel {
 	public interface PropertyName {
@@ -58,12 +57,12 @@ public final class ApplicationModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a PropertyValue object
 		 */
-		public PropertyValue(JSONObject obj) throws JSONException {
+		public PropertyValue(ObjectNode node) {
 			mType = API_TYPE;
-			muted = parseBoolean(obj, MUTED);
-			name = parseString(obj, NAME);
-			version = obj.has(VERSION) ? new Version(obj.getJSONObject(VERSION)) : null;
-			volume = parseInt(obj, VOLUME);
+			muted = parseBoolean(node, MUTED);
+			name = parseString(node, NAME);
+			version = node.has(VERSION) ? new Version((ObjectNode)node.get(VERSION)) : null;
+			volume = parseInt(node, VOLUME);
 		}
 		/**
 		 * Construct object with native values for later serialization.
@@ -79,25 +78,25 @@ public final class ApplicationModel {
 			this.volume = volume;
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(MUTED, muted);
-			obj.put(NAME, name);
-			obj.put(VERSION, version.toJSONObject());
-			obj.put(VOLUME, volume);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(MUTED, muted);
+			node.put(NAME, name);
+			node.put(VERSION, version.toObjectNode());
+			node.put(VOLUME, volume);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link ApplicationModel.PropertyValue} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<ApplicationModel.PropertyValue> getApplicationModelPropertyValueList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<ApplicationModel.PropertyValue> l = new ArrayList<ApplicationModel.PropertyValue>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new ApplicationModel.PropertyValue(a.getJSONObject(i)));
+		static ArrayList<ApplicationModel.PropertyValue> getApplicationModelPropertyValueList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<ApplicationModel.PropertyValue> l = new ArrayList<ApplicationModel.PropertyValue>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new ApplicationModel.PropertyValue((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -106,7 +105,7 @@ public final class ApplicationModel {
 		/**
 		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
 		 */
-		public static class Version implements JSONSerializable, Parcelable {
+		public static class Version implements JsonSerializable, Parcelable {
 			// field names
 			public static final String MAJOR = "major";
 			public static final String MINOR = "minor";
@@ -124,11 +123,11 @@ public final class ApplicationModel {
 			 * Construct from JSON object.
 			 * @param obj JSON object representing a Version object
 			 */
-			public Version(JSONObject obj) throws JSONException {
-				major = obj.getInt(MAJOR);
-				minor = obj.getInt(MINOR);
-				revision = parseString(obj, REVISION);
-				tag = obj.getString(TAG);
+			public Version(ObjectNode node) {
+				major = node.get(MAJOR).getIntValue();
+				minor = node.get(MINOR).getIntValue();
+				revision = parseString(node, REVISION);
+				tag = node.get(TAG).getTextValue();
 			}
 			/**
 			 * Construct object with native values for later serialization.
@@ -144,25 +143,25 @@ public final class ApplicationModel {
 				this.tag = tag;
 			}
 			@Override
-			public JSONObject toJSONObject() throws JSONException {
-				final JSONObject obj = new JSONObject();
-				obj.put(MAJOR, major);
-				obj.put(MINOR, minor);
-				obj.put(REVISION, revision);
-				obj.put(TAG, tag);
-				return obj;
+			public ObjectNode toObjectNode() {
+				final ObjectNode node = OM.createObjectNode();
+				node.put(MAJOR, major);
+				node.put(MINOR, minor);
+				node.put(REVISION, revision);
+				node.put(TAG, tag);
+				return node;
 			}
 			/**
 			 * Extracts a list of {@link Version} objects from a JSON array.
-			 * @param obj JSONObject containing the list of objects
+			 * @param obj ObjectNode containing the list of objects
 			 * @param key Key pointing to the node where the list is stored
 			 */
-			static ArrayList<Version> getVersionList(JSONObject obj, String key) throws JSONException {
-				if (obj.has(key)) {
-					final JSONArray a = obj.getJSONArray(key);
-					final ArrayList<Version> l = new ArrayList<Version>(a.length());
-					for (int i = 0; i < a.length(); i++) {
-						l.add(new Version(a.getJSONObject(i)));
+			static ArrayList<Version> getVersionList(ObjectNode node, String key) {
+				if (node.has(key)) {
+					final ArrayNode a = (ArrayNode)node.get(key);
+					final ArrayList<Version> l = new ArrayList<Version>(a.size());
+					for (int i = 0; i < a.size(); i++) {
+						l.add(new Version((ObjectNode)a.get(i)));
 					}
 					return l;
 				}
@@ -185,8 +184,8 @@ public final class ApplicationModel {
 				return 0;
 			}
 			/**
-			* Construct via parcel
-			*/
+			 * Construct via parcel
+			 */
 			protected Version(Parcel parcel) {
 				major = parcel.readInt();
 				minor = parcel.readInt();
@@ -194,8 +193,8 @@ public final class ApplicationModel {
 				tag = parcel.readString();
 			}
 			/**
-			* Generates instances of this Parcelable class from a Parcel.
-			*/
+			 * Generates instances of this Parcelable class from a Parcel.
+			 */
 			public static final Parcelable.Creator<Version> CREATOR = new Parcelable.Creator<Version>() {
 				@Override
 				public Version createFromParcel(Parcel parcel) {
@@ -224,8 +223,8 @@ public final class ApplicationModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected PropertyValue(Parcel parcel) {
 			muted = parcel.readInt() == 1;
 			name = parcel.readString();
@@ -233,8 +232,8 @@ public final class ApplicationModel {
 			volume = parcel.readInt();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<PropertyValue> CREATOR = new Parcelable.Creator<PropertyValue>() {
 			@Override
 			public PropertyValue createFromParcel(Parcel parcel) {

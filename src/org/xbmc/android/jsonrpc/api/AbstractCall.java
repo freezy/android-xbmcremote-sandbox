@@ -29,6 +29,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 
+import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
@@ -116,7 +117,7 @@ public abstract class AbstractCall<T> implements Parcelable {
 	 * 	<code> { "version": { "major": 11, "minor": 0, "revision": "20111210-f1ae0b6", "tag": "alpha" } </code>
 	 * @todo fix example
 	 */
-	private JsonNode mResponse = null;
+	protected ObjectNode mResponse = null;
 	
 	/**
 	 * The ID of the request.
@@ -152,7 +153,7 @@ public abstract class AbstractCall<T> implements Parcelable {
 	 * @param response
 	 */
 	public void setResponse(JsonNode response) {
-		mResponse = response;
+		mResponse = (ObjectNode)response;
 	}
 
 	/**
@@ -200,8 +201,8 @@ public abstract class AbstractCall<T> implements Parcelable {
 	 * @param obj
 	 * @return
 	 */
-	protected JsonNode parseResult(JsonNode obj) {
-		return obj.get(RESULT);
+	protected ObjectNode parseResult(ObjectNode obj) {
+		return (ObjectNode)obj.get(RESULT);
 	}
 	
 	/**
@@ -213,7 +214,7 @@ public abstract class AbstractCall<T> implements Parcelable {
 	 * @param obj The <tt>result</tt> node of the JSON response object.
 	 * @return Result of the API call
 	 */
-	protected T parseOne(JsonNode obj) {
+	protected T parseOne(ObjectNode obj) {
 		return null;
 	}
 	
@@ -226,7 +227,7 @@ public abstract class AbstractCall<T> implements Parcelable {
 	 * @param obj The <tt>result</tt> node of the JSON response object.
 	 * @return Result of the API call
 	 */
-	protected ArrayList<T> parseMany(JsonNode obj) {
+	protected ArrayList<T> parseMany(ObjectNode obj) {
 		return null;
 	}
 	
@@ -308,6 +309,18 @@ public abstract class AbstractCall<T> implements Parcelable {
 		}
 	}
 	
-	
+	/**
+	 * Flatten this object into a Parcel.
+	 * @param parcel the Parcel in which the object should be written
+	 * @param flags additional flags about how the object should be written
+	 */
+	@Override
+	public void writeToParcel(Parcel parcel, int flags) {
+		parcel.writeValue(mRequest.toString());
+	}
+	@Override
+	public int describeContents() {
+		return 0;
+	}
 	
 }

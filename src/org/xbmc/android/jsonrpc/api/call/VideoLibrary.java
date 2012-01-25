@@ -23,10 +23,12 @@ package org.xbmc.android.jsonrpc.api.call;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+import java.io.IOException;
 import java.util.ArrayList;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.AbstractModel;
 import org.xbmc.android.jsonrpc.api.model.LibraryModel;
@@ -48,24 +50,48 @@ public final class VideoLibrary {
 		private static final String NAME = "Clean";
 		/**
 		 * Cleans the video library from non-existent items
-		 * @throws JSONException
 		 */
-		public Clean() throws JSONException {
+		public Clean() {
 			super();
 		}
 		@Override
-		protected String parseOne(JSONObject obj) throws JSONException {
-			return obj.getString(RESULT);
+		protected String parseOne(ObjectNode node) {
+			return node.get(RESULT).getTextValue();
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected Clean(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Clean> CREATOR = new Parcelable.Creator<Clean>() {
+			@Override
+			public Clean createFromParcel(Parcel parcel) {
+				return new Clean(parcel);
+			}
+			@Override
+			public Clean[] newArray(int n) {
+				return new Clean[n];
+			}
+		};
+}
 	/**
 	 * Exports all items from the video library
 	 * <p/>
@@ -78,24 +104,22 @@ public final class VideoLibrary {
 		/**
 		 * Exports all items from the video library
 		 * @param options 
-		 * @throws JSONException
 		 */
-		public Export(Path options) throws JSONException {
+		public Export(Path options) {
 			super();
 			addParameter("options", options);
 		}
 		/**
 		 * Exports all items from the video library
 		 * @param options 
-		 * @throws JSONException
 		 */
-		public Export(ActorthumbsImagesOverwrite options) throws JSONException {
+		public Export(ActorthumbsImagesOverwrite options) {
 			super();
 			addParameter("options", options);
 		}
 		@Override
-		protected String parseOne(JSONObject obj) throws JSONException {
-			return obj.getString(RESULT);
+		protected String parseOne(ObjectNode node) {
+			return node.get(RESULT).getTextValue();
 		}
 		/**
 		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
@@ -116,10 +140,10 @@ public final class VideoLibrary {
 				this.path = path;
 			}
 			@Override
-			public JSONObject toJSONObject() throws JSONException {
-				final JSONObject obj = new JSONObject();
-				obj.put(PATH, path);
-				return obj;
+			public ObjectNode toObjectNode() {
+				final ObjectNode node = OM.createObjectNode();
+				node.put(PATH, path);
+				return node;
 			}
 			/**
 			 * Flatten this object into a Parcel.
@@ -135,14 +159,14 @@ public final class VideoLibrary {
 				return 0;
 			}
 			/**
-			* Construct via parcel
-			*/
+			 * Construct via parcel
+			 */
 			protected Path(Parcel parcel) {
 				path = parcel.readString();
 			}
 			/**
-			* Generates instances of this Parcelable class from a Parcel.
-			*/
+			 * Generates instances of this Parcelable class from a Parcel.
+			 */
 			public static final Parcelable.Creator<Path> CREATOR = new Parcelable.Creator<Path>() {
 				@Override
 				public Path createFromParcel(Parcel parcel) {
@@ -187,12 +211,12 @@ public final class VideoLibrary {
 				this.overwrite = overwrite;
 			}
 			@Override
-			public JSONObject toJSONObject() throws JSONException {
-				final JSONObject obj = new JSONObject();
-				obj.put(ACTORTHUMBS, actorthumbs);
-				obj.put(IMAGES, images);
-				obj.put(OVERWRITE, overwrite);
-				return obj;
+			public ObjectNode toObjectNode() {
+				final ObjectNode node = OM.createObjectNode();
+				node.put(ACTORTHUMBS, actorthumbs);
+				node.put(IMAGES, images);
+				node.put(OVERWRITE, overwrite);
+				return node;
 			}
 			/**
 			 * Flatten this object into a Parcel.
@@ -210,16 +234,16 @@ public final class VideoLibrary {
 				return 0;
 			}
 			/**
-			* Construct via parcel
-			*/
+			 * Construct via parcel
+			 */
 			protected ActorthumbsImagesOverwrite(Parcel parcel) {
 				actorthumbs = parcel.readInt() == 1;
 				images = parcel.readInt() == 1;
 				overwrite = parcel.readInt() == 1;
 			}
 			/**
-			* Generates instances of this Parcelable class from a Parcel.
-			*/
+			 * Generates instances of this Parcelable class from a Parcel.
+			 */
 			public static final Parcelable.Creator<ActorthumbsImagesOverwrite> CREATOR = new Parcelable.Creator<ActorthumbsImagesOverwrite>() {
 				@Override
 				public ActorthumbsImagesOverwrite createFromParcel(Parcel parcel) {
@@ -232,14 +256,39 @@ public final class VideoLibrary {
 			};
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected Export(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Export> CREATOR = new Parcelable.Creator<Export>() {
+			@Override
+			public Export createFromParcel(Parcel parcel) {
+				return new Export(parcel);
+			}
+			@Override
+			public Export[] newArray(int n) {
+				return new Export[n];
+			}
+		};
+}
 	/**
 	 * Retrieve details about a specific tv show episode
 	 * <p/>
@@ -255,26 +304,50 @@ public final class VideoLibrary {
 		 * @param episodeid 
 		 * @param properties One or more of: <tt>title</tt>, <tt>plot</tt>, <tt>votes</tt>, <tt>rating</tt>, <tt>writer</tt>, <tt>firstaired</tt>, <tt>playcount</tt>, <tt>runtime</tt>, <tt>director</tt>, <tt>productioncode</tt>, <tt>season</tt>, <tt>episode</tt>, <tt>originaltitle</tt>, <tt>showtitle</tt>, <tt>cast</tt>, <tt>streamdetails</tt>, <tt>lastplayed</tt>, <tt>fanart</tt>, <tt>thumbnail</tt>, <tt>file</tt>, <tt>resume</tt>, <tt>tvshowid</tt>. See constants at {@link VideoModel.EpisodeFields}.
 		 * @see VideoModel.EpisodeFields
-		 * @throws JSONException
 		 */
-		public GetEpisodeDetails(Integer episodeid, String... properties) throws JSONException {
+		public GetEpisodeDetails(Integer episodeid, String... properties) {
 			super();
 			addParameter("episodeid", episodeid);
 			addParameter("properties", properties);
 		}
 		@Override
-		protected VideoModel.EpisodeDetails parseOne(JSONObject obj) throws JSONException {
-			return new VideoModel.EpisodeDetails(parseResult(obj).getJSONObject(RESULTS));
+		protected VideoModel.EpisodeDetails parseOne(ObjectNode node) {
+			return new VideoModel.EpisodeDetails((ObjectNode)parseResult(node).get(RESULTS));
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetEpisodeDetails(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetEpisodeDetails> CREATOR = new Parcelable.Creator<GetEpisodeDetails>() {
+			@Override
+			public GetEpisodeDetails createFromParcel(Parcel parcel) {
+				return new GetEpisodeDetails(parcel);
+			}
+			@Override
+			public GetEpisodeDetails[] newArray(int n) {
+				return new GetEpisodeDetails[n];
+			}
+		};
+}
 	/**
 	 * Retrieve all tv show episodes
 	 * <p/>
@@ -291,33 +364,57 @@ public final class VideoLibrary {
 		 * @param season 
 		 * @param properties One or more of: <tt>title</tt>, <tt>plot</tt>, <tt>votes</tt>, <tt>rating</tt>, <tt>writer</tt>, <tt>firstaired</tt>, <tt>playcount</tt>, <tt>runtime</tt>, <tt>director</tt>, <tt>productioncode</tt>, <tt>season</tt>, <tt>episode</tt>, <tt>originaltitle</tt>, <tt>showtitle</tt>, <tt>cast</tt>, <tt>streamdetails</tt>, <tt>lastplayed</tt>, <tt>fanart</tt>, <tt>thumbnail</tt>, <tt>file</tt>, <tt>resume</tt>, <tt>tvshowid</tt>. See constants at {@link VideoModel.EpisodeFields}.
 		 * @see VideoModel.EpisodeFields
-		 * @throws JSONException
 		 */
-		public GetEpisodes(Integer tvshowid, Integer season, String... properties) throws JSONException {
+		public GetEpisodes(Integer tvshowid, Integer season, String... properties) {
 			super();
 			addParameter("tvshowid", tvshowid);
 			addParameter("season", season);
 			addParameter("properties", properties);
 		}
 		@Override
-		protected ArrayList<VideoModel.EpisodeDetails> parseMany(JSONObject obj) throws JSONException {
-			final JSONArray episodes = parseResult(obj).getJSONArray(RESULTS);
-			final ArrayList<VideoModel.EpisodeDetails> ret = new ArrayList<VideoModel.EpisodeDetails>(episodes.length());
-			for (int i = 0; i < episodes.length(); i++) {
-				final JSONObject item = episodes.getJSONObject(i);
+		protected ArrayList<VideoModel.EpisodeDetails> parseMany(ObjectNode node) {
+			final ArrayNode episodes = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayList<VideoModel.EpisodeDetails> ret = new ArrayList<VideoModel.EpisodeDetails>(episodes.size());
+			for (int i = 0; i < episodes.size(); i++) {
+				final ObjectNode item = (ObjectNode)episodes.get(i);
 				ret.add(new VideoModel.EpisodeDetails(item));
 			}
 			return ret;
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return true;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetEpisodes(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetEpisodes> CREATOR = new Parcelable.Creator<GetEpisodes>() {
+			@Override
+			public GetEpisodes createFromParcel(Parcel parcel) {
+				return new GetEpisodes(parcel);
+			}
+			@Override
+			public GetEpisodes[] newArray(int n) {
+				return new GetEpisodes[n];
+			}
+		};
+}
 	/**
 	 * Retrieve all genres
 	 * <p/>
@@ -334,32 +431,56 @@ public final class VideoLibrary {
 		 * @param properties One or more of: <tt>title</tt>, <tt>thumbnail</tt>. See constants at {@link LibraryModel.GenreFields}.
 		 * @see GlobalModel.
 		 * @see LibraryModel.GenreFields
-		 * @throws JSONException
 		 */
-		public GetGenres(String type, String... properties) throws JSONException {
+		public GetGenres(String type, String... properties) {
 			super();
 			addParameter("type", type);
 			addParameter("properties", properties);
 		}
 		@Override
-		protected ArrayList<LibraryModel.GenreDetails> parseMany(JSONObject obj) throws JSONException {
-			final JSONArray genres = parseResult(obj).getJSONArray(RESULTS);
-			final ArrayList<LibraryModel.GenreDetails> ret = new ArrayList<LibraryModel.GenreDetails>(genres.length());
-			for (int i = 0; i < genres.length(); i++) {
-				final JSONObject item = genres.getJSONObject(i);
+		protected ArrayList<LibraryModel.GenreDetails> parseMany(ObjectNode node) {
+			final ArrayNode genres = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayList<LibraryModel.GenreDetails> ret = new ArrayList<LibraryModel.GenreDetails>(genres.size());
+			for (int i = 0; i < genres.size(); i++) {
+				final ObjectNode item = (ObjectNode)genres.get(i);
 				ret.add(new LibraryModel.GenreDetails(item));
 			}
 			return ret;
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return true;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetGenres(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetGenres> CREATOR = new Parcelable.Creator<GetGenres>() {
+			@Override
+			public GetGenres createFromParcel(Parcel parcel) {
+				return new GetGenres(parcel);
+			}
+			@Override
+			public GetGenres[] newArray(int n) {
+				return new GetGenres[n];
+			}
+		};
+}
 	/**
 	 * Retrieve details about a specific movie
 	 * <p/>
@@ -375,26 +496,50 @@ public final class VideoLibrary {
 		 * @param movieid 
 		 * @param properties One or more of: <tt>title</tt>, <tt>genre</tt>, <tt>year</tt>, <tt>rating</tt>, <tt>director</tt>, <tt>trailer</tt>, <tt>tagline</tt>, <tt>plot</tt>, <tt>plotoutline</tt>, <tt>originaltitle</tt>, <tt>lastplayed</tt>, <tt>playcount</tt>, <tt>writer</tt>, <tt>studio</tt>, <tt>mpaa</tt>, <tt>cast</tt>, <tt>country</tt>, <tt>imdbnumber</tt>, <tt>premiered</tt>, <tt>productioncode</tt>, <tt>runtime</tt>, <tt>set</tt>, <tt>showlink</tt>, <tt>streamdetails</tt>, <tt>top250</tt>, <tt>votes</tt>, <tt>fanart</tt>, <tt>thumbnail</tt>, <tt>file</tt>, <tt>sorttitle</tt>, <tt>resume</tt>, <tt>setid</tt>. See constants at {@link VideoModel.MovieFields}.
 		 * @see VideoModel.MovieFields
-		 * @throws JSONException
 		 */
-		public GetMovieDetails(Integer movieid, String... properties) throws JSONException {
+		public GetMovieDetails(Integer movieid, String... properties) {
 			super();
 			addParameter("movieid", movieid);
 			addParameter("properties", properties);
 		}
 		@Override
-		protected VideoModel.MovieDetails parseOne(JSONObject obj) throws JSONException {
-			return new VideoModel.MovieDetails(parseResult(obj).getJSONObject(RESULTS));
+		protected VideoModel.MovieDetails parseOne(ObjectNode node) {
+			return new VideoModel.MovieDetails((ObjectNode)parseResult(node).get(RESULTS));
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetMovieDetails(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetMovieDetails> CREATOR = new Parcelable.Creator<GetMovieDetails>() {
+			@Override
+			public GetMovieDetails createFromParcel(Parcel parcel) {
+				return new GetMovieDetails(parcel);
+			}
+			@Override
+			public GetMovieDetails[] newArray(int n) {
+				return new GetMovieDetails[n];
+			}
+		};
+}
 	/**
 	 * Retrieve details about a specific movie set
 	 * <p/>
@@ -411,17 +556,16 @@ public final class VideoLibrary {
 		 * @param properties One or more of: <tt>title</tt>, <tt>playcount</tt>, <tt>fanart</tt>, <tt>thumbnail</tt>. See constants at {@link VideoModel.MovieSetFields}.
 		 * @param movies 
 		 * @see VideoModel.MovieSetFields
-		 * @throws JSONException
 		 */
-		public GetMovieSetDetails(Integer setid, LimitsPropertiesSort movies, String... properties) throws JSONException {
+		public GetMovieSetDetails(Integer setid, LimitsPropertiesSort movies, String... properties) {
 			super();
 			addParameter("setid", setid);
 			addParameter("movies", movies);
 			addParameter("properties", properties);
 		}
 		@Override
-		protected VideoModel.DetailsMovieSetExtended parseOne(JSONObject obj) throws JSONException {
-			return new VideoModel.DetailsMovieSetExtended(parseResult(obj).getJSONObject(RESULTS));
+		protected VideoModel.DetailsMovieSetExtended parseOne(ObjectNode node) {
+			return new VideoModel.DetailsMovieSetExtended((ObjectNode)parseResult(node).get(RESULTS));
 		}
 		/**
 		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
@@ -447,12 +591,16 @@ public final class VideoLibrary {
 				this.sort = sort;
 			}
 			@Override
-			public JSONObject toJSONObject() throws JSONException {
-				final JSONObject obj = new JSONObject();
-				obj.put(LIMITS, limits.toJSONObject());
-				obj.put(PROPERTIES, properties);
-				obj.put(SORT, sort.toJSONObject());
-				return obj;
+			public ObjectNode toObjectNode() {
+				final ObjectNode node = OM.createObjectNode();
+				node.put(LIMITS, limits.toObjectNode());
+				final ArrayNode propertiesArray = OM.createArrayNode();
+				for (String item : properties) {
+					propertiesArray.add(item);
+				}
+				node.put(PROPERTIES, propertiesArray);
+				node.put(SORT, sort.toObjectNode());
+				return node;
 			}
 			/**
 			 * Flatten this object into a Parcel.
@@ -473,8 +621,8 @@ public final class VideoLibrary {
 				return 0;
 			}
 			/**
-			* Construct via parcel
-			*/
+			 * Construct via parcel
+			 */
 			protected LimitsPropertiesSort(Parcel parcel) {
 				limits = parcel.<ListModel.Limits>readParcelable(ListModel.Limits.class.getClassLoader());
 				final int propertiesSize = parcel.readInt();
@@ -485,8 +633,8 @@ public final class VideoLibrary {
 				sort = parcel.<ListModel.Sort>readParcelable(ListModel.Sort.class.getClassLoader());
 			}
 			/**
-			* Generates instances of this Parcelable class from a Parcel.
-			*/
+			 * Generates instances of this Parcelable class from a Parcel.
+			 */
 			public static final Parcelable.Creator<LimitsPropertiesSort> CREATOR = new Parcelable.Creator<LimitsPropertiesSort>() {
 				@Override
 				public LimitsPropertiesSort createFromParcel(Parcel parcel) {
@@ -499,14 +647,39 @@ public final class VideoLibrary {
 			};
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetMovieSetDetails(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetMovieSetDetails> CREATOR = new Parcelable.Creator<GetMovieSetDetails>() {
+			@Override
+			public GetMovieSetDetails createFromParcel(Parcel parcel) {
+				return new GetMovieSetDetails(parcel);
+			}
+			@Override
+			public GetMovieSetDetails[] newArray(int n) {
+				return new GetMovieSetDetails[n];
+			}
+		};
+}
 	/**
 	 * Retrieve all movie sets
 	 * <p/>
@@ -521,31 +694,55 @@ public final class VideoLibrary {
 		 * Retrieve all movie sets
 		 * @param properties One or more of: <tt>title</tt>, <tt>playcount</tt>, <tt>fanart</tt>, <tt>thumbnail</tt>. See constants at {@link VideoModel.MovieSetFields}.
 		 * @see VideoModel.MovieSetFields
-		 * @throws JSONException
 		 */
-		public GetMovieSets(String... properties) throws JSONException {
+		public GetMovieSets(String... properties) {
 			super();
 			addParameter("properties", properties);
 		}
 		@Override
-		protected ArrayList<VideoModel.MovieSetDetails> parseMany(JSONObject obj) throws JSONException {
-			final JSONArray sets = parseResult(obj).getJSONArray(RESULTS);
-			final ArrayList<VideoModel.MovieSetDetails> ret = new ArrayList<VideoModel.MovieSetDetails>(sets.length());
-			for (int i = 0; i < sets.length(); i++) {
-				final JSONObject item = sets.getJSONObject(i);
+		protected ArrayList<VideoModel.MovieSetDetails> parseMany(ObjectNode node) {
+			final ArrayNode sets = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayList<VideoModel.MovieSetDetails> ret = new ArrayList<VideoModel.MovieSetDetails>(sets.size());
+			for (int i = 0; i < sets.size(); i++) {
+				final ObjectNode item = (ObjectNode)sets.get(i);
 				ret.add(new VideoModel.MovieSetDetails(item));
 			}
 			return ret;
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return true;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetMovieSets(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetMovieSets> CREATOR = new Parcelable.Creator<GetMovieSets>() {
+			@Override
+			public GetMovieSets createFromParcel(Parcel parcel) {
+				return new GetMovieSets(parcel);
+			}
+			@Override
+			public GetMovieSets[] newArray(int n) {
+				return new GetMovieSets[n];
+			}
+		};
+}
 	/**
 	 * Retrieve all movies
 	 * <p/>
@@ -560,31 +757,55 @@ public final class VideoLibrary {
 		 * Retrieve all movies
 		 * @param properties One or more of: <tt>title</tt>, <tt>genre</tt>, <tt>year</tt>, <tt>rating</tt>, <tt>director</tt>, <tt>trailer</tt>, <tt>tagline</tt>, <tt>plot</tt>, <tt>plotoutline</tt>, <tt>originaltitle</tt>, <tt>lastplayed</tt>, <tt>playcount</tt>, <tt>writer</tt>, <tt>studio</tt>, <tt>mpaa</tt>, <tt>cast</tt>, <tt>country</tt>, <tt>imdbnumber</tt>, <tt>premiered</tt>, <tt>productioncode</tt>, <tt>runtime</tt>, <tt>set</tt>, <tt>showlink</tt>, <tt>streamdetails</tt>, <tt>top250</tt>, <tt>votes</tt>, <tt>fanart</tt>, <tt>thumbnail</tt>, <tt>file</tt>, <tt>sorttitle</tt>, <tt>resume</tt>, <tt>setid</tt>. See constants at {@link VideoModel.MovieFields}.
 		 * @see VideoModel.MovieFields
-		 * @throws JSONException
 		 */
-		public GetMovies(String... properties) throws JSONException {
+		public GetMovies(String... properties) {
 			super();
 			addParameter("properties", properties);
 		}
 		@Override
-		protected ArrayList<VideoModel.MovieDetails> parseMany(JSONObject obj) throws JSONException {
-			final JSONArray movies = parseResult(obj).getJSONArray(RESULTS);
-			final ArrayList<VideoModel.MovieDetails> ret = new ArrayList<VideoModel.MovieDetails>(movies.length());
-			for (int i = 0; i < movies.length(); i++) {
-				final JSONObject item = movies.getJSONObject(i);
+		protected ArrayList<VideoModel.MovieDetails> parseMany(ObjectNode node) {
+			final ArrayNode movies = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayList<VideoModel.MovieDetails> ret = new ArrayList<VideoModel.MovieDetails>(movies.size());
+			for (int i = 0; i < movies.size(); i++) {
+				final ObjectNode item = (ObjectNode)movies.get(i);
 				ret.add(new VideoModel.MovieDetails(item));
 			}
 			return ret;
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return true;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetMovies(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetMovies> CREATOR = new Parcelable.Creator<GetMovies>() {
+			@Override
+			public GetMovies createFromParcel(Parcel parcel) {
+				return new GetMovies(parcel);
+			}
+			@Override
+			public GetMovies[] newArray(int n) {
+				return new GetMovies[n];
+			}
+		};
+}
 	/**
 	 * Retrieve details about a specific music video
 	 * <p/>
@@ -600,26 +821,50 @@ public final class VideoLibrary {
 		 * @param musicvideoid 
 		 * @param properties One or more of: <tt>title</tt>, <tt>playcount</tt>, <tt>runtime</tt>, <tt>director</tt>, <tt>studio</tt>, <tt>year</tt>, <tt>plot</tt>, <tt>album</tt>, <tt>artist</tt>, <tt>genre</tt>, <tt>track</tt>, <tt>streamdetails</tt>, <tt>lastplayed</tt>, <tt>fanart</tt>, <tt>thumbnail</tt>, <tt>file</tt>, <tt>resume</tt>. See constants at {@link VideoModel.MusicVideoFields}.
 		 * @see VideoModel.MusicVideoFields
-		 * @throws JSONException
 		 */
-		public GetMusicVideoDetails(Integer musicvideoid, String... properties) throws JSONException {
+		public GetMusicVideoDetails(Integer musicvideoid, String... properties) {
 			super();
 			addParameter("musicvideoid", musicvideoid);
 			addParameter("properties", properties);
 		}
 		@Override
-		protected VideoModel.MusicVideoDetails parseOne(JSONObject obj) throws JSONException {
-			return new VideoModel.MusicVideoDetails(parseResult(obj).getJSONObject(RESULTS));
+		protected VideoModel.MusicVideoDetails parseOne(ObjectNode node) {
+			return new VideoModel.MusicVideoDetails((ObjectNode)parseResult(node).get(RESULTS));
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetMusicVideoDetails(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetMusicVideoDetails> CREATOR = new Parcelable.Creator<GetMusicVideoDetails>() {
+			@Override
+			public GetMusicVideoDetails createFromParcel(Parcel parcel) {
+				return new GetMusicVideoDetails(parcel);
+			}
+			@Override
+			public GetMusicVideoDetails[] newArray(int n) {
+				return new GetMusicVideoDetails[n];
+			}
+		};
+}
 	/**
 	 * Retrieve all music videos
 	 * <p/>
@@ -636,33 +881,57 @@ public final class VideoLibrary {
 		 * @param albumid 
 		 * @param properties One or more of: <tt>title</tt>, <tt>playcount</tt>, <tt>runtime</tt>, <tt>director</tt>, <tt>studio</tt>, <tt>year</tt>, <tt>plot</tt>, <tt>album</tt>, <tt>artist</tt>, <tt>genre</tt>, <tt>track</tt>, <tt>streamdetails</tt>, <tt>lastplayed</tt>, <tt>fanart</tt>, <tt>thumbnail</tt>, <tt>file</tt>, <tt>resume</tt>. See constants at {@link VideoModel.MusicVideoFields}.
 		 * @see VideoModel.MusicVideoFields
-		 * @throws JSONException
 		 */
-		public GetMusicVideos(Integer artistid, Integer albumid, String... properties) throws JSONException {
+		public GetMusicVideos(Integer artistid, Integer albumid, String... properties) {
 			super();
 			addParameter("artistid", artistid);
 			addParameter("albumid", albumid);
 			addParameter("properties", properties);
 		}
 		@Override
-		protected ArrayList<VideoModel.MusicVideoDetails> parseMany(JSONObject obj) throws JSONException {
-			final JSONArray musicvideos = parseResult(obj).getJSONArray(RESULTS);
-			final ArrayList<VideoModel.MusicVideoDetails> ret = new ArrayList<VideoModel.MusicVideoDetails>(musicvideos.length());
-			for (int i = 0; i < musicvideos.length(); i++) {
-				final JSONObject item = musicvideos.getJSONObject(i);
+		protected ArrayList<VideoModel.MusicVideoDetails> parseMany(ObjectNode node) {
+			final ArrayNode musicvideos = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayList<VideoModel.MusicVideoDetails> ret = new ArrayList<VideoModel.MusicVideoDetails>(musicvideos.size());
+			for (int i = 0; i < musicvideos.size(); i++) {
+				final ObjectNode item = (ObjectNode)musicvideos.get(i);
 				ret.add(new VideoModel.MusicVideoDetails(item));
 			}
 			return ret;
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return true;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetMusicVideos(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetMusicVideos> CREATOR = new Parcelable.Creator<GetMusicVideos>() {
+			@Override
+			public GetMusicVideos createFromParcel(Parcel parcel) {
+				return new GetMusicVideos(parcel);
+			}
+			@Override
+			public GetMusicVideos[] newArray(int n) {
+				return new GetMusicVideos[n];
+			}
+		};
+}
 	/**
 	 * Retrieve all recently added tv episodes
 	 * <p/>
@@ -677,31 +946,55 @@ public final class VideoLibrary {
 		 * Retrieve all recently added tv episodes
 		 * @param properties One or more of: <tt>title</tt>, <tt>plot</tt>, <tt>votes</tt>, <tt>rating</tt>, <tt>writer</tt>, <tt>firstaired</tt>, <tt>playcount</tt>, <tt>runtime</tt>, <tt>director</tt>, <tt>productioncode</tt>, <tt>season</tt>, <tt>episode</tt>, <tt>originaltitle</tt>, <tt>showtitle</tt>, <tt>cast</tt>, <tt>streamdetails</tt>, <tt>lastplayed</tt>, <tt>fanart</tt>, <tt>thumbnail</tt>, <tt>file</tt>, <tt>resume</tt>, <tt>tvshowid</tt>. See constants at {@link VideoModel.EpisodeFields}.
 		 * @see VideoModel.EpisodeFields
-		 * @throws JSONException
 		 */
-		public GetRecentlyAddedEpisodes(String... properties) throws JSONException {
+		public GetRecentlyAddedEpisodes(String... properties) {
 			super();
 			addParameter("properties", properties);
 		}
 		@Override
-		protected ArrayList<VideoModel.EpisodeDetails> parseMany(JSONObject obj) throws JSONException {
-			final JSONArray episodes = parseResult(obj).getJSONArray(RESULTS);
-			final ArrayList<VideoModel.EpisodeDetails> ret = new ArrayList<VideoModel.EpisodeDetails>(episodes.length());
-			for (int i = 0; i < episodes.length(); i++) {
-				final JSONObject item = episodes.getJSONObject(i);
+		protected ArrayList<VideoModel.EpisodeDetails> parseMany(ObjectNode node) {
+			final ArrayNode episodes = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayList<VideoModel.EpisodeDetails> ret = new ArrayList<VideoModel.EpisodeDetails>(episodes.size());
+			for (int i = 0; i < episodes.size(); i++) {
+				final ObjectNode item = (ObjectNode)episodes.get(i);
 				ret.add(new VideoModel.EpisodeDetails(item));
 			}
 			return ret;
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return true;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetRecentlyAddedEpisodes(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetRecentlyAddedEpisodes> CREATOR = new Parcelable.Creator<GetRecentlyAddedEpisodes>() {
+			@Override
+			public GetRecentlyAddedEpisodes createFromParcel(Parcel parcel) {
+				return new GetRecentlyAddedEpisodes(parcel);
+			}
+			@Override
+			public GetRecentlyAddedEpisodes[] newArray(int n) {
+				return new GetRecentlyAddedEpisodes[n];
+			}
+		};
+}
 	/**
 	 * Retrieve all recently added movies
 	 * <p/>
@@ -716,31 +1009,55 @@ public final class VideoLibrary {
 		 * Retrieve all recently added movies
 		 * @param properties One or more of: <tt>title</tt>, <tt>genre</tt>, <tt>year</tt>, <tt>rating</tt>, <tt>director</tt>, <tt>trailer</tt>, <tt>tagline</tt>, <tt>plot</tt>, <tt>plotoutline</tt>, <tt>originaltitle</tt>, <tt>lastplayed</tt>, <tt>playcount</tt>, <tt>writer</tt>, <tt>studio</tt>, <tt>mpaa</tt>, <tt>cast</tt>, <tt>country</tt>, <tt>imdbnumber</tt>, <tt>premiered</tt>, <tt>productioncode</tt>, <tt>runtime</tt>, <tt>set</tt>, <tt>showlink</tt>, <tt>streamdetails</tt>, <tt>top250</tt>, <tt>votes</tt>, <tt>fanart</tt>, <tt>thumbnail</tt>, <tt>file</tt>, <tt>sorttitle</tt>, <tt>resume</tt>, <tt>setid</tt>. See constants at {@link VideoModel.MovieFields}.
 		 * @see VideoModel.MovieFields
-		 * @throws JSONException
 		 */
-		public GetRecentlyAddedMovies(String... properties) throws JSONException {
+		public GetRecentlyAddedMovies(String... properties) {
 			super();
 			addParameter("properties", properties);
 		}
 		@Override
-		protected ArrayList<VideoModel.MovieDetails> parseMany(JSONObject obj) throws JSONException {
-			final JSONArray movies = parseResult(obj).getJSONArray(RESULTS);
-			final ArrayList<VideoModel.MovieDetails> ret = new ArrayList<VideoModel.MovieDetails>(movies.length());
-			for (int i = 0; i < movies.length(); i++) {
-				final JSONObject item = movies.getJSONObject(i);
+		protected ArrayList<VideoModel.MovieDetails> parseMany(ObjectNode node) {
+			final ArrayNode movies = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayList<VideoModel.MovieDetails> ret = new ArrayList<VideoModel.MovieDetails>(movies.size());
+			for (int i = 0; i < movies.size(); i++) {
+				final ObjectNode item = (ObjectNode)movies.get(i);
 				ret.add(new VideoModel.MovieDetails(item));
 			}
 			return ret;
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return true;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetRecentlyAddedMovies(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetRecentlyAddedMovies> CREATOR = new Parcelable.Creator<GetRecentlyAddedMovies>() {
+			@Override
+			public GetRecentlyAddedMovies createFromParcel(Parcel parcel) {
+				return new GetRecentlyAddedMovies(parcel);
+			}
+			@Override
+			public GetRecentlyAddedMovies[] newArray(int n) {
+				return new GetRecentlyAddedMovies[n];
+			}
+		};
+}
 	/**
 	 * Retrieve all recently added music videos
 	 * <p/>
@@ -755,31 +1072,55 @@ public final class VideoLibrary {
 		 * Retrieve all recently added music videos
 		 * @param properties One or more of: <tt>title</tt>, <tt>playcount</tt>, <tt>runtime</tt>, <tt>director</tt>, <tt>studio</tt>, <tt>year</tt>, <tt>plot</tt>, <tt>album</tt>, <tt>artist</tt>, <tt>genre</tt>, <tt>track</tt>, <tt>streamdetails</tt>, <tt>lastplayed</tt>, <tt>fanart</tt>, <tt>thumbnail</tt>, <tt>file</tt>, <tt>resume</tt>. See constants at {@link VideoModel.MusicVideoFields}.
 		 * @see VideoModel.MusicVideoFields
-		 * @throws JSONException
 		 */
-		public GetRecentlyAddedMusicVideos(String... properties) throws JSONException {
+		public GetRecentlyAddedMusicVideos(String... properties) {
 			super();
 			addParameter("properties", properties);
 		}
 		@Override
-		protected ArrayList<VideoModel.MusicVideoDetails> parseMany(JSONObject obj) throws JSONException {
-			final JSONArray musicvideos = parseResult(obj).getJSONArray(RESULTS);
-			final ArrayList<VideoModel.MusicVideoDetails> ret = new ArrayList<VideoModel.MusicVideoDetails>(musicvideos.length());
-			for (int i = 0; i < musicvideos.length(); i++) {
-				final JSONObject item = musicvideos.getJSONObject(i);
+		protected ArrayList<VideoModel.MusicVideoDetails> parseMany(ObjectNode node) {
+			final ArrayNode musicvideos = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayList<VideoModel.MusicVideoDetails> ret = new ArrayList<VideoModel.MusicVideoDetails>(musicvideos.size());
+			for (int i = 0; i < musicvideos.size(); i++) {
+				final ObjectNode item = (ObjectNode)musicvideos.get(i);
 				ret.add(new VideoModel.MusicVideoDetails(item));
 			}
 			return ret;
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return true;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetRecentlyAddedMusicVideos(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetRecentlyAddedMusicVideos> CREATOR = new Parcelable.Creator<GetRecentlyAddedMusicVideos>() {
+			@Override
+			public GetRecentlyAddedMusicVideos createFromParcel(Parcel parcel) {
+				return new GetRecentlyAddedMusicVideos(parcel);
+			}
+			@Override
+			public GetRecentlyAddedMusicVideos[] newArray(int n) {
+				return new GetRecentlyAddedMusicVideos[n];
+			}
+		};
+}
 	/**
 	 * Retrieve all tv seasons
 	 * <p/>
@@ -795,32 +1136,56 @@ public final class VideoLibrary {
 		 * @param tvshowid 
 		 * @param properties One or more of: <tt>season</tt>, <tt>showtitle</tt>, <tt>playcount</tt>, <tt>episode</tt>, <tt>fanart</tt>, <tt>thumbnail</tt>, <tt>tvshowid</tt>. See constants at {@link VideoModel.SeasonFields}.
 		 * @see VideoModel.SeasonFields
-		 * @throws JSONException
 		 */
-		public GetSeasons(Integer tvshowid, String... properties) throws JSONException {
+		public GetSeasons(Integer tvshowid, String... properties) {
 			super();
 			addParameter("tvshowid", tvshowid);
 			addParameter("properties", properties);
 		}
 		@Override
-		protected ArrayList<VideoModel.SeasonDetails> parseMany(JSONObject obj) throws JSONException {
-			final JSONArray seasons = parseResult(obj).getJSONArray(RESULTS);
-			final ArrayList<VideoModel.SeasonDetails> ret = new ArrayList<VideoModel.SeasonDetails>(seasons.length());
-			for (int i = 0; i < seasons.length(); i++) {
-				final JSONObject item = seasons.getJSONObject(i);
+		protected ArrayList<VideoModel.SeasonDetails> parseMany(ObjectNode node) {
+			final ArrayNode seasons = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayList<VideoModel.SeasonDetails> ret = new ArrayList<VideoModel.SeasonDetails>(seasons.size());
+			for (int i = 0; i < seasons.size(); i++) {
+				final ObjectNode item = (ObjectNode)seasons.get(i);
 				ret.add(new VideoModel.SeasonDetails(item));
 			}
 			return ret;
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return true;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetSeasons(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetSeasons> CREATOR = new Parcelable.Creator<GetSeasons>() {
+			@Override
+			public GetSeasons createFromParcel(Parcel parcel) {
+				return new GetSeasons(parcel);
+			}
+			@Override
+			public GetSeasons[] newArray(int n) {
+				return new GetSeasons[n];
+			}
+		};
+}
 	/**
 	 * Retrieve details about a specific tv show
 	 * <p/>
@@ -836,26 +1201,50 @@ public final class VideoLibrary {
 		 * @param tvshowid 
 		 * @param properties One or more of: <tt>title</tt>, <tt>genre</tt>, <tt>year</tt>, <tt>rating</tt>, <tt>plot</tt>, <tt>studio</tt>, <tt>mpaa</tt>, <tt>cast</tt>, <tt>playcount</tt>, <tt>episode</tt>, <tt>imdbnumber</tt>, <tt>premiered</tt>, <tt>votes</tt>, <tt>lastplayed</tt>, <tt>fanart</tt>, <tt>thumbnail</tt>, <tt>file</tt>, <tt>originaltitle</tt>, <tt>sorttitle</tt>, <tt>episodeguide</tt>. See constants at {@link VideoModel.TVShowFields}.
 		 * @see VideoModel.TVShowFields
-		 * @throws JSONException
 		 */
-		public GetTVShowDetails(Integer tvshowid, String... properties) throws JSONException {
+		public GetTVShowDetails(Integer tvshowid, String... properties) {
 			super();
 			addParameter("tvshowid", tvshowid);
 			addParameter("properties", properties);
 		}
 		@Override
-		protected VideoModel.TVShowDetails parseOne(JSONObject obj) throws JSONException {
-			return new VideoModel.TVShowDetails(parseResult(obj).getJSONObject(RESULTS));
+		protected VideoModel.TVShowDetails parseOne(ObjectNode node) {
+			return new VideoModel.TVShowDetails((ObjectNode)parseResult(node).get(RESULTS));
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetTVShowDetails(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetTVShowDetails> CREATOR = new Parcelable.Creator<GetTVShowDetails>() {
+			@Override
+			public GetTVShowDetails createFromParcel(Parcel parcel) {
+				return new GetTVShowDetails(parcel);
+			}
+			@Override
+			public GetTVShowDetails[] newArray(int n) {
+				return new GetTVShowDetails[n];
+			}
+		};
+}
 	/**
 	 * Retrieve all tv shows
 	 * <p/>
@@ -870,31 +1259,55 @@ public final class VideoLibrary {
 		 * Retrieve all tv shows
 		 * @param properties One or more of: <tt>title</tt>, <tt>genre</tt>, <tt>year</tt>, <tt>rating</tt>, <tt>plot</tt>, <tt>studio</tt>, <tt>mpaa</tt>, <tt>cast</tt>, <tt>playcount</tt>, <tt>episode</tt>, <tt>imdbnumber</tt>, <tt>premiered</tt>, <tt>votes</tt>, <tt>lastplayed</tt>, <tt>fanart</tt>, <tt>thumbnail</tt>, <tt>file</tt>, <tt>originaltitle</tt>, <tt>sorttitle</tt>, <tt>episodeguide</tt>. See constants at {@link VideoModel.TVShowFields}.
 		 * @see VideoModel.TVShowFields
-		 * @throws JSONException
 		 */
-		public GetTVShows(String... properties) throws JSONException {
+		public GetTVShows(String... properties) {
 			super();
 			addParameter("properties", properties);
 		}
 		@Override
-		protected ArrayList<VideoModel.TVShowDetails> parseMany(JSONObject obj) throws JSONException {
-			final JSONArray tvshows = parseResult(obj).getJSONArray(RESULTS);
-			final ArrayList<VideoModel.TVShowDetails> ret = new ArrayList<VideoModel.TVShowDetails>(tvshows.length());
-			for (int i = 0; i < tvshows.length(); i++) {
-				final JSONObject item = tvshows.getJSONObject(i);
+		protected ArrayList<VideoModel.TVShowDetails> parseMany(ObjectNode node) {
+			final ArrayNode tvshows = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayList<VideoModel.TVShowDetails> ret = new ArrayList<VideoModel.TVShowDetails>(tvshows.size());
+			for (int i = 0; i < tvshows.size(); i++) {
+				final ObjectNode item = (ObjectNode)tvshows.get(i);
 				ret.add(new VideoModel.TVShowDetails(item));
 			}
 			return ret;
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return true;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetTVShows(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetTVShows> CREATOR = new Parcelable.Creator<GetTVShows>() {
+			@Override
+			public GetTVShows createFromParcel(Parcel parcel) {
+				return new GetTVShows(parcel);
+			}
+			@Override
+			public GetTVShows[] newArray(int n) {
+				return new GetTVShows[n];
+			}
+		};
+}
 	/**
 	 * Scans the video sources for new library items
 	 * <p/>
@@ -906,22 +1319,46 @@ public final class VideoLibrary {
 		private static final String NAME = "Scan";
 		/**
 		 * Scans the video sources for new library items
-		 * @throws JSONException
 		 */
-		public Scan() throws JSONException {
+		public Scan() {
 			super();
 		}
 		@Override
-		protected String parseOne(JSONObject obj) throws JSONException {
-			return obj.getString(RESULT);
+		protected String parseOne(ObjectNode node) {
+			return node.get(RESULT).getTextValue();
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected Scan(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Scan> CREATOR = new Parcelable.Creator<Scan>() {
+			@Override
+			public Scan createFromParcel(Parcel parcel) {
+				return new Scan(parcel);
+			}
+			@Override
+			public Scan[] newArray(int n) {
+				return new Scan[n];
+			}
+		};
+}
 }

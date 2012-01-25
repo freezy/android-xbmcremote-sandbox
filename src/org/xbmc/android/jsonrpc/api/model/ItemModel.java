@@ -24,9 +24,8 @@ package org.xbmc.android.jsonrpc.api.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import java.util.ArrayList;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractModel;
 
 public final class ItemModel {
@@ -45,9 +44,9 @@ public final class ItemModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a BaseDetails object
 		 */
-		public BaseDetails(JSONObject obj) throws JSONException {
+		public BaseDetails(ObjectNode node) {
 			mType = API_TYPE;
-			label = obj.getString(LABEL);
+			label = node.get(LABEL).getTextValue();
 		}
 		/**
 		 * Construct object with native values for later serialization.
@@ -57,22 +56,22 @@ public final class ItemModel {
 			this.label = label;
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(LABEL, label);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(LABEL, label);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link ItemModel.BaseDetails} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<ItemModel.BaseDetails> getItemModelBaseDetailsList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<ItemModel.BaseDetails> l = new ArrayList<ItemModel.BaseDetails>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new ItemModel.BaseDetails(a.getJSONObject(i)));
+		static ArrayList<ItemModel.BaseDetails> getItemModelBaseDetailsList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<ItemModel.BaseDetails> l = new ArrayList<ItemModel.BaseDetails>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new ItemModel.BaseDetails((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -92,14 +91,14 @@ public final class ItemModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected BaseDetails(Parcel parcel) {
 			label = parcel.readString();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<BaseDetails> CREATOR = new Parcelable.Creator<BaseDetails>() {
 			@Override
 			public BaseDetails createFromParcel(Parcel parcel) {

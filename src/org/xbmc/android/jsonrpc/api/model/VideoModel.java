@@ -24,11 +24,10 @@ package org.xbmc.android.jsonrpc.api.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import java.util.ArrayList;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractModel;
-import org.xbmc.android.jsonrpc.api.JSONSerializable;
+import org.xbmc.android.jsonrpc.api.JsonSerializable;
 
 public final class VideoModel {
 	/**
@@ -48,11 +47,11 @@ public final class VideoModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a Cast object
 		 */
-		public Cast(JSONObject obj) throws JSONException {
+		public Cast(ObjectNode node) {
 			mType = API_TYPE;
-			name = obj.getString(NAME);
-			role = obj.getString(ROLE);
-			thumbnail = parseString(obj, THUMBNAIL);
+			name = node.get(NAME).getTextValue();
+			role = node.get(ROLE).getTextValue();
+			thumbnail = parseString(node, THUMBNAIL);
 		}
 		/**
 		 * Construct object with native values for later serialization.
@@ -66,24 +65,24 @@ public final class VideoModel {
 			this.thumbnail = thumbnail;
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(NAME, name);
-			obj.put(ROLE, role);
-			obj.put(THUMBNAIL, thumbnail);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(NAME, name);
+			node.put(ROLE, role);
+			node.put(THUMBNAIL, thumbnail);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link VideoModel.Cast} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<VideoModel.Cast> getVideoModelCastList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<VideoModel.Cast> l = new ArrayList<VideoModel.Cast>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new VideoModel.Cast(a.getJSONObject(i)));
+		static ArrayList<VideoModel.Cast> getVideoModelCastList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<VideoModel.Cast> l = new ArrayList<VideoModel.Cast>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new VideoModel.Cast((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -105,16 +104,16 @@ public final class VideoModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected Cast(Parcel parcel) {
 			name = parcel.readString();
 			role = parcel.readString();
 			thumbnail = parcel.readString();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<Cast> CREATOR = new Parcelable.Creator<Cast>() {
 			@Override
 			public Cast createFromParcel(Parcel parcel) {
@@ -141,28 +140,28 @@ public final class VideoModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a BaseDetails object
 		 */
-		public BaseDetails(JSONObject obj) throws JSONException {
-			super(obj);
+		public BaseDetails(ObjectNode node) {
+			super(node);
 			mType = API_TYPE;
-			playcount = parseInt(obj, PLAYCOUNT);
+			playcount = parseInt(node, PLAYCOUNT);
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(PLAYCOUNT, playcount);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(PLAYCOUNT, playcount);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link VideoModel.BaseDetails} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<VideoModel.BaseDetails> getVideoModelBaseDetailsList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<VideoModel.BaseDetails> l = new ArrayList<VideoModel.BaseDetails>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new VideoModel.BaseDetails(a.getJSONObject(i)));
+		static ArrayList<VideoModel.BaseDetails> getVideoModelBaseDetailsList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<VideoModel.BaseDetails> l = new ArrayList<VideoModel.BaseDetails>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new VideoModel.BaseDetails((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -183,15 +182,15 @@ public final class VideoModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected BaseDetails(Parcel parcel) {
 			super(parcel);
 			playcount = parcel.readInt();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<BaseDetails> CREATOR = new Parcelable.Creator<BaseDetails>() {
 			@Override
 			public BaseDetails createFromParcel(Parcel parcel) {
@@ -240,55 +239,54 @@ public final class VideoModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a EpisodeDetails object
 		 */
-		public EpisodeDetails(JSONObject obj) throws JSONException {
-			super(obj);
+		public EpisodeDetails(ObjectNode node) {
+			super(node);
 			mType = API_TYPE;
-			cast = VideoModel.Cast.getVideoModelCastList(obj, CAST);
-			episode = parseInt(obj, EPISODE);
-			episodeid = obj.getInt(EPISODEID);
-			firstaired = parseString(obj, FIRSTAIRED);
-			originaltitle = parseString(obj, ORIGINALTITLE);
-			productioncode = parseString(obj, PRODUCTIONCODE);
-			rating = parseDouble(obj, RATING);
-			season = parseInt(obj, SEASON);
-			showtitle = parseString(obj, SHOWTITLE);
-			tvshowid = parseInt(obj, TVSHOWID);
-			votes = parseString(obj, VOTES);
-			writer = parseString(obj, WRITER);
+			cast = VideoModel.Cast.getVideoModelCastList(node, CAST);
+			episode = parseInt(node, EPISODE);
+			episodeid = node.get(EPISODEID).getIntValue();
+			firstaired = parseString(node, FIRSTAIRED);
+			originaltitle = parseString(node, ORIGINALTITLE);
+			productioncode = parseString(node, PRODUCTIONCODE);
+			rating = parseDouble(node, RATING);
+			season = parseInt(node, SEASON);
+			showtitle = parseString(node, SHOWTITLE);
+			tvshowid = parseInt(node, TVSHOWID);
+			votes = parseString(node, VOTES);
+			writer = parseString(node, WRITER);
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			final JSONArray castArray = new JSONArray();
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			final ArrayNode castArray = OM.createArrayNode();
 			for (VideoModel.Cast item : cast) {
-				castArray.put(item.toJSONObject());
+				castArray.add(item.toObjectNode());
 			}
-			castArray.put(castArray);
-			obj.put(CAST, castArray);
-			obj.put(EPISODE, episode);
-			obj.put(EPISODEID, episodeid);
-			obj.put(FIRSTAIRED, firstaired);
-			obj.put(ORIGINALTITLE, originaltitle);
-			obj.put(PRODUCTIONCODE, productioncode);
-			obj.put(RATING, rating);
-			obj.put(SEASON, season);
-			obj.put(SHOWTITLE, showtitle);
-			obj.put(TVSHOWID, tvshowid);
-			obj.put(VOTES, votes);
-			obj.put(WRITER, writer);
-			return obj;
+			node.put(CAST, castArray);
+			node.put(EPISODE, episode);
+			node.put(EPISODEID, episodeid);
+			node.put(FIRSTAIRED, firstaired);
+			node.put(ORIGINALTITLE, originaltitle);
+			node.put(PRODUCTIONCODE, productioncode);
+			node.put(RATING, rating);
+			node.put(SEASON, season);
+			node.put(SHOWTITLE, showtitle);
+			node.put(TVSHOWID, tvshowid);
+			node.put(VOTES, votes);
+			node.put(WRITER, writer);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link VideoModel.EpisodeDetails} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<VideoModel.EpisodeDetails> getVideoModelEpisodeDetailsList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<VideoModel.EpisodeDetails> l = new ArrayList<VideoModel.EpisodeDetails>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new VideoModel.EpisodeDetails(a.getJSONObject(i)));
+		static ArrayList<VideoModel.EpisodeDetails> getVideoModelEpisodeDetailsList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<VideoModel.EpisodeDetails> l = new ArrayList<VideoModel.EpisodeDetails>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new VideoModel.EpisodeDetails((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -323,8 +321,8 @@ public final class VideoModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected EpisodeDetails(Parcel parcel) {
 			super(parcel);
 			final int castSize = parcel.readInt();
@@ -345,8 +343,8 @@ public final class VideoModel {
 			writer = parcel.readString();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<EpisodeDetails> CREATOR = new Parcelable.Creator<EpisodeDetails>() {
 			@Override
 			public EpisodeDetails createFromParcel(Parcel parcel) {
@@ -379,34 +377,34 @@ public final class VideoModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a FileDetails object
 		 */
-		public FileDetails(JSONObject obj) throws JSONException {
-			super(obj);
+		public FileDetails(ObjectNode node) {
+			super(node);
 			mType = API_TYPE;
-			director = parseString(obj, DIRECTOR);
-			resume = obj.has(RESUME) ? new VideoModel.Resume(obj.getJSONObject(RESUME)) : null;
-			runtime = parseString(obj, RUNTIME);
-			streamdetails = obj.has(STREAMDETAILS) ? new VideoModel.Streams(obj.getJSONObject(STREAMDETAILS)) : null;
+			director = parseString(node, DIRECTOR);
+			resume = node.has(RESUME) ? new VideoModel.Resume((ObjectNode)node.get(RESUME)) : null;
+			runtime = parseString(node, RUNTIME);
+			streamdetails = node.has(STREAMDETAILS) ? new VideoModel.Streams((ObjectNode)node.get(STREAMDETAILS)) : null;
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(DIRECTOR, director);
-			obj.put(RESUME, resume.toJSONObject());
-			obj.put(RUNTIME, runtime);
-			obj.put(STREAMDETAILS, streamdetails.toJSONObject());
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(DIRECTOR, director);
+			node.put(RESUME, resume.toObjectNode());
+			node.put(RUNTIME, runtime);
+			node.put(STREAMDETAILS, streamdetails.toObjectNode());
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link VideoModel.FileDetails} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<VideoModel.FileDetails> getVideoModelFileDetailsList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<VideoModel.FileDetails> l = new ArrayList<VideoModel.FileDetails>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new VideoModel.FileDetails(a.getJSONObject(i)));
+		static ArrayList<VideoModel.FileDetails> getVideoModelFileDetailsList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<VideoModel.FileDetails> l = new ArrayList<VideoModel.FileDetails>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new VideoModel.FileDetails((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -430,8 +428,8 @@ public final class VideoModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected FileDetails(Parcel parcel) {
 			super(parcel);
 			director = parcel.readString();
@@ -440,8 +438,8 @@ public final class VideoModel {
 			streamdetails = parcel.<VideoModel.Streams>readParcelable(VideoModel.Streams.class.getClassLoader());
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<FileDetails> CREATOR = new Parcelable.Creator<FileDetails>() {
 			@Override
 			public FileDetails createFromParcel(Parcel parcel) {
@@ -472,32 +470,32 @@ public final class VideoModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a ItemDetails object
 		 */
-		public ItemDetails(JSONObject obj) throws JSONException {
-			super(obj);
+		public ItemDetails(ObjectNode node) {
+			super(node);
 			mType = API_TYPE;
-			file = parseString(obj, FILE);
-			lastplayed = parseString(obj, LASTPLAYED);
-			plot = parseString(obj, PLOT);
+			file = parseString(node, FILE);
+			lastplayed = parseString(node, LASTPLAYED);
+			plot = parseString(node, PLOT);
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(FILE, file);
-			obj.put(LASTPLAYED, lastplayed);
-			obj.put(PLOT, plot);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(FILE, file);
+			node.put(LASTPLAYED, lastplayed);
+			node.put(PLOT, plot);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link VideoModel.ItemDetails} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<VideoModel.ItemDetails> getVideoModelItemDetailsList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<VideoModel.ItemDetails> l = new ArrayList<VideoModel.ItemDetails>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new VideoModel.ItemDetails(a.getJSONObject(i)));
+		static ArrayList<VideoModel.ItemDetails> getVideoModelItemDetailsList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<VideoModel.ItemDetails> l = new ArrayList<VideoModel.ItemDetails>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new VideoModel.ItemDetails((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -520,8 +518,8 @@ public final class VideoModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected ItemDetails(Parcel parcel) {
 			super(parcel);
 			file = parcel.readString();
@@ -529,8 +527,8 @@ public final class VideoModel {
 			plot = parcel.readString();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<ItemDetails> CREATOR = new Parcelable.Creator<ItemDetails>() {
 			@Override
 			public ItemDetails createFromParcel(Parcel parcel) {
@@ -557,28 +555,28 @@ public final class VideoModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a MediaDetails object
 		 */
-		public MediaDetails(JSONObject obj) throws JSONException {
-			super(obj);
+		public MediaDetails(ObjectNode node) {
+			super(node);
 			mType = API_TYPE;
-			title = parseString(obj, TITLE);
+			title = parseString(node, TITLE);
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(TITLE, title);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(TITLE, title);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link VideoModel.MediaDetails} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<VideoModel.MediaDetails> getVideoModelMediaDetailsList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<VideoModel.MediaDetails> l = new ArrayList<VideoModel.MediaDetails>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new VideoModel.MediaDetails(a.getJSONObject(i)));
+		static ArrayList<VideoModel.MediaDetails> getVideoModelMediaDetailsList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<VideoModel.MediaDetails> l = new ArrayList<VideoModel.MediaDetails>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new VideoModel.MediaDetails((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -599,15 +597,15 @@ public final class VideoModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected MediaDetails(Parcel parcel) {
 			super(parcel);
 			title = parcel.readString();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<MediaDetails> CREATOR = new Parcelable.Creator<MediaDetails>() {
 			@Override
 			public MediaDetails createFromParcel(Parcel parcel) {
@@ -676,75 +674,82 @@ public final class VideoModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a MovieDetails object
 		 */
-		public MovieDetails(JSONObject obj) throws JSONException {
-			super(obj);
+		public MovieDetails(ObjectNode node) {
+			super(node);
 			mType = API_TYPE;
-			cast = VideoModel.Cast.getVideoModelCastList(obj, CAST);
-			country = parseString(obj, COUNTRY);
-			genre = parseString(obj, GENRE);
-			imdbnumber = parseString(obj, IMDBNUMBER);
-			movieid = obj.getInt(MOVIEID);
-			mpaa = parseString(obj, MPAA);
-			originaltitle = parseString(obj, ORIGINALTITLE);
-			plotoutline = parseString(obj, PLOTOUTLINE);
-			premiered = parseString(obj, PREMIERED);
-			productioncode = parseString(obj, PRODUCTIONCODE);
-			rating = parseDouble(obj, RATING);
-			set = getStringArray(obj, SET);
-			setid = getIntegerArray(obj, SETID);
-			showlink = parseString(obj, SHOWLINK);
-			sorttitle = parseString(obj, SORTTITLE);
-			studio = parseString(obj, STUDIO);
-			tagline = parseString(obj, TAGLINE);
-			top250 = parseInt(obj, TOP250);
-			trailer = parseString(obj, TRAILER);
-			votes = parseString(obj, VOTES);
-			writer = parseString(obj, WRITER);
-			year = parseInt(obj, YEAR);
+			cast = VideoModel.Cast.getVideoModelCastList(node, CAST);
+			country = parseString(node, COUNTRY);
+			genre = parseString(node, GENRE);
+			imdbnumber = parseString(node, IMDBNUMBER);
+			movieid = node.get(MOVIEID).getIntValue();
+			mpaa = parseString(node, MPAA);
+			originaltitle = parseString(node, ORIGINALTITLE);
+			plotoutline = parseString(node, PLOTOUTLINE);
+			premiered = parseString(node, PREMIERED);
+			productioncode = parseString(node, PRODUCTIONCODE);
+			rating = parseDouble(node, RATING);
+			set = getStringArray(node, SET);
+			setid = getIntegerArray(node, SETID);
+			showlink = parseString(node, SHOWLINK);
+			sorttitle = parseString(node, SORTTITLE);
+			studio = parseString(node, STUDIO);
+			tagline = parseString(node, TAGLINE);
+			top250 = parseInt(node, TOP250);
+			trailer = parseString(node, TRAILER);
+			votes = parseString(node, VOTES);
+			writer = parseString(node, WRITER);
+			year = parseInt(node, YEAR);
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			final JSONArray castArray = new JSONArray();
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			final ArrayNode castArray = OM.createArrayNode();
 			for (VideoModel.Cast item : cast) {
-				castArray.put(item.toJSONObject());
+				castArray.add(item.toObjectNode());
 			}
-			castArray.put(castArray);
-			obj.put(CAST, castArray);
-			obj.put(COUNTRY, country);
-			obj.put(GENRE, genre);
-			obj.put(IMDBNUMBER, imdbnumber);
-			obj.put(MOVIEID, movieid);
-			obj.put(MPAA, mpaa);
-			obj.put(ORIGINALTITLE, originaltitle);
-			obj.put(PLOTOUTLINE, plotoutline);
-			obj.put(PREMIERED, premiered);
-			obj.put(PRODUCTIONCODE, productioncode);
-			obj.put(RATING, rating);
-			obj.put(SET, set);
-			obj.put(SETID, setid);
-			obj.put(SHOWLINK, showlink);
-			obj.put(SORTTITLE, sorttitle);
-			obj.put(STUDIO, studio);
-			obj.put(TAGLINE, tagline);
-			obj.put(TOP250, top250);
-			obj.put(TRAILER, trailer);
-			obj.put(VOTES, votes);
-			obj.put(WRITER, writer);
-			obj.put(YEAR, year);
-			return obj;
+			node.put(CAST, castArray);
+			node.put(COUNTRY, country);
+			node.put(GENRE, genre);
+			node.put(IMDBNUMBER, imdbnumber);
+			node.put(MOVIEID, movieid);
+			node.put(MPAA, mpaa);
+			node.put(ORIGINALTITLE, originaltitle);
+			node.put(PLOTOUTLINE, plotoutline);
+			node.put(PREMIERED, premiered);
+			node.put(PRODUCTIONCODE, productioncode);
+			node.put(RATING, rating);
+			final ArrayNode setArray = OM.createArrayNode();
+			for (String item : set) {
+				setArray.add(item);
+			}
+			node.put(SET, setArray);
+			final ArrayNode setidArray = OM.createArrayNode();
+			for (Integer item : setid) {
+				setidArray.add(item);
+			}
+			node.put(SETID, setidArray);
+			node.put(SHOWLINK, showlink);
+			node.put(SORTTITLE, sorttitle);
+			node.put(STUDIO, studio);
+			node.put(TAGLINE, tagline);
+			node.put(TOP250, top250);
+			node.put(TRAILER, trailer);
+			node.put(VOTES, votes);
+			node.put(WRITER, writer);
+			node.put(YEAR, year);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link VideoModel.MovieDetails} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<VideoModel.MovieDetails> getVideoModelMovieDetailsList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<VideoModel.MovieDetails> l = new ArrayList<VideoModel.MovieDetails>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new VideoModel.MovieDetails(a.getJSONObject(i)));
+		static ArrayList<VideoModel.MovieDetails> getVideoModelMovieDetailsList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<VideoModel.MovieDetails> l = new ArrayList<VideoModel.MovieDetails>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new VideoModel.MovieDetails((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -795,8 +800,8 @@ public final class VideoModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected MovieDetails(Parcel parcel) {
 			super(parcel);
 			final int castSize = parcel.readInt();
@@ -835,8 +840,8 @@ public final class VideoModel {
 			year = parcel.readInt();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<MovieDetails> CREATOR = new Parcelable.Creator<MovieDetails>() {
 			@Override
 			public MovieDetails createFromParcel(Parcel parcel) {
@@ -863,28 +868,28 @@ public final class VideoModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a MovieSetDetails object
 		 */
-		public MovieSetDetails(JSONObject obj) throws JSONException {
-			super(obj);
+		public MovieSetDetails(ObjectNode node) {
+			super(node);
 			mType = API_TYPE;
-			setid = obj.getInt(SETID);
+			setid = node.get(SETID).getIntValue();
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(SETID, setid);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(SETID, setid);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link VideoModel.MovieSetDetails} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<VideoModel.MovieSetDetails> getVideoModelMovieSetDetailsList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<VideoModel.MovieSetDetails> l = new ArrayList<VideoModel.MovieSetDetails>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new VideoModel.MovieSetDetails(a.getJSONObject(i)));
+		static ArrayList<VideoModel.MovieSetDetails> getVideoModelMovieSetDetailsList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<VideoModel.MovieSetDetails> l = new ArrayList<VideoModel.MovieSetDetails>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new VideoModel.MovieSetDetails((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -905,15 +910,15 @@ public final class VideoModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected MovieSetDetails(Parcel parcel) {
 			super(parcel);
 			setid = parcel.readInt();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<MovieSetDetails> CREATOR = new Parcelable.Creator<MovieSetDetails>() {
 			@Override
 			public MovieSetDetails createFromParcel(Parcel parcel) {
@@ -940,33 +945,32 @@ public final class VideoModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a DetailsMovieSetExtended object
 		 */
-		public DetailsMovieSetExtended(JSONObject obj) throws JSONException {
-			super(obj);
+		public DetailsMovieSetExtended(ObjectNode node) {
+			super(node);
 			mType = API_TYPE;
-			movies = VideoModel.MovieDetails.getVideoModelMovieDetailsList(obj, MOVIES);
+			movies = VideoModel.MovieDetails.getVideoModelMovieDetailsList(node, MOVIES);
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			final JSONArray moviesArray = new JSONArray();
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			final ArrayNode moviesArray = OM.createArrayNode();
 			for (VideoModel.MovieDetails item : movies) {
-				moviesArray.put(item.toJSONObject());
+				moviesArray.add(item.toObjectNode());
 			}
-			moviesArray.put(moviesArray);
-			obj.put(MOVIES, moviesArray);
-			return obj;
+			node.put(MOVIES, moviesArray);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link VideoModel.DetailsMovieSetExtended} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<VideoModel.DetailsMovieSetExtended> getVideoModelDetailsMovieSetExtendedList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<VideoModel.DetailsMovieSetExtended> l = new ArrayList<VideoModel.DetailsMovieSetExtended>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new VideoModel.DetailsMovieSetExtended(a.getJSONObject(i)));
+		static ArrayList<VideoModel.DetailsMovieSetExtended> getVideoModelDetailsMovieSetExtendedList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<VideoModel.DetailsMovieSetExtended> l = new ArrayList<VideoModel.DetailsMovieSetExtended>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new VideoModel.DetailsMovieSetExtended((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -990,8 +994,8 @@ public final class VideoModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected DetailsMovieSetExtended(Parcel parcel) {
 			super(parcel);
 			final int moviesSize = parcel.readInt();
@@ -1001,8 +1005,8 @@ public final class VideoModel {
 			}
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<DetailsMovieSetExtended> CREATOR = new Parcelable.Creator<DetailsMovieSetExtended>() {
 			@Override
 			public DetailsMovieSetExtended createFromParcel(Parcel parcel) {
@@ -1041,40 +1045,40 @@ public final class VideoModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a MusicVideoDetails object
 		 */
-		public MusicVideoDetails(JSONObject obj) throws JSONException {
-			super(obj);
+		public MusicVideoDetails(ObjectNode node) {
+			super(node);
 			mType = API_TYPE;
-			album = parseString(obj, ALBUM);
-			artist = parseString(obj, ARTIST);
-			genre = parseString(obj, GENRE);
-			musicvideoid = obj.getInt(MUSICVIDEOID);
-			studio = parseString(obj, STUDIO);
-			track = parseInt(obj, TRACK);
-			year = parseInt(obj, YEAR);
+			album = parseString(node, ALBUM);
+			artist = parseString(node, ARTIST);
+			genre = parseString(node, GENRE);
+			musicvideoid = node.get(MUSICVIDEOID).getIntValue();
+			studio = parseString(node, STUDIO);
+			track = parseInt(node, TRACK);
+			year = parseInt(node, YEAR);
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(ALBUM, album);
-			obj.put(ARTIST, artist);
-			obj.put(GENRE, genre);
-			obj.put(MUSICVIDEOID, musicvideoid);
-			obj.put(STUDIO, studio);
-			obj.put(TRACK, track);
-			obj.put(YEAR, year);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(ALBUM, album);
+			node.put(ARTIST, artist);
+			node.put(GENRE, genre);
+			node.put(MUSICVIDEOID, musicvideoid);
+			node.put(STUDIO, studio);
+			node.put(TRACK, track);
+			node.put(YEAR, year);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link VideoModel.MusicVideoDetails} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<VideoModel.MusicVideoDetails> getVideoModelMusicVideoDetailsList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<VideoModel.MusicVideoDetails> l = new ArrayList<VideoModel.MusicVideoDetails>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new VideoModel.MusicVideoDetails(a.getJSONObject(i)));
+		static ArrayList<VideoModel.MusicVideoDetails> getVideoModelMusicVideoDetailsList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<VideoModel.MusicVideoDetails> l = new ArrayList<VideoModel.MusicVideoDetails>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new VideoModel.MusicVideoDetails((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -1101,8 +1105,8 @@ public final class VideoModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected MusicVideoDetails(Parcel parcel) {
 			super(parcel);
 			album = parcel.readString();
@@ -1114,8 +1118,8 @@ public final class VideoModel {
 			year = parcel.readInt();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<MusicVideoDetails> CREATOR = new Parcelable.Creator<MusicVideoDetails>() {
 			@Override
 			public MusicVideoDetails createFromParcel(Parcel parcel) {
@@ -1148,34 +1152,34 @@ public final class VideoModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a SeasonDetails object
 		 */
-		public SeasonDetails(JSONObject obj) throws JSONException {
-			super(obj);
+		public SeasonDetails(ObjectNode node) {
+			super(node);
 			mType = API_TYPE;
-			episode = parseInt(obj, EPISODE);
-			season = obj.getInt(SEASON);
-			showtitle = parseString(obj, SHOWTITLE);
-			tvshowid = parseInt(obj, TVSHOWID);
+			episode = parseInt(node, EPISODE);
+			season = node.get(SEASON).getIntValue();
+			showtitle = parseString(node, SHOWTITLE);
+			tvshowid = parseInt(node, TVSHOWID);
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(EPISODE, episode);
-			obj.put(SEASON, season);
-			obj.put(SHOWTITLE, showtitle);
-			obj.put(TVSHOWID, tvshowid);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(EPISODE, episode);
+			node.put(SEASON, season);
+			node.put(SHOWTITLE, showtitle);
+			node.put(TVSHOWID, tvshowid);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link VideoModel.SeasonDetails} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<VideoModel.SeasonDetails> getVideoModelSeasonDetailsList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<VideoModel.SeasonDetails> l = new ArrayList<VideoModel.SeasonDetails>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new VideoModel.SeasonDetails(a.getJSONObject(i)));
+		static ArrayList<VideoModel.SeasonDetails> getVideoModelSeasonDetailsList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<VideoModel.SeasonDetails> l = new ArrayList<VideoModel.SeasonDetails>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new VideoModel.SeasonDetails((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -1199,8 +1203,8 @@ public final class VideoModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected SeasonDetails(Parcel parcel) {
 			super(parcel);
 			episode = parcel.readInt();
@@ -1209,8 +1213,8 @@ public final class VideoModel {
 			tvshowid = parcel.readInt();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<SeasonDetails> CREATOR = new Parcelable.Creator<SeasonDetails>() {
 			@Override
 			public SeasonDetails createFromParcel(Parcel parcel) {
@@ -1263,59 +1267,58 @@ public final class VideoModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a TVShowDetails object
 		 */
-		public TVShowDetails(JSONObject obj) throws JSONException {
-			super(obj);
+		public TVShowDetails(ObjectNode node) {
+			super(node);
 			mType = API_TYPE;
-			cast = VideoModel.Cast.getVideoModelCastList(obj, CAST);
-			episode = parseInt(obj, EPISODE);
-			episodeguide = parseString(obj, EPISODEGUIDE);
-			genre = parseString(obj, GENRE);
-			imdbnumber = parseString(obj, IMDBNUMBER);
-			mpaa = parseString(obj, MPAA);
-			originaltitle = parseString(obj, ORIGINALTITLE);
-			premiered = parseString(obj, PREMIERED);
-			rating = parseDouble(obj, RATING);
-			sorttitle = parseString(obj, SORTTITLE);
-			studio = parseString(obj, STUDIO);
-			tvshowid = obj.getInt(TVSHOWID);
-			votes = parseString(obj, VOTES);
-			year = parseInt(obj, YEAR);
+			cast = VideoModel.Cast.getVideoModelCastList(node, CAST);
+			episode = parseInt(node, EPISODE);
+			episodeguide = parseString(node, EPISODEGUIDE);
+			genre = parseString(node, GENRE);
+			imdbnumber = parseString(node, IMDBNUMBER);
+			mpaa = parseString(node, MPAA);
+			originaltitle = parseString(node, ORIGINALTITLE);
+			premiered = parseString(node, PREMIERED);
+			rating = parseDouble(node, RATING);
+			sorttitle = parseString(node, SORTTITLE);
+			studio = parseString(node, STUDIO);
+			tvshowid = node.get(TVSHOWID).getIntValue();
+			votes = parseString(node, VOTES);
+			year = parseInt(node, YEAR);
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			final JSONArray castArray = new JSONArray();
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			final ArrayNode castArray = OM.createArrayNode();
 			for (VideoModel.Cast item : cast) {
-				castArray.put(item.toJSONObject());
+				castArray.add(item.toObjectNode());
 			}
-			castArray.put(castArray);
-			obj.put(CAST, castArray);
-			obj.put(EPISODE, episode);
-			obj.put(EPISODEGUIDE, episodeguide);
-			obj.put(GENRE, genre);
-			obj.put(IMDBNUMBER, imdbnumber);
-			obj.put(MPAA, mpaa);
-			obj.put(ORIGINALTITLE, originaltitle);
-			obj.put(PREMIERED, premiered);
-			obj.put(RATING, rating);
-			obj.put(SORTTITLE, sorttitle);
-			obj.put(STUDIO, studio);
-			obj.put(TVSHOWID, tvshowid);
-			obj.put(VOTES, votes);
-			obj.put(YEAR, year);
-			return obj;
+			node.put(CAST, castArray);
+			node.put(EPISODE, episode);
+			node.put(EPISODEGUIDE, episodeguide);
+			node.put(GENRE, genre);
+			node.put(IMDBNUMBER, imdbnumber);
+			node.put(MPAA, mpaa);
+			node.put(ORIGINALTITLE, originaltitle);
+			node.put(PREMIERED, premiered);
+			node.put(RATING, rating);
+			node.put(SORTTITLE, sorttitle);
+			node.put(STUDIO, studio);
+			node.put(TVSHOWID, tvshowid);
+			node.put(VOTES, votes);
+			node.put(YEAR, year);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link VideoModel.TVShowDetails} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<VideoModel.TVShowDetails> getVideoModelTVShowDetailsList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<VideoModel.TVShowDetails> l = new ArrayList<VideoModel.TVShowDetails>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new VideoModel.TVShowDetails(a.getJSONObject(i)));
+		static ArrayList<VideoModel.TVShowDetails> getVideoModelTVShowDetailsList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<VideoModel.TVShowDetails> l = new ArrayList<VideoModel.TVShowDetails>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new VideoModel.TVShowDetails((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -1352,8 +1355,8 @@ public final class VideoModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected TVShowDetails(Parcel parcel) {
 			super(parcel);
 			final int castSize = parcel.readInt();
@@ -1376,8 +1379,8 @@ public final class VideoModel {
 			year = parcel.readInt();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<TVShowDetails> CREATOR = new Parcelable.Creator<TVShowDetails>() {
 			@Override
 			public TVShowDetails createFromParcel(Parcel parcel) {
@@ -1520,10 +1523,10 @@ public final class VideoModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a Resume object
 		 */
-		public Resume(JSONObject obj) throws JSONException {
+		public Resume(ObjectNode node) {
 			mType = API_TYPE;
-			position = parseDouble(obj, POSITION);
-			total = parseDouble(obj, TOTAL);
+			position = parseDouble(node, POSITION);
+			total = parseDouble(node, TOTAL);
 		}
 		/**
 		 * Construct object with native values for later serialization.
@@ -1535,23 +1538,23 @@ public final class VideoModel {
 			this.total = total;
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(POSITION, position);
-			obj.put(TOTAL, total);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(POSITION, position);
+			node.put(TOTAL, total);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link VideoModel.Resume} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<VideoModel.Resume> getVideoModelResumeList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<VideoModel.Resume> l = new ArrayList<VideoModel.Resume>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new VideoModel.Resume(a.getJSONObject(i)));
+		static ArrayList<VideoModel.Resume> getVideoModelResumeList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<VideoModel.Resume> l = new ArrayList<VideoModel.Resume>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new VideoModel.Resume((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -1572,15 +1575,15 @@ public final class VideoModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected Resume(Parcel parcel) {
 			position = parcel.readDouble();
 			total = parcel.readDouble();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<Resume> CREATOR = new Parcelable.Creator<Resume>() {
 			@Override
 			public Resume createFromParcel(Parcel parcel) {
@@ -1611,11 +1614,11 @@ public final class VideoModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a Streams object
 		 */
-		public Streams(JSONObject obj) throws JSONException {
+		public Streams(ObjectNode node) {
 			mType = API_TYPE;
-			audio = Audio.getAudioList(obj, AUDIO);
-			subtitle = Subtitle.getSubtitleList(obj, SUBTITLE);
-			video = Video.getVideoList(obj, VIDEO);
+			audio = Audio.getAudioList(node, AUDIO);
+			subtitle = Subtitle.getSubtitleList(node, SUBTITLE);
+			video = Video.getVideoList(node, VIDEO);
 		}
 		/**
 		 * Construct object with native values for later serialization.
@@ -1629,39 +1632,36 @@ public final class VideoModel {
 			this.video = video;
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			final JSONArray audioArray = new JSONArray();
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			final ArrayNode audioArray = OM.createArrayNode();
 			for (Audio item : audio) {
-				audioArray.put(item.toJSONObject());
+				audioArray.add(item.toObjectNode());
 			}
-			audioArray.put(audioArray);
-			obj.put(AUDIO, audioArray);
-			final JSONArray subtitleArray = new JSONArray();
+			node.put(AUDIO, audioArray);
+			final ArrayNode subtitleArray = OM.createArrayNode();
 			for (Subtitle item : subtitle) {
-				subtitleArray.put(item.toJSONObject());
+				subtitleArray.add(item.toObjectNode());
 			}
-			subtitleArray.put(subtitleArray);
-			obj.put(SUBTITLE, subtitleArray);
-			final JSONArray videoArray = new JSONArray();
+			node.put(SUBTITLE, subtitleArray);
+			final ArrayNode videoArray = OM.createArrayNode();
 			for (Video item : video) {
-				videoArray.put(item.toJSONObject());
+				videoArray.add(item.toObjectNode());
 			}
-			videoArray.put(videoArray);
-			obj.put(VIDEO, videoArray);
-			return obj;
+			node.put(VIDEO, videoArray);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link VideoModel.Streams} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<VideoModel.Streams> getVideoModelStreamsList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<VideoModel.Streams> l = new ArrayList<VideoModel.Streams>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new VideoModel.Streams(a.getJSONObject(i)));
+		static ArrayList<VideoModel.Streams> getVideoModelStreamsList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<VideoModel.Streams> l = new ArrayList<VideoModel.Streams>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new VideoModel.Streams((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -1670,7 +1670,7 @@ public final class VideoModel {
 		/**
 		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
 		 */
-		public static class Audio implements JSONSerializable, Parcelable {
+		public static class Audio implements JsonSerializable, Parcelable {
 			// field names
 			public static final String CHANNELS = "channels";
 			public static final String CODEC = "codec";
@@ -1683,10 +1683,10 @@ public final class VideoModel {
 			 * Construct from JSON object.
 			 * @param obj JSON object representing a Audio object
 			 */
-			public Audio(JSONObject obj) throws JSONException {
-				channels = parseInt(obj, CHANNELS);
-				codec = parseString(obj, CODEC);
-				language = parseString(obj, LANGUAGE);
+			public Audio(ObjectNode node) {
+				channels = parseInt(node, CHANNELS);
+				codec = parseString(node, CODEC);
+				language = parseString(node, LANGUAGE);
 			}
 			/**
 			 * Construct object with native values for later serialization.
@@ -1700,24 +1700,24 @@ public final class VideoModel {
 				this.language = language;
 			}
 			@Override
-			public JSONObject toJSONObject() throws JSONException {
-				final JSONObject obj = new JSONObject();
-				obj.put(CHANNELS, channels);
-				obj.put(CODEC, codec);
-				obj.put(LANGUAGE, language);
-				return obj;
+			public ObjectNode toObjectNode() {
+				final ObjectNode node = OM.createObjectNode();
+				node.put(CHANNELS, channels);
+				node.put(CODEC, codec);
+				node.put(LANGUAGE, language);
+				return node;
 			}
 			/**
 			 * Extracts a list of {@link Audio} objects from a JSON array.
-			 * @param obj JSONObject containing the list of objects
+			 * @param obj ObjectNode containing the list of objects
 			 * @param key Key pointing to the node where the list is stored
 			 */
-			static ArrayList<Audio> getAudioList(JSONObject obj, String key) throws JSONException {
-				if (obj.has(key)) {
-					final JSONArray a = obj.getJSONArray(key);
-					final ArrayList<Audio> l = new ArrayList<Audio>(a.length());
-					for (int i = 0; i < a.length(); i++) {
-						l.add(new Audio(a.getJSONObject(i)));
+			static ArrayList<Audio> getAudioList(ObjectNode node, String key) {
+				if (node.has(key)) {
+					final ArrayNode a = (ArrayNode)node.get(key);
+					final ArrayList<Audio> l = new ArrayList<Audio>(a.size());
+					for (int i = 0; i < a.size(); i++) {
+						l.add(new Audio((ObjectNode)a.get(i)));
 					}
 					return l;
 				}
@@ -1739,16 +1739,16 @@ public final class VideoModel {
 				return 0;
 			}
 			/**
-			* Construct via parcel
-			*/
+			 * Construct via parcel
+			 */
 			protected Audio(Parcel parcel) {
 				channels = parcel.readInt();
 				codec = parcel.readString();
 				language = parcel.readString();
 			}
 			/**
-			* Generates instances of this Parcelable class from a Parcel.
-			*/
+			 * Generates instances of this Parcelable class from a Parcel.
+			 */
 			public static final Parcelable.Creator<Audio> CREATOR = new Parcelable.Creator<Audio>() {
 				@Override
 				public Audio createFromParcel(Parcel parcel) {
@@ -1763,7 +1763,7 @@ public final class VideoModel {
 		/**
 		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
 		 */
-		public static class Subtitle implements JSONSerializable, Parcelable {
+		public static class Subtitle implements JsonSerializable, Parcelable {
 			// field names
 			public static final String LANGUAGE = "language";
 			// class members
@@ -1772,8 +1772,8 @@ public final class VideoModel {
 			 * Construct from JSON object.
 			 * @param obj JSON object representing a Subtitle object
 			 */
-			public Subtitle(JSONObject obj) throws JSONException {
-				language = parseString(obj, LANGUAGE);
+			public Subtitle(ObjectNode node) {
+				language = parseString(node, LANGUAGE);
 			}
 			/**
 			 * Construct object with native values for later serialization.
@@ -1783,22 +1783,22 @@ public final class VideoModel {
 				this.language = language;
 			}
 			@Override
-			public JSONObject toJSONObject() throws JSONException {
-				final JSONObject obj = new JSONObject();
-				obj.put(LANGUAGE, language);
-				return obj;
+			public ObjectNode toObjectNode() {
+				final ObjectNode node = OM.createObjectNode();
+				node.put(LANGUAGE, language);
+				return node;
 			}
 			/**
 			 * Extracts a list of {@link Subtitle} objects from a JSON array.
-			 * @param obj JSONObject containing the list of objects
+			 * @param obj ObjectNode containing the list of objects
 			 * @param key Key pointing to the node where the list is stored
 			 */
-			static ArrayList<Subtitle> getSubtitleList(JSONObject obj, String key) throws JSONException {
-				if (obj.has(key)) {
-					final JSONArray a = obj.getJSONArray(key);
-					final ArrayList<Subtitle> l = new ArrayList<Subtitle>(a.length());
-					for (int i = 0; i < a.length(); i++) {
-						l.add(new Subtitle(a.getJSONObject(i)));
+			static ArrayList<Subtitle> getSubtitleList(ObjectNode node, String key) {
+				if (node.has(key)) {
+					final ArrayNode a = (ArrayNode)node.get(key);
+					final ArrayList<Subtitle> l = new ArrayList<Subtitle>(a.size());
+					for (int i = 0; i < a.size(); i++) {
+						l.add(new Subtitle((ObjectNode)a.get(i)));
 					}
 					return l;
 				}
@@ -1818,14 +1818,14 @@ public final class VideoModel {
 				return 0;
 			}
 			/**
-			* Construct via parcel
-			*/
+			 * Construct via parcel
+			 */
 			protected Subtitle(Parcel parcel) {
 				language = parcel.readString();
 			}
 			/**
-			* Generates instances of this Parcelable class from a Parcel.
-			*/
+			 * Generates instances of this Parcelable class from a Parcel.
+			 */
 			public static final Parcelable.Creator<Subtitle> CREATOR = new Parcelable.Creator<Subtitle>() {
 				@Override
 				public Subtitle createFromParcel(Parcel parcel) {
@@ -1840,7 +1840,7 @@ public final class VideoModel {
 		/**
 		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
 		 */
-		public static class Video implements JSONSerializable, Parcelable {
+		public static class Video implements JsonSerializable, Parcelable {
 			// field names
 			public static final String ASPECT = "aspect";
 			public static final String CODEC = "codec";
@@ -1857,12 +1857,12 @@ public final class VideoModel {
 			 * Construct from JSON object.
 			 * @param obj JSON object representing a Video object
 			 */
-			public Video(JSONObject obj) throws JSONException {
-				aspect = parseDouble(obj, ASPECT);
-				codec = parseString(obj, CODEC);
-				duration = parseInt(obj, DURATION);
-				height = parseInt(obj, HEIGHT);
-				width = parseInt(obj, WIDTH);
+			public Video(ObjectNode node) {
+				aspect = parseDouble(node, ASPECT);
+				codec = parseString(node, CODEC);
+				duration = parseInt(node, DURATION);
+				height = parseInt(node, HEIGHT);
+				width = parseInt(node, WIDTH);
 			}
 			/**
 			 * Construct object with native values for later serialization.
@@ -1880,26 +1880,26 @@ public final class VideoModel {
 				this.width = width;
 			}
 			@Override
-			public JSONObject toJSONObject() throws JSONException {
-				final JSONObject obj = new JSONObject();
-				obj.put(ASPECT, aspect);
-				obj.put(CODEC, codec);
-				obj.put(DURATION, duration);
-				obj.put(HEIGHT, height);
-				obj.put(WIDTH, width);
-				return obj;
+			public ObjectNode toObjectNode() {
+				final ObjectNode node = OM.createObjectNode();
+				node.put(ASPECT, aspect);
+				node.put(CODEC, codec);
+				node.put(DURATION, duration);
+				node.put(HEIGHT, height);
+				node.put(WIDTH, width);
+				return node;
 			}
 			/**
 			 * Extracts a list of {@link Video} objects from a JSON array.
-			 * @param obj JSONObject containing the list of objects
+			 * @param obj ObjectNode containing the list of objects
 			 * @param key Key pointing to the node where the list is stored
 			 */
-			static ArrayList<Video> getVideoList(JSONObject obj, String key) throws JSONException {
-				if (obj.has(key)) {
-					final JSONArray a = obj.getJSONArray(key);
-					final ArrayList<Video> l = new ArrayList<Video>(a.length());
-					for (int i = 0; i < a.length(); i++) {
-						l.add(new Video(a.getJSONObject(i)));
+			static ArrayList<Video> getVideoList(ObjectNode node, String key) {
+				if (node.has(key)) {
+					final ArrayNode a = (ArrayNode)node.get(key);
+					final ArrayList<Video> l = new ArrayList<Video>(a.size());
+					for (int i = 0; i < a.size(); i++) {
+						l.add(new Video((ObjectNode)a.get(i)));
 					}
 					return l;
 				}
@@ -1923,8 +1923,8 @@ public final class VideoModel {
 				return 0;
 			}
 			/**
-			* Construct via parcel
-			*/
+			 * Construct via parcel
+			 */
 			protected Video(Parcel parcel) {
 				aspect = parcel.readDouble();
 				codec = parcel.readString();
@@ -1933,8 +1933,8 @@ public final class VideoModel {
 				width = parcel.readInt();
 			}
 			/**
-			* Generates instances of this Parcelable class from a Parcel.
-			*/
+			 * Generates instances of this Parcelable class from a Parcel.
+			 */
 			public static final Parcelable.Creator<Video> CREATOR = new Parcelable.Creator<Video>() {
 				@Override
 				public Video createFromParcel(Parcel parcel) {
@@ -1971,8 +1971,8 @@ public final class VideoModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected Streams(Parcel parcel) {
 			final int audioSize = parcel.readInt();
 			audio = new ArrayList<Audio>(audioSize);
@@ -1991,8 +1991,8 @@ public final class VideoModel {
 			}
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<Streams> CREATOR = new Parcelable.Creator<Streams>() {
 			@Override
 			public Streams createFromParcel(Parcel parcel) {

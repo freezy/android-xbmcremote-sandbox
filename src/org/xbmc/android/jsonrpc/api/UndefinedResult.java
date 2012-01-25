@@ -21,6 +21,8 @@
 
 package org.xbmc.android.jsonrpc.api;
 
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.ObjectNode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -38,14 +40,14 @@ import org.json.JSONObject;
  * @author freezy <freezy@xbmc.org>
  */
 public class UndefinedResult {
-	private final JSONObject mResponse;
+	private final JsonNode mResponse;
 	
 	/**
 	 * Class constructor.
 	 * @param obj Root node of the response object.
 	 */
-	public UndefinedResult(JSONObject obj) {
-		mResponse = obj;
+	public UndefinedResult(JsonNode node) {
+		mResponse = node;
 	}
 	
 	/**
@@ -53,7 +55,7 @@ public class UndefinedResult {
 	 * 
 	 * @return Root object of the response.
 	 */
-	public JSONObject getResponse() {
+	public JsonNode getResponse() {
 		return mResponse;
 	}
 	
@@ -62,7 +64,7 @@ public class UndefinedResult {
 	 * @return The <tt>result</tt> node of the response object.
 	 * @throws JSONException If no <tt>result</tt> node exists or not a {@link JSONObject}.
 	 */
-	public JSONObject getResult() throws JSONException {
-		return mResponse.getJSONObject("result");
+	public ObjectNode getResult() throws JSONException {
+		return (ObjectNode)mResponse.get("result");
 	}
 }

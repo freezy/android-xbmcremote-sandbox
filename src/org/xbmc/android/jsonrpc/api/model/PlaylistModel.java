@@ -24,9 +24,8 @@ package org.xbmc.android.jsonrpc.api.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import java.util.ArrayList;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractModel;
 
 public final class PlaylistModel {
@@ -67,17 +66,17 @@ public final class PlaylistModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a Item object
 		 */
-		public Item(JSONObject obj) throws JSONException {
+		public Item(ObjectNode node) {
 			mType = API_TYPE;
-			file = obj.getString(FILE);
-			directory = obj.getString(DIRECTORY);
-			movieid = obj.getInt(MOVIEID);
-			episodeid = obj.getInt(EPISODEID);
-			musicvideoid = obj.getInt(MUSICVIDEOID);
-			artistid = obj.getInt(ARTISTID);
-			albumid = obj.getInt(ALBUMID);
-			songid = obj.getInt(SONGID);
-			genreid = obj.getInt(GENREID);
+			file = node.get(FILE).getTextValue();
+			directory = node.get(DIRECTORY).getTextValue();
+			movieid = node.get(MOVIEID).getIntValue();
+			episodeid = node.get(EPISODEID).getIntValue();
+			musicvideoid = node.get(MUSICVIDEOID).getIntValue();
+			artistid = node.get(ARTISTID).getIntValue();
+			albumid = node.get(ALBUMID).getIntValue();
+			songid = node.get(SONGID).getIntValue();
+			genreid = node.get(GENREID).getIntValue();
 		}
 		/**
 		 * Construct object with native values for later serialization.
@@ -103,18 +102,18 @@ public final class PlaylistModel {
 			this.genreid = genreid;
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(FILE, file);
-			obj.put(DIRECTORY, directory);
-			obj.put(MOVIEID, movieid);
-			obj.put(EPISODEID, episodeid);
-			obj.put(MUSICVIDEOID, musicvideoid);
-			obj.put(ARTISTID, artistid);
-			obj.put(ALBUMID, albumid);
-			obj.put(SONGID, songid);
-			obj.put(GENREID, genreid);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(FILE, file);
+			node.put(DIRECTORY, directory);
+			node.put(MOVIEID, movieid);
+			node.put(EPISODEID, episodeid);
+			node.put(MUSICVIDEOID, musicvideoid);
+			node.put(ARTISTID, artistid);
+			node.put(ALBUMID, albumid);
+			node.put(SONGID, songid);
+			node.put(GENREID, genreid);
+			return node;
 		}
 		/**
 		 * Default constructor.
@@ -199,15 +198,15 @@ public final class PlaylistModel {
 		}
 		/**
 		 * Extracts a list of {@link PlaylistModel.Item} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<PlaylistModel.Item> getPlaylistModelItemList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<PlaylistModel.Item> l = new ArrayList<PlaylistModel.Item>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new PlaylistModel.Item(a.getJSONObject(i)));
+		static ArrayList<PlaylistModel.Item> getPlaylistModelItemList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<PlaylistModel.Item> l = new ArrayList<PlaylistModel.Item>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new PlaylistModel.Item((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -235,8 +234,8 @@ public final class PlaylistModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected Item(Parcel parcel) {
 			file = parcel.readString();
 			directory = parcel.readString();
@@ -249,8 +248,8 @@ public final class PlaylistModel {
 			genreid = parcel.readInt();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<Item> CREATOR = new Parcelable.Creator<Item>() {
 			@Override
 			public Item createFromParcel(Parcel parcel) {
@@ -283,10 +282,10 @@ public final class PlaylistModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a PropertyValue object
 		 */
-		public PropertyValue(JSONObject obj) throws JSONException {
+		public PropertyValue(ObjectNode node) {
 			mType = API_TYPE;
-			size = parseInt(obj, SIZE);
-			type = parseString(obj, TYPE);
+			size = parseInt(node, SIZE);
+			type = parseString(node, TYPE);
 		}
 		/**
 		 * Construct object with native values for later serialization.
@@ -298,23 +297,23 @@ public final class PlaylistModel {
 			this.type = type;
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(SIZE, size);
-			obj.put(TYPE, type);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(SIZE, size);
+			node.put(TYPE, type);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link PlaylistModel.PropertyValue} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<PlaylistModel.PropertyValue> getPlaylistModelPropertyValueList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<PlaylistModel.PropertyValue> l = new ArrayList<PlaylistModel.PropertyValue>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new PlaylistModel.PropertyValue(a.getJSONObject(i)));
+		static ArrayList<PlaylistModel.PropertyValue> getPlaylistModelPropertyValueList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<PlaylistModel.PropertyValue> l = new ArrayList<PlaylistModel.PropertyValue>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new PlaylistModel.PropertyValue((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -335,15 +334,15 @@ public final class PlaylistModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected PropertyValue(Parcel parcel) {
 			size = parcel.readInt();
 			type = parcel.readString();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<PropertyValue> CREATOR = new Parcelable.Creator<PropertyValue>() {
 			@Override
 			public PropertyValue createFromParcel(Parcel parcel) {

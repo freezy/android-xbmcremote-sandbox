@@ -24,9 +24,8 @@ package org.xbmc.android.jsonrpc.api.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import java.util.ArrayList;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractModel;
 
 public final class GlobalModel {
@@ -45,9 +44,9 @@ public final class GlobalModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a Configuration object
 		 */
-		public Configuration(JSONObject obj) throws JSONException {
+		public Configuration(ObjectNode node) {
 			mType = API_TYPE;
-			notifications = new ConfigurationModel.Notifications(obj.getJSONObject(NOTIFICATIONS));
+			notifications = new ConfigurationModel.Notifications((ObjectNode)node.get(NOTIFICATIONS));
 		}
 		/**
 		 * Construct object with native values for later serialization.
@@ -57,22 +56,22 @@ public final class GlobalModel {
 			this.notifications = notifications;
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(NOTIFICATIONS, notifications.toJSONObject());
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(NOTIFICATIONS, notifications.toObjectNode());
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link GlobalModel.Configuration} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<GlobalModel.Configuration> getGlobalModelConfigurationList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<GlobalModel.Configuration> l = new ArrayList<GlobalModel.Configuration>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new GlobalModel.Configuration(a.getJSONObject(i)));
+		static ArrayList<GlobalModel.Configuration> getGlobalModelConfigurationList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<GlobalModel.Configuration> l = new ArrayList<GlobalModel.Configuration>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new GlobalModel.Configuration((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -92,14 +91,14 @@ public final class GlobalModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected Configuration(Parcel parcel) {
 			notifications = parcel.<ConfigurationModel.Notifications>readParcelable(ConfigurationModel.Notifications.class.getClassLoader());
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<Configuration> CREATOR = new Parcelable.Creator<Configuration>() {
 			@Override
 			public Configuration createFromParcel(Parcel parcel) {
@@ -132,12 +131,12 @@ public final class GlobalModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a Time object
 		 */
-		public Time(JSONObject obj) throws JSONException {
+		public Time(ObjectNode node) {
 			mType = API_TYPE;
-			hours = obj.getInt(HOURS);
-			milliseconds = obj.getInt(MILLISECONDS);
-			minutes = obj.getInt(MINUTES);
-			seconds = obj.getInt(SECONDS);
+			hours = node.get(HOURS).getIntValue();
+			milliseconds = node.get(MILLISECONDS).getIntValue();
+			minutes = node.get(MINUTES).getIntValue();
+			seconds = node.get(SECONDS).getIntValue();
 		}
 		/**
 		 * Construct object with native values for later serialization.
@@ -153,25 +152,25 @@ public final class GlobalModel {
 			this.seconds = seconds;
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(HOURS, hours);
-			obj.put(MILLISECONDS, milliseconds);
-			obj.put(MINUTES, minutes);
-			obj.put(SECONDS, seconds);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(HOURS, hours);
+			node.put(MILLISECONDS, milliseconds);
+			node.put(MINUTES, minutes);
+			node.put(SECONDS, seconds);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link GlobalModel.Time} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<GlobalModel.Time> getGlobalModelTimeList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<GlobalModel.Time> l = new ArrayList<GlobalModel.Time>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new GlobalModel.Time(a.getJSONObject(i)));
+		static ArrayList<GlobalModel.Time> getGlobalModelTimeList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<GlobalModel.Time> l = new ArrayList<GlobalModel.Time>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new GlobalModel.Time((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -194,8 +193,8 @@ public final class GlobalModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected Time(Parcel parcel) {
 			hours = parcel.readInt();
 			milliseconds = parcel.readInt();
@@ -203,8 +202,8 @@ public final class GlobalModel {
 			seconds = parcel.readInt();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<Time> CREATOR = new Parcelable.Creator<Time>() {
 			@Override
 			public Time createFromParcel(Parcel parcel) {

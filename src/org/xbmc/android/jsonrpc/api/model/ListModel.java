@@ -24,9 +24,8 @@ package org.xbmc.android.jsonrpc.api.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import java.util.ArrayList;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractModel;
 
 public final class ListModel {
@@ -165,99 +164,106 @@ public final class ListModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a AllItem object
 		 */
-		public AllItem(JSONObject obj) throws JSONException {
-			super(obj);
+		public AllItem(ObjectNode node) {
+			super(node);
 			mType = API_TYPE;
-			album = parseString(obj, ALBUM);
-			albumartist = parseString(obj, ALBUMARTIST);
-			albumid = parseInt(obj, ALBUMID);
-			artistid = parseInt(obj, ARTISTID);
-			cast = VideoModel.Cast.getVideoModelCastList(obj, CAST);
-			comment = parseString(obj, COMMENT);
-			country = parseString(obj, COUNTRY);
-			duration = parseInt(obj, DURATION);
-			episode = parseInt(obj, EPISODE);
-			firstaired = parseString(obj, FIRSTAIRED);
-			id = parseInt(obj, ID);
-			imdbnumber = parseString(obj, IMDBNUMBER);
-			lyrics = parseString(obj, LYRICS);
-			mpaa = parseString(obj, MPAA);
-			musicbrainzartistid = parseString(obj, MUSICBRAINZARTISTID);
-			musicbrainztrackid = parseString(obj, MUSICBRAINZTRACKID);
-			originaltitle = parseString(obj, ORIGINALTITLE);
-			plotoutline = parseString(obj, PLOTOUTLINE);
-			premiered = parseString(obj, PREMIERED);
-			productioncode = parseString(obj, PRODUCTIONCODE);
-			season = parseInt(obj, SEASON);
-			set = getStringArray(obj, SET);
-			setid = getIntegerArray(obj, SETID);
-			showlink = parseString(obj, SHOWLINK);
-			showtitle = parseString(obj, SHOWTITLE);
-			studio = parseString(obj, STUDIO);
-			tagline = parseString(obj, TAGLINE);
-			top250 = parseInt(obj, TOP250);
-			track = parseInt(obj, TRACK);
-			trailer = parseString(obj, TRAILER);
-			tvshowid = parseInt(obj, TVSHOWID);
-			type = parseString(obj, TYPE);
-			votes = parseString(obj, VOTES);
-			writer = parseString(obj, WRITER);
+			album = parseString(node, ALBUM);
+			albumartist = parseString(node, ALBUMARTIST);
+			albumid = parseInt(node, ALBUMID);
+			artistid = parseInt(node, ARTISTID);
+			cast = VideoModel.Cast.getVideoModelCastList(node, CAST);
+			comment = parseString(node, COMMENT);
+			country = parseString(node, COUNTRY);
+			duration = parseInt(node, DURATION);
+			episode = parseInt(node, EPISODE);
+			firstaired = parseString(node, FIRSTAIRED);
+			id = parseInt(node, ID);
+			imdbnumber = parseString(node, IMDBNUMBER);
+			lyrics = parseString(node, LYRICS);
+			mpaa = parseString(node, MPAA);
+			musicbrainzartistid = parseString(node, MUSICBRAINZARTISTID);
+			musicbrainztrackid = parseString(node, MUSICBRAINZTRACKID);
+			originaltitle = parseString(node, ORIGINALTITLE);
+			plotoutline = parseString(node, PLOTOUTLINE);
+			premiered = parseString(node, PREMIERED);
+			productioncode = parseString(node, PRODUCTIONCODE);
+			season = parseInt(node, SEASON);
+			set = getStringArray(node, SET);
+			setid = getIntegerArray(node, SETID);
+			showlink = parseString(node, SHOWLINK);
+			showtitle = parseString(node, SHOWTITLE);
+			studio = parseString(node, STUDIO);
+			tagline = parseString(node, TAGLINE);
+			top250 = parseInt(node, TOP250);
+			track = parseInt(node, TRACK);
+			trailer = parseString(node, TRAILER);
+			tvshowid = parseInt(node, TVSHOWID);
+			type = parseString(node, TYPE);
+			votes = parseString(node, VOTES);
+			writer = parseString(node, WRITER);
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(ALBUM, album);
-			obj.put(ALBUMARTIST, albumartist);
-			obj.put(ALBUMID, albumid);
-			obj.put(ARTISTID, artistid);
-			final JSONArray castArray = new JSONArray();
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(ALBUM, album);
+			node.put(ALBUMARTIST, albumartist);
+			node.put(ALBUMID, albumid);
+			node.put(ARTISTID, artistid);
+			final ArrayNode castArray = OM.createArrayNode();
 			for (VideoModel.Cast item : cast) {
-				castArray.put(item.toJSONObject());
+				castArray.add(item.toObjectNode());
 			}
-			castArray.put(castArray);
-			obj.put(CAST, castArray);
-			obj.put(COMMENT, comment);
-			obj.put(COUNTRY, country);
-			obj.put(DURATION, duration);
-			obj.put(EPISODE, episode);
-			obj.put(FIRSTAIRED, firstaired);
-			obj.put(ID, id);
-			obj.put(IMDBNUMBER, imdbnumber);
-			obj.put(LYRICS, lyrics);
-			obj.put(MPAA, mpaa);
-			obj.put(MUSICBRAINZARTISTID, musicbrainzartistid);
-			obj.put(MUSICBRAINZTRACKID, musicbrainztrackid);
-			obj.put(ORIGINALTITLE, originaltitle);
-			obj.put(PLOTOUTLINE, plotoutline);
-			obj.put(PREMIERED, premiered);
-			obj.put(PRODUCTIONCODE, productioncode);
-			obj.put(SEASON, season);
-			obj.put(SET, set);
-			obj.put(SETID, setid);
-			obj.put(SHOWLINK, showlink);
-			obj.put(SHOWTITLE, showtitle);
-			obj.put(STUDIO, studio);
-			obj.put(TAGLINE, tagline);
-			obj.put(TOP250, top250);
-			obj.put(TRACK, track);
-			obj.put(TRAILER, trailer);
-			obj.put(TVSHOWID, tvshowid);
-			obj.put(TYPE, type);
-			obj.put(VOTES, votes);
-			obj.put(WRITER, writer);
-			return obj;
+			node.put(CAST, castArray);
+			node.put(COMMENT, comment);
+			node.put(COUNTRY, country);
+			node.put(DURATION, duration);
+			node.put(EPISODE, episode);
+			node.put(FIRSTAIRED, firstaired);
+			node.put(ID, id);
+			node.put(IMDBNUMBER, imdbnumber);
+			node.put(LYRICS, lyrics);
+			node.put(MPAA, mpaa);
+			node.put(MUSICBRAINZARTISTID, musicbrainzartistid);
+			node.put(MUSICBRAINZTRACKID, musicbrainztrackid);
+			node.put(ORIGINALTITLE, originaltitle);
+			node.put(PLOTOUTLINE, plotoutline);
+			node.put(PREMIERED, premiered);
+			node.put(PRODUCTIONCODE, productioncode);
+			node.put(SEASON, season);
+			final ArrayNode setArray = OM.createArrayNode();
+			for (String item : set) {
+				setArray.add(item);
+			}
+			node.put(SET, setArray);
+			final ArrayNode setidArray = OM.createArrayNode();
+			for (Integer item : setid) {
+				setidArray.add(item);
+			}
+			node.put(SETID, setidArray);
+			node.put(SHOWLINK, showlink);
+			node.put(SHOWTITLE, showtitle);
+			node.put(STUDIO, studio);
+			node.put(TAGLINE, tagline);
+			node.put(TOP250, top250);
+			node.put(TRACK, track);
+			node.put(TRAILER, trailer);
+			node.put(TVSHOWID, tvshowid);
+			node.put(TYPE, type);
+			node.put(VOTES, votes);
+			node.put(WRITER, writer);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link ListModel.AllItem} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<ListModel.AllItem> getListModelAllItemList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<ListModel.AllItem> l = new ArrayList<ListModel.AllItem>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new ListModel.AllItem(a.getJSONObject(i)));
+		static ArrayList<ListModel.AllItem> getListModelAllItemList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<ListModel.AllItem> l = new ArrayList<ListModel.AllItem>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new ListModel.AllItem((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -320,8 +326,8 @@ public final class ListModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected AllItem(Parcel parcel) {
 			super(parcel);
 			album = parcel.readString();
@@ -372,8 +378,8 @@ public final class ListModel {
 			writer = parcel.readString();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<AllItem> CREATOR = new Parcelable.Creator<AllItem>() {
 			@Override
 			public AllItem createFromParcel(Parcel parcel) {
@@ -405,30 +411,30 @@ public final class ListModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a FileItem object
 		 */
-		public FileItem(JSONObject obj) throws JSONException {
-			super(obj);
+		public FileItem(ObjectNode node) {
+			super(node);
 			mType = API_TYPE;
-			file = obj.getString(FILE);
-			filetype = obj.getString(FILETYPE);
+			file = node.get(FILE).getTextValue();
+			filetype = node.get(FILETYPE).getTextValue();
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(FILE, file);
-			obj.put(FILETYPE, filetype);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(FILE, file);
+			node.put(FILETYPE, filetype);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link ListModel.FileItem} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<ListModel.FileItem> getListModelFileItemList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<ListModel.FileItem> l = new ArrayList<ListModel.FileItem>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new ListModel.FileItem(a.getJSONObject(i)));
+		static ArrayList<ListModel.FileItem> getListModelFileItemList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<ListModel.FileItem> l = new ArrayList<ListModel.FileItem>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new ListModel.FileItem((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -450,16 +456,16 @@ public final class ListModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected FileItem(Parcel parcel) {
 			super(parcel);
 			file = parcel.readString();
 			filetype = parcel.readString();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<FileItem> CREATOR = new Parcelable.Creator<FileItem>() {
 			@Override
 			public FileItem createFromParcel(Parcel parcel) {
@@ -484,28 +490,28 @@ public final class ListModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a SourcesItem object
 		 */
-		public SourcesItem(JSONObject obj) throws JSONException {
-			super(obj);
+		public SourcesItem(ObjectNode node) {
+			super(node);
 			mType = API_TYPE;
-			file = obj.getString(FILE);
+			file = node.get(FILE).getTextValue();
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(FILE, file);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(FILE, file);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link ListModel.SourcesItem} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<ListModel.SourcesItem> getListModelSourcesItemList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<ListModel.SourcesItem> l = new ArrayList<ListModel.SourcesItem>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new ListModel.SourcesItem(a.getJSONObject(i)));
+		static ArrayList<ListModel.SourcesItem> getListModelSourcesItemList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<ListModel.SourcesItem> l = new ArrayList<ListModel.SourcesItem>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new ListModel.SourcesItem((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -526,15 +532,15 @@ public final class ListModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected SourcesItem(Parcel parcel) {
 			super(parcel);
 			file = parcel.readString();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<SourcesItem> CREATOR = new Parcelable.Creator<SourcesItem>() {
 			@Override
 			public SourcesItem createFromParcel(Parcel parcel) {
@@ -563,10 +569,10 @@ public final class ListModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a Limits object
 		 */
-		public Limits(JSONObject obj) throws JSONException {
+		public Limits(ObjectNode node) {
 			mType = API_TYPE;
-			end = parseInt(obj, END);
-			start = parseInt(obj, START);
+			end = parseInt(node, END);
+			start = parseInt(node, START);
 		}
 		/**
 		 * Construct object with native values for later serialization.
@@ -578,23 +584,23 @@ public final class ListModel {
 			this.start = start;
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(END, end);
-			obj.put(START, start);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(END, end);
+			node.put(START, start);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link ListModel.Limits} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<ListModel.Limits> getListModelLimitsList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<ListModel.Limits> l = new ArrayList<ListModel.Limits>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new ListModel.Limits(a.getJSONObject(i)));
+		static ArrayList<ListModel.Limits> getListModelLimitsList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<ListModel.Limits> l = new ArrayList<ListModel.Limits>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new ListModel.Limits((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -615,15 +621,15 @@ public final class ListModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected Limits(Parcel parcel) {
 			end = parcel.readInt();
 			start = parcel.readInt();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<Limits> CREATOR = new Parcelable.Creator<Limits>() {
 			@Override
 			public Limits createFromParcel(Parcel parcel) {
@@ -654,11 +660,11 @@ public final class ListModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a LimitsReturned object
 		 */
-		public LimitsReturned(JSONObject obj) throws JSONException {
+		public LimitsReturned(ObjectNode node) {
 			mType = API_TYPE;
-			end = parseInt(obj, END);
-			start = parseInt(obj, START);
-			total = obj.getInt(TOTAL);
+			end = parseInt(node, END);
+			start = parseInt(node, START);
+			total = node.get(TOTAL).getIntValue();
 		}
 		/**
 		 * Construct object with native values for later serialization.
@@ -672,24 +678,24 @@ public final class ListModel {
 			this.total = total;
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(END, end);
-			obj.put(START, start);
-			obj.put(TOTAL, total);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(END, end);
+			node.put(START, start);
+			node.put(TOTAL, total);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link ListModel.LimitsReturned} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<ListModel.LimitsReturned> getListModelLimitsReturnedList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<ListModel.LimitsReturned> l = new ArrayList<ListModel.LimitsReturned>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new ListModel.LimitsReturned(a.getJSONObject(i)));
+		static ArrayList<ListModel.LimitsReturned> getListModelLimitsReturnedList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<ListModel.LimitsReturned> l = new ArrayList<ListModel.LimitsReturned>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new ListModel.LimitsReturned((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -711,16 +717,16 @@ public final class ListModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected LimitsReturned(Parcel parcel) {
 			end = parcel.readInt();
 			start = parcel.readInt();
 			total = parcel.readInt();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<LimitsReturned> CREATOR = new Parcelable.Creator<LimitsReturned>() {
 			@Override
 			public LimitsReturned createFromParcel(Parcel parcel) {
@@ -757,11 +763,11 @@ public final class ListModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a Sort object
 		 */
-		public Sort(JSONObject obj) throws JSONException {
+		public Sort(ObjectNode node) {
 			mType = API_TYPE;
-			ignorearticle = parseBoolean(obj, IGNOREARTICLE);
-			method = parseString(obj, METHOD);
-			order = parseString(obj, ORDER);
+			ignorearticle = parseBoolean(node, IGNOREARTICLE);
+			method = parseString(node, METHOD);
+			order = parseString(node, ORDER);
 		}
 		/**
 		 * Construct object with native values for later serialization.
@@ -775,24 +781,24 @@ public final class ListModel {
 			this.order = order;
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(IGNOREARTICLE, ignorearticle);
-			obj.put(METHOD, method);
-			obj.put(ORDER, order);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(IGNOREARTICLE, ignorearticle);
+			node.put(METHOD, method);
+			node.put(ORDER, order);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link ListModel.Sort} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<ListModel.Sort> getListModelSortList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<ListModel.Sort> l = new ArrayList<ListModel.Sort>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new ListModel.Sort(a.getJSONObject(i)));
+		static ArrayList<ListModel.Sort> getListModelSortList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<ListModel.Sort> l = new ArrayList<ListModel.Sort>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new ListModel.Sort((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -814,16 +820,16 @@ public final class ListModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected Sort(Parcel parcel) {
 			ignorearticle = parcel.readInt() == 1;
 			method = parcel.readString();
 			order = parcel.readString();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<Sort> CREATOR = new Parcelable.Creator<Sort>() {
 			@Override
 			public Sort createFromParcel(Parcel parcel) {

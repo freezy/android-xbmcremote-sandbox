@@ -21,8 +21,12 @@
 
 package org.xbmc.android.jsonrpc.api.call;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Log;
+import java.io.IOException;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.UndefinedResult;
 
@@ -42,25 +46,49 @@ public final class XBMC {
 		/**
 		 * Retrieve info booleans about XBMC and the system
 		 * @param booleans 
-		 * @throws JSONException
 		 */
-		public GetInfoBooleans(String... booleans) throws JSONException {
+		public GetInfoBooleans(String... booleans) {
 			super();
 			addParameter("booleans", booleans);
 		}
 		@Override
-		protected UndefinedResult parseOne(JSONObject obj) throws JSONException {
-			return new UndefinedResult(obj);
+		protected UndefinedResult parseOne(ObjectNode node) {
+			return new UndefinedResult(node);
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetInfoBooleans(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetInfoBooleans> CREATOR = new Parcelable.Creator<GetInfoBooleans>() {
+			@Override
+			public GetInfoBooleans createFromParcel(Parcel parcel) {
+				return new GetInfoBooleans(parcel);
+			}
+			@Override
+			public GetInfoBooleans[] newArray(int n) {
+				return new GetInfoBooleans[n];
+			}
+		};
+}
 	/**
 	 * Retrieve info labels about XBMC and the system
 	 * <p/>
@@ -73,23 +101,47 @@ public final class XBMC {
 		/**
 		 * Retrieve info labels about XBMC and the system
 		 * @param labels Retrieve info labels about XBMC and the system
-		 * @throws JSONException
 		 */
-		public GetInfoLabels(String... labels) throws JSONException {
+		public GetInfoLabels(String... labels) {
 			super();
 			addParameter("labels", labels);
 		}
 		@Override
-		protected UndefinedResult parseOne(JSONObject obj) throws JSONException {
-			return new UndefinedResult(obj);
+		protected UndefinedResult parseOne(ObjectNode node) {
+			return new UndefinedResult(node);
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetInfoLabels(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetInfoLabels> CREATOR = new Parcelable.Creator<GetInfoLabels>() {
+			@Override
+			public GetInfoLabels createFromParcel(Parcel parcel) {
+				return new GetInfoLabels(parcel);
+			}
+			@Override
+			public GetInfoLabels[] newArray(int n) {
+				return new GetInfoLabels[n];
+			}
+		};
+}
 }

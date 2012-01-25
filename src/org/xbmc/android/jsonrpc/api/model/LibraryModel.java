@@ -24,9 +24,8 @@ package org.xbmc.android.jsonrpc.api.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import java.util.ArrayList;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
 
 public final class LibraryModel {
 	/**
@@ -48,32 +47,32 @@ public final class LibraryModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a GenreDetails object
 		 */
-		public GenreDetails(JSONObject obj) throws JSONException {
-			super(obj);
+		public GenreDetails(ObjectNode node) {
+			super(node);
 			mType = API_TYPE;
-			genreid = obj.getInt(GENREID);
-			thumbnail = parseString(obj, THUMBNAIL);
-			title = parseString(obj, TITLE);
+			genreid = node.get(GENREID).getIntValue();
+			thumbnail = parseString(node, THUMBNAIL);
+			title = parseString(node, TITLE);
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(GENREID, genreid);
-			obj.put(THUMBNAIL, thumbnail);
-			obj.put(TITLE, title);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(GENREID, genreid);
+			node.put(THUMBNAIL, thumbnail);
+			node.put(TITLE, title);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link LibraryModel.GenreDetails} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<LibraryModel.GenreDetails> getLibraryModelGenreDetailsList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<LibraryModel.GenreDetails> l = new ArrayList<LibraryModel.GenreDetails>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new LibraryModel.GenreDetails(a.getJSONObject(i)));
+		static ArrayList<LibraryModel.GenreDetails> getLibraryModelGenreDetailsList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<LibraryModel.GenreDetails> l = new ArrayList<LibraryModel.GenreDetails>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new LibraryModel.GenreDetails((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -96,8 +95,8 @@ public final class LibraryModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected GenreDetails(Parcel parcel) {
 			super(parcel);
 			genreid = parcel.readInt();
@@ -105,8 +104,8 @@ public final class LibraryModel {
 			title = parcel.readString();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<GenreDetails> CREATOR = new Parcelable.Creator<GenreDetails>() {
 			@Override
 			public GenreDetails createFromParcel(Parcel parcel) {

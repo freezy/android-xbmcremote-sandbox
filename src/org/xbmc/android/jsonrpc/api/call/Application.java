@@ -21,8 +21,12 @@
 
 package org.xbmc.android.jsonrpc.api.call;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Log;
+import java.io.IOException;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.model.ApplicationModel;
 
@@ -43,25 +47,49 @@ public final class Application {
 		 * Retrieves the values of the given properties
 		 * @param properties One or more of: <tt>volume</tt>, <tt>muted</tt>, <tt>name</tt>, <tt>version</tt>. See constants at {@link ApplicationModel.PropertyName}.
 		 * @see ApplicationModel.PropertyName
-		 * @throws JSONException
 		 */
-		public GetProperties(String... properties) throws JSONException {
+		public GetProperties(String... properties) {
 			super();
 			addParameter("properties", properties);
 		}
 		@Override
-		protected ApplicationModel.PropertyValue parseOne(JSONObject obj) throws JSONException {
-			return new ApplicationModel.PropertyValue(parseResult(obj));
+		protected ApplicationModel.PropertyValue parseOne(ObjectNode node) {
+			return new ApplicationModel.PropertyValue((ObjectNode)parseResult(node));
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetProperties(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetProperties> CREATOR = new Parcelable.Creator<GetProperties>() {
+			@Override
+			public GetProperties createFromParcel(Parcel parcel) {
+				return new GetProperties(parcel);
+			}
+			@Override
+			public GetProperties[] newArray(int n) {
+				return new GetProperties[n];
+			}
+		};
+}
 	/**
 	 * Quit application
 	 * <p/>
@@ -73,24 +101,48 @@ public final class Application {
 		private static final String NAME = "Quit";
 		/**
 		 * Quit application
-		 * @throws JSONException
 		 */
-		public Quit() throws JSONException {
+		public Quit() {
 			super();
 		}
 		@Override
-		protected String parseOne(JSONObject obj) throws JSONException {
-			return obj.getString(RESULT);
+		protected String parseOne(ObjectNode node) {
+			return node.get(RESULT).getTextValue();
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected Quit(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Quit> CREATOR = new Parcelable.Creator<Quit>() {
+			@Override
+			public Quit createFromParcel(Parcel parcel) {
+				return new Quit(parcel);
+			}
+			@Override
+			public Quit[] newArray(int n) {
+				return new Quit[n];
+			}
+		};
+}
 	/**
 	 * Toggle mute/unmute
 	 * <p/>
@@ -103,34 +155,57 @@ public final class Application {
 		/**
 		 * Toggle mute/unmute
 		 * @param mute 
-		 * @throws JSONException
 		 */
-		public SetMute(Boolean mute) throws JSONException {
+		public SetMute(Boolean mute) {
 			super();
 			addParameter("mute", mute);
 		}
 		/**
 		 * Toggle mute/unmute
 		 * @param mute 
-		 * @throws JSONException
 		 */
-		public SetMute(String mute) throws JSONException {
+		public SetMute(String mute) {
 			super();
 			addParameter("mute", mute);
 		}
 		@Override
-		protected Boolean parseOne(JSONObject obj) throws JSONException {
-			return obj.getBoolean(RESULT);
+		protected Boolean parseOne(ObjectNode node) {
+			return node.get(RESULT).getBooleanValue();
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected SetMute(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<SetMute> CREATOR = new Parcelable.Creator<SetMute>() {
+			@Override
+			public SetMute createFromParcel(Parcel parcel) {
+				return new SetMute(parcel);
+			}
+			@Override
+			public SetMute[] newArray(int n) {
+				return new SetMute[n];
+			}
+		};
+}
 	/**
 	 * Set the current volume
 	 * <p/>
@@ -143,23 +218,47 @@ public final class Application {
 		/**
 		 * Set the current volume
 		 * @param volume 
-		 * @throws JSONException
 		 */
-		public SetVolume(int volume) throws JSONException {
+		public SetVolume(int volume) {
 			super();
 			addParameter("volume", volume);
 		}
 		@Override
-		protected Integer parseOne(JSONObject obj) throws JSONException {
-			return obj.getInt(RESULT);
+		protected Integer parseOne(ObjectNode node) {
+			return node.get(RESULT).getIntValue();
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected SetVolume(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<SetVolume> CREATOR = new Parcelable.Creator<SetVolume>() {
+			@Override
+			public SetVolume createFromParcel(Parcel parcel) {
+				return new SetVolume(parcel);
+			}
+			@Override
+			public SetVolume[] newArray(int n) {
+				return new SetVolume[n];
+			}
+		};
+}
 }

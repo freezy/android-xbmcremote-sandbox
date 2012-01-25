@@ -23,10 +23,12 @@ package org.xbmc.android.jsonrpc.api.call;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+import java.io.IOException;
 import java.util.ArrayList;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.AbstractModel;
 import org.xbmc.android.jsonrpc.api.model.ListModel;
@@ -49,26 +51,50 @@ public final class Playlist {
 		 * Add item(s) to playlist
 		 * @param playlistid 
 		 * @param item 
-		 * @throws JSONException
 		 */
-		public Add(Integer playlistid, PlaylistModel.Item item) throws JSONException {
+		public Add(Integer playlistid, PlaylistModel.Item item) {
 			super();
 			addParameter("playlistid", playlistid);
 			addParameter("item", item);
 		}
 		@Override
-		protected String parseOne(JSONObject obj) throws JSONException {
-			return obj.getString(RESULT);
+		protected String parseOne(ObjectNode node) {
+			return node.get(RESULT).getTextValue();
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected Add(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Add> CREATOR = new Parcelable.Creator<Add>() {
+			@Override
+			public Add createFromParcel(Parcel parcel) {
+				return new Add(parcel);
+			}
+			@Override
+			public Add[] newArray(int n) {
+				return new Add[n];
+			}
+		};
+}
 	/**
 	 * Clear playlist
 	 * <p/>
@@ -81,25 +107,49 @@ public final class Playlist {
 		/**
 		 * Clear playlist
 		 * @param playlistid 
-		 * @throws JSONException
 		 */
-		public Clear(Integer playlistid) throws JSONException {
+		public Clear(Integer playlistid) {
 			super();
 			addParameter("playlistid", playlistid);
 		}
 		@Override
-		protected String parseOne(JSONObject obj) throws JSONException {
-			return obj.getString(RESULT);
+		protected String parseOne(ObjectNode node) {
+			return node.get(RESULT).getTextValue();
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected Clear(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Clear> CREATOR = new Parcelable.Creator<Clear>() {
+			@Override
+			public Clear createFromParcel(Parcel parcel) {
+				return new Clear(parcel);
+			}
+			@Override
+			public Clear[] newArray(int n) {
+				return new Clear[n];
+			}
+		};
+}
 	/**
 	 * Get all items from playlist
 	 * <p/>
@@ -115,32 +165,56 @@ public final class Playlist {
 		 * @param playlistid 
 		 * @param properties One or more of: <tt>title</tt>, <tt>artist</tt>, <tt>albumartist</tt>, <tt>genre</tt>, <tt>year</tt>, <tt>rating</tt>, <tt>album</tt>, <tt>track</tt>, <tt>duration</tt>, <tt>comment</tt>, <tt>lyrics</tt>, <tt>musicbrainztrackid</tt>, <tt>musicbrainzartistid</tt>, <tt>musicbrainzalbumid</tt>, <tt>musicbrainzalbumartistid</tt>, <tt>playcount</tt>, <tt>fanart</tt>, <tt>director</tt>, <tt>trailer</tt>, <tt>tagline</tt>, <tt>plot</tt>, <tt>plotoutline</tt>, <tt>originaltitle</tt>, <tt>lastplayed</tt>, <tt>writer</tt>, <tt>studio</tt>, <tt>mpaa</tt>, <tt>cast</tt>, <tt>country</tt>, <tt>imdbnumber</tt>, <tt>premiered</tt>, <tt>productioncode</tt>, <tt>runtime</tt>, <tt>set</tt>, <tt>showlink</tt>, <tt>streamdetails</tt>, <tt>top250</tt>, <tt>votes</tt>, <tt>firstaired</tt>, <tt>season</tt>, <tt>episode</tt>, <tt>showtitle</tt>, <tt>thumbnail</tt>, <tt>file</tt>, <tt>resume</tt>, <tt>artistid</tt>, <tt>albumid</tt>, <tt>tvshowid</tt>, <tt>setid</tt>. See constants at {@link ListModel.AllFields}.
 		 * @see ListModel.AllFields
-		 * @throws JSONException
 		 */
-		public GetItems(Integer playlistid, String... properties) throws JSONException {
+		public GetItems(Integer playlistid, String... properties) {
 			super();
 			addParameter("playlistid", playlistid);
 			addParameter("properties", properties);
 		}
 		@Override
-		protected ArrayList<ListModel.AllItem> parseMany(JSONObject obj) throws JSONException {
-			final JSONArray items = parseResult(obj).getJSONArray(RESULTS);
-			final ArrayList<ListModel.AllItem> ret = new ArrayList<ListModel.AllItem>(items.length());
-			for (int i = 0; i < items.length(); i++) {
-				final JSONObject item = items.getJSONObject(i);
+		protected ArrayList<ListModel.AllItem> parseMany(ObjectNode node) {
+			final ArrayNode items = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayList<ListModel.AllItem> ret = new ArrayList<ListModel.AllItem>(items.size());
+			for (int i = 0; i < items.size(); i++) {
+				final ObjectNode item = (ObjectNode)items.get(i);
 				ret.add(new ListModel.AllItem(item));
 			}
 			return ret;
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return true;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetItems(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetItems> CREATOR = new Parcelable.Creator<GetItems>() {
+			@Override
+			public GetItems createFromParcel(Parcel parcel) {
+				return new GetItems(parcel);
+			}
+			@Override
+			public GetItems[] newArray(int n) {
+				return new GetItems[n];
+			}
+		};
+}
 	/**
 	 * Returns all existing playlists
 	 * <p/>
@@ -152,14 +226,13 @@ public final class Playlist {
 		private static final String NAME = "GetPlaylists";
 		/**
 		 * Returns all existing playlists
-		 * @throws JSONException
 		 */
-		public GetPlaylists() throws JSONException {
+		public GetPlaylists() {
 			super();
 		}
 		@Override
-		protected GetPlaylists.GetPlaylistsResult parseOne(JSONObject obj) throws JSONException {
-			return new GetPlaylists.GetPlaylistsResult(parseResult(obj));
+		protected GetPlaylists.GetPlaylistsResult parseOne(ObjectNode node) {
+			return new GetPlaylists.GetPlaylistsResult((ObjectNode)parseResult(node));
 		}
 		/**
 		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
@@ -175,9 +248,9 @@ public final class Playlist {
 			 * Construct from JSON object.
 			 * @param obj JSON object representing a GetPlaylistsResult object
 			 */
-			public GetPlaylistsResult(JSONObject obj) throws JSONException {
-				playlistid = obj.getInt(PLAYLISTID);
-				type = obj.getString(TYPE);
+			public GetPlaylistsResult(ObjectNode node) {
+				playlistid = node.get(PLAYLISTID).getIntValue();
+				type = node.get(TYPE).getTextValue();
 			}
 			/**
 			 * Construct object with native values for later serialization.
@@ -189,23 +262,23 @@ public final class Playlist {
 				this.type = type;
 			}
 			@Override
-			public JSONObject toJSONObject() throws JSONException {
-				final JSONObject obj = new JSONObject();
-				obj.put(PLAYLISTID, playlistid);
-				obj.put(TYPE, type);
-				return obj;
+			public ObjectNode toObjectNode() {
+				final ObjectNode node = OM.createObjectNode();
+				node.put(PLAYLISTID, playlistid);
+				node.put(TYPE, type);
+				return node;
 			}
 			/**
 			 * Extracts a list of {@link GetPlaylistsResult} objects from a JSON array.
-			 * @param obj JSONObject containing the list of objects
+			 * @param obj ObjectNode containing the list of objects
 			 * @param key Key pointing to the node where the list is stored
 			 */
-			static ArrayList<GetPlaylistsResult> getGetPlaylistsResultList(JSONObject obj, String key) throws JSONException {
-				if (obj.has(key)) {
-					final JSONArray a = obj.getJSONArray(key);
-					final ArrayList<GetPlaylistsResult> l = new ArrayList<GetPlaylistsResult>(a.length());
-					for (int i = 0; i < a.length(); i++) {
-						l.add(new GetPlaylistsResult(a.getJSONObject(i)));
+			static ArrayList<GetPlaylistsResult> getGetPlaylistsResultList(ObjectNode node, String key) {
+				if (node.has(key)) {
+					final ArrayNode a = (ArrayNode)node.get(key);
+					final ArrayList<GetPlaylistsResult> l = new ArrayList<GetPlaylistsResult>(a.size());
+					for (int i = 0; i < a.size(); i++) {
+						l.add(new GetPlaylistsResult((ObjectNode)a.get(i)));
 					}
 					return l;
 				}
@@ -226,15 +299,15 @@ public final class Playlist {
 				return 0;
 			}
 			/**
-			* Construct via parcel
-			*/
+			 * Construct via parcel
+			 */
 			protected GetPlaylistsResult(Parcel parcel) {
 				playlistid = parcel.readInt();
 				type = parcel.readString();
 			}
 			/**
-			* Generates instances of this Parcelable class from a Parcel.
-			*/
+			 * Generates instances of this Parcelable class from a Parcel.
+			 */
 			public static final Parcelable.Creator<GetPlaylistsResult> CREATOR = new Parcelable.Creator<GetPlaylistsResult>() {
 				@Override
 				public GetPlaylistsResult createFromParcel(Parcel parcel) {
@@ -247,14 +320,39 @@ public final class Playlist {
 			};
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetPlaylists(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetPlaylists> CREATOR = new Parcelable.Creator<GetPlaylists>() {
+			@Override
+			public GetPlaylists createFromParcel(Parcel parcel) {
+				return new GetPlaylists(parcel);
+			}
+			@Override
+			public GetPlaylists[] newArray(int n) {
+				return new GetPlaylists[n];
+			}
+		};
+}
 	/**
 	 * Retrieves the values of the given properties
 	 * <p/>
@@ -269,26 +367,50 @@ public final class Playlist {
 		 * @param playlistid 
 		 * @param properties One or more of: <tt>type</tt>, <tt>size</tt>. See constants at {@link PlaylistModel.PropertyName}.
 		 * @see PlaylistModel.PropertyName
-		 * @throws JSONException
 		 */
-		public GetProperties(Integer playlistid, String... properties) throws JSONException {
+		public GetProperties(Integer playlistid, String... properties) {
 			super();
 			addParameter("playlistid", playlistid);
 			addParameter("properties", properties);
 		}
 		@Override
-		protected PlaylistModel.PropertyValue parseOne(JSONObject obj) throws JSONException {
-			return new PlaylistModel.PropertyValue(parseResult(obj));
+		protected PlaylistModel.PropertyValue parseOne(ObjectNode node) {
+			return new PlaylistModel.PropertyValue((ObjectNode)parseResult(node));
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetProperties(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetProperties> CREATOR = new Parcelable.Creator<GetProperties>() {
+			@Override
+			public GetProperties createFromParcel(Parcel parcel) {
+				return new GetProperties(parcel);
+			}
+			@Override
+			public GetProperties[] newArray(int n) {
+				return new GetProperties[n];
+			}
+		};
+}
 	/**
 	 * Insert item(s) into playlist. Does not work for picture playlists (aka slideshows).
 	 * <p/>
@@ -303,27 +425,51 @@ public final class Playlist {
 		 * @param playlistid 
 		 * @param position 
 		 * @param item 
-		 * @throws JSONException
 		 */
-		public Insert(Integer playlistid, Integer position, PlaylistModel.Item item) throws JSONException {
+		public Insert(Integer playlistid, Integer position, PlaylistModel.Item item) {
 			super();
 			addParameter("playlistid", playlistid);
 			addParameter("position", position);
 			addParameter("item", item);
 		}
 		@Override
-		protected String parseOne(JSONObject obj) throws JSONException {
-			return obj.getString(RESULT);
+		protected String parseOne(ObjectNode node) {
+			return node.get(RESULT).getTextValue();
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected Insert(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Insert> CREATOR = new Parcelable.Creator<Insert>() {
+			@Override
+			public Insert createFromParcel(Parcel parcel) {
+				return new Insert(parcel);
+			}
+			@Override
+			public Insert[] newArray(int n) {
+				return new Insert[n];
+			}
+		};
+}
 	/**
 	 * Remove item from playlist. Does not work for picture playlists (aka slideshows).
 	 * <p/>
@@ -337,26 +483,50 @@ public final class Playlist {
 		 * Remove item from playlist. Does not work for picture playlists (aka slideshows).
 		 * @param playlistid 
 		 * @param position 
-		 * @throws JSONException
 		 */
-		public Remove(Integer playlistid, Integer position) throws JSONException {
+		public Remove(Integer playlistid, Integer position) {
 			super();
 			addParameter("playlistid", playlistid);
 			addParameter("position", position);
 		}
 		@Override
-		protected String parseOne(JSONObject obj) throws JSONException {
-			return obj.getString(RESULT);
+		protected String parseOne(ObjectNode node) {
+			return node.get(RESULT).getTextValue();
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected Remove(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Remove> CREATOR = new Parcelable.Creator<Remove>() {
+			@Override
+			public Remove createFromParcel(Parcel parcel) {
+				return new Remove(parcel);
+			}
+			@Override
+			public Remove[] newArray(int n) {
+				return new Remove[n];
+			}
+		};
+}
 	/**
 	 * Swap items in the playlist. Does not work for picture playlists (aka slideshows).
 	 * <p/>
@@ -371,25 +541,49 @@ public final class Playlist {
 		 * @param playlistid 
 		 * @param position1 
 		 * @param position2 
-		 * @throws JSONException
 		 */
-		public Swap(Integer playlistid, Integer position1, Integer position2) throws JSONException {
+		public Swap(Integer playlistid, Integer position1, Integer position2) {
 			super();
 			addParameter("playlistid", playlistid);
 			addParameter("position1", position1);
 			addParameter("position2", position2);
 		}
 		@Override
-		protected String parseOne(JSONObject obj) throws JSONException {
-			return obj.getString(RESULT);
+		protected String parseOne(ObjectNode node) {
+			return node.get(RESULT).getTextValue();
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected Swap(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Swap> CREATOR = new Parcelable.Creator<Swap>() {
+			@Override
+			public Swap createFromParcel(Parcel parcel) {
+				return new Swap(parcel);
+			}
+			@Override
+			public Swap[] newArray(int n) {
+				return new Swap[n];
+			}
+		};
+}
 }

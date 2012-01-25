@@ -23,10 +23,12 @@ package org.xbmc.android.jsonrpc.api.call;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+import java.io.IOException;
 import java.util.ArrayList;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.AbstractModel;
 import org.xbmc.android.jsonrpc.api.model.AudioModel;
@@ -47,24 +49,48 @@ public final class AudioLibrary {
 		private static final String NAME = "Clean";
 		/**
 		 * Cleans the audio library from non-existent items
-		 * @throws JSONException
 		 */
-		public Clean() throws JSONException {
+		public Clean() {
 			super();
 		}
 		@Override
-		protected String parseOne(JSONObject obj) throws JSONException {
-			return obj.getString(RESULT);
+		protected String parseOne(ObjectNode node) {
+			return node.get(RESULT).getTextValue();
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected Clean(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Clean> CREATOR = new Parcelable.Creator<Clean>() {
+			@Override
+			public Clean createFromParcel(Parcel parcel) {
+				return new Clean(parcel);
+			}
+			@Override
+			public Clean[] newArray(int n) {
+				return new Clean[n];
+			}
+		};
+}
 	/**
 	 * Exports all items from the audio library
 	 * <p/>
@@ -77,24 +103,22 @@ public final class AudioLibrary {
 		/**
 		 * Exports all items from the audio library
 		 * @param options 
-		 * @throws JSONException
 		 */
-		public Export(Path options) throws JSONException {
+		public Export(Path options) {
 			super();
 			addParameter("options", options);
 		}
 		/**
 		 * Exports all items from the audio library
 		 * @param options 
-		 * @throws JSONException
 		 */
-		public Export(ImagesOverwrite options) throws JSONException {
+		public Export(ImagesOverwrite options) {
 			super();
 			addParameter("options", options);
 		}
 		@Override
-		protected String parseOne(JSONObject obj) throws JSONException {
-			return obj.getString(RESULT);
+		protected String parseOne(ObjectNode node) {
+			return node.get(RESULT).getTextValue();
 		}
 		/**
 		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
@@ -115,10 +139,10 @@ public final class AudioLibrary {
 				this.path = path;
 			}
 			@Override
-			public JSONObject toJSONObject() throws JSONException {
-				final JSONObject obj = new JSONObject();
-				obj.put(PATH, path);
-				return obj;
+			public ObjectNode toObjectNode() {
+				final ObjectNode node = OM.createObjectNode();
+				node.put(PATH, path);
+				return node;
 			}
 			/**
 			 * Flatten this object into a Parcel.
@@ -134,14 +158,14 @@ public final class AudioLibrary {
 				return 0;
 			}
 			/**
-			* Construct via parcel
-			*/
+			 * Construct via parcel
+			 */
 			protected Path(Parcel parcel) {
 				path = parcel.readString();
 			}
 			/**
-			* Generates instances of this Parcelable class from a Parcel.
-			*/
+			 * Generates instances of this Parcelable class from a Parcel.
+			 */
 			public static final Parcelable.Creator<Path> CREATOR = new Parcelable.Creator<Path>() {
 				@Override
 				public Path createFromParcel(Parcel parcel) {
@@ -179,11 +203,11 @@ public final class AudioLibrary {
 				this.overwrite = overwrite;
 			}
 			@Override
-			public JSONObject toJSONObject() throws JSONException {
-				final JSONObject obj = new JSONObject();
-				obj.put(IMAGES, images);
-				obj.put(OVERWRITE, overwrite);
-				return obj;
+			public ObjectNode toObjectNode() {
+				final ObjectNode node = OM.createObjectNode();
+				node.put(IMAGES, images);
+				node.put(OVERWRITE, overwrite);
+				return node;
 			}
 			/**
 			 * Flatten this object into a Parcel.
@@ -200,15 +224,15 @@ public final class AudioLibrary {
 				return 0;
 			}
 			/**
-			* Construct via parcel
-			*/
+			 * Construct via parcel
+			 */
 			protected ImagesOverwrite(Parcel parcel) {
 				images = parcel.readInt() == 1;
 				overwrite = parcel.readInt() == 1;
 			}
 			/**
-			* Generates instances of this Parcelable class from a Parcel.
-			*/
+			 * Generates instances of this Parcelable class from a Parcel.
+			 */
 			public static final Parcelable.Creator<ImagesOverwrite> CREATOR = new Parcelable.Creator<ImagesOverwrite>() {
 				@Override
 				public ImagesOverwrite createFromParcel(Parcel parcel) {
@@ -221,14 +245,39 @@ public final class AudioLibrary {
 			};
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected Export(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Export> CREATOR = new Parcelable.Creator<Export>() {
+			@Override
+			public Export createFromParcel(Parcel parcel) {
+				return new Export(parcel);
+			}
+			@Override
+			public Export[] newArray(int n) {
+				return new Export[n];
+			}
+		};
+}
 	/**
 	 * Retrieve details about a specific album
 	 * <p/>
@@ -244,26 +293,50 @@ public final class AudioLibrary {
 		 * @param albumid 
 		 * @param properties One or more of: <tt>title</tt>, <tt>description</tt>, <tt>artist</tt>, <tt>genre</tt>, <tt>theme</tt>, <tt>mood</tt>, <tt>style</tt>, <tt>type</tt>, <tt>albumlabel</tt>, <tt>rating</tt>, <tt>year</tt>, <tt>musicbrainzalbumid</tt>, <tt>musicbrainzalbumartistid</tt>, <tt>fanart</tt>, <tt>thumbnail</tt>, <tt>artistid</tt>. See constants at {@link AudioModel.AlbumFields}.
 		 * @see AudioModel.AlbumFields
-		 * @throws JSONException
 		 */
-		public GetAlbumDetails(Integer albumid, String... properties) throws JSONException {
+		public GetAlbumDetails(Integer albumid, String... properties) {
 			super();
 			addParameter("albumid", albumid);
 			addParameter("properties", properties);
 		}
 		@Override
-		protected AudioModel.AlbumDetails parseOne(JSONObject obj) throws JSONException {
-			return new AudioModel.AlbumDetails(parseResult(obj).getJSONObject(RESULTS));
+		protected AudioModel.AlbumDetails parseOne(ObjectNode node) {
+			return new AudioModel.AlbumDetails((ObjectNode)parseResult(node).get(RESULTS));
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetAlbumDetails(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetAlbumDetails> CREATOR = new Parcelable.Creator<GetAlbumDetails>() {
+			@Override
+			public GetAlbumDetails createFromParcel(Parcel parcel) {
+				return new GetAlbumDetails(parcel);
+			}
+			@Override
+			public GetAlbumDetails[] newArray(int n) {
+				return new GetAlbumDetails[n];
+			}
+		};
+}
 	/**
 	 * Retrieve all albums from specified artist or genre
 	 * <p/>
@@ -280,33 +353,57 @@ public final class AudioLibrary {
 		 * @param genreid 
 		 * @param properties One or more of: <tt>title</tt>, <tt>description</tt>, <tt>artist</tt>, <tt>genre</tt>, <tt>theme</tt>, <tt>mood</tt>, <tt>style</tt>, <tt>type</tt>, <tt>albumlabel</tt>, <tt>rating</tt>, <tt>year</tt>, <tt>musicbrainzalbumid</tt>, <tt>musicbrainzalbumartistid</tt>, <tt>fanart</tt>, <tt>thumbnail</tt>, <tt>artistid</tt>. See constants at {@link AudioModel.AlbumFields}.
 		 * @see AudioModel.AlbumFields
-		 * @throws JSONException
 		 */
-		public GetAlbums(Integer artistid, Integer genreid, String... properties) throws JSONException {
+		public GetAlbums(Integer artistid, Integer genreid, String... properties) {
 			super();
 			addParameter("artistid", artistid);
 			addParameter("genreid", genreid);
 			addParameter("properties", properties);
 		}
 		@Override
-		protected ArrayList<AudioModel.AlbumDetails> parseMany(JSONObject obj) throws JSONException {
-			final JSONArray albums = parseResult(obj).getJSONArray(RESULTS);
-			final ArrayList<AudioModel.AlbumDetails> ret = new ArrayList<AudioModel.AlbumDetails>(albums.length());
-			for (int i = 0; i < albums.length(); i++) {
-				final JSONObject item = albums.getJSONObject(i);
+		protected ArrayList<AudioModel.AlbumDetails> parseMany(ObjectNode node) {
+			final ArrayNode albums = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayList<AudioModel.AlbumDetails> ret = new ArrayList<AudioModel.AlbumDetails>(albums.size());
+			for (int i = 0; i < albums.size(); i++) {
+				final ObjectNode item = (ObjectNode)albums.get(i);
 				ret.add(new AudioModel.AlbumDetails(item));
 			}
 			return ret;
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return true;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetAlbums(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetAlbums> CREATOR = new Parcelable.Creator<GetAlbums>() {
+			@Override
+			public GetAlbums createFromParcel(Parcel parcel) {
+				return new GetAlbums(parcel);
+			}
+			@Override
+			public GetAlbums[] newArray(int n) {
+				return new GetAlbums[n];
+			}
+		};
+}
 	/**
 	 * Retrieve details about a specific artist
 	 * <p/>
@@ -322,26 +419,50 @@ public final class AudioLibrary {
 		 * @param artistid 
 		 * @param properties One or more of: <tt>instrument</tt>, <tt>style</tt>, <tt>mood</tt>, <tt>born</tt>, <tt>formed</tt>, <tt>description</tt>, <tt>genre</tt>, <tt>died</tt>, <tt>disbanded</tt>, <tt>yearsactive</tt>, <tt>musicbrainzartistid</tt>, <tt>fanart</tt>, <tt>thumbnail</tt>. See constants at {@link AudioModel.ArtistFields}.
 		 * @see AudioModel.ArtistFields
-		 * @throws JSONException
 		 */
-		public GetArtistDetails(Integer artistid, String... properties) throws JSONException {
+		public GetArtistDetails(Integer artistid, String... properties) {
 			super();
 			addParameter("artistid", artistid);
 			addParameter("properties", properties);
 		}
 		@Override
-		protected AudioModel.ArtistDetails parseOne(JSONObject obj) throws JSONException {
-			return new AudioModel.ArtistDetails(parseResult(obj).getJSONObject(RESULTS));
+		protected AudioModel.ArtistDetails parseOne(ObjectNode node) {
+			return new AudioModel.ArtistDetails((ObjectNode)parseResult(node).get(RESULTS));
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetArtistDetails(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetArtistDetails> CREATOR = new Parcelable.Creator<GetArtistDetails>() {
+			@Override
+			public GetArtistDetails createFromParcel(Parcel parcel) {
+				return new GetArtistDetails(parcel);
+			}
+			@Override
+			public GetArtistDetails[] newArray(int n) {
+				return new GetArtistDetails[n];
+			}
+		};
+}
 	/**
 	 * Retrieve all artists
 	 * <p/>
@@ -358,33 +479,57 @@ public final class AudioLibrary {
 		 * @param genreid 
 		 * @param properties One or more of: <tt>instrument</tt>, <tt>style</tt>, <tt>mood</tt>, <tt>born</tt>, <tt>formed</tt>, <tt>description</tt>, <tt>genre</tt>, <tt>died</tt>, <tt>disbanded</tt>, <tt>yearsactive</tt>, <tt>musicbrainzartistid</tt>, <tt>fanart</tt>, <tt>thumbnail</tt>. See constants at {@link AudioModel.ArtistFields}.
 		 * @see AudioModel.ArtistFields
-		 * @throws JSONException
 		 */
-		public GetArtists(Boolean albumartistsonly, Integer genreid, String... properties) throws JSONException {
+		public GetArtists(Boolean albumartistsonly, Integer genreid, String... properties) {
 			super();
 			addParameter("albumartistsonly", albumartistsonly);
 			addParameter("genreid", genreid);
 			addParameter("properties", properties);
 		}
 		@Override
-		protected ArrayList<AudioModel.ArtistDetails> parseMany(JSONObject obj) throws JSONException {
-			final JSONArray artists = parseResult(obj).getJSONArray(RESULTS);
-			final ArrayList<AudioModel.ArtistDetails> ret = new ArrayList<AudioModel.ArtistDetails>(artists.length());
-			for (int i = 0; i < artists.length(); i++) {
-				final JSONObject item = artists.getJSONObject(i);
+		protected ArrayList<AudioModel.ArtistDetails> parseMany(ObjectNode node) {
+			final ArrayNode artists = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayList<AudioModel.ArtistDetails> ret = new ArrayList<AudioModel.ArtistDetails>(artists.size());
+			for (int i = 0; i < artists.size(); i++) {
+				final ObjectNode item = (ObjectNode)artists.get(i);
 				ret.add(new AudioModel.ArtistDetails(item));
 			}
 			return ret;
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return true;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetArtists(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetArtists> CREATOR = new Parcelable.Creator<GetArtists>() {
+			@Override
+			public GetArtists createFromParcel(Parcel parcel) {
+				return new GetArtists(parcel);
+			}
+			@Override
+			public GetArtists[] newArray(int n) {
+				return new GetArtists[n];
+			}
+		};
+}
 	/**
 	 * Retrieve all genres
 	 * <p/>
@@ -399,31 +544,55 @@ public final class AudioLibrary {
 		 * Retrieve all genres
 		 * @param properties One or more of: <tt>title</tt>, <tt>thumbnail</tt>. See constants at {@link LibraryModel.GenreFields}.
 		 * @see LibraryModel.GenreFields
-		 * @throws JSONException
 		 */
-		public GetGenres(String... properties) throws JSONException {
+		public GetGenres(String... properties) {
 			super();
 			addParameter("properties", properties);
 		}
 		@Override
-		protected ArrayList<LibraryModel.GenreDetails> parseMany(JSONObject obj) throws JSONException {
-			final JSONArray genres = parseResult(obj).getJSONArray(RESULTS);
-			final ArrayList<LibraryModel.GenreDetails> ret = new ArrayList<LibraryModel.GenreDetails>(genres.length());
-			for (int i = 0; i < genres.length(); i++) {
-				final JSONObject item = genres.getJSONObject(i);
+		protected ArrayList<LibraryModel.GenreDetails> parseMany(ObjectNode node) {
+			final ArrayNode genres = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayList<LibraryModel.GenreDetails> ret = new ArrayList<LibraryModel.GenreDetails>(genres.size());
+			for (int i = 0; i < genres.size(); i++) {
+				final ObjectNode item = (ObjectNode)genres.get(i);
 				ret.add(new LibraryModel.GenreDetails(item));
 			}
 			return ret;
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return true;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetGenres(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetGenres> CREATOR = new Parcelable.Creator<GetGenres>() {
+			@Override
+			public GetGenres createFromParcel(Parcel parcel) {
+				return new GetGenres(parcel);
+			}
+			@Override
+			public GetGenres[] newArray(int n) {
+				return new GetGenres[n];
+			}
+		};
+}
 	/**
 	 * Retrieve recently added albums
 	 * <p/>
@@ -438,31 +607,55 @@ public final class AudioLibrary {
 		 * Retrieve recently added albums
 		 * @param properties One or more of: <tt>title</tt>, <tt>description</tt>, <tt>artist</tt>, <tt>genre</tt>, <tt>theme</tt>, <tt>mood</tt>, <tt>style</tt>, <tt>type</tt>, <tt>albumlabel</tt>, <tt>rating</tt>, <tt>year</tt>, <tt>musicbrainzalbumid</tt>, <tt>musicbrainzalbumartistid</tt>, <tt>fanart</tt>, <tt>thumbnail</tt>, <tt>artistid</tt>. See constants at {@link AudioModel.AlbumFields}.
 		 * @see AudioModel.AlbumFields
-		 * @throws JSONException
 		 */
-		public GetRecentlyAddedAlbums(String... properties) throws JSONException {
+		public GetRecentlyAddedAlbums(String... properties) {
 			super();
 			addParameter("properties", properties);
 		}
 		@Override
-		protected ArrayList<AudioModel.AlbumDetails> parseMany(JSONObject obj) throws JSONException {
-			final JSONArray albums = parseResult(obj).getJSONArray(RESULTS);
-			final ArrayList<AudioModel.AlbumDetails> ret = new ArrayList<AudioModel.AlbumDetails>(albums.length());
-			for (int i = 0; i < albums.length(); i++) {
-				final JSONObject item = albums.getJSONObject(i);
+		protected ArrayList<AudioModel.AlbumDetails> parseMany(ObjectNode node) {
+			final ArrayNode albums = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayList<AudioModel.AlbumDetails> ret = new ArrayList<AudioModel.AlbumDetails>(albums.size());
+			for (int i = 0; i < albums.size(); i++) {
+				final ObjectNode item = (ObjectNode)albums.get(i);
 				ret.add(new AudioModel.AlbumDetails(item));
 			}
 			return ret;
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return true;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetRecentlyAddedAlbums(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetRecentlyAddedAlbums> CREATOR = new Parcelable.Creator<GetRecentlyAddedAlbums>() {
+			@Override
+			public GetRecentlyAddedAlbums createFromParcel(Parcel parcel) {
+				return new GetRecentlyAddedAlbums(parcel);
+			}
+			@Override
+			public GetRecentlyAddedAlbums[] newArray(int n) {
+				return new GetRecentlyAddedAlbums[n];
+			}
+		};
+}
 	/**
 	 * Retrieve recently added songs
 	 * <p/>
@@ -478,32 +671,56 @@ public final class AudioLibrary {
 		 * @param albumlimit Retrieve recently added songs
 		 * @param properties One or more of: <tt>title</tt>, <tt>artist</tt>, <tt>albumartist</tt>, <tt>genre</tt>, <tt>year</tt>, <tt>rating</tt>, <tt>album</tt>, <tt>track</tt>, <tt>duration</tt>, <tt>comment</tt>, <tt>lyrics</tt>, <tt>musicbrainztrackid</tt>, <tt>musicbrainzartistid</tt>, <tt>musicbrainzalbumid</tt>, <tt>musicbrainzalbumartistid</tt>, <tt>playcount</tt>, <tt>fanart</tt>, <tt>thumbnail</tt>, <tt>file</tt>, <tt>artistid</tt>, <tt>albumid</tt>. See constants at {@link AudioModel.SongFields}.
 		 * @see AudioModel.SongFields
-		 * @throws JSONException
 		 */
-		public GetRecentlyAddedSongs(Integer albumlimit, String... properties) throws JSONException {
+		public GetRecentlyAddedSongs(Integer albumlimit, String... properties) {
 			super();
 			addParameter("albumlimit", albumlimit);
 			addParameter("properties", properties);
 		}
 		@Override
-		protected ArrayList<AudioModel.SongDetails> parseMany(JSONObject obj) throws JSONException {
-			final JSONArray songs = parseResult(obj).getJSONArray(RESULTS);
-			final ArrayList<AudioModel.SongDetails> ret = new ArrayList<AudioModel.SongDetails>(songs.length());
-			for (int i = 0; i < songs.length(); i++) {
-				final JSONObject item = songs.getJSONObject(i);
+		protected ArrayList<AudioModel.SongDetails> parseMany(ObjectNode node) {
+			final ArrayNode songs = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayList<AudioModel.SongDetails> ret = new ArrayList<AudioModel.SongDetails>(songs.size());
+			for (int i = 0; i < songs.size(); i++) {
+				final ObjectNode item = (ObjectNode)songs.get(i);
 				ret.add(new AudioModel.SongDetails(item));
 			}
 			return ret;
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return true;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetRecentlyAddedSongs(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetRecentlyAddedSongs> CREATOR = new Parcelable.Creator<GetRecentlyAddedSongs>() {
+			@Override
+			public GetRecentlyAddedSongs createFromParcel(Parcel parcel) {
+				return new GetRecentlyAddedSongs(parcel);
+			}
+			@Override
+			public GetRecentlyAddedSongs[] newArray(int n) {
+				return new GetRecentlyAddedSongs[n];
+			}
+		};
+}
 	/**
 	 * Retrieve details about a specific song
 	 * <p/>
@@ -519,26 +736,50 @@ public final class AudioLibrary {
 		 * @param songid 
 		 * @param properties One or more of: <tt>title</tt>, <tt>artist</tt>, <tt>albumartist</tt>, <tt>genre</tt>, <tt>year</tt>, <tt>rating</tt>, <tt>album</tt>, <tt>track</tt>, <tt>duration</tt>, <tt>comment</tt>, <tt>lyrics</tt>, <tt>musicbrainztrackid</tt>, <tt>musicbrainzartistid</tt>, <tt>musicbrainzalbumid</tt>, <tt>musicbrainzalbumartistid</tt>, <tt>playcount</tt>, <tt>fanart</tt>, <tt>thumbnail</tt>, <tt>file</tt>, <tt>artistid</tt>, <tt>albumid</tt>. See constants at {@link AudioModel.SongFields}.
 		 * @see AudioModel.SongFields
-		 * @throws JSONException
 		 */
-		public GetSongDetails(Integer songid, String... properties) throws JSONException {
+		public GetSongDetails(Integer songid, String... properties) {
 			super();
 			addParameter("songid", songid);
 			addParameter("properties", properties);
 		}
 		@Override
-		protected AudioModel.SongDetails parseOne(JSONObject obj) throws JSONException {
-			return new AudioModel.SongDetails(parseResult(obj).getJSONObject(RESULTS));
+		protected AudioModel.SongDetails parseOne(ObjectNode node) {
+			return new AudioModel.SongDetails((ObjectNode)parseResult(node).get(RESULTS));
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetSongDetails(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetSongDetails> CREATOR = new Parcelable.Creator<GetSongDetails>() {
+			@Override
+			public GetSongDetails createFromParcel(Parcel parcel) {
+				return new GetSongDetails(parcel);
+			}
+			@Override
+			public GetSongDetails[] newArray(int n) {
+				return new GetSongDetails[n];
+			}
+		};
+}
 	/**
 	 * Retrieve all songs from specified album, artist or genre
 	 * <p/>
@@ -556,9 +797,8 @@ public final class AudioLibrary {
 		 * @param genreid 
 		 * @param properties One or more of: <tt>title</tt>, <tt>artist</tt>, <tt>albumartist</tt>, <tt>genre</tt>, <tt>year</tt>, <tt>rating</tt>, <tt>album</tt>, <tt>track</tt>, <tt>duration</tt>, <tt>comment</tt>, <tt>lyrics</tt>, <tt>musicbrainztrackid</tt>, <tt>musicbrainzartistid</tt>, <tt>musicbrainzalbumid</tt>, <tt>musicbrainzalbumartistid</tt>, <tt>playcount</tt>, <tt>fanart</tt>, <tt>thumbnail</tt>, <tt>file</tt>, <tt>artistid</tt>, <tt>albumid</tt>. See constants at {@link AudioModel.SongFields}.
 		 * @see AudioModel.SongFields
-		 * @throws JSONException
 		 */
-		public GetSongs(Integer artistid, Integer albumid, Integer genreid, String... properties) throws JSONException {
+		public GetSongs(Integer artistid, Integer albumid, Integer genreid, String... properties) {
 			super();
 			addParameter("artistid", artistid);
 			addParameter("albumid", albumid);
@@ -566,24 +806,49 @@ public final class AudioLibrary {
 			addParameter("properties", properties);
 		}
 		@Override
-		protected ArrayList<AudioModel.SongDetails> parseMany(JSONObject obj) throws JSONException {
-			final JSONArray songs = parseResult(obj).getJSONArray(RESULTS);
-			final ArrayList<AudioModel.SongDetails> ret = new ArrayList<AudioModel.SongDetails>(songs.length());
-			for (int i = 0; i < songs.length(); i++) {
-				final JSONObject item = songs.getJSONObject(i);
+		protected ArrayList<AudioModel.SongDetails> parseMany(ObjectNode node) {
+			final ArrayNode songs = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayList<AudioModel.SongDetails> ret = new ArrayList<AudioModel.SongDetails>(songs.size());
+			for (int i = 0; i < songs.size(); i++) {
+				final ObjectNode item = (ObjectNode)songs.get(i);
 				ret.add(new AudioModel.SongDetails(item));
 			}
 			return ret;
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return true;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected GetSongs(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<GetSongs> CREATOR = new Parcelable.Creator<GetSongs>() {
+			@Override
+			public GetSongs createFromParcel(Parcel parcel) {
+				return new GetSongs(parcel);
+			}
+			@Override
+			public GetSongs[] newArray(int n) {
+				return new GetSongs[n];
+			}
+		};
+}
 	/**
 	 * Scans the audio sources for new library items
 	 * <p/>
@@ -595,22 +860,46 @@ public final class AudioLibrary {
 		private static final String NAME = "Scan";
 		/**
 		 * Scans the audio sources for new library items
-		 * @throws JSONException
 		 */
-		public Scan() throws JSONException {
+		public Scan() {
 			super();
 		}
 		@Override
-		protected String parseOne(JSONObject obj) throws JSONException {
-			return obj.getString(RESULT);
+		protected String parseOne(ObjectNode node) {
+			return node.get(RESULT).getTextValue();
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected Scan(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Scan> CREATOR = new Parcelable.Creator<Scan>() {
+			@Override
+			public Scan createFromParcel(Parcel parcel) {
+				return new Scan(parcel);
+			}
+			@Override
+			public Scan[] newArray(int n) {
+				return new Scan[n];
+			}
+		};
+}
 }

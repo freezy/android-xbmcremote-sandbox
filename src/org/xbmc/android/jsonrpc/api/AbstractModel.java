@@ -23,80 +23,84 @@ package org.xbmc.android.jsonrpc.api;
 
 import java.util.ArrayList;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
 
 import android.os.Parcelable;
 
-public abstract class AbstractModel implements JSONSerializable, Parcelable {
+public abstract class AbstractModel implements JsonSerializable, Parcelable {
+	
+	/**
+	 * Reference to Jackson's object mapper
+	 */
+	protected final static ObjectMapper OM = new ObjectMapper();
 	
 	protected String mType;
 	
 	/**
 	 * Tries to read an integer from JSON object.
 	 * 
-	 * @param obj JSON object
+	 * @param node JSON object
 	 * @param key Key
 	 * @return Integer value if found, -1 otherwise.
 	 * @throws JSONException
 	 */
-	public static int parseInt(JSONObject obj, String key) throws JSONException {
-		return obj.has(key) ? obj.getInt(key) : -1;
+	public static int parseInt(ObjectNode node, String key) {
+		return node.get(key).getValueAsInt(-1);
 	}
 	
 	/**
 	 * Tries to read an integer from JSON object.
 	 * 
-	 * @param obj JSON object
+	 * @param node JSON object
 	 * @param key Key
 	 * @return String value if found, null otherwise.
 	 * @throws JSONException
 	 */
-	public static String parseString(JSONObject obj, String key) throws JSONException {
-		return obj.has(key) ? obj.getString(key) : null;
+	public static String parseString(ObjectNode node, String key) {
+		return node.get(key).getTextValue();
 	}
 	
 	/**
 	 * Tries to read an boolean from JSON object.
 	 * 
-	 * @param obj JSON object
+	 * @param node JSON object
 	 * @param key Key
 	 * @return String value if found, null otherwise.
 	 * @throws JSONException
 	 */
-	public static Boolean parseBoolean(JSONObject obj, String key) throws JSONException {
-		final boolean hasKey = obj.has(key);
+	public static Boolean parseBoolean(ObjectNode node, String key) {
+		final boolean hasKey = node.has(key);
 		if (hasKey) {
-			return obj.getBoolean(key);
+			return node.get(key).getBooleanValue();
 		} else {
 			return null;
 		}
-//		return obj.has(key) ? obj.getBoolean(key) : null;
 	}
 	
-	public static Double parseDouble(JSONObject obj, String key) throws JSONException {
-		return obj.has(key) ? obj.getDouble(key) : null;
+	public static Double parseDouble(ObjectNode node, String key) {
+		return node.get(key).getDoubleValue();
 	}
 
-	public static ArrayList<String> getStringArray(JSONObject obj, String key) throws JSONException {
-		if (obj.has(key)) {
-			final JSONArray a = obj.getJSONArray(key);
-			final ArrayList<String> l = new ArrayList<String>(a.length());
-			for (int i = 0; i < a.length(); i++) {
-				l.add(a.getString(i));
+	public static ArrayList<String> getStringArray(ObjectNode node, String key) {
+		if (node.has(key)) {
+			final ArrayNode a = (ArrayNode)node.get(key);
+			final ArrayList<String> l = new ArrayList<String>(a.size());
+			for (int i = 0; i < a.size(); i++) {
+				l.add(a.get(i).getTextValue());
 			}
 			return l;
 		}
 		return new ArrayList<String>(0);
 	}
 	
-	public static ArrayList<Integer> getIntegerArray(JSONObject obj, String key) throws JSONException {
-		if (obj.has(key)) {
-			final JSONArray a = obj.getJSONArray(key);
-			final ArrayList<Integer> l = new ArrayList<Integer>(a.length());
-			for (int i = 0; i < a.length(); i++) {
-				l.add(a.getInt(i));
+	public static ArrayList<Integer> getIntegerArray(ObjectNode node, String key) {
+		if (node.has(key)) {
+			final ArrayNode a = (ArrayNode)node.get(key);
+			final ArrayList<Integer> l = new ArrayList<Integer>(a.size());
+			for (int i = 0; i < a.size(); i++) {
+				l.add(a.get(i).getIntValue());
 			}
 			return l;
 		}

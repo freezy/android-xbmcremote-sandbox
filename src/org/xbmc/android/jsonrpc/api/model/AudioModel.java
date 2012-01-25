@@ -24,9 +24,8 @@ package org.xbmc.android.jsonrpc.api.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import java.util.ArrayList;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
 
 public final class AudioModel {
 	/**
@@ -58,42 +57,42 @@ public final class AudioModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a AlbumDetails object
 		 */
-		public AlbumDetails(JSONObject obj) throws JSONException {
-			super(obj);
+		public AlbumDetails(ObjectNode node) {
+			super(node);
 			mType = API_TYPE;
-			albumid = obj.getInt(ALBUMID);
-			albumlabel = parseString(obj, ALBUMLABEL);
-			artistid = parseInt(obj, ARTISTID);
-			description = parseString(obj, DESCRIPTION);
-			mood = parseString(obj, MOOD);
-			style = parseString(obj, STYLE);
-			theme = parseString(obj, THEME);
-			type = parseString(obj, TYPE);
+			albumid = node.get(ALBUMID).getIntValue();
+			albumlabel = parseString(node, ALBUMLABEL);
+			artistid = parseInt(node, ARTISTID);
+			description = parseString(node, DESCRIPTION);
+			mood = parseString(node, MOOD);
+			style = parseString(node, STYLE);
+			theme = parseString(node, THEME);
+			type = parseString(node, TYPE);
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(ALBUMID, albumid);
-			obj.put(ALBUMLABEL, albumlabel);
-			obj.put(ARTISTID, artistid);
-			obj.put(DESCRIPTION, description);
-			obj.put(MOOD, mood);
-			obj.put(STYLE, style);
-			obj.put(THEME, theme);
-			obj.put(TYPE, type);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(ALBUMID, albumid);
+			node.put(ALBUMLABEL, albumlabel);
+			node.put(ARTISTID, artistid);
+			node.put(DESCRIPTION, description);
+			node.put(MOOD, mood);
+			node.put(STYLE, style);
+			node.put(THEME, theme);
+			node.put(TYPE, type);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link AudioModel.AlbumDetails} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<AudioModel.AlbumDetails> getAudioModelAlbumDetailsList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<AudioModel.AlbumDetails> l = new ArrayList<AudioModel.AlbumDetails>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new AudioModel.AlbumDetails(a.getJSONObject(i)));
+		static ArrayList<AudioModel.AlbumDetails> getAudioModelAlbumDetailsList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<AudioModel.AlbumDetails> l = new ArrayList<AudioModel.AlbumDetails>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new AudioModel.AlbumDetails((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -121,8 +120,8 @@ public final class AudioModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected AlbumDetails(Parcel parcel) {
 			super(parcel);
 			albumid = parcel.readInt();
@@ -135,8 +134,8 @@ public final class AudioModel {
 			type = parcel.readString();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<AlbumDetails> CREATOR = new Parcelable.Creator<AlbumDetails>() {
 			@Override
 			public AlbumDetails createFromParcel(Parcel parcel) {
@@ -185,50 +184,50 @@ public final class AudioModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a ArtistDetails object
 		 */
-		public ArtistDetails(JSONObject obj) throws JSONException {
-			super(obj);
+		public ArtistDetails(ObjectNode node) {
+			super(node);
 			mType = API_TYPE;
-			artist = obj.getString(ARTIST);
-			artistid = obj.getInt(ARTISTID);
-			born = parseString(obj, BORN);
-			description = parseString(obj, DESCRIPTION);
-			died = parseString(obj, DIED);
-			disbanded = parseString(obj, DISBANDED);
-			formed = parseString(obj, FORMED);
-			instrument = parseString(obj, INSTRUMENT);
-			mood = parseString(obj, MOOD);
-			musicbrainzartistid = parseString(obj, MUSICBRAINZARTISTID);
-			style = parseString(obj, STYLE);
-			yearsactive = parseString(obj, YEARSACTIVE);
+			artist = node.get(ARTIST).getTextValue();
+			artistid = node.get(ARTISTID).getIntValue();
+			born = parseString(node, BORN);
+			description = parseString(node, DESCRIPTION);
+			died = parseString(node, DIED);
+			disbanded = parseString(node, DISBANDED);
+			formed = parseString(node, FORMED);
+			instrument = parseString(node, INSTRUMENT);
+			mood = parseString(node, MOOD);
+			musicbrainzartistid = parseString(node, MUSICBRAINZARTISTID);
+			style = parseString(node, STYLE);
+			yearsactive = parseString(node, YEARSACTIVE);
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(ARTIST, artist);
-			obj.put(ARTISTID, artistid);
-			obj.put(BORN, born);
-			obj.put(DESCRIPTION, description);
-			obj.put(DIED, died);
-			obj.put(DISBANDED, disbanded);
-			obj.put(FORMED, formed);
-			obj.put(INSTRUMENT, instrument);
-			obj.put(MOOD, mood);
-			obj.put(MUSICBRAINZARTISTID, musicbrainzartistid);
-			obj.put(STYLE, style);
-			obj.put(YEARSACTIVE, yearsactive);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(ARTIST, artist);
+			node.put(ARTISTID, artistid);
+			node.put(BORN, born);
+			node.put(DESCRIPTION, description);
+			node.put(DIED, died);
+			node.put(DISBANDED, disbanded);
+			node.put(FORMED, formed);
+			node.put(INSTRUMENT, instrument);
+			node.put(MOOD, mood);
+			node.put(MUSICBRAINZARTISTID, musicbrainzartistid);
+			node.put(STYLE, style);
+			node.put(YEARSACTIVE, yearsactive);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link AudioModel.ArtistDetails} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<AudioModel.ArtistDetails> getAudioModelArtistDetailsList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<AudioModel.ArtistDetails> l = new ArrayList<AudioModel.ArtistDetails>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new AudioModel.ArtistDetails(a.getJSONObject(i)));
+		static ArrayList<AudioModel.ArtistDetails> getAudioModelArtistDetailsList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<AudioModel.ArtistDetails> l = new ArrayList<AudioModel.ArtistDetails>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new AudioModel.ArtistDetails((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -260,8 +259,8 @@ public final class AudioModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected ArtistDetails(Parcel parcel) {
 			super(parcel);
 			artist = parcel.readString();
@@ -278,8 +277,8 @@ public final class AudioModel {
 			yearsactive = parcel.readString();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<ArtistDetails> CREATOR = new Parcelable.Creator<ArtistDetails>() {
 			@Override
 			public ArtistDetails createFromParcel(Parcel parcel) {
@@ -306,28 +305,28 @@ public final class AudioModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a BaseDetails object
 		 */
-		public BaseDetails(JSONObject obj) throws JSONException {
-			super(obj);
+		public BaseDetails(ObjectNode node) {
+			super(node);
 			mType = API_TYPE;
-			genre = parseString(obj, GENRE);
+			genre = parseString(node, GENRE);
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(GENRE, genre);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(GENRE, genre);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link AudioModel.BaseDetails} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<AudioModel.BaseDetails> getAudioModelBaseDetailsList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<AudioModel.BaseDetails> l = new ArrayList<AudioModel.BaseDetails>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new AudioModel.BaseDetails(a.getJSONObject(i)));
+		static ArrayList<AudioModel.BaseDetails> getAudioModelBaseDetailsList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<AudioModel.BaseDetails> l = new ArrayList<AudioModel.BaseDetails>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new AudioModel.BaseDetails((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -348,15 +347,15 @@ public final class AudioModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected BaseDetails(Parcel parcel) {
 			super(parcel);
 			genre = parcel.readString();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<BaseDetails> CREATOR = new Parcelable.Creator<BaseDetails>() {
 			@Override
 			public BaseDetails createFromParcel(Parcel parcel) {
@@ -393,38 +392,38 @@ public final class AudioModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a MediaDetails object
 		 */
-		public MediaDetails(JSONObject obj) throws JSONException {
-			super(obj);
+		public MediaDetails(ObjectNode node) {
+			super(node);
 			mType = API_TYPE;
-			artist = parseString(obj, ARTIST);
-			musicbrainzalbumartistid = parseString(obj, MUSICBRAINZALBUMARTISTID);
-			musicbrainzalbumid = parseString(obj, MUSICBRAINZALBUMID);
-			rating = parseInt(obj, RATING);
-			title = parseString(obj, TITLE);
-			year = parseInt(obj, YEAR);
+			artist = parseString(node, ARTIST);
+			musicbrainzalbumartistid = parseString(node, MUSICBRAINZALBUMARTISTID);
+			musicbrainzalbumid = parseString(node, MUSICBRAINZALBUMID);
+			rating = parseInt(node, RATING);
+			title = parseString(node, TITLE);
+			year = parseInt(node, YEAR);
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(ARTIST, artist);
-			obj.put(MUSICBRAINZALBUMARTISTID, musicbrainzalbumartistid);
-			obj.put(MUSICBRAINZALBUMID, musicbrainzalbumid);
-			obj.put(RATING, rating);
-			obj.put(TITLE, title);
-			obj.put(YEAR, year);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(ARTIST, artist);
+			node.put(MUSICBRAINZALBUMARTISTID, musicbrainzalbumartistid);
+			node.put(MUSICBRAINZALBUMID, musicbrainzalbumid);
+			node.put(RATING, rating);
+			node.put(TITLE, title);
+			node.put(YEAR, year);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link AudioModel.MediaDetails} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<AudioModel.MediaDetails> getAudioModelMediaDetailsList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<AudioModel.MediaDetails> l = new ArrayList<AudioModel.MediaDetails>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new AudioModel.MediaDetails(a.getJSONObject(i)));
+		static ArrayList<AudioModel.MediaDetails> getAudioModelMediaDetailsList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<AudioModel.MediaDetails> l = new ArrayList<AudioModel.MediaDetails>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new AudioModel.MediaDetails((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -450,8 +449,8 @@ public final class AudioModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected MediaDetails(Parcel parcel) {
 			super(parcel);
 			artist = parcel.readString();
@@ -462,8 +461,8 @@ public final class AudioModel {
 			year = parcel.readInt();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<MediaDetails> CREATOR = new Parcelable.Creator<MediaDetails>() {
 			@Override
 			public MediaDetails createFromParcel(Parcel parcel) {
@@ -514,52 +513,52 @@ public final class AudioModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a SongDetails object
 		 */
-		public SongDetails(JSONObject obj) throws JSONException {
-			super(obj);
+		public SongDetails(ObjectNode node) {
+			super(node);
 			mType = API_TYPE;
-			album = parseString(obj, ALBUM);
-			albumartist = parseString(obj, ALBUMARTIST);
-			albumid = parseInt(obj, ALBUMID);
-			artistid = parseInt(obj, ARTISTID);
-			comment = parseString(obj, COMMENT);
-			duration = parseInt(obj, DURATION);
-			file = parseString(obj, FILE);
-			lyrics = parseString(obj, LYRICS);
-			musicbrainzartistid = parseString(obj, MUSICBRAINZARTISTID);
-			musicbrainztrackid = parseString(obj, MUSICBRAINZTRACKID);
-			playcount = parseInt(obj, PLAYCOUNT);
-			songid = obj.getInt(SONGID);
-			track = parseInt(obj, TRACK);
+			album = parseString(node, ALBUM);
+			albumartist = parseString(node, ALBUMARTIST);
+			albumid = parseInt(node, ALBUMID);
+			artistid = parseInt(node, ARTISTID);
+			comment = parseString(node, COMMENT);
+			duration = parseInt(node, DURATION);
+			file = parseString(node, FILE);
+			lyrics = parseString(node, LYRICS);
+			musicbrainzartistid = parseString(node, MUSICBRAINZARTISTID);
+			musicbrainztrackid = parseString(node, MUSICBRAINZTRACKID);
+			playcount = parseInt(node, PLAYCOUNT);
+			songid = node.get(SONGID).getIntValue();
+			track = parseInt(node, TRACK);
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(ALBUM, album);
-			obj.put(ALBUMARTIST, albumartist);
-			obj.put(ALBUMID, albumid);
-			obj.put(ARTISTID, artistid);
-			obj.put(COMMENT, comment);
-			obj.put(DURATION, duration);
-			obj.put(FILE, file);
-			obj.put(LYRICS, lyrics);
-			obj.put(MUSICBRAINZARTISTID, musicbrainzartistid);
-			obj.put(MUSICBRAINZTRACKID, musicbrainztrackid);
-			obj.put(PLAYCOUNT, playcount);
-			obj.put(SONGID, songid);
-			obj.put(TRACK, track);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(ALBUM, album);
+			node.put(ALBUMARTIST, albumartist);
+			node.put(ALBUMID, albumid);
+			node.put(ARTISTID, artistid);
+			node.put(COMMENT, comment);
+			node.put(DURATION, duration);
+			node.put(FILE, file);
+			node.put(LYRICS, lyrics);
+			node.put(MUSICBRAINZARTISTID, musicbrainzartistid);
+			node.put(MUSICBRAINZTRACKID, musicbrainztrackid);
+			node.put(PLAYCOUNT, playcount);
+			node.put(SONGID, songid);
+			node.put(TRACK, track);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link AudioModel.SongDetails} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<AudioModel.SongDetails> getAudioModelSongDetailsList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<AudioModel.SongDetails> l = new ArrayList<AudioModel.SongDetails>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new AudioModel.SongDetails(a.getJSONObject(i)));
+		static ArrayList<AudioModel.SongDetails> getAudioModelSongDetailsList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<AudioModel.SongDetails> l = new ArrayList<AudioModel.SongDetails>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new AudioModel.SongDetails((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -592,8 +591,8 @@ public final class AudioModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected SongDetails(Parcel parcel) {
 			super(parcel);
 			album = parcel.readString();
@@ -611,8 +610,8 @@ public final class AudioModel {
 			track = parcel.readInt();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<SongDetails> CREATOR = new Parcelable.Creator<SongDetails>() {
 			@Override
 			public SongDetails createFromParcel(Parcel parcel) {

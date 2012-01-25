@@ -23,10 +23,12 @@ package org.xbmc.android.jsonrpc.api.call;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+import java.io.IOException;
 import java.util.ArrayList;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.AbstractModel;
 import org.xbmc.android.jsonrpc.api.UndefinedResult;
@@ -50,9 +52,8 @@ public final class JSONRPC {
 		 * @param getmetadata 
 		 * @param filterbytransport 
 		 * @param filter 
-		 * @throws JSONException
 		 */
-		public Introspect(Boolean getdescriptions, Boolean getmetadata, Boolean filterbytransport, GetreferencesIdType filter) throws JSONException {
+		public Introspect(Boolean getdescriptions, Boolean getmetadata, Boolean filterbytransport, GetreferencesIdType filter) {
 			super();
 			addParameter("getdescriptions", getdescriptions);
 			addParameter("getmetadata", getmetadata);
@@ -60,8 +61,8 @@ public final class JSONRPC {
 			addParameter("filter", filter);
 		}
 		@Override
-		protected UndefinedResult parseOne(JSONObject obj) throws JSONException {
-			return new UndefinedResult(obj);
+		protected UndefinedResult parseOne(ObjectNode node) {
+			return new UndefinedResult(node);
 		}
 		/**
 		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
@@ -97,12 +98,12 @@ public final class JSONRPC {
 				this.type = type;
 			}
 			@Override
-			public JSONObject toJSONObject() throws JSONException {
-				final JSONObject obj = new JSONObject();
-				obj.put(GETREFERENCES, getreferences);
-				obj.put(ID, id);
-				obj.put(TYPE, type);
-				return obj;
+			public ObjectNode toObjectNode() {
+				final ObjectNode node = OM.createObjectNode();
+				node.put(GETREFERENCES, getreferences);
+				node.put(ID, id);
+				node.put(TYPE, type);
+				return node;
 			}
 			/**
 			 * Flatten this object into a Parcel.
@@ -120,16 +121,16 @@ public final class JSONRPC {
 				return 0;
 			}
 			/**
-			* Construct via parcel
-			*/
+			 * Construct via parcel
+			 */
 			protected GetreferencesIdType(Parcel parcel) {
 				getreferences = parcel.readInt() == 1;
 				id = parcel.readString();
 				type = parcel.readString();
 			}
 			/**
-			* Generates instances of this Parcelable class from a Parcel.
-			*/
+			 * Generates instances of this Parcelable class from a Parcel.
+			 */
 			public static final Parcelable.Creator<GetreferencesIdType> CREATOR = new Parcelable.Creator<GetreferencesIdType>() {
 				@Override
 				public GetreferencesIdType createFromParcel(Parcel parcel) {
@@ -142,14 +143,39 @@ public final class JSONRPC {
 			};
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected Introspect(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Introspect> CREATOR = new Parcelable.Creator<Introspect>() {
+			@Override
+			public Introspect createFromParcel(Parcel parcel) {
+				return new Introspect(parcel);
+			}
+			@Override
+			public Introspect[] newArray(int n) {
+				return new Introspect[n];
+			}
+		};
+}
 	/**
 	 * Notify all other connected clients
 	 * <p/>
@@ -164,27 +190,51 @@ public final class JSONRPC {
 		 * @param sender 
 		 * @param message 
 		 * @param data 
-		 * @throws JSONException
 		 */
-		public NotifyAll(String sender, String message, String data) throws JSONException {
+		public NotifyAll(String sender, String message, String data) {
 			super();
 			addParameter("sender", sender);
 			addParameter("message", message);
 			addParameter("data", data);
 		}
 		@Override
-		protected String parseOne(JSONObject obj) throws JSONException {
-			return obj.getString(RESULT);
+		protected String parseOne(ObjectNode node) {
+			return node.get(RESULT).getTextValue();
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected NotifyAll(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<NotifyAll> CREATOR = new Parcelable.Creator<NotifyAll>() {
+			@Override
+			public NotifyAll createFromParcel(Parcel parcel) {
+				return new NotifyAll(parcel);
+			}
+			@Override
+			public NotifyAll[] newArray(int n) {
+				return new NotifyAll[n];
+			}
+		};
+}
 	/**
 	 * Retrieve the clients permissions
 	 * <p/>
@@ -196,14 +246,13 @@ public final class JSONRPC {
 		private static final String NAME = "Permission";
 		/**
 		 * Retrieve the clients permissions
-		 * @throws JSONException
 		 */
-		public Permission() throws JSONException {
+		public Permission() {
 			super();
 		}
 		@Override
-		protected Permission.PermissionResult parseOne(JSONObject obj) throws JSONException {
-			return new Permission.PermissionResult(parseResult(obj));
+		protected Permission.PermissionResult parseOne(ObjectNode node) {
+			return new Permission.PermissionResult((ObjectNode)parseResult(node));
 		}
 		/**
 		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
@@ -231,15 +280,15 @@ public final class JSONRPC {
 			 * Construct from JSON object.
 			 * @param obj JSON object representing a PermissionResult object
 			 */
-			public PermissionResult(JSONObject obj) throws JSONException {
-				controlnotify = obj.getBoolean(CONTROLNOTIFY);
-				controlplayback = obj.getBoolean(CONTROLPLAYBACK);
-				controlpower = obj.getBoolean(CONTROLPOWER);
-				navigate = obj.getBoolean(NAVIGATE);
-				readdata = obj.getBoolean(READDATA);
-				removedata = obj.getBoolean(REMOVEDATA);
-				updatedata = obj.getBoolean(UPDATEDATA);
-				writefile = obj.getBoolean(WRITEFILE);
+			public PermissionResult(ObjectNode node) {
+				controlnotify = node.get(CONTROLNOTIFY).getBooleanValue();
+				controlplayback = node.get(CONTROLPLAYBACK).getBooleanValue();
+				controlpower = node.get(CONTROLPOWER).getBooleanValue();
+				navigate = node.get(NAVIGATE).getBooleanValue();
+				readdata = node.get(READDATA).getBooleanValue();
+				removedata = node.get(REMOVEDATA).getBooleanValue();
+				updatedata = node.get(UPDATEDATA).getBooleanValue();
+				writefile = node.get(WRITEFILE).getBooleanValue();
 			}
 			/**
 			 * Construct object with native values for later serialization.
@@ -263,29 +312,29 @@ public final class JSONRPC {
 				this.writefile = writefile;
 			}
 			@Override
-			public JSONObject toJSONObject() throws JSONException {
-				final JSONObject obj = new JSONObject();
-				obj.put(CONTROLNOTIFY, controlnotify);
-				obj.put(CONTROLPLAYBACK, controlplayback);
-				obj.put(CONTROLPOWER, controlpower);
-				obj.put(NAVIGATE, navigate);
-				obj.put(READDATA, readdata);
-				obj.put(REMOVEDATA, removedata);
-				obj.put(UPDATEDATA, updatedata);
-				obj.put(WRITEFILE, writefile);
-				return obj;
+			public ObjectNode toObjectNode() {
+				final ObjectNode node = OM.createObjectNode();
+				node.put(CONTROLNOTIFY, controlnotify);
+				node.put(CONTROLPLAYBACK, controlplayback);
+				node.put(CONTROLPOWER, controlpower);
+				node.put(NAVIGATE, navigate);
+				node.put(READDATA, readdata);
+				node.put(REMOVEDATA, removedata);
+				node.put(UPDATEDATA, updatedata);
+				node.put(WRITEFILE, writefile);
+				return node;
 			}
 			/**
 			 * Extracts a list of {@link PermissionResult} objects from a JSON array.
-			 * @param obj JSONObject containing the list of objects
+			 * @param obj ObjectNode containing the list of objects
 			 * @param key Key pointing to the node where the list is stored
 			 */
-			static ArrayList<PermissionResult> getPermissionResultList(JSONObject obj, String key) throws JSONException {
-				if (obj.has(key)) {
-					final JSONArray a = obj.getJSONArray(key);
-					final ArrayList<PermissionResult> l = new ArrayList<PermissionResult>(a.length());
-					for (int i = 0; i < a.length(); i++) {
-						l.add(new PermissionResult(a.getJSONObject(i)));
+			static ArrayList<PermissionResult> getPermissionResultList(ObjectNode node, String key) {
+				if (node.has(key)) {
+					final ArrayNode a = (ArrayNode)node.get(key);
+					final ArrayList<PermissionResult> l = new ArrayList<PermissionResult>(a.size());
+					for (int i = 0; i < a.size(); i++) {
+						l.add(new PermissionResult((ObjectNode)a.get(i)));
 					}
 					return l;
 				}
@@ -312,8 +361,8 @@ public final class JSONRPC {
 				return 0;
 			}
 			/**
-			* Construct via parcel
-			*/
+			 * Construct via parcel
+			 */
 			protected PermissionResult(Parcel parcel) {
 				controlnotify = parcel.readInt() == 1;
 				controlplayback = parcel.readInt() == 1;
@@ -325,8 +374,8 @@ public final class JSONRPC {
 				writefile = parcel.readInt() == 1;
 			}
 			/**
-			* Generates instances of this Parcelable class from a Parcel.
-			*/
+			 * Generates instances of this Parcelable class from a Parcel.
+			 */
 			public static final Parcelable.Creator<PermissionResult> CREATOR = new Parcelable.Creator<PermissionResult>() {
 				@Override
 				public PermissionResult createFromParcel(Parcel parcel) {
@@ -339,14 +388,39 @@ public final class JSONRPC {
 			};
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected Permission(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Permission> CREATOR = new Parcelable.Creator<Permission>() {
+			@Override
+			public Permission createFromParcel(Parcel parcel) {
+				return new Permission(parcel);
+			}
+			@Override
+			public Permission[] newArray(int n) {
+				return new Permission[n];
+			}
+		};
+}
 	/**
 	 * Ping responder
 	 * <p/>
@@ -358,24 +432,48 @@ public final class JSONRPC {
 		private static final String NAME = "Ping";
 		/**
 		 * Ping responder
-		 * @throws JSONException
 		 */
-		public Ping() throws JSONException {
+		public Ping() {
 			super();
 		}
 		@Override
-		protected String parseOne(JSONObject obj) throws JSONException {
-			return obj.getString(RESULT);
+		protected String parseOne(ObjectNode node) {
+			return node.get(RESULT).getTextValue();
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected Ping(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Ping> CREATOR = new Parcelable.Creator<Ping>() {
+			@Override
+			public Ping createFromParcel(Parcel parcel) {
+				return new Ping(parcel);
+			}
+			@Override
+			public Ping[] newArray(int n) {
+				return new Ping[n];
+			}
+		};
+}
 	/**
 	 * Retrieve the jsonrpc protocol version
 	 * <p/>
@@ -387,22 +485,46 @@ public final class JSONRPC {
 		private static final String NAME = "Version";
 		/**
 		 * Retrieve the jsonrpc protocol version
-		 * @throws JSONException
 		 */
-		public Version() throws JSONException {
+		public Version() {
 			super();
 		}
 		@Override
-		protected String parseOne(JSONObject obj) throws JSONException {
-			return obj.getString(RESULT);
+		protected String parseOne(ObjectNode node) {
+			return node.get(RESULT).getTextValue();
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected Version(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Version> CREATOR = new Parcelable.Creator<Version>() {
+			@Override
+			public Version createFromParcel(Parcel parcel) {
+				return new Version(parcel);
+			}
+			@Override
+			public Version[] newArray(int n) {
+				return new Version[n];
+			}
+		};
+}
 }

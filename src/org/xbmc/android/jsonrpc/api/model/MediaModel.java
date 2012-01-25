@@ -24,9 +24,8 @@ package org.xbmc.android.jsonrpc.api.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import java.util.ArrayList;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
 
 public final class MediaModel {
 	/**
@@ -46,30 +45,30 @@ public final class MediaModel {
 		 * Construct from JSON object.
 		 * @param obj JSON object representing a BaseDetails object
 		 */
-		public BaseDetails(JSONObject obj) throws JSONException {
-			super(obj);
+		public BaseDetails(ObjectNode node) {
+			super(node);
 			mType = API_TYPE;
-			fanart = parseString(obj, FANART);
-			thumbnail = parseString(obj, THUMBNAIL);
+			fanart = parseString(node, FANART);
+			thumbnail = parseString(node, THUMBNAIL);
 		}
 		@Override
-		public JSONObject toJSONObject() throws JSONException {
-			final JSONObject obj = new JSONObject();
-			obj.put(FANART, fanart);
-			obj.put(THUMBNAIL, thumbnail);
-			return obj;
+		public ObjectNode toObjectNode() {
+			final ObjectNode node = OM.createObjectNode();
+			node.put(FANART, fanart);
+			node.put(THUMBNAIL, thumbnail);
+			return node;
 		}
 		/**
 		 * Extracts a list of {@link MediaModel.BaseDetails} objects from a JSON array.
-		 * @param obj JSONObject containing the list of objects
+		 * @param obj ObjectNode containing the list of objects
 		 * @param key Key pointing to the node where the list is stored
 		 */
-		static ArrayList<MediaModel.BaseDetails> getMediaModelBaseDetailsList(JSONObject obj, String key) throws JSONException {
-			if (obj.has(key)) {
-				final JSONArray a = obj.getJSONArray(key);
-				final ArrayList<MediaModel.BaseDetails> l = new ArrayList<MediaModel.BaseDetails>(a.length());
-				for (int i = 0; i < a.length(); i++) {
-					l.add(new MediaModel.BaseDetails(a.getJSONObject(i)));
+		static ArrayList<MediaModel.BaseDetails> getMediaModelBaseDetailsList(ObjectNode node, String key) {
+			if (node.has(key)) {
+				final ArrayNode a = (ArrayNode)node.get(key);
+				final ArrayList<MediaModel.BaseDetails> l = new ArrayList<MediaModel.BaseDetails>(a.size());
+				for (int i = 0; i < a.size(); i++) {
+					l.add(new MediaModel.BaseDetails((ObjectNode)a.get(i)));
 				}
 				return l;
 			}
@@ -91,16 +90,16 @@ public final class MediaModel {
 			return 0;
 		}
 		/**
-		* Construct via parcel
-		*/
+		 * Construct via parcel
+		 */
 		protected BaseDetails(Parcel parcel) {
 			super(parcel);
 			fanart = parcel.readString();
 			thumbnail = parcel.readString();
 		}
 		/**
-		* Generates instances of this Parcelable class from a Parcel.
-		*/
+		 * Generates instances of this Parcelable class from a Parcel.
+		 */
 		public static final Parcelable.Creator<BaseDetails> CREATOR = new Parcelable.Creator<BaseDetails>() {
 			@Override
 			public BaseDetails createFromParcel(Parcel parcel) {

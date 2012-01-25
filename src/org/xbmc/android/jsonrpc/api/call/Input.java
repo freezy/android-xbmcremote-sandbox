@@ -21,8 +21,12 @@
 
 package org.xbmc.android.jsonrpc.api.call;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Log;
+import java.io.IOException;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 
 public final class Input {
@@ -40,24 +44,48 @@ public final class Input {
 		private static final String NAME = "Back";
 		/**
 		 * Goes back in GUI
-		 * @throws JSONException
 		 */
-		public Back() throws JSONException {
+		public Back() {
 			super();
 		}
 		@Override
-		protected String parseOne(JSONObject obj) throws JSONException {
-			return obj.getString(RESULT);
+		protected String parseOne(ObjectNode node) {
+			return node.get(RESULT).getTextValue();
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected Back(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Back> CREATOR = new Parcelable.Creator<Back>() {
+			@Override
+			public Back createFromParcel(Parcel parcel) {
+				return new Back(parcel);
+			}
+			@Override
+			public Back[] newArray(int n) {
+				return new Back[n];
+			}
+		};
+}
 	/**
 	 * Navigate down in GUI
 	 * <p/>
@@ -69,24 +97,48 @@ public final class Input {
 		private static final String NAME = "Down";
 		/**
 		 * Navigate down in GUI
-		 * @throws JSONException
 		 */
-		public Down() throws JSONException {
+		public Down() {
 			super();
 		}
 		@Override
-		protected String parseOne(JSONObject obj) throws JSONException {
-			return obj.getString(RESULT);
+		protected String parseOne(ObjectNode node) {
+			return node.get(RESULT).getTextValue();
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected Down(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Down> CREATOR = new Parcelable.Creator<Down>() {
+			@Override
+			public Down createFromParcel(Parcel parcel) {
+				return new Down(parcel);
+			}
+			@Override
+			public Down[] newArray(int n) {
+				return new Down[n];
+			}
+		};
+}
 	/**
 	 * Goes to home window in GUI
 	 * <p/>
@@ -98,24 +150,48 @@ public final class Input {
 		private static final String NAME = "Home";
 		/**
 		 * Goes to home window in GUI
-		 * @throws JSONException
 		 */
-		public Home() throws JSONException {
+		public Home() {
 			super();
 		}
 		@Override
-		protected String parseOne(JSONObject obj) throws JSONException {
-			return obj.getString(RESULT);
+		protected String parseOne(ObjectNode node) {
+			return node.get(RESULT).getTextValue();
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected Home(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Home> CREATOR = new Parcelable.Creator<Home>() {
+			@Override
+			public Home createFromParcel(Parcel parcel) {
+				return new Home(parcel);
+			}
+			@Override
+			public Home[] newArray(int n) {
+				return new Home[n];
+			}
+		};
+}
 	/**
 	 * Navigate left in GUI
 	 * <p/>
@@ -127,24 +203,48 @@ public final class Input {
 		private static final String NAME = "Left";
 		/**
 		 * Navigate left in GUI
-		 * @throws JSONException
 		 */
-		public Left() throws JSONException {
+		public Left() {
 			super();
 		}
 		@Override
-		protected String parseOne(JSONObject obj) throws JSONException {
-			return obj.getString(RESULT);
+		protected String parseOne(ObjectNode node) {
+			return node.get(RESULT).getTextValue();
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected Left(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Left> CREATOR = new Parcelable.Creator<Left>() {
+			@Override
+			public Left createFromParcel(Parcel parcel) {
+				return new Left(parcel);
+			}
+			@Override
+			public Left[] newArray(int n) {
+				return new Left[n];
+			}
+		};
+}
 	/**
 	 * Navigate right in GUI
 	 * <p/>
@@ -156,24 +256,48 @@ public final class Input {
 		private static final String NAME = "Right";
 		/**
 		 * Navigate right in GUI
-		 * @throws JSONException
 		 */
-		public Right() throws JSONException {
+		public Right() {
 			super();
 		}
 		@Override
-		protected String parseOne(JSONObject obj) throws JSONException {
-			return obj.getString(RESULT);
+		protected String parseOne(ObjectNode node) {
+			return node.get(RESULT).getTextValue();
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected Right(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Right> CREATOR = new Parcelable.Creator<Right>() {
+			@Override
+			public Right createFromParcel(Parcel parcel) {
+				return new Right(parcel);
+			}
+			@Override
+			public Right[] newArray(int n) {
+				return new Right[n];
+			}
+		};
+}
 	/**
 	 * Select current item in GUI
 	 * <p/>
@@ -185,24 +309,48 @@ public final class Input {
 		private static final String NAME = "Select";
 		/**
 		 * Select current item in GUI
-		 * @throws JSONException
 		 */
-		public Select() throws JSONException {
+		public Select() {
 			super();
 		}
 		@Override
-		protected String parseOne(JSONObject obj) throws JSONException {
-			return obj.getString(RESULT);
+		protected String parseOne(ObjectNode node) {
+			return node.get(RESULT).getTextValue();
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected Select(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Select> CREATOR = new Parcelable.Creator<Select>() {
+			@Override
+			public Select createFromParcel(Parcel parcel) {
+				return new Select(parcel);
+			}
+			@Override
+			public Select[] newArray(int n) {
+				return new Select[n];
+			}
+		};
+}
 	/**
 	 * Navigate up in GUI
 	 * <p/>
@@ -214,22 +362,46 @@ public final class Input {
 		private static final String NAME = "Up";
 		/**
 		 * Navigate up in GUI
-		 * @throws JSONException
 		 */
-		public Up() throws JSONException {
+		public Up() {
 			super();
 		}
 		@Override
-		protected String parseOne(JSONObject obj) throws JSONException {
-			return obj.getString(RESULT);
+		protected String parseOne(ObjectNode node) {
+			return node.get(RESULT).getTextValue();
 		}
 		@Override
-		protected String getName() {
+		public String getName() {
 			return PREFIX + NAME;
 		}
 		@Override
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		/**
+		 * Construct via parcel
+		 */
+		protected Up(Parcel parcel) {
+			try {
+				mResponse = (ObjectNode)OM.readTree(parcel.readString());
+			} catch (JsonProcessingException e) {
+				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
+			} catch (IOException e) {
+				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+			}
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Up> CREATOR = new Parcelable.Creator<Up>() {
+			@Override
+			public Up createFromParcel(Parcel parcel) {
+				return new Up(parcel);
+			}
+			@Override
+			public Up[] newArray(int n) {
+				return new Up[n];
+			}
+		};
+}
 }
