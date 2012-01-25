@@ -32,7 +32,7 @@ public abstract class ApiCallback<T> {
 			} else {
 				final AbstractCall<T> apiCall = mApiCall; 
 				if (apiCall != null) {
-					apiCall.setResponse(response);
+//					apiCall.setResponse(response);
 					onResponse(apiCall);
 				} else {
 					Log.w(TAG, "Response type is set to de-serialize, but no API call object for deserializing found.");

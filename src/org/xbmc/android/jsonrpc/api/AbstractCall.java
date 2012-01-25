@@ -24,11 +24,12 @@ package org.xbmc.android.jsonrpc.api;
 import java.util.ArrayList;
 import java.util.Random;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
 
-import android.util.Log;
+import android.os.Parcelable;
 
 /**
  * Super class of all API call implementations.
@@ -58,8 +59,8 @@ import android.util.Log;
  * 	<ol><li>{@link #returnsList()} returning <tt>true</tt> or <tt>false</tt>
  *      depending on if the API returns a list or not</li>
  * 	    <li>Depending on if a list is returned:
- * 	    	<ul><li>{@link #parseMany(JSONObject)} if that's the case, <b>or</b></li>
- * 	    	    <li>{@link #parseOne(JSONObject)} if a single item is returned.
+ * 	    	<ul><li>{@link #parseMany(JsonNode)} if that's the case, <b>or</b></li>
+ * 	    	    <li>{@link #parseOne(JsonNode)} if a single item is returned.
  *  	    </li></ul>
  * 	    </li></ol>
  * The rest is taken care of in this abstract class.
@@ -67,13 +68,14 @@ import android.util.Log;
  *  
  * @author freezy <freezy@xbmc.org>
  */
-public abstract class AbstractCall<T> {
+public abstract class AbstractCall<T> implements Parcelable {
 	
-	private static final String TAG = AbstractCall.class.getSimpleName();
-	
+//	private static final String TAG = AbstractCall.class.getSimpleName();
+
 	public static final String RESULT = "result";
 	
 	private final static Random RND = new Random(System.currentTimeMillis());
+	protected final static ObjectMapper OM = new ObjectMapper();
 	
 	/**
 	 * Name of the node containing parameters in the JSON-RPC request
@@ -84,14 +86,14 @@ public abstract class AbstractCall<T> {
 	 * Returns the name of the method.
 	 * @return Full name of the method, e.g. "AudioLibrary.GetSongDetails".
 	 */
-	protected abstract String getName();
+	public abstract String getName();
 
 	/**
 	 * Returns true if the API method returns a list of items, false if the API
 	 * method returns a single item.
 	 * <p/>
-	 * Depending on this value, either {@link #parseOne(JSONObject)} or 
-	 * {@link #parseMany(JSONObject)} must be overridden by the sub class.
+	 * Depending on this value, either {@link #parseOne(JsonNode)} or 
+	 * {@link #parseMany(JsonNode)} must be overridden by the sub class.
 	 * 
 	 * @return True if API call returns a list, false if only one item
 	 */
@@ -104,16 +106,17 @@ public abstract class AbstractCall<T> {
 	 * <u>Example</u>:
 	 * 	<code>{"jsonrpc": "2.0", "method": "Application.GetProperties", "id": "1", "params": { "properties": [ "version" ] } }</code>
 	 */
-	private final JSONObject mRequest = new JSONObject();
+	private final ObjectNode mRequest = OM.createObjectNode();
 	
 	/**
-	 * The <tt>result</tt> node of the JSON response.
-	 * 
+	 * The <tt>response</tt> node of the JSON response (the root node of the 
+	 * response)
 	 * <p/>
 	 * <u>Example</u>:
 	 * 	<code> { "version": { "major": 11, "minor": 0, "revision": "20111210-f1ae0b6", "tag": "alpha" } </code>
+	 * @todo fix example
 	 */
-	private JSONObject mResult = new JSONObject();
+	private JsonNode mResponse = null;
 	
 	/**
 	 * The ID of the request.
@@ -123,10 +126,9 @@ public abstract class AbstractCall<T> {
 	/**
 	 * Creates the standard structure of the JSON request.
 	 * 
-	 * @throws JSONException
 	 */
-	protected AbstractCall() throws JSONException {
-		final JSONObject request = mRequest;
+	protected AbstractCall() {
+		final ObjectNode request = mRequest;
 		
 		mId = String.valueOf(RND.nextLong());
 		request.put("jsonrpc", "2.0");
@@ -138,7 +140,7 @@ public abstract class AbstractCall<T> {
 	 * Returns the JSON request object sent to XBMC.
 	 * @return Request object
 	 */
-	public JSONObject getRequest() {
+	public ObjectNode getRequest() {
 		return mRequest;
 	}
 	
@@ -147,10 +149,10 @@ public abstract class AbstractCall<T> {
 	 * </p>
 	 * This must be the root object of the response, containing the
 	 * <tt>result</tt> object.
-	 * @param result
+	 * @param response
 	 */
-	public void setResponse(JSONObject result) {
-		mResult = result;
+	public void setResponse(JsonNode response) {
+		mResponse = response;
 	}
 
 	/**
@@ -162,15 +164,10 @@ public abstract class AbstractCall<T> {
 	 * @return Result of the API method as a single item
 	 */
 	public T getResult() {
-		try {
-			if (returnsList()) {
-				return parseMany(mResult).get(0);
-			}
-			return parseOne(mResult);
-		} catch (JSONException e) {
-			Log.e(TAG, "Error parsing JSON: " + mResult, e);
+		if (returnsList()) {
+			return parseMany(mResponse).get(0);
 		}
-		return null;
+		return parseOne(mResponse);
 	}
 	
 	/**
@@ -182,17 +179,12 @@ public abstract class AbstractCall<T> {
 	 * @return Result of the API method as list
 	 */
 	public ArrayList<T> getResults() {
-		try {
-			if (!returnsList()) {
-				final ArrayList<T> results = new ArrayList<T>(1);
-				results.add(parseOne(mResult));
-				return results;
-			}
-			return parseMany(mResult);
-		} catch (JSONException e) {
-			Log.e(TAG, "Error parsing JSON: " + mResult, e);
+		if (!returnsList()) {
+			final ArrayList<T> results = new ArrayList<T>(1);
+			results.add(parseOne(mResponse));
+			return results;
 		}
-		return new ArrayList<T>(0);
+		return parseMany(mResponse);
 	}
 	
 	/**
@@ -207,37 +199,34 @@ public abstract class AbstractCall<T> {
 	 * Gets the result object from a response.
 	 * @param obj
 	 * @return
-	 * @throws JSONException
 	 */
-	protected JSONObject parseResult(JSONObject obj) throws JSONException {
-		return obj.getJSONObject("result");
+	protected JsonNode parseResult(JsonNode obj) {
+		return obj.get(RESULT);
 	}
 	
 	/**
 	 * Parses the result if the API method returns a single item.
 	 * <p/>
-	 * Either this <b>or</b> {@link #parseMany(JSONObject)} must be overridden
+	 * Either this <b>or</b> {@link #parseMany(JsonNode)} must be overridden
 	 * by every sub class.
 	 * 
 	 * @param obj The <tt>result</tt> node of the JSON response object.
 	 * @return Result of the API call
-	 * @throws JSONException
 	 */
-	protected T parseOne(JSONObject obj) throws JSONException {
+	protected T parseOne(JsonNode obj) {
 		return null;
 	}
 	
 	/**
 	 * Parses the result if the API method returns a list of items.
 	 * <p/>
-	 * Either this <b>or</b> {@link #parseOne(JSONObject)} must be overridden
+	 * Either this <b>or</b> {@link #parseOne(JsonNode)} must be overridden
 	 * by every sub class.
 	 * 
 	 * @param obj The <tt>result</tt> node of the JSON response object.
 	 * @return Result of the API call
-	 * @throws JSONException
 	 */
-	protected ArrayList<T> parseMany(JSONObject obj) throws JSONException {
+	protected ArrayList<T> parseMany(JsonNode obj) {
 		return null;
 	}
 	
@@ -245,9 +234,8 @@ public abstract class AbstractCall<T> {
 	 * Adds a string parameter to the request object (only if not null).
 	 * @param name Name of the parameter
 	 * @param value Value of the parameter
-	 * @throws JSONException
 	 */
-	protected void addParameter(String name, String value) throws JSONException {
+	protected void addParameter(String name, String value) {
 		if (value != null) {
 			getParameters().put(name, value);
 		}
@@ -257,9 +245,8 @@ public abstract class AbstractCall<T> {
 	 * Adds an integer parameter to the request object (only if not null).
 	 * @param name Name of the parameter
 	 * @param value Value of the parameter
-	 * @throws JSONException
 	 */
-	protected void addParameter(String name, Integer value) throws JSONException {
+	protected void addParameter(String name, Integer value) {
 		if (value != null) {
 			getParameters().put(name, value);
 		}
@@ -269,23 +256,22 @@ public abstract class AbstractCall<T> {
 	 * Adds a boolean parameter to the request object (only if not null).
 	 * @param name Name of the parameter
 	 * @param value Value of the parameter
-	 * @throws JSONException
 	 */
-	protected void addParameter(String name, Boolean value) throws JSONException {
+	protected void addParameter(String name, Boolean value) {
 		if (value != null) {
 			getParameters().put(name, value);
 		}
 	}
 	
-	protected void addParameter(String name, Double value) throws JSONException {
+	protected void addParameter(String name, Double value) {
 		if (value != null) {
 			getParameters().put(name, value);
 		}
 	}
 	
-	protected void addParameter(String name, AbstractModel value) throws JSONException {
+	protected void addParameter(String name, AbstractModel value) {
 		if (value != null) {
-			getParameters().put(name, value.toJSONObject());
+			getParameters().put(name, value.toObjectNode());
 		}
 	}
 	
@@ -293,16 +279,15 @@ public abstract class AbstractCall<T> {
 	 * Adds an array of strings to the request object (only if not null and not empty).
 	 * @param name Name of the parameter
 	 * @param values String values
-	 * @throws JSONException
 	 */
-	protected void addParameter(String name, String[] values) throws JSONException {
+	protected void addParameter(String name, String[] values) {
 		// don't add if nothing to add
 		if (values == null || values.length == 0) {
 			return;
 		}
-		final JSONArray props = new JSONArray();
+		final ArrayNode props = OM.createArrayNode();
 		for (int i = 0; i < values.length; i++) {
-			props.put(values[i]);
+			props.add(values[i]);
 		}
 		getParameters().put(name, props);
 	}
@@ -311,32 +296,18 @@ public abstract class AbstractCall<T> {
 	 * Returns the parameters array. Use this to add any parameters.
 	 * @param request
 	 * @return
-	 * @throws JSONException
 	 */
-	private JSONObject getParameters() throws JSONException {
-		final JSONObject request = mRequest;
+	private ObjectNode getParameters() {
+		final ObjectNode request = mRequest;
 		if (request.has(PARAMS)) {
-			return request.getJSONObject(PARAMS);
+			return (ObjectNode)request.get(PARAMS);
 		} else {
-			final JSONObject parameters = new JSONObject();
+			final ObjectNode parameters = OM.createObjectNode();
 			request.put(PARAMS, parameters);
 			return parameters;
 		}
 	}
 	
-	/**
-	 * Helper method that converts an array of Strings into a JSON array.
-	 * 
-	 * @param items String items to convert
-	 * @return
-	 */
-	protected static JSONArray toJSONArray(String[] items) {
-		final JSONArray array = new JSONArray();
-		if (items != null && items.length > 0) {
-			for (int i = 0; i < items.length; i++) {
-				array.put(items[i]);
-			}
-		}
-		return array;
-	}
+	
+	
 }

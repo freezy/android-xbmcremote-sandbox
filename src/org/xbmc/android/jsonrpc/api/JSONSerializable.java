@@ -21,8 +21,7 @@
 
 package org.xbmc.android.jsonrpc.api;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.codehaus.jackson.node.ObjectNode;
 
 /**
  * All model objects of this API must implement this interface. 
@@ -35,6 +34,6 @@ public interface JSONSerializable {
 	 * Returns a JSON-serialized version of this object.
 	 * @return
 	 */
-	public abstract JSONObject toJSONObject() throws JSONException;
+	public abstract ObjectNode toObjectNode();
 	
 }
