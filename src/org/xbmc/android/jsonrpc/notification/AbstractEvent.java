@@ -21,23 +21,22 @@
 
 package org.xbmc.android.jsonrpc.notification;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.codehaus.jackson.node.ObjectNode;
 
 public abstract class AbstractEvent {
 	
 	public final String sender;
 	
-	public AbstractEvent(JSONObject event) throws JSONException {
-		sender = event.getString("sender");
+	public AbstractEvent(ObjectNode node) {
+		sender = node.get("sender").getTextValue();
 	}
 
-	public static int parseInt(JSONObject event, String key) throws JSONException {
-		return event.has(key) ? event.getInt(key) : -1;
+	public static int parseInt(ObjectNode node, String key) {
+		return node.get(key).getValueAsInt(-1);
 	}
 	
-	public static String parseString(JSONObject event, String key) throws JSONException {
-		return event.has(key) ? event.getString(key) : null;
+	public static String parseString(ObjectNode node, String key) {
+		return node.get(key).getTextValue();
 	}
 	
 }

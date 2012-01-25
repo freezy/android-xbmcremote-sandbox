@@ -21,7 +21,7 @@
 
 package org.xbmc.android.jsonrpc.io;
 
-import org.json.JSONObject;
+import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.AbstractModel;
 
@@ -47,12 +47,12 @@ public abstract class FollowupCall<T extends AbstractModel> {
 	
 	protected abstract <U extends AbstractModel> FollowupCall<U> onResponse(T response);
 	
-	public <U extends AbstractModel> FollowupCall<U> respond(JSONObject response) {
+	public <U extends AbstractModel> FollowupCall<U> respond(ObjectNode response) {
 		mApiCall.setResponse(response);
 		return onResponse(mApiCall.getResult());
 	}
 	
-	public JSONObject getRequest() {
+	public ObjectNode getRequest() {
 		return mApiCall.getRequest();
 	}
 

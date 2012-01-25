@@ -31,32 +31,34 @@ import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.node.ObjectNode;
+
 import android.util.Log;
 
 /**
- * Performs HTTP POST requests on the XBMC JSON API and handles the parsing from and to {@link JSONObject}.
+ * Performs HTTP POST requests on the XBMC JSON API and handles the parsing from and to {@link ObjectNode}.
  *
  * @author Joel Stemmer <stemmertech@gmail.com>
  */
 public class JsonApiRequest {
 
 	private static final String TAG = JsonApiRequest.class.getSimpleName();
-
+	
 	private static final int REQUEST_TIMEOUT = 5000; // 5 sec
+	private static final ObjectMapper OM = new ObjectMapper();
 
 	/**
-	 * Execute a POST request to the url using the JSONObject as request body and returns a JSONObject if the response
-	 * was successful.
+	 * Execute a POST request to the url using the JSON Object as request body 
+	 * and returns a JSONO bject if the response was successful.
 	 *
 	 * @param url
 	 * @param entity
-	 * @return JSONObject of the JSON-RPC response.
+	 * @return JSON Object of the JSON-RPC response.
 	 * @throws HandlerException
 	 */
-	public static JSONObject execute(String url, JSONObject entity) throws ApiException {
+	public static ObjectNode execute(String url, ObjectNode entity) throws ApiException {
 		try {
 			String response = postRequest(new URL(url), entity.toString());
 			return parseResponse(response);
@@ -125,38 +127,39 @@ public class JsonApiRequest {
 	}
 
 	/**
-	 * Parses the JSON response string and returns a {@link JSONObject}.
+	 * Parses the JSON response string and returns a {@link ObjectNode}.
 	 *
 	 * If the response is not valid JSON, contained an error message or did not include a result then a HandlerException
 	 * is thrown.
 	 *
 	 * @param response
-	 * @return JSONObject Root node of the server response, unserialized as JSONObject.
+	 * @return ObjectNode Root node of the server response, unserialized as ObjectNode.
 	 * @throws HandlerException
 	 */
-	private static JSONObject parseResponse(String response) throws ApiException {
+	private static ObjectNode parseResponse(String response) throws ApiException {
 		try {
-			final JSONTokener tokener = new JSONTokener(response.toString());
-			final JSONObject obj = (JSONObject)tokener.nextValue();
+			final ObjectNode node = (ObjectNode)OM.readTree(response.toString());
 
-			if (obj.has("error")) {
-				final JSONObject error = obj.getJSONObject("error");
-				Log.e(TAG, "[JSON-RPC] " + error.getString("message"));
+			if (node.has("error")) {
+				final ObjectNode error = (ObjectNode)node.get("error");
+				Log.e(TAG, "[JSON-RPC] " + error.get("message").getTextValue());
 				Log.e(TAG, "[JSON-RPC] " + response);
-				throw new ApiException(ApiException.API_ERROR, "Error " + error.getInt("code") + ": " + error.getString("message"), null);
+				throw new ApiException(ApiException.API_ERROR, "Error " + error.get("code").getIntValue() + ": " + error.get("message").getTextValue(), null);
 			}
 
-			if (!obj.has("result")) {
+			if (!node.has("result")) {
 				Log.e(TAG, "[JSON-RPC] " + response);
 				throw new ApiException(ApiException.RESPONSE_ERROR, "Neither result nor error object found in response.", null);
 			}
 			
-			if (obj.isNull("result")) {
+			if (node.get("result").isNull()) {
 				return null;
 			}
 
-			return obj;
-		} catch(JSONException e) {
+			return node;
+		} catch (JsonProcessingException e) {
+			throw new ApiException(ApiException.JSON_EXCEPTION, "Parse error: " + e.getMessage(), e);
+		} catch (IOException e) {
 			throw new ApiException(ApiException.JSON_EXCEPTION, "Parse error: " + e.getMessage(), e);
 		}
 	}

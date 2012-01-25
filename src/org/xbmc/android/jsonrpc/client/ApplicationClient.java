@@ -21,13 +21,9 @@
 
 package org.xbmc.android.jsonrpc.client;
 
-import org.json.JSONException;
 import org.xbmc.android.jsonrpc.api.call.Application;
 import org.xbmc.android.jsonrpc.api.model.ApplicationModel;
-import org.xbmc.android.jsonrpc.io.ApiException;
 import org.xbmc.android.zeroconf.XBMCHost;
-
-import android.util.Log;
 
 /**
  * Access to the Application API.
@@ -54,14 +50,8 @@ public class ApplicationClient extends AbstractClient {
 	 * @return Version object containing XBMC's version.
 	 */
 	public ApplicationModel.PropertyValue.Version getVersion(ErrorHandler errorHandler) {
-		try {
-			final Application.GetProperties apicall = new Application.GetProperties(ApplicationModel.PropertyName.VERSION);
-			execute(apicall, errorHandler);
-			return apicall.getResult().version;
-		} catch (JSONException e) {
-			Log.e(TAG, e.getMessage(), e);
-			errorHandler.handleError(new ApiException(ApiException.JSON_EXCEPTION, e.getMessage(), e));
-		}
-		return null;
+		final Application.GetProperties apicall = new Application.GetProperties(ApplicationModel.PropertyName.VERSION);
+		execute(apicall, errorHandler);
+		return apicall.getResult().version;
 	}
 }

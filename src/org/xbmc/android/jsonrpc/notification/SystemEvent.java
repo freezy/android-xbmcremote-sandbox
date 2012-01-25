@@ -21,8 +21,8 @@
 
 package org.xbmc.android.jsonrpc.notification;
 
+import org.codehaus.jackson.node.ObjectNode;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Parses System.* events.
@@ -40,8 +40,8 @@ public class SystemEvent {
 	 */
 	public static class Quit extends AbstractEvent {
 		public final static String METHOD = "System.OnQuit";
-		public Quit(JSONObject obj) throws JSONException {
-			super(obj);
+		public Quit(ObjectNode node) throws JSONException {
+			super(node);
 		}
 		@Override
 		public String toString() {
@@ -54,8 +54,8 @@ public class SystemEvent {
 	 */
 	public static class Restart extends AbstractEvent {
 		public final static String METHOD = "System.OnRestart";
-		public Restart(JSONObject obj) throws JSONException {
-			super(obj);
+		public Restart(ObjectNode node) throws JSONException {
+			super(node);
 		}
 		@Override
 		public String toString() {
@@ -68,8 +68,8 @@ public class SystemEvent {
 	 */
 	public static class Wake extends AbstractEvent {
 		public final static String METHOD = "System.OnWake";
-		public Wake(JSONObject obj) throws JSONException {
-			super(obj);
+		public Wake(ObjectNode node) throws JSONException {
+			super(node);
 		}
 		@Override
 		public String toString() {
@@ -82,8 +82,8 @@ public class SystemEvent {
 	 */
 	public static class LowBattery extends AbstractEvent {
 		public final static String METHOD = "System.OnLowBattery";
-		public LowBattery(JSONObject obj) throws JSONException {
-			super(obj);
+		public LowBattery(ObjectNode node) throws JSONException {
+			super(node);
 		}
 		@Override
 		public String toString() {

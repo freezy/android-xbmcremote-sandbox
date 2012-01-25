@@ -100,7 +100,7 @@ public class ConnectionService extends IntentService {
 	/**
 	 * API call results are only returned to the client requested it, so here are the relations.
 	 */
-	private final HashMap<AbstractCall<?>, Messenger> mClientMapping = new HashMap<AbstractCall<?>, Messenger>();
+	private final HashMap<AbstractCall<?>, Messenger> mClientMap = new HashMap<AbstractCall<?>, Messenger>();
 	
 	/**
 	 * Reference to the socket, so we shut it down properly.
@@ -132,7 +132,7 @@ public class ConnectionService extends IntentService {
 		Socket socket = null;
 
 		try {
-			final InetSocketAddress sockaddr = new InetSocketAddress("192.100.120.114", 9090);
+			final InetSocketAddress sockaddr = new InetSocketAddress("192.168.0.100", 9090);
 			socket = new Socket();
 			mSocket = socket;       // update class reference
 			socket.setSoTimeout(0); // no timeout for reading from connection.
@@ -170,8 +170,8 @@ public class ConnectionService extends IntentService {
 			final JsonParser jp = jf.createJsonParser(socket.getInputStream());
 			JsonNode node = null;
 			while ((node = OM.readTree(jp)) != null) {
-				notifyClients(node);
 				Log.i(TAG, "READ: " + node.toString());
+				notifyClients(node);
 			}
 			mOut.close();
 			Log.i(TAG, "TCP socket closed.");
@@ -238,7 +238,7 @@ public class ConnectionService extends IntentService {
 	 */
 	private void notifyClients(JsonNode node) {
 		final ArrayList<Messenger> clients = mClients;
-		final HashMap<AbstractCall<?>, Messenger> map = mClientMapping;
+		final HashMap<AbstractCall<?>, Messenger> map = mClientMap;
 		final HashMap<String, AbstractCall<?>> calls = mCalls;
 		
 		// check if notification or api call
@@ -356,6 +356,7 @@ public class ConnectionService extends IntentService {
 				final Bundle data = msg.getData();
 				final AbstractCall<?> call = (AbstractCall<?>)data.getParcelable(EXTRA_APICALL);
 				mCalls.put(call.getId(), call);
+				mClientMap.put(call, msg.replyTo);
 				if (mOut == null) {
 					mPendingCalls.add(call);
 				} else {

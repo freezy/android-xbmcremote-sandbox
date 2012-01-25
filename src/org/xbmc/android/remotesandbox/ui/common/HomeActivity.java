@@ -23,8 +23,11 @@ package org.xbmc.android.remotesandbox.ui.common;
 
 import org.json.JSONException;
 import org.xbmc.android.jsonrpc.NotificationManager;
+import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
+import org.xbmc.android.jsonrpc.api.model.AudioModel;
 import org.xbmc.android.jsonrpc.io.ApiException;
+import org.xbmc.android.jsonrpc.io.ConnectionManager;
 import org.xbmc.android.jsonrpc.io.RemoteExecutor;
 import org.xbmc.android.jsonrpc.io.audio.ArtistHandler;
 import org.xbmc.android.remotesandbox.R;
@@ -56,7 +59,21 @@ public class HomeActivity extends ReloadableActionBarActivity {
 		testBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				try {
+				final ConnectionManager cm = new ConnectionManager(getApplicationContext());
+				cm.call(new AudioLibrary.GetAlbums(null, null), new ConnectionManager.ApiCallback() {
+					
+					@Override
+					public void onResponse(AbstractCall<?> response) {
+						Log.i(TAG, "Got response from " + response.getName() + "!");
+					}
+					
+					@Override
+					public void onError(int code, String message) {
+						Log.e(TAG, "Something went wrong: " + message);
+					}
+				});
+				
+/*				try {
 					final RemoteExecutor remoteExecutor = new RemoteExecutor(getContentResolver());
 					AudioLibrary.GetArtists getArtistsAPI;
 					getArtistsAPI = new AudioLibrary.GetArtists(false, null);
@@ -64,9 +81,7 @@ public class HomeActivity extends ReloadableActionBarActivity {
 					remoteExecutor.execute(nm, getArtistsAPI, new ArtistHandler());
 				} catch (ApiException e) {
 					Log.e(TAG, "API Exception: " + e.getMessage(), e);
-				} catch (JSONException e) {
-					Log.e(TAG, "JSON Exception: " + e.getMessage(), e);
-				}
+				}*/
 			}
 		});
 		

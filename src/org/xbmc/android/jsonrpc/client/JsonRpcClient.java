@@ -21,12 +21,8 @@
 
 package org.xbmc.android.jsonrpc.client;
 
-import org.json.JSONException;
 import org.xbmc.android.jsonrpc.api.call.JSONRPC;
-import org.xbmc.android.jsonrpc.io.ApiException;
 import org.xbmc.android.zeroconf.XBMCHost;
-
-import android.util.Log;
 
 /**
  * Real time access to the JSONRPC API.
@@ -53,15 +49,9 @@ public class JsonRpcClient extends AbstractClient {
 	 * @return API version or -1 on error.
 	 */
 	public int getVersion(ErrorHandler errorHandler) {
-		try {
-			final JSONRPC.Version apicall = new JSONRPC.Version();
-			execute(apicall, errorHandler);
-			return Integer.parseInt(apicall.getResult());
-		} catch (JSONException e) {
-			Log.e(TAG, e.getMessage(), e);
-			errorHandler.handleError(new ApiException(ApiException.JSON_EXCEPTION, e.getMessage(), e));
-		}
-		return -1;
+		final JSONRPC.Version apicall = new JSONRPC.Version();
+		execute(apicall, errorHandler);
+		return Integer.parseInt(apicall.getResult());
 	}
 	
 }

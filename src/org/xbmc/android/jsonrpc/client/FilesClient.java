@@ -23,13 +23,9 @@ package org.xbmc.android.jsonrpc.client;
 
 import java.util.ArrayList;
 
-import org.json.JSONException;
 import org.xbmc.android.jsonrpc.api.call.Files;
 import org.xbmc.android.jsonrpc.api.model.FilesModel;
 import org.xbmc.android.jsonrpc.api.model.ListModel;
-import org.xbmc.android.jsonrpc.io.ApiException;
-
-import android.util.Log;
 
 /**
  * Real time access to the Files API.
@@ -47,15 +43,9 @@ public class FilesClient extends AbstractClient {
 	 * @return List of all music sources
 	 */
 	public ArrayList<ListModel.SourcesItem> getMusicSources(ErrorHandler errorHandler) {
-		try {
-			final Files.GetSources apicall = new Files.GetSources(FilesModel.Media.MUSIC);
-			execute(apicall, errorHandler);
-			return apicall.getResults();
-		} catch (JSONException e) {
-			Log.e(TAG, e.getMessage(), e);
-			errorHandler.handleError(new ApiException(ApiException.JSON_EXCEPTION, e.getMessage(), e));
-		}
-		return new ArrayList<ListModel.SourcesItem>(0);
+		final Files.GetSources apicall = new Files.GetSources(FilesModel.Media.MUSIC);
+		execute(apicall, errorHandler);
+		return apicall.getResults();
 	}
 	
 	/**
@@ -67,15 +57,9 @@ public class FilesClient extends AbstractClient {
 	 * @return Folder contents or empty list if nothing found.
 	 */
 	public ArrayList<ListModel.FileItem> getDirectory(String directory, ErrorHandler errorHandler) {
-		try {
-			final Files.GetDirectory apicall = new Files.GetDirectory(directory, null);
-			execute(apicall, errorHandler);
-			return apicall.getResults();
-		} catch (JSONException e) {
-			Log.e(TAG, e.getMessage(), e);
-			errorHandler.handleError(new ApiException(ApiException.JSON_EXCEPTION, e.getMessage(), e));
-		}
-		return new ArrayList<ListModel.FileItem>(0);
+		final Files.GetDirectory apicall = new Files.GetDirectory(directory, null);
+		execute(apicall, errorHandler);
+		return apicall.getResults();
 	}
 
 }

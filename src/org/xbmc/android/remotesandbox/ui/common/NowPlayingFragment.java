@@ -63,40 +63,31 @@ public class NowPlayingFragment extends Fragment {
 						final int currentlyPlayingId = notification.data.item.id;
 						final int currentPlayer = notification.data.player.playerId;
 						final int currentType = notification.data.item.type;
-						try {
-							return new FollowupCall<PlayerModel.PropertyValue>(new Player.GetProperties(currentPlayer, PlayerModel.PropertyName.TIME)) {
-								@Override
-								@SuppressWarnings("unchecked")
-								protected <U extends AbstractModel> FollowupCall<U> onResponse(PropertyValue response) {
-									Log.i(TAG, "Setting clock to " + response.time.getMilliseconds() + "ms (" + SystemClock.elapsedRealtime() + ").");
-									mChronometer.setBase(SystemClock.elapsedRealtime() - response.time.getMilliseconds());
-									mChronometer.start();
-									try {
-										switch (currentType) {
-											case PlayerEvent.Item.Type.SONG:
-												return (FollowupCall<U>) new FollowupCall<AudioModel.SongDetails>(new AudioLibrary.GetSongDetails(currentlyPlayingId)) {
-													@Override
-													@SuppressWarnings("hiding")
-													protected <U extends AbstractModel> FollowupCall<U> onResponse(SongDetails response) {
-														mStatusText.setText(response.label);
-														return null;
-													}
-												};
-											case PlayerEvent.Item.Type.EPISODE:
-											case PlayerEvent.Item.Type.MUSICVIDEO:
-											default:
+						return new FollowupCall<PlayerModel.PropertyValue>(new Player.GetProperties(currentPlayer, PlayerModel.PropertyName.TIME)) {
+							@Override
+							@SuppressWarnings("unchecked")
+							protected <U extends AbstractModel> FollowupCall<U> onResponse(PropertyValue response) {
+								Log.i(TAG, "Setting clock to " + response.time.getMilliseconds() + "ms (" + SystemClock.elapsedRealtime() + ").");
+								mChronometer.setBase(SystemClock.elapsedRealtime() - response.time.getMilliseconds());
+								mChronometer.start();
+								switch (currentType) {
+									case PlayerEvent.Item.Type.SONG:
+										return (FollowupCall<U>) new FollowupCall<AudioModel.SongDetails>(new AudioLibrary.GetSongDetails(currentlyPlayingId)) {
+											@Override
+											@SuppressWarnings("hiding")
+											protected <U extends AbstractModel> FollowupCall<U> onResponse(SongDetails response) {
+												mStatusText.setText(response.label);
 												return null;
-										}		
-									} catch (JSONException e) {
+											}
+										};
+									case PlayerEvent.Item.Type.EPISODE:
+									case PlayerEvent.Item.Type.MUSICVIDEO:
+									default:
 										return null;
-									}
-								}
-								
-							};
-						} catch (JSONException e) {
-							e.printStackTrace();
-						}
-						return null;
+								}		
+							}
+							
+						};
 					}
 					@Override
 					public FollowupCall<? extends AbstractModel> onPause(Pause notification) {

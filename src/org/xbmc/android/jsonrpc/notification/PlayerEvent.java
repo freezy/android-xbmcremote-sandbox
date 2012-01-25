@@ -21,8 +21,7 @@
 
 package org.xbmc.android.jsonrpc.notification;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.model.GlobalModel;
 
 /**
@@ -43,9 +42,9 @@ public class PlayerEvent {
 	public static class Play extends AbstractEvent {
 		public final static String METHOD = "Player.OnPlay";
 		public final Data data;
-		public Play(JSONObject obj) throws JSONException {
-			super(obj);
-			data = new Data(obj.getJSONObject("data"));
+		public Play(ObjectNode node) {
+			super(node);
+			data = new Data((ObjectNode)node.get("data"));
 		}
 		@Override
 		public String toString() {
@@ -60,9 +59,9 @@ public class PlayerEvent {
 	public static class Pause extends AbstractEvent {
 		public final static String METHOD = "Player.OnPause";
 		public final Data data;
-		public Pause(JSONObject obj) throws JSONException {
-			super(obj);
-			data = new Data(obj.getJSONObject("data"));
+		public Pause(ObjectNode node) {
+			super(node);
+			data = new Data((ObjectNode)node.get("data"));
 		}
 		@Override
 		public String toString() {
@@ -77,9 +76,9 @@ public class PlayerEvent {
 	public static class Stop extends AbstractEvent {
 		public final static String METHOD = "Player.OnStop";
 		public final Data data;
-		public Stop(JSONObject obj) throws JSONException {
-			super(obj);
-			data = new Data(obj.getJSONObject("data"));
+		public Stop(ObjectNode node) {
+			super(node);
+			data = new Data((ObjectNode)node.get("data"));
 		}
 		@Override
 		public String toString() {
@@ -87,8 +86,8 @@ public class PlayerEvent {
 		}
 		public static class Data {
 			public final Item item;
-			public Data (JSONObject obj) throws JSONException {
-				item = new Item(obj.getJSONObject("item"));
+			public Data (ObjectNode node) {
+				item = new Item((ObjectNode)node.get("item"));
 			}
 		}
 	}
@@ -100,9 +99,9 @@ public class PlayerEvent {
 	public static class SpeedChanged extends AbstractEvent {
 		public final static String METHOD = "Player.OnSpeedChanged";
 		public final Data data;
-		public SpeedChanged(JSONObject obj) throws JSONException {
-			super(obj);
-			data = new Data(obj.getJSONObject("data"));
+		public SpeedChanged(ObjectNode node) {
+			super(node);
+			data = new Data((ObjectNode)node.get("data"));
 		}
 		@Override
 		public String toString() {
@@ -117,16 +116,16 @@ public class PlayerEvent {
 	public static class Seek extends AbstractEvent {
 	public final static String METHOD = "Player.OnSeek";
 		public final Data data;
-		public Seek(JSONObject obj) throws JSONException {
-			super(obj);
-			data = new Data(obj.getJSONObject("data"));
+		public Seek(ObjectNode node) {
+			super(node);
+			data = new Data((ObjectNode)node.get("data"));
 		}
 		public static class Data {
 			public final Item item;
 			public final PlayerSeek player;
-			public Data (JSONObject obj) throws JSONException {
-				item = new Item(obj.getJSONObject("item"));
-				player = new PlayerSeek(obj.getJSONObject("player"));
+			public Data (ObjectNode node) {
+				item = new Item((ObjectNode)node.get("item"));
+				player = new PlayerSeek((ObjectNode)node.get("player"));
 			}
 		}
 		@Override
@@ -144,9 +143,9 @@ public class PlayerEvent {
 		public final static String TYPE = "Player.Notifications.Data";
 		public final Item item;
 		public final Player player;
-		public Data (JSONObject obj) throws JSONException {
-			item = new Item(obj.getJSONObject("item"));
-			player = new Player(obj.getJSONObject("player"));
+		public Data (ObjectNode node) {
+			item = new Item((ObjectNode)node.get("item"));
+			player = new Player((ObjectNode)node.get("player"));
 		}
 	}
 	
@@ -162,17 +161,17 @@ public class PlayerEvent {
 		public final String album;
 		public final String artist;
 		public final int track;
-		public Item (JSONObject obj) throws JSONException {
-			type = Type.parse(obj.getString("type"));
-			id = AbstractEvent.parseInt(obj, "id");
-			title = AbstractEvent.parseString(obj, "title");
-			year = AbstractEvent.parseInt(obj, "year");
-			episode = AbstractEvent.parseInt(obj, "episode");
-			season = AbstractEvent.parseInt(obj, "season");
-			showtitle = AbstractEvent.parseString(obj, "showtitle");
-			album = AbstractEvent.parseString(obj, "album");
-			artist = AbstractEvent.parseString(obj, "artist");
-			track = AbstractEvent.parseInt(obj, "track");
+		public Item (ObjectNode node) {
+			type = Type.parse(node.get("type").getTextValue());
+			id = AbstractEvent.parseInt(node, "id");
+			title = AbstractEvent.parseString(node, "title");
+			year = AbstractEvent.parseInt(node, "year");
+			episode = AbstractEvent.parseInt(node, "episode");
+			season = AbstractEvent.parseInt(node, "season");
+			showtitle = AbstractEvent.parseString(node, "showtitle");
+			album = AbstractEvent.parseString(node, "album");
+			artist = AbstractEvent.parseString(node, "artist");
+			track = AbstractEvent.parseInt(node, "track");
 		}
 		@Override
 		public String toString() {
@@ -218,9 +217,9 @@ public class PlayerEvent {
 		public final static String TYPE = "Player.Notifications.Player";
 		public final int playerId;
 		public final int speed;
-		public Player (JSONObject obj) throws JSONException {
-			playerId = obj.getInt("playerid");
-			speed = obj.has("speed") ? obj.getInt("speed") : 0;
+		public Player (ObjectNode node) {
+			playerId = node.get("playerid").getIntValue();
+			speed = node.get("speed").getValueAsInt(0);
 		}
 	}
 	
@@ -228,10 +227,10 @@ public class PlayerEvent {
 		public final static String TYPE = "Player.Notifications.Player.Seek";
 		public final GlobalModel.Time time;
 		public final GlobalModel.Time seekoffset;
-		public PlayerSeek(JSONObject obj) throws JSONException {
-			super(obj);
-			time = new GlobalModel.Time(obj.getJSONObject("time"));
-			seekoffset = new GlobalModel.Time(obj.getJSONObject("seekoffset"));
+		public PlayerSeek(ObjectNode node) {
+			super(node);
+			time = new GlobalModel.Time((ObjectNode)node.get("time"));
+			seekoffset = new GlobalModel.Time((ObjectNode)node.get("seekoffset"));
 		}
 	}
 	

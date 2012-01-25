@@ -31,9 +31,7 @@ import org.json.JSONTokener;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.AbstractModel;
 import org.xbmc.android.jsonrpc.io.FollowupCall;
-import org.xbmc.android.jsonrpc.notification.PlayerEvent;
 import org.xbmc.android.jsonrpc.notification.PlayerObserver;
-import org.xbmc.android.jsonrpc.notification.SystemEvent;
 import org.xbmc.android.jsonrpc.service.NotificationService;
 
 import android.content.ComponentName;
@@ -104,7 +102,7 @@ public class NotificationManager {
 	 */
 	private void parseAndNotify(JSONObject event) {
 		
-		try {
+/*		try {
 			
 			// if "id" is supplied that means we're getting a response to a
 			// follow-up request (or a call), not a notification.
@@ -177,7 +175,7 @@ public class NotificationManager {
 			}
 		} catch (JSONException e) {
 			Log.e(TAG, "Error parsing event, returning null (" + e.getMessage() + ")", e);
-		}
+		}*/
 	}
 	
 	/**

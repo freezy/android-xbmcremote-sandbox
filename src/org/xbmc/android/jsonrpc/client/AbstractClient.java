@@ -21,7 +21,7 @@
 
 package org.xbmc.android.jsonrpc.client;
 
-import org.json.JSONObject;
+import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.io.ApiException;
 import org.xbmc.android.jsonrpc.io.JsonApiRequest;
@@ -71,10 +71,10 @@ public abstract class AbstractClient {
 	protected void execute(AbstractCall<?> api, ErrorHandler errorHandler) {
 
 		// 1. get the request object from our API implementation
-		final JSONObject request = api.getRequest();
+		final ObjectNode request = api.getRequest();
 
 		// 2. POST the object to XBMC's JSON-RPC API
-		JSONObject response = null;
+		ObjectNode response = null;
 		try {
 			response = JsonApiRequest.execute(getUrl(), request);
 		} catch (ApiException e) {
