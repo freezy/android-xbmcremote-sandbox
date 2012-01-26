@@ -21,10 +21,9 @@
 
 package org.xbmc.android.jsonrpc.service;
 
-import org.json.JSONObject;
-import org.xbmc.android.jsonrpc.NotificationManager;
 import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
 import org.xbmc.android.jsonrpc.api.model.AudioModel;
+import org.xbmc.android.jsonrpc.io.ConnectionManager;
 import org.xbmc.android.jsonrpc.io.audio.AlbumHandler;
 import org.xbmc.android.jsonrpc.io.audio.ArtistHandler;
 import org.xbmc.android.jsonrpc.provider.AudioProvider;
@@ -45,7 +44,7 @@ import android.util.Log;
  * 
  * @author freezy <freezy@xbmc.org>
  */
-public class AudioSyncService extends Service implements NotificationManager.ApiCallback {
+public class AudioSyncService extends Service {
 
 	public static final String URL = "http://192.168.0.100:8080/jsonrpc";
 	
@@ -59,14 +58,14 @@ public class AudioSyncService extends Service implements NotificationManager.Api
 	
 	private long mStart = 0;
 
-	private NotificationManager mNm = null;
+	private ConnectionManager mCm = null;
 	private ResultReceiver mReceiver = null;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		Log.d(TAG, "Starting onCreate()...");
-		mNm = new NotificationManager(getApplicationContext());
+		mCm = new ConnectionManager(getApplicationContext());
 	}
 	
 	@Override
@@ -81,56 +80,24 @@ public class AudioSyncService extends Service implements NotificationManager.Api
 		}
 		
 		// start quering...
-		onResponse(INIT, null);
-	}
-	
-	private final static int INIT = 0x00; 
-	private final static int CALL_ARTISTS = 0x01; 
-	private final static int CALL_ALBUMS = 0x02; 
-	
-	@Override
-	public void onResponse(int what, JSONObject response) {
-		try {
-			switch (what) {
-				case INIT:
-					mStart = System.currentTimeMillis();
-					// 1. run GetArtists
-					final AudioLibrary.GetArtists getArtistsCall = new AudioLibrary.GetArtists(false, null);
-					mNm.call(CALL_ARTISTS, getArtistsCall, this);
-					break;
-					
-				case CALL_ARTISTS:
-					// 1. parse GetArtists
-					new ArtistHandler().applyResult(response, getContentResolver());
-					// 2. run GetAlbums
-					final AudioLibrary.GetAlbums getAlbumsCall = new AudioLibrary.GetAlbums(null, null, 
-							AudioModel.AlbumFields.TITLE, AudioModel.AlbumFields.ARTISTID, AudioModel.AlbumFields.YEAR);
-					mNm.call(CALL_ALBUMS, getAlbumsCall, this);
-					break;
-					
-				case CALL_ALBUMS:
-					// 1. parse GetAlbums
-					new AlbumHandler().applyResult(response, getContentResolver());
-					Log.i(TAG, "All done, remote sync took " + (System.currentTimeMillis() - mStart) + "ms.");
-					// Announce success to any surface listener
-					if (mReceiver != null) {
-						mReceiver.send(STATUS_FINISHED, Bundle.EMPTY);
-					}
-					Log.d(TAG, "Sync finished!");
-				default:
-			}
-		} catch (Exception e) {
-			Log.e(TAG, "Problem while syncing.", e);
-			if (mReceiver != null) {
-				// Pass back error to surface listener
-				final Bundle bundle = new Bundle();
-				bundle.putString(Intent.EXTRA_TEXT, e.getMessage());
-				mReceiver.send(STATUS_ERROR, bundle);
-			}
+		syncArtists();
+		
+		if (mReceiver != null) {
+			// Pass back error to surface listener
+			mReceiver.send(STATUS_FINISHED, null);
 		}
 	}
 	
-	@Override
+	private void syncArtists() {
+		final AudioLibrary.GetArtists getArtistsCall = new AudioLibrary.GetArtists(false, null);
+		mCm.call(getArtistsCall, new ArtistHandler());
+	}
+	private void syncAlbums() {
+		final AudioLibrary.GetAlbums getAlbumsCall = new AudioLibrary.GetAlbums(null, null, 
+				AudioModel.AlbumFields.TITLE, AudioModel.AlbumFields.ARTISTID, AudioModel.AlbumFields.YEAR);
+		mCm.call(getAlbumsCall, new AlbumHandler());
+	}
+	
 	public void onError(int code, String message) {
 		if (mReceiver != null) {
 			// Pass back error to surface listener

@@ -21,9 +21,9 @@
 
 package org.xbmc.android.jsonrpc.io.audio;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
 import org.xbmc.android.jsonrpc.api.model.AudioModel;
@@ -35,6 +35,8 @@ import org.xbmc.android.jsonrpc.provider.AudioContract.SyncColumns;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 /**
@@ -52,24 +54,24 @@ public class AlbumHandler extends JsonHandler {
 	}
 
 	@Override
-	protected ContentValues[] parse(JSONObject result, ContentResolver resolver) throws JSONException {
+	protected ContentValues[] parse(JsonNode result, ContentResolver resolver) {
 		
 		final long now = System.currentTimeMillis();
 		Log.d(TAG, "Building queries for album's drop and create.");
 		
 		// we intentionally don't use the API for de-serializing but access the 
 		// JSON objects directly for performance reasons.
-		final JSONArray albums = result.getJSONObject(AbstractCall.RESULT).getJSONArray(AudioLibrary.GetAlbums.RESULTS);
+		final ArrayNode albums = (ArrayNode)result.get(AbstractCall.RESULT).get(AudioLibrary.GetAlbums.RESULTS);
 
-		final ContentValues[] batch = new ContentValues[albums.length()];
-		for (int i = 0; i < albums.length(); i++) {
-			final JSONObject album = albums.getJSONObject(i);
+		final ContentValues[] batch = new ContentValues[albums.size()];
+		for (int i = 0; i < albums.size(); i++) {
+			final ObjectNode album = (ObjectNode)albums.get(i);
 			batch[i] = new ContentValues();
 			batch[i].put(SyncColumns.UPDATED, now);
-			batch[i].put(Albums.ID, album.getString(AudioModel.AlbumDetails.ALBUMID));
-			batch[i].put(Albums.TITLE, album.getString(AudioModel.AlbumDetails.TITLE));
-			batch[i].put(Albums.PREFIX + Artists.ID, album.getString(AudioModel.AlbumDetails.ARTISTID));
-			batch[i].put(Albums.YEAR, album.getString(AudioModel.AlbumDetails.YEAR));
+			batch[i].put(Albums.ID, album.get(AudioModel.AlbumDetails.ALBUMID).getTextValue());
+			batch[i].put(Albums.TITLE, album.get(AudioModel.AlbumDetails.TITLE).getTextValue());
+			batch[i].put(Albums.PREFIX + Artists.ID, album.get(AudioModel.AlbumDetails.ARTISTID).getTextValue());
+			batch[i].put(Albums.YEAR, album.get(AudioModel.AlbumDetails.YEAR).getTextValue());
 		}
 		Log.d(TAG, batch.length + " album queries built in " + (System.currentTimeMillis() - now) + "ms.");
 		return batch;
@@ -79,5 +81,19 @@ public class AlbumHandler extends JsonHandler {
 	protected void insert(ContentResolver resolver, ContentValues[] batch) {
 		resolver.bulkInsert(Albums.CONTENT_URI, batch);
 	}
+	
+	/**
+	 * Generates instances of this Parcelable class from a Parcel.
+	 */
+	public static final Parcelable.Creator<AlbumHandler> CREATOR = new Parcelable.Creator<AlbumHandler>() {
+		@Override
+		public AlbumHandler createFromParcel(Parcel parcel) {
+			return new AlbumHandler();
+		}
+		@Override
+		public AlbumHandler[] newArray(int n) {
+			return new AlbumHandler[n];
+		}
+	};
 
 }

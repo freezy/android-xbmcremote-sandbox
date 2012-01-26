@@ -1,30 +1,11 @@
 package org.xbmc.android.remotesandbox.ui.common;
 
-import org.json.JSONException;
-import org.xbmc.android.jsonrpc.NotificationManager;
-import org.xbmc.android.jsonrpc.NotificationManager.NotificationObserver;
-import org.xbmc.android.jsonrpc.api.AbstractModel;
-import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
-import org.xbmc.android.jsonrpc.api.call.Player;
-import org.xbmc.android.jsonrpc.api.model.AudioModel;
-import org.xbmc.android.jsonrpc.api.model.AudioModel.SongDetails;
-import org.xbmc.android.jsonrpc.api.model.PlayerModel;
-import org.xbmc.android.jsonrpc.api.model.PlayerModel.PropertyValue;
-import org.xbmc.android.jsonrpc.io.FollowupCall;
-import org.xbmc.android.jsonrpc.notification.PlayerEvent;
-import org.xbmc.android.jsonrpc.notification.PlayerEvent.Pause;
-import org.xbmc.android.jsonrpc.notification.PlayerEvent.Play;
-import org.xbmc.android.jsonrpc.notification.PlayerEvent.Stop;
-import org.xbmc.android.jsonrpc.notification.PlayerObserver;
 import org.xbmc.android.remotesandbox.R;
 
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -38,8 +19,8 @@ public class NowPlayingFragment extends Fragment {
 	private Button mConnectButton;
 	private Chronometer mChronometer;
 	
-	private NotificationManager nm;
-	private NotificationObserver mPlayerObserver;
+//	private NotificationManager nm;
+//	private NotificationObserver mPlayerObserver;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,11 +28,11 @@ public class NowPlayingFragment extends Fragment {
 		mStatusText = (TextView)root.findViewById(R.id.nowplaying_status);
 		mConnectButton = (Button)root.findViewById(R.id.nowplaying_connect);
 		mChronometer = (Chronometer)root.findViewById(R.id.nowplaying_chronometer);
-		setup();
+//		setup();
 		return root;
 	}
 	
-
+/*
 	private void setup() {
 		nm = new NotificationManager(getActivity().getApplicationContext());
 		mPlayerObserver = new NotificationObserver() {
@@ -114,5 +95,5 @@ public class NowPlayingFragment extends Fragment {
 			}
 		});
 	}
-	
+*/	
 }

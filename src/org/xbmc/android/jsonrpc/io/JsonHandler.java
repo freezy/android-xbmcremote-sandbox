@@ -23,15 +23,15 @@ package org.xbmc.android.jsonrpc.io;
 
 import java.io.IOException;
 
+import org.codehaus.jackson.JsonNode;
 import org.json.JSONException;
-import org.json.JSONObject;
-import org.xbmc.android.jsonrpc.provider.AudioContract.Albums;
-import org.xbmc.android.jsonrpc.provider.AudioContract.Artists;
 
 import android.content.ContentProvider;
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 /**
@@ -47,7 +47,7 @@ import android.util.Log;
  * 
  * @author freezy <freezy@xbmc.org>
  */
-public abstract class JsonHandler {
+public abstract class JsonHandler implements Parcelable {
 
 	private static final String TAG = JsonHandler.class.getSimpleName();
 
@@ -66,7 +66,7 @@ public abstract class JsonHandler {
 	 * @param resolver Content resolver
 	 * @throws HandlerException Re-thrown errors
 	 */
-	public void applyResult(JSONObject result, ContentResolver resolver) throws ApiException {
+	public void applyResult(JsonNode result, ContentResolver resolver) throws ApiException {
 		try {
 			final long start = System.currentTimeMillis();
 			
@@ -81,15 +81,13 @@ public abstract class JsonHandler {
 				insert(resolver, newBatch);
 				Log.i(TAG, "Execution done in " + (System.currentTimeMillis() - start) + "ms.");
 			}
-		} catch (JSONException e) {
-			throw new ApiException(ApiException.JSON_EXCEPTION, "Problem reading JSON response.", e);
         } catch (IOException e) {
 			e.printStackTrace();
 		} 
 	}
 
 	/**
-	 * Parse the HTTP body's de-serialized {@link JSONObject}, returning a set
+	 * Parse the HTTP body's de-serialized {@link JsonNode}, returning a set
 	 * of {@link ContentProviderOperation} that will bring the
 	 * {@link ContentProvider} into sync with the parsed data.
 	 * 
@@ -99,9 +97,19 @@ public abstract class JsonHandler {
 	 * @throws JSONException
 	 * @throws IOException
 	 */
-    protected abstract ContentValues[] parse(JSONObject result, ContentResolver resolver) throws JSONException, IOException;
+    protected abstract ContentValues[] parse(JsonNode result, ContentResolver resolver) throws IOException;
     
     protected abstract void insert(ContentResolver resolver, ContentValues[] batch);
-    
+
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel parcel, int flags) {
+		parcel.writeString(mAuthority);
+	}
     
 }

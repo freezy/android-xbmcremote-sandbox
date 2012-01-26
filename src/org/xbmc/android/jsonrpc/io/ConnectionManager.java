@@ -111,7 +111,7 @@ public class ConnectionManager {
 	/**
 	 * List of follow-ups
 	 */
-	private final HashMap<String, FollowupCall<?>> mFollowups = new HashMap<String, FollowupCall<?>>();
+//	private final HashMap<String, FollowupCall<?>> mFollowups = new HashMap<String, FollowupCall<?>>();
 	/**
 	 * When posting request data and the service isn't started yet, we need to 
 	 * reschedule the post until the service is available. This list contains
@@ -136,10 +136,15 @@ public class ConnectionManager {
 	public <T> ConnectionManager call(AbstractCall<T> call, ApiCallback<T> callback) {
 		// start service if not yet started
 		bindService();
-//		mCallbacks.put(call.getId(), callback);
 		mCallRequests.put(call.getId(), new CallRequest<T>(call, callback));
-		Log.i(TAG, "Saved callback (" + mCallRequests.size() + ").");
 		sendCall(call);
+		return this;
+	}
+	
+	public ConnectionManager call(AbstractCall<?> call, JsonHandler handler) {
+		// start service if not yet started
+		bindService();
+		sendCall(call, handler);
 		return this;
 	}
 	
@@ -193,6 +198,26 @@ public class ConnectionManager {
 				final Message msg = Message. obtain(null, ConnectionService.MSG_SEND_APICALL);
 				final Bundle data = new Bundle();
 				data.putParcelable(ConnectionService.EXTRA_APICALL, apiCall);
+				msg.setData(data);
+				msg.replyTo = mMessenger;
+				mService.send(msg);
+			} catch (RemoteException e) {
+				Log.e(TAG, "Error posting message to service: " + e.getMessage(), e);
+			}
+		} else {
+			// service not yet started, saving data:
+			Log.i(TAG, "Saving post data for later.");
+			mPendingCalls.add(apiCall);
+		}
+	}
+	
+	private void sendCall(AbstractCall<?> apiCall, JsonHandler handler) {
+		if (mService != null) {
+			try {
+				final Message msg = Message. obtain(null, ConnectionService.MSG_SEND_HANDLED_APICALL);
+				final Bundle data = new Bundle();
+				data.putParcelable(ConnectionService.EXTRA_APICALL, apiCall);
+				data.putParcelable(ConnectionService.EXTRA_HANDLER, handler);
 				msg.setData(data);
 				msg.replyTo = mMessenger;
 				mService.send(msg);

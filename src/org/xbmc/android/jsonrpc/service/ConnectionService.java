@@ -36,7 +36,9 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
+import org.xbmc.android.jsonrpc.io.ApiException;
 import org.xbmc.android.jsonrpc.io.ConnectionManager;
+import org.xbmc.android.jsonrpc.io.JsonHandler;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -65,6 +67,7 @@ public class ConnectionService extends IntentService {
 
 	public static final String EXTRA_STATUS_RECEIVER = "org.xbmc.android.jsonprc.extra.STATUS_RECEIVER";
 	public static final String EXTRA_APICALL = "org.xbmc.android.jsonprc.extra.APICALL";
+	public static final String EXTRA_HANDLER = "org.xbmc.android.jsonprc.extra.HANDLER";
 	public static final String EXTRA_ERROR_CODE = "org.xbmc.android.jsonprc.extra.ERROR_CODE";
 	public static final String EXTRA_ERROR_MESSAGE = "org.xbmc.android.jsonprc.extra.ERROR_MESSAGE";
 
@@ -73,7 +76,8 @@ public class ConnectionService extends IntentService {
 	public static final int MSG_RECEIVE_NOTIFICATION = 0x03;
 	public static final int MSG_RECEIVE_APICALL = 0x04;	
 	public static final int MSG_SEND_APICALL = 0x05;
-	public static final int MSG_ERROR = 0x06;	
+	public static final int MSG_SEND_HANDLED_APICALL = 0x06;
+	public static final int MSG_ERROR = 0x07;	
 
 	public static final int ERROR_SOCKET_WRITE = 0x01;	
 	public static final int ERROR_UNKNOWN_HOST = 0x02;	
@@ -97,6 +101,7 @@ public class ConnectionService extends IntentService {
 	 * All calls the service is currently dealing with. Key is the ID of the call.
 	 */
 	private final HashMap<String, AbstractCall<?>> mCalls = new HashMap<String, AbstractCall<?>>();
+	private final HashMap<String, JsonHandler> mHandlers = new HashMap<String, JsonHandler>();
 	/**
 	 * API call results are only returned to the client requested it, so here are the relations.
 	 */
@@ -132,7 +137,7 @@ public class ConnectionService extends IntentService {
 		Socket socket = null;
 
 		try {
-			final InetSocketAddress sockaddr = new InetSocketAddress("192.168.0.100", 9090);
+			final InetSocketAddress sockaddr = new InetSocketAddress("192.100.120.114", 9090);
 			socket = new Socket();
 			mSocket = socket;       // update class reference
 			socket.setSoTimeout(0); // no timeout for reading from connection.
@@ -240,34 +245,44 @@ public class ConnectionService extends IntentService {
 		final ArrayList<Messenger> clients = mClients;
 		final HashMap<AbstractCall<?>, Messenger> map = mClientMap;
 		final HashMap<String, AbstractCall<?>> calls = mCalls;
+		final HashMap<String, JsonHandler> handlers = mHandlers;
 		
 		// check if notification or api call
 		if (node.has("id")) {
 			final String id = node.get("id").getValueAsText();
-			if (!calls.containsKey(id)) {
-				Log.e(TAG, "Error: Cannot find API call with ID " + id + ".");
-			} else {
+			if (calls.containsKey(id)) {
 				final AbstractCall<?> call = calls.get(id);
-				call.setResponse(node);
-				final Bundle b = new Bundle();
-				b.putParcelable(EXTRA_APICALL, call);
-				final Message msg = Message.obtain(null, MSG_RECEIVE_APICALL);
-				msg.setData(b);
-				if (map.containsKey(call)) {
+				if (handlers.containsKey(id)) {
 					try {
-						map.get(call).send(msg);
-						Log.i(TAG, "Sent updated API call " + call.getName() + " to client.");
-					} catch (RemoteException e) {
-						Log.e(TAG, "Error sending API response to client: " + e.getMessage(), e);
-						map.remove(call);
-					} finally {
-						// clean up
-						map.remove(call);
-						calls.remove(id);
+						handlers.get(id).applyResult(node, getContentResolver());
+					} catch (ApiException e) {
+						notifyError(e.getCode(), "Error synchronizing: " + e.getMessage(), e);
 					}
 				} else {
-					Log.w(TAG, "Cannot find client in caller-mapping, dropping response.");
+					
+					call.setResponse(node);
+					final Bundle b = new Bundle();
+					b.putParcelable(EXTRA_APICALL, call);
+					final Message msg = Message.obtain(null, MSG_RECEIVE_APICALL);
+					msg.setData(b);
+					if (map.containsKey(call)) {
+						try {
+							map.get(call).send(msg);
+							Log.i(TAG, "Sent updated API call " + call.getName() + " to client.");
+						} catch (RemoteException e) {
+							Log.e(TAG, "Error sending API response to client: " + e.getMessage(), e);
+							map.remove(call);
+						} finally {
+							// clean up
+							map.remove(call);
+							calls.remove(id);
+						}
+					} else {
+						Log.w(TAG, "Cannot find client in caller-mapping, dropping response.");
+					}
 				}
+			} else {
+				Log.e(TAG, "Error: Cannot find API call with ID " + id + ".");
 			}
 		} else {
 			Log.i(TAG, "Notifying " + clients.size() + " clients.");
@@ -308,6 +323,7 @@ public class ConnectionService extends IntentService {
 				msg.setData(b);
 				mClients.get(i).send(msg);
 				Log.i(TAG, "Sent error to client " + i + ".");
+				stopSelf();
 				
 			} catch (RemoteException e2) {
 				Log.e(TAG, "Cannot send errors to client: " + e.getMessage(), e2);
@@ -352,7 +368,8 @@ public class ConnectionService extends IntentService {
 				mClients.remove(msg.replyTo);
 				Log.d(TAG, "Unregistered client.");
 				break;
-			case MSG_SEND_APICALL:
+			case MSG_SEND_APICALL: {
+				Log.d(TAG, "Sending new API call..");
 				final Bundle data = msg.getData();
 				final AbstractCall<?> call = (AbstractCall<?>)data.getParcelable(EXTRA_APICALL);
 				mCalls.put(call.getId(), call);
@@ -362,6 +379,24 @@ public class ConnectionService extends IntentService {
 				} else {
 					writeSocket(call);
 				}
+				break;
+			}
+			case MSG_SEND_HANDLED_APICALL: {
+				Log.d(TAG, "Sending new handled API call..");
+				final Bundle data = msg.getData();
+				final AbstractCall<?> call = (AbstractCall<?>)data.getParcelable(EXTRA_APICALL);
+				final JsonHandler handler = (JsonHandler)data.getParcelable(EXTRA_HANDLER);
+				mCalls.put(call.getId(), call);
+				mHandlers.put(call.getId(), handler);
+				mClientMap.put(call, msg.replyTo);
+				if (mOut == null) {
+					Log.d(TAG, "Quering for later.");
+					mPendingCalls.add(call);
+				} else {
+					writeSocket(call);
+				}
+				break;
+			}
 			default:
 				super.handleMessage(msg);
 			}

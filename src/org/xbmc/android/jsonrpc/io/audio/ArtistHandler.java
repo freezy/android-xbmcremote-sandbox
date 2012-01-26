@@ -21,9 +21,10 @@
 
 package org.xbmc.android.jsonrpc.io.audio;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
+import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
 import org.xbmc.android.jsonrpc.api.model.AudioModel;
 import org.xbmc.android.jsonrpc.io.JsonHandler;
@@ -33,6 +34,8 @@ import org.xbmc.android.jsonrpc.provider.AudioContract.SyncColumns;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 /**
@@ -50,23 +53,22 @@ public class ArtistHandler extends JsonHandler {
 	}
 
 	@Override
-	protected ContentValues[] parse(JSONObject response, ContentResolver resolver)
-			throws JSONException {
+	protected ContentValues[] parse(JsonNode response, ContentResolver resolver) {
 		Log.d(TAG, "Building queries for artist's drop and create.");
 
 		final long now = System.currentTimeMillis();
 			
 		// we intentionally don't use the API for de-serializing but access the 
 		// JSON objects directly for performance reasons.
-		final JSONArray artists = response.getJSONObject("result").getJSONArray(AudioLibrary.GetArtists.RESULTS);
+		final ArrayNode artists = (ArrayNode)response.get(AbstractCall.RESULT).get(AudioLibrary.GetArtists.RESULTS);
 		
-		final ContentValues[] batch = new ContentValues[artists.length()];
-		for (int i = 0; i < artists.length(); i++) {
-			final JSONObject artist = artists.getJSONObject(i);
+		final ContentValues[] batch = new ContentValues[artists.size()];
+		for (int i = 0; i < artists.size(); i++) {
+			final ObjectNode artist = (ObjectNode)artists.get(i);
 			batch[i] = new ContentValues();
 			batch[i].put(SyncColumns.UPDATED, now);
-			batch[i].put(Artists.ID, artist.getString(AudioModel.ArtistDetails.ARTISTID));
-			batch[i].put(Artists.NAME, artist.getString(AudioModel.ArtistDetails.ARTIST));
+			batch[i].put(Artists.ID, artist.get(AudioModel.ArtistDetails.ARTISTID).getTextValue());
+			batch[i].put(Artists.NAME, artist.get(AudioModel.ArtistDetails.ARTIST).getTextValue());
 		}
 	
 		Log.d(TAG, batch.length + " artist queries built in " + (System.currentTimeMillis() - now) + "ms.");
@@ -77,4 +79,18 @@ public class ArtistHandler extends JsonHandler {
 	protected void insert(ContentResolver resolver, ContentValues[] batch) {
 		resolver.bulkInsert(Artists.CONTENT_URI, batch);
 	}
+	
+	/**
+	 * Generates instances of this Parcelable class from a Parcel.
+	 */
+	public static final Parcelable.Creator<ArtistHandler> CREATOR = new Parcelable.Creator<ArtistHandler>() {
+		@Override
+		public ArtistHandler createFromParcel(Parcel parcel) {
+			return new ArtistHandler();
+		}
+		@Override
+		public ArtistHandler[] newArray(int n) {
+			return new ArtistHandler[n];
+		}
+	};	
 }

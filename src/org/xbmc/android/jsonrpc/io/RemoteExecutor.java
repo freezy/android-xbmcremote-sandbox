@@ -21,16 +21,11 @@
 
 package org.xbmc.android.jsonrpc.io;
 
-import java.util.concurrent.CountDownLatch;
-
 import org.apache.http.client.methods.HttpUriRequest;
 import org.json.JSONObject;
-import org.xbmc.android.jsonrpc.NotificationManager;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 
 import android.content.ContentResolver;
-import android.content.Context;
-import android.util.Log;
 
 /**
  * Executes an {@link HttpUriRequest} and passes the HTTP body of the result as a String to the given {@link JsonHandler}.
@@ -54,7 +49,7 @@ public class RemoteExecutor {
 	 * Execute api request, passing a valid response through
 	 * {@link JsonHandler#applyResult(JSONObject, ContentResolver)}.
 	 */
-	public <T> void execute(NotificationManager nm, AbstractCall<T> apicall, final JsonHandler handler) throws ApiException {
+	public <T> void execute(ConnectionManager nm, AbstractCall<T> apicall, final JsonHandler handler) throws ApiException {
 		//JSONObject result = JsonApiRequest.execute(url, apicall.getRequest());
 /*		nm.call(apicall, new ApiCallback<T>() {
 			@Override
