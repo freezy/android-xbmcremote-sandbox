@@ -21,16 +21,11 @@
 
 package org.xbmc.android.jsonrpc.api.call;
 
-import java.io.IOException;
-
-import org.codehaus.jackson.JsonProcessingException;
+import android.os.Parcel;
+import android.os.Parcelable;
 import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.model.ApplicationModel;
-
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.Log;
 
 public final class Application {
 
@@ -56,7 +51,7 @@ public final class Application {
 		}
 		@Override
 		protected ApplicationModel.PropertyValue parseOne(ObjectNode node) {
-			return new ApplicationModel.PropertyValue(parseResult(node));
+			return new ApplicationModel.PropertyValue((ObjectNode)parseResult(node));
 		}
 		@Override
 		public String getName() {
@@ -66,13 +61,11 @@ public final class Application {
 		protected boolean returnsList() {
 			return false;
 		}
-		
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
 			parcel.writeParcelable(mResult, flags);
 		}
-		
 		/**
 		 * Construct via parcel
 		 */
@@ -92,7 +85,7 @@ public final class Application {
 				return new GetProperties[n];
 			}
 		};
-	}
+}
 	/**
 	 * Quit application
 	 * <p/>
@@ -120,7 +113,31 @@ public final class Application {
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+			parcel.writeValue(mResult);
+		}
+		/**
+		 * Construct via parcel
+		 */
+		protected Quit(Parcel parcel) {
+			super(parcel);
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<Quit> CREATOR = new Parcelable.Creator<Quit>() {
+			@Override
+			public Quit createFromParcel(Parcel parcel) {
+				return new Quit(parcel);
+			}
+			@Override
+			public Quit[] newArray(int n) {
+				return new Quit[n];
+			}
+		};
+}
 	/**
 	 * Toggle mute/unmute
 	 * <p/>
@@ -158,7 +175,31 @@ public final class Application {
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+			parcel.writeValue(mResult);
+		}
+		/**
+		 * Construct via parcel
+		 */
+		protected SetMute(Parcel parcel) {
+			super(parcel);
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<SetMute> CREATOR = new Parcelable.Creator<SetMute>() {
+			@Override
+			public SetMute createFromParcel(Parcel parcel) {
+				return new SetMute(parcel);
+			}
+			@Override
+			public SetMute[] newArray(int n) {
+				return new SetMute[n];
+			}
+		};
+}
 	/**
 	 * Set the current volume
 	 * <p/>
@@ -188,5 +229,29 @@ public final class Application {
 		protected boolean returnsList() {
 			return false;
 		}
-	}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+			parcel.writeValue(mResult);
+		}
+		/**
+		 * Construct via parcel
+		 */
+		protected SetVolume(Parcel parcel) {
+			super(parcel);
+		}
+		/**
+		* Generates instances of this Parcelable class from a Parcel.
+		*/
+		public static final Parcelable.Creator<SetVolume> CREATOR = new Parcelable.Creator<SetVolume>() {
+			@Override
+			public SetVolume createFromParcel(Parcel parcel) {
+				return new SetVolume(parcel);
+			}
+			@Override
+			public SetVolume[] newArray(int n) {
+				return new SetVolume[n];
+			}
+		};
+}
 }

@@ -23,10 +23,7 @@ package org.xbmc.android.jsonrpc.api.call;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
-import java.io.IOException;
 import java.util.ArrayList;
-import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
@@ -79,17 +76,24 @@ public final class Files {
 		protected boolean returnsList() {
 			return true;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+		final ArrayList<ListModel.FileItem> results = mResults;
+		if (results != null && results.size() > 0) {
+			parcel.writeInt(results.size());
+			for (ListModel.FileItem result : results) {
+				parcel.writeParcelable(result, flags);
+			}
+		} else {
+			parcel.writeInt(0);
+		}
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected GetDirectory(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.
@@ -142,17 +146,24 @@ public final class Files {
 		protected boolean returnsList() {
 			return true;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+		final ArrayList<ListModel.SourcesItem> results = mResults;
+		if (results != null && results.size() > 0) {
+			parcel.writeInt(results.size());
+			for (ListModel.SourcesItem result : results) {
+				parcel.writeParcelable(result, flags);
+			}
+		} else {
+			parcel.writeInt(0);
+		}
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected GetSources(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.
@@ -300,17 +311,16 @@ public final class Files {
 		protected boolean returnsList() {
 			return false;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+			parcel.writeParcelable(mResult, flags);
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected PrepareDownload(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.

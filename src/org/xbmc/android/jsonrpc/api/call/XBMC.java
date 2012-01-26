@@ -23,9 +23,6 @@ package org.xbmc.android.jsonrpc.api.call;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
-import java.io.IOException;
-import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.UndefinedResult;
@@ -63,17 +60,16 @@ public final class XBMC {
 		protected boolean returnsList() {
 			return false;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+			parcel.writeParcelable(mResult, flags);
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected GetInfoBooleans(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.
@@ -118,17 +114,16 @@ public final class XBMC {
 		protected boolean returnsList() {
 			return false;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+			parcel.writeParcelable(mResult, flags);
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected GetInfoLabels(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.

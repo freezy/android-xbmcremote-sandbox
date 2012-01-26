@@ -335,20 +335,6 @@ public abstract class AbstractCall<T> implements Parcelable {
 	public void writeToParcel(Parcel parcel, int flags) {
 		parcel.writeString(mId);
 		parcel.writeValue(mRequest.toString());
-		if (returnsList()) {
-			final ArrayList<T> results = mResults;
-			if (results == null) {
-				parcel.writeInt(0);
-			} else {
-				for (T t : results) {
-					if (t instanceof AbstractModel) {
-						parcel.writeParcelable((Parcelable)t, flags);
-					} else {
-						parcel.writeValue(t);
-					}
-				}
-			}
-		}
 	}
 	@Override
 	public int describeContents() {

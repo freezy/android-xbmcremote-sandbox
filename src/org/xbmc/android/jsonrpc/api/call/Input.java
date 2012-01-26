@@ -23,9 +23,6 @@ package org.xbmc.android.jsonrpc.api.call;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
-import java.io.IOException;
-import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 
@@ -60,17 +57,16 @@ public final class Input {
 		protected boolean returnsList() {
 			return false;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+			parcel.writeValue(mResult);
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected Back(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.
@@ -113,17 +109,16 @@ public final class Input {
 		protected boolean returnsList() {
 			return false;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+			parcel.writeValue(mResult);
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected Down(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.
@@ -166,17 +161,16 @@ public final class Input {
 		protected boolean returnsList() {
 			return false;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+			parcel.writeValue(mResult);
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected Home(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.
@@ -219,17 +213,16 @@ public final class Input {
 		protected boolean returnsList() {
 			return false;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+			parcel.writeValue(mResult);
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected Left(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.
@@ -272,17 +265,16 @@ public final class Input {
 		protected boolean returnsList() {
 			return false;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+			parcel.writeValue(mResult);
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected Right(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.
@@ -325,17 +317,16 @@ public final class Input {
 		protected boolean returnsList() {
 			return false;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+			parcel.writeValue(mResult);
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected Select(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.
@@ -378,17 +369,16 @@ public final class Input {
 		protected boolean returnsList() {
 			return false;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+			parcel.writeValue(mResult);
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected Up(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.

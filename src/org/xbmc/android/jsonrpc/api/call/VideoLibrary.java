@@ -23,10 +23,7 @@ package org.xbmc.android.jsonrpc.api.call;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
-import java.io.IOException;
 import java.util.ArrayList;
-import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
@@ -66,17 +63,16 @@ public final class VideoLibrary {
 		protected boolean returnsList() {
 			return false;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+			parcel.writeValue(mResult);
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected Clean(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.
@@ -263,17 +259,16 @@ public final class VideoLibrary {
 		protected boolean returnsList() {
 			return false;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+			parcel.writeValue(mResult);
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected Export(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.
@@ -322,17 +317,16 @@ public final class VideoLibrary {
 		protected boolean returnsList() {
 			return false;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+			parcel.writeParcelable(mResult, flags);
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected GetEpisodeDetails(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.
@@ -389,17 +383,24 @@ public final class VideoLibrary {
 		protected boolean returnsList() {
 			return true;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+		final ArrayList<VideoModel.EpisodeDetails> results = mResults;
+		if (results != null && results.size() > 0) {
+			parcel.writeInt(results.size());
+			for (VideoModel.EpisodeDetails result : results) {
+				parcel.writeParcelable(result, flags);
+			}
+		} else {
+			parcel.writeInt(0);
+		}
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected GetEpisodes(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.
@@ -455,17 +456,24 @@ public final class VideoLibrary {
 		protected boolean returnsList() {
 			return true;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+		final ArrayList<LibraryModel.GenreDetails> results = mResults;
+		if (results != null && results.size() > 0) {
+			parcel.writeInt(results.size());
+			for (LibraryModel.GenreDetails result : results) {
+				parcel.writeParcelable(result, flags);
+			}
+		} else {
+			parcel.writeInt(0);
+		}
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected GetGenres(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.
@@ -514,17 +522,16 @@ public final class VideoLibrary {
 		protected boolean returnsList() {
 			return false;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+			parcel.writeParcelable(mResult, flags);
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected GetMovieDetails(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.
@@ -654,17 +661,16 @@ public final class VideoLibrary {
 		protected boolean returnsList() {
 			return false;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+			parcel.writeParcelable(mResult, flags);
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected GetMovieSetDetails(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.
@@ -717,17 +723,24 @@ public final class VideoLibrary {
 		protected boolean returnsList() {
 			return true;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+		final ArrayList<VideoModel.MovieSetDetails> results = mResults;
+		if (results != null && results.size() > 0) {
+			parcel.writeInt(results.size());
+			for (VideoModel.MovieSetDetails result : results) {
+				parcel.writeParcelable(result, flags);
+			}
+		} else {
+			parcel.writeInt(0);
+		}
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected GetMovieSets(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.
@@ -780,17 +793,24 @@ public final class VideoLibrary {
 		protected boolean returnsList() {
 			return true;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+		final ArrayList<VideoModel.MovieDetails> results = mResults;
+		if (results != null && results.size() > 0) {
+			parcel.writeInt(results.size());
+			for (VideoModel.MovieDetails result : results) {
+				parcel.writeParcelable(result, flags);
+			}
+		} else {
+			parcel.writeInt(0);
+		}
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected GetMovies(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.
@@ -839,17 +859,16 @@ public final class VideoLibrary {
 		protected boolean returnsList() {
 			return false;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+			parcel.writeParcelable(mResult, flags);
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected GetMusicVideoDetails(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.
@@ -906,17 +925,24 @@ public final class VideoLibrary {
 		protected boolean returnsList() {
 			return true;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+		final ArrayList<VideoModel.MusicVideoDetails> results = mResults;
+		if (results != null && results.size() > 0) {
+			parcel.writeInt(results.size());
+			for (VideoModel.MusicVideoDetails result : results) {
+				parcel.writeParcelable(result, flags);
+			}
+		} else {
+			parcel.writeInt(0);
+		}
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected GetMusicVideos(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.
@@ -969,17 +995,24 @@ public final class VideoLibrary {
 		protected boolean returnsList() {
 			return true;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+		final ArrayList<VideoModel.EpisodeDetails> results = mResults;
+		if (results != null && results.size() > 0) {
+			parcel.writeInt(results.size());
+			for (VideoModel.EpisodeDetails result : results) {
+				parcel.writeParcelable(result, flags);
+			}
+		} else {
+			parcel.writeInt(0);
+		}
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected GetRecentlyAddedEpisodes(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.
@@ -1032,17 +1065,24 @@ public final class VideoLibrary {
 		protected boolean returnsList() {
 			return true;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+		final ArrayList<VideoModel.MovieDetails> results = mResults;
+		if (results != null && results.size() > 0) {
+			parcel.writeInt(results.size());
+			for (VideoModel.MovieDetails result : results) {
+				parcel.writeParcelable(result, flags);
+			}
+		} else {
+			parcel.writeInt(0);
+		}
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected GetRecentlyAddedMovies(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.
@@ -1095,17 +1135,24 @@ public final class VideoLibrary {
 		protected boolean returnsList() {
 			return true;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+		final ArrayList<VideoModel.MusicVideoDetails> results = mResults;
+		if (results != null && results.size() > 0) {
+			parcel.writeInt(results.size());
+			for (VideoModel.MusicVideoDetails result : results) {
+				parcel.writeParcelable(result, flags);
+			}
+		} else {
+			parcel.writeInt(0);
+		}
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected GetRecentlyAddedMusicVideos(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.
@@ -1160,17 +1207,24 @@ public final class VideoLibrary {
 		protected boolean returnsList() {
 			return true;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+		final ArrayList<VideoModel.SeasonDetails> results = mResults;
+		if (results != null && results.size() > 0) {
+			parcel.writeInt(results.size());
+			for (VideoModel.SeasonDetails result : results) {
+				parcel.writeParcelable(result, flags);
+			}
+		} else {
+			parcel.writeInt(0);
+		}
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected GetSeasons(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.
@@ -1219,17 +1273,16 @@ public final class VideoLibrary {
 		protected boolean returnsList() {
 			return false;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+			parcel.writeParcelable(mResult, flags);
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected GetTVShowDetails(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.
@@ -1282,17 +1335,24 @@ public final class VideoLibrary {
 		protected boolean returnsList() {
 			return true;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+		final ArrayList<VideoModel.TVShowDetails> results = mResults;
+		if (results != null && results.size() > 0) {
+			parcel.writeInt(results.size());
+			for (VideoModel.TVShowDetails result : results) {
+				parcel.writeParcelable(result, flags);
+			}
+		} else {
+			parcel.writeInt(0);
+		}
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected GetTVShows(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.
@@ -1335,17 +1395,16 @@ public final class VideoLibrary {
 		protected boolean returnsList() {
 			return false;
 		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+			parcel.writeValue(mResult);
+		}
 		/**
 		 * Construct via parcel
 		 */
 		protected Scan(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.

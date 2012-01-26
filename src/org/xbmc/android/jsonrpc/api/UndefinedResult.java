@@ -21,10 +21,18 @@
 
 package org.xbmc.android.jsonrpc.api;
 
+import java.io.IOException;
+
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ObjectNode;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Log;
 
 /**
  * Some methods return undefined results, this is their response container.
@@ -39,7 +47,11 @@ import org.json.JSONObject;
  * 
  * @author freezy <freezy@xbmc.org>
  */
-public class UndefinedResult {
+public class UndefinedResult implements Parcelable {
+	
+	private final static String TAG = UndefinedResult.class.getSimpleName();
+	private final static ObjectMapper OM = new ObjectMapper();
+	
 	private final JsonNode mResponse;
 	
 	/**
@@ -67,4 +79,45 @@ public class UndefinedResult {
 	public ObjectNode getResult() throws JSONException {
 		return (ObjectNode)mResponse.get("result");
 	}
+
+	@Override
+	public void writeToParcel(Parcel parcel, int flags) {
+		parcel.writeValue(mResponse.toString());
+	}
+	
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+	
+	/**
+	 * Class constructor via parcel
+	 * @param obj Root node of the response object.
+	 */
+	private UndefinedResult(Parcel parcel) {
+		ObjectNode response = null;
+		try {
+			response = (ObjectNode)OM.readTree(parcel.readString());
+		} catch (JsonProcessingException e) {
+			Log.e(TAG, "Error reading JSON object from parcel: " + e.getMessage(), e);
+		} catch (IOException e) {
+			Log.e(TAG, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+		} finally {
+			mResponse = response;
+		}
+	}
+	
+	/**
+	 * Generates instances of this Parcelable class from a Parcel.
+	 */
+	public static final Parcelable.Creator<UndefinedResult> CREATOR = new Parcelable.Creator<UndefinedResult>() {
+		@Override
+		public UndefinedResult createFromParcel(Parcel parcel) {
+			return new UndefinedResult(parcel);
+		}
+		@Override
+		public UndefinedResult[] newArray(int n) {
+			return new UndefinedResult[n];
+		}
+	};
 }
