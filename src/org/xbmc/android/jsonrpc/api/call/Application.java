@@ -67,17 +67,17 @@ public final class Application {
 			return false;
 		}
 		
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+			parcel.writeParcelable(mResult, flags);
+		}
+		
 		/**
 		 * Construct via parcel
 		 */
 		protected GetProperties(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.

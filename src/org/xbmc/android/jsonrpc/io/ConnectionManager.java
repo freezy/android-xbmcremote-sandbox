@@ -102,12 +102,12 @@ public class ConnectionManager {
 	/**
 	 * List of currently processing API calls. Key is the ID of the API call.
 	 */
-	private final HashMap<String, ApiCallback<?>> mCallbacks = new HashMap<String, ApiCallback<?>>();
+//	private final HashMap<String, ApiCallback<?>> mCallbacks = new HashMap<String, ApiCallback<?>>();
 	/**
 	 * Since we can't return the de-serialized object from the service, put the
 	 * response back into the received one and return the received one.
 	 */
-	private final HashMap<String, AbstractCall<?>> mCalls = new HashMap<String, AbstractCall<?>>();
+	private final HashMap<String, CallRequest<?>> mCallRequests = new HashMap<String, CallRequest<?>>();
 	/**
 	 * List of follow-ups
 	 */
@@ -136,9 +136,9 @@ public class ConnectionManager {
 	public <T> ConnectionManager call(AbstractCall<T> call, ApiCallback<T> callback) {
 		// start service if not yet started
 		bindService();
-		mCallbacks.put(call.getId(), callback);
-		mCalls.put(call.getId(), call);
-		Log.i(TAG, "Saved callback (" + mCallbacks.size() + ").");
+//		mCallbacks.put(call.getId(), callback);
+		mCallRequests.put(call.getId(), new CallRequest<T>(call, callback));
+		Log.i(TAG, "Saved callback (" + mCallRequests.size() + ").");
 		sendCall(call);
 		return this;
 	}
@@ -265,6 +265,25 @@ public class ConnectionManager {
 		}
 	};
 	
+	private static class CallRequest<T> {
+		
+		private final AbstractCall<T> mCall;
+		private final ApiCallback<T> mCallback;
+		
+		public CallRequest(AbstractCall<T> call, ApiCallback<T> callback) {
+			this.mCall = call;
+			this.mCallback = callback;
+		}
+		
+		public void update(AbstractCall<?> call) {
+			mCall.copyResponse(call);
+		}
+		
+		public void respond() {
+			mCallback.onResponse(mCall);
+		}
+	}
+	
 	/**
 	 * The handler from the receiving service.
 	 * <p>
@@ -277,16 +296,15 @@ public class ConnectionManager {
 		@Override
 		public void handleMessage(Message msg) {
 			Log.i(TAG, "Got message: " + msg.what);
-			final HashMap<String, ApiCallback<?>> callbacks = mCallbacks;
+			final HashMap<String, CallRequest<?>> callrequests = mCallRequests;
 			switch (msg.what) {
 				case ConnectionService.MSG_RECEIVE_APICALL:
 					final AbstractCall<?> returnedApiCall = msg.getData().getParcelable(ConnectionService.EXTRA_APICALL);
 					if (returnedApiCall != null) {
-						if (callbacks.containsKey(returnedApiCall.getId())) {
-							final AbstractCall<?> receivedApiCall = mCalls.get(returnedApiCall.getId());
-							receivedApiCall.setResponse(returnedApiCall.getResponse());
-							final ApiCallback<?> callback = callbacks.get(returnedApiCall.getId());
-							callback.onResponse((AbstractCall)receivedApiCall);
+						if (callrequests.containsKey(returnedApiCall.getId())) {
+							final CallRequest<?> callrequest = callrequests.get(returnedApiCall.getId());
+							callrequest.update(returnedApiCall);
+							callrequest.respond();
 							Log.d(TAG, "Callback for " + returnedApiCall.getName() + " sent back to caller.");
 						} else {
 							Log.w(TAG, "Unknown ID " + returnedApiCall.getId() + " for " + returnedApiCall.getName() + ", dropping.");
@@ -301,7 +319,7 @@ public class ConnectionManager {
 				case ConnectionService.MSG_ERROR:
 					final String message = msg.getData().getString(ConnectionService.EXTRA_ERROR_MESSAGE);
 					final int code = msg.getData().getInt(ConnectionService.EXTRA_ERROR_CODE);
-					final HashMap<String, ApiCallback<?>> callBacks = mCallbacks;
+/*					final HashMap<String, ApiCallback<?>> callBacks = mCallbacks;
 					Log.e(TAG, "Received error: " + message);
 					synchronized (mCallbacks) {
 						Log.i(TAG, "Notifiying " + callBacks.size() + " callbacks.");
@@ -309,7 +327,7 @@ public class ConnectionManager {
 							callBacks.get(key).onError(code, message);
 							callBacks.remove(key);
 						}
-					}
+					}*/
 					break;
 				default:
 					super.handleMessage(msg);

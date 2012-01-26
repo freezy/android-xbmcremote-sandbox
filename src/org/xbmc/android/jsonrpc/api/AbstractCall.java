@@ -21,16 +21,19 @@
 
 package org.xbmc.android.jsonrpc.api;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 /**
  * Super class of all API call implementations.
@@ -107,7 +110,7 @@ public abstract class AbstractCall<T> implements Parcelable {
 	 * <u>Example</u>:
 	 * 	<code>{"jsonrpc": "2.0", "method": "Application.GetProperties", "id": "1", "params": { "properties": [ "version" ] } }</code>
 	 */
-	private final ObjectNode mRequest = OM.createObjectNode();
+	public ObjectNode mRequest = OM.createObjectNode();
 	
 	/**
 	 * The <tt>response</tt> node of the JSON response (the root node of the 
@@ -117,7 +120,8 @@ public abstract class AbstractCall<T> implements Parcelable {
 	 * 	<code> { "version": { "major": 11, "minor": 0, "revision": "20111210-f1ae0b6", "tag": "alpha" } </code>
 	 * @todo fix example
 	 */
-	protected ObjectNode mResponse = null;
+	protected T mResult = null;
+	protected ArrayList<T> mResults = null;
 	
 	/**
 	 * The ID of the request.
@@ -153,13 +157,22 @@ public abstract class AbstractCall<T> implements Parcelable {
 	 * @param response
 	 */
 	public void setResponse(JsonNode response) {
-		mResponse = (ObjectNode)response;
+		if (returnsList()) {
+			mResults = parseMany((ObjectNode)response.get(RESULT));
+		} else {
+			mResult = parseOne((ObjectNode)response.get(RESULT));
+		}
 	}
 	
-	public ObjectNode getResponse() {
-		return mResponse;
+	@SuppressWarnings("unchecked")
+	public void copyResponse(AbstractCall<?> call) {
+		if (returnsList()) {
+			mResults = (ArrayList<T>)call.getResults();
+		} else {
+			mResult = (T)call.getResult();
+		}
 	}
-
+	
 	/**
 	 * Returns the result as a single item.
 	 * <p>
@@ -170,9 +183,9 @@ public abstract class AbstractCall<T> implements Parcelable {
 	 */
 	public T getResult() {
 		if (returnsList()) {
-			return parseMany(mResponse).get(0);
+			return mResults.get(0);
 		}
-		return parseOne(mResponse);
+		return mResult;
 	}
 	
 	/**
@@ -186,10 +199,10 @@ public abstract class AbstractCall<T> implements Parcelable {
 	public ArrayList<T> getResults() {
 		if (!returnsList()) {
 			final ArrayList<T> results = new ArrayList<T>(1);
-			results.add(parseOne(mResponse));
+			results.add(mResult);
 			return results;
 		}
-		return parseMany(mResponse);
+		return mResults;
 	}
 	
 	/**
@@ -320,11 +333,37 @@ public abstract class AbstractCall<T> implements Parcelable {
 	 */
 	@Override
 	public void writeToParcel(Parcel parcel, int flags) {
+		parcel.writeString(mId);
 		parcel.writeValue(mRequest.toString());
+		if (returnsList()) {
+			final ArrayList<T> results = mResults;
+			if (results == null) {
+				parcel.writeInt(0);
+			} else {
+				for (T t : results) {
+					if (t instanceof AbstractModel) {
+						parcel.writeParcelable((Parcelable)t, flags);
+					} else {
+						parcel.writeValue(t);
+					}
+				}
+			}
+		}
 	}
 	@Override
 	public int describeContents() {
 		return 0;
+	}
+	
+	protected AbstractCall(Parcel parcel) {
+		mId = parcel.readString();
+		try {
+			mRequest = (ObjectNode)OM.readTree(parcel.readString());
+		} catch (JsonProcessingException e) {
+			Log.e(getName(), "Error reading JSON object from parcel: " + e.getMessage(), e);
+		} catch (IOException e) {
+			Log.e(getName(), "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
+		}
 	}
 	
 }

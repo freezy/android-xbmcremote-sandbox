@@ -378,17 +378,26 @@ public final class AudioLibrary {
 		protected boolean returnsList() {
 			return true;
 		}
+		
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+			final ArrayList<AudioModel.AlbumDetails> results = mResults;
+			if (results != null && results.size() > 0) {
+				parcel.writeInt(results.size());
+				for (AudioModel.AlbumDetails albumDetails : results) {
+					parcel.writeParcelable(albumDetails, flags);
+				}
+			} else {
+				parcel.writeInt(0);
+			}
+		}
+		
 		/**
 		 * Construct via parcel
 		 */
 		protected GetAlbums(Parcel parcel) {
-			try {
-				mResponse = (ObjectNode)OM.readTree(parcel.readString());
-			} catch (JsonProcessingException e) {
-				Log.e(NAME, "Error reading JSON object from parcel: " + e.getMessage(), e);
-			} catch (IOException e) {
-				Log.e(NAME, "I/O exception reading JSON object from parcel: " + e.getMessage(), e);
-			}
+			super(parcel);
 		}
 		/**
 		* Generates instances of this Parcelable class from a Parcel.
