@@ -222,6 +222,10 @@ public abstract class AbstractCall<T> implements Parcelable {
 		return (ObjectNode)obj.get(RESULT);
 	}
 	
+	protected ArrayNode parseResults(ObjectNode obj, String key) {
+		return (ArrayNode)obj.get(key);
+	}
+	
 	/**
 	 * Parses the result if the API method returns a single item.
 	 * <p/>

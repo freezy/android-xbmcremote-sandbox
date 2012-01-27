@@ -68,7 +68,7 @@ public class AlbumHandler extends JsonHandler {
 			final ObjectNode album = (ObjectNode)albums.get(i);
 			batch[i] = new ContentValues();
 			batch[i].put(SyncColumns.UPDATED, now);
-			batch[i].put(Albums.ID, album.get(AudioModel.AlbumDetails.ALBUMID).getTextValue());
+			batch[i].put(Albums.ID, album.get(AudioModel.AlbumDetails.ALBUMID).getIntValue());
 			batch[i].put(Albums.TITLE, album.get(AudioModel.AlbumDetails.TITLE).getTextValue());
 			batch[i].put(Albums.PREFIX + Artists.ID, album.get(AudioModel.AlbumDetails.ARTISTID).getTextValue());
 			batch[i].put(Albums.YEAR, album.get(AudioModel.AlbumDetails.YEAR).getTextValue());

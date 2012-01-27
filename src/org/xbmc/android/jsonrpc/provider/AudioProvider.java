@@ -199,11 +199,11 @@ public class AudioProvider extends ContentProvider {
 		}
 	}
 
-    /**
-     * Build a simple {@link SelectionBuilder} to match the requested
-     * {@link Uri}. This is usually enough to support {@link #insert},
-     * {@link #update}, and {@link #delete} operations.
-     */
+	/**
+	 * Build a simple {@link SelectionBuilder} to match the requested
+	 * {@link Uri}. This is usually enough to support {@link #insert},
+	 * {@link #update}, and {@link #delete} operations.
+	 */
 	private SelectionBuilder buildSimpleSelection(Uri uri) {
 		final SelectionBuilder builder = new SelectionBuilder();
 		final int match = sUriMatcher.match(uri);
@@ -256,93 +256,86 @@ public class AudioProvider extends ContentProvider {
 			}
 		}
 	}
-	
-    private interface Subquery {
-        String ARTIST_ALBUMS_COUNT = "(SELECT COUNT(" + Albums.ID + ") FROM "
-                + Tables.ALBUMS + " WHERE " + Albums.PREFIX + Artists.ID + "="
-                + Artists.ID + ")";
-    }
 
-    
-    @Override
-    public int bulkInsert(Uri uri, ContentValues[] values) {
-    	final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-    	final int match = sUriMatcher.match(uri);
-    	switch(match){
-    	case ALBUMS:{
-                    int numInserted= 0;
-    		db.beginTransaction();
-    		try {
-    			//delete all rows in table
-    			db.delete("albums", null, null);
-    			
-    			//insert new rows into table    			
-                //standard SQL insert statement, that can be reused
-    			SQLiteStatement insert = 
-    				db.compileStatement("insert into " + "albums"
-    						+ "("  
-    						+ SyncColumns.UPDATED
-    						+ "," + AlbumsColumns.ID 
-    						+ "," + AlbumsColumns.TITLE
-    						+ "," + AlbumsColumns.PREFIX + Artists.ID    						 
-    						+ "," + AlbumsColumns.YEAR + ")"
-    						+" values " + "(?,?,?,?,?)");
-    			
-    			
-    			final long now = System.currentTimeMillis();
-    			for (ContentValues value : values){
-                    insert.bindLong(1, now);
-    				insert.bindString(2, value.getAsString(Albums.ID));
-    				insert.bindString(3, value.getAsString(Albums.TITLE));
-    				insert.bindString(4, value.getAsString(Albums.PREFIX + Artists.ID));
-    				insert.bindString(5, value.getAsString(Albums.YEAR));
-    				insert.executeInsert();
-    			}
-    			db.setTransactionSuccessful();
-                numInserted = values.length;
-                
-    		} finally {
-    			db.endTransaction();
-    			getContext().getContentResolver().notifyChange(uri, null);
-    		}
-    		return numInserted;
-    	}
-    case ARTISTS:{
-        int numInserted= 0;
-db.beginTransaction();
-try {
-	//delete all rows in table
-	db.delete("artists", null, null);
-	//insert new rows into table		
-    //standard SQL insert statement, that can be reused
-	SQLiteStatement insert = 
-		db.compileStatement("insert into " + "artists"
-				+ "(" 
-				+ SyncColumns.UPDATED
-				+ "," + ArtistsColumns.ID 
-				+ "," + ArtistsColumns.NAME + ")"
-				+" values " + "(?,?,?)");
-	
-	
-	final long now = System.currentTimeMillis();
-	for (ContentValues value : values){
-		insert.bindLong(1, (now));
-		insert.bindString(2, value.getAsString(Artists.ID));
-		insert.bindString(3, value.getAsString(Artists.NAME));
-		insert.executeInsert();
+	private interface Subquery {
+		String ARTIST_ALBUMS_COUNT = "(SELECT COUNT(" + Albums.ID + ") FROM " + Tables.ALBUMS + " WHERE "
+				+ Albums.PREFIX + Artists.ID + "=" + Artists.ID + ")";
 	}
-	db.setTransactionSuccessful();
-    numInserted = values.length;
-} finally {
-	db.endTransaction();
-	getContext().getContentResolver().notifyChange(uri, null);
-}
-return numInserted;
-}	
-    	default:
-    		throw new UnsupportedOperationException("unsupported uri: " + uri);
-    	}
-    	}
- 
-    	
+
+	@Override
+	public int bulkInsert(Uri uri, ContentValues[] values) {
+		final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+		final int match = sUriMatcher.match(uri);
+		switch (match) {
+			case ALBUMS: {
+				int numInserted = 0;
+				db.beginTransaction();
+				try {
+					// delete all rows in table
+					db.delete(AudioDatabase.Tables.ALBUMS, null, null);
+
+					// insert new rows into table
+					// standard SQL insert statement, that can be reused
+					SQLiteStatement insert = db.compileStatement(
+						"INSERT INTO " + AudioDatabase.Tables.ALBUMS + "(" +
+						SyncColumns.UPDATED +
+						"," + AlbumsColumns.ID +
+						"," + AlbumsColumns.TITLE +
+						"," + AlbumsColumns.PREFIX + Artists.ID +
+						"," + AlbumsColumns.YEAR +
+						") VALUES " + "(?,?,?,?,?)");
+					
+					final long now = System.currentTimeMillis();
+					for (ContentValues value : values) {
+						insert.bindLong(1, now);
+						insert.bindString(2, value.getAsString(Albums.ID));
+						insert.bindString(3, value.getAsString(Albums.TITLE));
+						insert.bindString(4, value.getAsString(Albums.PREFIX + Artists.ID));
+						insert.bindString(5, value.getAsString(Albums.YEAR));
+						insert.executeInsert();
+					}
+					db.setTransactionSuccessful();
+					numInserted = values.length;
+
+				} finally {
+					db.endTransaction();
+					getContext().getContentResolver().notifyChange(uri, null);
+				}
+				return numInserted;
+			}
+			case ARTISTS: {
+				int numInserted = 0;
+				db.beginTransaction();
+				try {
+					// delete all rows in table
+					db.delete(AudioDatabase.Tables.ARTISTS, null, null);
+					// insert new rows into table
+					// standard SQL insert statement, that can be reused
+					SQLiteStatement insert = db.compileStatement(
+							"INSERT INTO " + AudioDatabase.Tables.ARTISTS + "(" +
+							SyncColumns.UPDATED +
+							"," + ArtistsColumns.ID + 
+							"," + ArtistsColumns.NAME + 
+							") VALUES " + "(?,?,?)");
+
+					final long now = System.currentTimeMillis();
+					for (ContentValues value : values) {
+						insert.bindLong(1, (now));
+						insert.bindString(2, value.getAsString(Artists.ID));
+						insert.bindString(3, value.getAsString(Artists.NAME));
+						insert.executeInsert();
+					}
+					db.setTransactionSuccessful();
+					numInserted = values.length;
+				} finally {
+					db.endTransaction();
+					getContext().getContentResolver().notifyChange(uri, null);
+				}
+				return numInserted;
+			}
+			default:
+				throw new UnsupportedOperationException("unsupported uri: " + uri);
+		}
+	}
+
 }

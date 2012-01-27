@@ -152,8 +152,8 @@ public final class Player {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeParcelable(mResult, flags);
-		}
+				parcel.writeParcelable(mResult, flags);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -210,8 +210,8 @@ public final class Player {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeParcelable(mResult, flags);
-		}
+				parcel.writeParcelable(mResult, flags);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -267,8 +267,8 @@ public final class Player {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeParcelable(mResult, flags);
-		}
+				parcel.writeParcelable(mResult, flags);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -321,8 +321,8 @@ public final class Player {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -375,8 +375,8 @@ public final class Player {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -431,8 +431,8 @@ public final class Player {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -485,8 +485,8 @@ public final class Player {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -539,8 +539,8 @@ public final class Player {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -593,8 +593,8 @@ public final class Player {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -647,8 +647,8 @@ public final class Player {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -846,8 +846,8 @@ public final class Player {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -900,8 +900,8 @@ public final class Player {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeParcelable(mResult, flags);
-		}
+				parcel.writeParcelable(mResult, flags);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -957,8 +957,8 @@ public final class Player {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -1011,8 +1011,8 @@ public final class Player {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -1257,8 +1257,8 @@ public final class Player {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeParcelable(mResult, flags);
-		}
+				parcel.writeParcelable(mResult, flags);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -1323,8 +1323,8 @@ public final class Player {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -1389,8 +1389,8 @@ public final class Player {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeParcelable(mResult, flags);
-		}
+				parcel.writeParcelable(mResult, flags);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -1455,8 +1455,8 @@ public final class Player {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -1509,8 +1509,8 @@ public final class Player {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -1563,8 +1563,8 @@ public final class Player {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -1617,8 +1617,8 @@ public final class Player {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -1673,8 +1673,8 @@ public final class Player {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -1727,8 +1727,8 @@ public final class Player {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -1781,8 +1781,8 @@ public final class Player {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */

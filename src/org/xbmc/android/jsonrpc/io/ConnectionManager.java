@@ -118,6 +118,7 @@ public class ConnectionManager {
 	 * the requests that are to sent upon service startup. 
 	 */
 	private final LinkedList<AbstractCall<?>> mPendingCalls = new LinkedList<AbstractCall<?>>();
+	private final HashMap<String, JsonHandler> mPendingHandlers = new HashMap<String, JsonHandler>();
 	
 	/**
 	 * Class constructor.
@@ -201,6 +202,7 @@ public class ConnectionManager {
 				msg.setData(data);
 				msg.replyTo = mMessenger;
 				mService.send(msg);
+				Log.i(TAG, "Posted API call service (with callback).");
 			} catch (RemoteException e) {
 				Log.e(TAG, "Error posting message to service: " + e.getMessage(), e);
 			}
@@ -221,6 +223,7 @@ public class ConnectionManager {
 				msg.setData(data);
 				msg.replyTo = mMessenger;
 				mService.send(msg);
+				Log.i(TAG, "Posted handled API call service.");
 			} catch (RemoteException e) {
 				Log.e(TAG, "Error posting message to service: " + e.getMessage(), e);
 			}
@@ -228,6 +231,7 @@ public class ConnectionManager {
 			// service not yet started, saving data:
 			Log.i(TAG, "Saving post data for later.");
 			mPendingCalls.add(apiCall);
+			mPendingHandlers.put(apiCall.getId(), handler);
 		}
 	}
 	
@@ -277,8 +281,15 @@ public class ConnectionManager {
 			final LinkedList<AbstractCall<?>> calls = mPendingCalls;
 			while (!calls.isEmpty()) {
 				AbstractCall<?> call = calls.poll();
-				Log.d(TAG, "Posting pending call " + call.getName());
-				sendCall(call);
+				if (mPendingHandlers.containsKey(call.getId())) {
+					Log.d(TAG, "Posting pending handled call " + call.getName() + "...");
+					final JsonHandler handler = mPendingHandlers.get(call.getId());
+					sendCall(call, handler);
+					mPendingHandlers.remove(call.getId());
+				} else {
+					Log.d(TAG, "Posting pending call " + call.getName() + " with callback...");
+					sendCall(call);
+				}
 			}
 		}
 

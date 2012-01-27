@@ -56,15 +56,14 @@ public class AudioDatabase extends SQLiteOpenHelper {
 		String ALBUMS = "albums";
 		String ARTISTS = "artists";
 		
-		String ALBUMS_JOIN_ARTISTS = ALBUMS
-                + " LEFT OUTER JOIN " + ARTISTS + " ON " + Albums.PREFIX + Artists.ID  + "=" + Artists.ID;
+		String ALBUMS_JOIN_ARTISTS = ALBUMS + " LEFT OUTER JOIN " + ARTISTS + " ON " + Albums.PREFIX + Artists.ID  + "=" + Artists.ID;
 		
 	};
 	
 	/** {@code REFERENCES} clauses. */
-    private interface References {
-        String ARTIST_ID = "REFERENCES " + Tables.ARTISTS+ "(" + Artists.ID + ")";
-    }
+	private interface References {
+		String ARTIST_ID = "REFERENCES " + Tables.ARTISTS + "(" + Artists.ID + ")";
+	}
 	
 	public AudioDatabase(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -75,21 +74,21 @@ public class AudioDatabase extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		
-        db.execSQL("CREATE TABLE " + Tables.ARTISTS + " ("
-                + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + SyncColumns.UPDATED + " INTEGER NOT NULL,"
-                + ArtistsColumns.ID + " TEXT NOT NULL,"
-                + ArtistsColumns.NAME + " TEXT,"
-                + "UNIQUE (" + ArtistsColumns.ID + ") ON CONFLICT REPLACE)");
-        
-        db.execSQL("CREATE TABLE " + Tables.ALBUMS + " ("
-                + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + SyncColumns.UPDATED + " INTEGER NOT NULL,"
-                + AlbumsColumns.ID + " TEXT NOT NULL,"
-                + AlbumsColumns.PREFIX + Artists.ID + " TEXT " + References.ARTIST_ID + ","
-                + AlbumsColumns.TITLE + " TEXT,"
-                + AlbumsColumns.YEAR + " TEXT,"
-                + "UNIQUE (" + AlbumsColumns.ID + ") ON CONFLICT REPLACE)");
+		db.execSQL("CREATE TABLE " + Tables.ARTISTS + " ("
+			+ BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+			+ SyncColumns.UPDATED + " INTEGER NOT NULL,"
+			+ ArtistsColumns.ID + " TEXT NOT NULL,"
+			+ ArtistsColumns.NAME + " TEXT,"
+			+ "UNIQUE (" + ArtistsColumns.ID + ") ON CONFLICT REPLACE)");
+
+		db.execSQL("CREATE TABLE " + Tables.ALBUMS + " ("
+			+ BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+			+ SyncColumns.UPDATED + " INTEGER NOT NULL,"
+			+ AlbumsColumns.ID + " TEXT NOT NULL,"
+			+ AlbumsColumns.PREFIX + Artists.ID + " TEXT " + References.ARTIST_ID + ","
+			+ AlbumsColumns.TITLE + " TEXT,"
+			+ AlbumsColumns.YEAR + " TEXT,"
+			+ "UNIQUE (" + AlbumsColumns.ID + ") ON CONFLICT REPLACE)");
 	}
 
 	@Override
@@ -105,14 +104,14 @@ public class AudioDatabase extends SQLiteOpenHelper {
 		
 		// if not treated, drop + create.
 		Log.d(TAG, "after upgrade logic, at version " + version);
-        if (version != DATABASE_VERSION) {
-        	Log.w(TAG, "Destroying old data during upgrade");
-        	
-        	db.execSQL("DROP TABLE IF EXISTS " + Tables.ALBUMS);
-        	db.execSQL("DROP TABLE IF EXISTS " + Tables.ARTISTS);
-        
-        	onCreate(db);
-        }
+		if (version != DATABASE_VERSION) {
+			Log.w(TAG, "Destroying old data during upgrade");
+			
+			db.execSQL("DROP TABLE IF EXISTS " + Tables.ALBUMS);
+			db.execSQL("DROP TABLE IF EXISTS " + Tables.ARTISTS);
+			
+			onCreate(db);
+		}
 	}
 
 }

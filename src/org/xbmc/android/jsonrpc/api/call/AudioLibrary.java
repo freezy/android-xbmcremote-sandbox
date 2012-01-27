@@ -65,8 +65,8 @@ public final class AudioLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -251,8 +251,8 @@ public final class AudioLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -309,8 +309,8 @@ public final class AudioLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeParcelable(mResult, flags);
-		}
+				parcel.writeParcelable(mResult, flags);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -356,7 +356,7 @@ public final class AudioLibrary {
 		}
 		@Override
 		protected ArrayList<AudioModel.AlbumDetails> parseMany(ObjectNode node) {
-			final ArrayNode albums = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayNode albums = parseResults(node, RESULTS);
 			final ArrayList<AudioModel.AlbumDetails> ret = new ArrayList<AudioModel.AlbumDetails>(albums.size());
 			for (int i = 0; i < albums.size(); i++) {
 				final ObjectNode item = (ObjectNode)albums.get(i);
@@ -375,16 +375,16 @@ public final class AudioLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-		final ArrayList<AudioModel.AlbumDetails> results = mResults;
-		if (results != null && results.size() > 0) {
-			parcel.writeInt(results.size());
-			for (AudioModel.AlbumDetails result : results) {
-				parcel.writeParcelable(result, flags);
+			final ArrayList<AudioModel.AlbumDetails> results = mResults;
+			if (results != null && results.size() > 0) {
+				parcel.writeInt(results.size());
+				for (AudioModel.AlbumDetails result : results) {
+					parcel.writeParcelable(result, flags);
+				}
+			} else {
+				parcel.writeInt(0);
 			}
-		} else {
-			parcel.writeInt(0);
-		}
-		}
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -441,8 +441,8 @@ public final class AudioLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeParcelable(mResult, flags);
-		}
+				parcel.writeParcelable(mResult, flags);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -488,7 +488,7 @@ public final class AudioLibrary {
 		}
 		@Override
 		protected ArrayList<AudioModel.ArtistDetails> parseMany(ObjectNode node) {
-			final ArrayNode artists = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayNode artists = parseResults(node, RESULTS);
 			final ArrayList<AudioModel.ArtistDetails> ret = new ArrayList<AudioModel.ArtistDetails>(artists.size());
 			for (int i = 0; i < artists.size(); i++) {
 				final ObjectNode item = (ObjectNode)artists.get(i);
@@ -507,16 +507,16 @@ public final class AudioLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-		final ArrayList<AudioModel.ArtistDetails> results = mResults;
-		if (results != null && results.size() > 0) {
-			parcel.writeInt(results.size());
-			for (AudioModel.ArtistDetails result : results) {
-				parcel.writeParcelable(result, flags);
+			final ArrayList<AudioModel.ArtistDetails> results = mResults;
+			if (results != null && results.size() > 0) {
+				parcel.writeInt(results.size());
+				for (AudioModel.ArtistDetails result : results) {
+					parcel.writeParcelable(result, flags);
+				}
+			} else {
+				parcel.writeInt(0);
 			}
-		} else {
-			parcel.writeInt(0);
-		}
-		}
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -558,7 +558,7 @@ public final class AudioLibrary {
 		}
 		@Override
 		protected ArrayList<LibraryModel.GenreDetails> parseMany(ObjectNode node) {
-			final ArrayNode genres = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayNode genres = parseResults(node, RESULTS);
 			final ArrayList<LibraryModel.GenreDetails> ret = new ArrayList<LibraryModel.GenreDetails>(genres.size());
 			for (int i = 0; i < genres.size(); i++) {
 				final ObjectNode item = (ObjectNode)genres.get(i);
@@ -577,16 +577,16 @@ public final class AudioLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-		final ArrayList<LibraryModel.GenreDetails> results = mResults;
-		if (results != null && results.size() > 0) {
-			parcel.writeInt(results.size());
-			for (LibraryModel.GenreDetails result : results) {
-				parcel.writeParcelable(result, flags);
+			final ArrayList<LibraryModel.GenreDetails> results = mResults;
+			if (results != null && results.size() > 0) {
+				parcel.writeInt(results.size());
+				for (LibraryModel.GenreDetails result : results) {
+					parcel.writeParcelable(result, flags);
+				}
+			} else {
+				parcel.writeInt(0);
 			}
-		} else {
-			parcel.writeInt(0);
-		}
-		}
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -628,7 +628,7 @@ public final class AudioLibrary {
 		}
 		@Override
 		protected ArrayList<AudioModel.AlbumDetails> parseMany(ObjectNode node) {
-			final ArrayNode albums = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayNode albums = parseResults(node, RESULTS);
 			final ArrayList<AudioModel.AlbumDetails> ret = new ArrayList<AudioModel.AlbumDetails>(albums.size());
 			for (int i = 0; i < albums.size(); i++) {
 				final ObjectNode item = (ObjectNode)albums.get(i);
@@ -647,16 +647,16 @@ public final class AudioLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-		final ArrayList<AudioModel.AlbumDetails> results = mResults;
-		if (results != null && results.size() > 0) {
-			parcel.writeInt(results.size());
-			for (AudioModel.AlbumDetails result : results) {
-				parcel.writeParcelable(result, flags);
+			final ArrayList<AudioModel.AlbumDetails> results = mResults;
+			if (results != null && results.size() > 0) {
+				parcel.writeInt(results.size());
+				for (AudioModel.AlbumDetails result : results) {
+					parcel.writeParcelable(result, flags);
+				}
+			} else {
+				parcel.writeInt(0);
 			}
-		} else {
-			parcel.writeInt(0);
-		}
-		}
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -700,7 +700,7 @@ public final class AudioLibrary {
 		}
 		@Override
 		protected ArrayList<AudioModel.SongDetails> parseMany(ObjectNode node) {
-			final ArrayNode songs = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayNode songs = parseResults(node, RESULTS);
 			final ArrayList<AudioModel.SongDetails> ret = new ArrayList<AudioModel.SongDetails>(songs.size());
 			for (int i = 0; i < songs.size(); i++) {
 				final ObjectNode item = (ObjectNode)songs.get(i);
@@ -719,16 +719,16 @@ public final class AudioLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-		final ArrayList<AudioModel.SongDetails> results = mResults;
-		if (results != null && results.size() > 0) {
-			parcel.writeInt(results.size());
-			for (AudioModel.SongDetails result : results) {
-				parcel.writeParcelable(result, flags);
+			final ArrayList<AudioModel.SongDetails> results = mResults;
+			if (results != null && results.size() > 0) {
+				parcel.writeInt(results.size());
+				for (AudioModel.SongDetails result : results) {
+					parcel.writeParcelable(result, flags);
+				}
+			} else {
+				parcel.writeInt(0);
 			}
-		} else {
-			parcel.writeInt(0);
-		}
-		}
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -785,8 +785,8 @@ public final class AudioLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeParcelable(mResult, flags);
-		}
+				parcel.writeParcelable(mResult, flags);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -834,7 +834,7 @@ public final class AudioLibrary {
 		}
 		@Override
 		protected ArrayList<AudioModel.SongDetails> parseMany(ObjectNode node) {
-			final ArrayNode songs = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayNode songs = parseResults(node, RESULTS);
 			final ArrayList<AudioModel.SongDetails> ret = new ArrayList<AudioModel.SongDetails>(songs.size());
 			for (int i = 0; i < songs.size(); i++) {
 				final ObjectNode item = (ObjectNode)songs.get(i);
@@ -853,16 +853,16 @@ public final class AudioLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-		final ArrayList<AudioModel.SongDetails> results = mResults;
-		if (results != null && results.size() > 0) {
-			parcel.writeInt(results.size());
-			for (AudioModel.SongDetails result : results) {
-				parcel.writeParcelable(result, flags);
+			final ArrayList<AudioModel.SongDetails> results = mResults;
+			if (results != null && results.size() > 0) {
+				parcel.writeInt(results.size());
+				for (AudioModel.SongDetails result : results) {
+					parcel.writeParcelable(result, flags);
+				}
+			} else {
+				parcel.writeInt(0);
 			}
-		} else {
-			parcel.writeInt(0);
-		}
-		}
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -913,8 +913,8 @@ public final class AudioLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */

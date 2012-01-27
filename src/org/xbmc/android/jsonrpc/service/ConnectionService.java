@@ -137,7 +137,7 @@ public class ConnectionService extends IntentService {
 		Socket socket = null;
 
 		try {
-			final InetSocketAddress sockaddr = new InetSocketAddress("192.100.120.114", 9090);
+			final InetSocketAddress sockaddr = new InetSocketAddress("192.168.0.100", 9090);
 			socket = new Socket();
 			mSocket = socket;       // update class reference
 			socket.setSoTimeout(0); // no timeout for reading from connection.
@@ -379,8 +379,8 @@ public class ConnectionService extends IntentService {
 				} else {
 					writeSocket(call);
 				}
-				break;
 			}
+			break;
 			case MSG_SEND_HANDLED_APICALL: {
 				Log.d(TAG, "Sending new handled API call..");
 				final Bundle data = msg.getData();
@@ -395,8 +395,8 @@ public class ConnectionService extends IntentService {
 				} else {
 					writeSocket(call);
 				}
-				break;
 			}
+			break;
 			default:
 				super.handleMessage(msg);
 			}

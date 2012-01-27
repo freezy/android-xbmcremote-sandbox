@@ -66,8 +66,8 @@ public final class VideoLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -262,8 +262,8 @@ public final class VideoLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -320,8 +320,8 @@ public final class VideoLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeParcelable(mResult, flags);
-		}
+				parcel.writeParcelable(mResult, flags);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -367,7 +367,7 @@ public final class VideoLibrary {
 		}
 		@Override
 		protected ArrayList<VideoModel.EpisodeDetails> parseMany(ObjectNode node) {
-			final ArrayNode episodes = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayNode episodes = parseResults(node, RESULTS);
 			final ArrayList<VideoModel.EpisodeDetails> ret = new ArrayList<VideoModel.EpisodeDetails>(episodes.size());
 			for (int i = 0; i < episodes.size(); i++) {
 				final ObjectNode item = (ObjectNode)episodes.get(i);
@@ -386,16 +386,16 @@ public final class VideoLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-		final ArrayList<VideoModel.EpisodeDetails> results = mResults;
-		if (results != null && results.size() > 0) {
-			parcel.writeInt(results.size());
-			for (VideoModel.EpisodeDetails result : results) {
-				parcel.writeParcelable(result, flags);
+			final ArrayList<VideoModel.EpisodeDetails> results = mResults;
+			if (results != null && results.size() > 0) {
+				parcel.writeInt(results.size());
+				for (VideoModel.EpisodeDetails result : results) {
+					parcel.writeParcelable(result, flags);
+				}
+			} else {
+				parcel.writeInt(0);
 			}
-		} else {
-			parcel.writeInt(0);
-		}
-		}
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -440,7 +440,7 @@ public final class VideoLibrary {
 		}
 		@Override
 		protected ArrayList<LibraryModel.GenreDetails> parseMany(ObjectNode node) {
-			final ArrayNode genres = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayNode genres = parseResults(node, RESULTS);
 			final ArrayList<LibraryModel.GenreDetails> ret = new ArrayList<LibraryModel.GenreDetails>(genres.size());
 			for (int i = 0; i < genres.size(); i++) {
 				final ObjectNode item = (ObjectNode)genres.get(i);
@@ -459,16 +459,16 @@ public final class VideoLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-		final ArrayList<LibraryModel.GenreDetails> results = mResults;
-		if (results != null && results.size() > 0) {
-			parcel.writeInt(results.size());
-			for (LibraryModel.GenreDetails result : results) {
-				parcel.writeParcelable(result, flags);
+			final ArrayList<LibraryModel.GenreDetails> results = mResults;
+			if (results != null && results.size() > 0) {
+				parcel.writeInt(results.size());
+				for (LibraryModel.GenreDetails result : results) {
+					parcel.writeParcelable(result, flags);
+				}
+			} else {
+				parcel.writeInt(0);
 			}
-		} else {
-			parcel.writeInt(0);
-		}
-		}
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -525,8 +525,8 @@ public final class VideoLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeParcelable(mResult, flags);
-		}
+				parcel.writeParcelable(mResult, flags);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -664,8 +664,8 @@ public final class VideoLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeParcelable(mResult, flags);
-		}
+				parcel.writeParcelable(mResult, flags);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -707,7 +707,7 @@ public final class VideoLibrary {
 		}
 		@Override
 		protected ArrayList<VideoModel.MovieSetDetails> parseMany(ObjectNode node) {
-			final ArrayNode sets = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayNode sets = parseResults(node, RESULTS);
 			final ArrayList<VideoModel.MovieSetDetails> ret = new ArrayList<VideoModel.MovieSetDetails>(sets.size());
 			for (int i = 0; i < sets.size(); i++) {
 				final ObjectNode item = (ObjectNode)sets.get(i);
@@ -726,16 +726,16 @@ public final class VideoLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-		final ArrayList<VideoModel.MovieSetDetails> results = mResults;
-		if (results != null && results.size() > 0) {
-			parcel.writeInt(results.size());
-			for (VideoModel.MovieSetDetails result : results) {
-				parcel.writeParcelable(result, flags);
+			final ArrayList<VideoModel.MovieSetDetails> results = mResults;
+			if (results != null && results.size() > 0) {
+				parcel.writeInt(results.size());
+				for (VideoModel.MovieSetDetails result : results) {
+					parcel.writeParcelable(result, flags);
+				}
+			} else {
+				parcel.writeInt(0);
 			}
-		} else {
-			parcel.writeInt(0);
-		}
-		}
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -777,7 +777,7 @@ public final class VideoLibrary {
 		}
 		@Override
 		protected ArrayList<VideoModel.MovieDetails> parseMany(ObjectNode node) {
-			final ArrayNode movies = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayNode movies = parseResults(node, RESULTS);
 			final ArrayList<VideoModel.MovieDetails> ret = new ArrayList<VideoModel.MovieDetails>(movies.size());
 			for (int i = 0; i < movies.size(); i++) {
 				final ObjectNode item = (ObjectNode)movies.get(i);
@@ -796,16 +796,16 @@ public final class VideoLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-		final ArrayList<VideoModel.MovieDetails> results = mResults;
-		if (results != null && results.size() > 0) {
-			parcel.writeInt(results.size());
-			for (VideoModel.MovieDetails result : results) {
-				parcel.writeParcelable(result, flags);
+			final ArrayList<VideoModel.MovieDetails> results = mResults;
+			if (results != null && results.size() > 0) {
+				parcel.writeInt(results.size());
+				for (VideoModel.MovieDetails result : results) {
+					parcel.writeParcelable(result, flags);
+				}
+			} else {
+				parcel.writeInt(0);
 			}
-		} else {
-			parcel.writeInt(0);
-		}
-		}
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -862,8 +862,8 @@ public final class VideoLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeParcelable(mResult, flags);
-		}
+				parcel.writeParcelable(mResult, flags);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -909,7 +909,7 @@ public final class VideoLibrary {
 		}
 		@Override
 		protected ArrayList<VideoModel.MusicVideoDetails> parseMany(ObjectNode node) {
-			final ArrayNode musicvideos = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayNode musicvideos = parseResults(node, RESULTS);
 			final ArrayList<VideoModel.MusicVideoDetails> ret = new ArrayList<VideoModel.MusicVideoDetails>(musicvideos.size());
 			for (int i = 0; i < musicvideos.size(); i++) {
 				final ObjectNode item = (ObjectNode)musicvideos.get(i);
@@ -928,16 +928,16 @@ public final class VideoLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-		final ArrayList<VideoModel.MusicVideoDetails> results = mResults;
-		if (results != null && results.size() > 0) {
-			parcel.writeInt(results.size());
-			for (VideoModel.MusicVideoDetails result : results) {
-				parcel.writeParcelable(result, flags);
+			final ArrayList<VideoModel.MusicVideoDetails> results = mResults;
+			if (results != null && results.size() > 0) {
+				parcel.writeInt(results.size());
+				for (VideoModel.MusicVideoDetails result : results) {
+					parcel.writeParcelable(result, flags);
+				}
+			} else {
+				parcel.writeInt(0);
 			}
-		} else {
-			parcel.writeInt(0);
-		}
-		}
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -979,7 +979,7 @@ public final class VideoLibrary {
 		}
 		@Override
 		protected ArrayList<VideoModel.EpisodeDetails> parseMany(ObjectNode node) {
-			final ArrayNode episodes = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayNode episodes = parseResults(node, RESULTS);
 			final ArrayList<VideoModel.EpisodeDetails> ret = new ArrayList<VideoModel.EpisodeDetails>(episodes.size());
 			for (int i = 0; i < episodes.size(); i++) {
 				final ObjectNode item = (ObjectNode)episodes.get(i);
@@ -998,16 +998,16 @@ public final class VideoLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-		final ArrayList<VideoModel.EpisodeDetails> results = mResults;
-		if (results != null && results.size() > 0) {
-			parcel.writeInt(results.size());
-			for (VideoModel.EpisodeDetails result : results) {
-				parcel.writeParcelable(result, flags);
+			final ArrayList<VideoModel.EpisodeDetails> results = mResults;
+			if (results != null && results.size() > 0) {
+				parcel.writeInt(results.size());
+				for (VideoModel.EpisodeDetails result : results) {
+					parcel.writeParcelable(result, flags);
+				}
+			} else {
+				parcel.writeInt(0);
 			}
-		} else {
-			parcel.writeInt(0);
-		}
-		}
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -1049,7 +1049,7 @@ public final class VideoLibrary {
 		}
 		@Override
 		protected ArrayList<VideoModel.MovieDetails> parseMany(ObjectNode node) {
-			final ArrayNode movies = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayNode movies = parseResults(node, RESULTS);
 			final ArrayList<VideoModel.MovieDetails> ret = new ArrayList<VideoModel.MovieDetails>(movies.size());
 			for (int i = 0; i < movies.size(); i++) {
 				final ObjectNode item = (ObjectNode)movies.get(i);
@@ -1068,16 +1068,16 @@ public final class VideoLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-		final ArrayList<VideoModel.MovieDetails> results = mResults;
-		if (results != null && results.size() > 0) {
-			parcel.writeInt(results.size());
-			for (VideoModel.MovieDetails result : results) {
-				parcel.writeParcelable(result, flags);
+			final ArrayList<VideoModel.MovieDetails> results = mResults;
+			if (results != null && results.size() > 0) {
+				parcel.writeInt(results.size());
+				for (VideoModel.MovieDetails result : results) {
+					parcel.writeParcelable(result, flags);
+				}
+			} else {
+				parcel.writeInt(0);
 			}
-		} else {
-			parcel.writeInt(0);
-		}
-		}
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -1119,7 +1119,7 @@ public final class VideoLibrary {
 		}
 		@Override
 		protected ArrayList<VideoModel.MusicVideoDetails> parseMany(ObjectNode node) {
-			final ArrayNode musicvideos = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayNode musicvideos = parseResults(node, RESULTS);
 			final ArrayList<VideoModel.MusicVideoDetails> ret = new ArrayList<VideoModel.MusicVideoDetails>(musicvideos.size());
 			for (int i = 0; i < musicvideos.size(); i++) {
 				final ObjectNode item = (ObjectNode)musicvideos.get(i);
@@ -1138,16 +1138,16 @@ public final class VideoLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-		final ArrayList<VideoModel.MusicVideoDetails> results = mResults;
-		if (results != null && results.size() > 0) {
-			parcel.writeInt(results.size());
-			for (VideoModel.MusicVideoDetails result : results) {
-				parcel.writeParcelable(result, flags);
+			final ArrayList<VideoModel.MusicVideoDetails> results = mResults;
+			if (results != null && results.size() > 0) {
+				parcel.writeInt(results.size());
+				for (VideoModel.MusicVideoDetails result : results) {
+					parcel.writeParcelable(result, flags);
+				}
+			} else {
+				parcel.writeInt(0);
 			}
-		} else {
-			parcel.writeInt(0);
-		}
-		}
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -1191,7 +1191,7 @@ public final class VideoLibrary {
 		}
 		@Override
 		protected ArrayList<VideoModel.SeasonDetails> parseMany(ObjectNode node) {
-			final ArrayNode seasons = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayNode seasons = parseResults(node, RESULTS);
 			final ArrayList<VideoModel.SeasonDetails> ret = new ArrayList<VideoModel.SeasonDetails>(seasons.size());
 			for (int i = 0; i < seasons.size(); i++) {
 				final ObjectNode item = (ObjectNode)seasons.get(i);
@@ -1210,16 +1210,16 @@ public final class VideoLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-		final ArrayList<VideoModel.SeasonDetails> results = mResults;
-		if (results != null && results.size() > 0) {
-			parcel.writeInt(results.size());
-			for (VideoModel.SeasonDetails result : results) {
-				parcel.writeParcelable(result, flags);
+			final ArrayList<VideoModel.SeasonDetails> results = mResults;
+			if (results != null && results.size() > 0) {
+				parcel.writeInt(results.size());
+				for (VideoModel.SeasonDetails result : results) {
+					parcel.writeParcelable(result, flags);
+				}
+			} else {
+				parcel.writeInt(0);
 			}
-		} else {
-			parcel.writeInt(0);
-		}
-		}
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -1276,8 +1276,8 @@ public final class VideoLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeParcelable(mResult, flags);
-		}
+				parcel.writeParcelable(mResult, flags);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -1319,7 +1319,7 @@ public final class VideoLibrary {
 		}
 		@Override
 		protected ArrayList<VideoModel.TVShowDetails> parseMany(ObjectNode node) {
-			final ArrayNode tvshows = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayNode tvshows = parseResults(node, RESULTS);
 			final ArrayList<VideoModel.TVShowDetails> ret = new ArrayList<VideoModel.TVShowDetails>(tvshows.size());
 			for (int i = 0; i < tvshows.size(); i++) {
 				final ObjectNode item = (ObjectNode)tvshows.get(i);
@@ -1338,16 +1338,16 @@ public final class VideoLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-		final ArrayList<VideoModel.TVShowDetails> results = mResults;
-		if (results != null && results.size() > 0) {
-			parcel.writeInt(results.size());
-			for (VideoModel.TVShowDetails result : results) {
-				parcel.writeParcelable(result, flags);
+			final ArrayList<VideoModel.TVShowDetails> results = mResults;
+			if (results != null && results.size() > 0) {
+				parcel.writeInt(results.size());
+				for (VideoModel.TVShowDetails result : results) {
+					parcel.writeParcelable(result, flags);
+				}
+			} else {
+				parcel.writeInt(0);
 			}
-		} else {
-			parcel.writeInt(0);
-		}
-		}
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -1398,8 +1398,8 @@ public final class VideoLibrary {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */

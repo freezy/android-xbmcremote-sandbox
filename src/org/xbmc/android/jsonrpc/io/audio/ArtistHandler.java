@@ -67,7 +67,7 @@ public class ArtistHandler extends JsonHandler {
 			final ObjectNode artist = (ObjectNode)artists.get(i);
 			batch[i] = new ContentValues();
 			batch[i].put(SyncColumns.UPDATED, now);
-			batch[i].put(Artists.ID, artist.get(AudioModel.ArtistDetails.ARTISTID).getTextValue());
+			batch[i].put(Artists.ID, artist.get(AudioModel.ArtistDetails.ARTISTID).getIntValue());
 			batch[i].put(Artists.NAME, artist.get(AudioModel.ArtistDetails.ARTIST).getTextValue());
 		}
 	

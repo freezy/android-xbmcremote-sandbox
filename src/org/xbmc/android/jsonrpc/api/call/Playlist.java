@@ -69,8 +69,8 @@ public final class Playlist {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -123,8 +123,8 @@ public final class Playlist {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -168,7 +168,7 @@ public final class Playlist {
 		}
 		@Override
 		protected ArrayList<ListModel.AllItem> parseMany(ObjectNode node) {
-			final ArrayNode items = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayNode items = parseResults(node, RESULTS);
 			final ArrayList<ListModel.AllItem> ret = new ArrayList<ListModel.AllItem>(items.size());
 			for (int i = 0; i < items.size(); i++) {
 				final ObjectNode item = (ObjectNode)items.get(i);
@@ -187,16 +187,16 @@ public final class Playlist {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-		final ArrayList<ListModel.AllItem> results = mResults;
-		if (results != null && results.size() > 0) {
-			parcel.writeInt(results.size());
-			for (ListModel.AllItem result : results) {
-				parcel.writeParcelable(result, flags);
+			final ArrayList<ListModel.AllItem> results = mResults;
+			if (results != null && results.size() > 0) {
+				parcel.writeInt(results.size());
+				for (ListModel.AllItem result : results) {
+					parcel.writeParcelable(result, flags);
+				}
+			} else {
+				parcel.writeInt(0);
 			}
-		} else {
-			parcel.writeInt(0);
-		}
-		}
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -332,8 +332,8 @@ public final class Playlist {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeParcelable(mResult, flags);
-		}
+				parcel.writeParcelable(mResult, flags);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -389,8 +389,8 @@ public final class Playlist {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeParcelable(mResult, flags);
-		}
+				parcel.writeParcelable(mResult, flags);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -447,8 +447,8 @@ public final class Playlist {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -503,8 +503,8 @@ public final class Playlist {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -561,8 +561,8 @@ public final class Playlist {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeValue(mResult);
-		}
+				parcel.writeValue(mResult);
+			}
 		/**
 		 * Construct via parcel
 		 */

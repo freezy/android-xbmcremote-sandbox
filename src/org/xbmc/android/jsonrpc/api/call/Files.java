@@ -60,7 +60,7 @@ public final class Files {
 		}
 		@Override
 		protected ArrayList<ListModel.FileItem> parseMany(ObjectNode node) {
-			final ArrayNode files = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayNode files = parseResults(node, RESULTS);
 			final ArrayList<ListModel.FileItem> ret = new ArrayList<ListModel.FileItem>(files.size());
 			for (int i = 0; i < files.size(); i++) {
 				final ObjectNode item = (ObjectNode)files.get(i);
@@ -79,16 +79,16 @@ public final class Files {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-		final ArrayList<ListModel.FileItem> results = mResults;
-		if (results != null && results.size() > 0) {
-			parcel.writeInt(results.size());
-			for (ListModel.FileItem result : results) {
-				parcel.writeParcelable(result, flags);
+			final ArrayList<ListModel.FileItem> results = mResults;
+			if (results != null && results.size() > 0) {
+				parcel.writeInt(results.size());
+				for (ListModel.FileItem result : results) {
+					parcel.writeParcelable(result, flags);
+				}
+			} else {
+				parcel.writeInt(0);
 			}
-		} else {
-			parcel.writeInt(0);
-		}
-		}
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -130,7 +130,7 @@ public final class Files {
 		}
 		@Override
 		protected ArrayList<ListModel.SourcesItem> parseMany(ObjectNode node) {
-			final ArrayNode sources = (ArrayNode)parseResult(node).get(RESULTS);
+			final ArrayNode sources = parseResults(node, RESULTS);
 			final ArrayList<ListModel.SourcesItem> ret = new ArrayList<ListModel.SourcesItem>(sources.size());
 			for (int i = 0; i < sources.size(); i++) {
 				final ObjectNode item = (ObjectNode)sources.get(i);
@@ -149,16 +149,16 @@ public final class Files {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-		final ArrayList<ListModel.SourcesItem> results = mResults;
-		if (results != null && results.size() > 0) {
-			parcel.writeInt(results.size());
-			for (ListModel.SourcesItem result : results) {
-				parcel.writeParcelable(result, flags);
+			final ArrayList<ListModel.SourcesItem> results = mResults;
+			if (results != null && results.size() > 0) {
+				parcel.writeInt(results.size());
+				for (ListModel.SourcesItem result : results) {
+					parcel.writeParcelable(result, flags);
+				}
+			} else {
+				parcel.writeInt(0);
 			}
-		} else {
-			parcel.writeInt(0);
-		}
-		}
+			}
 		/**
 		 * Construct via parcel
 		 */
@@ -314,8 +314,8 @@ public final class Files {
 		@Override
 		public void writeToParcel(Parcel parcel, int flags) {
 			super.writeToParcel(parcel, flags);
-			parcel.writeParcelable(mResult, flags);
-		}
+				parcel.writeParcelable(mResult, flags);
+			}
 		/**
 		 * Construct via parcel
 		 */
