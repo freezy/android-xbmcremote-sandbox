@@ -35,10 +35,12 @@ import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.io.ApiException;
 import org.xbmc.android.jsonrpc.io.ConnectionManager;
 import org.xbmc.android.jsonrpc.io.JsonHandler;
+import org.xbmc.android.jsonrpc.notification.AbstractEvent;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -69,6 +71,7 @@ public class ConnectionService extends IntentService {
 
 	public static final String EXTRA_STATUS = "org.xbmc.android.jsonprc.extra.STATUS";
 	public static final String EXTRA_APICALL = "org.xbmc.android.jsonprc.extra.APICALL";
+	public static final String EXTRA_NOTIFICATION = "org.xbmc.android.jsonprc.extra.NOTIFICATION";
 	public static final String EXTRA_HANDLER = "org.xbmc.android.jsonprc.extra.HANDLER";
 	public static final String EXTRA_CALLID = "org.xbmc.android.jsonprc.extra.CALLID";
 	public static final String EXTRA_ERROR_CODE = "org.xbmc.android.jsonprc.extra.ERROR_CODE";
@@ -324,7 +327,7 @@ public class ConnectionService extends IntentService {
 			for (int i = clients.size() - 1; i >= 0; i--) {
 				try {
 					final Bundle b = new Bundle();
-					// TODO add notification in here once it's parcelable 
+					b.putParcelable(EXTRA_NOTIFICATION, AbstractEvent.parse((ObjectNode)node));
 					final Message msg = Message.obtain(null, MSG_RECEIVE_NOTIFICATION);
 					msg.setData(b);
 					clients.get(i).send(msg);

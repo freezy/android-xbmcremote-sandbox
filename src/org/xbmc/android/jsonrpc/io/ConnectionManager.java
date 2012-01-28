@@ -28,7 +28,10 @@ import java.util.LinkedList;
 import org.codehaus.jackson.JsonNode;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.AbstractModel;
+import org.xbmc.android.jsonrpc.notification.AbstractEvent;
+import org.xbmc.android.jsonrpc.notification.PlayerEvent;
 import org.xbmc.android.jsonrpc.notification.PlayerObserver;
+import org.xbmc.android.jsonrpc.notification.SystemEvent;
 import org.xbmc.android.jsonrpc.service.ConnectionService;
 
 import android.content.ComponentName;
@@ -383,7 +386,34 @@ public class ConnectionManager {
 					
 				// notification
 				case ConnectionService.MSG_RECEIVE_NOTIFICATION: {
-					// TODO handle notifications
+					final Bundle b = msg.getData();
+					final AbstractEvent notification = b.getParcelable(ConnectionService.EXTRA_NOTIFICATION);
+					final ArrayList<NotificationObserver> observers = mObservers;
+					for (NotificationObserver observer : observers) {
+						switch (notification.getId()) {
+							case PlayerEvent.Play.ID:
+								observer.getPlayerObserver().onPlay((PlayerEvent.Play)notification);
+								break;
+							case PlayerEvent.Pause.ID:
+								observer.getPlayerObserver().onPause((PlayerEvent.Pause)notification);
+								break;
+							case PlayerEvent.Stop.ID:
+								observer.getPlayerObserver().onStop((PlayerEvent.Stop)notification);
+								break;
+							case PlayerEvent.SpeedChanged.ID:
+								observer.getPlayerObserver().onSpeedChanged((PlayerEvent.SpeedChanged)notification);
+								break;
+							case PlayerEvent.Seek.ID:
+								observer.getPlayerObserver().onSeek((PlayerEvent.Seek)notification);
+								break;
+							case SystemEvent.Quit.ID:
+							case SystemEvent.Restart.ID:
+							case SystemEvent.Wake.ID:
+							case SystemEvent.LowBattery.ID:
+							default:
+								break;
+						}
+					}
 					break;
 				}
 					

@@ -41,6 +41,7 @@ public class SystemEvent {
 	 * XBMC will be closed.
 	 */
 	public static class Quit extends AbstractEvent {
+		public final static int ID = 0x11;
 		public final static String METHOD = "System.OnQuit";
 		public Quit(ObjectNode node) {
 			super(node);
@@ -70,12 +71,17 @@ public class SystemEvent {
 				return new Quit[n];
 			}
 		};
+		@Override
+		public int getId() {
+			return ID;
+		}
 	}
 	
 	/**
 	 * The system will be restarted.
 	 */
 	public static class Restart extends AbstractEvent {
+		public final static int ID = 0x12;
 		public final static String METHOD = "System.OnRestart";
 		public Restart(ObjectNode node) {
 			super(node);
@@ -105,12 +111,17 @@ public class SystemEvent {
 				return new Restart[n];
 			}
 		};
+		@Override
+		public int getId() {
+			return ID;
+		}
 	}
 	
 	/**
 	 * The system woke up from suspension.
 	 */
 	public static class Wake extends AbstractEvent {
+		public final static int ID = 0x13;
 		public final static String METHOD = "System.OnWake";
 		public Wake(ObjectNode node) {
 			super(node);
@@ -140,12 +151,17 @@ public class SystemEvent {
 				return new Wake[n];
 			}
 		};
+		@Override
+		public int getId() {
+			return ID;
+		}
 	}
 	
 	/**
 	 * The system woke up from suspension.
 	 */
 	public static class LowBattery extends AbstractEvent {
+		public final static int ID = 0x14;
 		public final static String METHOD = "System.OnLowBattery";
 		public LowBattery(ObjectNode node) {
 			super(node);
@@ -175,5 +191,9 @@ public class SystemEvent {
 				return new LowBattery[n];
 			}
 		};
+		@Override
+		public int getId() {
+			return ID;
+		}
 	}
 }

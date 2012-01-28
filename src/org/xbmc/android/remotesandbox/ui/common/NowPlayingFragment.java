@@ -1,11 +1,19 @@
 package org.xbmc.android.remotesandbox.ui.common;
 
+import org.xbmc.android.jsonrpc.api.AbstractModel;
+import org.xbmc.android.jsonrpc.io.ConnectionManager;
+import org.xbmc.android.jsonrpc.io.ConnectionManager.NotificationObserver;
+import org.xbmc.android.jsonrpc.io.FollowupCall;
+import org.xbmc.android.jsonrpc.notification.PlayerEvent.Play;
+import org.xbmc.android.jsonrpc.notification.PlayerObserver;
 import org.xbmc.android.remotesandbox.R;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -19,8 +27,8 @@ public class NowPlayingFragment extends Fragment {
 	private Button mConnectButton;
 	private Chronometer mChronometer;
 	
-//	private NotificationManager nm;
-//	private NotificationObserver mPlayerObserver;
+	private ConnectionManager cm;
+	private NotificationObserver mPlayerObserver;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -28,8 +36,34 @@ public class NowPlayingFragment extends Fragment {
 		mStatusText = (TextView)root.findViewById(R.id.nowplaying_status);
 		mConnectButton = (Button)root.findViewById(R.id.nowplaying_connect);
 		mChronometer = (Chronometer)root.findViewById(R.id.nowplaying_chronometer);
-//		setup();
+		setup();
 		return root;
+	}
+	
+	private void setup() {
+		cm = new ConnectionManager(getActivity().getApplicationContext());
+		mPlayerObserver = new NotificationObserver() {
+			
+			@Override
+			public PlayerObserver getPlayerObserver() {
+				return new PlayerObserver() {
+					@Override
+					public FollowupCall<? extends AbstractModel> onPlay(final Play notification) {
+						
+						Log.i(TAG, "Got notification: " + notification);
+						return null;
+					}
+				};
+			}
+		};
+		
+		mConnectButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				cm.registerObserver(mPlayerObserver);
+				mStatusText.setText("Connected.");
+			}
+		});
 	}
 	
 /*
@@ -87,13 +121,6 @@ public class NowPlayingFragment extends Fragment {
 			}
 		};
 		
-		mConnectButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				nm.registerObserver(mPlayerObserver);
-				mStatusText.setText("Connected.");
-			}
-		});
-	}
-*/	
+		
+	}*/
 }

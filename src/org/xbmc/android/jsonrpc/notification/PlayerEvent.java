@@ -43,6 +43,7 @@ public class PlayerEvent {
 	 * changed. If there is no ID available extra information will be provided.
 	 */
 	public static class Play extends AbstractEvent {
+		public final static int ID = 0x01;
 		public final static String METHOD = "Player.OnPlay";
 		public final Data data;
 		public Play(ObjectNode node) {
@@ -76,6 +77,10 @@ public class PlayerEvent {
 				return new Play[n];
 			}
 		};
+		@Override
+		public int getId() {
+			return ID;
+		}
 	}
 	
 	/**
@@ -83,6 +88,7 @@ public class PlayerEvent {
 	 * extra information will be provided.
 	 */
 	public static class Pause extends AbstractEvent {
+		public final static int ID = 0x02;
 		public final static String METHOD = "Player.OnPause";
 		public final Data data;
 		public Pause(ObjectNode node) {
@@ -105,6 +111,10 @@ public class PlayerEvent {
 		public void writeToParcel(Parcel parcel, int flags) {
 			parcel.writeParcelable(data, flags);
 		}
+		@Override
+		public int getId() {
+			return ID;
+		}
 		public static final Parcelable.Creator<Pause> CREATOR = new Parcelable.Creator<Pause>() {
 			@Override
 			public Pause createFromParcel(Parcel parcel) {
@@ -122,6 +132,7 @@ public class PlayerEvent {
 	 * extra information will be provided.
 	 */
 	public static class Stop extends AbstractEvent {
+		public final static int ID = 0x03;
 		public final static String METHOD = "Player.OnStop";
 		public final Data data;
 		public Stop(ObjectNode node) {
@@ -154,6 +165,10 @@ public class PlayerEvent {
 				return new Stop[n];
 			}
 		};
+		@Override
+		public int getId() {
+			return ID;
+		}
 		public static class Data implements Parcelable {
 			public final Item item;
 			public Data(ObjectNode node) {
@@ -188,6 +203,7 @@ public class PlayerEvent {
 	 * available extra information will be provided.
 	 */
 	public static class SpeedChanged extends AbstractEvent {
+		public final static int ID = 0x04;
 		public final static String METHOD = "Player.OnSpeedChanged";
 		public final Data data;
 		public SpeedChanged(ObjectNode node) {
@@ -220,6 +236,10 @@ public class PlayerEvent {
 				return new SpeedChanged[n];
 			}
 		};
+		@Override
+		public int getId() {
+			return ID;
+		}
 	}
 
 	/**
@@ -227,7 +247,8 @@ public class PlayerEvent {
 	 * information will be provided.
 	 */
 	public static class Seek extends AbstractEvent {
-	public final static String METHOD = "Player.OnSeek";
+		public final static int ID = 0x05;
+		public final static String METHOD = "Player.OnSeek";
 		public final Data data;
 		public Seek(ObjectNode node) {
 			super(node);
@@ -260,6 +281,10 @@ public class PlayerEvent {
 				return new Seek[n];
 			}
 		};
+		@Override
+		public int getId() {
+			return ID;
+		}
 		public static class Data implements Parcelable {
 			public final Item item;
 			public final PlayerSeek player;
