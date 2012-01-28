@@ -74,7 +74,7 @@ import android.util.Log;
  * when sending the response back from <tt>ConnectionService</tt> to
  * <tt>ConnectionManager</tt>. Therefore, <tt>call()</tt> can additionally 
  * provide a {@link JsonHandler}, which will synchronize the local DB and only
- * respond with a status code instead of the whole response (TBD).
+ * respond with a status code instead of the whole response.
  * 
  * <h3>Notifications</h3>
  * Every instance of {@link ConnectionManager} appears as a client on the 
@@ -88,6 +88,8 @@ import android.util.Log;
  * AbstractCall} object, it is possible to immediately post another request
  * without having to pass through the manager.
  *
+ * TODO also unbind service when no more (non-observer) clients are connected. 
+ * 
  * @author freezy <freezy@xbmc.org>
  */
 public class ConnectionManager {
@@ -144,7 +146,7 @@ public class ConnectionManager {
 	}
 	
 	/**
-	 * Executes a JSON-RPC request.
+	 * Executes a JSON-RPC request with the full result in the callback.
 	 * @param call Call to execute
 	 * @param callback 
 	 * @return
@@ -157,6 +159,15 @@ public class ConnectionManager {
 		return this;
 	}
 	
+	/**
+	 * Executes a JSON-RPC request where the handler is executed at the service
+	 * and the callback gets a status code only.
+	 * 
+	 * @param call Call to execute
+	 * @param handler Handler to treat result
+	 * @param callback Callback to handle result, can be null.
+	 * @return
+	 */
 	public ConnectionManager call(AbstractCall<?> call, JsonHandler handler, HandlerCallback callback) {
 		// start service if not yet started
 		bindService();
@@ -206,8 +217,8 @@ public class ConnectionManager {
 	}
 	
 	/**
-	 * Posts a new request to the TCP 
-	 * @param data
+	 * Posts a API call to the service.
+	 * @param apiCall API call
 	 */
 	private void sendCall(AbstractCall<?> apiCall) {
 		if (mService != null) {
@@ -229,6 +240,11 @@ public class ConnectionManager {
 		}
 	}
 	
+	/**
+	 * Posts a new handled API call to the service.
+	 * @param apiCall API call
+	 * @param handler Handler to execute in the service
+	 */
 	private void sendCall(AbstractCall<?> apiCall, JsonHandler handler) {
 		if (mService != null) {
 			try {
@@ -356,7 +372,9 @@ public class ConnectionManager {
 					final Bundle b = msg.getData();
 					final String id = b.getString(ConnectionService.EXTRA_CALLID);
 					if (handlercallbacks.containsKey(id)) {
-						handlercallbacks.get(id).onFinish(b.getInt(ConnectionService.EXTRA_STATUS));
+						if (handlercallbacks.get(id) != null) {
+							handlercallbacks.get(id).onFinish(b.getInt(ConnectionService.EXTRA_STATUS));
+						}
 					} else {
 						Log.w(TAG, "Unknown ID " + id + " for handled callback, not notifying caller.");
 					}
@@ -379,7 +397,9 @@ public class ConnectionManager {
 					if (id != null && mHandlerCallbacks.containsKey(id)) {
 						// if ID given and handler call back, announce to handler callback.
 						Log.e(TAG, "Error, notifying one handler callback.");
-						mHandlerCallbacks.get(id).onFinish(code);
+						if (mHandlerCallbacks.get(id) != null) {
+							mHandlerCallbacks.get(id).onFinish(code);
+						}
 					} else if (id != null && mCallRequests.containsKey(id)) {
 						// if ID given and api call back, announce error.
 						Log.e(TAG, "Error, notifying one API callback.");
@@ -388,7 +408,9 @@ public class ConnectionManager {
 						// otherwise, announce to all clients.
 						Log.e(TAG, "Error, notifying everybody.");
 						for (HandlerCallback handlerCallback : mHandlerCallbacks.values()) {
-							handlerCallback.onFinish(code);
+							if (handlerCallback != null) {
+								handlerCallback.onFinish(code);
+							}
 						}
 						mHandlerCallbacks.clear();
 						for (CallRequest<?> callreq : mCallRequests.values()) {
