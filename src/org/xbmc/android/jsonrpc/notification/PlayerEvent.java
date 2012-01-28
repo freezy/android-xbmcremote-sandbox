@@ -24,6 +24,9 @@ package org.xbmc.android.jsonrpc.notification;
 import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.model.GlobalModel;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Parses Player.* events.
  * 
@@ -46,10 +49,33 @@ public class PlayerEvent {
 			super(node);
 			data = new Data((ObjectNode)node.get("data"));
 		}
+		protected Play(Parcel parcel) {
+			super(parcel);
+			data = parcel.<Data>readParcelable(Data.class.getClassLoader());
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+			parcel.writeParcelable(data, flags);
+		}
 		@Override
 		public String toString() {
 			return 	"PLAY: Item " + data.item + " with player " + data.player.playerId + " at speed " + data.player.speed + ".";
 		}
+		public static final Parcelable.Creator<Play> CREATOR = new Parcelable.Creator<Play>() {
+			@Override
+			public Play createFromParcel(Parcel parcel) {
+				return new Play(parcel);
+			}
+			@Override
+			public Play[] newArray(int n) {
+				return new Play[n];
+			}
+		};
 	}
 	
 	/**
@@ -63,10 +89,32 @@ public class PlayerEvent {
 			super(node);
 			data = new Data((ObjectNode)node.get("data"));
 		}
+		protected Pause(Parcel parcel) {
+			super(parcel);
+			data = parcel.<Data>readParcelable(Data.class.getClassLoader());
+		}
 		@Override
 		public String toString() {
 			return 	"PAUSE: Item " + data.item + " with player " + data.player.playerId + " at speed " + data.player.speed + ".";
 		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeParcelable(data, flags);
+		}
+		public static final Parcelable.Creator<Pause> CREATOR = new Parcelable.Creator<Pause>() {
+			@Override
+			public Pause createFromParcel(Parcel parcel) {
+				return new Pause(parcel);
+			}
+			@Override
+			public Pause[] newArray(int n) {
+				return new Pause[n];
+			}
+		};
 	}
 	
 	/**
@@ -80,15 +128,58 @@ public class PlayerEvent {
 			super(node);
 			data = new Data((ObjectNode)node.get("data"));
 		}
+		protected Stop(Parcel parcel) {
+			super(parcel);
+			data = parcel.<Data>readParcelable(Data.class.getClassLoader());
+		}
 		@Override
 		public String toString() {
 			return 	"STOP: Item " + data.item + ".";
 		}
-		public static class Data {
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeParcelable(data, flags);
+		}
+		public static final Parcelable.Creator<Stop> CREATOR = new Parcelable.Creator<Stop>() {
+			@Override
+			public Stop createFromParcel(Parcel parcel) {
+				return new Stop(parcel);
+			}
+			@Override
+			public Stop[] newArray(int n) {
+				return new Stop[n];
+			}
+		};
+		public static class Data implements Parcelable {
 			public final Item item;
-			public Data (ObjectNode node) {
+			public Data(ObjectNode node) {
 				item = new Item((ObjectNode)node.get("item"));
 			}
+			protected Data(Parcel parcel) {
+				item = parcel.<Item>readParcelable(Item.class.getClassLoader());
+			}
+			@Override
+			public int describeContents() {
+				return 0;
+			}
+			@Override
+			public void writeToParcel(Parcel parcel, int flags) {
+				parcel.writeParcelable(item, flags);
+			}
+			public static final Parcelable.Creator<Data> CREATOR = new Parcelable.Creator<Data>() {
+				@Override
+				public Data createFromParcel(Parcel parcel) {
+					return new Data(parcel);
+				}
+				@Override
+				public Data[] newArray(int n) {
+					return new Data[n];
+				}
+			};
 		}
 	}
 	
@@ -103,10 +194,32 @@ public class PlayerEvent {
 			super(node);
 			data = new Data((ObjectNode)node.get("data"));
 		}
+		public SpeedChanged(Parcel parcel) {
+			super(parcel);
+			data = parcel.<Data>readParcelable(Data.class.getClassLoader());
+		}
 		@Override
 		public String toString() {
 			return 	"SPEED-CHANGE: Item " + data.item + " with player " + data.player.playerId + " at speed " + data.player.speed + ".";
 		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeParcelable(data, flags);
+		}
+		public static final Parcelable.Creator<SpeedChanged> CREATOR = new Parcelable.Creator<SpeedChanged>() {
+			@Override
+			public SpeedChanged createFromParcel(Parcel parcel) {
+				return new SpeedChanged(parcel);
+			}
+			@Override
+			public SpeedChanged[] newArray(int n) {
+				return new SpeedChanged[n];
+			}
+		};
 	}
 
 	/**
@@ -120,17 +233,63 @@ public class PlayerEvent {
 			super(node);
 			data = new Data((ObjectNode)node.get("data"));
 		}
-		public static class Data {
+		public Seek(Parcel parcel) {
+			super(parcel);
+			data = parcel.<Data>readParcelable(Data.class.getClassLoader());
+		}
+		
+		@Override
+		public String toString() {
+			return 	"SEEK: Item " + data.item + " with player " + data.player.playerId + " to " + data.player.time + " at " + data.player.seekoffset + ".";
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeParcelable(data, flags);
+		}
+		public static final Parcelable.Creator<Seek> CREATOR = new Parcelable.Creator<Seek>() {
+			@Override
+			public Seek createFromParcel(Parcel parcel) {
+				return new Seek(parcel);
+			}
+			@Override
+			public Seek[] newArray(int n) {
+				return new Seek[n];
+			}
+		};
+		public static class Data implements Parcelable {
 			public final Item item;
 			public final PlayerSeek player;
 			public Data (ObjectNode node) {
 				item = new Item((ObjectNode)node.get("item"));
 				player = new PlayerSeek((ObjectNode)node.get("player"));
 			}
-		}
-		@Override
-		public String toString() {
-			return 	"SEEK: Item " + data.item + " with player " + data.player.playerId + " to " + data.player.time + " at " + data.player.seekoffset + ".";
+			public Data (Parcel parcel) {
+				item = parcel.<Item>readParcelable(Item.class.getClassLoader());
+				player = parcel.<PlayerSeek>readParcelable(PlayerSeek.class.getClassLoader());
+			}
+			@Override
+			public int describeContents() {
+				return 0;
+			}
+			@Override
+			public void writeToParcel(Parcel parcel, int flags) {
+				parcel.writeParcelable(item, flags);
+				parcel.writeParcelable(player, flags);
+			}
+			public static final Parcelable.Creator<Data> CREATOR = new Parcelable.Creator<Data>() {
+				@Override
+				public Data createFromParcel(Parcel parcel) {
+					return new Data(parcel);
+				}
+				@Override
+				public Data[] newArray(int n) {
+					return new Data[n];
+				}
+			};
 		}
 	}
 	
@@ -139,7 +298,7 @@ public class PlayerEvent {
 	 *  types: https://github.com/xbmc/xbmc/blob/master/xbmc/interfaces/json-rpc/types.json
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	public static class Data {
+	public static class Data implements Parcelable {
 		public final static String TYPE = "Player.Notifications.Data";
 		public final Item item;
 		public final Player player;
@@ -147,9 +306,32 @@ public class PlayerEvent {
 			item = new Item((ObjectNode)node.get("item"));
 			player = new Player((ObjectNode)node.get("player"));
 		}
+		public Data (Parcel parcel) {
+			item = parcel.<Item>readParcelable(Item.class.getClassLoader());
+			player = parcel.<Player>readParcelable(Player.class.getClassLoader());
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeParcelable(item, flags);
+			parcel.writeParcelable(player, flags);
+		}
+		public static final Parcelable.Creator<Data> CREATOR = new Parcelable.Creator<Data>() {
+			@Override
+			public Data createFromParcel(Parcel parcel) {
+				return new Data(parcel);
+			}
+			@Override
+			public Data[] newArray(int n) {
+				return new Data[n];
+			}
+		};
 	}
 	
-	public static class Item {
+	public static class Item implements Parcelable {
 		public final static String TYPE = "Player.Notifications.Item";
 		public final int type;
 		public final int id;
@@ -173,11 +355,50 @@ public class PlayerEvent {
 			artist = AbstractEvent.parseString(node, "artist");
 			track = AbstractEvent.parseInt(node, "track");
 		}
+		public Item (Parcel parcel) {
+			type = parcel.readInt();
+			id = parcel.readInt();
+			title = parcel.readString();
+			year = parcel.readInt();
+			episode = parcel.readInt();
+			season = parcel.readInt();
+			showtitle = parcel.readString();
+			album = parcel.readString();
+			artist = parcel.readString();
+			track = parcel.readInt();
+		}
 		@Override
 		public String toString() {
 			return Type.stringValue(type) + "(" + id + ")";
 			
 		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeInt(type);
+			parcel.writeInt(id);
+			parcel.writeString(title);
+			parcel.writeInt(year);
+			parcel.writeInt(episode);
+			parcel.writeInt(season);
+			parcel.writeString(showtitle);
+			parcel.writeString(album);
+			parcel.writeString(artist);
+			parcel.writeInt(track);
+		}
+		public static final Parcelable.Creator<Item> CREATOR = new Parcelable.Creator<Item>() {
+			@Override
+			public Item createFromParcel(Parcel parcel) {
+				return new Item(parcel);
+			}
+			@Override
+			public Item[] newArray(int n) {
+				return new Item[n];
+			}
+		};
 		
 		public static class Type {
 			public static final int UNKNOWN = 0x00;
@@ -213,7 +434,7 @@ public class PlayerEvent {
 		}
 	}
 	
-	public static class Player {
+	public static class Player implements Parcelable {
 		public final static String TYPE = "Player.Notifications.Player";
 		public final int playerId;
 		public final int speed;
@@ -221,6 +442,29 @@ public class PlayerEvent {
 			playerId = node.get("playerid").getIntValue();
 			speed = node.get("speed").getValueAsInt(0);
 		}
+		protected Player(Parcel parcel) {
+			playerId = parcel.readInt();
+			speed = parcel.readInt();
+		}
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			parcel.writeInt(playerId);
+			parcel.writeInt(speed);
+		}
+		public static final Parcelable.Creator<Player> CREATOR = new Parcelable.Creator<Player>() {
+			@Override
+			public Player createFromParcel(Parcel parcel) {
+				return new Player(parcel);
+			}
+			@Override
+			public Player[] newArray(int n) {
+				return new Player[n];
+			}
+		};
 	}
 	
 	public static class PlayerSeek extends Player {
@@ -232,6 +476,27 @@ public class PlayerEvent {
 			time = new GlobalModel.Time((ObjectNode)node.get("time"));
 			seekoffset = new GlobalModel.Time((ObjectNode)node.get("seekoffset"));
 		}
+		protected PlayerSeek(Parcel parcel) {
+			super(parcel);
+			time = parcel.<GlobalModel.Time>readParcelable(GlobalModel.Time.class.getClassLoader());
+			seekoffset = parcel.<GlobalModel.Time>readParcelable(GlobalModel.Time.class.getClassLoader());
+		}
+		@Override
+		public void writeToParcel(Parcel parcel, int flags) {
+			super.writeToParcel(parcel, flags);
+			parcel.writeParcelable(time, flags);
+			parcel.writeParcelable(seekoffset, flags);
+		}
+		public static final Parcelable.Creator<PlayerSeek> CREATOR = new Parcelable.Creator<PlayerSeek>() {
+			@Override
+			public PlayerSeek createFromParcel(Parcel parcel) {
+				return new PlayerSeek(parcel);
+			}
+			@Override
+			public PlayerSeek[] newArray(int n) {
+				return new PlayerSeek[n];
+			}
+		};
 	}
 	
 }

@@ -23,12 +23,23 @@ package org.xbmc.android.jsonrpc.notification;
 
 import org.codehaus.jackson.node.ObjectNode;
 
-public abstract class AbstractEvent {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+/**
+ * Parent class for all notifications.
+ *
+ * @author freezy <freezy@xbmc.org>
+ */
+public abstract class AbstractEvent implements Parcelable {
 	
 	public final String sender;
 	
 	public AbstractEvent(ObjectNode node) {
 		sender = node.get("sender").getTextValue();
+	}
+	protected AbstractEvent(Parcel parcel) {
+		sender = parcel.readString();
 	}
 
 	public static int parseInt(ObjectNode node, String key) {
@@ -37,6 +48,11 @@ public abstract class AbstractEvent {
 	
 	public static String parseString(ObjectNode node, String key) {
 		return node.get(key).getTextValue();
+	}
+	
+	@Override
+	public void writeToParcel(Parcel parcel, int flags) {
+		parcel.writeString(sender);
 	}
 	
 }
