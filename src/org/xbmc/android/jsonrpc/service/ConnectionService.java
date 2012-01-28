@@ -53,10 +53,12 @@ import android.util.Log;
 /**
  * Service which keeps a steady TCP connection to XBMC's JSON-RPC API via
  * TCP socket (as opposed to HTTP messages).
- * <p>
+ * <p/>
  * It serves as listener for notification, but is also used for posting normal
  * API requests.
- *
+ * <p/>
+ * About message exchange, see {@link ConnectionManager}.
+ * 
  * @author freezy <freezy@xbmc.org>
  */
 public class ConnectionService extends IntentService {
@@ -65,9 +67,10 @@ public class ConnectionService extends IntentService {
 
 	private static final int SOCKET_TIMEOUT = 5000;
 
-	public static final String EXTRA_STATUS_RECEIVER = "org.xbmc.android.jsonprc.extra.STATUS_RECEIVER";
+	public static final String EXTRA_STATUS = "org.xbmc.android.jsonprc.extra.STATUS";
 	public static final String EXTRA_APICALL = "org.xbmc.android.jsonprc.extra.APICALL";
 	public static final String EXTRA_HANDLER = "org.xbmc.android.jsonprc.extra.HANDLER";
+	public static final String EXTRA_CALLID = "org.xbmc.android.jsonprc.extra.CALLID";
 	public static final String EXTRA_ERROR_CODE = "org.xbmc.android.jsonprc.extra.ERROR_CODE";
 	public static final String EXTRA_ERROR_MESSAGE = "org.xbmc.android.jsonprc.extra.ERROR_MESSAGE";
 
@@ -75,13 +78,17 @@ public class ConnectionService extends IntentService {
 	public static final int MSG_UNREGISTER_CLIENT = 0x02;
 	public static final int MSG_RECEIVE_NOTIFICATION = 0x03;
 	public static final int MSG_RECEIVE_APICALL = 0x04;	
-	public static final int MSG_SEND_APICALL = 0x05;
-	public static final int MSG_SEND_HANDLED_APICALL = 0x06;
-	public static final int MSG_ERROR = 0x07;	
+	public static final int MSG_RECEIVE_HANDLED_APICALL = 0x05;	
+	public static final int MSG_SEND_APICALL = 0x06;
+	public static final int MSG_SEND_HANDLED_APICALL = 0x07;
+	public static final int MSG_ERROR = 0x08;	
 
-	public static final int ERROR_SOCKET_WRITE = 0x01;	
-	public static final int ERROR_UNKNOWN_HOST = 0x02;	
-	public static final int ERROR_IO_EXCEPTION = 0x03;	
+	public static final int ERROR_SOCKET_WRITE = 0x11;	
+	public static final int ERROR_UNKNOWN_HOST = 0x12;	
+	public static final int ERROR_IO_EXCEPTION = 0x13;
+	public static final int ERROR_LOST_CALLREFERENCE = 0x14;
+	
+	public static final int RESULT_SUCCESS = 0x01;
 	
 	/**
 	 * Target we publish for clients to send messages to IncomingHandler.
@@ -101,11 +108,14 @@ public class ConnectionService extends IntentService {
 	 * All calls the service is currently dealing with. Key is the ID of the call.
 	 */
 	private final HashMap<String, AbstractCall<?>> mCalls = new HashMap<String, AbstractCall<?>>();
+	/**
+	 * The handler we'll update with a status code as soon as we're done.
+	 */
 	private final HashMap<String, JsonHandler> mHandlers = new HashMap<String, JsonHandler>();
 	/**
 	 * API call results are only returned to the client requested it, so here are the relations.
 	 */
-	private final HashMap<AbstractCall<?>, Messenger> mClientMap = new HashMap<AbstractCall<?>, Messenger>();
+	private final HashMap<String, Messenger> mClientMap = new HashMap<String, Messenger>();
 	
 	/**
 	 * Reference to the socket, so we shut it down properly.
@@ -130,7 +140,7 @@ public class ConnectionService extends IntentService {
 	}
 
 	@Override
-	protected void onHandleIntent(Intent arg0) {
+	protected void onHandleIntent(Intent intent) {
 		
 		long s = System.currentTimeMillis();
 		Log.d(TAG, "Starting TCP client...");
@@ -145,11 +155,11 @@ public class ConnectionService extends IntentService {
 			mOut = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 		} catch (UnknownHostException e) {
 			Log.e(TAG, "Unknown host: " + e.getMessage(), e);
-			notifyError(ERROR_UNKNOWN_HOST, "Unknown host: " + e.getMessage(), e);
+			notifyError(ERROR_UNKNOWN_HOST, "Unknown host: " + e.getMessage(), null, e);
 			return;
 		} catch (IOException e) {
 			Log.e(TAG, "I/O error while opening: " + e.getMessage(), e);
-			notifyError(ERROR_IO_EXCEPTION, "I/O error while opening: " + e.getMessage(), e);
+			notifyError(ERROR_IO_EXCEPTION, "I/O error while opening: " + e.getMessage(), null, e);
 			return;
 		}
 		
@@ -170,12 +180,12 @@ public class ConnectionService extends IntentService {
 				}.start();
 			}
 			
-			
 			final JsonFactory jf = OM.getJsonFactory();
 			final JsonParser jp = jf.createJsonParser(socket.getInputStream());
 			JsonNode node = null;
 			while ((node = OM.readTree(jp)) != null) {
-				Log.i(TAG, "READ: " + node.toString());
+				Log.i(TAG, "READ: " + node.toString().substring(0, 80) + "...");
+//				Log.i(TAG, "READ: " + node.toString());
 				notifyClients(node);
 			}
 			mOut.close();
@@ -183,7 +193,7 @@ public class ConnectionService extends IntentService {
 
 		} catch (IOException e) {
 			Log.e(TAG, "I/O error while reading: " + e.getMessage(), e);
-			notifyError(ERROR_IO_EXCEPTION, "I/O exception while reading: " + e.getMessage(), e);
+			notifyError(ERROR_IO_EXCEPTION, "I/O exception while reading: " + e.getMessage(), null, e);
 		} finally {
 			try {
 				if (socket != null) {
@@ -243,29 +253,52 @@ public class ConnectionService extends IntentService {
 	 */
 	private void notifyClients(JsonNode node) {
 		final ArrayList<Messenger> clients = mClients;
-		final HashMap<AbstractCall<?>, Messenger> map = mClientMap;
+		final HashMap<String, Messenger> map = mClientMap;
 		final HashMap<String, AbstractCall<?>> calls = mCalls;
 		final HashMap<String, JsonHandler> handlers = mHandlers;
 		
 		// check if notification or api call
 		if (node.has("id")) {
+			// it's api call.
 			final String id = node.get("id").getValueAsText();
 			if (calls.containsKey(id)) {
 				final AbstractCall<?> call = calls.get(id);
 				if (handlers.containsKey(id)) {
+					// we got an provided handler, so apply it and send back status message.
 					try {
 						handlers.get(id).applyResult(node, getContentResolver());
+						// get the right client to send back to
+						if (map.containsKey(id)) {
+							final Bundle b = new Bundle();
+							b.putString(EXTRA_CALLID, call.getId());
+							b.putInt(EXTRA_STATUS, RESULT_SUCCESS);
+							final Message msg = Message.obtain(null, MSG_RECEIVE_HANDLED_APICALL);
+							msg.setData(b);
+							try {
+								map.get(id).send(msg);
+								Log.i(TAG, "API call handled successfully, posting status back to client.");
+							} catch (RemoteException e) {
+								Log.e(TAG, "Error posting status back to client: " + e.getMessage(), e);
+								map.remove(id);
+							} finally {
+								// clean up
+								map.remove(id);
+								calls.remove(id);
+							}
+						} else {
+							Log.w(TAG, "Cannot find client in caller-mapping, dropping response.");
+						}
 					} catch (ApiException e) {
-						notifyError(e.getCode(), "Error synchronizing: " + e.getMessage(), e);
+						notifyError(e.getCode(), "Error synchronizing: " + e.getMessage(), id, e);
 					}
 				} else {
-					
-					call.setResponse(node);
-					final Bundle b = new Bundle();
-					b.putParcelable(EXTRA_APICALL, call);
-					final Message msg = Message.obtain(null, MSG_RECEIVE_APICALL);
-					msg.setData(b);
+					// get the right client to send back to
 					if (map.containsKey(call)) {
+						call.setResponse(node);
+						final Bundle b = new Bundle();
+						b.putParcelable(EXTRA_APICALL, call);
+						final Message msg = Message.obtain(null, MSG_RECEIVE_APICALL);
+						msg.setData(b);
 						try {
 							map.get(call).send(msg);
 							Log.i(TAG, "Sent updated API call " + call.getName() + " to client.");
@@ -283,8 +316,10 @@ public class ConnectionService extends IntentService {
 				}
 			} else {
 				Log.e(TAG, "Error: Cannot find API call with ID " + id + ".");
+				notifyError(ERROR_LOST_CALLREFERENCE, "Cannot find API call with ID " + id + ".", id, new Exception());
 			}
 		} else {
+			// it's a notification.
 			Log.i(TAG, "Notifying " + clients.size() + " clients.");
 			for (int i = clients.size() - 1; i >= 0; i--) {
 				try {
@@ -296,11 +331,13 @@ public class ConnectionService extends IntentService {
 					
 				} catch (RemoteException e) {
 					Log.e(TAG, "Cannot send notification to client: " + e.getMessage(), e);
-					// The client is dead. Remove it from the list; we are going
-					// through the list from back to front so this is safe to do
-					// inside the loop.
+					/*
+					 * The client is dead. Remove it from the list; we are going
+					 * through the list from back to front so this is safe to do
+					 * inside the loop.
+					 */
 					clients.remove(i);
-					stopSelf();
+//					stopSelf();
 				}
 			}
 		}
@@ -312,27 +349,40 @@ public class ConnectionService extends IntentService {
 	 * @param message Error message
 	 * @param e Exception
 	 */
-	private void notifyError(int code, String message, Exception e) {
-		Log.i(TAG, "Sending error to " + mClients.size() + " clients.");
-		for (int i = mClients.size() - 1; i >= 0; i--) {
+	private void notifyError(int code, String message, String id, Exception e) {
+		final Bundle b = new Bundle();
+		b.putInt(EXTRA_ERROR_CODE, code);
+		b.putString(EXTRA_ERROR_MESSAGE, message);
+		Message msg = Message.obtain(null, MSG_ERROR);
+		msg.setData(b);
+
+		// if id is set and callback exists, only send error back to one client.
+		if (id != null && mClientMap.containsKey(id)) {
 			try {
-				final Bundle b = new Bundle();
-				b.putInt(EXTRA_ERROR_CODE, code);
-				b.putString(EXTRA_ERROR_MESSAGE, message);
-				Message msg = Message.obtain(null, MSG_ERROR);
-				msg.setData(b);
-				mClients.get(i).send(msg);
-				Log.i(TAG, "Sent error to client " + i + ".");
-				stopSelf();
-				
+				mClientMap.get(id).send(msg);
+				Log.i(TAG, "Sent error to client with ID " + id + ".");
 			} catch (RemoteException e2) {
-				Log.e(TAG, "Cannot send errors to client: " + e.getMessage(), e2);
-				// The client is dead. Remove it from the list; we are going
-				// through the list from back to front so this is safe to do
-				// inside the loop.
-				mClients.remove(i);
-				stopSelf();
+				Log.e(TAG, "Cannot send errors to client " + id + ": "+ e.getMessage(), e2);
+				mClientMap.remove(id);
 			}
+		} else {
+			// otherwise, send error back to all clients and die.
+			for (int i = mClients.size() - 1; i >= 0; i--) {
+				try {
+					mClients.get(i).send(msg);
+					Log.i(TAG, "Sent error to client " + i + ".");
+					stopSelf();
+				} catch (RemoteException e2) {
+					Log.e(TAG, "Cannot send errors to client: " + e.getMessage(), e2);
+					/*
+					 * The client is dead. Remove it from the list; we are going
+					 * through the list from back to front so this is safe to do
+					 * inside the loop.
+					 */
+					mClients.remove(i);
+				}
+			}
+			stopSelf();
 		}
 	}
 	
@@ -349,7 +399,7 @@ public class ConnectionService extends IntentService {
 			mOut.flush();
 		} catch (IOException e) {
 			Log.e(TAG, "Error writing to socket: " + e.getMessage(), e);
-			notifyError(ERROR_SOCKET_WRITE, e.getMessage(), e);
+			notifyError(ERROR_SOCKET_WRITE, e.getMessage(), call.getId(), e);
 		}
 	}
 	
@@ -373,7 +423,7 @@ public class ConnectionService extends IntentService {
 				final Bundle data = msg.getData();
 				final AbstractCall<?> call = (AbstractCall<?>)data.getParcelable(EXTRA_APICALL);
 				mCalls.put(call.getId(), call);
-				mClientMap.put(call, msg.replyTo);
+				mClientMap.put(call.getId(), msg.replyTo);
 				if (mOut == null) {
 					mPendingCalls.add(call);
 				} else {
@@ -388,7 +438,7 @@ public class ConnectionService extends IntentService {
 				final JsonHandler handler = (JsonHandler)data.getParcelable(EXTRA_HANDLER);
 				mCalls.put(call.getId(), call);
 				mHandlers.put(call.getId(), handler);
-				mClientMap.put(call, msg.replyTo);
+				mClientMap.put(call.getId(), msg.replyTo);
 				if (mOut == null) {
 					Log.d(TAG, "Quering for later.");
 					mPendingCalls.add(call);

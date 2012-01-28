@@ -24,6 +24,7 @@ package org.xbmc.android.jsonrpc.service;
 import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
 import org.xbmc.android.jsonrpc.api.model.AudioModel;
 import org.xbmc.android.jsonrpc.io.ConnectionManager;
+import org.xbmc.android.jsonrpc.io.ConnectionManager.HandlerCallback;
 import org.xbmc.android.jsonrpc.io.audio.AlbumHandler;
 import org.xbmc.android.jsonrpc.io.audio.ArtistHandler;
 import org.xbmc.android.jsonrpc.provider.AudioProvider;
@@ -80,22 +81,51 @@ public class AudioSyncService extends Service {
 		}
 		
 		// start quering...
+		mStart = System.currentTimeMillis();
 		syncArtists();
-		
-		if (mReceiver != null) {
-			// Pass back error to surface listener
-			mReceiver.send(STATUS_FINISHED, null);
-		}
 	}
 	
 	private void syncArtists() {
 		final AudioLibrary.GetArtists getArtistsCall = new AudioLibrary.GetArtists(false, null);
-		mCm.call(getArtistsCall, new ArtistHandler());
+		mCm.call(getArtistsCall, new ArtistHandler(), new HandlerCallback() {
+			@Override
+			public void onFinish(int code) {
+				if (code == ConnectionService.RESULT_SUCCESS) {
+					Log.i(TAG, "Artists seem to be successfully synced in " + (System.currentTimeMillis() - mStart) + "ms, starting albums.");
+					syncAlbums();
+				} else {
+					if (mReceiver != null) {
+						// Pass back error to surface listener
+						mReceiver.send(STATUS_ERROR, null);
+					}
+					Log.w(TAG, "Something went wrong, got code " + code + ".");
+				}
+				
+			}
+		});
 	}
 	private void syncAlbums() {
 		final AudioLibrary.GetAlbums getAlbumsCall = new AudioLibrary.GetAlbums(null, null, 
 				AudioModel.AlbumFields.TITLE, AudioModel.AlbumFields.ARTISTID, AudioModel.AlbumFields.YEAR);
-		mCm.call(getAlbumsCall, new AlbumHandler());
+		mCm.call(getAlbumsCall, new AlbumHandler(), new HandlerCallback() {
+			
+			@Override
+			public void onFinish(int code) {
+				if (code == ConnectionService.RESULT_SUCCESS) {
+					Log.i(TAG, "Albums seem to be successfully synced too! Total time: " + (System.currentTimeMillis() - mStart) + "ms.");
+					if (mReceiver != null) {
+						// Pass back result to surface listener
+						mReceiver.send(STATUS_FINISHED, null);
+					}
+				} else {
+					Log.w(TAG, "Something went wrong, got code " + code + ".");
+					if (mReceiver != null) {
+						// Pass back error to surface listener
+						mReceiver.send(STATUS_ERROR, null);
+					}
+				}
+			}
+		});
 	}
 	
 	public void onError(int code, String message) {
