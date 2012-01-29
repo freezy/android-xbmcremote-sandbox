@@ -123,10 +123,6 @@ public class ConnectionManager {
 	 */
 	private final HashMap<String, CallRequest<?>> mCallRequests = new HashMap<String, CallRequest<?>>();
 	/**
-	 * List of follow-ups
-	 */
-//	private final HashMap<String, FollowupCall<?>> mFollowups = new HashMap<String, FollowupCall<?>>();
-	/**
 	 * When posting request data and the service isn't started yet, we need to 
 	 * reschedule the post until the service is available. This list contains
 	 * the requests that are to sent upon service startup. 
@@ -408,6 +404,18 @@ public class ConnectionManager {
 								break;
 						}
 					}
+					break;
+				}
+				
+				// service started connecting to socket
+				case ConnectionService.MSG_CONNECTING: {
+					
+					break;
+				}
+					
+				// service is connected to socket
+				case ConnectionService.MSG_CONNECTED: {
+					
 					break;
 				}
 					

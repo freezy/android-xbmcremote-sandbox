@@ -79,12 +79,14 @@ public class ConnectionService extends IntentService {
 
 	public static final int MSG_REGISTER_CLIENT = 0x01;
 	public static final int MSG_UNREGISTER_CLIENT = 0x02;
-	public static final int MSG_RECEIVE_NOTIFICATION = 0x03;
-	public static final int MSG_RECEIVE_APICALL = 0x04;	
-	public static final int MSG_RECEIVE_HANDLED_APICALL = 0x05;	
-	public static final int MSG_SEND_APICALL = 0x06;
-	public static final int MSG_SEND_HANDLED_APICALL = 0x07;
-	public static final int MSG_ERROR = 0x08;	
+	public static final int MSG_CONNECTING = 0x03;
+	public static final int MSG_CONNECTED = 0x04;
+	public static final int MSG_RECEIVE_NOTIFICATION = 0x05;
+	public static final int MSG_RECEIVE_APICALL = 0x06;	
+	public static final int MSG_RECEIVE_HANDLED_APICALL = 0x07;	
+	public static final int MSG_SEND_APICALL = 0x08;
+	public static final int MSG_SEND_HANDLED_APICALL = 0x09;
+	public static final int MSG_ERROR = 0x0a;	
 
 	public static final int ERROR_SOCKET_WRITE = 0x11;	
 	public static final int ERROR_UNKNOWN_HOST = 0x12;	
@@ -147,6 +149,7 @@ public class ConnectionService extends IntentService {
 		
 		long s = System.currentTimeMillis();
 		Log.d(TAG, "Starting TCP client...");
+		notifyStatus(MSG_CONNECTING);
 		Socket socket = null;
 
 		try {
@@ -168,6 +171,7 @@ public class ConnectionService extends IntentService {
 		
 		try {
 			Log.i(TAG, "Connected to TCP socket in " + (System.currentTimeMillis() - s) + "ms");
+			notifyStatus(MSG_CONNECTED);
 			
 			// check for saved post data to send while we weren't connected,
 			// but do it in a separate thread so we can read already while sending.
@@ -358,10 +362,10 @@ public class ConnectionService extends IntentService {
 	 * @param e Exception
 	 */
 	private void notifyError(int code, String message, String id, Exception e) {
+		final Message msg = Message.obtain(null, MSG_ERROR);
 		final Bundle b = new Bundle();
 		b.putInt(EXTRA_ERROR_CODE, code);
 		b.putString(EXTRA_ERROR_MESSAGE, message);
-		Message msg = Message.obtain(null, MSG_ERROR);
 		msg.setData(b);
 
 		// if id is set and callback exists, only send error back to one client.
@@ -381,7 +385,7 @@ public class ConnectionService extends IntentService {
 					Log.i(TAG, "Sent error to client " + i + ".");
 					stopSelf();
 				} catch (RemoteException e2) {
-					Log.e(TAG, "Cannot send errors to client: " + e.getMessage(), e2);
+					Log.e(TAG, "Cannot send errors to client: " + e2.getMessage(), e2);
 					/*
 					 * The client is dead. Remove it from the list; we are going
 					 * through the list from back to front so this is safe to do
@@ -393,6 +397,25 @@ public class ConnectionService extends IntentService {
 			stopSelf();
 		}
 	}
+	
+	private void notifyStatus(int code) {
+		final Message msg = Message.obtain(null, code);
+		for (int i = mClients.size() - 1; i >= 0; i--) {
+			try {
+				mClients.get(i).send(msg);
+			} catch (RemoteException e2) {
+				Log.e(TAG, "Cannot send errors to client: " + e2.getMessage(), e2);
+				/*
+				 * The client is dead. Remove it from the list; we are going
+				 * through the list from back to front so this is safe to do
+				 * inside the loop.
+				 */
+				mClients.remove(i);
+			}
+		}
+	}
+	
+	
 	
 	/**
 	 * Serializes the API request and dumps it on the socket.
