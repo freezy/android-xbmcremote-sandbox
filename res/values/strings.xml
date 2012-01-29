@@ -39,4 +39,29 @@
 	<string name="addaccount_authenticator_label">XBMC Host</string>
 	<string name="addaccount_progress_checkingapiversion">Probing XBMC\u2026</string>
 
+	<string name="error_connection_timeout">Connection timed out.</string>
+	<string name="error_connection_timeout_hint">The host could not be reached. Are you connected to the same network?</string>
+	<string name="error_connection_refused">Connection refused.</string>
+	<string name="error_connection_refused_hint">Could not connect. Are you sure that XBMC is running and your port settings are correct?</string>
+	<string name="error_io_exception">Connection problem, please check logs.</string>
+	<string name="error_io_exception_hint">Something unexpected happened, please file a bug report with logs attached.</string>
+	<string name="error_io_exception_while_connecting">Error while connecting.</string>
+	<string name="error_io_exception_while_connecting_hint">Something unexpected happened while connecting. Please file a bug report with logs attached.</string>
+	<string name="error_io_exception_while_reading">Data could not been read from XBMC.</string>
+	<string name="error_io_exception_while_reading_hint">Are you sure you\'re still connected?</string>
+	<string name="error_io_exception_while_writing">Data could not been sent to XBMC.</string>
+	<string name="error_io_exception_while_writing_hint">Are you sure you\'re still connected?</string>
+	<string name="error_unknown_host">Cannot connect to specified address.</string>
+	<string name="error_unknown_host_hint">Check your host settings. If you\'re using a host name instead of an IP address, make sure your Android device is aware of the host name.</string>
+	<string name="error_malformed_url">Invalid URL. See logs for more info.</string>
+	<string name="error_malformed_url_hint">Looks like an internal error. Please submit a bug report with logs included.</string>
+	<string name="error_parse_json">JSON error. See logs for more info.</string>
+	<string name="error_parse_json_hint">Something went wrong while parsing the JSON data received by XBMC. Please submit a bug report with logs included.</string>
+	<string name="error_response">Received different response than expected.</string>
+	<string name="error_response_hint">Sounds like an internal error. Please submit a bug report with logs attached.</string>
+	<string name="error_api">JSON-RPC returned an error.</string>
+	<string name="error_api_hint">This most probably means that there\'s a bug in our API library. Please submit a report with logs included.</string>
+	<string name="error_encoding">Unsupported encoding. Please check logs.</string>
+	<string name="error_encoding_hint">Sounds like a bug. Please submit a bug report with logs included.</string>
+
 </resources>

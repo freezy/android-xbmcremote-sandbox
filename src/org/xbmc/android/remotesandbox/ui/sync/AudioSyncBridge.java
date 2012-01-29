@@ -95,8 +95,12 @@ public class AudioSyncBridge extends AbstractSyncBridge implements DetachableRes
 			case AudioSyncService.STATUS_ERROR: {
 				Log.d(TAG, "Got event: STATUS_ERROR");
 				// Error happened down in SyncService, show as toast.
-				final String errorText = activity.getString(R.string.toast_sync_error, resultData.getString(Intent.EXTRA_TEXT));
-				Toast.makeText(activity, errorText, Toast.LENGTH_LONG).show();
+				if (resultData == null) {
+					Log.e(TAG, "CANNOT READ RESULT DATA!!!");
+				} else {
+					final String errorText = activity.getString(R.string.toast_sync_error, resultData.getString(Intent.EXTRA_TEXT));
+					Toast.makeText(activity, errorText, Toast.LENGTH_LONG).show();
+				}
 				syncing = false;
 				break;
 			}

@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -74,8 +75,6 @@ public class ConnectionService extends IntentService {
 	public static final String EXTRA_NOTIFICATION = "org.xbmc.android.jsonprc.extra.NOTIFICATION";
 	public static final String EXTRA_HANDLER = "org.xbmc.android.jsonprc.extra.HANDLER";
 	public static final String EXTRA_CALLID = "org.xbmc.android.jsonprc.extra.CALLID";
-	public static final String EXTRA_ERROR_CODE = "org.xbmc.android.jsonprc.extra.ERROR_CODE";
-	public static final String EXTRA_ERROR_MESSAGE = "org.xbmc.android.jsonprc.extra.ERROR_MESSAGE";
 
 	public static final int MSG_REGISTER_CLIENT = 0x01;
 	public static final int MSG_UNREGISTER_CLIENT = 0x02;
@@ -88,11 +87,6 @@ public class ConnectionService extends IntentService {
 	public static final int MSG_SEND_HANDLED_APICALL = 0x09;
 	public static final int MSG_ERROR = 0x0a;	
 
-	public static final int ERROR_SOCKET_WRITE = 0x11;	
-	public static final int ERROR_UNKNOWN_HOST = 0x12;	
-	public static final int ERROR_IO_EXCEPTION = 0x13;
-	public static final int ERROR_LOST_CALLREFERENCE = 0x14;
-	
 	public static final int RESULT_SUCCESS = 0x01;
 	
 	/**
@@ -161,11 +155,15 @@ public class ConnectionService extends IntentService {
 			mOut = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 		} catch (UnknownHostException e) {
 			Log.e(TAG, "Unknown host: " + e.getMessage(), e);
-			notifyError(ERROR_UNKNOWN_HOST, "Unknown host: " + e.getMessage(), null, e);
+			notifyError(new ApiException(ApiException.IO_UNKNOWN_HOST,  "Unknown host: " + e.getMessage(), e), null);
+			return;
+		} catch (SocketTimeoutException e) {
+			Log.e(TAG, "Unknown host: " + e.getMessage(), e);
+			notifyError(new ApiException(ApiException.IO_SOCKETTIMEOUT,  "Connection timeout: " + e.getMessage(), e), null);
 			return;
 		} catch (IOException e) {
 			Log.e(TAG, "I/O error while opening: " + e.getMessage(), e);
-			notifyError(ERROR_IO_EXCEPTION, "I/O error while opening: " + e.getMessage(), null, e);
+			notifyError(new ApiException(ApiException.IO_EXCEPTION_WHILE_OPENING,  "I/O error while opening: " + e.getMessage(), e), null);
 			return;
 		}
 		
@@ -200,7 +198,7 @@ public class ConnectionService extends IntentService {
 
 		} catch (IOException e) {
 			Log.e(TAG, "I/O error while reading: " + e.getMessage(), e);
-			notifyError(ERROR_IO_EXCEPTION, "I/O exception while reading: " + e.getMessage(), null, e);
+			notifyError(new ApiException(ApiException.IO_EXCEPTION_WHILE_READING,  "I/O error while reading: " + e.getMessage(), e), null);
 		} finally {
 			try {
 				if (socket != null) {
@@ -296,7 +294,7 @@ public class ConnectionService extends IntentService {
 							Log.w(TAG, "Cannot find client in caller-mapping for " + id + ", dropping response (handled call).");
 						}
 					} catch (ApiException e) {
-						notifyError(e.getCode(), "Error synchronizing: " + e.getMessage(), id, e);
+						notifyError(e, id);
 					}
 				} else {
 					// get the right client to send back to
@@ -323,7 +321,6 @@ public class ConnectionService extends IntentService {
 				}
 			} else {
 				Log.e(TAG, "Error: Cannot find API call with ID " + id + ".");
-				notifyError(ERROR_LOST_CALLREFERENCE, "Cannot find API call with ID " + id + ".", id, new Exception());
 			}
 		} else {
 			// it's a notification.
@@ -361,16 +358,13 @@ public class ConnectionService extends IntentService {
 	 * @param message Error message
 	 * @param e Exception
 	 */
-	private void notifyError(int code, String message, String id, Exception e) {
-		final Message msg = Message.obtain(null, MSG_ERROR);
-		final Bundle b = new Bundle();
-		b.putInt(EXTRA_ERROR_CODE, code);
-		b.putString(EXTRA_ERROR_MESSAGE, message);
-		msg.setData(b);
+	private void notifyError(ApiException e, String id) {
 
 		// if id is set and callback exists, only send error back to one client.
 		if (id != null && mClientMap.containsKey(id)) {
 			try {
+				final Message msg = Message.obtain(null, MSG_ERROR);
+				msg.setData(e.getBundle(getResources()));
 				mClientMap.get(id).send(msg);
 				Log.i(TAG, "Sent error to client with ID " + id + ".");
 			} catch (RemoteException e2) {
@@ -380,6 +374,8 @@ public class ConnectionService extends IntentService {
 		} else {
 			// otherwise, send error back to all clients and die.
 			for (int i = mClients.size() - 1; i >= 0; i--) {
+				final Message msg = Message.obtain(null, MSG_ERROR);
+				msg.setData(e.getBundle(getResources()));
 				try {
 					mClients.get(i).send(msg);
 					Log.i(TAG, "Sent error to client " + i + ".");
@@ -430,7 +426,7 @@ public class ConnectionService extends IntentService {
 			mOut.flush();
 		} catch (IOException e) {
 			Log.e(TAG, "Error writing to socket: " + e.getMessage(), e);
-			notifyError(ERROR_SOCKET_WRITE, e.getMessage(), call.getId(), e);
+			notifyError(new ApiException(ApiException.IO_EXCEPTION_WHILE_WRITING,  "I/O error while writing: " + e.getMessage(), e),  call.getId());
 		}
 	}
 	

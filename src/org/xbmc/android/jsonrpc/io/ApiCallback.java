@@ -22,7 +22,6 @@
 package org.xbmc.android.jsonrpc.io;
 
 import org.xbmc.android.jsonrpc.api.AbstractCall;
-import org.xbmc.android.jsonrpc.service.ConnectionService;
 
 /**
  * Implementing classes are called with the result of an API call.
@@ -48,8 +47,8 @@ public interface ApiCallback<T> {
 	/**
 	 * An error has occurred.
 	 * 
-	 * @param code For error codes, see <tt>ERROR_*</tt> constants at {@link ConnectionService}
-	 * @param message Error message in English
+	 * @param message Translated error message
+	 * @param message Translated error hint
 	 */
-	public abstract void onError(int code, String message);
+	public abstract void onError(String message, String hint);
 }

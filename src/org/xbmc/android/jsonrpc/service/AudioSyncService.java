@@ -65,14 +65,14 @@ public class AudioSyncService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		Log.d(TAG, "Starting onCreate()...");
+		Log.d(TAG, "Starting AudioSyncService...");
 		mCm = new ConnectionManager(getApplicationContext());
 	}
 	
 	@Override
 	public void onStart(Intent intent, int startId) {
-		Log.d(TAG, "Starting AudioSyncService...");
 
+		Log.d(TAG, "Starting quering...");
 		mReceiver = intent.getParcelableExtra(EXTRA_STATUS_RECEIVER);
 		if (mReceiver != null) {
 			mReceiver.send(STATUS_RUNNING, Bundle.EMPTY);
@@ -89,46 +89,44 @@ public class AudioSyncService extends Service {
 		final AudioLibrary.GetArtists getArtistsCall = new AudioLibrary.GetArtists(false, null);
 		mCm.call(getArtistsCall, new ArtistHandler(), new HandlerCallback() {
 			@Override
-			public void onFinish(int code) {
-				if (code == ConnectionService.RESULT_SUCCESS) {
-					Log.i(TAG, "Artists seem to be successfully synced in " + (System.currentTimeMillis() - mStart) + "ms, starting albums.");
-					syncAlbums();
-				} else {
-					if (mReceiver != null) {
-						// Pass back error to surface listener
-						mReceiver.send(STATUS_ERROR, null);
-					}
-					Log.w(TAG, "Something went wrong, got code " + code + ".");
-				}
-				
+			public void onFinish() {
+				Log.i(TAG, "Artists seem to be successfully synced in " + (System.currentTimeMillis() - mStart) + "ms, starting albums.");
+				syncAlbums();
 			}
+
+			@Override
+			public void onError(String message, String hint) {
+				AudioSyncService.this.onError(message + " " + hint);
+				stopSelf();
+			}
+			
 		});
 	}
+	
 	private void syncAlbums() {
 		final AudioLibrary.GetAlbums getAlbumsCall = new AudioLibrary.GetAlbums(null, null, 
 				AudioModel.AlbumFields.TITLE, AudioModel.AlbumFields.ARTISTID, AudioModel.AlbumFields.YEAR);
 		mCm.call(getAlbumsCall, new AlbumHandler(), new HandlerCallback() {
 			
 			@Override
-			public void onFinish(int code) {
-				if (code == ConnectionService.RESULT_SUCCESS) {
-					Log.i(TAG, "Albums seem to be successfully synced too! Total time: " + (System.currentTimeMillis() - mStart) + "ms.");
-					if (mReceiver != null) {
-						// Pass back result to surface listener
-						mReceiver.send(STATUS_FINISHED, null);
-					}
-				} else {
-					Log.w(TAG, "Something went wrong, got code " + code + ".");
-					if (mReceiver != null) {
-						// Pass back error to surface listener
-						mReceiver.send(STATUS_ERROR, null);
-					}
+			public void onFinish() {
+				Log.i(TAG, "Albums seem to be successfully synced too! Total time: " + (System.currentTimeMillis() - mStart) + "ms.");
+				if (mReceiver != null) {
+					// Pass back result to surface listener
+					mReceiver.send(STATUS_FINISHED, null);
 				}
+				stopSelf();
+			}
+
+			@Override
+			public void onError(String message, String hint) {
+				AudioSyncService.this.onError(message + " " + hint);
+				stopSelf();
 			}
 		});
 	}
 	
-	public void onError(int code, String message) {
+	public void onError(String message) {
 		if (mReceiver != null) {
 			// Pass back error to surface listener
 			final Bundle bundle = new Bundle();

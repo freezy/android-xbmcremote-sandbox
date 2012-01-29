@@ -366,7 +366,7 @@ public class ConnectionManager {
 					final String id = b.getString(ConnectionService.EXTRA_CALLID);
 					if (handlercallbacks.containsKey(id)) {
 						if (handlercallbacks.get(id) != null) {
-							handlercallbacks.get(id).onFinish(b.getInt(ConnectionService.EXTRA_STATUS));
+							handlercallbacks.get(id).onFinish();
 						}
 					} else {
 						Log.w(TAG, "Unknown ID " + id + " for handled callback, not notifying caller.");
@@ -422,31 +422,31 @@ public class ConnectionManager {
 				// shit happened
 				case ConnectionService.MSG_ERROR: {
 					final Bundle b = msg.getData();
-					final String message = b.getString(ConnectionService.EXTRA_ERROR_MESSAGE);
-					final int code = b.getInt(ConnectionService.EXTRA_ERROR_CODE);
+					final String message = b.getString(ApiException.EXTRA_ERROR_MESSAGE);
+					final String hint = b.getString(ApiException.EXTRA_ERROR_HINT);
 					final String id = b.getString(ConnectionService.EXTRA_CALLID);
 					
 					if (id != null && mHandlerCallbacks.containsKey(id)) {
 						// if ID given and handler call back, announce to handler callback.
 						Log.e(TAG, "Error, notifying one handler callback.");
 						if (mHandlerCallbacks.get(id) != null) {
-							mHandlerCallbacks.get(id).onFinish(code);
+							mHandlerCallbacks.get(id).onError(message, hint);
 						}
 					} else if (id != null && mCallRequests.containsKey(id)) {
 						// if ID given and api call back, announce error.
 						Log.e(TAG, "Error, notifying one API callback.");
-						mCallRequests.get(id).error(code, message);
+						mCallRequests.get(id).error(message, hint);
 					} else {
-						// otherwise, announce to all clients.
+						// otherwise, announce to all clients (both handled callbacks and api callbacks).
 						Log.e(TAG, "Error, notifying everybody.");
 						for (HandlerCallback handlerCallback : mHandlerCallbacks.values()) {
 							if (handlerCallback != null) {
-								handlerCallback.onFinish(code);
+								handlerCallback.onError(message, hint);
 							}
 						}
 						mHandlerCallbacks.clear();
 						for (CallRequest<?> callreq : mCallRequests.values()) {
-							callreq.error(code, message);
+							callreq.error(message, hint);
 						}
 						mCallRequests.clear();
 					}
@@ -476,8 +476,8 @@ public class ConnectionManager {
 		public void respond() {
 			mCallback.onResponse(mCall);
 		}
-		public void error(int code, String message) {
-			mCallback.onError(code, message);
+		public void error(String message, String hint) {
+			mCallback.onError(message, hint);
 		}
 	}
 	
@@ -501,10 +501,15 @@ public class ConnectionManager {
 	 */
 	public static interface HandlerCallback {
 		/**
-		 * Processing has finished.
-		 * @param code Either {@link ConnectionService#RESULT_SUCCESS} for success or <tt>ERROR_*</tt> when something went wrong.
+		 * Processing has successfully finished.
 		 */
-		public void onFinish(int code);
+		public void onFinish();
+		/**
+		 * Processing has failed.
+		 * @param message Translated error message
+		 * @param hint Translated hint
+		 */
+		public void onError(String message, String hint);
 	}
 
 }

@@ -69,8 +69,9 @@ public class NowPlayingFragment extends Fragment {
 								mChronometer.setBase(SystemClock.elapsedRealtime() - result.time.getMilliseconds());
 								mChronometer.start();
 							}
+
 							@Override
-							public void onError(int code, String message) {
+							public void onError(String message, String hint) {
 							}
 						
 						});
@@ -86,7 +87,7 @@ public class NowPlayingFragment extends Fragment {
 									}
 
 									@Override
-									public void onError(int code, String message) {
+									public void onError(String message, String hint) {
 									}
 								});
 										
