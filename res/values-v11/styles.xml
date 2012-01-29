@@ -26,7 +26,7 @@
         <item name="android:actionBarStyle">@style/ActionBar</item>
         <item name="android:windowContentOverlay">@drawable/actionbar_shadow</item>
 
-        <item name="android:windowBackground">@drawable/bg_gradient_dark_horizontal</item>
+        <item name="android:windowBackground">@drawable/bg_gradient_dark_vertical</item>
     </style>
 
     <style name="Theme.XBMCRemote.Home" parent="style/Theme.XBMCRemote">
@@ -36,7 +36,7 @@
 
     <style name="ActionBar" parent="android:style/Widget.Holo.Light.ActionBar">
         <item name="android:textColor">@color/actionbar_title_color</item>
-        <item name="android:background">@drawable/bg_gradient_dark_horizontal</item>
+        <item name="android:background">@drawable/bg_gradient_dark_vertical</item>
         <item name="android:titleTextStyle">@style/ActionBarTitle</item>
         <item name="android:icon">@drawable/icon</item>
     </style>

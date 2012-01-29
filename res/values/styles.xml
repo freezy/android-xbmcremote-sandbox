@@ -54,7 +54,7 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">@dimen/actionbar_compat_height</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:background">@drawable/bg_gradient_dark_horizontal</item>
+        <item name="android:background">@drawable/bg_gradient_dark_vertical</item>
     </style>
 
     <!-- Base style for the action buttons in the actionbar -->
