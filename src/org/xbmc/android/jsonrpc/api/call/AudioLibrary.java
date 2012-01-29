@@ -52,7 +52,7 @@ public final class AudioLibrary {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -114,7 +114,7 @@ public final class AudioLibrary {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		/**
 		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
@@ -296,7 +296,7 @@ public final class AudioLibrary {
 		}
 		@Override
 		protected AudioModel.AlbumDetails parseOne(ObjectNode node) {
-			return new AudioModel.AlbumDetails((ObjectNode)parseResult(node).get(RESULTS));
+			return new AudioModel.AlbumDetails((ObjectNode)node.get(RESULTS));
 		}
 		@Override
 		public String getName() {
@@ -428,7 +428,7 @@ public final class AudioLibrary {
 		}
 		@Override
 		protected AudioModel.ArtistDetails parseOne(ObjectNode node) {
-			return new AudioModel.ArtistDetails((ObjectNode)parseResult(node).get(RESULTS));
+			return new AudioModel.ArtistDetails((ObjectNode)node.get(RESULTS));
 		}
 		@Override
 		public String getName() {
@@ -772,7 +772,7 @@ public final class AudioLibrary {
 		}
 		@Override
 		protected AudioModel.SongDetails parseOne(ObjectNode node) {
-			return new AudioModel.SongDetails((ObjectNode)parseResult(node).get(RESULTS));
+			return new AudioModel.SongDetails((ObjectNode)node.get(RESULTS));
 		}
 		@Override
 		public String getName() {
@@ -900,7 +900,7 @@ public final class AudioLibrary {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {

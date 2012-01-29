@@ -85,12 +85,6 @@ import android.util.Log;
  * connected clients. If {@link ConnectionManager} has any registered 
  * observers, they will be notified, otherwise the notification is dropped.
  * 
- * <h3>Follow-ups</h3>
- * When receiving a notification, sometimes more information is required. By
- * returning a  {@link FollowupCall} object, which is wrapper for a new {@link
- * AbstractCall} object, it is possible to immediately post another request
- * without having to pass through the manager.
- *
  * TODO also unbind service when no more (non-observer) clients are connected. 
  * 
  * @author freezy <freezy@xbmc.org>

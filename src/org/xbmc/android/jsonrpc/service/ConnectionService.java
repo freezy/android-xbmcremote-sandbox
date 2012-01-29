@@ -289,32 +289,32 @@ public class ConnectionService extends IntentService {
 								calls.remove(id);
 							}
 						} else {
-							Log.w(TAG, "Cannot find client in caller-mapping, dropping response.");
+							Log.w(TAG, "Cannot find client in caller-mapping for " + id + ", dropping response (handled call).");
 						}
 					} catch (ApiException e) {
 						notifyError(e.getCode(), "Error synchronizing: " + e.getMessage(), id, e);
 					}
 				} else {
 					// get the right client to send back to
-					if (map.containsKey(call)) {
+					if (map.containsKey(id)) {
 						call.setResponse(node);
 						final Bundle b = new Bundle();
 						b.putParcelable(EXTRA_APICALL, call);
 						final Message msg = Message.obtain(null, MSG_RECEIVE_APICALL);
 						msg.setData(b);
 						try {
-							map.get(call).send(msg);
+							map.get(id).send(msg);
 							Log.i(TAG, "Sent updated API call " + call.getName() + " to client.");
 						} catch (RemoteException e) {
 							Log.e(TAG, "Error sending API response to client: " + e.getMessage(), e);
-							map.remove(call);
+							map.remove(id);
 						} finally {
 							// clean up
-							map.remove(call);
+							map.remove(id);
 							calls.remove(id);
 						}
 					} else {
-						Log.w(TAG, "Cannot find client in caller-mapping, dropping response.");
+						Log.w(TAG, "Cannot find client in caller-mapping for " + id + ", dropping response (api call).");
 					}
 				}
 			} else {
@@ -323,25 +323,30 @@ public class ConnectionService extends IntentService {
 			}
 		} else {
 			// it's a notification.
-			Log.i(TAG, "Notifying " + clients.size() + " clients.");
-			for (int i = clients.size() - 1; i >= 0; i--) {
-				try {
-					final Bundle b = new Bundle();
-					b.putParcelable(EXTRA_NOTIFICATION, AbstractEvent.parse((ObjectNode)node));
-					final Message msg = Message.obtain(null, MSG_RECEIVE_NOTIFICATION);
-					msg.setData(b);
-					clients.get(i).send(msg);
-					
-				} catch (RemoteException e) {
-					Log.e(TAG, "Cannot send notification to client: " + e.getMessage(), e);
-					/*
-					 * The client is dead. Remove it from the list; we are going
-					 * through the list from back to front so this is safe to do
-					 * inside the loop.
-					 */
-					clients.remove(i);
-//					stopSelf();
+			final AbstractEvent event = AbstractEvent.parse((ObjectNode) node);
+			if (event != null) {
+				Log.i(TAG, "Notifying " + clients.size() + " clients.");
+				for (int i = clients.size() - 1; i >= 0; i--) {
+					try {
+						final Bundle b = new Bundle();
+						b.putParcelable(EXTRA_NOTIFICATION, event);
+						final Message msg = Message.obtain(null, MSG_RECEIVE_NOTIFICATION);
+						msg.setData(b);
+						clients.get(i).send(msg);
+
+					} catch (RemoteException e) {
+						Log.e(TAG, "Cannot send notification to client: " + e.getMessage(), e);
+						/*
+						 * The client is dead. Remove it from the list; we are
+						 * going through the list from back to front so this is
+						 * safe to do inside the loop.
+						 */
+						clients.remove(i);
+						// stopSelf();
+					}
 				}
+			} else {
+				Log.i(TAG, "Ignoring unknown notification " + node.get("method").getTextValue() + ".");
 			}
 		}
 	}

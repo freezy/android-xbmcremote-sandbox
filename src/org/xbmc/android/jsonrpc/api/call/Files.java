@@ -198,7 +198,7 @@ public final class Files {
 		}
 		@Override
 		protected PrepareDownload.PrepareDownloadResult parseOne(ObjectNode node) {
-			return new PrepareDownload.PrepareDownloadResult((ObjectNode)parseResult(node));
+			return new PrepareDownload.PrepareDownloadResult(node);
 		}
 		/**
 		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>

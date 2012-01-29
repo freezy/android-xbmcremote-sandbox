@@ -53,7 +53,7 @@ public final class VideoLibrary {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -115,7 +115,7 @@ public final class VideoLibrary {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		/**
 		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
@@ -307,7 +307,7 @@ public final class VideoLibrary {
 		}
 		@Override
 		protected VideoModel.EpisodeDetails parseOne(ObjectNode node) {
-			return new VideoModel.EpisodeDetails((ObjectNode)parseResult(node).get(RESULTS));
+			return new VideoModel.EpisodeDetails((ObjectNode)node.get(RESULTS));
 		}
 		@Override
 		public String getName() {
@@ -512,7 +512,7 @@ public final class VideoLibrary {
 		}
 		@Override
 		protected VideoModel.MovieDetails parseOne(ObjectNode node) {
-			return new VideoModel.MovieDetails((ObjectNode)parseResult(node).get(RESULTS));
+			return new VideoModel.MovieDetails((ObjectNode)node.get(RESULTS));
 		}
 		@Override
 		public String getName() {
@@ -572,7 +572,7 @@ public final class VideoLibrary {
 		}
 		@Override
 		protected VideoModel.DetailsMovieSetExtended parseOne(ObjectNode node) {
-			return new VideoModel.DetailsMovieSetExtended((ObjectNode)parseResult(node).get(RESULTS));
+			return new VideoModel.DetailsMovieSetExtended((ObjectNode)node.get(RESULTS));
 		}
 		/**
 		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
@@ -849,7 +849,7 @@ public final class VideoLibrary {
 		}
 		@Override
 		protected VideoModel.MusicVideoDetails parseOne(ObjectNode node) {
-			return new VideoModel.MusicVideoDetails((ObjectNode)parseResult(node).get(RESULTS));
+			return new VideoModel.MusicVideoDetails((ObjectNode)node.get(RESULTS));
 		}
 		@Override
 		public String getName() {
@@ -1263,7 +1263,7 @@ public final class VideoLibrary {
 		}
 		@Override
 		protected VideoModel.TVShowDetails parseOne(ObjectNode node) {
-			return new VideoModel.TVShowDetails((ObjectNode)parseResult(node).get(RESULTS));
+			return new VideoModel.TVShowDetails((ObjectNode)node.get(RESULTS));
 		}
 		@Override
 		public String getName() {
@@ -1385,7 +1385,7 @@ public final class VideoLibrary {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {

@@ -47,7 +47,7 @@ public final class Input {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -99,7 +99,7 @@ public final class Input {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -151,7 +151,7 @@ public final class Input {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -203,7 +203,7 @@ public final class Input {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -255,7 +255,7 @@ public final class Input {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -307,7 +307,7 @@ public final class Input {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -359,7 +359,7 @@ public final class Input {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {

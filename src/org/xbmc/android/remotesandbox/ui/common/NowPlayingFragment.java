@@ -1,14 +1,22 @@
 package org.xbmc.android.remotesandbox.ui.common;
 
-import org.xbmc.android.jsonrpc.api.AbstractModel;
+import org.xbmc.android.jsonrpc.api.AbstractCall;
+import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
+import org.xbmc.android.jsonrpc.api.call.Player;
+import org.xbmc.android.jsonrpc.api.model.AudioModel;
+import org.xbmc.android.jsonrpc.api.model.AudioModel.SongDetails;
+import org.xbmc.android.jsonrpc.api.model.PlayerModel;
+import org.xbmc.android.jsonrpc.api.model.PlayerModel.PropertyValue;
+import org.xbmc.android.jsonrpc.io.ApiCallback;
 import org.xbmc.android.jsonrpc.io.ConnectionManager;
 import org.xbmc.android.jsonrpc.io.ConnectionManager.NotificationObserver;
-import org.xbmc.android.jsonrpc.io.FollowupCall;
+import org.xbmc.android.jsonrpc.notification.PlayerEvent;
 import org.xbmc.android.jsonrpc.notification.PlayerEvent.Play;
 import org.xbmc.android.jsonrpc.notification.PlayerObserver;
 import org.xbmc.android.remotesandbox.R;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -48,10 +56,46 @@ public class NowPlayingFragment extends Fragment {
 			public PlayerObserver getPlayerObserver() {
 				return new PlayerObserver() {
 					@Override
-					public FollowupCall<? extends AbstractModel> onPlay(final Play notification) {
+					public void onPlay(final Play notification) {
 						
 						Log.i(TAG, "Got notification: " + notification);
-						return null;
+						
+						// query time
+						cm.call(new Player.GetProperties(notification.data.player.playerId, PlayerModel.PropertyName.TIME), new ApiCallback<PlayerModel.PropertyValue>() {
+							@Override
+							public void onResponse(AbstractCall<PropertyValue> apiCall) {
+								final PropertyValue result = apiCall.getResult();
+								Log.i(TAG, "Setting clock to " + result.time.getMilliseconds() + "ms (" + SystemClock.elapsedRealtime() + ").");
+								mChronometer.setBase(SystemClock.elapsedRealtime() - result.time.getMilliseconds());
+								mChronometer.start();
+							}
+							@Override
+							public void onError(int code, String message) {
+							}
+						
+						});
+						
+						// query details
+						switch (notification.data.item.type) {
+							case PlayerEvent.Item.Type.SONG:
+								cm.call(new AudioLibrary.GetSongDetails(notification.data.item.id), new ApiCallback<AudioModel.SongDetails>() {
+									@Override
+									public void onResponse(AbstractCall<SongDetails> apiCall) {
+										final SongDetails result = apiCall.getResult();
+										mStatusText.setText(result.label);
+									}
+
+									@Override
+									public void onError(int code, String message) {
+									}
+								});
+										
+							case PlayerEvent.Item.Type.EPISODE:
+							case PlayerEvent.Item.Type.MUSICVIDEO:
+							default: {
+								break;
+							}
+						}		
 					}
 				};
 			}

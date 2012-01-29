@@ -21,8 +21,6 @@
 
 package org.xbmc.android.jsonrpc.notification;
 
-import org.xbmc.android.jsonrpc.api.AbstractModel;
-import org.xbmc.android.jsonrpc.io.FollowupCall;
 import org.xbmc.android.jsonrpc.notification.PlayerEvent.Pause;
 import org.xbmc.android.jsonrpc.notification.PlayerEvent.Play;
 import org.xbmc.android.jsonrpc.notification.PlayerEvent.Seek;
@@ -37,19 +35,14 @@ import org.xbmc.android.jsonrpc.notification.PlayerEvent.Stop;
  */
 public abstract class PlayerObserver {
 	
-	public FollowupCall<? extends AbstractModel> onPlay(Play notification) {
-		return null;
+	public void onPlay(Play notification) {
 	}
-	public FollowupCall<? extends AbstractModel> onPause(Pause notification) {
-		return null;
+	public void onPause(Pause notification) {
 	}
-	public FollowupCall<? extends AbstractModel> onStop(Stop notification) {
-		return null;
+	public void onStop(Stop notification) {
 	}
-	public FollowupCall<? extends AbstractModel> onSpeedChanged(SpeedChanged notification) {
-		return null;
+	public void onSpeedChanged(SpeedChanged notification) {
 	}
-	public FollowupCall<? extends AbstractModel> onSeek(Seek notification) {
-		return null;
+	public void onSeek(Seek notification) {
 	}
 }

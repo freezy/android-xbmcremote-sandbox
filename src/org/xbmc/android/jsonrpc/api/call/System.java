@@ -51,7 +51,7 @@ public final class System {
 		}
 		@Override
 		protected SystemModel.PropertyValue parseOne(ObjectNode node) {
-			return new SystemModel.PropertyValue((ObjectNode)parseResult(node));
+			return new SystemModel.PropertyValue(node);
 		}
 		@Override
 		public String getName() {
@@ -103,7 +103,7 @@ public final class System {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -155,7 +155,7 @@ public final class System {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -207,7 +207,7 @@ public final class System {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -259,7 +259,7 @@ public final class System {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {

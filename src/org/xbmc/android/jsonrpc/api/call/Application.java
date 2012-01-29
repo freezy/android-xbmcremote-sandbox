@@ -51,7 +51,7 @@ public final class Application {
 		}
 		@Override
 		protected ApplicationModel.PropertyValue parseOne(ObjectNode node) {
-			return new ApplicationModel.PropertyValue((ObjectNode)parseResult(node));
+			return new ApplicationModel.PropertyValue(node);
 		}
 		@Override
 		public String getName() {
@@ -103,7 +103,7 @@ public final class Application {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -165,7 +165,7 @@ public final class Application {
 		}
 		@Override
 		protected Boolean parseOne(ObjectNode node) {
-			return node.get(RESULT).getBooleanValue();
+			return node.getBooleanValue();
 		}
 		@Override
 		public String getName() {
@@ -219,7 +219,7 @@ public final class Application {
 		}
 		@Override
 		protected Integer parseOne(ObjectNode node) {
-			return node.get(RESULT).getIntValue();
+			return node.getIntValue();
 		}
 		@Override
 		public String getName() {

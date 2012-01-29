@@ -54,7 +54,7 @@ public final class Player {
 		}
 		@Override
 		protected GetActivePlayers.GetActivePlayersResult parseOne(ObjectNode node) {
-			return new GetActivePlayers.GetActivePlayersResult((ObjectNode)parseResult(node));
+			return new GetActivePlayers.GetActivePlayersResult(node);
 		}
 		/**
 		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
@@ -197,7 +197,7 @@ public final class Player {
 		}
 		@Override
 		protected ListModel.AllItem parseOne(ObjectNode node) {
-			return new ListModel.AllItem((ObjectNode)parseResult(node).get(RESULTS));
+			return new ListModel.AllItem((ObjectNode)node.get(RESULTS));
 		}
 		@Override
 		public String getName() {
@@ -254,7 +254,7 @@ public final class Player {
 		}
 		@Override
 		protected PlayerModel.PropertyValue parseOne(ObjectNode node) {
-			return new PlayerModel.PropertyValue((ObjectNode)parseResult(node));
+			return new PlayerModel.PropertyValue(node);
 		}
 		@Override
 		public String getName() {
@@ -308,7 +308,7 @@ public final class Player {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -362,7 +362,7 @@ public final class Player {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -418,7 +418,7 @@ public final class Player {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -472,7 +472,7 @@ public final class Player {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -526,7 +526,7 @@ public final class Player {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -580,7 +580,7 @@ public final class Player {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -634,7 +634,7 @@ public final class Player {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -704,7 +704,7 @@ public final class Player {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		/**
 		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
@@ -887,7 +887,7 @@ public final class Player {
 		}
 		@Override
 		protected PlayerModel.Speed parseOne(ObjectNode node) {
-			return new PlayerModel.Speed((ObjectNode)parseResult(node));
+			return new PlayerModel.Speed(node);
 		}
 		@Override
 		public String getName() {
@@ -944,7 +944,7 @@ public final class Player {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -998,7 +998,7 @@ public final class Player {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -1074,7 +1074,7 @@ public final class Player {
 		}
 		@Override
 		protected Seek.SeekResult parseOne(ObjectNode node) {
-			return new Seek.SeekResult((ObjectNode)parseResult(node));
+			return new Seek.SeekResult(node);
 		}
 		/**
 		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
@@ -1310,7 +1310,7 @@ public final class Player {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -1376,7 +1376,7 @@ public final class Player {
 		}
 		@Override
 		protected PlayerModel.Speed parseOne(ObjectNode node) {
-			return new PlayerModel.Speed((ObjectNode)parseResult(node));
+			return new PlayerModel.Speed(node);
 		}
 		@Override
 		public String getName() {
@@ -1442,7 +1442,7 @@ public final class Player {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -1496,7 +1496,7 @@ public final class Player {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -1550,7 +1550,7 @@ public final class Player {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -1604,7 +1604,7 @@ public final class Player {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -1660,7 +1660,7 @@ public final class Player {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -1714,7 +1714,7 @@ public final class Player {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -1768,7 +1768,7 @@ public final class Player {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {

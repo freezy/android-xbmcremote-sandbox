@@ -56,7 +56,7 @@ public final class Playlist {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -110,7 +110,7 @@ public final class Playlist {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -234,7 +234,7 @@ public final class Playlist {
 		}
 		@Override
 		protected GetPlaylists.GetPlaylistsResult parseOne(ObjectNode node) {
-			return new GetPlaylists.GetPlaylistsResult((ObjectNode)parseResult(node));
+			return new GetPlaylists.GetPlaylistsResult(node);
 		}
 		/**
 		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
@@ -376,7 +376,7 @@ public final class Playlist {
 		}
 		@Override
 		protected PlaylistModel.PropertyValue parseOne(ObjectNode node) {
-			return new PlaylistModel.PropertyValue((ObjectNode)parseResult(node));
+			return new PlaylistModel.PropertyValue(node);
 		}
 		@Override
 		public String getName() {
@@ -434,7 +434,7 @@ public final class Playlist {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -490,7 +490,7 @@ public final class Playlist {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -548,7 +548,7 @@ public final class Playlist {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {

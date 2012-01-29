@@ -195,7 +195,7 @@ public final class JSONRPC {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -247,7 +247,7 @@ public final class JSONRPC {
 		}
 		@Override
 		protected Permission.PermissionResult parseOne(ObjectNode node) {
-			return new Permission.PermissionResult((ObjectNode)parseResult(node));
+			return new Permission.PermissionResult(node);
 		}
 		/**
 		 * <i>This class was generated automatically from XBMC's JSON-RPC introspect.</i>
@@ -432,7 +432,7 @@ public final class JSONRPC {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
@@ -484,7 +484,7 @@ public final class JSONRPC {
 		}
 		@Override
 		protected String parseOne(ObjectNode node) {
-			return node.get(RESULT).getTextValue();
+			return node.getTextValue();
 		}
 		@Override
 		public String getName() {
