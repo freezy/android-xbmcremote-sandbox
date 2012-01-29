@@ -27,8 +27,6 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ObjectNode;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -74,9 +72,8 @@ public class UndefinedResult implements Parcelable {
 	/**
 	 * Returns the <tt>result</tt> node of the response object.
 	 * @return The <tt>result</tt> node of the response object.
-	 * @throws JSONException If no <tt>result</tt> node exists or not a {@link JSONObject}.
 	 */
-	public ObjectNode getResult() throws JSONException {
+	public ObjectNode getResult() {
 		return (ObjectNode)mResponse.get("result");
 	}
 
