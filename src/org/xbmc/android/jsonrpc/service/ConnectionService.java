@@ -31,6 +31,8 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonNode;
@@ -90,6 +92,12 @@ public class ConnectionService extends IntentService {
 	public static final int RESULT_SUCCESS = 0x01;
 	
 	/**
+	 * Time in milliseconds we wait for new requests until we shut down the 
+	 * service (and connection).
+	 */
+	private static final long COOLDOWN = 10000;
+	
+	/**
 	 * Target we publish for clients to send messages to IncomingHandler.
 	 */
 	private final Messenger mMessenger = new Messenger(new IncomingHandler());
@@ -99,6 +107,10 @@ public class ConnectionService extends IntentService {
 	 * are {@link ConnectionManager} instances.
 	 */
 	private final ArrayList<Messenger> mClients = new ArrayList<Messenger>();
+	/**
+	 * API call results are only returned to the client requested it, so here are the relations.
+	 */
+	private final HashMap<String, Messenger> mClientMap = new HashMap<String, Messenger>();
 	/**
 	 * If we have to send data before we're connected, store data until connection 
 	 */
@@ -111,10 +123,7 @@ public class ConnectionService extends IntentService {
 	 * The handler we'll update with a status code as soon as we're done.
 	 */
 	private final HashMap<String, JsonHandler> mHandlers = new HashMap<String, JsonHandler>();
-	/**
-	 * API call results are only returned to the client requested it, so here are the relations.
-	 */
-	private final HashMap<String, Messenger> mClientMap = new HashMap<String, Messenger>();
+
 	
 	/**
 	 * Reference to the socket, so we shut it down properly.
@@ -124,6 +133,12 @@ public class ConnectionService extends IntentService {
 	 * Output writer so we can also write stuff to the socket.
 	 */
 	private BufferedWriter mOut = null;
+	
+	/**
+	 * When no more clients are connected, wait {@link #COOLDOWN} milliseconds 
+	 * and then shut down the service if no new clients connect.
+	 */
+	private final Timer mCooldownTimer = new Timer(true);
 	
 	/**
 	 * Static reference to Jackson's object mapper.
@@ -218,6 +233,7 @@ public class ConnectionService extends IntentService {
 	@Override
 	public IBinder onBind(Intent intent) {
 		Log.i(TAG, "ConnectionService bound to new client.");
+		mCooldownTimer.cancel();
 		return mMessenger.getBinder();
 	}
 	
@@ -225,8 +241,8 @@ public class ConnectionService extends IntentService {
 	public boolean onUnbind(Intent intent) {
 		final boolean ret = super.onUnbind(intent);
 		if (mClients.size() == 0) {
-			Log.i(TAG, "No more clients, shutting down service.");
-			stopSelf();
+			Log.i(TAG, "No more clients, cooling down service.");
+			cooldown();
 		}
 		return ret;
 	}
@@ -245,6 +261,17 @@ public class ConnectionService extends IntentService {
 		}
 		Log.d(TAG, "Notification service destroyed.");
 	}
+	
+	private void cooldown() {
+		mCooldownTimer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				Log.i(TAG, "No new clients, shutting down service.");
+				stopSelf();
+			}
+		}, COOLDOWN);
+	}
+	
 
 	/**
 	 * Treats the received result.

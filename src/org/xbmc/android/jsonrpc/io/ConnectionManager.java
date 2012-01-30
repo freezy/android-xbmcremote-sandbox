@@ -85,7 +85,9 @@ import android.util.Log;
  * connected clients. If {@link ConnectionManager} has any registered 
  * observers, they will be notified, otherwise the notification is dropped.
  * 
- * TODO also unbind service when no more (non-observer) clients are connected. 
+ * <h3>Destruction</h3>
+ * When an instance of ConnectionManager is not needed anymore, be sure to run
+ * 
  * 
  * @author freezy <freezy@xbmc.org>
  */
@@ -129,6 +131,8 @@ public class ConnectionManager {
 	 */
 	private final LinkedList<AbstractCall<?>> mPendingCalls = new LinkedList<AbstractCall<?>>();
 	private final HashMap<String, JsonHandler> mPendingHandlers = new HashMap<String, JsonHandler>();
+	
+
 	
 	/**
 	 * Class constructor.
@@ -190,7 +194,7 @@ public class ConnectionManager {
 		final ArrayList<NotificationObserver> observers = mObservers;
 		observers.remove(observer);
 		// stop service if no more observers.
-		if (observers.isEmpty()) {
+		if (observers.isEmpty() && mCallRequests.isEmpty() && mHandlerCallbacks.isEmpty()) {
 			unbindService();
 		}
 		return this;
@@ -286,6 +290,15 @@ public class ConnectionManager {
 	}
 	
 	/**
+	 * Unbinds the service if there are no more observers.
+	 */
+	public void disconnect() {
+		if (mObservers.isEmpty()) {
+			unbindService();
+		}
+	}
+
+	/**
 	 * Connection used to communicate with the service.
 	 */
 	private final ServiceConnection mConnection = new ServiceConnection() {
@@ -350,6 +363,7 @@ public class ConnectionManager {
 							final CallRequest<?> callrequest = callrequests.get(returnedApiCall.getId());
 							callrequest.update(returnedApiCall);
 							callrequest.respond();
+							callrequests.remove(returnedApiCall.getId());
 							Log.d(TAG, "Callback for " + returnedApiCall.getName() + " sent back to caller.");
 						} else {
 							Log.w(TAG, "Unknown ID " + returnedApiCall.getId() + " for " + returnedApiCall.getName() + ", dropping.");
@@ -367,6 +381,7 @@ public class ConnectionManager {
 					if (handlercallbacks.containsKey(id)) {
 						if (handlercallbacks.get(id) != null) {
 							handlercallbacks.get(id).onFinish();
+							handlercallbacks.remove(id);
 						}
 					} else {
 						Log.w(TAG, "Unknown ID " + id + " for handled callback, not notifying caller.");
