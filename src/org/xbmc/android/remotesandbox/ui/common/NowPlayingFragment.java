@@ -11,7 +11,9 @@ import org.xbmc.android.jsonrpc.io.ApiCallback;
 import org.xbmc.android.jsonrpc.io.ConnectionManager;
 import org.xbmc.android.jsonrpc.io.ConnectionManager.NotificationObserver;
 import org.xbmc.android.jsonrpc.notification.PlayerEvent;
+import org.xbmc.android.jsonrpc.notification.PlayerEvent.Pause;
 import org.xbmc.android.jsonrpc.notification.PlayerEvent.Play;
+import org.xbmc.android.jsonrpc.notification.PlayerEvent.Stop;
 import org.xbmc.android.jsonrpc.notification.PlayerObserver;
 import org.xbmc.android.remotesandbox.R;
 
@@ -55,6 +57,7 @@ public class NowPlayingFragment extends Fragment {
 			@Override
 			public PlayerObserver getPlayerObserver() {
 				return new PlayerObserver() {
+					
 					@Override
 					public void onPlay(final Play notification) {
 						
@@ -98,6 +101,18 @@ public class NowPlayingFragment extends Fragment {
 							}
 						}		
 					}
+					
+					@Override
+					public void onPause(Pause notification) {
+						mChronometer.stop();
+					}
+					
+					@Override
+					public void onStop(Stop notification) {
+						mChronometer.stop();
+						mChronometer.setBase(SystemClock.elapsedRealtime());
+						mStatusText.setText("");
+					}
 				};
 			}
 		};
@@ -110,62 +125,4 @@ public class NowPlayingFragment extends Fragment {
 			}
 		});
 	}
-	
-/*
-	private void setup() {
-		nm = new NotificationManager(getActivity().getApplicationContext());
-		mPlayerObserver = new NotificationObserver() {
-			@Override
-			public PlayerObserver getPlayerObserver() {
-				return new PlayerObserver() {
-					@Override
-					public FollowupCall<? extends AbstractModel> onPlay(final Play notification) {
-						final int currentlyPlayingId = notification.data.item.id;
-						final int currentPlayer = notification.data.player.playerId;
-						final int currentType = notification.data.item.type;
-						return new FollowupCall<PlayerModel.PropertyValue>(new Player.GetProperties(currentPlayer, PlayerModel.PropertyName.TIME)) {
-							@Override
-							@SuppressWarnings("unchecked")
-							protected <U extends AbstractModel> FollowupCall<U> onResponse(PropertyValue response) {
-								Log.i(TAG, "Setting clock to " + response.time.getMilliseconds() + "ms (" + SystemClock.elapsedRealtime() + ").");
-								mChronometer.setBase(SystemClock.elapsedRealtime() - response.time.getMilliseconds());
-								mChronometer.start();
-								switch (currentType) {
-									case PlayerEvent.Item.Type.SONG:
-										return (FollowupCall<U>) new FollowupCall<AudioModel.SongDetails>(new AudioLibrary.GetSongDetails(currentlyPlayingId)) {
-											@Override
-											@SuppressWarnings("hiding")
-											protected <U extends AbstractModel> FollowupCall<U> onResponse(SongDetails response) {
-												mStatusText.setText(response.label);
-												return null;
-											}
-										};
-									case PlayerEvent.Item.Type.EPISODE:
-									case PlayerEvent.Item.Type.MUSICVIDEO:
-									default:
-										return null;
-								}		
-							}
-							
-						};
-					}
-					@Override
-					public FollowupCall<? extends AbstractModel> onPause(Pause notification) {
-						mChronometer.stop();
-						return super.onPause(notification);
-					}
-					@Override
-					public FollowupCall<? extends AbstractModel> onStop(Stop notification) {
-						mChronometer.stop();
-						mChronometer.setBase(SystemClock.elapsedRealtime());
-						mStatusText.setText("");
-						return super.onStop(notification);
-					}
-					
-				};
-			}
-		};
-		
-		
-	}*/
 }
