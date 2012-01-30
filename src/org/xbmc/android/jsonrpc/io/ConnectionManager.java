@@ -87,6 +87,9 @@ import android.util.Log;
  * 
  * <h3>Destruction</h3>
  * When an instance of ConnectionManager is not needed anymore, be sure to run
+ * {@link #disconnect()} in order to un-bind the service and shut down the TCP
+ * connection when it's not needed anymore. Re-using a disconnected instance
+ * will re-bind automatically.
  * 
  * 
  * @author freezy <freezy@xbmc.org>
@@ -196,6 +199,9 @@ public class ConnectionManager {
 		// stop service if no more observers.
 		if (observers.isEmpty() && mCallRequests.isEmpty() && mHandlerCallbacks.isEmpty()) {
 			unbindService();
+			Log.i(TAG, "Service unbound.");
+		} else {
+			Log.w(TAG, "Still stuff waiting, not unbinding.");
 		}
 		return this;
 	}	
@@ -211,6 +217,34 @@ public class ConnectionManager {
 			mContext.bindService(new Intent(mContext, ConnectionService.class), mConnection, Context.BIND_AUTO_CREATE);
 			mIsBound = true;
 		}		
+	}
+	
+	/**
+	 * Unbinds the connection from the notification service. This is done by
+	 * notifying the service first and then terminating the connection.
+	 */
+	private void unbindService() {
+		if (mIsBound) {
+			Log.d(TAG, "Unbinding service...");
+			// If we have received the service, and hence registered with it,
+			// then now is the time to unregister.
+			if (mService != null) {
+				try {
+					final Message msg = Message.obtain(null, ConnectionService.MSG_UNREGISTER_CLIENT);
+					msg.replyTo = mMessenger;
+					mService.send(msg);
+				} catch (RemoteException e) {
+					Log.e(TAG, "Error unregistering client: " + e.getMessage(), e);
+					// There is nothing special we need to do if the service has
+					// crashed.
+				}
+			}
+			// Detach our existing connection.
+			mContext.unbindService(mConnection);
+			mIsBound = false;
+		} else {
+			Log.d(TAG, "Not unbinding already unbound service.");
+		}
 	}
 	
 	/**
@@ -265,32 +299,13 @@ public class ConnectionManager {
 	}
 	
 	/**
-	 * Unbinds the connection from the notification service. This is done by
-	 * notifying the service first and then terminating the connection.
-	 */
-	private void unbindService() {
-		if (mIsBound) {
-			// If we have received the service, and hence registered with it,
-			// then now is the time to unregister.
-			if (mService != null) {
-				try {
-					final Message msg = Message.obtain(null, ConnectionService.MSG_UNREGISTER_CLIENT);
-					msg.replyTo = mMessenger;
-					mService.send(msg);
-				} catch (RemoteException e) {
-					Log.e(TAG, "Error unregistering client: " + e.getMessage(), e);
-					// There is nothing special we need to do if the service has
-					// crashed.
-				}
-			}
-			// Detach our existing connection.
-			mContext.unbindService(mConnection);
-			mIsBound = false;
-		}
-	}
-	
-	/**
-	 * Unbinds the service if there are no more observers.
+	 * Disconnects from the service.
+	 * 
+	 * Run this as soon as there are no immediate calls to the API. Running it
+	 * when there are still requests in progress will cut off the callback (so
+	 * don't do that). However, notification listener will not be affected. Once
+	 * you run {@link #disconnect()}, you still can re-use the same object
+	 * later, since it will be reconnect to the service as soon as it's used.
 	 */
 	public void disconnect() {
 		if (mObservers.isEmpty()) {

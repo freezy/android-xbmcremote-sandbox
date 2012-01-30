@@ -67,6 +67,7 @@ public class HomeActivity extends ReloadableActionBarActivity {
 				}
 				@Override
 				public void onError(String message, String hint) {
+					cm.disconnect();
 				}
 			});
 			
@@ -75,9 +76,11 @@ public class HomeActivity extends ReloadableActionBarActivity {
 				public void onResponse(AbstractCall<GenreDetails> apiCall) {
 					final GenreDetails details = apiCall.getResult();
 					Log.i(TAG, "Got response from " + apiCall.getName() + ". First genre fetched: " + details.label);
+					cm.disconnect();
 				}
 				@Override
 				public void onError(String message, String hint) {
+					cm.disconnect();
 					// TODO Auto-generated method stub
 					
 				}

@@ -22,6 +22,7 @@
 package org.xbmc.android.jsonrpc.service;
 
 import java.io.BufferedWriter;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.InetSocketAddress;
@@ -56,11 +57,18 @@ import android.os.RemoteException;
 import android.util.Log;
 
 /**
- * Service which keeps a steady TCP connection to XBMC's JSON-RPC API via
- * TCP socket (as opposed to HTTP messages).
+ * Service which keeps a steady TCP connection to XBMC's JSON-RPC API via TCP
+ * socket (as opposed to HTTP messages).
  * <p/>
  * It serves as listener for notification, but is also used for posting normal
  * API requests.
+ * <p/>
+ * Generally speaking, the service will shut down and terminate the TCP
+ * connection as soon as there are no more connected clients. However, clients
+ * may want to query several consecutive requests without having the service
+ * stop and restart between every request. That is the reason why there is a
+ * "cooldown" period, in which the service will just wait for new clients to
+ * arrive before shutting down.
  * <p/>
  * About message exchange, see {@link ConnectionManager}.
  * 
@@ -124,7 +132,6 @@ public class ConnectionService extends IntentService {
 	 */
 	private final HashMap<String, JsonHandler> mHandlers = new HashMap<String, JsonHandler>();
 
-	
 	/**
 	 * Reference to the socket, so we shut it down properly.
 	 */
@@ -135,15 +142,15 @@ public class ConnectionService extends IntentService {
 	private BufferedWriter mOut = null;
 	
 	/**
-	 * When no more clients are connected, wait {@link #COOLDOWN} milliseconds 
-	 * and then shut down the service if no new clients connect.
-	 */
-	private final Timer mCooldownTimer = new Timer(true);
-	
-	/**
 	 * Static reference to Jackson's object mapper.
 	 */
 	private final static ObjectMapper OM = new ObjectMapper();
+	
+	/**
+	 * When no more clients are connected, wait {@link #COOLDOWN} milliseconds 
+	 * and then shut down the service if no new clients connect.
+	 */
+	private Timer mCooldownTimer = null;
 	
 	   
 	/**
@@ -211,6 +218,8 @@ public class ConnectionService extends IntentService {
 			mOut.close();
 			Log.i(TAG, "TCP socket closed.");
 
+		} catch (EOFException e) {
+			Log.i(TAG, "Connection broken, quitting.");
 		} catch (IOException e) {
 			Log.e(TAG, "I/O error while reading: " + e.getMessage(), e);
 			notifyError(new ApiException(ApiException.IO_EXCEPTION_WHILE_READING,  "I/O error while reading: " + e.getMessage(), e), null);
@@ -226,24 +235,17 @@ public class ConnectionService extends IntentService {
 				// do nothing.
 			}
 		}
-		
 	}	
-	
-	
+
 	@Override
 	public IBinder onBind(Intent intent) {
-		Log.i(TAG, "ConnectionService bound to new client.");
-		mCooldownTimer.cancel();
+		Log.i(TAG, "Connection service bound to new client.");
 		return mMessenger.getBinder();
 	}
 	
 	@Override
 	public boolean onUnbind(Intent intent) {
 		final boolean ret = super.onUnbind(intent);
-		if (mClients.size() == 0) {
-			Log.i(TAG, "No more clients, cooling down service.");
-			cooldown();
-		}
 		return ret;
 	}
 	
@@ -262,12 +264,23 @@ public class ConnectionService extends IntentService {
 		Log.d(TAG, "Notification service destroyed.");
 	}
 	
+	/**
+	 * Starts cooldown. If there is no new client for {@link #COOLDOWN}
+	 * milliseconds, the service will shutdown, otherwise it will continue
+	 * to run until there is another cooldown.
+	 */
 	private void cooldown() {
+		Log.i(TAG, "Starting service cooldown.");
+		mCooldownTimer = new Timer();
 		mCooldownTimer.schedule(new TimerTask() {
 			@Override
 			public void run() {
-				Log.i(TAG, "No new clients, shutting down service.");
-				stopSelf();
+				if (mClients.isEmpty()) {
+					Log.i(TAG, "No new clients, shutting down service.");
+					stopSelf();
+				} else {
+					Log.i(TAG, "Cooldown failed, got " + mClients.size() + " new client(s).");
+				}
 			}
 		}, COOLDOWN);
 	}
@@ -406,7 +419,6 @@ public class ConnectionService extends IntentService {
 				try {
 					mClients.get(i).send(msg);
 					Log.i(TAG, "Sent error to client " + i + ".");
-					stopSelf();
 				} catch (RemoteException e2) {
 					Log.e(TAG, "Cannot send errors to client: " + e2.getMessage(), e2);
 					/*
@@ -467,10 +479,19 @@ public class ConnectionService extends IntentService {
 			case MSG_REGISTER_CLIENT:
 				mClients.add(msg.replyTo);
 				Log.d(TAG, "Registered new client.");
+				if (mCooldownTimer != null) {
+					Log.i(TAG, "Aborting cooldown timer.");
+					mCooldownTimer.cancel();
+					mCooldownTimer.purge();
+				}
 				break;
 			case MSG_UNREGISTER_CLIENT:
 				mClients.remove(msg.replyTo);
 				Log.d(TAG, "Unregistered client.");
+				if (mClients.size() == 0) {
+					Log.i(TAG, "No more clients, cooling down service.");
+					cooldown();
+				}
 				break;
 			case MSG_SEND_APICALL: {
 				Log.d(TAG, "Sending new API call..");

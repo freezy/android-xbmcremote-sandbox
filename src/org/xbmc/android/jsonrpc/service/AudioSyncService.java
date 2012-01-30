@@ -97,6 +97,7 @@ public class AudioSyncService extends Service {
 			@Override
 			public void onError(String message, String hint) {
 				AudioSyncService.this.onError(message + " " + hint);
+				mCm.disconnect();
 				stopSelf();
 			}
 			
@@ -115,12 +116,14 @@ public class AudioSyncService extends Service {
 					// Pass back result to surface listener
 					mReceiver.send(STATUS_FINISHED, null);
 				}
+				mCm.disconnect();
 				stopSelf();
 			}
 
 			@Override
 			public void onError(String message, String hint) {
 				AudioSyncService.this.onError(message + " " + hint);
+				mCm.disconnect();
 				stopSelf();
 			}
 		});

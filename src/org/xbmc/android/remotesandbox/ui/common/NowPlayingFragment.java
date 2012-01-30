@@ -40,6 +40,8 @@ public class NowPlayingFragment extends Fragment {
 	private ConnectionManager cm;
 	private NotificationObserver mPlayerObserver;
 	
+	private int mConnections = 0;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View root = inflater.inflate(R.layout.fragment_nowplaying, null);
@@ -64,6 +66,7 @@ public class NowPlayingFragment extends Fragment {
 						Log.i(TAG, "Got notification: " + notification);
 						
 						// query time
+						mConnections++;
 						cm.call(new Player.GetProperties(notification.data.player.playerId, PlayerModel.PropertyName.TIME), new ApiCallback<PlayerModel.PropertyValue>() {
 							@Override
 							public void onResponse(AbstractCall<PropertyValue> apiCall) {
@@ -71,10 +74,22 @@ public class NowPlayingFragment extends Fragment {
 								Log.i(TAG, "Setting clock to " + result.time.getMilliseconds() + "ms (" + SystemClock.elapsedRealtime() + ").");
 								mChronometer.setBase(SystemClock.elapsedRealtime() - result.time.getMilliseconds());
 								mChronometer.start();
+								synchronized (NowPlayingFragment.this) {
+									mConnections--;
+								}
+								if (mConnections == 0) {
+									cm.disconnect();
+								}
 							}
 
 							@Override
 							public void onError(String message, String hint) {
+								synchronized (NowPlayingFragment.this) {
+									mConnections--;
+								}
+								if (mConnections == 0) {
+									cm.disconnect();
+								}
 							}
 						
 						});
@@ -82,15 +97,28 @@ public class NowPlayingFragment extends Fragment {
 						// query details
 						switch (notification.data.item.type) {
 							case PlayerEvent.Item.Type.SONG:
+								mConnections++;
 								cm.call(new AudioLibrary.GetSongDetails(notification.data.item.id), new ApiCallback<AudioModel.SongDetails>() {
 									@Override
 									public void onResponse(AbstractCall<SongDetails> apiCall) {
 										final SongDetails result = apiCall.getResult();
 										mStatusText.setText(result.label);
+										synchronized (NowPlayingFragment.this) {
+											mConnections--;
+										}
+										if (mConnections == 0) {
+											cm.disconnect();
+										}
 									}
 
 									@Override
 									public void onError(String message, String hint) {
+										synchronized (NowPlayingFragment.this) {
+											mConnections--;
+										}
+										if (mConnections == 0) {
+											cm.disconnect();
+										}
 									}
 								});
 										
@@ -120,8 +148,16 @@ public class NowPlayingFragment extends Fragment {
 		mConnectButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				cm.registerObserver(mPlayerObserver);
-				mStatusText.setText("Connected.");
+				if (mConnectButton.getText().equals("On")) {
+					mConnectButton.setText("Off");
+					cm.registerObserver(mPlayerObserver);
+					mStatusText.setText("Connected.");
+					
+				} else {
+					mConnectButton.setText("On");
+					cm.unregisterObserver(mPlayerObserver);
+					mStatusText.setText("Disconnected.");
+				}
 			}
 		});
 	}
