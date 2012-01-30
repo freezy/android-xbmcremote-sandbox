@@ -89,8 +89,8 @@ import android.util.Log;
  * When an instance of ConnectionManager is not needed anymore, be sure to run
  * {@link #disconnect()} in order to un-bind the service and shut down the TCP
  * connection when it's not needed anymore. Re-using a disconnected instance
- * will re-bind automatically.
- * 
+ * will re-bind automatically. Note that on error, the service is always 
+ * disconnected automatically.
  * 
  * @author freezy <freezy@xbmc.org>
  */
@@ -439,46 +439,61 @@ public class ConnectionManager {
 				
 				// service started connecting to socket
 				case ConnectionService.MSG_CONNECTING: {
-					
+					// we don't care for this right now
 					break;
 				}
 					
 				// service is connected to socket
 				case ConnectionService.MSG_CONNECTED: {
-					
+					final ArrayList<NotificationObserver> observers = mObservers;
+					for (NotificationObserver observer : observers) {
+						observer.onConnected();
+					}
 					break;
 				}
 					
 				// shit happened
 				case ConnectionService.MSG_ERROR: {
 					final Bundle b = msg.getData();
+					final int code = b.getInt(ApiException.EXTRA_ERROR_CODE);
 					final String message = b.getString(ApiException.EXTRA_ERROR_MESSAGE);
 					final String hint = b.getString(ApiException.EXTRA_ERROR_HINT);
 					final String id = b.getString(ConnectionService.EXTRA_CALLID);
 					
-					if (id != null && mHandlerCallbacks.containsKey(id)) {
+					final HashMap<String, HandlerCallback> handleCallbacks = mHandlerCallbacks;
+					final HashMap<String, CallRequest<?>> callRequests = mCallRequests;
+					
+					if (id != null && handleCallbacks.containsKey(id)) {
 						// if ID given and handler call back, announce to handler callback.
 						Log.e(TAG, "Error, notifying one handler callback.");
-						if (mHandlerCallbacks.get(id) != null) {
-							mHandlerCallbacks.get(id).onError(message, hint);
+						if (handleCallbacks.get(id) != null) {
+							handleCallbacks.get(id).onError(message, hint);
 						}
-					} else if (id != null && mCallRequests.containsKey(id)) {
+					} else if (id != null && callRequests.containsKey(id)) {
 						// if ID given and api call back, announce error.
 						Log.e(TAG, "Error, notifying one API callback.");
-						mCallRequests.get(id).error(message, hint);
+						callRequests.get(id).error(code, message, hint);
 					} else {
-						// otherwise, announce to all clients (both handled callbacks and api callbacks).
+						// otherwise, announce to all clients (callbacks, api callbacks and observers).
 						Log.e(TAG, "Error, notifying everybody.");
-						for (HandlerCallback handlerCallback : mHandlerCallbacks.values()) {
+						for (HandlerCallback handlerCallback : handleCallbacks.values()) {
 							if (handlerCallback != null) {
 								handlerCallback.onError(message, hint);
 							}
 						}
-						mHandlerCallbacks.clear();
-						for (CallRequest<?> callreq : mCallRequests.values()) {
-							callreq.error(message, hint);
+						handleCallbacks.clear();
+						
+						for (CallRequest<?> callreq : callRequests.values()) {
+							callreq.error(code, message, hint);
 						}
-						mCallRequests.clear();
+						callRequests.clear();
+						
+						final ArrayList<NotificationObserver> observers = mObservers;
+						for (NotificationObserver observer : observers) {
+							observer.onError(code, message, hint);
+						}
+						observers.clear();
+						unbindService();
 					}
 					break;
 				}
@@ -506,8 +521,8 @@ public class ConnectionManager {
 		public void respond() {
 			mCallback.onResponse(mCall);
 		}
-		public void error(String message, String hint) {
-			mCallback.onError(message, hint);
+		public void error(int code, String message, String hint) {
+			mCallback.onError(code, message, hint);
 		}
 	}
 	
@@ -521,6 +536,23 @@ public class ConnectionManager {
 		 * @param notification
 		 */
 		public PlayerObserver getPlayerObserver();
+		
+		/**
+		 * The service is connected to JSON-RPC's TCP socket.
+		 * <p/>
+		 * If the service was already connected, this will be sent immediately
+		 * after registering the client.
+		 */
+		public void onConnected();
+		
+		/**
+		 * An error has occurred which resulted in the termination of the 
+		 * connection.
+		 * @param code Error code, see constants at {@link ApiException}.
+		 * @param message Translated error message
+		 * @param hint Translated hint what the problem could be
+		 */
+		public void onError(int code, String message, String hint);
 	}
 	
 	/**
@@ -532,10 +564,15 @@ public class ConnectionManager {
 	public static interface HandlerCallback {
 		/**
 		 * Processing has successfully finished.
+		 * <p>
+		 * Don't forget to run {@link ConnectionManager#disconnect()} in here
+		 * if you don't immediately need to run another call.
 		 */
 		public void onFinish();
 		/**
-		 * Processing has failed.
+		 * Processing has failed. 
+		 * <p>
+		 * Note that the service has been automatically disconnected.
 		 * @param message Translated error message
 		 * @param hint Translated hint
 		 */

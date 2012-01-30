@@ -50,5 +50,5 @@ public interface ApiCallback<T> {
 	 * @param message Translated error message
 	 * @param message Translated error hint
 	 */
-	public abstract void onError(String message, String hint);
+	public abstract void onError(int code, String message, String hint);
 }

@@ -66,8 +66,7 @@ public class HomeActivity extends ReloadableActionBarActivity {
 					Log.i(TAG, "Got response from " + apiCall.getName() + ". First album fetched: " + details.label);
 				}
 				@Override
-				public void onError(String message, String hint) {
-					cm.disconnect();
+				public void onError(int code, String message, String hint) {
 				}
 			});
 			
@@ -79,10 +78,7 @@ public class HomeActivity extends ReloadableActionBarActivity {
 					cm.disconnect();
 				}
 				@Override
-				public void onError(String message, String hint) {
-					cm.disconnect();
-					// TODO Auto-generated method stub
-					
+				public void onError(int code, String message, String hint) {
 				}
 			});
 				

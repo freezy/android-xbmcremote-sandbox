@@ -8,6 +8,7 @@ import org.xbmc.android.jsonrpc.api.model.AudioModel.SongDetails;
 import org.xbmc.android.jsonrpc.api.model.PlayerModel;
 import org.xbmc.android.jsonrpc.api.model.PlayerModel.PropertyValue;
 import org.xbmc.android.jsonrpc.io.ApiCallback;
+import org.xbmc.android.jsonrpc.io.ApiException;
 import org.xbmc.android.jsonrpc.io.ConnectionManager;
 import org.xbmc.android.jsonrpc.io.ConnectionManager.NotificationObserver;
 import org.xbmc.android.jsonrpc.notification.PlayerEvent;
@@ -83,12 +84,9 @@ public class NowPlayingFragment extends Fragment {
 							}
 
 							@Override
-							public void onError(String message, String hint) {
+							public void onError(int code, String message, String hint) {
 								synchronized (NowPlayingFragment.this) {
 									mConnections--;
-								}
-								if (mConnections == 0) {
-									cm.disconnect();
 								}
 							}
 						
@@ -112,12 +110,9 @@ public class NowPlayingFragment extends Fragment {
 									}
 
 									@Override
-									public void onError(String message, String hint) {
+									public void onError(int code, String message, String hint) {
 										synchronized (NowPlayingFragment.this) {
 											mConnections--;
-										}
-										if (mConnections == 0) {
-											cm.disconnect();
 										}
 									}
 								});
@@ -143,6 +138,22 @@ public class NowPlayingFragment extends Fragment {
 					}
 				};
 			}
+
+			@Override
+			public void onConnected() {
+				mStatusText.setText("Connected.");
+				Log.i(TAG, "Got notified of status connected.");
+			}
+
+			@Override
+			public void onError(int code, String message, String hint) {
+				mConnectButton.setText("On");
+				if (code == ApiException.IO_DISCONNECTED) {
+					mStatusText.setText("Disconnected.");
+				} else {
+					mStatusText.setText(message);
+				}
+			}
 		};
 		
 		mConnectButton.setOnClickListener(new OnClickListener() {
@@ -151,7 +162,7 @@ public class NowPlayingFragment extends Fragment {
 				if (mConnectButton.getText().equals("On")) {
 					mConnectButton.setText("Off");
 					cm.registerObserver(mPlayerObserver);
-					mStatusText.setText("Connected.");
+					mStatusText.setText("Connecting..");
 					
 				} else {
 					mConnectButton.setText("On");

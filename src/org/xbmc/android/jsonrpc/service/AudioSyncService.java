@@ -97,7 +97,6 @@ public class AudioSyncService extends Service {
 			@Override
 			public void onError(String message, String hint) {
 				AudioSyncService.this.onError(message + " " + hint);
-				mCm.disconnect();
 				stopSelf();
 			}
 			
@@ -123,7 +122,6 @@ public class AudioSyncService extends Service {
 			@Override
 			public void onError(String message, String hint) {
 				AudioSyncService.this.onError(message + " " + hint);
-				mCm.disconnect();
 				stopSelf();
 			}
 		});

@@ -165,7 +165,7 @@ public class ConnectionService extends IntentService {
 		
 		long s = System.currentTimeMillis();
 		Log.d(TAG, "Starting TCP client...");
-		notifyStatus(MSG_CONNECTING);
+		notifyStatus(MSG_CONNECTING, null);
 		Socket socket = null;
 
 		try {
@@ -178,20 +178,23 @@ public class ConnectionService extends IntentService {
 		} catch (UnknownHostException e) {
 			Log.e(TAG, "Unknown host: " + e.getMessage(), e);
 			notifyError(new ApiException(ApiException.IO_UNKNOWN_HOST,  "Unknown host: " + e.getMessage(), e), null);
+			stopSelf();
 			return;
 		} catch (SocketTimeoutException e) {
 			Log.e(TAG, "Unknown host: " + e.getMessage(), e);
 			notifyError(new ApiException(ApiException.IO_SOCKETTIMEOUT,  "Connection timeout: " + e.getMessage(), e), null);
+			stopSelf();
 			return;
 		} catch (IOException e) {
 			Log.e(TAG, "I/O error while opening: " + e.getMessage(), e);
 			notifyError(new ApiException(ApiException.IO_EXCEPTION_WHILE_OPENING,  "I/O error while opening: " + e.getMessage(), e), null);
+			stopSelf();
 			return;
 		}
 		
 		try {
 			Log.i(TAG, "Connected to TCP socket in " + (System.currentTimeMillis() - s) + "ms");
-			notifyStatus(MSG_CONNECTED);
+			notifyStatus(MSG_CONNECTED, null);
 			
 			// check for saved post data to send while we weren't connected,
 			// but do it in a separate thread so we can read already while sending.
@@ -220,6 +223,7 @@ public class ConnectionService extends IntentService {
 
 		} catch (EOFException e) {
 			Log.i(TAG, "Connection broken, quitting.");
+			notifyError(new ApiException(ApiException.IO_DISCONNECTED,  "Socket disconnected: " + e.getMessage(), e), null);
 		} catch (IOException e) {
 			Log.e(TAG, "I/O error while reading: " + e.getMessage(), e);
 			notifyError(new ApiException(ApiException.IO_EXCEPTION_WHILE_READING,  "I/O error while reading: " + e.getMessage(), e), null);
@@ -255,8 +259,12 @@ public class ConnectionService extends IntentService {
 		try {
 			final Socket socket = mSocket;
 			if (socket != null) {
-				socket.shutdownInput();
-				socket.close();
+				if (socket.isConnected()) {
+					socket.shutdownInput();
+				}
+				if (!socket.isClosed()) {
+					socket.close();
+				}
 			}
 		} catch (IOException e) {
 			Log.e(TAG, "Error closing socket.", e);
@@ -433,19 +441,22 @@ public class ConnectionService extends IntentService {
 		}
 	}
 	
-	private void notifyStatus(int code) {
-		final Message msg = Message.obtain(null, code);
-		for (int i = mClients.size() - 1; i >= 0; i--) {
+	private void notifyStatus(int code, Messenger replyTo) {
+		if (replyTo != null) {
 			try {
-				mClients.get(i).send(msg);
-			} catch (RemoteException e2) {
-				Log.e(TAG, "Cannot send errors to client: " + e2.getMessage(), e2);
-				/*
-				 * The client is dead. Remove it from the list; we are going
-				 * through the list from back to front so this is safe to do
-				 * inside the loop.
-				 */
-				mClients.remove(i);
+				replyTo.send(Message.obtain(null, code));
+			} catch (RemoteException e) {
+				Log.e(TAG, "Could not notify sender of new status: " + e.getMessage(), e);
+			}
+		} else {
+			for (int i = mClients.size() - 1; i >= 0; i--) {
+				final Message msg = Message.obtain(null, code);
+				try {
+					mClients.get(i).send(msg);
+				} catch (RemoteException e2) {
+					Log.e(TAG, "Could not notify sender of new status: " + e2.getMessage(), e2);
+					mClients.remove(i);
+				}
 			}
 		}
 	}
@@ -484,6 +495,11 @@ public class ConnectionService extends IntentService {
 					mCooldownTimer.cancel();
 					mCooldownTimer.purge();
 				}
+				if (mSocket != null && mSocket.isConnected()) {
+					Log.d(TAG, "Directly notifying connected status.");
+					notifyStatus(MSG_CONNECTED, msg.replyTo);
+				}
+				Log.d(TAG, "Done!");
 				break;
 			case MSG_UNREGISTER_CLIENT:
 				mClients.remove(msg.replyTo);

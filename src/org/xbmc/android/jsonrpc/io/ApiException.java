@@ -41,10 +41,11 @@ public class ApiException extends Exception {
 	public static final int IO_EXCEPTION_WHILE_OPENING = 0x12;
 	public static final int IO_SOCKETTIMEOUT = 0x03;
 	public static final int IO_UNKNOWN_HOST = 0x04;
-	public static final int UNSUPPORTED_ENCODING = 0x05;
-	public static final int JSON_EXCEPTION = 0x06;
-	public static final int RESPONSE_ERROR = 0x07;
-	public static final int API_ERROR = 0x08;
+	public static final int IO_DISCONNECTED = 0x05;
+	public static final int UNSUPPORTED_ENCODING = 0x06;
+	public static final int JSON_EXCEPTION = 0x07;
+	public static final int RESPONSE_ERROR = 0x08;
+	public static final int API_ERROR = 0x09;
 	
 	public static final String EXTRA_ERROR_CODE = "org.xbmc.android.jsonprc.extra.ERROR_CODE";
 	public static final String EXTRA_ERROR_MESSAGE = "org.xbmc.android.jsonprc.extra.ERROR_MESSAGE";
