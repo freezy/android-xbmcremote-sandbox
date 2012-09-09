@@ -27,6 +27,7 @@ import org.xbmc.android.jsonrpc.api.call.VideoLibrary;
 import org.xbmc.android.jsonrpc.api.model.AudioModel.AlbumDetails;
 import org.xbmc.android.jsonrpc.api.model.LibraryModel;
 import org.xbmc.android.jsonrpc.api.model.LibraryModel.GenreDetails;
+import org.xbmc.android.jsonrpc.config.HostConfig;
 import org.xbmc.android.jsonrpc.io.ApiCallback;
 import org.xbmc.android.jsonrpc.io.ConnectionManager;
 import org.xbmc.android.remotesandbox.R;
@@ -58,7 +59,7 @@ public class HomeActivity extends ReloadableActionBarActivity {
 		testBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-			final ConnectionManager cm = new ConnectionManager(getApplicationContext());
+			final ConnectionManager cm = new ConnectionManager(getApplicationContext(), new HostConfig("192.168.0.100"));
 			cm.call(new AudioLibrary.GetAlbums(null, null), new ApiCallback<AlbumDetails>() {
 				@Override
 				public void onResponse(AbstractCall<AlbumDetails> apiCall) {

@@ -32,7 +32,7 @@ import org.xbmc.android.zeroconf.XBMCHost;
  */
 public class ApplicationClient extends AbstractClient {
 
-	private final static String TAG = ApplicationClient.class.getSimpleName();
+	//private final static String TAG = ApplicationClient.class.getSimpleName();
 
 	/**
 	 * Sometimes we don't want the standard host to be used, but another one,

@@ -34,7 +34,7 @@ import org.xbmc.android.jsonrpc.api.model.ListModel;
  */
 public class FilesClient extends AbstractClient {
 
-	private final static String TAG = FilesClient.class.getSimpleName();
+	//private final static String TAG = FilesClient.class.getSimpleName();
 
 	/**
 	 * Returns all music sources.
