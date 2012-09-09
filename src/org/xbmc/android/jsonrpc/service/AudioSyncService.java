@@ -23,6 +23,7 @@ package org.xbmc.android.jsonrpc.service;
 
 import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
 import org.xbmc.android.jsonrpc.api.model.AudioModel;
+import org.xbmc.android.jsonrpc.config.HostConfig;
 import org.xbmc.android.jsonrpc.io.ConnectionManager;
 import org.xbmc.android.jsonrpc.io.ConnectionManager.HandlerCallback;
 import org.xbmc.android.jsonrpc.io.audio.AlbumHandler;
@@ -66,7 +67,7 @@ public class AudioSyncService extends Service {
 	public void onCreate() {
 		super.onCreate();
 		Log.d(TAG, "Starting AudioSyncService...");
-		mCm = new ConnectionManager(getApplicationContext());
+		mCm = new ConnectionManager(getApplicationContext(), new HostConfig("192.168.0.100"));
 	}
 	
 	@Override

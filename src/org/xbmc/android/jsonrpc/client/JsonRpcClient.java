@@ -31,7 +31,7 @@ import org.xbmc.android.zeroconf.XBMCHost;
  */
 public class JsonRpcClient extends AbstractClient {
 	
-	private final static String TAG = JsonRpcClient.class.getSimpleName();
+	//private final static String TAG = JsonRpcClient.class.getSimpleName();
 	
 	/**
 	 * Sometimes we don't want the standard host to be used, but another one,

@@ -7,6 +7,7 @@ import org.xbmc.android.jsonrpc.api.model.AudioModel;
 import org.xbmc.android.jsonrpc.api.model.AudioModel.SongDetails;
 import org.xbmc.android.jsonrpc.api.model.PlayerModel;
 import org.xbmc.android.jsonrpc.api.model.PlayerModel.PropertyValue;
+import org.xbmc.android.jsonrpc.config.HostConfig;
 import org.xbmc.android.jsonrpc.io.ApiCallback;
 import org.xbmc.android.jsonrpc.io.ApiException;
 import org.xbmc.android.jsonrpc.io.ConnectionManager;
@@ -54,7 +55,7 @@ public class NowPlayingFragment extends Fragment {
 	}
 	
 	private void setup() {
-		cm = new ConnectionManager(getActivity().getApplicationContext());
+		cm = new ConnectionManager(getActivity().getApplicationContext(), new HostConfig("192.168.0.100"));
 		mPlayerObserver = new NotificationObserver() {
 			
 			@Override
