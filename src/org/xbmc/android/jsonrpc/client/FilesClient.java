@@ -42,8 +42,8 @@ public class FilesClient extends AbstractClient {
 	 * @param errorHandler Error handler
 	 * @return List of all music sources
 	 */
-	public ArrayList<ListModel.SourcesItem> getMusicSources(ErrorHandler errorHandler) {
-		final Files.GetSources apicall = new Files.GetSources(FilesModel.Media.MUSIC);
+	public ArrayList<ListModel.SourceItem> getMusicSources(ErrorHandler errorHandler) {
+		final Files.GetSources apicall = new Files.GetSources(FilesModel.Media.MUSIC, null, null);
 		execute(apicall, errorHandler);
 		return apicall.getResults();
 	}
@@ -57,7 +57,7 @@ public class FilesClient extends AbstractClient {
 	 * @return Folder contents or empty list if nothing found.
 	 */
 	public ArrayList<ListModel.FileItem> getDirectory(String directory, ErrorHandler errorHandler) {
-		final Files.GetDirectory apicall = new Files.GetDirectory(directory, null);
+		final Files.GetDirectory apicall = new Files.GetDirectory(directory, null, null);
 		execute(apicall, errorHandler);
 		return apicall.getResults();
 	}

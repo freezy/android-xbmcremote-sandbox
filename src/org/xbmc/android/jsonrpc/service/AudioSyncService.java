@@ -22,7 +22,9 @@
 package org.xbmc.android.jsonrpc.service;
 
 import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
-import org.xbmc.android.jsonrpc.api.model.AudioModel;
+import org.xbmc.android.jsonrpc.api.model.AudioModel.AlbumFields;
+import org.xbmc.android.jsonrpc.api.model.ListModel.AlbumFilter;
+import org.xbmc.android.jsonrpc.api.model.ListModel.ArtistFilter;
 import org.xbmc.android.jsonrpc.config.HostConfig;
 import org.xbmc.android.jsonrpc.io.ConnectionManager;
 import org.xbmc.android.jsonrpc.io.ConnectionManager.HandlerCallback;
@@ -87,7 +89,7 @@ public class AudioSyncService extends Service {
 	}
 	
 	private void syncArtists() {
-		final AudioLibrary.GetArtists getArtistsCall = new AudioLibrary.GetArtists(false, null);
+		final AudioLibrary.GetArtists getArtistsCall = new AudioLibrary.GetArtists(false, null, null, (ArtistFilter)null);
 		mCm.call(getArtistsCall, new ArtistHandler(), new HandlerCallback() {
 			@Override
 			public void onFinish() {
@@ -105,8 +107,8 @@ public class AudioSyncService extends Service {
 	}
 	
 	private void syncAlbums() {
-		final AudioLibrary.GetAlbums getAlbumsCall = new AudioLibrary.GetAlbums(null, null, 
-				AudioModel.AlbumFields.TITLE, AudioModel.AlbumFields.ARTISTID, AudioModel.AlbumFields.YEAR);
+		final AudioLibrary.GetAlbums getAlbumsCall = new AudioLibrary.GetAlbums(null, null, (AlbumFilter)null,
+				AlbumFields.TITLE, AlbumFields.ARTISTIDS, AlbumFields.YEAR);
 		mCm.call(getAlbumsCall, new AlbumHandler(), new HandlerCallback() {
 			
 			@Override

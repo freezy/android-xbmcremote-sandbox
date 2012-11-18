@@ -26,7 +26,7 @@ import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
-import org.xbmc.android.jsonrpc.api.model.AudioModel;
+import org.xbmc.android.jsonrpc.api.model.AudioModel.ArtistDetail;
 import org.xbmc.android.jsonrpc.io.JsonHandler;
 import org.xbmc.android.jsonrpc.provider.AudioContract;
 import org.xbmc.android.jsonrpc.provider.AudioContract.Artists;
@@ -60,15 +60,15 @@ public class ArtistHandler extends JsonHandler {
 			
 		// we intentionally don't use the API for de-serializing but access the 
 		// JSON objects directly for performance reasons.
-		final ArrayNode artists = (ArrayNode)response.get(AbstractCall.RESULT).get(AudioLibrary.GetArtists.RESULTS);
+		final ArrayNode artists = (ArrayNode)response.get(AbstractCall.RESULT).get(AudioLibrary.GetArtists.RESULT);
 		
 		final ContentValues[] batch = new ContentValues[artists.size()];
 		for (int i = 0; i < artists.size(); i++) {
 			final ObjectNode artist = (ObjectNode)artists.get(i);
 			batch[i] = new ContentValues();
 			batch[i].put(SyncColumns.UPDATED, now);
-			batch[i].put(Artists.ID, artist.get(AudioModel.ArtistDetails.ARTISTID).getIntValue());
-			batch[i].put(Artists.NAME, artist.get(AudioModel.ArtistDetails.ARTIST).getTextValue());
+			batch[i].put(Artists.ID, artist.get(ArtistDetail.ARTISTID).getIntValue());
+			batch[i].put(Artists.NAME, artist.get(ArtistDetail.ARTIST).getTextValue());
 		}
 	
 		Log.d(TAG, batch.length + " artist queries built in " + (System.currentTimeMillis() - now) + "ms.");

@@ -4,7 +4,7 @@ import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
 import org.xbmc.android.jsonrpc.api.call.Player;
 import org.xbmc.android.jsonrpc.api.model.AudioModel;
-import org.xbmc.android.jsonrpc.api.model.AudioModel.SongDetails;
+import org.xbmc.android.jsonrpc.api.model.AudioModel.SongDetail;
 import org.xbmc.android.jsonrpc.api.model.PlayerModel;
 import org.xbmc.android.jsonrpc.api.model.PlayerModel.PropertyValue;
 import org.xbmc.android.jsonrpc.config.HostConfig;
@@ -97,10 +97,10 @@ public class NowPlayingFragment extends Fragment {
 						switch (notification.data.item.type) {
 							case PlayerEvent.Item.Type.SONG:
 								mConnections++;
-								cm.call(new AudioLibrary.GetSongDetails(notification.data.item.id), new ApiCallback<AudioModel.SongDetails>() {
+								cm.call(new AudioLibrary.GetSongDetails(notification.data.item.id), new ApiCallback<AudioModel.SongDetail>() {
 									@Override
-									public void onResponse(AbstractCall<SongDetails> apiCall) {
-										final SongDetails result = apiCall.getResult();
+									public void onResponse(AbstractCall<SongDetail> apiCall) {
+										final SongDetail result = apiCall.getResult();
 										mStatusText.setText(result.label);
 										synchronized (NowPlayingFragment.this) {
 											mConnections--;

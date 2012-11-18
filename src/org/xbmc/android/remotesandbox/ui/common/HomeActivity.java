@@ -22,11 +22,12 @@
 package org.xbmc.android.remotesandbox.ui.common;
 
 import org.xbmc.android.jsonrpc.api.AbstractCall;
-import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
+import org.xbmc.android.jsonrpc.api.call.AudioLibrary.GetAlbums;
 import org.xbmc.android.jsonrpc.api.call.VideoLibrary;
-import org.xbmc.android.jsonrpc.api.model.AudioModel.AlbumDetails;
-import org.xbmc.android.jsonrpc.api.model.LibraryModel;
-import org.xbmc.android.jsonrpc.api.model.LibraryModel.GenreDetails;
+import org.xbmc.android.jsonrpc.api.model.AudioModel.AlbumDetail;
+import org.xbmc.android.jsonrpc.api.model.AudioModel.AlbumFields;
+import org.xbmc.android.jsonrpc.api.model.LibraryModel.GenreDetail;
+import org.xbmc.android.jsonrpc.api.model.ListModel.AlbumFilter;
 import org.xbmc.android.jsonrpc.config.HostConfig;
 import org.xbmc.android.jsonrpc.io.ApiCallback;
 import org.xbmc.android.jsonrpc.io.ConnectionManager;
@@ -60,10 +61,10 @@ public class HomeActivity extends ReloadableActionBarActivity {
 			@Override
 			public void onClick(View v) {
 			final ConnectionManager cm = new ConnectionManager(getApplicationContext(), new HostConfig("192.168.0.100"));
-			cm.call(new AudioLibrary.GetAlbums(null, null), new ApiCallback<AlbumDetails>() {
+			cm.call(new GetAlbums(null, null, (AlbumFilter)null, AlbumFields.TITLE, AlbumFields.YEAR), new ApiCallback<AlbumDetail>() {
 				@Override
-				public void onResponse(AbstractCall<AlbumDetails> apiCall) {
-					final AlbumDetails details = apiCall.getResult();
+				public void onResponse(AbstractCall<AlbumDetail> apiCall) {
+					final AlbumDetail details = apiCall.getResult();
 					Log.i(TAG, "Got response from " + apiCall.getName() + ". First album fetched: " + details.label);
 				}
 				@Override
@@ -71,10 +72,10 @@ public class HomeActivity extends ReloadableActionBarActivity {
 				}
 			});
 			
-			cm.call(new VideoLibrary.GetGenres("movie"), new ApiCallback<LibraryModel.GenreDetails>() {
+			cm.call(new VideoLibrary.GetGenres("movie", null, null), new ApiCallback<GenreDetail>() {
 				@Override
-				public void onResponse(AbstractCall<GenreDetails> apiCall) {
-					final GenreDetails details = apiCall.getResult();
+				public void onResponse(AbstractCall<GenreDetail> apiCall) {
+					final GenreDetail details = apiCall.getResult();
 					Log.i(TAG, "Got response from " + apiCall.getName() + ". First genre fetched: " + details.label);
 					cm.disconnect();
 				}
