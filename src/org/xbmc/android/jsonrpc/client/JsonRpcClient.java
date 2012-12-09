@@ -46,12 +46,12 @@ public class JsonRpcClient extends AbstractClient {
 	 * Returns the API version of XBMC's JSON-RPC implementation.
 	 *
 	 * @param errorHandler Error handler
-	 * @return API version or -1 on error.
+	 * @return String Version as major.minor.patch.
 	 */
 	public int getVersion(ErrorHandler errorHandler) {
 		final JSONRPC.Version apicall = new JSONRPC.Version();
 		execute(apicall, errorHandler);
-		return Integer.parseInt(apicall.getResult());
+		return apicall.getResult().toInt();
 	}
 	
 }

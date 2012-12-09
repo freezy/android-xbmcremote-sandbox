@@ -57,7 +57,7 @@ public class FilesClient extends AbstractClient {
 	 * @return Folder contents or empty list if nothing found.
 	 */
 	public ArrayList<ListModel.FileItem> getDirectory(String directory, ErrorHandler errorHandler) {
-		final Files.GetDirectory apicall = new Files.GetDirectory(directory, null, null);
+		final Files.GetDirectory apicall = new Files.GetDirectory(directory);
 		execute(apicall, errorHandler);
 		return apicall.getResults();
 	}

@@ -70,7 +70,7 @@ public class AlbumHandler extends JsonHandler {
 			batch[i].put(SyncColumns.UPDATED, now);
 			batch[i].put(Albums.ID, album.get(AudioModel.AlbumDetail.ALBUMID).getIntValue());
 			batch[i].put(Albums.TITLE, album.get(AudioModel.AlbumDetail.TITLE).getTextValue());
-			batch[i].put(Albums.PREFIX + Artists.ID, album.get(AudioModel.AlbumDetail.ARTISTIDS).get(0).getIntValue());
+			batch[i].put(Albums.PREFIX + Artists.ID, album.get(AudioModel.AlbumDetail.ARTISTID).get(0).getIntValue());
 			batch[i].put(Albums.YEAR, album.get(AudioModel.AlbumDetail.YEAR).getIntValue());
 		}
 		Log.d(TAG, batch.length + " album queries built in " + (System.currentTimeMillis() - now) + "ms.");
