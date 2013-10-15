@@ -58,13 +58,13 @@ public abstract class AbstractClient {
 	protected AbstractClient(XBMCHost host) {
 		mHost = host;
 	}
-	
+
 
 	/**
 	 * Synchronously posts the request object to XBMC's JSONRPC API and updates
-	 * the API call object with the received <tt>result</tt> node of the 
+	 * the API call object with the received <tt>result</tt> node of the
 	 * response object.
-	 * 
+	 *
 	 * @param api API call object.
 	 * @param errorHandler Error handler in case something goes wrong
 	 */
@@ -76,7 +76,7 @@ public abstract class AbstractClient {
 		// 2. POST the object to XBMC's JSON-RPC API
 		ObjectNode response = null;
 		try {
-			response = JsonApiRequest.execute(getUrl(), request);
+			response = JsonApiRequest.execute(getUrl(), null, null, request);
 		} catch (ApiException e) {
 			handleError(errorHandler, e);
 		}
@@ -89,7 +89,7 @@ public abstract class AbstractClient {
 
 	/**
 	 * Returns the URL of XBMC to connect to.
-	 * 
+	 *
 	 * The URL already contains the JSON-RPC prefix, e.g.:
 	 * 		<code>http://192.168.0.100:8080/jsonrpc</code>
 	 * <p/>
@@ -114,7 +114,7 @@ public abstract class AbstractClient {
 		/**
 		 * Implement your error logic here.
 		 * @param code Error code as defined above
-		 * @param message Error message in english. For translations, refer to the error code.
+		 * @param message Error message in English. For translations, refer to the error code.
 		 */
 		void handleError(ApiException e);
 	}

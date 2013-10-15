@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/android-xbmcremote-sandbox.iml" filepath="$PROJECT_DIR$/android-xbmcremote-sandbox.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../xbmc-jsonrpclib-android-output/xbmc-jsonrpclib-android-output.iml" filepath="$PROJECT_DIR$/../xbmc-jsonrpclib-android-output/xbmc-jsonrpclib-android-output.iml" />
+    </modules>
+  </component>
+</project>
+
