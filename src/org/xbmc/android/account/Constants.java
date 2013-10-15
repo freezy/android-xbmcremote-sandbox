@@ -23,30 +23,30 @@ package org.xbmc.android.account;
 
 /**
  * Account-related constants.
- * 
+ *
  * This will probably move somewhere else more central eventually.
- * 
+ *
  * @author freezy <freezy@xbmc.org>
  */
 public class Constants {
 
 	/**
-	 * Minumal API level of XBMC's JSON-RPC API.
+	 * Minimal API level of XBMC's JSON-RPC API.
 	 */
 	public static final int MIN_JSONRPC_API = 3;
-	
+
 	/**
 	 * Account type string.
 	 */
 	public static final String ACCOUNT_TYPE = "org.xbmc.android.remote";
 
 	/**
-	 * Authtoken type string.
+	 * Auth token type string.
 	 */
 	public static final String AUTHTOKEN_TYPE = "org.xbmc.android.remote";
-	
+
 	public static final String DATA_ADDRESS = "org.xbmc.android.account.ADDRESS";
 	public static final String DATA_PORT = "org.xbmc.android.account.PORT";
-	
+
 
 }

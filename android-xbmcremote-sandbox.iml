@@ -22,11 +22,12 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="jackson 1.8.8" level="project" />
-    <orderEntry type="library" exported="" name="autobahn master (dc1ea70)" level="project" />
     <orderEntry type="module" module-name="xbmc-jsonrpclib-android-output" exported="" />
     <orderEntry type="library" name="android-support-v4" level="project" />
-    <orderEntry type="library" name="jmdns 3.4.1" level="project" />
+    <orderEntry type="library" exported="" name="glide 2.0.1" level="project" />
+    <orderEntry type="library" exported="" name="autobahn master (dc1ea70)" level="project" />
+    <orderEntry type="library" exported="" name="jmdns 3.4.1" level="project" />
+    <orderEntry type="library" exported="" name="jackson 1.8.8" level="project" />
   </component>
 </module>
 

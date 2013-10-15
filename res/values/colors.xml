@@ -1,24 +1,28 @@
 <!--
 	    Copyright (C) 2005-2015 Team XBMC
 	    http://xbmc.org
-	
+
 	This Program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 2, or (at your option)
 	any later version.
-	
+
 	This Program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with XBMC Remote; see the file license.  If not, write to
 	the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 	http://www.gnu.org/copyleft/gpl.html
   -->
 <resources>
-	
+
+	<color name="light_bg">#e0e0e0</color>
+	<color name="light_primary_text">#af000000</color>
+	<color name="light_secondry_text">#80000000</color>
+
     <color name="actionbar_title_color">#e2e2e2</color>
     <color name="actionbar_shadow">#000</color>
 
@@ -40,14 +44,14 @@
     <color name="block_column_1">#ff0fabff</color>
     <color name="block_column_2">#ffdf1831</color>
     <color name="block_column_3">#ff009939</color>
-    
+
     <color name="dark1">#242424</color>
     <color name="dark2">#525252</color>
     <color name="light1">#fff</color>
     <color name="light2">#bcbcbc</color>
-    
+
     <color name="semitrans_dark">#40000000</color>
-    
+
     <color name="dashboardbox_title">#fff</color>
     <color name="dashboardbox_title_shadow">#80000000</color>
     <color name="dashboardbox_bg_pressed">#80000000</color>

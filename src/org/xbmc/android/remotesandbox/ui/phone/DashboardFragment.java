@@ -24,6 +24,7 @@ package org.xbmc.android.remotesandbox.ui.phone;
 import java.util.ArrayList;
 
 import org.xbmc.android.remotesandbox.R;
+import org.xbmc.android.remotesandbox.ui.cards.MovieActivity;
 import org.xbmc.android.remotesandbox.ui.common.MusicPagerActivity;
 
 import android.app.Activity;
@@ -45,17 +46,17 @@ import android.widget.TextView;
 /**
  * The phone dashboard only contains the already-known menu which contains
  * various links to sections and other helpful stuff.
- * 
+ *
  * @author freezy <freezy@xbmc.org>
  */
 public class DashboardFragment extends Fragment {
-	
+
 //	private final static String TAG = DashboardFragment.class.getSimpleName();
-	
+
 	private static final int HOME_ACTION_REMOTE = 0;
 	private static final int HOME_ACTION_MUSIC = 1;
-	private static final int HOME_ACTION_VIDEOS = 2;
-	
+	private static final int HOME_ACTION_MOVIES = 2;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View root = inflater.inflate(R.layout.fragment_dashboard, null);
@@ -63,27 +64,31 @@ public class DashboardFragment extends Fragment {
 		setupDashboardItems(grid);
 		return root;
 	}
-	
+
 	/**
 	 * Adds all our menu items to the grid.
-	 * 
+	 *
 	 * @param menuGrid
 	 */
 	private void setupDashboardItems(GridView menuGrid) {
-		
+
 		final ArrayList<HomeItem> homeItems = new ArrayList<HomeItem>();
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-		
+
 		if (prefs.getBoolean("setting_show_home_music", true)) {
 			homeItems.add(new HomeItem(HOME_ACTION_MUSIC, R.drawable.home_ic_music, "Music", "Listen to"));
 		}
-		
+
+		if (prefs.getBoolean("setting_show_home_movies", true)) {
+			homeItems.add(new HomeItem(HOME_ACTION_MOVIES, R.drawable.home_ic_music, "Movies", "Watch some"));
+		}
+
 		menuGrid.setAdapter(new HomeAdapter(getActivity(), homeItems));
 		menuGrid.setOnItemClickListener(mHomeMenuOnClickListener);
 		menuGrid.setSelected(true);
 		menuGrid.setSelection(0);
 	}
-	
+
 	/**
 	 * Defines what happens when the user taps on one of the dashboard items.
 	 */
@@ -95,8 +100,10 @@ public class DashboardFragment extends Fragment {
 			switch (item.ID) {
 				case HOME_ACTION_REMOTE:
 				case HOME_ACTION_MUSIC:
-				case HOME_ACTION_VIDEOS:
 					intent.setClass(v.getContext(), MusicPagerActivity.class);
+					break;
+				case HOME_ACTION_MOVIES:
+					intent.setClass(v.getContext(), MovieActivity.class);
 					break;
 				default:
 					return;
@@ -107,7 +114,7 @@ public class DashboardFragment extends Fragment {
 
 	/**
 	 * The list adapter for the list containing the dashboard items.
-	 * 
+	 *
 	 * @author freezy <freezy@xbmc.org>
 	 */
 	private class HomeAdapter extends ArrayAdapter<HomeItem> {
@@ -118,14 +125,14 @@ public class DashboardFragment extends Fragment {
 		}
 		public View getView(int position, View convertView, ViewGroup parent) {
 			View row;
-			
+
 			if (convertView == null) {
 				LayoutInflater inflater = mActivity.getLayoutInflater();
 				row = inflater.inflate(R.layout.list_item_dashboard, null);
 			} else {
 				row = convertView;
 			}
-			
+
 			HomeItem item = this.getItem(position);
 			final TextView supertitle = (TextView)row.findViewById(R.id.dashboard_supertitle);
 			final TextView title = (TextView)row.findViewById(R.id.dashboard_title);
@@ -134,20 +141,20 @@ public class DashboardFragment extends Fragment {
 			title.setText(item.title);
 			supertitle.setText(item.subtitle);
 			icon.setImageResource(item.icon);
-			
+
 			return row;
 		}
 	}
-	
+
 	/**
 	 * An item of the dashboard.
-	 * 
+	 *
 	 * @author freezy <freezy@xbmc.org>
 	 */
 	private class HomeItem {
 		public final int ID, icon;
 		public final String title, subtitle;
-		
+
 		public HomeItem(int ID, int icon, String title, String subtitle) {
 			this.ID = ID;
 			this.icon = icon;
