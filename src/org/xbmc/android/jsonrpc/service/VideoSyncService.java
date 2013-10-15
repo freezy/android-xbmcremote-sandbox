@@ -21,36 +21,35 @@
 
 package org.xbmc.android.jsonrpc.service;
 
-import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
-import org.xbmc.android.jsonrpc.api.model.AudioModel.AlbumFields;
-import org.xbmc.android.jsonrpc.config.HostConfig;
-import org.xbmc.android.jsonrpc.io.ConnectionManager;
-import org.xbmc.android.jsonrpc.io.ConnectionManager.HandlerCallback;
-import org.xbmc.android.jsonrpc.io.audio.AlbumHandler;
-import org.xbmc.android.jsonrpc.io.audio.ArtistHandler;
-import org.xbmc.android.jsonrpc.provider.AudioProvider;
-
 import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.ResultReceiver;
 import android.util.Log;
+import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
+import org.xbmc.android.jsonrpc.api.call.VideoLibrary;
+import org.xbmc.android.jsonrpc.api.model.VideoModel;
+import org.xbmc.android.jsonrpc.config.HostConfig;
+import org.xbmc.android.jsonrpc.io.ConnectionManager;
+import org.xbmc.android.jsonrpc.io.ConnectionManager.HandlerCallback;
+import org.xbmc.android.jsonrpc.io.audio.ArtistHandler;
+import org.xbmc.android.jsonrpc.io.video.MovieHandler;
 
 /**
- * Background {@link Service} that synchronizes data living in
- * {@link AudioProvider}.
+ * Background {@link android.app.Service} that synchronizes data living in
+ * {@link org.xbmc.android.jsonrpc.provider.VideoProvider}.
  * <p>
  * This class, along with the other ones in this package was closely inspired by
  * Google's official iosched app, see http://code.google.com/p/iosched/
  *
  * @author freezy <freezy@xbmc.org>
  */
-public class AudioSyncService extends Service {
+public class VideoSyncService extends Service {
 
 	public static final String URL = "http://192.168.0.100:8080/jsonrpc";
 
-	private static final String TAG = AudioSyncService.class.getSimpleName();
+	private static final String TAG = VideoSyncService.class.getSimpleName();
 
 	public static final String EXTRA_STATUS_RECEIVER = "org.xbmc.android.jsonprc.extra.STATUS_RECEIVER";
 
@@ -66,7 +65,7 @@ public class AudioSyncService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		Log.d(TAG, "Starting AudioSyncService...");
+		Log.d(TAG, "Starting VideoSyncService...");
 		mCm = new ConnectionManager(getApplicationContext(), new HostConfig("192.168.0.100"));
 	}
 
@@ -83,48 +82,28 @@ public class AudioSyncService extends Service {
 
 		// start quering...
 		mStart = System.currentTimeMillis();
-		syncArtists();
+		syncMovies();
 		return START_STICKY;
 	}
 
-	private void syncArtists() {
-		final AudioLibrary.GetArtists getArtistsCall = new AudioLibrary.GetArtists();
-		mCm.call(getArtistsCall, new ArtistHandler(), new HandlerCallback() {
+	private void syncMovies() {
+		final VideoLibrary.GetMovies getMoviesCall = new VideoLibrary.GetMovies(
+				VideoModel.MovieFields.THUMBNAIL, VideoModel.MovieFields.YEAR,
+				VideoModel.MovieFields.RATING, VideoModel.MovieFields.GENRE,
+				VideoModel.MovieFields.RUNTIME
+		);
+		mCm.call(getMoviesCall, new MovieHandler(), new HandlerCallback() {
 			@Override
 			public void onFinish() {
-				Log.i(TAG, "Artists successfully synced in " + (System.currentTimeMillis() - mStart) + "ms, starting albums.");
-				syncAlbums();
+				Log.i(TAG, "Movies successfully synced in " + (System.currentTimeMillis() - mStart) + "ms, starting albums.");
 			}
 
 			@Override
 			public void onError(String message, String hint) {
-				AudioSyncService.this.onError(message + " " + hint);
+				VideoSyncService.this.onError(message + " " + hint);
 				stopSelf();
 			}
 
-		});
-	}
-
-	private void syncAlbums() {
-		final AudioLibrary.GetAlbums getAlbumsCall = new AudioLibrary.GetAlbums(AlbumFields.TITLE, AlbumFields.ARTISTID, AlbumFields.YEAR);
-		mCm.call(getAlbumsCall, new AlbumHandler(), new HandlerCallback() {
-
-			@Override
-			public void onFinish() {
-				Log.i(TAG, "Albums successfully synced too! Total time: " + (System.currentTimeMillis() - mStart) + "ms.");
-				if (mReceiver != null) {
-					// Pass back result to surface listener
-					mReceiver.send(STATUS_FINISHED, null);
-				}
-				mCm.disconnect();
-				stopSelf();
-			}
-
-			@Override
-			public void onError(String message, String hint) {
-				AudioSyncService.this.onError(message + " " + hint);
-				stopSelf();
-			}
 		});
 	}
 
