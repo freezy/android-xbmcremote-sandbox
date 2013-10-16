@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * A container that stores IP address, host and port in a parcelable way.
+ * 
+ * @author freezy <freezy@xbmc.org>
+ */
 public class XBMCHost implements Parcelable {
 	
 	private String mAddress;
