@@ -12,8 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class DashboardBoxLayout extends LinearLayout {
-	
-	private OnClickListener mOnTitleClickListener; 
+
+	private OnClickListener mOnTitleClickListener;
 
 	public DashboardBoxLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -22,17 +22,17 @@ public class DashboardBoxLayout extends LinearLayout {
 		String service = Context.LAYOUT_INFLATER_SERVICE;
 		LayoutInflater li = (LayoutInflater) getContext().getSystemService(service);
 		li.inflate(R.layout.dashboard_box, this, true);
-		
+
 		// set title and icon from custom attributes
 		final TextView title = (TextView)findViewById(R.id.dashboardbox_title);
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.DashboardBoxLayout);
-        CharSequence s = a.getString(R.styleable.DashboardBoxLayout_title);
-        if (s != null) { 
+        CharSequence s = a.getString(R.styleable.DashboardBoxLayout_title2);
+        if (s != null) {
         	title.setText(s);
         }
         final ImageView icon = (ImageView)findViewById(R.id.dashboardbox_icon);
-        icon.setImageResource(a.getResourceId(R.styleable.DashboardBoxLayout_icon, R.drawable.ic_dashboard_movies));
-        
+        icon.setImageResource(a.getResourceId(R.styleable.DashboardBoxLayout_icon2, R.drawable.ic_dashboard_movies));
+
         // enable title bar onclick
         findViewById(R.id.dashboardbox_titlebar).setOnClickListener(new OnClickListener() {
 			@Override
@@ -43,7 +43,7 @@ public class DashboardBoxLayout extends LinearLayout {
 			}
 		});
 	}
-	
+
 	public DashboardBoxLayout setOnTitlebarClickListener(OnClickListener listener) {
 		mOnTitleClickListener = listener;
 		return this;

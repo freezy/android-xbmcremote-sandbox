@@ -18,7 +18,7 @@
         <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/xbmc-jsonrpclib/assets" />
         <option name="LIBS_FOLDER_RELATIVE_PATH" value="/xbmc-jsonrpclib/libs" />
         <option name="LIBRARY_PROJECT" value="true" />
-        <option name="UPDATE_PROPERTY_FILES" value="true" />
+        <option name="UPDATE_PROPERTY_FILES" value="false" />
         <resOverlayFolders>
           <path>/xbmc-jsonrpclib/res-overlay</path>
         </resOverlayFolders>

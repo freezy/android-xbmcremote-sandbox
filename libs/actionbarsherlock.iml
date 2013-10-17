@@ -10,7 +10,7 @@
         <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/actionbarsherlock/actionbarsherlock/assets" />
         <option name="LIBS_FOLDER_RELATIVE_PATH" value="/actionbarsherlock/actionbarsherlock/libs" />
         <option name="LIBRARY_PROJECT" value="true" />
-        <option name="UPDATE_PROPERTY_FILES" value="true" />
+        <option name="UPDATE_PROPERTY_FILES" value="false" />
         <resOverlayFolders>
           <path>/actionbarsherlock/actionbarsherlock/res-overlay</path>
         </resOverlayFolders>
@@ -21,9 +21,11 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$/actionbarsherlock/actionbarsherlock">
       <sourceFolder url="file://$MODULE_DIR$/actionbarsherlock/actionbarsherlock/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/actionbarsherlock/actionbarsherlock/gen" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="android-support-v4" level="project" />
   </component>
 </module>
 

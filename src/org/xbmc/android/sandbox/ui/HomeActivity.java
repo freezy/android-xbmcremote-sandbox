@@ -1,11 +1,18 @@
 package org.xbmc.android.sandbox.ui;
 
+import android.os.Bundle;
+import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
+
 /**
- * Created with IntelliJ IDEA.
- * User: neh
- * Date: 17.10.13
- * Time: 22:13
- * To change this template use File | Settings | File Templates.
+ * The landing page of the app.
+ *
+ * @author freezy <freezy@xbmc.org>
  */
-public class HomeActivity {
+public class HomeActivity extends SlidingFragmentActivity {
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+	}
 }

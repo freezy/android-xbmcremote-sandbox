@@ -9,7 +9,7 @@
         <option name="RES_FOLDER_RELATIVE_PATH" value="/slidingmenu/example/res" />
         <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/slidingmenu/example/assets" />
         <option name="LIBS_FOLDER_RELATIVE_PATH" value="/slidingmenu/example/libs" />
-        <option name="UPDATE_PROPERTY_FILES" value="true" />
+        <option name="UPDATE_PROPERTY_FILES" value="false" />
         <resOverlayFolders>
           <path>/slidingmenu/example/res-overlay</path>
         </resOverlayFolders>
@@ -25,7 +25,17 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="android-support-v4" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/slidingmenu/example/libs/crittercism_v3_0_3_sdkonly.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="module" module-name="slidingmenu" />
+    <orderEntry type="module" module-name="actionbarsherlock" />
   </component>
 </module>
 
