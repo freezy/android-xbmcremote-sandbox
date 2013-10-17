@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/android-xbmcremote-sandbox.iml" filepath="$PROJECT_DIR$/android-xbmcremote-sandbox.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libs/slidingmenu.iml" filepath="$PROJECT_DIR$/libs/slidingmenu.iml" />
       <module fileurl="file://$PROJECT_DIR$/libs/xbmc-jsonrpclib-android.iml" filepath="$PROJECT_DIR$/libs/xbmc-jsonrpclib-android.iml" />
     </modules>
   </component>
