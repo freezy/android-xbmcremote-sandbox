@@ -53,7 +53,7 @@ public class MovieActivity extends Activity {
 		final ApiCallback<VideoModel.MovieDetail> callback = new ApiCallback<VideoModel.MovieDetail>() {
 			@Override
 			public void onResponse(AbstractCall<VideoModel.MovieDetail> call) {
-				Log.d(TAG, "Received movies after " + call.getTime() + " ms.");
+				//Log.d(TAG, "Received movies after " + call.getTime() + " ms.");
 				mMovies = call.getResults();
 				mImageAdapter.notifyDataSetChanged();
 			}
