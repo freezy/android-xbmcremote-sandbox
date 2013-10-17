@@ -22,7 +22,7 @@
 
 		<!-- Activities -->
 		<activity
-			android:name="org.xbmc.android.remotesandbox.ui.common.HomeActivity"
+			android:name="org.xbmc.android.sandbox.ui.HomeActivity"
 			android:theme="@style/Theme.XBMCRemote.Home"
 			android:label="@string/app_name">
 			<intent-filter>
