@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="xbmc-jsonrpc-master">
-    <CLASSES />
-    <JAVADOC />
-    <SOURCES>
-      <root url="jar://$PROJECT_DIR$/libs/xbmc-jsonrpc-master.apk!/" />
-    </SOURCES>
-  </library>
-</component>
