@@ -24,11 +24,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="25364924-d835-4f5e-8da9-686045fa596d" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/BaseActivity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/layout/content_frame.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/layout/slidingmenu.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable/slidingmenu_shadow.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-hdpi/actionbar_shadow.9.png" afterPath="$PROJECT_DIR$/res/drawable-hdpi/actionbar_shadow.9.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-mdpi/actionbar_shadow.9.png" afterPath="$PROJECT_DIR$/res/drawable-mdpi/actionbar_shadow.9.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-xhdpi/actionbar_shadow.9.png" afterPath="$PROJECT_DIR$/res/drawable-xhdpi/actionbar_shadow.9.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-xhdpi/icon.png" afterPath="$PROJECT_DIR$/res/drawable-xhdpi/icon.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/slidingmenu" afterPath="$PROJECT_DIR$/libs/slidingmenu" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitmodules" afterPath="$PROJECT_DIR$/.gitmodules" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/client/AbstractClient.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/client/AbstractClient.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/remotesandbox/ui/base/ActionBarActivity.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/remotesandbox/ui/base/ActionBarActivity.java" />
@@ -36,6 +39,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/remotesandbox/ui/base/ActionBarHelperBase.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/remotesandbox/ui/base/ActionBarHelperBase.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/remotesandbox/ui/base/ActionBarHelperHoneycomb.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/remotesandbox/ui/base/ActionBarHelperHoneycomb.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/remotesandbox/ui/base/ActionBarHelperICS.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/remotesandbox/ui/base/ActionBarHelperICS.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/client/ApplicationClient.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/client/ApplicationClient.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/account/Constants.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/account/Constants.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/remotesandbox/ui/tablet/DashboardBoxLayout.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/remotesandbox/ui/tablet/DashboardBoxLayout.java" />
@@ -48,10 +52,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/account/authenticator/NetworkUtilities.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/account/authenticator/NetworkUtilities.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/remotesandbox/ui/common/NowPlayingFragment.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/remotesandbox/ui/common/NowPlayingFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/remotesandbox/ui/base/ReloadableActionBarActivity.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/remotesandbox/ui/base/ReloadableActionBarActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/slidingmenu/library/src/com/jeremyfeinstein/slidingmenu/lib/app/SlidingActivity.java" afterPath="$PROJECT_DIR$/libs/slidingmenu/library/src/com/jeremyfeinstein/slidingmenu/lib/app/SlidingActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/slidingmenu/library/src/com/jeremyfeinstein/slidingmenu/lib/app/SlidingFragmentActivity.java" afterPath="$PROJECT_DIR$/libs/slidingmenu/library/src/com/jeremyfeinstein/slidingmenu/lib/app/SlidingFragmentActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/slidingmenu/library/src/com/jeremyfeinstein/slidingmenu/lib/app/SlidingListActivity.java" afterPath="$PROJECT_DIR$/libs/slidingmenu/library/src/com/jeremyfeinstein/slidingmenu/lib/app/SlidingListActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/slidingmenu/library/src/com/jeremyfeinstein/slidingmenu/lib/app/SlidingPreferenceActivity.java" afterPath="$PROJECT_DIR$/libs/slidingmenu/library/src/com/jeremyfeinstein/slidingmenu/lib/app/SlidingPreferenceActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/account/syncadapter/SyncAdapter.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/account/syncadapter/SyncAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/account/syncadapter/SyncService.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/account/syncadapter/SyncService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/zeroconf/XBMCHost.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/zeroconf/XBMCHost.java" />
@@ -61,14 +61,13 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable/actionbar_compat_item_focused.xml" afterPath="$PROJECT_DIR$/res/drawable/actionbar_compat_item_focused.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable/actionbar_compat_item_pressed.xml" afterPath="$PROJECT_DIR$/res/drawable/actionbar_compat_item_pressed.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout-v11/actionbar_indeterminate_progress.xml" afterPath="$PROJECT_DIR$/res/layout-v11/actionbar_indeterminate_progress.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/actionbarsherlock.iml" afterPath="$PROJECT_DIR$/libs/actionbarsherlock.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/activity_movies.xml" afterPath="$PROJECT_DIR$/res/layout/activity_movies.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android-xbmcremote-sandbox.iml" afterPath="$PROJECT_DIR$/android-xbmcremote-sandbox.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/android_support_v4.xml" afterPath="$PROJECT_DIR$/.idea/libraries/android_support_v4.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/attrs.xml" afterPath="$PROJECT_DIR$/res/values/attrs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable/bg_card.xml" afterPath="$PROJECT_DIR$/res/drawable/bg_card.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/xml/contacts.xml" afterPath="$PROJECT_DIR$/res/xml/contacts.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/dimens.xml" afterPath="$PROJECT_DIR$/res/values/dimens.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/glide_2_0_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/glide_2_0_1.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/list_item_movie_wide.xml" afterPath="$PROJECT_DIR$/res/layout/list_item_movie_wide.xml" />
@@ -78,14 +77,11 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" afterPath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project.properties" afterPath="$PROJECT_DIR$/project.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" afterPath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/slidingmenu.iml" afterPath="$PROJECT_DIR$/libs/slidingmenu.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values-v13/styles.xml" afterPath="$PROJECT_DIR$/res/values-v13/styles.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/xml/syncadapter.xml" afterPath="$PROJECT_DIR$/res/xml/syncadapter.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/xbmc-jsonrpclib-android.iml" afterPath="$PROJECT_DIR$/libs/xbmc-jsonrpclib-android.iml" />
-      <change type="MOVED" beforePath="D:\dev\android-xbmcremote-sandbox\libs\example-slidingmenu.iml" afterPath="$PROJECT_DIR$/libs/slidingmenu-example.iml" />
     </list>
     <ignored path="android-xbmcremote-sandbox.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -98,7 +94,7 @@
     <file path="/DashboardFragment.java" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1381868250497" ignored="false" />
     <file path="/MovieActivity.java" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1381868193565" ignored="false" />
     <file path="$PROJECT_DIR$/../xbmc-jsonrpclib-android-output/project.properties" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1381909159918" ignored="false" />
-    <file path="/AndroidManifest.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1381868708501" ignored="false" />
+    <file path="/AndroidManifest.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382046771866" ignored="false" />
     <file path="/strings.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1381868694603" ignored="false" />
     <file path="/AudioSyncService.java" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1381870786635" ignored="false" />
     <file path="/VideoSyncService.java" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1381873233693" ignored="false" />
@@ -127,7 +123,7 @@
     <file path="$PROJECT_DIR$/libs/slidingmenu/library/res/layout/slidingmenumain.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382040088796" ignored="false" />
     <file path="$PROJECT_DIR$/libs/slidingmenu/library/res/values/ids.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382040088796" ignored="false" />
     <file path="$PROJECT_DIR$/libs/slidingmenu/library/res/values/attrs.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382040088796" ignored="false" />
-    <file path="/HomeActivity.java" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382040860492" ignored="false" />
+    <file path="/HomeActivity.java" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382046311145" ignored="false" />
     <file path="/BaseActivitz.java" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382041124918" ignored="false" />
     <file path="$PROJECT_DIR$/libs/actionbarsherlock/actionbarsherlock/res/layout/main.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382042246206" ignored="false" />
     <file path="$PROJECT_DIR$/libs/actionbarsherlock/actionbarsherlock/res/values/strings.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382042246207" ignored="false" />
@@ -206,6 +202,9 @@
     <file path="/SlidingListActivity.java" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382044194290" ignored="false" />
     <file path="/SlidingPreferenceActivity.java" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382044204623" ignored="false" />
     <file path="/DashboardBoxLayout.java" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382044710988" ignored="false" />
+    <file path="/dimens.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382045365321" ignored="false" />
+    <file path="/BaseActivity.java" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382045479398" ignored="false" />
+    <file path="/slidingmenu.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382046187106" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -266,37 +265,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="SlidingFragmentActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/libs/slidingmenu/library/src/com/jeremyfeinstein/slidingmenu/lib/app/SlidingFragmentActivity.java">
+      <file leaf-file-name="HomeActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/HomeActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="27" selection-start="368" selection-end="444" vertical-scroll-proportion="0.0">
+            <state line="19" column="18" selection-start="438" selection-end="438" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SlidingActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/libs/slidingmenu/library/src/com/jeremyfeinstein/slidingmenu/lib/app/SlidingActivity.java">
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="43" selection-start="327" selection-end="327" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SlidingActivityBase.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/libs/slidingmenu/library/src/com/jeremyfeinstein/slidingmenu/lib/app/SlidingActivityBase.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="17" selection-start="195" selection-end="195" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SlidingActivityHelper.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/libs/slidingmenu/library/src/com/jeremyfeinstein/slidingmenu/lib/app/SlidingActivityHelper.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="13" selection-start="385" selection-end="385" vertical-scroll-proportion="0.0">
+            <state line="22" column="27" selection-start="946" selection-end="946" vertical-scroll-proportion="0.28169015">
               <folding />
             </state>
           </provider>
@@ -305,54 +286,81 @@
       <file leaf-file-name="BaseActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/BaseActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="0" selection-start="595" selection-end="595" vertical-scroll-proportion="0.0">
+            <state line="28" column="0" selection-start="780" selection-end="780" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="attrs.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/values/attrs.xml">
+      <file leaf-file-name="main.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/menu/main.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="41" selection-start="1485" selection-end="1485" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DashboardBoxLayout.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/remotesandbox/ui/tablet/DashboardBoxLayout.java">
+      <file leaf-file-name="menu_frame.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/menu_frame.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="79" selection-start="1181" selection-end="1181" vertical-scroll-proportion="0.43899205">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ViewPagerActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/libs/slidingmenu/example/src/com/jeremyfeinstein/slidingmenu/example/ViewPagerActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="29" column="21" selection-start="872" selection-end="872" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="abs__attrs.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/libs/actionbarsherlock/actionbarsherlock/res/values/abs__attrs.xml">
+      <file leaf-file-name="SlidingContent.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/libs/slidingmenu/example/src/com/jeremyfeinstein/slidingmenu/example/SlidingContent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="216" column="14" selection-start="10769" selection-end="10769" vertical-scroll-proportion="0.0">
+            <state line="20" column="18" selection-start="488" selection-end="488" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SlidingListActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/libs/slidingmenu/library/src/com/jeremyfeinstein/slidingmenu/lib/app/SlidingListActivity.java">
+      <file leaf-file-name="SampleListFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/libs/slidingmenu/example/src/com/jeremyfeinstein/slidingmenu/example/SampleListFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="49" selection-start="403" selection-end="403" vertical-scroll-proportion="0.0">
+            <state line="12" column="13" selection-start="360" selection-end="360" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SlidingPreferenceActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/libs/slidingmenu/library/src/com/jeremyfeinstein/slidingmenu/lib/app/SlidingPreferenceActivity.java">
+      <file leaf-file-name="activity_movies.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/activity_movies.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="0" selection-start="489" selection-end="489" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="38" vertical-scroll-proportion="-0.0">
               <folding />
             </state>
+          </provider>
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="activity_home.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/activity_home.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="22" column="15" selection-start="902" selection-end="902" vertical-scroll-proportion="-17.6">
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer">
+            <state />
           </provider>
         </entry>
       </file>
@@ -374,31 +382,31 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/io/video/MovieHandler.java" />
-        <option value="$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/provider/VideoContract.java" />
-        <option value="$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/service/VideoSyncService.java" />
         <option value="$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/provider/VideoDatabase.java" />
         <option value="$PROJECT_DIR$/src/org/xbmc/android/remotesandbox/ui/cards/MovieActivity.java" />
         <option value="$PROJECT_DIR$/src/org/xbmc/android/util/Profiler.java" />
-        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/HomeActivity.java" />
         <option value="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/BaseActivitz.java" />
-        <option value="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/BaseActivity.java" />
         <option value="$PROJECT_DIR$/libs/slidingmenu/library/src/com/jeremyfeinstein/slidingmenu/lib/app/SlidingFragmentActivity.java" />
         <option value="$PROJECT_DIR$/libs/slidingmenu/library/src/com/jeremyfeinstein/slidingmenu/lib/app/SlidingActivity.java" />
         <option value="$PROJECT_DIR$/libs/slidingmenu/library/src/com/jeremyfeinstein/slidingmenu/lib/app/SlidingListActivity.java" />
         <option value="$PROJECT_DIR$/libs/slidingmenu/library/src/com/jeremyfeinstein/slidingmenu/lib/app/SlidingPreferenceActivity.java" />
         <option value="$PROJECT_DIR$/res/values/attrs.xml" />
         <option value="$PROJECT_DIR$/src/org/xbmc/android/remotesandbox/ui/tablet/DashboardBoxLayout.java" />
+        <option value="$PROJECT_DIR$/res/values/dimens.xml" />
+        <option value="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/BaseActivity.java" />
+        <option value="$PROJECT_DIR$/libs/slidingmenu/example/src/com/jeremyfeinstein/slidingmenu/example/SlidingContent.java" />
+        <option value="$PROJECT_DIR$/res/layout/slidingmenu.xml" />
+        <option value="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/HomeActivity.java" />
+        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
     <option name="x" value="492" />
-    <option name="y" value="266" />
+    <option name="y" value="103" />
     <option name="width" value="2068" />
-    <option name="height" value="1294" />
+    <option name="height" value="1457" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -499,15 +507,61 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="android" />
+              <option name="myItemId" value="res" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="ui" />
+              <option name="myItemId" value="values" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="drawable" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -522,46 +576,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="libs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-xbmcremote-sandbox" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-xbmcremote-sandbox" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="libs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-support-v4.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-xbmcremote-sandbox" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-xbmcremote-sandbox" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="libs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-support-v4.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="v4" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -580,130 +594,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="slidingmenu" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-xbmcremote-sandbox" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-xbmcremote-sandbox" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="libs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="slidingmenu" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-xbmcremote-sandbox" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-xbmcremote-sandbox" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="libs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="slidingmenu" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-xbmcremote-sandbox" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-xbmcremote-sandbox" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="libs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="slidingmenu" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-xbmcremote-sandbox" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-xbmcremote-sandbox" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="libs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="slidingmenu" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="library" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -751,11 +641,37 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="libs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="slidingmenu" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="example" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -775,7 +691,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="example-slidingmenu" />
+              <option name="myItemId" value="slidingmenu-example" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -785,15 +701,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="example-slidingmenu" />
+              <option name="myItemId" value="slidingmenu-example" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jeremyfeinstein.slidingmenu.example" />
+              <option name="myItemId" value="com.jeremyfeinstein.slidingmenu.example" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -803,17 +715,124 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="example-slidingmenu" />
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
+              <option name="myItemId" value="org.xbmc.android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="org.xbmc.android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sandbox.ui" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="android-xbmcremote-sandbox">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+        <subPane subId="Changed Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="android-xbmcremote-sandbox">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="android-xbmcremote-sandbox">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+        <subPane subId="All">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="slidingmenu-example">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="libs/slidingmenu/example">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="slidingmenu-example">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="libs/slidingmenu/example">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="src">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="com/jeremyfeinstein/slidingmenu/example">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -862,11 +881,11 @@
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\dev\android-xbmcremote-sandbox\res\layout" />
-      <recent name="D:\dev\android-xbmcremote-sandbox\assets" />
       <recent name="D:\dev\android-xbmcremote-sandbox\res\drawable" />
+      <recent name="D:\dev\android-xbmcremote-sandbox\assets" />
     </key>
   </component>
-  <component name="RunManager" selected="Android Application.SlidingMenu">
+  <component name="RunManager" selected="Android Application.Sandbox">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
@@ -1064,11 +1083,12 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="492" y="266" width="2068" height="1294" extended-state="0" />
+    <frame x="492" y="103" width="2068" height="1457" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3288423" sideWeight="0.5676923" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289358" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1079,21 +1099,20 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299293" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31398416" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31384614" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24270463" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17344174" sideWeight="0.6707056" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18245265" sideWeight="0.68601584" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1759015" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18245265" sideWeight="0.73" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17538461" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30147493" sideWeight="0.28652886" order="11" side_tool="true" content_ui="tabs" x="1607" y="386" width="609" height="933" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="9" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30147493" sideWeight="0.7134711" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3288423" sideWeight="0.8233562" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1163,117 +1182,138 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/libs/actionbarsherlock/actionbarsherlock/src/com/actionbarsherlock/widget/SearchView.java">
+    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="41" selection-start="955" selection-end="955" vertical-scroll-proportion="0.22155085" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/account/authenticator/AuthenticatorActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="244" column="20" selection-start="8281" selection-end="8281" vertical-scroll-proportion="0.0">
+        <state line="5" column="18" selection-start="220" selection-end="220" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/libs/android-support-v4.jar!/android/support/v4/app/FragmentActivity.class">
+    <entry file="file://$PROJECT_DIR$/res/layout/content_frame.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="3" selection-start="36" selection-end="36" vertical-scroll-proportion="0.041797284">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/libs/slidingmenu/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.30927834">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="MarkdownPreviewEditor">
+      <provider editor-type-id="android-designer">
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libs/slidingmenu/example/src/com/jeremyfeinstein/slidingmenu/example/ExampleListActivity.java">
+    <entry file="file://$PROJECT_DIR$/libs/slidingmenu/example/res/layout/content_frame.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="0" selection-start="551" selection-end="551" vertical-scroll-proportion="0.46740466">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/slidingmenu/example/src/com/jeremyfeinstein/slidingmenu/example/ViewPagerActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="21" selection-start="872" selection-end="872" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libs/slidingmenu/example/src/com/jeremyfeinstein/slidingmenu/example/BaseActivity.java">
+    <entry file="file://$PROJECT_DIR$/libs/slidingmenu/example/src/com/jeremyfeinstein/slidingmenu/example/SlidingContent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="49" selection-end="49" vertical-scroll-proportion="0.024600247">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/libs/slidingmenu/library/src/com/jeremyfeinstein/slidingmenu/lib/app/SlidingFragmentActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="27" selection-start="368" selection-end="444" vertical-scroll-proportion="0.0">
+        <state line="20" column="18" selection-start="488" selection-end="488" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libs/slidingmenu/library/src/com/jeremyfeinstein/slidingmenu/lib/app/SlidingActivity.java">
+    <entry file="file://$PROJECT_DIR$/res/layout/activity_home.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="43" selection-start="327" selection-end="327" vertical-scroll-proportion="0.0">
+        <state line="22" column="15" selection-start="902" selection-end="902" vertical-scroll-proportion="-17.6">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/actionbar_compat.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/list_item_onelabel.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="0" selection-start="821" selection-end="1980" vertical-scroll-proportion="0.3257329">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/activity_movies.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="38" vertical-scroll-proportion="-0.0">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/slidingmenu.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="39" selection-start="221" selection-end="221" vertical-scroll-proportion="0.06514658">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/slidingmenu/example/src/com/jeremyfeinstein/slidingmenu/example/SampleListFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="13" selection-start="360" selection-end="360" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libs/slidingmenu/library/src/com/jeremyfeinstein/slidingmenu/lib/app/SlidingActivityBase.java">
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/HomeActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="17" selection-start="195" selection-end="195" vertical-scroll-proportion="0.0">
+        <state line="19" column="18" selection-start="438" selection-end="438" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libs/slidingmenu/library/src/com/jeremyfeinstein/slidingmenu/lib/app/SlidingActivityHelper.java">
+    <entry file="file://$PROJECT_DIR$/res/layout/menu_frame.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="13" selection-start="385" selection-end="385" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/libs/slidingmenu/library/src/com/jeremyfeinstein/slidingmenu/lib/app/SlidingListActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="49" selection-start="403" selection-end="403" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libs/slidingmenu/library/src/com/jeremyfeinstein/slidingmenu/lib/app/SlidingPreferenceActivity.java">
+    <entry file="file://$PROJECT_DIR$/res/menu/main.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="0" selection-start="489" selection-end="489" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/BaseActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="0" selection-start="595" selection-end="595" vertical-scroll-proportion="0.0">
+        <state line="28" column="0" selection-start="780" selection-end="780" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libs/actionbarsherlock/actionbarsherlock/res/values/abs__attrs.xml">
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="216" column="14" selection-start="10769" selection-end="10769" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/attrs.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="41" selection-start="1485" selection-end="1485" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/remotesandbox/ui/tablet/DashboardBoxLayout.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="79" selection-start="1181" selection-end="1181" vertical-scroll-proportion="0.43899205">
+        <state line="22" column="27" selection-start="946" selection-end="946" vertical-scroll-proportion="0.28169015">
           <folding />
         </state>
       </provider>

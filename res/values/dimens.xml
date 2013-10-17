@@ -1,17 +1,17 @@
 <!--
 	    Copyright (C) 2005-2015 Team XBMC
 	    http://xbmc.org
-	
+
 	This Program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
 	the Free Software Foundation; either version 2, or (at your option)
 	any later version.
-	
+
 	This Program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 	GNU General Public License for more details.
-	
+
 	You should have received a copy of the GNU General Public License
 	along with XBMC Remote; see the file license.  If not, write to
 	the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -21,11 +21,11 @@
 
     <!-- UI elements -->
     <dimen name="colorstrip_height">6dp</dimen>
-    
+
     <dimen name="actionbar_compat_height">48dp</dimen> <!-- before: 45dp -->
     <dimen name="actionbar_compat_button_width">48dp</dimen>
     <dimen name="actionbar_compat_button_home_width">-2px</dimen>     <!-- -2 = wrap_content -->
-    
+
     <dimen name="whats_on_height">70dp</dimen>
     <dimen name="whats_on_item_padding">10dp</dimen>
     <dimen name="whats_on_button_right_padding">20dp</dimen>
@@ -55,5 +55,9 @@
     <dimen name="dashboardbox_title">45dp</dimen>
     <dimen name="dashboardbox_title_text">32dp</dimen>
     <dimen name="dashboardbox_padding">10dp</dimen>
+
+	<!-- Sliding Menu -->
+	<dimen name="slidingmenu_shadow_width">15dp</dimen>
+	<dimen name="slidingmenu_offset">60dp</dimen>
 
 </resources>
