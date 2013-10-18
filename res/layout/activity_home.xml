@@ -3,29 +3,9 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-    <fragment
-        android:id="@+id/fragment_dashboard"
-        android:name="org.xbmc.android.remotesandbox.ui.phone.DashboardFragment"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" >
-    </fragment>
-	<Button
-	    android:id="@+id/home_testbtn"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:text="test shit" />
-    <fragment
-        android:id="@+id/fragment_nowplaying1"
-        android:name="org.xbmc.android.remotesandbox.ui.common.NowPlayingFragment"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-    </fragment>
-    <fragment
-        android:id="@+id/fragment_nowplaying2"
-        android:name="org.xbmc.android.remotesandbox.ui.common.NowPlayingFragment"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-    </fragment>
 
+	<TextView android:id="@+id/home_label"
+			  android:text="Home, sweet home."
+			  android:layout_width="fill_parent"
+			  android:layout_height="wrap_content" />
 </LinearLayout>

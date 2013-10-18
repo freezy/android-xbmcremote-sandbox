@@ -18,16 +18,13 @@ public class HomeActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_home);
 
 		// set the Above View
-		setContentView(R.layout.activity_home);
+
 //		setBehindContentView(R.layout.slidingmenu);
-/*		getSupportFragmentManager()
-				.beginTransaction()
-				.replace(R.id.content_frame, new SampleListFragment())
-				.commit();
-*/
-//		setSlidingActionBarEnabled(false);
+
+		setSlidingActionBarEnabled(false);
 
 	}
 }

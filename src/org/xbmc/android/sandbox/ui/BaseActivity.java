@@ -33,8 +33,7 @@ public class BaseActivity extends SlidingFragmentActivity {
 		setBehindContentView(R.layout.menu_frame);
 		if (savedInstanceState == null) {
 			FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
-			//mFrag = new SampleListFragment();
-			t.replace(R.id.menu_frame, mFrag);
+			t.replace(R.id.menu_frame, new SlidingMenuFragment());
 			t.commit();
 		} else {
 			mFrag = (ListFragment)this.getSupportFragmentManager().findFragmentById(R.id.menu_frame);

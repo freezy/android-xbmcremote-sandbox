@@ -18,129 +18,23 @@
         <option name="dockMode" value="" />
         <option name="nightMode" value="notnight" />
         <option name="targetHashString" value="android-14" />
-        <option name="theme" value="Theme.XBMCRemote" />
+        <option name="theme" value="AppTheme" />
       </GlobalState>
     </option>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="25364924-d835-4f5e-8da9-686045fa596d" name="Default" comment="">
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\anim-large-v11\home_enter.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\anim-large-v11\home_exit.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\anim\home_enter.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\anim\home_exit.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-hdpi\actionbar_compat_background.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-hdpi\actionbar_compat_separator.9.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-hdpi\actionbar_logo.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-hdpi\actionbar_shadow.9.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-hdpi\btn_bg_pressed.9.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-hdpi\btn_bg_selected.9.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-hdpi\btn_default.9.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-hdpi\btn_focused.9.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-hdpi\btn_pressed.9.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-hdpi\colorstrip.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-hdpi\colorstrip_shadow.9.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-hdpi\home_ic_music.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-hdpi\icon.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-hdpi\indicator_starred.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-hdpi\menu_ic_refresh.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-hdpi\menu_ic_search.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-hdpi\tab_bg.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-hdpi\tab_ic_album_selected.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-hdpi\tab_ic_album_unselected.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-hdpi\tab_ic_artist_selected.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-hdpi\tab_ic_artist_unselected.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-hdpi\tab_ic_folder_selected.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-hdpi\tab_ic_folder_unselected.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-hdpi\tab_selected.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-mdpi-v11\colorstrip.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-mdpi-v11\icon.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-mdpi\actionbar_logo.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-mdpi\actionbar_shadow.9.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-mdpi\icon.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-xhdpi\actionbar_shadow.9.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable\actionbar_compat_button.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable\actionbar_compat_item.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable\actionbar_compat_item_focused.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable\actionbar_compat_item_pressed.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable\bg_dashboard_box_titlebar.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable\bg_gradient_dark_vertical.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable\bg_gradient_light.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable\btn.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable\default_album.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable\ic_dashboard_more.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable\ic_dashboard_movies.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable\ic_dashboard_music.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable\ic_dashboard_tv.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable\piecli.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable\tab_box.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable\tab_ic_album.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable\tab_ic_artist.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable\tab_ic_folder.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable\tab_textcolor.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable\tile_piecli.png" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\layout-large-land-v11\activity_home.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\layout-large-land-v11\fragment_dashboard.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\layout-large-v11\colorstrip.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\layout-v11\actionbar_indeterminate_progress.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\layout\actionbar_compat.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\layout\activity_addaccount.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\layout\activity_fragment_tabs_pager.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\layout\activity_singlepane_empty.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\layout\colorstrip.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\layout\dashboard_box.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\layout\fragment_dashboard.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\layout\fragment_nowplaying.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\layout\list_item_dashboard.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\layout\list_item_onelabel.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\layout\list_item_threelabels.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\layout\tab.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\menu\default_menu_items.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\menu\refresh_menu_items.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\values-large-v11\styles.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\values-v11\styles.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\res\values-v13\styles.xml" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\src\org\xbmc\android\remotesandbox\ui\base\ActionBarActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\src\org\xbmc\android\remotesandbox\ui\base\ActionBarHelper.java" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\src\org\xbmc\android\remotesandbox\ui\base\ActionBarHelperBase.java" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\src\org\xbmc\android\remotesandbox\ui\base\ActionBarHelperHoneycomb.java" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\src\org\xbmc\android\remotesandbox\ui\base\ActionBarHelperICS.java" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\src\org\xbmc\android\remotesandbox\ui\base\BaseFragmentTabsActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\src\org\xbmc\android\remotesandbox\ui\base\IconHelper.java" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\src\org\xbmc\android\remotesandbox\ui\base\ReloadableActionBarActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\src\org\xbmc\android\remotesandbox\ui\base\ReloadableListFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\src\org\xbmc\android\remotesandbox\ui\cards\MovieActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\src\org\xbmc\android\remotesandbox\ui\common\AlbumsFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\src\org\xbmc\android\remotesandbox\ui\common\ArtistsFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\src\org\xbmc\android\remotesandbox\ui\common\FilesFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\src\org\xbmc\android\remotesandbox\ui\common\HomeActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\src\org\xbmc\android\remotesandbox\ui\common\MusicPagerActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\src\org\xbmc\android\remotesandbox\ui\common\NowPlayingFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\src\org\xbmc\android\remotesandbox\ui\common\SourcesFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\src\org\xbmc\android\remotesandbox\ui\phone\DashboardFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\src\org\xbmc\android\remotesandbox\ui\sync\AbstractSyncBridge.java" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\src\org\xbmc\android\remotesandbox\ui\sync\AudioSyncBridge.java" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\src\org\xbmc\android\remotesandbox\ui\sync\FilesBridge.java" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\src\org\xbmc\android\remotesandbox\ui\tablet\DashboardBoxLayout.java" afterPath="" />
-      <change type="DELETED" beforePath="S:\Development\android-xbmcremote-sandbox\src\org\xbmc\android\remotesandbox\ui\tablet\DashboardFragment.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/account/authenticator/AuthenticatorActivity.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/account/authenticator/AuthenticatorActivity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/SlidingMenuFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/BaseActivity.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/BaseActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/attrs.xml" afterPath="$PROJECT_DIR$/res/values/attrs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/colors.xml" afterPath="$PROJECT_DIR$/res/values/colors.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/dimens.xml" afterPath="$PROJECT_DIR$/res/values/dimens.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/ids.xml" afterPath="$PROJECT_DIR$/res/values/ids.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/integers.xml" afterPath="$PROJECT_DIR$/res/values/integers.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/menu/main.xml" afterPath="$PROJECT_DIR$/res/menu/main.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/slidingmenu.xml" afterPath="$PROJECT_DIR$/res/layout/slidingmenu.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/styles.xml" afterPath="$PROJECT_DIR$/res/values/styles.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/HomeActivity.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/HomeActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/activity_home.xml" afterPath="$PROJECT_DIR$/res/layout/activity_home.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="S:\Development\android-xbmcremote-sandbox\res\drawable-xhdpi\icon.png" afterPath="$PROJECT_DIR$/res/drawable/icon.png" />
     </list>
     <ignored path="android-xbmcremote-sandbox.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382080459818" ignored="false" />
     <file path="/AbstractClient.java" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1381856498304" ignored="false" />
-    <file path="/fragment.java" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382043778107" ignored="false" />
+    <file path="/fragment.java" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382086174514" ignored="false" />
     <file path="/.gitignore" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1381862175880" ignored="false" />
     <file path="/Constants.java" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1381863021343" ignored="false" />
     <file path="/a.dummy" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382044548854" ignored="false" />
@@ -256,7 +150,7 @@
     <file path="/SlidingPreferenceActivity.java" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382044204623" ignored="false" />
     <file path="/DashboardBoxLayout.java" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382044710988" ignored="false" />
     <file path="/dimens.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382084368827" ignored="false" />
-    <file path="/BaseActivity.java" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382045479398" ignored="false" />
+    <file path="/BaseActivity.java" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382086584801" ignored="false" />
     <file path="/slidingmenu.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382046187106" ignored="false" />
     <file path="$PROJECT_DIR$/../trunk/LME-CORE/LME-CORE-web/src/main/webapp/WEB-INF/flows/serviceInformation/serviceInformation.jsp" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382082216853" ignored="false" />
     <file path="/a.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382082152643" ignored="false" />
@@ -269,6 +163,8 @@
     <file path="/integers.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382084393872" ignored="false" />
     <file path="/AuthenticatorActivity.java" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382084791104" ignored="false" />
     <file path="/main.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382085159900" ignored="false" />
+    <file path="/activity_home.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382085648235" ignored="false" />
+    <file path="/SlidingMenuFragment.java" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1382086434871" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -329,10 +225,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="slidingmenu.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/layout/slidingmenu.xml">
+      <file leaf-file-name="HomeActivity.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/HomeActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="55" selection-start="395" selection-end="395" vertical-scroll-proportion="0.0">
+            <state line="26" column="0" selection-start="581" selection-end="581" vertical-scroll-proportion="0.5896806">
               <folding />
             </state>
           </provider>
@@ -347,10 +243,37 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BaseActivity.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="BaseActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/BaseActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="45" column="32" selection-start="1344" selection-end="1344" vertical-scroll-proportion="1.1292719">
+            <state line="47" column="61" selection-start="1489" selection-end="1489" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SlidingMenuFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/SlidingMenuFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="8" column="0" selection-start="238" selection-end="238" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="list.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/libs/slidingmenu/example/res/layout/list.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="319" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="list_grid.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/libs/slidingmenu/example/res/layout/list_grid.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -374,12 +297,8 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/libs/slidingmenu/library/src/com/jeremyfeinstein/slidingmenu/lib/app/SlidingListActivity.java" />
-        <option value="$PROJECT_DIR$/libs/slidingmenu/library/src/com/jeremyfeinstein/slidingmenu/lib/app/SlidingPreferenceActivity.java" />
         <option value="$PROJECT_DIR$/src/org/xbmc/android/remotesandbox/ui/tablet/DashboardBoxLayout.java" />
         <option value="$PROJECT_DIR$/libs/slidingmenu/example/src/com/jeremyfeinstein/slidingmenu/example/SlidingContent.java" />
-        <option value="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/HomeActivity.java" />
-        <option value="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/BaseActivity.java" />
         <option value="$PROJECT_DIR$/res/values/attrs.xml" />
         <option value="$PROJECT_DIR$/res/values/colors.xml" />
         <option value="$PROJECT_DIR$/res/values/ids.xml" />
@@ -390,6 +309,10 @@
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/res/values/dimens.xml" />
         <option value="$PROJECT_DIR$/res/menu/main.xml" />
+        <option value="$PROJECT_DIR$/res/layout/activity_home.xml" />
+        <option value="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/SlidingMenuFragment.java" />
+        <option value="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/BaseActivity.java" />
+        <option value="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/HomeActivity.java" />
       </list>
     </option>
   </component>
@@ -651,6 +574,92 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="libs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="slidingmenu" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="example" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="example" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="libs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="slidingmenu" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="example" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="libs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="slidingmenu" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="example" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane">
@@ -850,12 +859,14 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.xbmc.android.sandbox.ui" />
       <recent name="org.xbmc.android.jsonrpc.provider" />
       <recent name="org.xbmc.android.jsonrpc.io.video" />
       <recent name="org.xbmc.android.jsonrpc.service" />
       <recent name="org.xbmc.android.remotesandbox.ui.base" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="S:\Development\android-xbmcremote-sandbox\res\layout" />
       <recent name="S:\Development\android-xbmcremote-sandbox\res\drawable" />
       <recent name="D:\dev\android-xbmcremote-sandbox\res\layout" />
       <recent name="D:\dev\android-xbmcremote-sandbox\res\drawable" />
@@ -1061,10 +1072,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1176" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32852563" sideWeight="0.6866405" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32852563" sideWeight="0.82514733" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3994112" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1073,16 +1084,16 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299293" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31335953" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25834972" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26960784" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.43909627" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17344174" sideWeight="0.6707056" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18196371" sideWeight="0.6866405" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17538461" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18196371" sideWeight="0.82514733" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17485265" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30147493" sideWeight="0.28652886" order="11" side_tool="true" content_ui="tabs" x="1607" y="386" width="609" height="933" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="9" side_tool="false" content_ui="combo" />
@@ -1159,72 +1170,51 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/account/authenticator/AuthenticatorActivity.java">
+    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="241" column="24" selection-start="8242" selection-end="8242" vertical-scroll-proportion="3.762097">
+        <state line="8" column="32" selection-start="361" selection-end="361" vertical-scroll-proportion="0.21947874">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/account/authenticator/Authenticator.java">
+    <entry file="file://$PROJECT_DIR$/res/values/integers.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="6" selection-start="1299" selection-end="1299" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/account/authenticator/NetworkUtilities.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="13" selection-start="1295" selection-end="1295" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/account/syncadapter/SyncAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="13" selection-start="1279" selection-end="1279" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/account/syncadapter/SyncService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="13" selection-start="1194" selection-end="1194" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/account/Constants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="13" selection-start="1024" selection-end="1024" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/colors.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="0" selection-start="939" selection-end="939" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/client/AbstractClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="115" column="18" selection-start="3473" selection-end="3473" vertical-scroll-proportion="0.516129">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/ids.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="0" selection-start="793" selection-end="793" vertical-scroll-proportion="0.0">
+        <state line="20" column="0" selection-start="793" selection-end="793" vertical-scroll-proportion="0.5486968">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/slidingmenu.xml">
+    <entry file="file://$PROJECT_DIR$/res/values/dimens.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="55" selection-start="395" selection-end="395" vertical-scroll-proportion="0.0">
+        <state line="23" column="49" selection-start="916" selection-end="916" vertical-scroll-proportion="0.63100135">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/values/colors.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="0" selection-start="939" selection-end="939" vertical-scroll-proportion="0.65843624">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/values/attrs.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/activity_home.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="0" selection-start="221" selection-end="221" vertical-scroll-proportion="0.10080645">
           <folding />
         </state>
       </provider>
@@ -1236,37 +1226,51 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/dimens.xml">
+    <entry file="file://$PROJECT_DIR$/libs/slidingmenu/example/res/layout/list.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="49" selection-start="916" selection-end="916" vertical-scroll-proportion="0.68350667">
+        <state line="0" column="0" selection-start="0" selection-end="319" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/menu/main.xml">
+    <entry file="file://$PROJECT_DIR$/libs/slidingmenu/example/res/layout/list_grid.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="4" selection-start="107" selection-end="107" vertical-scroll-proportion="0.059435364">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libs/slidingmenu/example/res/menu/example_list.xml">
+    <entry file="file://$PROJECT_DIR$/libs/slidingmenu/example/src/com/jeremyfeinstein/slidingmenu/example/SampleListFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="7" selection-start="731" selection-end="731" vertical-scroll-proportion="0.24242425">
+        <state line="15" column="44" selection-start="542" selection-end="542" vertical-scroll-proportion="0.17199017">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libs/slidingmenu/example/res/menu/main.xml">
+    <entry file="file://$PROJECT_DIR$/res/layout/slidingmenu.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="7" selection-start="334" selection-end="334" vertical-scroll-proportion="0.15151516">
+        <state line="11" column="57" selection-start="482" selection-end="482" vertical-scroll-proportion="0.2774275">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/SlidingMenuFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="0" selection-start="238" selection-end="238" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/BaseActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="32" selection-start="1344" selection-end="1344" vertical-scroll-proportion="1.1292719">
+        <state line="47" column="61" selection-start="1489" selection-end="1489" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/HomeActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="0" selection-start="581" selection-end="581" vertical-scroll-proportion="0.5896806">
           <folding />
         </state>
       </provider>
