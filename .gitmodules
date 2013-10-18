@@ -7,3 +7,6 @@
 [submodule "libs/actionbarsherlock"]
 	path = libs/actionbarsherlock
 	url = https://github.com/JakeWharton/ActionBarSherlock.git
+[submodule "libs/quickscroll"]
+	path = libs/quickscroll
+	url = https://github.com/andraskindler/quickscroll.git
