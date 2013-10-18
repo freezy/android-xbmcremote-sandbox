@@ -58,9 +58,9 @@ import android.widget.ViewFlipper;
 
 /**
  * A "wizard" which guides the user through adding a new XBMC host setting.
- * It first tries to find hosts in the network using zeroconf, but also 
+ * It first tries to find hosts in the network using zeroconf, but also
  * gives the user the possibility to manually add a host.
- * 
+ *
  * @author freezy <freezy@xbmc.org>
  */
 public class AuthenticatorActivity extends AccountAuthenticatorActivity implements DetachableResultReceiver.Receiver {
@@ -75,15 +75,15 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 	private AccountManager mAccountManager;
 	private Thread mAuthThread;
 	private final Handler mHandler = new Handler();
-	
+
 	private DetachableResultReceiver mReceiver;
-	
+
 	/* Those are the different states of the "wizard". */
 	private static final int PAGE_ZEROCONF = 0x01;
 	private static final int PAGE_FINISHED = 0x02;
-	
+
 	private int mCurrentPage = PAGE_ZEROCONF;
-	
+
 	private int mApiVersion = -1;
 	private Version mXbmcVersion = null;
 	private XBMCHost mHost = null;
@@ -112,9 +112,9 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 
 	private String mUsername;
 	private EditText mUsernameEdit;
-	
+
 	private final ArrayList<XBMCHost> mDiscoveredHosts = new ArrayList<XBMCHost>();
-	
+
 
 	/**
 	 * {@inheritDoc}
@@ -122,41 +122,41 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 	@Override
 	public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
-		
+
 		// set layout params
 		requestWindowFeature(Window.FEATURE_LEFT_ICON);
-		setContentView(R.layout.activity_addaccount);
+/*		setContentView(R.layout.activity_addaccount);
 		getWindow().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, android.R.drawable.ic_dialog_info);
 
 		// common views
 		mFlipper = (ViewFlipper) findViewById(R.id.addaccount_flipper);
 		mButtonNext = (Button)findViewById(R.id.addaccount_next_button);
 		mButtonPrev = (Button)findViewById(R.id.addaccount_prev_button);
-		
+
 		// zeroconf view
 		mZeroconfDiscoverButton = (ImageButton) findViewById(R.id.addaccount_zeroconf_scan_button);
 		mZeroconfProgressBar = (ProgressBar) findViewById(R.id.addaccount_zeroconf_progressbar);
 		mZeroconfSpinner = (Spinner)findViewById(R.id.addaccount_zeroconf_spinner);
 		mZeroconfSpinnerText = (TextView) findViewById(R.id.addaccount_zeroconf_spinnertext);
-		
+
 		// credentials view
 		mMessage = (TextView) findViewById(R.id.addaccount_credentials_text);
 		mUsernameEdit = (EditText) findViewById(R.id.username_edit);
 		mPasswordEdit = (EditText) findViewById(R.id.password_edit);
 		mUsernameEdit.setText(mUsername);
-		
+
 		// finished view
 		mFinishedText = (TextView) findViewById(R.id.addaccount_finished_text);
-		
+
 		mAccountManager = AccountManager.get(this);
-		
+
 		// define result receiver for zeroconf data
 		mReceiver = new DetachableResultReceiver(new Handler());
 		mReceiver.setReceiver(this);
-		
-		discoverHosts(null);
+
+		discoverHosts(null);*/
 	}
-	
+
 	private void flipPage(int page) {
 		int currentPage = mCurrentPage;
 		while (currentPage != page) {
@@ -169,7 +169,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 			}
 		}
 		mCurrentPage = page;
-		
+
 		// update layouts
 		switch (page) {
 			case PAGE_ZEROCONF:
@@ -184,7 +184,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 				break;
 		}
 	}
-	
+
 
 	@Override
 	public void onReceiveResult(int resultCode, Bundle resultData) {
@@ -201,7 +201,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 				Log.i(TAG, "Received host data: " + host);
 				mZeroconfSpinner.setAdapter(new DiscoveredHostsAdapter(this, mDiscoveredHosts));
 				break;
-				
+
 			case DiscoveryService.STATUS_FINISHED:
 				if (mDiscoveredHosts.isEmpty()) {
 					mZeroconfSpinnerText.setText(R.string.addaccount_nothingfound);
@@ -213,31 +213,33 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 				break;
 		}
 	}
-	
+
 	private class DiscoveredHostsAdapter extends ArrayAdapter<XBMCHost> implements SpinnerAdapter {
 		final LayoutInflater mInflater;
 		public DiscoveredHostsAdapter(Context context, ArrayList<XBMCHost> items) {
 			super(context, android.R.layout.simple_spinner_item, items);
 			mInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
-		
+
 		@Override
 		public View getDropDownView(int position, View convertView, ViewGroup parent) {
 			View row;
-	 
-			if (null == convertView) {
+
+/*			if (null == convertView) {
 				row = mInflater.inflate(R.layout.list_item_threelabels, null);
 				((ImageView) row.findViewById(R.id.item_icon)).setImageResource(R.drawable.icon);
 			} else {
 				row = convertView;
 			}
-	 
+
 			final XBMCHost host = getItem(position);
 			final TextView line1 = (TextView) row.findViewById(R.id.item_title);
 			final TextView line2 = (TextView) row.findViewById(R.id.item_subtitle);
 			line1.setText(host.getHost());
 			line2.setText(host.getAddress() + ":" + host.getPort());
 			return row;
+			*/
+			return null;
 		}
 	}
 
@@ -261,19 +263,19 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 		});
 		return dialog;
 	}
-	
+
 	public void handlePrev(View view) {
 		switch (mCurrentPage) {
 		case PAGE_ZEROCONF:
-			
+
 			break;
 		}
 	}
-	
+
 	public void handleNext(View view) {
 		switch (mCurrentPage) {
 			/*
-			 * From the zeroconf screen, probe XBMC.  
+			 * From the zeroconf screen, probe XBMC.
 			 */
 			case PAGE_ZEROCONF: {
 				mHost = (XBMCHost)mZeroconfSpinner.getSelectedItem();
@@ -285,37 +287,37 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 				finishUp();
 				break;
 			}
-			
+
 			default:
 				break;
 		}
 	}
-
+/*
 	public void discoverHosts(View view) {
 		mZeroconfDiscoverButton.setVisibility(View.INVISIBLE);
 		mZeroconfProgressBar.setVisibility(View.VISIBLE);
-		
+
 		mZeroconfSpinnerText.setText(R.string.addaccount_scanning);
 		mZeroconfSpinner.setAdapter(new DiscoveredHostsAdapter(this, new ArrayList<XBMCHost>(0)));
 		mDiscoveredHosts.clear();
-		
+
 		mZeroconfSpinner.setVisibility(View.INVISIBLE);
 		mZeroconfSpinnerText.setVisibility(View.VISIBLE);
-		
+
 		mButtonNext.setEnabled(false);
-		
+
 		runDiscovery();
 	}
-	
+*/
 	private void runDiscovery() {
-		
+
 		// discover zeroconf hosts
-		final Intent discoveryIntent = new Intent(Intent.ACTION_SEARCH, null, this, DiscoveryService.class);
+/*		final Intent discoveryIntent = new Intent(Intent.ACTION_SEARCH, null, this, DiscoveryService.class);
 		discoveryIntent.putExtra(DiscoveryService.EXTRA_STATUS_RECEIVER, mReceiver);
-		startService(discoveryIntent);
+		startService(discoveryIntent);*/
 	}
-	
-	
+
+
 	protected void finishUp() {
 		Log.i(TAG, "finishLogin()");
 		final Account account = new Account(mHost.getHost(), Constants.ACCOUNT_TYPE);
@@ -337,17 +339,17 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 	protected void hideProgress() {
 		dismissDialog(0);
 	}
-	
+
 	public void onProbeResult(int apiVersion, Version xbmcVersion) {
-		
+
 		mApiVersion = apiVersion;
 		mXbmcVersion = xbmcVersion;
-		
+
 		Log.i(TAG, "Found XBMC with API version " + apiVersion + ".");
 		Log.i(TAG, "Found XBMC at version " + xbmcVersion + ".");
 		hideProgress();
 		flipPage(PAGE_FINISHED);
-		
+
 	}
 
 
@@ -357,5 +359,5 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 	protected void showProgress() {
 		showDialog(0);
 	}
-	
+
 }

@@ -19,38 +19,4 @@
   -->
 <resources>
 
-    <declare-styleable name="AppTheme">
-        <!-- new -->
-        <attr name="actionbarCompatTitleStyle" format="reference" />
-        <attr name="actionbarCompatItemStyle" format="reference" />
-        <attr name="actionbarCompatItemHomeStyle" format="reference" />
-        <attr name="actionbarCompatProgressIndicatorStyle" format="reference" />
-    </declare-styleable>
-
-    <declare-styleable name="BlocksLayout">
-        <attr name="columns" format="integer" />
-    </declare-styleable>
-
-    <declare-styleable name="TimeRulerView">
-        <attr name="headerWidth" format="dimension" />
-        <attr name="hourHeight" format="dimension" />
-        <attr name="horizontalDivider2" format="boolean" />
-        <attr name="labelTextSize" format="dimension" />
-        <attr name="labelPaddingLeft" format="dimension" />
-        <attr name="labelColor" format="color" />
-        <attr name="dividerColor" format="color" />
-        <attr name="startHour" format="integer" />
-        <attr name="endHour" format="integer" />
-    </declare-styleable>
-
-    <declare-styleable name="BezelImageView">
-        <attr name="maskDrawable" format="reference" />
-        <attr name="borderDrawable" format="reference" />
-    </declare-styleable>
-
-    <declare-styleable name="DashboardBoxLayout">
-        <attr name="icon2" format="reference" />
-        <attr name="title2" format="string" />
-    </declare-styleable>
-
 </resources>
