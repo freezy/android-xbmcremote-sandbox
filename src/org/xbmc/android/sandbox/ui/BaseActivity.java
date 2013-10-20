@@ -1,6 +1,7 @@
 package org.xbmc.android.sandbox.ui;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import com.actionbarsherlock.view.Menu;
@@ -17,7 +18,7 @@ import org.xbmc.android.remotesandbox.R;
 public class BaseActivity extends SlidingFragmentActivity {
 
 	private int mTitleRes;
-	protected ListFragment mFrag;
+	protected Fragment mFrag;
 
 	public BaseActivity(int titleRes) {
 		mTitleRes = titleRes;
@@ -33,17 +34,19 @@ public class BaseActivity extends SlidingFragmentActivity {
 		setBehindContentView(R.layout.menu_frame);
 		if (savedInstanceState == null) {
 			FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
-			t.replace(R.id.menu_frame, new SlidingMenuFragment());
+			mFrag = new SlidingMenuFragment();
+			t.replace(R.id.menu_frame, mFrag);
 			t.commit();
 		} else {
-			mFrag = (ListFragment)this.getSupportFragmentManager().findFragmentById(R.id.menu_frame);
+			mFrag = this.getSupportFragmentManager().findFragmentById(R.id.menu_frame);
 		}
 
 		// customize the SlidingMenu
 		SlidingMenu sm = getSlidingMenu();
+		sm.setBehindWidthRes(R.dimen.slidingmenu_width);
+		sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);
 		sm.setShadowWidthRes(R.dimen.slidingmenu_shadow_width);
 		sm.setShadowDrawable(R.drawable.slidingmenu_shadow);
-		sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);
 		sm.setFadeDegree(0.35f);
 		sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 

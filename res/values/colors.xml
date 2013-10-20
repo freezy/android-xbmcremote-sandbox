@@ -23,4 +23,10 @@
 	<color name="light_primary_text">#af000000</color>
 	<color name="light_secondry_text">#80000000</color>
 
+	<color name="dark_bg">#323131</color>
+	<color name="dark_primary_text">#ffffff</color>
+	<color name="dark_secondary_text">#73ffffff</color>
+
+	<color name="slidingmenu_bg">#282828</color>
+
 </resources>
