@@ -22,6 +22,5 @@ public class HomeActivity extends BaseActivity {
 
 		// only slide menu, not the action bar.
 		setSlidingActionBarEnabled(false);
-
 	}
 }

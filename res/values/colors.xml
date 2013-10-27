@@ -37,5 +37,6 @@
 
 
 	<color name="slidingmenu_bg">#1c1c1c</color>
+	<color name="slidingmenu_textcolor">#1c1c1c</color>
 
 </resources>

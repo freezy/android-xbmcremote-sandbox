@@ -34,9 +34,19 @@ public class ListAdapter extends BaseExpandableListAdapter {
 		final TextView label = (TextView) view.findViewById(R.id.label);
 		final Button indicator = (Button) view.findViewById(R.id.indicator);
 
+		int foreColor;
+		if (group.getName().equals("Home")) {
+			foreColor = mContext.getResources().getColor(R.color.holo_blue_bright);
+		} else {
+			foreColor = mContext.getResources().getColor(R.color.dark_secondary_text);
+		}
+
+		label.setTextColor(foreColor);
 		label.setText(group.getName());
+		indicator.setTextColor(foreColor);
 		icon.setTypeface(mIconFont);
 		icon.setText(group.getIcon());
+		icon.setTextColor(foreColor);
 		indicator.setTypeface(mIconFont);
 		indicator.setVisibility(group.hasChildren() ? View.VISIBLE : View.GONE);
 		indicator.setText(group.collapsed ? R.string.ic_expand : R.string.ic_collapse);
