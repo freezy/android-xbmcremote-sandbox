@@ -3,12 +3,12 @@ package org.xbmc.android.sandbox.ui;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.ListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 import org.xbmc.android.remotesandbox.R;
+import org.xbmc.android.sandbox.ui.menu.SlidingMenuFragment;
 
 /**
  * Common to all fragment activities.
@@ -42,9 +42,8 @@ public class BaseActivity extends SlidingFragmentActivity {
 		}
 
 		// customize the SlidingMenu
-		SlidingMenu sm = getSlidingMenu();
+		final SlidingMenu sm = getSlidingMenu();
 		sm.setBehindWidthRes(R.dimen.slidingmenu_width);
-		sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);
 		sm.setShadowWidthRes(R.dimen.slidingmenu_shadow_width);
 		sm.setShadowDrawable(R.drawable.slidingmenu_shadow);
 		sm.setFadeDegree(0.35f);

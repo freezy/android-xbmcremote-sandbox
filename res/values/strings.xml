@@ -40,4 +40,18 @@
 	<string name="addaccount_authenticator_label">XBMC Host</string>
 	<string name="addaccount_progress_checkingapiversion">Probing XBMC\u2026</string>
 
+
+	<string name="ic_expand">\u002a</string>
+	<string name="ic_collapse">\u002b</string>
+
+	<string name="ic_settings">\u0026</string>
+	<string name="ic_remote">\u0027</string>
+
+	<string name="ic_home">\u002e</string>
+	<string name="ic_music">\u002c</string>
+	<string name="ic_movie">\u002d</string>
+	<string name="ic_tv">\u0021</string>
+	<string name="ic_picture">\u0029</string>
+	<string name="ic_addon">\u002f</string>
+
 </resources>

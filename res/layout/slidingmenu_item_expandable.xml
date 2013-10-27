@@ -1,14 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			  android:layout_width="match_parent"
-			  android:layout_height="match_parent"
-			  android:orientation="vertical"
-			  android:padding="10dp" >
+<RelativeLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:tools="http://schemas.android.com/tools"
+		android:layout_width="match_parent"
+		android:layout_height="48dp"
+		android:orientation="vertical">
+
+	<TextView
+			android:id="@+id/icon"
+			android:textSize="40dp"
+			android:textColor="@color/dark_secondary_text"
+			android:layout_width="48dp"
+			android:layout_height="wrap_content"
+			android:layout_centerVertical="true"
+			android:layout_alignParentLeft="true"
+			android:layout_marginLeft="8dp"
+			tools:ignore="SpUsage" />
 
 	<TextView
 			android:id="@+id/label"
+			android:textSize="18sp"
+			android:textColor="@color/dark_secondary_text"
+			android:fontFamily="sans-serif-light"
 			android:layout_width="wrap_content"
+			android:layout_height="48dp"
+			android:layout_centerVertical="true"
+			android:layout_toRightOf="@+id/icon"
+			android:gravity="center_vertical"/>
+
+	<Button
+			android:id="@+id/indicator"
+			android:textSize="24dp"
+			android:textColor="@color/dark_secondary_text"
+			android:layout_width="48dp"
 			android:layout_height="wrap_content"
-			android:paddingLeft="25dp"/>
-</LinearLayout>
+			android:background="@null"
+			android:layout_alignParentTop="true"
+			android:layout_alignParentRight="true"
+			tools:ignore="SpUsage"/>
+
+</RelativeLayout>

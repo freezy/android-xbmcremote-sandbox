@@ -20,8 +20,7 @@
 <resources>
 
 	<!-- Sliding Menu -->
-	<dimen name="slidingmenu_shadow_width">15dp</dimen>
-	<dimen name="slidingmenu_offset">60dp</dimen>
-	<dimen name="slidingmenu_width">100dp</dimen>
+	<dimen name="slidingmenu_shadow_width">30dp</dimen>
+	<dimen name="slidingmenu_width">240dp</dimen>
 
 </resources>

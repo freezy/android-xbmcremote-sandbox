@@ -13,15 +13,31 @@ import java.util.Collections;
 public class Group {
 
 	private final String mName;
+	private final int mIcon;
 	private final ArrayList<Child> mItems = new ArrayList<Child>();
 
-	public Group(String name, Child... children) {
+	public boolean collapsed = true;
+
+	public Group(String name, int icon, Child... children) {
 		mName = name;
+		mIcon = icon;
 		Collections.addAll(mItems, children);
+	}
+
+	public void toggle() {
+		collapsed = !collapsed;
+	}
+
+	public boolean hasChildren() {
+		return !mItems.isEmpty();
 	}
 
 	public String getName() {
 		return mName;
+	}
+
+	public int getIcon() {
+		return mIcon;
 	}
 
 	public ArrayList<Child> getItems() {

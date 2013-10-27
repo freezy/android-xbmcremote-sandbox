@@ -26,7 +26,8 @@
 	<color name="dark_bg">#323131</color>
 	<color name="dark_primary_text">#ffffff</color>
 	<color name="dark_secondary_text">#73ffffff</color>
+	<color name="dark_tertiary_text">#19ffffff</color>
 
-	<color name="slidingmenu_bg">#282828</color>
+	<color name="slidingmenu_bg">#1c1c1c</color>
 
 </resources>
