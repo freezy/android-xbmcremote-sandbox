@@ -20,10 +20,7 @@ public class HomeActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
 
-		// set the Above View
-
-//		setBehindContentView(R.layout.slidingmenu);
-
+		// only slide menu, not the action bar.
 		setSlidingActionBarEnabled(false);
 
 	}

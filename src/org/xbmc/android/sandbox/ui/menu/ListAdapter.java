@@ -51,6 +51,13 @@ public class ListAdapter extends BaseExpandableListAdapter {
 				group.toggle();
 			}
 		});
+
+		view.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(mContext, group.getName(), Toast.LENGTH_SHORT).show();
+			}
+		});
 		return view;
 	}
 

@@ -28,6 +28,14 @@
 	<color name="dark_secondary_text">#73ffffff</color>
 	<color name="dark_tertiary_text">#19ffffff</color>
 
+	<color name="holo_blue_light">#33b5e5</color>
+	<color name="holo_blue_dark">#0099cc</color>
+	<color name="holo_blue_bright">#00ddff</color>
+
+	<color name="holo_overlay">#9933b5e5</color>
+
+
+
 	<color name="slidingmenu_bg">#1c1c1c</color>
 
 </resources>

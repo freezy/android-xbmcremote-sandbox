@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.*;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 import org.xbmc.android.remotesandbox.R;
 
 import java.util.ArrayList;
@@ -21,14 +23,6 @@ public class SlidingMenuFragment extends Fragment {
 
 		final ExpandableListView list = (ExpandableListView) getView().findViewById(R.id.slidingmenu_expandable_list);
 		list.setGroupIndicator(null);
-
-		list.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-			@Override
-			public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-				return true;
-			}
-		});
-
 
 		final ArrayList<Group> groups = new ArrayList<Group>();
 		groups.add(new Group("Home", R.string.ic_home));

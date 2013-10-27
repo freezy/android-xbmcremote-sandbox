@@ -5,7 +5,8 @@
 		xmlns:tools="http://schemas.android.com/tools"
 		android:layout_width="match_parent"
 		android:layout_height="48dp"
-		android:orientation="vertical">
+		android:orientation="vertical"
+		android:background="@drawable/bg_selectable">
 
 	<TextView
 			android:id="@+id/icon"
