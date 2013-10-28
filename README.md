@@ -24,4 +24,4 @@ functional data connection yet, so don't bother about XBMC setup.
 
 ## Status Quo
 Still putting the pieces together, so nothing to see yet. There are some mockups of
-the new UI [here]https://github.com/freezy/android-xbmcremote-sandbox/tree/master/docs/mockups).
+the new UI [here](https://github.com/freezy/android-xbmcremote-sandbox/tree/master/doc/mockups).
