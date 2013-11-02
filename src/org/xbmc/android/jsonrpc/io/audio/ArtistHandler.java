@@ -47,7 +47,7 @@ import android.util.Log;
 public class ArtistHandler extends JsonHandler {
 
 	private final static String TAG = ArtistHandler.class.getSimpleName();
-	
+
 	public ArtistHandler() {
 		super(AudioContract.CONTENT_AUTHORITY);
 	}
@@ -57,11 +57,11 @@ public class ArtistHandler extends JsonHandler {
 		Log.d(TAG, "Building queries for artist's drop and create.");
 
 		final long now = System.currentTimeMillis();
-			
-		// we intentionally don't use the API for de-serializing but access the 
+
+		// we intentionally don't use the API for mapping but access the
 		// JSON objects directly for performance reasons.
 		final ArrayNode artists = (ArrayNode)response.get(AbstractCall.RESULT).get(AudioLibrary.GetArtists.RESULT);
-		
+
 		final ContentValues[] batch = new ContentValues[artists.size()];
 		for (int i = 0; i < artists.size(); i++) {
 			final ObjectNode artist = (ObjectNode)artists.get(i);
@@ -70,7 +70,7 @@ public class ArtistHandler extends JsonHandler {
 			batch[i].put(Artists.ID, artist.get(ArtistDetail.ARTISTID).getIntValue());
 			batch[i].put(Artists.NAME, artist.get(ArtistDetail.ARTIST).getTextValue());
 		}
-	
+
 		Log.d(TAG, batch.length + " artist queries built in " + (System.currentTimeMillis() - now) + "ms.");
 		return batch;
 	}
@@ -79,7 +79,7 @@ public class ArtistHandler extends JsonHandler {
 	protected void insert(ContentResolver resolver, ContentValues[] batch) {
 		resolver.bulkInsert(Artists.CONTENT_URI, batch);
 	}
-	
+
 	/**
 	 * Generates instances of this Parcelable class from a Parcel.
 	 */
@@ -92,5 +92,5 @@ public class ArtistHandler extends JsonHandler {
 		public ArtistHandler[] newArray(int n) {
 			return new ArtistHandler[n];
 		}
-	};	
+	};
 }

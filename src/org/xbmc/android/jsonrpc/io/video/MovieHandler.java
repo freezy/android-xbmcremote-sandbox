@@ -29,16 +29,14 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
-import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
-import org.xbmc.android.jsonrpc.api.model.AudioModel.ArtistDetail;
+import org.xbmc.android.jsonrpc.api.call.VideoLibrary;
+import org.xbmc.android.jsonrpc.api.model.VideoModel;
 import org.xbmc.android.jsonrpc.io.JsonHandler;
-import org.xbmc.android.jsonrpc.provider.AudioContract;
-import org.xbmc.android.jsonrpc.provider.AudioContract.Artists;
-import org.xbmc.android.jsonrpc.provider.AudioContract.SyncColumns;
+import org.xbmc.android.jsonrpc.provider.VideoContract;
 
 /**
  * Handles one-way synchronization between XBMC's <tt>movie</tt> table and the local
- * {@link org.xbmc.android.jsonrpc.provider.AudioContract.Artists} table.
+ * {@link org.xbmc.android.jsonrpc.provider.VideoContract.Movies} table.
  *
  * @author freezy <freezy@xbmc.org>
  */
@@ -47,35 +45,41 @@ public class MovieHandler extends JsonHandler {
 	private final static String TAG = MovieHandler.class.getSimpleName();
 
 	public MovieHandler() {
-		super(AudioContract.CONTENT_AUTHORITY);
+		super(VideoContract.CONTENT_AUTHORITY);
 	}
 
 	@Override
 	protected ContentValues[] parse(JsonNode response, ContentResolver resolver) {
-		Log.d(TAG, "Building queries for artist's drop and create.");
+		Log.d(TAG, "Building queries for movies' drop and create.");
 
 		final long now = System.currentTimeMillis();
 
-		// we intentionally don't use the API for de-serializing but access the
+		// we intentionally don't use the API for mapping but access the
 		// JSON objects directly for performance reasons.
-		final ArrayNode artists = (ArrayNode)response.get(AbstractCall.RESULT).get(AudioLibrary.GetArtists.RESULT);
+		final ArrayNode movies = (ArrayNode)response.get(AbstractCall.RESULT).get(VideoLibrary.GetMovies.RESULT);
 
-		final ContentValues[] batch = new ContentValues[artists.size()];
-		for (int i = 0; i < artists.size(); i++) {
-			final ObjectNode artist = (ObjectNode)artists.get(i);
+		final int s = movies.size();
+		final ContentValues[] batch = new ContentValues[s];
+		for (int i = 0; i < s; i++) {
+			final ObjectNode movie = (ObjectNode)movies.get(i);
 			batch[i] = new ContentValues();
-			batch[i].put(SyncColumns.UPDATED, now);
-			batch[i].put(Artists.ID, artist.get(ArtistDetail.ARTISTID).getIntValue());
-			batch[i].put(Artists.NAME, artist.get(ArtistDetail.ARTIST).getTextValue());
+			batch[i].put(VideoContract.SyncColumns.UPDATED, now);
+			batch[i].put(VideoContract.Movies.ID, movie.get(VideoModel.MovieDetail.MOVIEID).getIntValue());
+			batch[i].put(VideoContract.Movies.TITLE, movie.get(VideoModel.MovieDetail.TITLE).getTextValue());
+			batch[i].put(VideoContract.Movies.YEAR, movie.get(VideoModel.MovieDetail.YEAR).getIntValue());
+			batch[i].put(VideoContract.Movies.GENRE, movie.get(VideoModel.MovieDetail.GENRE).getTextValue());
+			batch[i].put(VideoContract.Movies.RATING, movie.get(VideoModel.MovieDetail.RATING).getDoubleValue());
+			batch[i].put(VideoContract.Movies.RUNTIME, movie.get(VideoModel.MovieDetail.RUNTIME).getIntValue());
+			batch[i].put(VideoContract.Movies.THUMBNAIL, movie.get(VideoModel.MovieDetail.THUMBNAIL).getTextValue());
 		}
 
-		Log.d(TAG, batch.length + " artist queries built in " + (System.currentTimeMillis() - now) + "ms.");
+		Log.d(TAG, batch.length + " movie queries built in " + (System.currentTimeMillis() - now) + "ms.");
 		return batch;
 	}
 
 	@Override
 	protected void insert(ContentResolver resolver, ContentValues[] batch) {
-		resolver.bulkInsert(Artists.CONTENT_URI, batch);
+		resolver.bulkInsert(VideoContract.Movies.CONTENT_URI, batch);
 	}
 
 	/**

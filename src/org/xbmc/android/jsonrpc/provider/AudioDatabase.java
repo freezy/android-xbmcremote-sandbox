@@ -39,41 +39,41 @@ import android.util.Log;
  * <p>
  * This class, along with the other ones in this package was closely inspired by
  * Google's official iosched app, see http://code.google.com/p/iosched/
- * 
+ *
  * @author freezy <freezy@xbmc.org>
  */
 public class AudioDatabase extends SQLiteOpenHelper {
 
 	private static final String TAG = AudioDatabase.class.getSimpleName();
-	
-	private static final String DATABASE_NAME = "media.db";
-	
+
+	private static final String DATABASE_NAME = "audio.db";
+
 	private static final int VER_LAUNCH = 1;
 	private static final int DATABASE_VERSION = VER_LAUNCH;
-	
+
 	public interface Tables {
-		
+
 		String ALBUMS = "albums";
 		String ARTISTS = "artists";
-		
+
 		String ALBUMS_JOIN_ARTISTS = ALBUMS + " LEFT OUTER JOIN " + ARTISTS + " ON " + Albums.PREFIX + Artists.ID  + "=" + Artists.ID;
-		
-	};
-	
+
+	}
+
 	/** {@code REFERENCES} clauses. */
 	private interface References {
 		String ARTIST_ID = "REFERENCES " + Tables.ARTISTS + "(" + Artists.ID + ")";
 	}
-	
+
 	public AudioDatabase(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
-	
-	
+
+
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		
+
 		db.execSQL("CREATE TABLE " + Tables.ARTISTS + " ("
 			+ BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ SyncColumns.UPDATED + " INTEGER NOT NULL,"
@@ -94,22 +94,22 @@ public class AudioDatabase extends SQLiteOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		Log.d(TAG, "onUpgrade() from " + oldVersion + " to " + newVersion);
-		
+
 		int version = oldVersion;
 		// do stuff here
 		switch (version) {
 			default:
 				break;
 		}
-		
+
 		// if not treated, drop + create.
 		Log.d(TAG, "after upgrade logic, at version " + version);
 		if (version != DATABASE_VERSION) {
 			Log.w(TAG, "Destroying old data during upgrade");
-			
+
 			db.execSQL("DROP TABLE IF EXISTS " + Tables.ALBUMS);
 			db.execSQL("DROP TABLE IF EXISTS " + Tables.ARTISTS);
-			
+
 			onCreate(db);
 		}
 	}

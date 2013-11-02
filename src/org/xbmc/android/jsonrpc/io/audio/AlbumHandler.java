@@ -55,11 +55,11 @@ public class AlbumHandler extends JsonHandler {
 
 	@Override
 	protected ContentValues[] parse(JsonNode result, ContentResolver resolver) {
-		
+
 		final long now = System.currentTimeMillis();
 		Log.d(TAG, "Building queries for album's drop and create.");
-		
-		// we intentionally don't use the API for de-serializing but access the 
+
+		// we intentionally don't use the API for mapping but access the
 		// JSON objects directly for performance reasons.
 		final ArrayNode albums = (ArrayNode)result.get(AbstractCall.RESULT).get(AudioLibrary.GetAlbums.RESULT);
 
@@ -81,7 +81,7 @@ public class AlbumHandler extends JsonHandler {
 	protected void insert(ContentResolver resolver, ContentValues[] batch) {
 		resolver.bulkInsert(Albums.CONTENT_URI, batch);
 	}
-	
+
 	/**
 	 * Generates instances of this Parcelable class from a Parcel.
 	 */

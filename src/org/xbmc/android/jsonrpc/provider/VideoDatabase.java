@@ -41,7 +41,7 @@ public class VideoDatabase extends SQLiteOpenHelper {
 
 	private static final String TAG = VideoDatabase.class.getSimpleName();
 
-	private static final String DATABASE_NAME = "media.db";
+	private static final String DATABASE_NAME = "video.db";
 
 	private static final int VER_LAUNCH = 1;
 	private static final int DATABASE_VERSION = VER_LAUNCH;

@@ -107,7 +107,7 @@ public class VideoContract {
 			return CONTENT_URI.buildUpon().appendPath(movieId).build();
 		}
 
-		/** Read {@link #ID} from {@link Movie} {@link android.net.Uri}. */
+		/** Read {@link #ID} from {@link org.xbmc.android.jsonrpc.provider.VideoContract.Movies} {@link android.net.Uri}. */
 		public static String getMovieId(Uri uri) {
 			return uri.getPathSegments().get(1);
 		}
