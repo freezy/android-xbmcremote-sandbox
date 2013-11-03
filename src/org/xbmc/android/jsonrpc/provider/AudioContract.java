@@ -84,6 +84,8 @@ public class AudioContract {
 		String YEAR = PREFIX + "year";
 		/** Year the albums was released. */
 		String THUMBNAIL = PREFIX + "thumbnail";
+
+		String UPDATED = PREFIX + SyncColumns.UPDATED;
 	}
 
 	/**
@@ -97,6 +99,8 @@ public class AudioContract {
 		String ID = PREFIX + "id";
 		/** Title describing this artist. */
 		String NAME = PREFIX + "title";
+
+		String UPDATED = PREFIX + SyncColumns.UPDATED;
 	}
 
 	/**
@@ -112,7 +116,9 @@ public class AudioContract {
 		public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.xbmc.album";
 
 		/** Default "ORDER BY" clause. */
-		public static final String DEFAULT_SORT = AlbumsColumns.TITLE + " ASC";
+		public static final String SORT_DEFAULT = AlbumsColumns.TITLE + " ASC";
+		public static final String SORT_LATEST_3 = AlbumsColumns.UPDATED + " DESC LIMIT 3";
+
 		/** Latest adde albums first */
 		public static final String SORT_LATEST_FIRST = AlbumsColumns.ID + " DESC";
 

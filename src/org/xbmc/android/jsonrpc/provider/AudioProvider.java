@@ -278,7 +278,7 @@ public class AudioProvider extends ContentProvider {
 					// standard SQL insert statement, that can be reused
 					SQLiteStatement insert = db.compileStatement(
 						"INSERT INTO " + AudioDatabase.Tables.ALBUMS + "(" +
-						SyncColumns.UPDATED +
+						AlbumsColumns.UPDATED +
 						"," + AlbumsColumns.ID +
 						"," + AlbumsColumns.TITLE +
 						"," + AlbumsColumns.PREFIX + Artists.ID +
@@ -315,7 +315,7 @@ public class AudioProvider extends ContentProvider {
 					// standard SQL insert statement, that can be reused
 					SQLiteStatement insert = db.compileStatement(
 							"INSERT INTO " + AudioDatabase.Tables.ARTISTS + "(" +
-							SyncColumns.UPDATED +
+							ArtistsColumns.UPDATED +
 							"," + ArtistsColumns.ID +
 							"," + ArtistsColumns.NAME +
 							") VALUES " + "(?,?,?)");

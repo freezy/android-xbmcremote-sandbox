@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import org.xbmc.android.jsonrpc.provider.AudioContract;
 import org.xbmc.android.jsonrpc.provider.AudioDatabase;
+import org.xbmc.android.jsonrpc.service.AbstractSyncService;
 import org.xbmc.android.jsonrpc.service.AudioSyncService;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.sandbox.ui.sync.AbstractSyncBridge;
@@ -49,7 +50,6 @@ public class HomeActivity extends RefreshableActivity implements LoaderManager.L
 			getSupportLoaderManager().restartLoader(0, null, HomeActivity.this);
 		}
 	};
-
 
 	public HomeActivity() {
 		super(R.string.title_home, R.layout.activity_home);
@@ -93,7 +93,7 @@ public class HomeActivity extends RefreshableActivity implements LoaderManager.L
 		baseUri = ContactsContract.Contacts.CONTENT_URI;
 
 		return new CursorLoader(this, AudioContract.Albums.CONTENT_URI, AlbumsQuery.PROJECTION, null, null,
-				AudioContract.Albums.DEFAULT_SORT);
+				AudioContract.Albums.SORT_LATEST_3);
 	}
 
 	@Override

@@ -11,30 +11,46 @@
 		android:orientation="vertical"
 		android:background="#e4e4e3">
 
-		<TextView android:id="@+id/home_label"
-				  android:text="Welcome to the home screen."
+		<TextView android:id="@+id/home_music_title"
+				  android:text="@string/title_music"
 				  android:layout_width="wrap_content"
-				  android:fontFamily="sans-serif-light"
 				  android:layout_height="wrap_content"
+				  android:layout_marginTop="10dp"
+				  android:layout_marginLeft="15dp"
 				  android:layout_alignParentTop="true"
-				  android:layout_centerHorizontal="true"
-				  android:layout_marginTop="25dp"
-				  android:textSize="24dp"/>
+				  android:fontFamily="sans-serif-light"
+				  android:textStyle="italic"
+				  android:textSize="22sp"
+				  />
+
+		<TextView
+				android:id="@+id/home_music_subtitle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_below="@+id/home_music_title"
+				android:layout_alignLeft="@id/home_music_title"
+				android:layout_marginTop="-4dp"
+				android:text="@string/latest_albums"
+				android:textSize="14sp"
+				android:textColor="@color/light_secondry_text"
+				android:fontFamily="sans-serif-light"
+				/>
 
 		<GridView
 				android:id="@+id/home_music_grid"
 				android:layout_width="fill_parent"
 				android:layout_height="fill_parent"
-				android:layout_below="@+id/home_label"
-				android:layout_alignParentLeft="true"
-				android:layout_marginTop="22dp"
+				android:layout_below="@+id/home_music_subtitle"
+				android:layout_marginLeft="10dp"
+				android:layout_marginRight="10dp"
+				android:layout_marginTop="10dp"
 				android:numColumns="3"
 				android:verticalSpacing="10dp"
 				android:horizontalSpacing="10dp"
 				android:stretchMode="columnWidth"
 				android:gravity="center"
-				android:layout_marginLeft="10dp"
-				android:layout_marginRight="10dp">
+				>
 		</GridView>
+
 	</RelativeLayout>
 </uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout>

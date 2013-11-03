@@ -21,6 +21,11 @@
 
 package org.xbmc.android.jsonrpc.io.audio;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Log;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
@@ -30,13 +35,6 @@ import org.xbmc.android.jsonrpc.api.model.AudioModel.ArtistDetail;
 import org.xbmc.android.jsonrpc.io.JsonHandler;
 import org.xbmc.android.jsonrpc.provider.AudioContract;
 import org.xbmc.android.jsonrpc.provider.AudioContract.Artists;
-import org.xbmc.android.jsonrpc.provider.AudioContract.SyncColumns;
-
-import android.content.ContentResolver;
-import android.content.ContentValues;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.Log;
 
 /**
  * Handles one-way synchronization between XBMC's <tt>artist</tt> table and the local
@@ -66,7 +64,7 @@ public class ArtistHandler extends JsonHandler {
 		for (int i = 0; i < artists.size(); i++) {
 			final ObjectNode artist = (ObjectNode)artists.get(i);
 			batch[i] = new ContentValues();
-			batch[i].put(SyncColumns.UPDATED, now);
+			batch[i].put(Artists.UPDATED, now);
 			batch[i].put(Artists.ID, artist.get(ArtistDetail.ARTISTID).getIntValue());
 			batch[i].put(Artists.NAME, artist.get(ArtistDetail.ARTIST).getTextValue());
 		}

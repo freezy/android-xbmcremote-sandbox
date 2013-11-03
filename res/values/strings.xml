@@ -7,6 +7,8 @@
 	<string name="empty_artists">No artists found.</string>
 	<string name="empty_music_sources">No music sources found.</string>
 
+	<string name="latest_albums">Latest Albums</string>
+
 	<string name="title_empty"></string>
 	<string name="title_home">Home</string>
 	<string name="title_music">Music</string>
@@ -55,5 +57,4 @@
 	<string name="ic_tv">\u0021</string>
 	<string name="ic_picture">\u0029</string>
 	<string name="ic_addon">\u002f</string>
-
 </resources>
