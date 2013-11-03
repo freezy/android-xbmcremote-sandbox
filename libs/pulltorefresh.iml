@@ -16,10 +16,9 @@
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$">
+    <content url="file://$MODULE_DIR$/pulltorefresh/library">
       <sourceFolder url="file://$MODULE_DIR$/pulltorefresh/library/gen" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/pulltorefresh/library/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/gen" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

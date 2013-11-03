@@ -53,7 +53,7 @@ import android.util.Log;
  * <p>
  * This class, along with the other ones in this package was closely inspired by
  * Google's official iosched app, see http://code.google.com/p/iosched/
- * 
+ *
  * @author freezy <freezy@xbmc.org>
  */
 public class AudioProvider extends ContentProvider {
@@ -176,7 +176,7 @@ public class AudioProvider extends ContentProvider {
 		getContext().getContentResolver().notifyChange(uri, null);
 		return retVal;
 	}
-	
+
 	/**
 	 * Apply the given set of {@link ContentProviderOperation}, executing inside
 	 * a {@link SQLiteDatabase} transaction. All changes will be rolled back if
@@ -226,7 +226,7 @@ public class AudioProvider extends ContentProvider {
 				throw new UnsupportedOperationException("Unknown uri: " + uri);
 			}
 		}
-    }	
+    }
 
 	/**
 	 * Build an advanced {@link SelectionBuilder} to match the requested
@@ -283,8 +283,9 @@ public class AudioProvider extends ContentProvider {
 						"," + AlbumsColumns.TITLE +
 						"," + AlbumsColumns.PREFIX + Artists.ID +
 						"," + AlbumsColumns.YEAR +
-						") VALUES " + "(?,?,?,?,?)");
-					
+						"," + AlbumsColumns.THUMBNAIL +
+						") VALUES " + "(?,?,?,?,?,?)");
+
 					final long now = System.currentTimeMillis();
 					for (ContentValues value : values) {
 						insert.bindLong(1, now);
@@ -292,6 +293,7 @@ public class AudioProvider extends ContentProvider {
 						insert.bindString(3, value.getAsString(Albums.TITLE));
 						insert.bindString(4, value.getAsString(Albums.PREFIX + Artists.ID));
 						insert.bindString(5, value.getAsString(Albums.YEAR));
+						insert.bindString(6, value.getAsString(Albums.THUMBNAIL));
 						insert.executeInsert();
 					}
 					db.setTransactionSuccessful();
@@ -314,8 +316,8 @@ public class AudioProvider extends ContentProvider {
 					SQLiteStatement insert = db.compileStatement(
 							"INSERT INTO " + AudioDatabase.Tables.ARTISTS + "(" +
 							SyncColumns.UPDATED +
-							"," + ArtistsColumns.ID + 
-							"," + ArtistsColumns.NAME + 
+							"," + ArtistsColumns.ID +
+							"," + ArtistsColumns.NAME +
 							") VALUES " + "(?,?,?)");
 
 					final long now = System.currentTimeMillis();

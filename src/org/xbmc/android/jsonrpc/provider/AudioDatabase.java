@@ -48,7 +48,7 @@ public class AudioDatabase extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "audio.db";
 
-	private static final int VER_LAUNCH = 1;
+	private static final int VER_LAUNCH = 2;
 	private static final int DATABASE_VERSION = VER_LAUNCH;
 
 	public interface Tables {
@@ -88,6 +88,7 @@ public class AudioDatabase extends SQLiteOpenHelper {
 			+ AlbumsColumns.PREFIX + Artists.ID + " TEXT " + References.ARTIST_ID + ","
 			+ AlbumsColumns.TITLE + " TEXT,"
 			+ AlbumsColumns.YEAR + " TEXT,"
+			+ AlbumsColumns.THUMBNAIL + " TEXT,"
 			+ "UNIQUE (" + AlbumsColumns.ID + ") ON CONFLICT REPLACE)");
 	}
 

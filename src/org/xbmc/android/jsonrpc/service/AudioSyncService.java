@@ -99,7 +99,11 @@ public class AudioSyncService extends AbstractSyncService {
 	}
 
 	private void syncAlbums() {
-		final AudioLibrary.GetAlbums getAlbumsCall = new AudioLibrary.GetAlbums(AlbumFields.TITLE, AlbumFields.ARTISTID, AlbumFields.YEAR);
+		final AudioLibrary.GetAlbums getAlbumsCall = new AudioLibrary.GetAlbums(
+				AlbumFields.TITLE, AlbumFields.ARTISTID, AlbumFields.YEAR,
+				AlbumFields.THUMBNAIL
+		);
+
 		mCm.call(getAlbumsCall, new AlbumHandler(), new HandlerCallback() {
 
 			@Override

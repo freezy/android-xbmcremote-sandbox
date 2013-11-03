@@ -82,6 +82,8 @@ public class AudioContract {
 		String TITLE = PREFIX + "title";
 		/** Year the albums was released. */
 		String YEAR = PREFIX + "year";
+		/** Year the albums was released. */
+		String THUMBNAIL = PREFIX + "thumbnail";
 	}
 
 	/**
