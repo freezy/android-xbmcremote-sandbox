@@ -26,11 +26,15 @@ import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.View;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
 import org.xbmc.android.jsonrpc.service.AbstractSyncService.RefreshObserver;
+import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.sandbox.ui.sync.AbstractSyncBridge;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 
 import java.util.ArrayList;
 
@@ -49,10 +53,11 @@ import java.util.ArrayList;
  *
  * @author freezy <freezy@xbmc.org>
  */
-public abstract class RefreshableActivity extends BaseActivity {
+public abstract class RefreshableActivity extends BaseActivity implements PullToRefreshAttacher.OnRefreshListener {
 
 	private final static String TAG = RefreshableActivity.class.getSimpleName();
 	private final static int MENU_REFRESH = 0x01;
+	private PullToRefreshAttacher mPullToRefreshAttacher;
 
 	/**
 	 * If true, progress animation is displayed, otherwise static refresh button.
@@ -69,8 +74,11 @@ public abstract class RefreshableActivity extends BaseActivity {
 	 */
 	protected final static AbstractSyncBridge[] BRIDGEARRAY_TYPE = new AbstractSyncBridge[0];
 
-	public RefreshableActivity(int titleRes) {
+	private final int mContentViewRes;
+
+	public RefreshableActivity(int titleRes, int contentViewRes) {
 		super(titleRes);
+		mContentViewRes = contentViewRes;
 	}
 
 	/**
@@ -96,10 +104,25 @@ public abstract class RefreshableActivity extends BaseActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
 		super.onCreate(savedInstanceState);
-		setProgressBarIndeterminateVisibility(mSyncing ? Boolean.TRUE : Boolean.FALSE);
+
+		setContentView(mContentViewRes);
+
+		//setProgressBarIndeterminateVisibility(mSyncing ? Boolean.TRUE : Boolean.FALSE);
+
+		mPullToRefreshAttacher = PullToRefreshAttacher.get(this);
+
+		// Retrieve the PullToRefreshLayout from the content view
+		PullToRefreshLayout ptrLayout = (PullToRefreshLayout) findViewById(R.id.ptr_layout);
+
+		// Give the PullToRefreshAttacher to the PullToRefreshLayout, along with a refresh listener.
+		ptrLayout.setPullToRefreshAttacher(mPullToRefreshAttacher, this);
+
+		if (mSyncing) {
+			mPullToRefreshAttacher.setRefreshing(true);
+		}
+
 
 		final FragmentManager fm = getSupportFragmentManager();
 
@@ -127,12 +150,20 @@ public abstract class RefreshableActivity extends BaseActivity {
 		}
 	}
 
+	@Override
+	public void onRefreshStarted(View view) {
+		getSyncBridge().sync(new Handler());
+	}
+
 	/**
 	 * Updates the status of the sync button (progress vs. sync button).
 	 * @param syncing
 	 */
 	public void setSyncing(boolean syncing) {
-		setProgressBarIndeterminateVisibility(syncing ? Boolean.TRUE : Boolean.FALSE);
+		if (!syncing) {
+			mPullToRefreshAttacher.setRefreshComplete();
+		}
+		//setProgressBarIndeterminateVisibility(syncing ? Boolean.TRUE : Boolean.FALSE);
 		mSyncing = syncing;
 	}
 
@@ -155,26 +186,6 @@ public abstract class RefreshableActivity extends BaseActivity {
 		} else {
 			Log.w(TAG, "Could not find observer, NOT unregistering!");
 		}
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// add the refresh button
-		final com.actionbarsherlock.view.MenuItem menuItem = menu.add(1, MENU_REFRESH, 1, "Refresh");
-		menuItem.setIcon(android.R.drawable.stat_notify_sync);
-		menuItem.setShowAsAction(com.actionbarsherlock.view.MenuItem.SHOW_AS_ACTION_ALWAYS);
-		return super.onCreateOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case MENU_REFRESH:
-				getSyncBridge().sync(new Handler());
-				break;
-		}
-		return super.onOptionsItemSelected(item);
 	}
 
 }

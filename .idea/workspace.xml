@@ -23,17 +23,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="25364924-d835-4f5e-8da9-686045fa596d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitmodules" afterPath="$PROJECT_DIR$/.gitmodules" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/HomeActivity.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/HomeActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/RefreshableActivity.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/RefreshableActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/activity_home.xml" afterPath="$PROJECT_DIR$/res/layout/activity_home.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android-xbmcremote-sandbox.iml" afterPath="$PROJECT_DIR$/android-xbmcremote-sandbox.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project.properties" afterPath="$PROJECT_DIR$/project.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/strings.xml" afterPath="$PROJECT_DIR$/res/values/strings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="android-xbmcremote-sandbox.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -97,11 +88,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="HomeActivity.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="HomeActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/HomeActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="7" selection-start="363" selection-end="363" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="900">
-              <folding />
+            <state line="25" column="35" selection-start="618" selection-end="618" vertical-scroll-proportion="0.47486034" vertical-offset="100" max-vertical-offset="880">
+              <folding>
+                <element signature="e#477#496#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -118,10 +111,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RefreshableActivity.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="RefreshableActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/RefreshableActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="153" column="57" selection-start="5254" selection-end="5254" vertical-scroll-proportion="1.8008785" vertical-offset="0" max-vertical-offset="3100">
+            <state line="110" column="0" selection-start="3945" selection-end="3945" vertical-scroll-proportion="0.0" vertical-offset="1086" max-vertical-offset="3240">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PullToRefreshAttacher.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/libs/pulltorefresh/library/src/uk/co/senab/actionbarpulltorefresh/library/PullToRefreshAttacher.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="668" column="20" selection-start="20184" selection-end="20184" vertical-scroll-proportion="0.0" vertical-offset="12239" max-vertical-offset="18240">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PullToRefreshLayout.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/libs/pulltorefresh/library/src/uk/co/senab/actionbarpulltorefresh/library/PullToRefreshLayout.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="53" column="16" selection-start="1708" selection-end="1708" vertical-scroll-proportion="0.0" vertical-offset="314" max-vertical-offset="2380">
               <folding />
             </state>
           </provider>
@@ -155,12 +166,12 @@
         <option value="$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/service/VideoSyncService.java" />
         <option value="$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/service/AudioSyncService.java" />
         <option value="$PROJECT_DIR$/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/HomeActivity.java" />
-        <option value="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/RefreshableActivity.java" />
         <option value="$PROJECT_DIR$/.gitmodules" />
         <option value="$PROJECT_DIR$/res/values/styles.xml" />
         <option value="$PROJECT_DIR$/res/layout/activity_home.xml" />
         <option value="$USER_HOME$/.AndroidStudioPreview/system/compile-server/android-xbmcremote-sandbox_b5600bb4/targets/java-production/pulltorefresh/android/generated_sources/build_config/uk/co/senab/actionbarpulltorefresh/library/BuildConfig.java" />
+        <option value="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/RefreshableActivity.java" />
+        <option value="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/HomeActivity.java" />
       </list>
     </option>
   </component>
@@ -889,7 +900,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="842" y="0" width="1718" height="1560" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3013393" sideWeight="0.28615862" order="11" side_tool="true" content_ui="tabs" x="1607" y="386" width="609" height="933" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -903,7 +914,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299293" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3316726" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24270463" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.47188613" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16183574" sideWeight="0.33475935" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -940,13 +951,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="28" selection-start="386" selection-end="396" vertical-scroll-proportion="0.1992032" vertical-offset="0" max-vertical-offset="0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/libs/actionbarsherlock/actionbarsherlock-samples/demos/src/com/actionbarsherlock/sample/demos/IndeterminateProgress.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="29" column="72" selection-start="1117" selection-end="1117" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
@@ -992,28 +996,6 @@
         <state line="5" column="1" selection-start="184" selection-end="184" vertical-scroll-proportion="0.11261261" vertical-offset="0" max-vertical-offset="888" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libs/pulltorefresh/library/src/uk/co/senab/actionbarpulltorefresh/library/PullToRefreshAttacher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="51" selection-start="647" selection-end="647" vertical-scroll-proportion="0.04464286" vertical-offset="0" max-vertical-offset="18240" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/activity_home.xml">
-      <provider editor-type-id="text-editor">
-        <state line="22" column="27" selection-start="814" selection-end="814" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="560">
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/HomeActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="7" selection-start="363" selection-end="363" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="900">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/service/VideoSyncService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="51" column="0" selection-start="1990" selection-end="1990" vertical-scroll-proportion="0.0" vertical-offset="1020" max-vertical-offset="2120">
@@ -1028,17 +1010,50 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/RefreshableActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="153" column="57" selection-start="5254" selection-end="5254" vertical-scroll-proportion="1.8008785" vertical-offset="0" max-vertical-offset="3100">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/service/AbstractSyncService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="0" selection-start="250" selection-end="250" vertical-scroll-proportion="0.0" vertical-offset="180" max-vertical-offset="900">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/activity_home.xml">
+      <provider editor-type-id="text-editor">
+        <state line="22" column="27" selection-start="814" selection-end="814" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="560">
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/pulltorefresh/library/src/uk/co/senab/actionbarpulltorefresh/library/PullToRefreshLayout.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="16" selection-start="1708" selection-end="1708" vertical-scroll-proportion="0.0" vertical-offset="314" max-vertical-offset="2380">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/pulltorefresh/library/src/uk/co/senab/actionbarpulltorefresh/library/PullToRefreshAttacher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="668" column="20" selection-start="20184" selection-end="20184" vertical-scroll-proportion="0.0" vertical-offset="12239" max-vertical-offset="18240">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/RefreshableActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="110" column="0" selection-start="3945" selection-end="3945" vertical-scroll-proportion="0.0" vertical-offset="1086" max-vertical-offset="3240">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/HomeActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="35" selection-start="618" selection-end="618" vertical-scroll-proportion="0.47486034" vertical-offset="100" max-vertical-offset="880">
+          <folding>
+            <element signature="e#477#496#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

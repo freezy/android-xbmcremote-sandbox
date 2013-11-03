@@ -18,13 +18,12 @@ public class HomeActivity extends RefreshableActivity {
 	private AudioSyncBridge mSyncBridge;
 
 	public HomeActivity() {
-		super(R.string.title_home);
+		super(R.string.title_home, R.layout.activity_home);
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_home);
 
 		// only slide menu, not the action bar.
 		setSlidingActionBarEnabled(false);
