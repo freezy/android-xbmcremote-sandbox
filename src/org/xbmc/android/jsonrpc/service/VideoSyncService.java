@@ -36,24 +36,17 @@ import org.xbmc.android.jsonrpc.io.video.MovieHandler;
 
 /**
  * Background {@link android.app.Service} that synchronizes data living in
- * {@link VideoProvider}.
+ * {@link org.xbmc.android.jsonrpc.provider.VideoProvider}.
  * <p>
  * This class, along with the other ones in this package was closely inspired by
  * Google's official iosched app, see http://code.google.com/p/iosched/
  *
  * @author freezy <freezy@xbmc.org>
  */
-public class VideoSyncService extends Service {
-
-	public static final String URL = "http://192.168.0.100:8080/jsonrpc";
+public class VideoSyncService extends AbstractSyncService {
 
 	private static final String TAG = VideoSyncService.class.getSimpleName();
-
 	public static final String EXTRA_STATUS_RECEIVER = "org.xbmc.android.jsonprc.extra.STATUS_RECEIVER";
-
-	public static final int STATUS_RUNNING = 0x1;
-	public static final int STATUS_ERROR = 0x2;
-	public static final int STATUS_FINISHED = 0x3;
 
 	private long mStart = 0;
 
@@ -64,9 +57,8 @@ public class VideoSyncService extends Service {
 	public void onCreate() {
 		super.onCreate();
 		Log.d(TAG, "Starting VideoSyncService...");
-		mCm = new ConnectionManager(getApplicationContext(), new HostConfig("192.168.0.100"));
+		mCm = new ConnectionManager(getApplicationContext(), new HostConfig(HOST));
 	}
-
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
@@ -105,22 +97,4 @@ public class VideoSyncService extends Service {
 		});
 	}
 
-	public void onError(String message) {
-		if (mReceiver != null) {
-			// Pass back error to surface listener
-			final Bundle bundle = new Bundle();
-			bundle.putString(Intent.EXTRA_TEXT, message);
-			mReceiver.send(STATUS_ERROR, bundle);
-		}
-	}
-
-	public interface RefreshObserver {
-		public void onRefreshed();
-	}
-
-	@Override
-	public IBinder onBind(Intent intent) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

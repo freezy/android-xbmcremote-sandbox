@@ -46,28 +46,21 @@ import android.util.Log;
  *
  * @author freezy <freezy@xbmc.org>
  */
-public class AudioSyncService extends Service {
-
-	public static final String URL = "http://192.168.0.100:8080/jsonrpc";
+public class AudioSyncService extends AbstractSyncService {
 
 	private static final String TAG = AudioSyncService.class.getSimpleName();
-
 	public static final String EXTRA_STATUS_RECEIVER = "org.xbmc.android.jsonprc.extra.STATUS_RECEIVER";
-
-	public static final int STATUS_RUNNING = 0x1;
-	public static final int STATUS_ERROR = 0x2;
-	public static final int STATUS_FINISHED = 0x3;
 
 	private long mStart = 0;
 
 	private ConnectionManager mCm = null;
-	private ResultReceiver mReceiver = null;
+
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		Log.d(TAG, "Starting AudioSyncService...");
-		mCm = new ConnectionManager(getApplicationContext(), new HostConfig("192.168.0.100"));
+		mCm = new ConnectionManager(getApplicationContext(), new HostConfig(HOST));
 	}
 
 
@@ -126,24 +119,5 @@ public class AudioSyncService extends Service {
 				stopSelf();
 			}
 		});
-	}
-
-	public void onError(String message) {
-		if (mReceiver != null) {
-			// Pass back error to surface listener
-			final Bundle bundle = new Bundle();
-			bundle.putString(Intent.EXTRA_TEXT, message);
-			mReceiver.send(STATUS_ERROR, bundle);
-		}
-	}
-
-	public interface RefreshObserver {
-		public void onRefreshed();
-	}
-
-	@Override
-	public IBinder onBind(Intent intent) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
