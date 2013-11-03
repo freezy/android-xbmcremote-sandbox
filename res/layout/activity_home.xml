@@ -52,5 +52,17 @@
 				>
 		</GridView>
 
+		<Button
+				android:id="@+id/music_see_more_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignTop="@+id/home_music_title"
+				android:layout_alignParentRight="true"
+				android:layout_marginRight="15dp"
+				android:layout_marginTop="15dp"
+				android:text="@string/button_see_more"
+				style="@style/SeeMoreButton"
+				/>
+
 	</RelativeLayout>
 </uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout>

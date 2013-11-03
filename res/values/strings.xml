@@ -2,7 +2,6 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 	<string name="app_name">XBMC Remote</string>
 
-
 	<string name="empty_albums">No albums found.</string>
 	<string name="empty_artists">No artists found.</string>
 	<string name="empty_music_sources">No music sources found.</string>
@@ -25,7 +24,9 @@
     <string name="tab_music_artists">Artists</string>
     <string name="tab_music_files">Files</string>
 
-    <string name="toast_syncing_all">Syncing all databases\u2026</string>
+	<string name="button_see_more">SEE MORE</string>
+
+	<string name="toast_syncing_all">Syncing all databases\u2026</string>
     <string name="toast_synced_all">All databases synced.</string>
 
 	<string name="toast_sync_error">Sync error: <xliff:g id="error">%1$s</xliff:g></string>
