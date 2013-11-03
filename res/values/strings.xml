@@ -2,12 +2,14 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 	<string name="app_name">XBMC Remote</string>
 
+
 	<string name="empty_albums">No albums found.</string>
 	<string name="empty_artists">No artists found.</string>
 	<string name="empty_music_sources">No music sources found.</string>
 
 	<string name="title_empty"></string>
-	<string name="title_music">Music Library</string>
+	<string name="title_home">Home</string>
+	<string name="title_music">Music</string>
 	<string name="title_movies">Movies</string>
 
 	<string name="description_search">Search</string>

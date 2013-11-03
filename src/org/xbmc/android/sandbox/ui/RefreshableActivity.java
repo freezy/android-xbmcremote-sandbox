@@ -28,6 +28,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.Window;
 import org.xbmc.android.jsonrpc.service.AbstractSyncService.RefreshObserver;
 import org.xbmc.android.sandbox.ui.sync.AbstractSyncBridge;
 
@@ -95,8 +96,11 @@ public abstract class RefreshableActivity extends BaseActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
 		super.onCreate(savedInstanceState);
 		setProgressBarIndeterminateVisibility(mSyncing ? Boolean.TRUE : Boolean.FALSE);
+
 		final FragmentManager fm = getSupportFragmentManager();
 
 		// get all sync bridges and attach them so the activity.
@@ -106,7 +110,7 @@ public abstract class RefreshableActivity extends BaseActivity {
 			if (ft == null) {
 				ft = fm.beginTransaction();
 			}
-			AbstractSyncBridge checkSyncBridge = (AbstractSyncBridge)fm.findFragmentByTag(syncBridge.getTagName());
+			final AbstractSyncBridge checkSyncBridge = (AbstractSyncBridge)fm.findFragmentByTag(syncBridge.getTagName());
 			if (checkSyncBridge != null) {
 				// This syncBridge already exists, so we'll replace it.
 				ft.remove(checkSyncBridge);

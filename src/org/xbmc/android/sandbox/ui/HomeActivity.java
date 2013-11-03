@@ -18,7 +18,7 @@ public class HomeActivity extends RefreshableActivity {
 	private AudioSyncBridge mSyncBridge;
 
 	public HomeActivity() {
-		super(R.string.app_name);
+		super(R.string.title_home);
 	}
 
 	@Override

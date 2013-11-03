@@ -10,3 +10,6 @@
 [submodule "libs/quickscroll"]
 	path = libs/quickscroll
 	url = https://github.com/andraskindler/quickscroll.git
+[submodule "libs/pulltorefresh"]
+	path = libs/pulltorefresh
+	url = https://github.com/chrisbanes/ActionBar-PullToRefresh.git
