@@ -30,7 +30,7 @@ import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.call.VideoLibrary;
-import org.xbmc.android.jsonrpc.api.model.VideoModel;
+import org.xbmc.android.jsonrpc.api.model.VideoModel.MovieDetail;
 import org.xbmc.android.jsonrpc.io.JsonHandler;
 import org.xbmc.android.jsonrpc.provider.VideoContract;
 
@@ -64,13 +64,13 @@ public class MovieHandler extends JsonHandler {
 			final ObjectNode movie = (ObjectNode)movies.get(i);
 			batch[i] = new ContentValues();
 			batch[i].put(VideoContract.SyncColumns.UPDATED, now);
-			batch[i].put(VideoContract.Movies.ID, movie.get(VideoModel.MovieDetail.MOVIEID).getIntValue());
-			batch[i].put(VideoContract.Movies.TITLE, movie.get(VideoModel.MovieDetail.TITLE).getTextValue());
-			batch[i].put(VideoContract.Movies.YEAR, movie.get(VideoModel.MovieDetail.YEAR).getIntValue());
-			batch[i].put(VideoContract.Movies.GENRE, movie.get(VideoModel.MovieDetail.GENRE).getTextValue());
-			batch[i].put(VideoContract.Movies.RATING, movie.get(VideoModel.MovieDetail.RATING).getDoubleValue());
-			batch[i].put(VideoContract.Movies.RUNTIME, movie.get(VideoModel.MovieDetail.RUNTIME).getIntValue());
-			batch[i].put(VideoContract.Movies.THUMBNAIL, movie.get(VideoModel.MovieDetail.THUMBNAIL).getTextValue());
+			batch[i].put(VideoContract.Movies.ID, movie.get(MovieDetail.MOVIEID).getIntValue());
+			batch[i].put(VideoContract.Movies.TITLE, movie.get(MovieDetail.TITLE).getTextValue());
+			batch[i].put(VideoContract.Movies.YEAR, movie.get(MovieDetail.YEAR).getIntValue());
+			batch[i].put(VideoContract.Movies.GENRE, movie.get(MovieDetail.GENRE).getTextValue());
+			batch[i].put(VideoContract.Movies.RATING, movie.get(MovieDetail.RATING).getDoubleValue());
+			batch[i].put(VideoContract.Movies.RUNTIME, movie.get(MovieDetail.RUNTIME).getIntValue());
+			batch[i].put(VideoContract.Movies.THUMBNAIL, movie.get(MovieDetail.THUMBNAIL).getTextValue());
 		}
 
 		Log.d(TAG, batch.length + " movie queries built in " + (System.currentTimeMillis() - now) + "ms.");

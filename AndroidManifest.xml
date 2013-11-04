@@ -50,7 +50,8 @@
 		</service>
 
 		<!-- Providers -->
-		<provider android:name="org.xbmc.android.jsonrpc.provider.AudioProvider" android:authorities="org.xbmc.android.jsonrpc" />
+		<provider android:name="org.xbmc.android.jsonrpc.provider.AudioProvider" android:authorities="org.xbmc.android.jsonrpc.audio" />
+		<provider android:name="org.xbmc.android.jsonrpc.provider.VideoProvider" android:authorities="org.xbmc.android.jsonrpc.video" />
 
 	</application>
 </manifest>

@@ -30,7 +30,7 @@ import org.xbmc.android.jsonrpc.provider.VideoContract.*;
 
 /**
  * Helper for managing {@link android.database.sqlite.SQLiteDatabase} that stores data for
- * {@link org.xbmc.android.jsonrpc.provider.AudioProvider}.
+ * {@link org.xbmc.android.jsonrpc.provider.VideoProvider}.
  * <p>
  * This class, along with the other ones in this package was closely inspired by
  * Google's official iosched app, see http://code.google.com/p/iosched/

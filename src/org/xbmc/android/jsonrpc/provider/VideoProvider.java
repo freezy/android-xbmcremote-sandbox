@@ -27,13 +27,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.net.Uri;
 import android.util.Log;
+import org.xbmc.android.util.DBUtils;
 import org.xbmc.android.util.google.SelectionBuilder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Provider that stores {@link org.xbmc.android.jsonrpc.provider.AudioContract} data. Data is usually inserted
+ * Provider that stores {@link org.xbmc.android.jsonrpc.provider.VideoContract} data. Data is usually inserted
  * by {@link org.xbmc.android.jsonrpc.service.SyncService}, and queried by various {@link android.app.Activity} instances.
  * <p>
  * This class, along with the other ones in this package was closely inspired by
@@ -60,7 +61,7 @@ public class VideoProvider extends ContentProvider {
 	 */
 	private static UriMatcher buildUriMatcher() {
 		final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
-		final String authority = AudioContract.CONTENT_AUTHORITY;
+		final String authority = VideoContract.CONTENT_AUTHORITY;
 
 		matcher.addURI(authority, "movies", MOVIES);
 		matcher.addURI(authority, "movies/*", MOVIES_ID);
@@ -231,13 +232,13 @@ public class VideoProvider extends ContentProvider {
 					final long now = System.currentTimeMillis();
 					for (ContentValues value : values) {
 						insert.bindLong(1, now);
-						insert.bindString(2, value.getAsString(VideoContract.Movies.ID));
-						insert.bindString(3, value.getAsString(VideoContract.Movies.TITLE));
-						insert.bindString(4, value.getAsString(VideoContract.Movies.YEAR));
-						insert.bindString(5, value.getAsString(VideoContract.Movies.GENRE));
-						insert.bindString(6, value.getAsString(VideoContract.Movies.RATING));
-						insert.bindString(7, value.getAsString(VideoContract.Movies.RUNTIME));
-						insert.bindString(8, value.getAsString(VideoContract.Movies.THUMBNAIL));
+						DBUtils.bind(insert, value, 2, VideoContract.Movies.ID);
+						DBUtils.bind(insert, value, 3, VideoContract.Movies.TITLE);
+						DBUtils.bind(insert, value, 4, VideoContract.Movies.YEAR);
+						DBUtils.bind(insert, value, 5, VideoContract.Movies.GENRE);
+						DBUtils.bind(insert, value, 6, VideoContract.Movies.RATING);
+						DBUtils.bind(insert, value, 7, VideoContract.Movies.RUNTIME);
+						DBUtils.bind(insert, value, 8, VideoContract.Movies.THUMBNAIL);
 						insert.executeInsert();
 					}
 					db.setTransactionSuccessful();

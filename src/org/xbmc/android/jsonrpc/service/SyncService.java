@@ -21,11 +21,17 @@
 
 package org.xbmc.android.jsonrpc.service;
 
+import android.app.Service;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.IBinder;
+import android.os.ResultReceiver;
+import android.util.Log;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
 import org.xbmc.android.jsonrpc.api.call.VideoLibrary;
 import org.xbmc.android.jsonrpc.api.model.AudioModel.AlbumFields;
-import org.xbmc.android.jsonrpc.api.model.VideoModel;
+import org.xbmc.android.jsonrpc.api.model.VideoModel.MovieFields;
 import org.xbmc.android.jsonrpc.config.HostConfig;
 import org.xbmc.android.jsonrpc.io.ConnectionManager;
 import org.xbmc.android.jsonrpc.io.ConnectionManager.HandlerCallback;
@@ -33,20 +39,12 @@ import org.xbmc.android.jsonrpc.io.JsonHandler;
 import org.xbmc.android.jsonrpc.io.audio.AlbumHandler;
 import org.xbmc.android.jsonrpc.io.audio.ArtistHandler;
 import org.xbmc.android.jsonrpc.io.video.MovieHandler;
-import org.xbmc.android.jsonrpc.provider.AudioProvider;
-
-import android.app.Service;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.IBinder;
-import android.os.ResultReceiver;
-import android.util.Log;
 
 import java.util.LinkedList;
 
 /**
  * Background {@link Service} that synchronizes data living in
- * {@link AudioProvider}.
+ * {@link android.content.ContentProvider}.
  * <p>
  * This class, along with the other ones in this package was closely inspired by
  * Google's official iosched app, see http://code.google.com/p/iosched/
@@ -77,14 +75,12 @@ public class SyncService extends Service {
 
 	private final LinkedList<SyncItem> mItems = new LinkedList<SyncItem>();
 
-
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		Log.d(TAG, "Starting SyncService...");
 		mCm = new ConnectionManager(getApplicationContext(), new HostConfig(HOST));
 	}
-
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
@@ -100,15 +96,13 @@ public class SyncService extends Service {
 			if (intent.hasExtra(EXTRA_SYNC_MUSIC)) {
 				mItems.add(new SyncItem("Artists", new AudioLibrary.GetArtists(), new ArtistHandler()));
 				mItems.add(new SyncItem("Albums", new AudioLibrary.GetAlbums(
-						AlbumFields.TITLE, AlbumFields.ARTISTID, AlbumFields.YEAR,
-						AlbumFields.THUMBNAIL
+						AlbumFields.TITLE, AlbumFields.ARTISTID, AlbumFields.YEAR, AlbumFields.THUMBNAIL
 				), new AlbumHandler()));
 			}
 			if (intent.hasExtra(EXTRA_SYNC_MOVIES)) {
 				mItems.add(new SyncItem("Movies", new VideoLibrary.GetMovies(
-						VideoModel.MovieFields.THUMBNAIL, VideoModel.MovieFields.YEAR,
-						VideoModel.MovieFields.RATING, VideoModel.MovieFields.GENRE,
-						VideoModel.MovieFields.RUNTIME
+						MovieFields.TITLE, MovieFields.THUMBNAIL, MovieFields.YEAR, MovieFields.RATING,
+						MovieFields.GENRE, MovieFields.RUNTIME
 				), new MovieHandler()));
 			}
 		}
@@ -170,72 +164,6 @@ public class SyncService extends Service {
 			});
 		}
 
-	}
-
-	private void syncArtists() {
-		final AudioLibrary.GetArtists getArtistsCall = new AudioLibrary.GetArtists();
-		mCm.call(getArtistsCall, new ArtistHandler(), new HandlerCallback() {
-			@Override
-			public void onFinish() {
-				Log.i(TAG, "Artists successfully synced in " + (System.currentTimeMillis() - mStart) + "ms, starting albums.");
-				syncAlbums();
-			}
-
-			@Override
-			public void onError(String message, String hint) {
-				SyncService.this.onError(message + " " + hint);
-				stopSelf();
-			}
-
-		});
-	}
-
-	private void syncAlbums() {
-		final AudioLibrary.GetAlbums getAlbumsCall = new AudioLibrary.GetAlbums(
-				AlbumFields.TITLE, AlbumFields.ARTISTID, AlbumFields.YEAR,
-				AlbumFields.THUMBNAIL
-		);
-
-		mCm.call(getAlbumsCall, new AlbumHandler(), new HandlerCallback() {
-
-			@Override
-			public void onFinish() {
-				Log.i(TAG, "Albums successfully synced too! Total time: " + (System.currentTimeMillis() - mStart) + "ms.");
-				if (mReceiver != null) {
-					// Pass back result to surface listener
-					mReceiver.send(STATUS_FINISHED, null);
-				}
-				mCm.disconnect();
-				stopSelf();
-			}
-
-			@Override
-			public void onError(String message, String hint) {
-				SyncService.this.onError(message + " " + hint);
-				stopSelf();
-			}
-		});
-	}
-
-	private void syncMovies() {
-		final VideoLibrary.GetMovies getMoviesCall = new VideoLibrary.GetMovies(
-				VideoModel.MovieFields.THUMBNAIL, VideoModel.MovieFields.YEAR,
-				VideoModel.MovieFields.RATING, VideoModel.MovieFields.GENRE,
-				VideoModel.MovieFields.RUNTIME
-		);
-		mCm.call(getMoviesCall, new MovieHandler(), new HandlerCallback() {
-			@Override
-			public void onFinish() {
-				Log.i(TAG, "Movies successfully synced in " + (System.currentTimeMillis() - mStart) + "ms, starting albums.");
-			}
-
-			@Override
-			public void onError(String message, String hint) {
-				SyncService.this.onError(message + " " + hint);
-				stopSelf();
-			}
-
-		});
 	}
 
 	public void onError(String message) {

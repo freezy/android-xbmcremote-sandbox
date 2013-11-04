@@ -22,7 +22,7 @@ import org.xbmc.android.jsonrpc.provider.AudioDatabase;
 import org.xbmc.android.jsonrpc.service.SyncService.RefreshObserver;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.sandbox.ui.sync.AbstractSyncBridge;
-import org.xbmc.android.sandbox.ui.sync.AudioSyncBridge;
+import org.xbmc.android.sandbox.ui.sync.SyncBridge;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -38,7 +38,7 @@ public class HomeActivity extends RefreshableActivity implements LoaderManager.L
 	/**
 	 * Sync bridge for global refresh.
 	 */
-	private AudioSyncBridge mSyncBridge;
+	private SyncBridge mSyncBridge;
 
 	private CursorAdapter mAdapter;
 
@@ -73,7 +73,8 @@ public class HomeActivity extends RefreshableActivity implements LoaderManager.L
 
 	@Override
 	protected AbstractSyncBridge[] initSyncBridges() {
-		mSyncBridge = new AudioSyncBridge(mRefreshObservers);
+		//mSyncBridge = new SyncBridge(mRefreshObservers, SyncBridge.SECTION_MUSIC, SyncBridge.SECTION_MOVIES);
+		mSyncBridge = new SyncBridge(mRefreshObservers, SyncBridge.SECTION_MOVIES);
 		return new AbstractSyncBridge[]{ mSyncBridge };
 	}
 

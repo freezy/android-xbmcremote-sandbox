@@ -41,7 +41,7 @@ import android.provider.BaseColumns;
  */
 public class AudioContract {
 
-	public static final String CONTENT_AUTHORITY = "org.xbmc.android.jsonrpc";
+	public static final String CONTENT_AUTHORITY = "org.xbmc.android.jsonrpc.audio";
 
 	private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 

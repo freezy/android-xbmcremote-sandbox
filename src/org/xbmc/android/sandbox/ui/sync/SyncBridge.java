@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.util.SparseArray;
 import android.widget.Toast;
 import org.xbmc.android.jsonrpc.service.SyncService;
 import org.xbmc.android.jsonrpc.service.SyncService.RefreshObserver;
@@ -35,21 +36,32 @@ import org.xbmc.android.util.google.DetachableResultReceiver;
 import java.util.ArrayList;
 
 /**
- * Manages audio sync in the UI.
+ * Manages synchronization in the UI.
  *
  * @author freezy <freezy@xbmc.org>
  */
-public class AudioSyncBridge extends AbstractSyncBridge implements DetachableResultReceiver.Receiver {
+public class SyncBridge extends AbstractSyncBridge implements DetachableResultReceiver.Receiver {
 
-	private final static String TAG = AudioSyncBridge.class.getSimpleName();
+	private final static String TAG = SyncBridge.class.getSimpleName();
+
+	public final static int SECTION_MUSIC = 0x01;
+	public final static int SECTION_MOVIES = 0x02;
+
+	public final static SparseArray<String> SECTIONS = new SparseArray<String>();
+	static {
+		SECTIONS.put(SECTION_MUSIC, SyncService.EXTRA_SYNC_MUSIC);
+		SECTIONS.put(SECTION_MOVIES, SyncService.EXTRA_SYNC_MOVIES);
+	}
 
 	/**
 	 * Sync status
 	 */
 	private boolean mSyncing = false;
+	private final int[] mSections;
 
-	public AudioSyncBridge(ArrayList<RefreshObserver> observers) {
+	public SyncBridge(ArrayList<RefreshObserver> observers, int... sections) {
 		super(TAG, observers);
+		mSections = sections;
 	}
 
 	@Override
@@ -63,10 +75,12 @@ public class AudioSyncBridge extends AbstractSyncBridge implements DetachableRes
 		Toast.makeText(activity, R.string.toast_syncing_all, Toast.LENGTH_SHORT).show();
 		final Intent intent = new Intent(Intent.ACTION_SYNC, null, activity, SyncService.class);
 		intent.putExtra(SyncService.EXTRA_STATUS_RECEIVER, receiver);
-		intent.putExtra(SyncService.EXTRA_SYNC_MUSIC, true);
+		for (int section : mSections) {
+			intent.putExtra(SECTIONS.get(section), true);
+		}
 		activity.setSyncing(true);
 		activity.startService(intent);
-		Log.d(TAG, "Triggered audio sync in " + (System.currentTimeMillis() - start ) + "ms.");
+		Log.d(TAG, "Triggered sync in " + (System.currentTimeMillis() - start ) + "ms.");
 
 	}
 
@@ -108,7 +122,7 @@ public class AudioSyncBridge extends AbstractSyncBridge implements DetachableRes
 				syncing = false;
 				break;
 		}
-		Log.d(TAG, "Audio refresh callback processed in " + (System.currentTimeMillis() - start) + "ms.");
+		Log.d(TAG, "Refresh callback processed in " + (System.currentTimeMillis() - start) + "ms.");
 		updateSyncStatus(syncing);
 		mSyncing = syncing;
 	}

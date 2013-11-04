@@ -23,10 +23,9 @@ package org.xbmc.android.jsonrpc.provider;
 
 import android.net.Uri;
 import android.provider.BaseColumns;
-import org.xbmc.android.jsonrpc.api.model.VideoModel;
 
 /**
- * Contract class for interacting with {@link org.xbmc.android.jsonrpc.provider.AudioProvider}. Unless otherwise
+ * Contract class for interacting with {@link org.xbmc.android.jsonrpc.provider.VideoProvider}. Unless otherwise
  * noted, all time-based fields are milliseconds since epoch and can be compared
  * against {@link System#currentTimeMillis()}.
  * <p>
@@ -42,7 +41,7 @@ import org.xbmc.android.jsonrpc.api.model.VideoModel;
  */
 public class VideoContract {
 
-	public static final String CONTENT_AUTHORITY = "org.xbmc.android.jsonrpc";
+	public static final String CONTENT_AUTHORITY = "org.xbmc.android.jsonrpc.video";
 
 	private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
