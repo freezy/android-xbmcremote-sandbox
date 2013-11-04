@@ -34,7 +34,7 @@ import java.util.Arrays;
 
 /**
  * Provider that stores {@link org.xbmc.android.jsonrpc.provider.AudioContract} data. Data is usually inserted
- * by {@link org.xbmc.android.jsonrpc.service.AudioSyncService}, and queried by various {@link android.app.Activity} instances.
+ * by {@link org.xbmc.android.jsonrpc.service.SyncService}, and queried by various {@link android.app.Activity} instances.
  * <p>
  * This class, along with the other ones in this package was closely inspired by
  * Google's official iosched app, see http://code.google.com/p/iosched/

@@ -19,8 +19,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import org.xbmc.android.jsonrpc.provider.AudioContract;
 import org.xbmc.android.jsonrpc.provider.AudioDatabase;
-import org.xbmc.android.jsonrpc.service.AbstractSyncService;
-import org.xbmc.android.jsonrpc.service.AudioSyncService;
+import org.xbmc.android.jsonrpc.service.SyncService.RefreshObserver;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.sandbox.ui.sync.AbstractSyncBridge;
 import org.xbmc.android.sandbox.ui.sync.AudioSyncBridge;
@@ -43,7 +42,7 @@ public class HomeActivity extends RefreshableActivity implements LoaderManager.L
 
 	private CursorAdapter mAdapter;
 
-	private final AudioSyncService.RefreshObserver mRefreshObserver = new AudioSyncService.RefreshObserver() {
+	private final RefreshObserver mRefreshObserver = new RefreshObserver() {
 		@Override
 		public void onRefreshed() {
 			Log.d(TAG, "Refreshing Albums from database.");

@@ -31,7 +31,7 @@
 		</activity>
 
 		<!-- Services -->
-		<service android:name="org.xbmc.android.jsonrpc.service.AudioSyncService" />
+		<service android:name="org.xbmc.android.jsonrpc.service.SyncService" />
 		<service android:name="org.xbmc.android.jsonrpc.service.ConnectionService" />
 		<service android:name="org.xbmc.android.zeroconf.DiscoveryService" />
 		<service android:name="org.xbmc.android.account.authenticator.AuthenticationService" android:exported="true" >

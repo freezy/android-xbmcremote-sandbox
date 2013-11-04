@@ -25,8 +25,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import org.xbmc.android.jsonrpc.service.AbstractSyncService.RefreshObserver;
-import org.xbmc.android.jsonrpc.service.AudioSyncService;
+import org.xbmc.android.jsonrpc.service.SyncService.RefreshObserver;
 import org.xbmc.android.sandbox.ui.RefreshableActivity;
 
 import java.util.ArrayList;
@@ -114,7 +113,7 @@ public abstract class AbstractSyncBridge extends Fragment {
 	 * should run this upon successful result.
 	 */
 	protected void notifyObservers() {
-		for (AudioSyncService.RefreshObserver observer : mRefreshObservers) {
+		for (RefreshObserver observer : mRefreshObservers) {
 			observer.onRefreshed();
 		}
 	}

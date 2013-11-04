@@ -28,9 +28,7 @@ import org.xbmc.android.jsonrpc.provider.AudioContract.Albums;
 import org.xbmc.android.jsonrpc.provider.AudioContract.AlbumsColumns;
 import org.xbmc.android.jsonrpc.provider.AudioContract.Artists;
 import org.xbmc.android.jsonrpc.provider.AudioContract.ArtistsColumns;
-import org.xbmc.android.jsonrpc.provider.AudioContract.SyncColumns;
 import org.xbmc.android.jsonrpc.provider.AudioDatabase.Tables;
-import org.xbmc.android.jsonrpc.service.AudioSyncService;
 import org.xbmc.android.util.google.SelectionBuilder;
 
 import android.app.Activity;
@@ -49,7 +47,7 @@ import android.util.Log;
 
 /**
  * Provider that stores {@link AudioContract} data. Data is usually inserted
- * by {@link AudioSyncService}, and queried by various {@link Activity} instances.
+ * by {@link org.xbmc.android.jsonrpc.service.SyncService}, and queried by various {@link Activity} instances.
  * <p>
  * This class, along with the other ones in this package was closely inspired by
  * Google's official iosched app, see http://code.google.com/p/iosched/

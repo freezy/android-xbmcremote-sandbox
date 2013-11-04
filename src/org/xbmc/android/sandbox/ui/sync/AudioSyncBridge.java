@@ -26,8 +26,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
-import org.xbmc.android.jsonrpc.service.AbstractSyncService;
-import org.xbmc.android.jsonrpc.service.AudioSyncService;
+import org.xbmc.android.jsonrpc.service.SyncService;
+import org.xbmc.android.jsonrpc.service.SyncService.RefreshObserver;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.sandbox.ui.RefreshableActivity;
 import org.xbmc.android.util.google.DetachableResultReceiver;
@@ -48,7 +48,7 @@ public class AudioSyncBridge extends AbstractSyncBridge implements DetachableRes
 	 */
 	private boolean mSyncing = false;
 
-	public AudioSyncBridge(ArrayList<AbstractSyncService.RefreshObserver> observers) {
+	public AudioSyncBridge(ArrayList<RefreshObserver> observers) {
 		super(TAG, observers);
 	}
 
@@ -61,8 +61,9 @@ public class AudioSyncBridge extends AbstractSyncBridge implements DetachableRes
 		receiver.setReceiver(this);
 
 		Toast.makeText(activity, R.string.toast_syncing_all, Toast.LENGTH_SHORT).show();
-		final Intent intent = new Intent(Intent.ACTION_SYNC, null, activity, AudioSyncService.class);
-		intent.putExtra(AudioSyncService.EXTRA_STATUS_RECEIVER, receiver);
+		final Intent intent = new Intent(Intent.ACTION_SYNC, null, activity, SyncService.class);
+		intent.putExtra(SyncService.EXTRA_STATUS_RECEIVER, receiver);
+		intent.putExtra(SyncService.EXTRA_SYNC_MUSIC, true);
 		activity.setSyncing(true);
 		activity.startService(intent);
 		Log.d(TAG, "Triggered audio sync in " + (System.currentTimeMillis() - start ) + "ms.");
@@ -75,12 +76,12 @@ public class AudioSyncBridge extends AbstractSyncBridge implements DetachableRes
 		final RefreshableActivity activity = getReloadableActivity();
 		final boolean syncing;
 		switch (resultCode) {
-			case AudioSyncService.STATUS_RUNNING: {
+			case SyncService.STATUS_RUNNING: {
 				Log.d(TAG, "Got event: STATUS_RUNNING");
 				syncing = true;
 				break;
 			}
-			case AudioSyncService.STATUS_FINISHED: {
+			case SyncService.STATUS_FINISHED: {
 				Log.d(TAG, "Got event: STATUS_FINISHED");
 
 				// only notify if we're still syncing (i.e. no errors occurred).
@@ -91,7 +92,7 @@ public class AudioSyncBridge extends AbstractSyncBridge implements DetachableRes
 				syncing = false;
 				break;
 			}
-			case AudioSyncService.STATUS_ERROR: {
+			case SyncService.STATUS_ERROR: {
 				Log.d(TAG, "Got event: STATUS_ERROR");
 				// Error happened down in SyncService, show as toast.
 				if (resultData == null) {

@@ -25,7 +25,7 @@ import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.io.ApiException;
 import org.xbmc.android.jsonrpc.io.JsonApiRequest;
-import org.xbmc.android.jsonrpc.service.AudioSyncService;
+import org.xbmc.android.jsonrpc.service.SyncService;
 import org.xbmc.android.zeroconf.XBMCHost;
 
 /**
@@ -100,7 +100,7 @@ public abstract class AbstractClient {
 	private String getUrl() {
 		if (mHost == null) {
 			// FIXME this should read the URL from the currently selected account.
-			return AudioSyncService.URL;
+			return SyncService.URL;
 		} else {
 			return "http://" + mHost.getAddress() + ":" + mHost.getPort() + URL_SUFFIX;
 		}

@@ -27,10 +27,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
-import org.xbmc.android.jsonrpc.service.AbstractSyncService.RefreshObserver;
+import org.xbmc.android.jsonrpc.service.SyncService.RefreshObserver;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.sandbox.ui.sync.AbstractSyncBridge;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
@@ -122,7 +119,6 @@ public abstract class RefreshableActivity extends BaseActivity implements PullTo
 		if (mSyncing) {
 			mPullToRefreshAttacher.setRefreshing(true);
 		}
-
 
 		final FragmentManager fm = getSupportFragmentManager();
 
