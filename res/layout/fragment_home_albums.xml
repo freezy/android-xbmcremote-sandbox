@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/home_root"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:orientation="vertical"
+		android:background="#e4e4e3">
+
+	<TextView
+			android:id="@+id/home_music_title"
+			android:text="@string/title_music"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="10dp"
+			android:layout_marginLeft="15dp"
+			android:layout_alignParentTop="true"
+			android:fontFamily="sans-serif-light"
+			android:textStyle="italic"
+			android:textSize="22sp"
+			/>
+
+	<TextView
+			android:id="@+id/home_music_subtitle"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/home_music_title"
+			android:layout_alignLeft="@id/home_music_title"
+			android:layout_marginTop="-4dp"
+			android:text="@string/latest_albums"
+			android:textSize="14sp"
+			android:textColor="@color/light_secondry_text"
+			android:fontFamily="sans-serif-light"
+			/>
+
+	<TextView
+			android:id="@id/android:empty"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/home_music_subtitle"
+			android:layout_marginTop="5dp"
+			android:layout_centerHorizontal="true"
+			android:text="@string/empty_albums"
+			android:textSize="14sp"
+			android:textColor="@color/light_secondry_text"
+			android:fontFamily="sans-serif-light"
+			/>
+
+	<Button
+			android:id="@+id/music_see_more_button"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignTop="@+id/home_music_title"
+			android:layout_alignParentRight="true"
+			android:layout_marginRight="15dp"
+			android:layout_marginTop="15dp"
+			android:text="@string/button_see_more"
+			style="@style/SeeMoreButton"
+			/>
+
+	<GridView
+			android:id="@id/android:list"
+			android:layout_below="@+id/home_music_subtitle"
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:layout_marginLeft="8dp"
+			android:layout_marginRight="8dp"
+			android:layout_marginTop="10dp"
+			android:numColumns="3"
+			android:stretchMode="columnWidth"
+			android:horizontalSpacing="8dp"
+			android:verticalSpacing="8dp"
+			/>
+
+</RelativeLayout>

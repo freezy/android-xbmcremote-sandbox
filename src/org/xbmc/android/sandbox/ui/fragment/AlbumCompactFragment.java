@@ -6,17 +6,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.provider.ContactsContract;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
@@ -28,11 +25,10 @@ import org.xbmc.android.remotesandbox.R;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-public class AlbumCompactFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class AlbumCompactFragment extends GridFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
 	private final static String TAG = AlbumCompactFragment.class.getSimpleName();
 	private CursorAdapter mAdapter;
-	private GridView mGridView;
 
 	private final SyncService.RefreshObserver mRefreshObserver = new SyncService.RefreshObserver() {
 		@Override
@@ -44,13 +40,7 @@ public class AlbumCompactFragment extends Fragment implements LoaderManager.Load
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		final int spacing= (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getActivity().getResources().getDisplayMetrics());
-		mGridView = new GridView(getActivity());
-		mGridView.setNumColumns(3);
-		mGridView.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
-		mGridView.setHorizontalSpacing(spacing);
-		mGridView.setVerticalSpacing(spacing);
-		return mGridView;
+		return inflater.inflate(R.layout.fragment_home_albums, container);
 	}
 
 	@Override
@@ -58,7 +48,7 @@ public class AlbumCompactFragment extends Fragment implements LoaderManager.Load
 		super.onActivityCreated(savedInstanceState);
 
 		mAdapter = new AlbumsAdapter(getActivity());
-		mGridView.setAdapter(mAdapter);
+		setGridAdapter(mAdapter);
 
 		// Prepare the loader. Either re-connect with an existing one,
 		// or start a new one.
