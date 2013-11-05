@@ -36,22 +36,6 @@
 				android:fontFamily="sans-serif-light"
 				/>
 
-		<GridView
-				android:id="@+id/home_music_grid"
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
-				android:layout_below="@+id/home_music_subtitle"
-				android:layout_marginLeft="8dp"
-				android:layout_marginRight="8dp"
-				android:layout_marginTop="10dp"
-				android:numColumns="3"
-				android:verticalSpacing="8dp"
-				android:horizontalSpacing="8dp"
-				android:stretchMode="columnWidth"
-				android:gravity="center"
-				>
-		</GridView>
-
 		<Button
 				android:id="@+id/music_see_more_button"
 				android:layout_width="wrap_content"
@@ -63,6 +47,16 @@
 				android:text="@string/button_see_more"
 				style="@style/SeeMoreButton"
 				/>
+
+		<fragment
+				android:id="@+id/home_music_grid"
+				android:name="org.xbmc.android.sandbox.ui.fragment.AlbumCompactFragment"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_below="@+id/home_music_subtitle"
+				android:layout_marginLeft="8dp"
+				android:layout_marginRight="8dp"
+				android:layout_marginTop="10dp" />
 
 	</RelativeLayout>
 </uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout>
