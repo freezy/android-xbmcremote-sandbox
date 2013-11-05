@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="6dp"
+				android:layout_marginRight="6dp"
+				android:layout_marginTop="6dp"
+				android:layout_marginBottom="6dp"
+				android:background="@drawable/bg_card"
+				android:paddingBottom="10dp"
+				android:paddingLeft="0dp"
+				android:paddingTop="0dp"
+				android:paddingRight="0dp">
+
+	<RelativeLayout
+			android:id="@+id/list_movie_poster_wrapper"
+			android:layout_width="115dp"
+			android:layout_height="115dp">
+
+		<ImageView
+				android:id="@+id/list_album_cover"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_alignParentLeft="true"
+				android:layout_alignParentTop="true"
+				android:adjustViewBounds="true"
+				android:scaleType="centerCrop"
+				android:contentDescription="Poster" />
+
+	</RelativeLayout>
+
+	<TextView
+			android:text="title_album"
+			android:id="@+id/title_album"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@id/list_movie_poster_wrapper"
+			android:layout_marginTop="5dp"
+			android:layout_marginLeft="5dp"
+			android:layout_alignParentLeft="true"
+			android:textAppearance="?android:attr/textAppearanceLarge"
+			android:textColor="@color/light_primary_text"
+			android:textSize="14sp"
+			android:fontFamily="sans-serif-light"
+			android:maxLines="1"
+			android:ellipsize="marquee" />
+
+	<TextView
+			android:text="title_artist"
+			android:id="@+id/title_artist"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/title_album"
+			android:layout_alignParentLeft="true"
+			android:layout_marginLeft="5dp"
+			android:layout_marginBottom="5dp"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:textColor="@color/light_secondry_text"
+			android:textSize="14sp"
+			android:fontFamily="sans-serif-light"
+			android:maxLines="1"
+			android:ellipsize="marquee"/>
+
+</RelativeLayout>

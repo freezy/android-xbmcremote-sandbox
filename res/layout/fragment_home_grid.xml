@@ -6,32 +6,23 @@
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		android:orientation="vertical"
-		android:background="#e4e4e3">
+		android:background="@color/light_bg">
 
 	<TextView
+			style="@style/Header.h1"
 			android:id="@+id/home_music_title"
 			android:text="@string/title_music"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginTop="10dp"
-			android:layout_marginLeft="15dp"
-			android:layout_alignParentTop="true"
-			android:fontFamily="sans-serif-light"
-			android:textStyle="italic"
-			android:textSize="22sp"
 			/>
-
 	<TextView
+			style="@style/Header.h2"
 			android:id="@+id/home_music_subtitle"
+			android:text="@string/latest_albums"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_below="@+id/home_music_title"
 			android:layout_alignLeft="@id/home_music_title"
-			android:layout_marginTop="-4dp"
-			android:text="@string/latest_albums"
-			android:textSize="14sp"
-			android:textColor="@color/light_secondry_text"
-			android:fontFamily="sans-serif-light"
 			/>
 
 	<TextView
@@ -48,15 +39,11 @@
 			/>
 
 	<Button
+			style="@style/SeeMoreButton"
 			android:id="@+id/music_see_more_button"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignTop="@+id/home_music_title"
-			android:layout_alignParentRight="true"
-			android:layout_marginRight="15dp"
-			android:layout_marginTop="15dp"
-			android:text="@string/button_see_more"
-			style="@style/SeeMoreButton"
 			/>
 
 	<GridView
