@@ -63,7 +63,7 @@ public class MovieHandler extends JsonHandler {
 		for (int i = 0; i < s; i++) {
 			final ObjectNode movie = (ObjectNode)movies.get(i);
 			batch[i] = new ContentValues();
-			batch[i].put(VideoContract.SyncColumns.UPDATED, now);
+			batch[i].put(VideoContract.Movies.UPDATED, now);
 			batch[i].put(VideoContract.Movies.ID, movie.get(MovieDetail.MOVIEID).getIntValue());
 			batch[i].put(VideoContract.Movies.TITLE, movie.get(MovieDetail.TITLE).getTextValue());
 			batch[i].put(VideoContract.Movies.YEAR, movie.get(MovieDetail.YEAR).getIntValue());

@@ -17,10 +17,10 @@
 	<RelativeLayout
 			android:id="@+id/list_movie_poster_wrapper"
 			android:layout_width="115dp"
-			android:layout_height="115dp">
+			android:layout_height="170dp">
 
 		<ImageView
-				android:id="@+id/list_album_cover"
+				android:id="@+id/list_movie_poster"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				android:layout_alignParentLeft="true"
@@ -32,8 +32,8 @@
 	</RelativeLayout>
 
 	<TextView
-			android:text="title_album"
-			android:id="@+id/title_album"
+			android:text="title_movie"
+			android:id="@+id/title_movie"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_below="@id/list_movie_poster_wrapper"
@@ -44,15 +44,15 @@
 			android:textColor="@color/light_primary_text"
 			android:textSize="14sp"
 			android:fontFamily="sans-serif-light"
-			android:maxLines="1"
+			android:maxLines="2"
 			android:ellipsize="marquee" />
 
 	<TextView
-			android:text="title_artist"
-			android:id="@+id/title_artist"
+			android:text="title_genre"
+			android:id="@+id/title_genre"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_below="@+id/title_album"
+			android:layout_below="@id/title_movie"
 			android:layout_alignParentLeft="true"
 			android:layout_marginLeft="5dp"
 			android:layout_marginBottom="5dp"

@@ -19,7 +19,7 @@
   -->
 <resources>
 
-	<color name="light_bg">#e0e0e0</color>
+	<color name="light_bg">#e4e4e5</color>
 	<color name="light_primary_text">#af000000</color>
 	<color name="light_secondry_text">#80000000</color>
 

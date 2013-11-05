@@ -81,6 +81,7 @@ public class VideoContract {
 		String RATING = PREFIX + "rating";
 		String RUNTIME = PREFIX + "runtime";
 		String THUMBNAIL = PREFIX + "thumbnail";
+		String UPDATED = PREFIX + SyncColumns.UPDATED;
 
 	}
 
@@ -100,6 +101,7 @@ public class VideoContract {
 		public static final String DEFAULT_SORT = MoviesColumns.TITLE + " ASC";
 		/** Latest added movies first */
 		public static final String SORT_LATEST_FIRST = MoviesColumns.ID + " DESC";
+		public static final String SORT_LATEST_3 = MoviesColumns.UPDATED + " DESC LIMIT 3";
 
 		/** Build {@link android.net.Uri} for requested {@link #ID}. */
 		public static Uri buildAlbumUri(String movieId) {

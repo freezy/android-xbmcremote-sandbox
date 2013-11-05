@@ -43,7 +43,7 @@ public class VideoDatabase extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "video.db";
 
-	private static final int VER_LAUNCH = 1;
+	private static final int VER_LAUNCH = 2;
 	private static final int DATABASE_VERSION = VER_LAUNCH;
 
 	public interface Tables {
@@ -60,7 +60,7 @@ public class VideoDatabase extends SQLiteOpenHelper {
 
 		db.execSQL("CREATE TABLE " + Tables.MOVIES + " ("
 			+ BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-			+ SyncColumns.UPDATED + " INTEGER NOT NULL,"
+			+ MoviesColumns.UPDATED + " INTEGER NOT NULL,"
 			+ MoviesColumns.ID + " TEXT NOT NULL,"
 			+ MoviesColumns.TITLE + " TEXT,"
 			+ MoviesColumns.YEAR + " TEXT,"

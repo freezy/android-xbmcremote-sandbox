@@ -195,8 +195,15 @@ public class VideoProvider extends ContentProvider {
 	 * performs table joins useful for {@link android.database.Cursor} data.
 	 */
 	private SelectionBuilder buildExpandedSelection(Uri uri, int match) {
-		//final SelectionBuilder builder = new SelectionBuilder();
+		final SelectionBuilder builder = new SelectionBuilder();
 		switch (match) {
+			case MOVIES: {
+				return builder.table(VideoDatabase.Tables.MOVIES);
+			}
+			case MOVIES_ID: {
+				final String movieId = VideoContract.Movies.getMovieId(uri);
+				return builder.table(VideoDatabase.Tables.MOVIES).where(VideoContract.Movies.ID + "=?", movieId);
+			}
 			default: {
 				throw new UnsupportedOperationException("Unknown uri: " + uri);
 			}
@@ -219,7 +226,7 @@ public class VideoProvider extends ContentProvider {
 					// standard SQL insert statement, that can be reused
 					SQLiteStatement insert = db.compileStatement(
 						"INSERT INTO " + VideoDatabase.Tables.MOVIES + "(" +
-						VideoContract.SyncColumns.UPDATED +
+						VideoContract.MoviesColumns.UPDATED +
 						"," + VideoContract.MoviesColumns.ID +
 						"," + VideoContract.MoviesColumns.TITLE +
 						"," + VideoContract.MoviesColumns.YEAR +

@@ -17,8 +17,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
-import org.xbmc.android.jsonrpc.provider.AudioContract;
-import org.xbmc.android.jsonrpc.provider.AudioDatabase;
+import org.xbmc.android.jsonrpc.provider.VideoContract;
+import org.xbmc.android.jsonrpc.provider.VideoDatabase;
 import org.xbmc.android.jsonrpc.service.SyncService;
 import org.xbmc.android.remotesandbox.R;
 
@@ -33,26 +33,28 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 	private final SyncService.RefreshObserver mRefreshObserver = new SyncService.RefreshObserver() {
 		@Override
 		public void onRefreshed() {
-			Log.d(TAG, "Refreshing Albums from database.");
-			getActivity().getSupportLoaderManager().restartLoader(0, null, MovieCompactFragment.this);
+			Log.d(TAG, "Refreshing Movies from database.");
+			getLoaderManager().restartLoader(0, null, MovieCompactFragment.this);
 		}
 	};
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_home_albums, container);
+		return inflater.inflate(R.layout.fragment_home_grid, container);
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		mAdapter = new AlbumsAdapter(getActivity());
+		mAdapter = new MoviesAdapter(getActivity());
 		setGridAdapter(mAdapter);
+		((TextView)getView().findViewById(R.id.home_header1)).setText(R.string.title_movies);
+		((TextView)getView().findViewById(R.id.home_header2)).setText(R.string.recently_added);
 
 		// Prepare the loader. Either re-connect with an existing one,
 		// or start a new one.
-		getActivity().getSupportLoaderManager().initLoader(0, null, this);
+		getLoaderManager().initLoader(0, null, this);
 	}
 
 	@Override
@@ -64,8 +66,8 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 		Uri baseUri;
 		baseUri = ContactsContract.Contacts.CONTENT_URI;
 
-		return new CursorLoader(getActivity(), AudioContract.Albums.CONTENT_URI, AlbumsQuery.PROJECTION, null, null,
-				AudioContract.Albums.SORT_LATEST_3);
+		return new CursorLoader(getActivity(), VideoContract.Movies.CONTENT_URI, MoviesQuery.PROJECTION, null, null,
+				VideoContract.Movies.SORT_LATEST_3);
 	}
 
 	@Override
@@ -84,64 +86,60 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 	}
 
 	/**
-	 * {@link android.support.v4.widget.CursorAdapter} that renders a {@link AlbumsQuery}.
+	 * {@link android.support.v4.widget.CursorAdapter} that renders a {@link org.xbmc.android.sandbox.ui.fragment.MovieCompactFragment.MoviesQuery}.
 	 */
-	private class AlbumsAdapter extends CursorAdapter {
+	private class MoviesAdapter extends CursorAdapter {
 
-		public AlbumsAdapter(Context context) {
+		public MoviesAdapter(Context context) {
 			super(context, null, false);
 		}
 
 		/** {@inheritDoc} */
 		@Override
 		public View newView(Context context, Cursor cursor, ViewGroup parent) {
-			return getActivity().getLayoutInflater().inflate(R.layout.list_item_album_compact, parent, false);
+			return getActivity().getLayoutInflater().inflate(R.layout.list_item_movie_compact, parent, false);
 		}
 
 		/** {@inheritDoc} */
 		@Override
 		public void bindView(View view, Context context, Cursor cursor) {
-			final TextView titleView = (TextView) view.findViewById(R.id.title_album);
-			final TextView subtitleView = (TextView) view.findViewById(R.id.title_artist);
-			final ImageView imageView = (ImageView) view.findViewById(R.id.list_album_cover);
+			final TextView titleView = (TextView) view.findViewById(R.id.title_movie);
+			final TextView subtitleView = (TextView) view.findViewById(R.id.title_genre);
+			final ImageView imageView = (ImageView) view.findViewById(R.id.list_movie_poster);
 			try {
-				final String url = "http://192.168.0.100:8080/image/" + URLEncoder.encode(cursor.getString(AlbumsQuery.THUMBNAIL), "UTF-8");
+				final String url = "http://192.168.0.100:8080/image/" + URLEncoder.encode(cursor.getString(MoviesQuery.THUMBNAIL), "UTF-8");
 				Glide.load(url)
 						.centerCrop()
 						.animate(android.R.anim.fade_in)
 						.into(imageView);
 
 			} catch (UnsupportedEncodingException e) {
-				Log.e(TAG, "Cannot encode " + cursor.getString(AlbumsQuery.THUMBNAIL) + " from UTF-8.");
+				Log.e(TAG, "Cannot encode " + cursor.getString(MoviesQuery.THUMBNAIL) + " from UTF-8.");
 			}
 
-			titleView.setText(cursor.getString(AlbumsQuery.TITLE));
-			subtitleView.setText(cursor.getString(AlbumsQuery.ARTIST));
+			titleView.setText(cursor.getString(MoviesQuery.TITLE));
+			subtitleView.setText(cursor.getString(MoviesQuery.GENRE));
 		}
 	}
 
 	/**
-	 * {@link org.xbmc.android.jsonrpc.provider.AudioContract.Albums}
+	 * {@link org.xbmc.android.jsonrpc.provider.VideoContract.Movies}
 	 * query parameters.
 	 */
-	private interface AlbumsQuery {
-//		int _TOKEN = 0x1;
+	private interface MoviesQuery {
 
 		String[] PROJECTION = {
-				AudioDatabase.Tables.ALBUMS + "." + BaseColumns._ID,
-				AudioContract.Albums.ID,
-				AudioContract.Albums.TITLE,
-				AudioContract.Albums.YEAR,
-				AudioContract.Artists.NAME,
-				AudioContract.Albums.THUMBNAIL
+				VideoDatabase.Tables.MOVIES + "." + BaseColumns._ID,
+				VideoContract.Movies.ID,
+				VideoContract.Movies.TITLE,
+				VideoContract.Movies.GENRE,
+				VideoContract.Movies.THUMBNAIL
 		};
 
-		//		int _ID = 0;
-//		int ID = 1;
+		// int _ID = 0; int ID = 1;
 		int TITLE = 2;
-		int YEAR = 3;
-		int ARTIST = 4;
-		int THUMBNAIL = 5;
+		int GENRE = 3;
+		int THUMBNAIL = 4;
 	}
 
 }

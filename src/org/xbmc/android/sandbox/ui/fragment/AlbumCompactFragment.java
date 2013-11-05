@@ -40,7 +40,7 @@ public class AlbumCompactFragment extends GridFragment implements LoaderManager.
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_home_albums, container);
+		return inflater.inflate(R.layout.fragment_home_grid, container);
 	}
 
 	@Override
@@ -52,7 +52,8 @@ public class AlbumCompactFragment extends GridFragment implements LoaderManager.
 
 		// Prepare the loader. Either re-connect with an existing one,
 		// or start a new one.
-		getActivity().getSupportLoaderManager().initLoader(0, null, this);
+		getLoaderManager().initLoader(0, null, this);
+		//getActivity().getSupportLoaderManager().initLoader(0, null, this);
 	}
 
 	@Override
