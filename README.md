@@ -11,6 +11,8 @@ Time has come for a redesign. In a nutshell, these are the major changes:
 * Faster experience. Use locally cached data for faster access and offline usage.
 * More reliable. Make use of the libs out there. Image fetching and caching shouldn't
   be done by hand anymore.
+* Easier setup. Use zeroconf where available and system-wide accounts for credential
+  storage.
 
 ## Installation
 
