@@ -21,8 +21,6 @@ Time has come for a redesign. In a nutshell, these are the major changes:
     git submodule init
     git submodule update
 
-Then you should be able to open it directly in Android Studio. Right now there's no
-functional data connection yet, so don't bother about XBMC setup.
 
 ## Status Quo
 Still putting the pieces together, so nothing to see yet. There are some mockups of
