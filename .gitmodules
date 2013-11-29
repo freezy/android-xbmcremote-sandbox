@@ -13,3 +13,6 @@
 [submodule "libs/pulltorefresh"]
 	path = libs/pulltorefresh
 	url = https://github.com/chrisbanes/ActionBar-PullToRefresh.git
+[submodule "libs/wizardpager"]
+	path = libs/wizardpager
+	url = https://github.com/TechFreak/WizardPager.git
