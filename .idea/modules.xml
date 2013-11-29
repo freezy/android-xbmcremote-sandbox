@@ -8,6 +8,7 @@
       <module fileurl="file://$PROJECT_DIR$/libs/quickscroll.iml" filepath="$PROJECT_DIR$/libs/quickscroll.iml" />
       <module fileurl="file://$PROJECT_DIR$/libs/slidingmenu.iml" filepath="$PROJECT_DIR$/libs/slidingmenu.iml" />
       <module fileurl="file://$PROJECT_DIR$/libs/slidingmenu-example.iml" filepath="$PROJECT_DIR$/libs/slidingmenu-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libs/wizardpager.iml" filepath="$PROJECT_DIR$/libs/wizardpager.iml" />
       <module fileurl="file://$PROJECT_DIR$/libs/xbmc-jsonrpclib-android.iml" filepath="$PROJECT_DIR$/libs/xbmc-jsonrpclib-android.iml" />
     </modules>
   </component>

@@ -23,8 +23,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="25364924-d835-4f5e-8da9-686045fa596d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/HomeActivity.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/HomeActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/RefreshableActivity.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/RefreshableActivity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/wizardpager" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitmodules" afterPath="$PROJECT_DIR$/.gitmodules" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/actionbarsherlock.iml" afterPath="$PROJECT_DIR$/libs/actionbarsherlock.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android-xbmcremote-sandbox.iml" afterPath="$PROJECT_DIR$/android-xbmcremote-sandbox.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/pulltorefresh.iml" afterPath="$PROJECT_DIR$/libs/pulltorefresh.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/quickscroll.iml" afterPath="$PROJECT_DIR$/libs/quickscroll.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/slidingmenu-example.iml" afterPath="$PROJECT_DIR$/libs/slidingmenu-example.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/slidingmenu.iml" afterPath="$PROJECT_DIR$/libs/slidingmenu.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/xbmc-jsonrpclib-android.iml" afterPath="$PROJECT_DIR$/libs/xbmc-jsonrpclib-android.iml" />
     </list>
     <ignored path="android-xbmcremote-sandbox.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -88,51 +96,37 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="HomeActivity.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/HomeActivity.java">
+      <file leaf-file-name="Authenticator.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/account/authenticator/Authenticator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="35" selection-start="618" selection-end="618" vertical-scroll-proportion="0.47486034" vertical-offset="100" max-vertical-offset="880">
-              <folding>
-                <element signature="e#477#496#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="activity_home.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/layout/activity_home.xml">
-          <provider editor-type-id="text-editor">
-            <state line="22" column="27" selection-start="814" selection-end="814" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="560">
-              <folding />
-            </state>
-          </provider>
-          <provider selected="true" editor-type-id="android-designer">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RefreshableActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/RefreshableActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="110" column="0" selection-start="3945" selection-end="3945" vertical-scroll-proportion="0.0" vertical-offset="1086" max-vertical-offset="3240">
+            <state line="96" column="5" selection-start="2905" selection-end="2905" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1940">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PullToRefreshAttacher.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/libs/pulltorefresh/library/src/uk/co/senab/actionbarpulltorefresh/library/PullToRefreshAttacher.java">
+      <file leaf-file-name="AuthenticatorActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/account/authenticator/AuthenticatorActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="668" column="20" selection-start="20184" selection-end="20184" vertical-scroll-proportion="0.0" vertical-offset="12239" max-vertical-offset="18240">
+            <state line="65" column="60" selection-start="2372" selection-end="2372" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6300">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PullToRefreshLayout.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/libs/pulltorefresh/library/src/uk/co/senab/actionbarpulltorefresh/library/PullToRefreshLayout.java">
+      <file leaf-file-name="AccountAuthenticatorActivity.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://C:/Development/android-sdk/sources/android-17/android/accounts/AccountAuthenticatorActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="53" column="16" selection-start="1708" selection-end="1708" vertical-scroll-proportion="0.0" vertical-offset="314" max-vertical-offset="2380">
+            <state line="36" column="13" selection-start="1588" selection-end="1588" vertical-scroll-proportion="0.33333334" vertical-offset="123" max-vertical-offset="1420">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NewAuthenticatorActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/account/authenticator/NewAuthenticatorActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="8" column="3" selection-start="301" selection-end="301" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="340">
               <folding />
             </state>
           </provider>
@@ -156,30 +150,39 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/io/audio/AlbumHandler.java" />
-        <option value="$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/io/video/MovieHandler.java" />
-        <option value="$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/provider/VideoProvider.java" />
-        <option value="$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/service/RefreshObserver.java" />
-        <option value="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/sync/AbstractSyncBridge.java" />
-        <option value="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/sync/AudioSyncBridge.java" />
-        <option value="$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/service/AbstractSyncService.java" />
-        <option value="$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/service/VideoSyncService.java" />
-        <option value="$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/service/AudioSyncService.java" />
-        <option value="$PROJECT_DIR$/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/.gitmodules" />
+        <option value="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/fragment/GridViewFragment.java" />
+        <option value="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/fragment/GridFragment.java" />
         <option value="$PROJECT_DIR$/res/values/styles.xml" />
+        <option value="$PROJECT_DIR$/res/values/colors.xml" />
+        <option value="$PROJECT_DIR$/res/layout/fragment_home_albums.xml" />
+        <option value="$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/io/video/MovieHandler.java" />
+        <option value="$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/provider/VideoDatabase.java" />
+        <option value="$PROJECT_DIR$/res/layout/list_item_movie_compact.xml" />
+        <option value="$PROJECT_DIR$/res/layout/fragment_home_grid.xml" />
+        <option value="$PROJECT_DIR$/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/fragment/AlbumCompactFragment.java" />
+        <option value="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/fragment/MovieCompactFragment.java" />
+        <option value="$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/provider/VideoProvider.java" />
         <option value="$PROJECT_DIR$/res/layout/activity_home.xml" />
-        <option value="$USER_HOME$/.AndroidStudioPreview/system/compile-server/android-xbmcremote-sandbox_b5600bb4/targets/java-production/pulltorefresh/android/generated_sources/build_config/uk/co/senab/actionbarpulltorefresh/library/BuildConfig.java" />
-        <option value="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/RefreshableActivity.java" />
-        <option value="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/HomeActivity.java" />
+        <option value="$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/provider/VideoContract.java" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/src/org/xbmc/android/account/authenticator/NewAuthenticatorActivity.java" />
       </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="dedicatedModuleDir" value="D:\dev\android-xbmcremote-sandbox\libs" />
+      </MavenImportingSettings>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="842" />
-    <option name="width" value="1718" />
-    <option name="height" value="1560" />
+    <option name="x" value="183" />
+    <option name="y" value="86" />
+    <option name="width" value="1759" />
+    <option name="height" value="1435" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -189,7 +192,7 @@
             <id />
           </State>
           <State>
-            <id>OSGi</id>
+            <id>Android Lint</id>
           </State>
           <State>
             <id>Spelling</id>
@@ -197,7 +200,7 @@
         </expanded-state>
         <selected-state>
           <State>
-            <id>SpellCheckingInspection</id>
+            <id>AndroidLintUseSparseArrays</id>
           </State>
         </selected-state>
       </profile-state>
@@ -234,82 +237,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-xbmcremote-sandbox" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-xbmcremote-sandbox" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="slidingmenu-example" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-xbmcremote-sandbox" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="slidingmenu-example" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com.jeremyfeinstein.slidingmenu.example" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-xbmcremote-sandbox" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-xbmcremote-sandbox" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-xbmcremote-sandbox" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-xbmcremote-sandbox" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org.xbmc.android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-xbmcremote-sandbox" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-xbmcremote-sandbox" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org.xbmc.android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sandbox.ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="Scope">
         <subPane subId="Project Files">
           <PATH>
@@ -444,6 +371,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="util" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="ui" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -470,7 +419,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="sync" />
+              <option name="myItemId" value="fragment" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -618,6 +567,80 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="account" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="account" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="syncadapter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="account" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="authenticator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="res" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -640,6 +663,96 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="libs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="slidingmenu-example" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="slidingmenu-example" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com.jeremyfeinstein.slidingmenu.example" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="org.xbmc.android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="org.xbmc.android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sandbox.ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -656,7 +769,7 @@
     <property name="MemberChooser.sorted" value="false" />
     <property name="recentsLimit" value="5" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/pulltorefresh/library/gen" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="289" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="961" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="968" />
@@ -676,7 +789,7 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
-    <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
+    <property name="options.lastSelected" value="editor.preferences.import" />
     <property name="AndroidLayoutSelectedEditor" value="text-editor" />
     <property name="project.structure.side.proportion" value="0.27809966" />
     <property name="MemberChooser.copyJavadoc" value="false" />
@@ -685,17 +798,17 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.xbmc.android.sandbox.ui.fragment" />
       <recent name="org.xbmc.android.jsonrpc.provider" />
       <recent name="org.xbmc.android.sandbox.ui" />
       <recent name="org.xbmc.android.jsonrpc.io.video" />
       <recent name="org.xbmc.android.jsonrpc.service" />
-      <recent name="org.xbmc.android.remotesandbox.ui.base" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\dev\android-xbmcremote-sandbox\res\layout" />
       <recent name="D:\dev\android-xbmcremote-sandbox\res\drawable" />
       <recent name="S:\Development\android-xbmcremote-sandbox\res\layout" />
       <recent name="S:\Development\android-xbmcremote-sandbox\res\drawable" />
-      <recent name="D:\dev\android-xbmcremote-sandbox\res\layout" />
       <recent name="D:\dev\android-xbmcremote-sandbox\assets" />
     </key>
   </component>
@@ -810,6 +923,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <option name="MODE" value="default_activity" />
       <option name="DEPLOY" value="true" />
+      <option name="ARTIFACT_NAME" value="" />
       <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
       <option name="USE_LAST_SELECTED_DEVICE" value="false" />
       <option name="PREFERRED_AVD" value="" />
@@ -828,6 +942,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <option name="MODE" value="default_activity" />
       <option name="DEPLOY" value="true" />
+      <option name="ARTIFACT_NAME" value="" />
       <option name="TARGET_SELECTION_MODE" value="USB_DEVICE" />
       <option name="USE_LAST_SELECTED_DEVICE" value="false" />
       <option name="PREFERRED_AVD" value="" />
@@ -848,6 +963,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <option name="MODE" value="default_activity" />
       <option name="DEPLOY" value="true" />
+      <option name="ARTIFACT_NAME" value="" />
       <option name="TARGET_SELECTION_MODE" value="USB_DEVICE" />
       <option name="USE_LAST_SELECTED_DEVICE" value="false" />
       <option name="PREFERRED_AVD" value="" />
@@ -899,41 +1015,46 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="842" y="0" width="1718" height="1560" extended-state="0" />
-    <editor active="true" />
+    <frame x="183" y="86" width="1759" height="1435" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3013393" sideWeight="0.28615862" order="11" side_tool="true" content_ui="tabs" x="1607" y="386" width="609" height="933" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3013393" sideWeight="0.7130638" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16203144" sideWeight="0.66524065" order="12" side_tool="true" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13807982" sideWeight="0.66508687" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16705516" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299293" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32953736" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3316726" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.47188613" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20280811" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33151326" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16183574" sideWeight="0.33475935" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15085445" sideWeight="0.33333334" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18961352" sideWeight="0.7616823" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18503241" sideWeight="0.7616823" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17295374" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="9" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36755487" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26761565" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USERS">
+      <collection />
+    </option>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -951,109 +1072,303 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/libs/actionbarsherlock/actionbarsherlock-samples/demos/src/com/actionbarsherlock/sample/demos/IndeterminateProgress.java">
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/fragment/MovieCompactFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="72" selection-start="1117" selection-end="1117" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
+        <state line="69" column="45" selection-start="2614" selection-end="2614" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3020">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libs/actionbarsherlock/actionbarsherlock-samples/demos/src/com/actionbarsherlock/sample/demos/Progress.java">
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/provider/VideoContract.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="17" selection-start="973" selection-end="973" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
+        <state line="40" column="3" selection-start="1659" selection-end="1659" vertical-scroll-proportion="0.0" vertical-offset="800" max-vertical-offset="2480">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libs/actionbarsherlock/actionbarsherlock-samples/demos/README.md">
+    <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="6" selection-start="178" selection-end="219" vertical-scroll-proportion="0.24193548" vertical-offset="0" max-vertical-offset="0" />
+        <state line="18" column="39" selection-start="821" selection-end="821" vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="660">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/fragment_home_grid.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="46" selection-start="406" selection-end="406" vertical-scroll-proportion="0.0" vertical-offset="260" max-vertical-offset="1360">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/activity_home.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="69" selection-start="569" selection-end="569" vertical-scroll-proportion="0.0" vertical-offset="340" max-vertical-offset="760">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="72" selection-start="2446" selection-end="2446" vertical-scroll-proportion="0.0" vertical-offset="1060" max-vertical-offset="1240">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/provider/VideoProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="207" column="0" selection-start="7419" selection-end="7419" vertical-scroll-proportion="0.0" vertical-offset="4140" max-vertical-offset="5420">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/provider/AudioProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="236" column="18" selection-start="8278" selection-end="8278" vertical-scroll-proportion="0.0" vertical-offset="4720" max-vertical-offset="6940">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/fragment/MovieCompactFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="69" column="45" selection-start="2614" selection-end="2614" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3020">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/provider/VideoContract.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="3" selection-start="1659" selection-end="1659" vertical-scroll-proportion="0.0" vertical-offset="800" max-vertical-offset="2480">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="39" selection-start="821" selection-end="821" vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="660">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/fragment_home_grid.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="46" selection-start="406" selection-end="406" vertical-scroll-proportion="0.0" vertical-offset="260" max-vertical-offset="1360">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/activity_home.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="69" selection-start="569" selection-end="569" vertical-scroll-proportion="0.0" vertical-offset="340" max-vertical-offset="760">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="72" selection-start="2446" selection-end="2446" vertical-scroll-proportion="0.0" vertical-offset="1060" max-vertical-offset="1240">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/provider/VideoProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="207" column="0" selection-start="7419" selection-end="7419" vertical-scroll-proportion="0.0" vertical-offset="4140" max-vertical-offset="5420">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/provider/AudioProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="236" column="18" selection-start="8278" selection-end="8278" vertical-scroll-proportion="0.0" vertical-offset="4720" max-vertical-offset="6940">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/sync/SyncBridge.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="39" selection-start="1826" selection-end="1826" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2060" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/provider/VideoDatabase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="48" column="29" selection-start="1792" selection-end="1792" vertical-scroll-proportion="0.0" vertical-offset="300" max-vertical-offset="1520">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/list_item_album_compact.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="28" selection-start="172" selection-end="172" vertical-scroll-proportion="-4.0" vertical-offset="0" max-vertical-offset="1420">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/list_item_movie_compact.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="31" selection-start="1259" selection-end="1259" vertical-scroll-proportion="-28.52" vertical-offset="87" max-vertical-offset="1420">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="48" selection-start="430" selection-end="430" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1360">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/io/video/MovieHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="42" column="30" selection-start="1609" selection-end="1640" vertical-scroll-proportion="0.036885247" vertical-offset="424" max-vertical-offset="1700">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/fragment/AlbumCompactFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="54" column="24" selection-start="1904" selection-end="1920" vertical-scroll-proportion="0.0" vertical-offset="660" max-vertical-offset="3020">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/android-xbmcremote-sandbox.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="997" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/fragment/MovieCompactFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="69" column="45" selection-start="2614" selection-end="2614" vertical-scroll-proportion="0.0" vertical-offset="1380" max-vertical-offset="3020">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="39" selection-start="821" selection-end="821" vertical-scroll-proportion="0.5930807" vertical-offset="0" max-vertical-offset="660">
+          <folding />
+        </state>
       </provider>
       <provider editor-type-id="MarkdownPreviewEditor">
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libs/actionbarsherlock/actionbarsherlock-samples/demos/src/com/actionbarsherlock/sample/demos/Styled.java">
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/provider/VideoContract.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="87" selection-start="1322" selection-end="1322" vertical-scroll-proportion="0.45816734" vertical-offset="0" max-vertical-offset="0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitmodules">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="29" selection-start="525" selection-end="525" vertical-scroll-proportion="0.2504817" vertical-offset="0" max-vertical-offset="0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="12" selection-start="1347" selection-end="1347" vertical-scroll-proportion="0.61657035" vertical-offset="0" max-vertical-offset="0">
+        <state line="40" column="3" selection-start="1659" selection-end="1659" vertical-scroll-proportion="-0.6589786" vertical-offset="800" max-vertical-offset="2080">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/.AndroidStudioPreview/system/compile-server/android-xbmcremote-sandbox_b5600bb4/targets/java-production/pulltorefresh/android/generated_sources/aapt/uk/co/senab/actionbarpulltorefresh/library/R.java">
+    <entry file="file://$PROJECT_DIR$/res/layout/fragment_home_grid.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="13" selection-start="248" selection-end="248" vertical-scroll-proportion="0.0776699" vertical-offset="0" max-vertical-offset="4300" />
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.AndroidStudioPreview/system/compile-server/android-xbmcremote-sandbox_b5600bb4/targets/java-production/pulltorefresh/android/generated_sources/build_config/uk/co/senab/actionbarpulltorefresh/library/BuildConfig.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="1" selection-start="184" selection-end="184" vertical-scroll-proportion="0.11261261" vertical-offset="0" max-vertical-offset="888" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/service/VideoSyncService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="0" selection-start="1990" selection-end="1990" vertical-scroll-proportion="0.0" vertical-offset="1020" max-vertical-offset="2120">
+        <state line="13" column="46" selection-start="406" selection-end="406" vertical-scroll-proportion="0.0" vertical-offset="260" max-vertical-offset="1360">
           <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/service/AudioSyncService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="0" selection-start="2069" selection-end="2069" vertical-scroll-proportion="-0.67410713" vertical-offset="1024" max-vertical-offset="1920">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/service/AbstractSyncService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="0" selection-start="250" selection-end="250" vertical-scroll-proportion="0.0" vertical-offset="180" max-vertical-offset="900">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/activity_home.xml">
-      <provider editor-type-id="text-editor">
-        <state line="22" column="27" selection-start="814" selection-end="814" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="560">
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
+      <provider editor-type-id="android-designer">
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libs/pulltorefresh/library/src/uk/co/senab/actionbarpulltorefresh/library/PullToRefreshLayout.java">
+    <entry file="file://$PROJECT_DIR$/res/layout/activity_home.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="16" selection-start="1708" selection-end="1708" vertical-scroll-proportion="0.0" vertical-offset="314" max-vertical-offset="2380">
+        <state line="17" column="69" selection-start="569" selection-end="569" vertical-scroll-proportion="0.2783505" vertical-offset="178" max-vertical-offset="760">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="72" selection-start="2446" selection-end="2446" vertical-scroll-proportion="0.6969697" vertical-offset="646" max-vertical-offset="1240">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libs/pulltorefresh/library/src/uk/co/senab/actionbarpulltorefresh/library/PullToRefreshAttacher.java">
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/provider/VideoProvider.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="668" column="20" selection-start="20184" selection-end="20184" vertical-scroll-proportion="0.0" vertical-offset="12239" max-vertical-offset="18240">
+        <state line="207" column="0" selection-start="7419" selection-end="7419" vertical-scroll-proportion="0.0" vertical-offset="3172" max-vertical-offset="5220">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/RefreshableActivity.java">
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/provider/AudioProvider.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="110" column="0" selection-start="3945" selection-end="3945" vertical-scroll-proportion="0.0" vertical-offset="1086" max-vertical-offset="3240">
+        <state line="236" column="18" selection-start="8278" selection-end="8278" vertical-scroll-proportion="-1.3804713" vertical-offset="4720" max-vertical-offset="6120">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/HomeActivity.java">
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/account/syncadapter/SyncAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="35" selection-start="618" selection-end="618" vertical-scroll-proportion="0.47486034" vertical-offset="100" max-vertical-offset="880">
-          <folding>
-            <element signature="e#477#496#0" expanded="true" />
-          </folding>
+        <state line="38" column="13" selection-start="1279" selection-end="1279" vertical-scroll-proportion="0.25551683" vertical-offset="0" max-vertical-offset="861">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/account/syncadapter/SyncService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="13" selection-start="1194" selection-end="1194" vertical-scroll-proportion="0.29061785" vertical-offset="6" max-vertical-offset="880">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Development/android-sdk/sources/android-17/android/accounts/AccountManagerService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="87" column="13" selection-start="3139" selection-end="3139" vertical-scroll-proportion="0.26894864" vertical-offset="60" max-vertical-offset="49420">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/account/authenticator/Authenticator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="96" column="5" selection-start="2905" selection-end="2905" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1940">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/account/authenticator/NewAuthenticatorActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="3" selection-start="301" selection-end="301" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="340">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/account/authenticator/AuthenticatorActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="65" column="60" selection-start="2372" selection-end="2372" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6300">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Development/android-sdk/sources/android-17/android/accounts/AccountAuthenticatorActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="13" selection-start="1588" selection-end="1588" vertical-scroll-proportion="0.33333334" vertical-offset="123" max-vertical-offset="1420">
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1110,7 +1425,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>Android|pulltorefresh</last-edited>
+          <last-edited>Android|libwizardpager</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
