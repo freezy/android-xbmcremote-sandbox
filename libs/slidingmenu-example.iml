@@ -20,7 +20,7 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$/slidingmenu/example">
       <sourceFolder url="file://$MODULE_DIR$/slidingmenu/example/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/slidingmenu/example/gen" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/slidingmenu/example/gen" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

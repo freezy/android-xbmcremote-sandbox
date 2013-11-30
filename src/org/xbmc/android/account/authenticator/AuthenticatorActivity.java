@@ -23,6 +23,7 @@ package org.xbmc.android.account.authenticator;
 
 import java.util.ArrayList;
 
+import co.juliansuarez.libwizardpager.wizard.ui.StepPagerStrip;
 import org.xbmc.android.account.Constants;
 import org.xbmc.android.jsonrpc.api.model.ApplicationModel.PropertyValue.Version;
 import org.xbmc.android.remotesandbox.R;
@@ -64,6 +65,8 @@ import android.widget.ViewFlipper;
  * @author freezy <freezy@xbmc.org>
  */
 public class AuthenticatorActivity extends AccountAuthenticatorActivity implements DetachableResultReceiver.Receiver {
+
+	private StepPagerStrip mStepPagerStrip;
 
 	public static final String PARAM_CONFIRMCREDENTIALS = "confirmCredentials";
 	public static final String PARAM_PASSWORD = "password";

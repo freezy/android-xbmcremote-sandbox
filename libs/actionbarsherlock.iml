@@ -21,7 +21,7 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$/actionbarsherlock/actionbarsherlock">
       <sourceFolder url="file://$MODULE_DIR$/actionbarsherlock/actionbarsherlock/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/actionbarsherlock/actionbarsherlock/gen" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/actionbarsherlock/actionbarsherlock/gen" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

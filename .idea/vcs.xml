@@ -6,6 +6,7 @@
     <mapping directory="$PROJECT_DIR$/libs/pulltorefresh" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/libs/quickscroll" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/libs/slidingmenu" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/libs/wizardpager" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/libs/xbmc-jsonrpclib" vcs="Git" />
   </component>
 </project>
