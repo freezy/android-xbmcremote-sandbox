@@ -1,0 +1,60 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:layout_width="match_parent"
+			  android:layout_height="match_parent"
+			  android:orientation="vertical" >
+
+	<co.juliansuarez.libwizardpager.wizard.ui.StepPagerStrip
+			android:id="@+id/strip"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="16dp"
+			android:layout_marginRight="16dp"
+			android:gravity="left"
+			android:paddingBottom="8dp"
+			android:paddingLeft="@dimen/list_item_padding_left"
+			android:paddingRight="@dimen/list_item_padding_right"
+			android:paddingTop="16dp" />
+
+	<android.support.v4.view.ViewPager
+			android:id="@+id/pager"
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_weight="1" />
+
+	<View
+			android:id="@+id/divider"
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:background="?android:attr/listDivider" />
+
+	<LinearLayout
+			style="@style/ButtonBar"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal" >
+
+		<Button
+				android:id="@+id/prev_button"
+				style="@style/ButtonBarButton"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:background="@drawable/selectable_item_background"
+				android:text="@string/prev" />
+
+		<View
+				android:layout_width="1dp"
+				android:layout_height="match_parent"
+				android:background="?android:attr/listDivider" />
+
+		<Button
+				android:id="@+id/next_button"
+				style="@style/ButtonBarButton"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:background="@drawable/selectable_item_background"
+				android:text="@string/next" />
+	</LinearLayout>
+
+</LinearLayout>
