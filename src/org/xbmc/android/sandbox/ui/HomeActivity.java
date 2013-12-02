@@ -4,6 +4,7 @@ import android.os.Bundle;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.sandbox.ui.sync.AbstractSyncBridge;
 import org.xbmc.android.sandbox.ui.sync.SyncBridge;
+import javax.inject.Inject;
 
 /**
  * The landing page of the app.
@@ -11,6 +12,8 @@ import org.xbmc.android.sandbox.ui.sync.SyncBridge;
  * @author freezy <freezy@xbmc.org>
  */
 public class HomeActivity extends RefreshableActivity {
+
+	@Inject protected com.squareup.otto.Bus BUS;
 
 	private static final String TAG = HomeActivity.class.getSimpleName();
 	/**

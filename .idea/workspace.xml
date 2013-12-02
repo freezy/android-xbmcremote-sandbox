@@ -31,9 +31,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="25364924-d835-4f5e-8da9-686045fa596d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/otto-1.3.4.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/SandboxApplication.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/otto_1_3_4.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/dagger_1_1_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/javax_inject_javax_inject_1.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitmodules" afterPath="$PROJECT_DIR$/.gitmodules" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/client/AbstractClient.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/client/AbstractClient.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/sync/AbstractSyncBridge.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/sync/AbstractSyncBridge.java" />
@@ -46,11 +45,13 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/util/DBUtils.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/util/DBUtils.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/zeroconf/DiscoveryService.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/zeroconf/DiscoveryService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/fragment/GridFragment.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/fragment/GridFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/HomeActivity.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/HomeActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/IconHelper.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/IconHelper.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/client/JsonRpcClient.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/client/JsonRpcClient.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/fragment/MovieCompactFragment.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/fragment/MovieCompactFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/account/authenticator/NetworkUtilities.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/account/authenticator/NetworkUtilities.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/RefreshableActivity.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/RefreshableActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/SandboxApplication.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/SandboxApplication.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/account/syncadapter/SyncAdapter.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/account/syncadapter/SyncAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/sync/SyncBridge.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/sync/SyncBridge.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/xbmc/android/account/syncadapter/SyncService.java" afterPath="$PROJECT_DIR$/src/org/xbmc/android/account/syncadapter/SyncService.java" />
@@ -96,15 +97,80 @@
     </list>
     <ignored path="android-xbmcremote-sandbox.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386005657807" ignored="false" />
+    <file path="/Dummy.txt" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386013944988" ignored="false" />
     <file path="/strings.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386005518399" ignored="false" />
     <file path="/activity_accountwizard.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386005636879" ignored="false" />
-    <file path="/fragment.java" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386006155778" ignored="false" />
+    <file path="/fragment.java" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386015364460" ignored="false" />
     <file path="/AuthenticatorActivityNew.java" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386006195806" ignored="false" />
     <file path="/BaseActivity.java" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386006379092" ignored="false" />
-    <file path="/a.dummy" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386006569252" ignored="false" />
+    <file path="/a.dummy" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386015925594" ignored="false" />
     <file path="/Sandbox.java" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386012287718" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386011913950" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/pom.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386013871081" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/net.simonvt.menudrawer_menudrawer_3.0.2/res/values/strings.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016918" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/net.simonvt.menudrawer_menudrawer_3.0.2/res/values/colors.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016919" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/net.simonvt.menudrawer_menudrawer_3.0.2/res/values/ids.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016919" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/net.simonvt.menudrawer_menudrawer_3.0.2/res/values/attrs.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016920" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.github.kevinsawicki_wishlist_0.9/AndroidManifest.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016921" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/color/abs__primary_text_disable_only_holo_light.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016921" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/color/abs__primary_text_holo_light.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016921" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/color/abs__primary_text_holo_dark.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016922" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/color/abs__primary_text_disable_only_holo_dark.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016922" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/layout/abs__screen_action_bar_overlay.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016922" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/layout/abs__screen_simple_overlay_action_mode.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016923" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/layout/abs__list_menu_item_checkbox.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016923" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.viewpagerindicator_library_2.4.1/AndroidManifest.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016923" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/layout/abs__action_bar_title_item.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016923" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/layout/abs__action_bar_tab_bar_view.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016923" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/layout/abs__activity_chooser_view_list_item.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016923" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/layout/sherlock_spinner_item.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016923" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/layout/abs__action_bar_tab.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016924" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/layout/abs__list_menu_item_radio.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016924" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/layout/abs__action_menu_layout.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016924" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/layout/abs__action_bar_home.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016924" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/layout/abs__list_menu_item_icon.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016924" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/net.simonvt.menudrawer_menudrawer_3.0.2/res/values/styles.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016925" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/layout/abs__action_mode_bar.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016925" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/layout/abs__screen_action_bar.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016925" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.github.kevinsawicki_wishlist_0.9/res/values/strings.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016925" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/layout/abs__action_mode_close_item.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016925" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/layout/abs__screen_simple.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016925" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/layout/abs__action_menu_item_layout.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016925" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/layout/abs__activity_chooser_view.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016926" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/layout/abs__popup_menu_item_layout.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016926" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/layout/abs__search_view.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016926" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.viewpagerindicator_library_2.4.1/res/color/vpi__dark_theme.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016926" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/net.simonvt.menudrawer_menudrawer_3.0.2/AndroidManifest.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016926" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/layout/abs__search_dropdown_item_icons_2line.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016926" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/layout/abs__simple_dropdown_hint.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016927" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/layout/sherlock_spinner_dropdown_item.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016927" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.viewpagerindicator_library_2.4.1/res/color/vpi__light_theme.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016927" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/values/abs__bools.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016927" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/values/abs__ids.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016927" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/values/abs__colors.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016927" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/values/abs__config.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016928" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/values/abs__dimens.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016928" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.viewpagerindicator_library_2.4.1/res/values/vpi__defaults.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016928" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.viewpagerindicator_library_2.4.1/res/values/vpi__styles.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016929" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.viewpagerindicator_library_2.4.1/res/values/vpi__attrs.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016929" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.viewpagerindicator_library_2.4.1/res/values/vpi__colors.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016929" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.viewpagerindicator_library_2.4.1/res/drawable/vpi__tab_indicator.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016930" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/drawable/abs__activated_background_holo_light.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016918" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/drawable/abs__ic_menu_moreoverflow_holo_light.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016918" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/layout-v14/sherlock_spinner_dropdown_item.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016919" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/layout-v14/sherlock_spinner_item.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016919" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/values-v11/abs__themes.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016920" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/values-v14/abs__styles.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016920" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/values-land/abs__dimens.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016921" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/values-large-hdpi-1024x600/abs__dimens.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016924" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/values/abs__styles.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016928" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/drawable/abs__progress_horizontal_holo_light.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016928" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/drawable/abs__progress_horizontal_holo_dark.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016928" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/values-w480dp/abs__bools.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016929" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/drawable/abs__textfield_searchview_holo_dark.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016929" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/drawable/abs__textfield_searchview_holo_light.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016929" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/drawable/abs__textfield_searchview_right_holo_dark.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016930" ignored="false" />
+    <file path="$PROJECT_DIR$/../android-bootstrap/app/gen-external-apklibs/com.actionbarsherlock_actionbarsherlock_4.3.1/res/drawable/abs__list_selector_holo_dark.xml" changelist="25364924-d835-4f5e-8da9-686045fa596d" time="1386014016930" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -165,10 +231,39 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="SandboxApplication.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="SandboxApplication.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/SandboxApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="18" selection-start="176" selection-end="176" vertical-scroll-proportion="0.18126889">
+            <state line="14" column="22" selection-start="254" selection-end="254" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AbstractSyncBridge.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/sync/AbstractSyncBridge.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="53" column="22" selection-start="2058" selection-end="2058" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SyncBridge.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/sync/SyncBridge.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="42" column="16" selection-start="1455" selection-end="1455" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HomeActivity.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/HomeActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="11" column="29" selection-start="314" selection-end="314" vertical-scroll-proportion="0.24175824">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -194,7 +289,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/org/xbmc/android/jsonrpc/provider/VideoContract.java" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/org/xbmc/android/account/authenticator/NewAuthenticatorActivity.java" />
         <option value="$PROJECT_DIR$/src/org/xbmc/android/account/authenticator/AuthenticatorActivity.java" />
@@ -210,6 +304,7 @@
         <option value="$PROJECT_DIR$/src/org/xbmc/android/sandbox/Application.java" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/src/org/xbmc/android/sandbox/SandboxApplication.java" />
+        <option value="$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/HomeActivity.java" />
       </list>
     </option>
   </component>
@@ -222,9 +317,9 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="801" />
+    <option name="x" value="762" />
     <option name="y" value="125" />
-    <option name="width" value="1759" />
+    <option name="width" value="1798" />
     <option name="height" value="1435" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -444,6 +539,36 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-xbmcremote-sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sandbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sync" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane">
@@ -459,18 +584,19 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="265" />
     <property name="project.structure.proportion" value="0.15917969" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="282" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="Repository.Attach.JavaDocs" value="true" />
     <property name="recentsLimit" value="5" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="286" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/otto-1.3.4.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/dagger-1.1.0.jar!/" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="289" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="961" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="968" />
@@ -482,9 +608,11 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
+    <property name="Repository.Attach.Sources" value="true" />
     <property name="FullScreen" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
+    <property name="Downloaded.Files.Path" value="D:\dev\android-xbmcremote-sandbox\libs" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
@@ -706,7 +834,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="801" y="125" width="1759" height="1435" extended-state="0" />
+    <frame x="762" y="125" width="1798" height="1435" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30111963" sideWeight="0.7973396" order="11" side_tool="true" content_ui="tabs" x="1607" y="386" width="609" height="933" />
@@ -720,16 +848,16 @@
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1732469" sideWeight="0.7973396" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16935484" sideWeight="0.73239434" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17295374" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30111963" sideWeight="0.5680751" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30111963" sideWeight="0.22848201" order="12" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26760563" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26760563" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16705516" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20266041" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20266041" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3826291" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14631268" sideWeight="0.4342723" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -861,29 +989,8 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="77" column="10" selection-start="2927" selection-end="2927" vertical-scroll-proportion="-1.5298088">
           <folding>
-            <element signature="e#2617#2634#0" expanded="true" />
+            <element signature="e#2617#2634#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/sync/AbstractSyncBridge.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="22" selection-start="2058" selection-end="2058" vertical-scroll-proportion="-0.4155251">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/HomeActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="26" selection-start="855" selection-end="855" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/sync/SyncBridge.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="40" selection-start="1888" selection-end="1888" vertical-scroll-proportion="0.0">
-          <folding />
         </state>
       </provider>
     </entry>
@@ -917,7 +1024,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/SandboxApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="18" selection-start="176" selection-end="176" vertical-scroll-proportion="0.18126889">
+        <state line="14" column="22" selection-start="254" selection-end="254" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/sync/AbstractSyncBridge.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="22" selection-start="2058" selection-end="2058" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/sync/SyncBridge.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="42" column="16" selection-start="1455" selection-end="1455" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/xbmc/android/sandbox/ui/HomeActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="29" selection-start="314" selection-end="314" vertical-scroll-proportion="0.24175824">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -977,7 +1107,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>wizardpager</last-edited>
+          <last-edited>android-xbmcremote-sandbox</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1001,7 +1131,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>otto-1.3.4</last-edited>
+          <last-edited>dagger-1.1.0</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
