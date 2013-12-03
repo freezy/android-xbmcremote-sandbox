@@ -98,7 +98,7 @@ public class SyncService extends Service {
 
 		// Unregister bus, since its not longer needed as the service is shutting down
 		BUS.unregister(this);
-		
+
 		super.onDestroy();
 	}
 

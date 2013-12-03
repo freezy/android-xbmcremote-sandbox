@@ -21,7 +21,7 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$/quickscroll/QuickScroll">
       <sourceFolder url="file://$MODULE_DIR$/quickscroll/QuickScroll/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/quickscroll/QuickScroll/gen" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/quickscroll/QuickScroll/gen" isTestSource="false" generated="true" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

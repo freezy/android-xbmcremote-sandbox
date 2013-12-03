@@ -30,7 +30,7 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$/xbmc-jsonrpclib">
       <sourceFolder url="file://$MODULE_DIR$/xbmc-jsonrpclib/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/xbmc-jsonrpclib/gen" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/xbmc-jsonrpclib/gen" isTestSource="false" generated="true" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
