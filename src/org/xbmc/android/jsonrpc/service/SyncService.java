@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.ResultReceiver;
 import android.util.Log;
+import com.squareup.otto.Bus;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
 import org.xbmc.android.jsonrpc.api.call.VideoLibrary;
@@ -39,7 +40,9 @@ import org.xbmc.android.jsonrpc.io.JsonHandler;
 import org.xbmc.android.jsonrpc.io.audio.AlbumHandler;
 import org.xbmc.android.jsonrpc.io.audio.ArtistHandler;
 import org.xbmc.android.jsonrpc.io.video.MovieHandler;
+import org.xbmc.android.util.Injector;
 
+import javax.inject.Inject;
 import java.util.LinkedList;
 
 /**
@@ -55,6 +58,9 @@ public class SyncService extends Service {
 
 	public static final String HOST = "192.168.0.100";
 	public static final String URL = "http://" + HOST + ":8080/jsonrpc";
+
+	@Inject
+	protected Bus BUS;
 
 	private static final String TAG = SyncService.class.getSimpleName();
 
@@ -80,6 +86,20 @@ public class SyncService extends Service {
 		super.onCreate();
 		Log.d(TAG, "Starting SyncService...");
 		mCm = new ConnectionManager(getApplicationContext(), new HostConfig(HOST));
+
+		Injector.inject(this);
+
+		// Register the bus so we can send notifications.
+		BUS.register(this);
+	}
+
+	@Override
+	public void onDestroy() {
+
+		// Unregister bus, since its not longer needed as the service is shutting down
+		BUS.unregister(this);
+		
+		super.onDestroy();
 	}
 
 	@Override
@@ -177,7 +197,6 @@ public class SyncService extends Service {
 
 	@Override
 	public IBinder onBind(Intent intent) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
