@@ -7,6 +7,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
+import org.xbmc.android.injection.Injector;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.sandbox.ui.menu.SlidingMenuFragment;
 
@@ -20,8 +21,11 @@ public class BaseActivity extends SlidingFragmentActivity {
 	private int mTitleRes;
 	protected Fragment mFrag;
 
-	public BaseActivity(int titleRes) {
+	private final int mContentViewRes;
+
+	public BaseActivity(int titleRes, int contentViewRes) {
 		mTitleRes = titleRes;
+		mContentViewRes = contentViewRes;
 	}
 
 	@Override
@@ -29,6 +33,7 @@ public class BaseActivity extends SlidingFragmentActivity {
 		super.onCreate(savedInstanceState);
 
 		setTitle(mTitleRes);
+		setContentView(mContentViewRes);
 
 		// set the Behind View
 		setBehindContentView(R.layout.menu_frame);

@@ -1,4 +1,4 @@
-package org.xbmc.android.util;
+package org.xbmc.android.injection;
 
 import dagger.ObjectGraph;
 

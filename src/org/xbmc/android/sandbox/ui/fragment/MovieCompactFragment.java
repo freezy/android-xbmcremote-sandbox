@@ -30,14 +30,14 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 	private final static String TAG = MovieCompactFragment.class.getSimpleName();
 	private CursorAdapter mAdapter;
 
-	private final SyncService.RefreshObserver mRefreshObserver = new SyncService.RefreshObserver() {
+/*	private final SyncService.RefreshObserver mRefreshObserver = new SyncService.RefreshObserver() {
 		@Override
 		public void onRefreshed() {
 			Log.d(TAG, "Refreshing Movies from database.");
 			getLoaderManager().restartLoader(0, null, MovieCompactFragment.this);
 		}
 	};
-
+*/
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_home_grid, container);

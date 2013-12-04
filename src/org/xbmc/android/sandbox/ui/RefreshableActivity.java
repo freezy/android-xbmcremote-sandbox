@@ -23,9 +23,6 @@ package org.xbmc.android.sandbox.ui;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import org.xbmc.android.jsonrpc.service.SyncService.RefreshObserver;
 import org.xbmc.android.remotesandbox.R;
@@ -71,11 +68,8 @@ public abstract class RefreshableActivity extends BaseActivity implements PullTo
 	 */
 	protected final static AbstractSyncBridge[] BRIDGEARRAY_TYPE = new AbstractSyncBridge[0];
 
-	private final int mContentViewRes;
-
 	public RefreshableActivity(int titleRes, int contentViewRes) {
-		super(titleRes);
-		mContentViewRes = contentViewRes;
+		super(titleRes, titleRes);
 	}
 
 	/**
@@ -101,10 +95,7 @@ public abstract class RefreshableActivity extends BaseActivity implements PullTo
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-
 		super.onCreate(savedInstanceState);
-
-		setContentView(mContentViewRes);
 
 		//setProgressBarIndeterminateVisibility(mSyncing ? Boolean.TRUE : Boolean.FALSE);
 
@@ -120,7 +111,8 @@ public abstract class RefreshableActivity extends BaseActivity implements PullTo
 			mPullToRefreshAttacher.setRefreshing(true);
 		}
 
-		final FragmentManager fm = getSupportFragmentManager();
+
+/*		final FragmentManager fm = getSupportFragmentManager();
 
 		// get all sync bridges and attach them so the activity.
 		final AbstractSyncBridge[] bridges = initSyncBridges();
@@ -144,6 +136,7 @@ public abstract class RefreshableActivity extends BaseActivity implements PullTo
 		if (ft != null) {
 			ft.commit();
 		}
+*/
 	}
 
 	@Override
@@ -162,11 +155,11 @@ public abstract class RefreshableActivity extends BaseActivity implements PullTo
 		//setProgressBarIndeterminateVisibility(syncing ? Boolean.TRUE : Boolean.FALSE);
 		mSyncing = syncing;
 	}
-
+/*
 	/**
 	 * Registers a new observer.
 	 * @param observer
-	 */
+	 *
 	public synchronized void registerRefreshObserver(RefreshObserver observer) {
 		mRefreshObservers.add(observer);
 		Log.d(TAG, "Registered refresh observer.");
@@ -175,7 +168,7 @@ public abstract class RefreshableActivity extends BaseActivity implements PullTo
 	/**
 	 * Unregisters an observer.
 	 * @param observer
-	 */
+	 *
 	public synchronized void unregisterRefreshObserver(RefreshObserver observer) {
 		if (mRefreshObservers.remove(observer)) {
 			Log.d(TAG, "Unregistered refresh observer.");
@@ -183,5 +176,5 @@ public abstract class RefreshableActivity extends BaseActivity implements PullTo
 			Log.w(TAG, "Could not find observer, NOT unregistering!");
 		}
 	}
-
+*/
 }

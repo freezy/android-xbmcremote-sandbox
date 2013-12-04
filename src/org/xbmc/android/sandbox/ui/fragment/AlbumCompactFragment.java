@@ -30,14 +30,14 @@ public class AlbumCompactFragment extends GridFragment implements LoaderManager.
 	private final static String TAG = AlbumCompactFragment.class.getSimpleName();
 	private CursorAdapter mAdapter;
 
-	private final SyncService.RefreshObserver mRefreshObserver = new SyncService.RefreshObserver() {
+/*	private final SyncService.RefreshObserver mRefreshObserver = new SyncService.RefreshObserver() {
 		@Override
 		public void onRefreshed() {
 			Log.d(TAG, "Refreshing Albums from database.");
 			getActivity().getSupportLoaderManager().restartLoader(0, null, AlbumCompactFragment.this);
 		}
 	};
-
+*/
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_home_grid, container);

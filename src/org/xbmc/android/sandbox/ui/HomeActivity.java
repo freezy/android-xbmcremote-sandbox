@@ -1,9 +1,17 @@
 package org.xbmc.android.sandbox.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
+import org.xbmc.android.injection.Injector;
+import org.xbmc.android.jsonrpc.service.SyncService;
 import org.xbmc.android.remotesandbox.R;
-import org.xbmc.android.sandbox.ui.sync.AbstractSyncBridge;
-import org.xbmc.android.sandbox.ui.sync.SyncBridge;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
+
 import javax.inject.Inject;
 
 /**
@@ -11,15 +19,16 @@ import javax.inject.Inject;
  *
  * @author freezy <freezy@xbmc.org>
  */
-public class HomeActivity extends RefreshableActivity {
+public class HomeActivity extends BaseActivity implements PullToRefreshAttacher.OnRefreshListener {
 
-	@Inject protected com.squareup.otto.Bus BUS;
+	@Inject protected Bus BUS;
 
 	private static final String TAG = HomeActivity.class.getSimpleName();
 	/**
 	 * Sync bridge for global refresh.
 	 */
-	private SyncBridge mSyncBridge;
+//	private SyncBridge mSyncBridge;
+	private PullToRefreshAttacher mPullToRefreshAttacher;
 
 	public HomeActivity() {
 		super(R.string.title_home, R.layout.activity_home);
@@ -29,11 +38,49 @@ public class HomeActivity extends RefreshableActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		Injector.inject(this);
+
 		// only slide menu, not the action bar.
 		setSlidingActionBarEnabled(false);
+
+		mPullToRefreshAttacher = PullToRefreshAttacher.get(this);
+
+		// Retrieve the PullToRefreshLayout from the content view
+		PullToRefreshLayout ptrLayout = (PullToRefreshLayout) findViewById(R.id.ptr_layout);
+
+		// Give the PullToRefreshAttacher to the PullToRefreshLayout, along with a refresh listener.
+		ptrLayout.setPullToRefreshAttacher(mPullToRefreshAttacher, this);
+	}
+
+	@Subscribe
+	public void onSyncEvent(SyncService.SyncEvent event) {
+		switch (event.getStatus()) {
+			case SyncService.STATUS_RUNNING:
+				Log.d(TAG, "Got event STATUS_RUNNING from SyncService via bus.");
+				break;
+			case SyncService.STATUS_ERROR:
+				Log.e(TAG, "Got event STATUS_ERROR from SyncService via bus: " + event.getMessage());
+				mPullToRefreshAttacher.setRefreshComplete();
+				break;
+			case SyncService.STATUS_FINISHED:
+				Log.d(TAG, "Got event STATUS_FINISHED from SyncService via bus.");
+				mPullToRefreshAttacher.setRefreshComplete();
+				break;
+			default:
+				Log.w(TAG, "Got unknown event " + event.getStatus() + " from SyncService via bus.");
+				mPullToRefreshAttacher.setRefreshComplete();
+				break;
+		}
 	}
 
 	@Override
+	public void onRefreshStarted(View view) {
+		final long start = System.currentTimeMillis();
+		startService(new Intent(Intent.ACTION_SYNC, null, this, SyncService.class));
+		Log.d(TAG, "Triggered refresh in " + (System.currentTimeMillis() - start) + "ms.");
+	}
+
+/*	@Override
 	protected AbstractSyncBridge[] initSyncBridges() {
 		mSyncBridge = new SyncBridge(mRefreshObservers, SyncBridge.SECTION_MUSIC, SyncBridge.SECTION_MOVIES);
 		//mSyncBridge = new SyncBridge(mRefreshObservers, SyncBridge.SECTION_MOVIES);
@@ -44,5 +91,5 @@ public class HomeActivity extends RefreshableActivity {
 	protected AbstractSyncBridge getSyncBridge() {
 		return mSyncBridge;
 	}
-
+*/
 }

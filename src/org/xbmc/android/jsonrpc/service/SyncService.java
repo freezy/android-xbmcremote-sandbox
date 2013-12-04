@@ -23,11 +23,10 @@ package org.xbmc.android.jsonrpc.service;
 
 import android.app.Service;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.IBinder;
-import android.os.ResultReceiver;
 import android.util.Log;
 import com.squareup.otto.Bus;
+import com.squareup.otto.Produce;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
 import org.xbmc.android.jsonrpc.api.call.VideoLibrary;
@@ -40,7 +39,7 @@ import org.xbmc.android.jsonrpc.io.JsonHandler;
 import org.xbmc.android.jsonrpc.io.audio.AlbumHandler;
 import org.xbmc.android.jsonrpc.io.audio.ArtistHandler;
 import org.xbmc.android.jsonrpc.io.video.MovieHandler;
-import org.xbmc.android.util.Injector;
+import org.xbmc.android.injection.Injector;
 
 import javax.inject.Inject;
 import java.util.LinkedList;
@@ -59,8 +58,7 @@ public class SyncService extends Service {
 	public static final String HOST = "192.168.0.100";
 	public static final String URL = "http://" + HOST + ":8080/jsonrpc";
 
-	@Inject
-	protected Bus BUS;
+	@Inject protected Bus BUS;
 
 	private static final String TAG = SyncService.class.getSimpleName();
 
@@ -73,11 +71,12 @@ public class SyncService extends Service {
 	public static final int STATUS_ERROR = 0x2;
 	public static final int STATUS_FINISHED = 0x3;
 
-	protected ResultReceiver mReceiver = null;
+//	protected ResultReceiver mReceiver = null;
 
 	private long mStart = 0;
 
 	private ConnectionManager mCm = null;
+	private int status;
 
 	private final LinkedList<SyncItem> mItems = new LinkedList<SyncItem>();
 
@@ -105,13 +104,16 @@ public class SyncService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Log.d(TAG, "Starting quering...");
-		mReceiver = intent.getParcelableExtra(EXTRA_STATUS_RECEIVER);
+		status = STATUS_RUNNING;
+		BUS.post(produceSyncEvent());
+/*		mReceiver = intent.getParcelableExtra(EXTRA_STATUS_RECEIVER);
 		if (mReceiver != null) {
 			mReceiver.send(STATUS_RUNNING, Bundle.EMPTY);
+
 		} else {
 			Log.w(TAG, "Receiver is null, cannot post back data!");
 		}
-
+*/
 		synchronized (mItems) {
 			if (intent.hasExtra(EXTRA_SYNC_MUSIC)) {
 				mItems.add(new SyncItem("Artists", new AudioLibrary.GetArtists(), new ArtistHandler()));
@@ -140,14 +142,22 @@ public class SyncService extends Service {
 				next.sync();
 			} else {
 				Log.i(TAG, "All done after " + (System.currentTimeMillis() - mStart) + "ms.");
+				status = STATUS_FINISHED;
+				BUS.post(produceSyncEvent());
+/*
 				if (mReceiver != null) {
 					// Pass back result to surface listener
 					mReceiver.send(STATUS_FINISHED, null);
-				}
+				}*/
 				mCm.disconnect();
 				stopSelf();
 			}
 		}
+	}
+
+	@Produce
+	public SyncEvent produceSyncEvent() {
+		return new SyncEvent(status);
 	}
 
 	private class SyncItem {
@@ -186,13 +196,32 @@ public class SyncService extends Service {
 
 	}
 
+	public static class SyncEvent {
+		final int status;
+		final String message;
+		public SyncEvent(int status) {
+			this(status, null);
+		}
+		public SyncEvent(int status, String message) {
+			this.status = status;
+			this.message = message;
+		}
+		public int getStatus() {
+			return status;
+		}
+		public String getMessage() {
+			return message;
+		}
+	}
+
 	public void onError(String message) {
-		if (mReceiver != null) {
+		BUS.post(new SyncEvent(STATUS_ERROR, message));
+/*		if (mReceiver != null) {
 			// Pass back error to surface listener
 			final Bundle bundle = new Bundle();
 			bundle.putString(Intent.EXTRA_TEXT, message);
 			mReceiver.send(STATUS_ERROR, bundle);
-		}
+		}*/
 	}
 
 	@Override
