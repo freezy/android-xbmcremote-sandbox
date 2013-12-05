@@ -19,15 +19,34 @@
  *
  */
 
-package org.xbmc.android.remotesandbox.notsurewheretoput;
+package org.xbmc.android.app.event;
 
 /**
- * A scrolling item with one label.
+ * Event that describes successful synchronization of an item.
  *
  * @author freezy <freezy@xbmc.org>
  */
-public interface OneLabelledNavigation {
-	public String getLabel();
-	public int getType();
-	public String getPath();
+public class DataItemSynced {
+
+	public final static int VIDEO = 1000;
+	public final static int MOVIES = 1001;
+
+	public final static int MUSIC = 2000;
+	public final static int ALBUMS = 2001;
+	public final static int ARTISTS = 2002;
+
+	private final int what;
+
+	public DataItemSynced(int what) {
+		this.what = what;
+	}
+
+	public boolean videoSynced() {
+		return what == MOVIES;
+	}
+
+	public boolean audioSynced() {
+		return what == ALBUMS;
+	}
+
 }

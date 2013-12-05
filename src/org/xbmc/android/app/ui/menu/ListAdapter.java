@@ -1,4 +1,4 @@
-package org.xbmc.android.sandbox.ui.menu;
+package org.xbmc.android.app.ui.menu;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import org.xbmc.android.remotesandbox.R;
-import org.xbmc.android.sandbox.ui.IconHelper;
+import org.xbmc.android.app.ui.IconHelper;
 
 import java.util.ArrayList;
 

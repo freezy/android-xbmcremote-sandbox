@@ -15,14 +15,14 @@
 
 			<fragment
 					android:id="@+id/home_music_fragment"
-					android:name="org.xbmc.android.sandbox.ui.fragment.AlbumCompactFragment"
+					android:name="org.xbmc.android.app.ui.fragment.AlbumCompactFragment"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
 					/>
 
 			<fragment
 					android:id="@+id/home_movie_fragment"
-					android:name="org.xbmc.android.sandbox.ui.fragment.MovieCompactFragment"
+					android:name="org.xbmc.android.app.ui.fragment.MovieCompactFragment"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
 					/>

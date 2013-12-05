@@ -1,12 +1,9 @@
-package org.xbmc.android.sandbox.ui.menu;
+package org.xbmc.android.app.ui.menu;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.*;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
 import org.xbmc.android.remotesandbox.R;
 
 import java.util.ArrayList;

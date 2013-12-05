@@ -1,4 +1,4 @@
-package org.xbmc.android.sandbox.ui.menu;
+package org.xbmc.android.app.ui.menu;
 
 /**
  * Created with IntelliJ IDEA.

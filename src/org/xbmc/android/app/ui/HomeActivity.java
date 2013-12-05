@@ -1,4 +1,4 @@
-package org.xbmc.android.sandbox.ui;
+package org.xbmc.android.app.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,8 +6,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import de.greenrobot.event.EventBus;
-import org.xbmc.android.sandbox.event.DataSync;
-import org.xbmc.android.sandbox.injection.Injector;
+import org.xbmc.android.app.event.DataSync;
+import org.xbmc.android.app.injection.Injector;
 import org.xbmc.android.jsonrpc.service.SyncService;
 import org.xbmc.android.remotesandbox.R;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;

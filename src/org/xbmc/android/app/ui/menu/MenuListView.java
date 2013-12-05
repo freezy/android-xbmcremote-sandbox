@@ -1,4 +1,4 @@
-package org.xbmc.android.sandbox.ui.menu;
+package org.xbmc.android.app.ui.menu;
 
 import android.content.Context;
 import android.util.AttributeSet;

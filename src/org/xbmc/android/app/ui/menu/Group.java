@@ -1,4 +1,4 @@
-package org.xbmc.android.sandbox.ui.menu;
+package org.xbmc.android.app.ui.menu;
 
 import java.util.ArrayList;
 import java.util.Collections;

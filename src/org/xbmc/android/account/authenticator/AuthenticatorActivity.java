@@ -21,16 +21,6 @@
 
 package org.xbmc.android.account.authenticator;
 
-import java.util.ArrayList;
-
-import co.juliansuarez.libwizardpager.wizard.ui.StepPagerStrip;
-import org.xbmc.android.account.Constants;
-import org.xbmc.android.jsonrpc.api.model.ApplicationModel.PropertyValue.Version;
-import org.xbmc.android.remotesandbox.R;
-import org.xbmc.android.util.google.DetachableResultReceiver;
-import org.xbmc.android.zeroconf.DiscoveryService;
-import org.xbmc.android.zeroconf.XBMCHost;
-
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
@@ -46,16 +36,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
-import android.widget.TextView;
-import android.widget.ViewFlipper;
+import android.widget.*;
+import co.juliansuarez.libwizardpager.wizard.ui.StepPagerStrip;
+import org.xbmc.android.account.Constants;
+import org.xbmc.android.jsonrpc.api.model.ApplicationModel.PropertyValue.Version;
+import org.xbmc.android.remotesandbox.R;
+import org.xbmc.android.util.google.DetachableResultReceiver;
+import org.xbmc.android.zeroconf.DiscoveryService;
+import org.xbmc.android.zeroconf.XBMCHost;
+
+import java.util.ArrayList;
 
 /**
  * A "wizard" which guides the user through adding a new XBMC host setting.

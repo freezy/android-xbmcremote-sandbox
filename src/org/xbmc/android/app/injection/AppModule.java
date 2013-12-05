@@ -1,4 +1,4 @@
-package org.xbmc.android.sandbox.injection;
+package org.xbmc.android.app.injection;
 
 import dagger.Module;
 import dagger.Provides;
@@ -6,10 +6,10 @@ import de.greenrobot.event.EventBus;
 import org.xbmc.android.jsonrpc.config.HostConfig;
 import org.xbmc.android.jsonrpc.io.ConnectionManager;
 import org.xbmc.android.jsonrpc.service.SyncService;
-import org.xbmc.android.sandbox.SandboxApplication;
-import org.xbmc.android.sandbox.ui.HomeActivity;
-import org.xbmc.android.sandbox.ui.fragment.AlbumCompactFragment;
-import org.xbmc.android.sandbox.ui.fragment.MovieCompactFragment;
+import org.xbmc.android.app.SandboxApplication;
+import org.xbmc.android.app.ui.HomeActivity;
+import org.xbmc.android.app.ui.fragment.AlbumCompactFragment;
+import org.xbmc.android.app.ui.fragment.MovieCompactFragment;
 
 import javax.inject.Singleton;
 

@@ -1,4 +1,4 @@
-package org.xbmc.android.sandbox.injection;
+package org.xbmc.android.app.injection;
 
 import android.accounts.AccountManager;
 import android.app.NotificationManager;
@@ -12,7 +12,7 @@ import android.telephony.TelephonyManager;
 import android.view.inputmethod.InputMethodManager;
 import dagger.Module;
 import dagger.Provides;
-import org.xbmc.android.sandbox.SandboxApplication;
+import org.xbmc.android.app.SandboxApplication;
 
 import javax.inject.Singleton;
 
