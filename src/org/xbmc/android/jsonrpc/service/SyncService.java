@@ -26,13 +26,14 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 import de.greenrobot.event.EventBus;
+import org.xbmc.android.event.DataItemSynced;
+import org.xbmc.android.event.DataSync;
 import org.xbmc.android.injection.Injector;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
 import org.xbmc.android.jsonrpc.api.call.VideoLibrary;
 import org.xbmc.android.jsonrpc.api.model.AudioModel.AlbumFields;
 import org.xbmc.android.jsonrpc.api.model.VideoModel.MovieFields;
-import org.xbmc.android.jsonrpc.config.HostConfig;
 import org.xbmc.android.jsonrpc.io.ConnectionManager;
 import org.xbmc.android.jsonrpc.io.ConnectionManager.HandlerCallback;
 import org.xbmc.android.jsonrpc.io.JsonHandler;
@@ -44,22 +45,16 @@ import javax.inject.Inject;
 import java.util.LinkedList;
 
 /**
- * Background {@link Service} that synchronizes data living in
- * {@link android.content.ContentProvider}.
- * <p>
- * This class, along with the other ones in this package was closely inspired by
- * Google's official iosched app, see http://code.google.com/p/iosched/
+ * Background {@link Service} that synchronizes data living in {@link android.content.ContentProvider}.
  *
  * @author freezy <freezy@xbmc.org>
  */
 public class SyncService extends Service {
 
-	public static final String HOST = "192.168.0.100";
-	public static final String URL = "http://" + HOST + ":8080/jsonrpc";
-
-	@Inject protected EventBus BUS;
-
 	private static final String TAG = SyncService.class.getSimpleName();
+
+	@Inject protected EventBus bus;
+	@Inject protected ConnectionManager cm;
 
 	public static final String EXTRA_STATUS_RECEIVER = "org.xbmc.android.jsonprc.extra.STATUS_RECEIVER";
 
@@ -72,39 +67,20 @@ public class SyncService extends Service {
 
 //	protected ResultReceiver mReceiver = null;
 
-	private long mStart = 0;
-
-	private ConnectionManager mCm = null;
-	private int status;
-
-	private final LinkedList<SyncItem> mItems = new LinkedList<SyncItem>();
+	private long start = 0;
+	private final LinkedList<SyncItem> items = new LinkedList<SyncItem>();
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		Log.d(TAG, "Starting SyncService...");
-		mCm = new ConnectionManager(getApplicationContext(), new HostConfig(HOST));
 
 		Injector.inject(this);
-
-		// Register the bus so we can send notifications.
-		//BUS.register(this);
-	}
-
-	@Override
-	public void onDestroy() {
-
-		// Unregister bus, since its not longer needed as the service is shutting down
-		//BUS.unregister(this);
-
-		super.onDestroy();
 	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Log.d(TAG, "Starting quering...");
-		status = STATUS_RUNNING;
-		postEvent();
 /*		mReceiver = intent.getParcelableExtra(EXTRA_STATUS_RECEIVER);
 		if (mReceiver != null) {
 			mReceiver.send(STATUS_RUNNING, Bundle.EMPTY);
@@ -113,15 +89,16 @@ public class SyncService extends Service {
 			Log.w(TAG, "Receiver is null, cannot post back data!");
 		}
 */
-		synchronized (mItems) {
+		bus.post(new DataSync(DataSync.STARTED));
+		synchronized (items) {
 			if (intent.hasExtra(EXTRA_SYNC_MUSIC)) {
-				mItems.add(new SyncItem("Artists", new AudioLibrary.GetArtists(), new ArtistHandler()));
-				mItems.add(new SyncItem("Albums", new AudioLibrary.GetAlbums(
+				items.add(new SyncItem("Artists", DataItemSynced.ARTISTS, new AudioLibrary.GetArtists(), new ArtistHandler()));
+				items.add(new SyncItem("Albums", DataItemSynced.ALBUMS, new AudioLibrary.GetAlbums(
 						AlbumFields.TITLE, AlbumFields.ARTISTID, AlbumFields.YEAR, AlbumFields.THUMBNAIL
 				), new AlbumHandler()));
 			}
 			if (intent.hasExtra(EXTRA_SYNC_MOVIES)) {
-				mItems.add(new SyncItem("Movies", new VideoLibrary.GetMovies(
+				items.add(new SyncItem("Movies", DataItemSynced.MOVIES, new VideoLibrary.GetMovies(
 						MovieFields.TITLE, MovieFields.THUMBNAIL, MovieFields.YEAR, MovieFields.RATING,
 						MovieFields.GENRE, MovieFields.RUNTIME
 				), new MovieHandler()));
@@ -129,101 +106,66 @@ public class SyncService extends Service {
 		}
 
 		// start quering...
-		mStart = System.currentTimeMillis();
+		start = System.currentTimeMillis();
 		next();
 		return START_STICKY;
 	}
 
 	private void next() {
-		synchronized (mItems) {
-			if (!mItems.isEmpty()) {
-				final SyncItem next = mItems.pop();
+		synchronized (items) {
+			if (!items.isEmpty()) {
+				final SyncItem next = items.pop();
 				next.sync();
 			} else {
-				Log.i(TAG, "All done after " + (System.currentTimeMillis() - mStart) + "ms.");
-				status = STATUS_FINISHED;
-				postEvent();
+				Log.i(TAG, "All done after " + (System.currentTimeMillis() - start) + "ms.");
+				bus.post(new DataSync(DataSync.FINISHED));
 /*
 				if (mReceiver != null) {
 					// Pass back result to surface listener
 					mReceiver.send(STATUS_FINISHED, null);
 				}*/
-				mCm.disconnect();
+				cm.disconnect();
 				stopSelf();
 			}
 		}
 	}
 
-	private void postEvent() {
-		BUS.post(new SyncEvent(status));
-	}
-	private void postEvent(String message) {
-		BUS.post(new SyncEvent(status, message));
-	}
-
 	private class SyncItem {
 
-		private final String mWhat;
-		private final AbstractCall<?> mCall;
-		private final JsonHandler mHandler;
-		private long mItemStart;
+		private final String what;
+		private final int eventCode;
+		private final AbstractCall<?> call;
+		private final JsonHandler handler;
+		private long itemStart;
 
-		public SyncItem(String what, AbstractCall<?> call, JsonHandler handler) {
-			mWhat = what;
-			mCall = call;
-			mHandler = handler;
+		public SyncItem(String what, int eventCode, AbstractCall<?> call, JsonHandler handler) {
+			this.what = what;
+			this.eventCode = eventCode;
+			this.call = call;
+			this.handler = handler;
 		}
 
 		public String getWhat() {
-			return mWhat;
+			return what;
 		}
 
 		public void sync() {
-			mItemStart = System.currentTimeMillis();
-			mCm.call(mCall, mHandler, new HandlerCallback() {
+			itemStart = System.currentTimeMillis();
+			cm.call(call, handler, new HandlerCallback() {
 				@Override
 				public void onFinish() {
-					Log.i(TAG, mWhat + " successfully synced in " + (System.currentTimeMillis() - mItemStart) + "ms.");
+					Log.i(TAG, what + " successfully synced in " + (System.currentTimeMillis() - itemStart) + "ms.");
+					bus.post(new DataItemSynced(eventCode));
 					next();
 				}
 
 				@Override
 				public void onError(String message, String hint) {
-					SyncService.this.onError(message + " " + hint);
+					bus.post(new DataSync(DataSync.FAILED, message, hint));
 					stopSelf();
 				}
 			});
 		}
-
-	}
-
-	public static class SyncEvent {
-		final int status;
-		final String message;
-		public SyncEvent(int status) {
-			this(status, null);
-		}
-		public SyncEvent(int status, String message) {
-			this.status = status;
-			this.message = message;
-		}
-		public int getStatus() {
-			return status;
-		}
-		public String getMessage() {
-			return message;
-		}
-	}
-
-	public void onError(String message) {
-		status = STATUS_ERROR;
-		postEvent(message);
-/*		if (mReceiver != null) {
-			// Pass back error to surface listener
-			final Bundle bundle = new Bundle();
-			bundle.putString(Intent.EXTRA_TEXT, message);
-			mReceiver.send(STATUS_ERROR, bundle);
-		}*/
 	}
 
 	@Override
