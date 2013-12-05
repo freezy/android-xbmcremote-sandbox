@@ -17,44 +17,60 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import de.greenrobot.event.EventBus;
 import org.xbmc.android.jsonrpc.provider.VideoContract;
 import org.xbmc.android.jsonrpc.provider.VideoDatabase;
-import org.xbmc.android.jsonrpc.service.SyncService;
 import org.xbmc.android.remotesandbox.R;
+import org.xbmc.android.sandbox.event.DataItemSynced;
+import org.xbmc.android.sandbox.injection.Injector;
 
+import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 public class MovieCompactFragment extends GridFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
 	private final static String TAG = MovieCompactFragment.class.getSimpleName();
-	private CursorAdapter mAdapter;
 
-/*	private final SyncService.RefreshObserver mRefreshObserver = new SyncService.RefreshObserver() {
-		@Override
-		public void onRefreshed() {
-			Log.d(TAG, "Refreshing Movies from database.");
-			getLoaderManager().restartLoader(0, null, MovieCompactFragment.this);
-		}
-	};
-*/
+	@Inject protected EventBus bus;
+
+	private CursorAdapter adapter;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_home_grid, container);
 	}
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		Injector.inject(this);
+		bus.register(this);
+	}
+
+	@Override
+	public void onDestroy() {
+		bus.unregister(this);
+		super.onDestroy();
+	}
+
+	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		mAdapter = new MoviesAdapter(getActivity());
-		setGridAdapter(mAdapter);
+		adapter = new MoviesAdapter(getActivity());
+		setGridAdapter(adapter);
 		((TextView)getView().findViewById(R.id.home_header1)).setText(R.string.title_movies);
 		((TextView)getView().findViewById(R.id.home_header2)).setText(R.string.recently_added);
 
-		// Prepare the loader. Either re-connect with an existing one,
-		// or start a new one.
+		// prepare the loader. Either re-connect with an existing one, or start a new one.
 		getLoaderManager().initLoader(0, null, this);
+	}
+
+	public void onEvent(DataItemSynced event) {
+		if (event.videoSynced()) {
+			getLoaderManager().restartLoader(0, null, this);
+		}
 	}
 
 	@Override
@@ -74,7 +90,7 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 	public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
 		// Swap the new cursor in. (The framework will take care of closing the
 		// old cursor once we return.)
-		mAdapter.swapCursor(cursor);
+		adapter.swapCursor(cursor);
 	}
 
 	@Override
@@ -82,7 +98,7 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 		// This is called when the last Cursor provided to onLoadFinished()
 		// above is about to be closed. We need to make sure we are no
 		// longer using it.
-		mAdapter.swapCursor(null);
+		adapter.swapCursor(null);
 	}
 
 	/**
@@ -109,9 +125,9 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 			try {
 				final String url = "http://192.168.0.100:8080/image/" + URLEncoder.encode(cursor.getString(MoviesQuery.THUMBNAIL), "UTF-8");
 				Glide.load(url)
-						.centerCrop()
-						.animate(android.R.anim.fade_in)
-						.into(imageView);
+					.centerCrop()
+					.animate(android.R.anim.fade_in)
+					.into(imageView);
 
 			} catch (UnsupportedEncodingException e) {
 				Log.e(TAG, "Cannot encode " + cursor.getString(MoviesQuery.THUMBNAIL) + " from UTF-8.");

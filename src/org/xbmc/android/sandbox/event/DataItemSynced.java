@@ -41,7 +41,12 @@ public class DataItemSynced {
 		this.what = what;
 	}
 
-	public int getWhat() {
-		return what;
+	public boolean videoSynced() {
+		return what == MOVIES;
 	}
+
+	public boolean audioSynced() {
+		return what == ALBUMS;
+	}
+
 }

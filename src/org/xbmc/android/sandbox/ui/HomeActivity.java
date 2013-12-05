@@ -22,7 +22,7 @@ import javax.inject.Inject;
  */
 public class HomeActivity extends BaseActivity implements PullToRefreshAttacher.OnRefreshListener {
 
-	@Inject protected EventBus BUS;
+	@Inject protected EventBus bus;
 
 	private static final String TAG = HomeActivity.class.getSimpleName();
 	/**
@@ -40,7 +40,7 @@ public class HomeActivity extends BaseActivity implements PullToRefreshAttacher.
 		super.onCreate(savedInstanceState);
 
 		Injector.inject(this);
-		BUS.register(this);
+		bus.register(this);
 
 		// only slide menu, not the action bar.
 		setSlidingActionBarEnabled(false);
@@ -56,7 +56,7 @@ public class HomeActivity extends BaseActivity implements PullToRefreshAttacher.
 
 	@Override
 	public void onDestroy() {
-		BUS.unregister(this);
+		bus.unregister(this);
 		super.onDestroy();
 	}
 

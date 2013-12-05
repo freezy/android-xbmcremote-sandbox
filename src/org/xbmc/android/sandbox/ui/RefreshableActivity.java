@@ -22,15 +22,10 @@
 package org.xbmc.android.sandbox.ui;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
-import org.xbmc.android.jsonrpc.service.SyncService.RefreshObserver;
 import org.xbmc.android.remotesandbox.R;
-import org.xbmc.android.sandbox.ui.sync.AbstractSyncBridge;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
-
-import java.util.ArrayList;
 
 /**
  * Manages the sync button's state and behavior.
@@ -58,40 +53,9 @@ public abstract class RefreshableActivity extends BaseActivity implements PullTo
 	 */
 	private boolean mSyncing = false;
 
-	/**
-	 * List of observers to be called upon success.
-	 */
-	protected final ArrayList<RefreshObserver> mRefreshObservers = new ArrayList<RefreshObserver>();
-
-	/**
-	 * This can be used by subclasses to cast lists into arrays.
-	 */
-	protected final static AbstractSyncBridge[] BRIDGEARRAY_TYPE = new AbstractSyncBridge[0];
-
 	public RefreshableActivity(int titleRes, int contentViewRes) {
 		super(titleRes, titleRes);
 	}
-
-	/**
-	 * Initializes the sync bridges that are going to be used in this activity,
-	 * meaning attaching them to the activity.
-	 * <p>
-	 * This is the method where where all of them should be initialized and
-	 * stored somewhere.
-	 *
-	 * @return All sync bridges that are going to be used in this activity
-	 */
-	protected abstract AbstractSyncBridge[] initSyncBridges();
-
-	/**
-	 * Executed when the sync button is pressed. Returned object must already
-	 * be instantiated by {@link #initSyncBridges()}, otherwise it won't be
-	 * attached to the activity and will crash.
-	 *
-	 * @return The sync bridge object that should be used for refreshing data
-	 */
-	protected abstract AbstractSyncBridge getSyncBridge();
-
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -141,7 +105,7 @@ public abstract class RefreshableActivity extends BaseActivity implements PullTo
 
 	@Override
 	public void onRefreshStarted(View view) {
-		getSyncBridge().sync(new Handler());
+		//getSyncBridge().sync(new Handler());
 	}
 
 	/**

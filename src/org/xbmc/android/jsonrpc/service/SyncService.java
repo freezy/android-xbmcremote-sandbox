@@ -65,8 +65,6 @@ public class SyncService extends Service {
 	public static final int STATUS_ERROR = 0x2;
 	public static final int STATUS_FINISHED = 0x3;
 
-//	protected ResultReceiver mReceiver = null;
-
 	private long start = 0;
 	private final LinkedList<SyncItem> items = new LinkedList<SyncItem>();
 
@@ -81,14 +79,6 @@ public class SyncService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Log.d(TAG, "Starting quering...");
-/*		mReceiver = intent.getParcelableExtra(EXTRA_STATUS_RECEIVER);
-		if (mReceiver != null) {
-			mReceiver.send(STATUS_RUNNING, Bundle.EMPTY);
-
-		} else {
-			Log.w(TAG, "Receiver is null, cannot post back data!");
-		}
-*/
 		bus.post(new DataSync(DataSync.STARTED));
 		synchronized (items) {
 			if (intent.hasExtra(EXTRA_SYNC_MUSIC)) {
@@ -119,11 +109,6 @@ public class SyncService extends Service {
 			} else {
 				Log.i(TAG, "All done after " + (System.currentTimeMillis() - start) + "ms.");
 				bus.post(new DataSync(DataSync.FINISHED));
-/*
-				if (mReceiver != null) {
-					// Pass back result to surface listener
-					mReceiver.send(STATUS_FINISHED, null);
-				}*/
 				cm.disconnect();
 				stopSelf();
 			}
@@ -171,9 +156,5 @@ public class SyncService extends Service {
 	@Override
 	public IBinder onBind(Intent intent) {
 		return null;
-	}
-
-	public interface RefreshObserver {
-		public void onRefreshed();
 	}
 }

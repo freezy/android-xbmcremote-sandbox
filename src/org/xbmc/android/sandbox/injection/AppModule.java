@@ -8,6 +8,8 @@ import org.xbmc.android.jsonrpc.io.ConnectionManager;
 import org.xbmc.android.jsonrpc.service.SyncService;
 import org.xbmc.android.sandbox.SandboxApplication;
 import org.xbmc.android.sandbox.ui.HomeActivity;
+import org.xbmc.android.sandbox.ui.fragment.AlbumCompactFragment;
+import org.xbmc.android.sandbox.ui.fragment.MovieCompactFragment;
 
 import javax.inject.Singleton;
 
@@ -20,6 +22,8 @@ import javax.inject.Singleton;
 	injects = {
 		SandboxApplication.class,
 		HomeActivity.class,
+		AlbumCompactFragment.class,
+		MovieCompactFragment.class,
 		SyncService.class
 	}
 )
