@@ -21,7 +21,7 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$/wizardpager/LibWizardPager">
       <sourceFolder url="file://$MODULE_DIR$/wizardpager/LibWizardPager/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/wizardpager/LibWizardPager/gen" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/wizardpager/LibWizardPager/gen" isTestSource="false" generated="true" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

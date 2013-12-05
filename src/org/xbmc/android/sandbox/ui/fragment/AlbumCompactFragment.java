@@ -17,26 +17,24 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import de.greenrobot.event.EventBus;
 import org.xbmc.android.jsonrpc.provider.AudioContract;
 import org.xbmc.android.jsonrpc.provider.AudioDatabase;
-import org.xbmc.android.jsonrpc.service.SyncService;
 import org.xbmc.android.remotesandbox.R;
+import org.xbmc.android.sandbox.event.DataItemSynced;
+import org.xbmc.android.sandbox.injection.Injector;
 
+import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 public class AlbumCompactFragment extends GridFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
 	private final static String TAG = AlbumCompactFragment.class.getSimpleName();
-	private CursorAdapter mAdapter;
 
-	private final SyncService.RefreshObserver mRefreshObserver = new SyncService.RefreshObserver() {
-		@Override
-		public void onRefreshed() {
-			Log.d(TAG, "Refreshing Albums from database.");
-			getActivity().getSupportLoaderManager().restartLoader(0, null, AlbumCompactFragment.this);
-		}
-	};
+	@Inject protected EventBus bus;
+
+	private CursorAdapter adapter;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,16 +42,33 @@ public class AlbumCompactFragment extends GridFragment implements LoaderManager.
 	}
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		Injector.inject(this);
+		bus.register(this);
+	}
+
+	@Override
+	public void onDestroy() {
+		bus.unregister(this);
+		super.onDestroy();
+	}
+
+	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		mAdapter = new AlbumsAdapter(getActivity());
-		setGridAdapter(mAdapter);
+		adapter = new AlbumsAdapter(getActivity());
+		setGridAdapter(adapter);
 
-		// Prepare the loader. Either re-connect with an existing one,
-		// or start a new one.
+		// prepare the loader. Either re-connect with an existing one, or start a new one.
 		getLoaderManager().initLoader(0, null, this);
-		//getActivity().getSupportLoaderManager().initLoader(0, null, this);
+	}
+
+	public void onEvent(DataItemSynced event) {
+		if (event.audioSynced()) {
+			getLoaderManager().restartLoader(0, null, this);
+		}
 	}
 
 	@Override
@@ -73,7 +88,7 @@ public class AlbumCompactFragment extends GridFragment implements LoaderManager.
 	public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
 		// Swap the new cursor in. (The framework will take care of closing the
 		// old cursor once we return.)
-		mAdapter.swapCursor(cursor);
+		adapter.swapCursor(cursor);
 	}
 
 	@Override
@@ -81,7 +96,7 @@ public class AlbumCompactFragment extends GridFragment implements LoaderManager.
 		// This is called when the last Cursor provided to onLoadFinished()
 		// above is about to be closed. We need to make sure we are no
 		// longer using it.
-		mAdapter.swapCursor(null);
+		adapter.swapCursor(null);
 	}
 
 	/**

@@ -22,10 +22,10 @@
 package org.xbmc.android.jsonrpc.client;
 
 import org.codehaus.jackson.node.ObjectNode;
+import org.xbmc.android.sandbox.injection.AppModule;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.io.ApiException;
 import org.xbmc.android.jsonrpc.io.JsonApiRequest;
-import org.xbmc.android.jsonrpc.service.SyncService;
 import org.xbmc.android.zeroconf.XBMCHost;
 
 /**
@@ -41,13 +41,13 @@ public abstract class AbstractClient {
 
 	private final static String URL_SUFFIX = "/jsonrpc";
 
-	private final XBMCHost mHost;
+	private final XBMCHost host;
 
 	/**
 	 * Empty constructor
 	 */
 	protected AbstractClient() {
-		mHost = null;
+		host = null;
 	}
 
 	/**
@@ -56,7 +56,7 @@ public abstract class AbstractClient {
 	 * @param host
 	 */
 	protected AbstractClient(XBMCHost host) {
-		mHost = host;
+		this.host = host;
 	}
 
 
@@ -95,14 +95,14 @@ public abstract class AbstractClient {
 	 * <p/>
 	 * If the client was instantiated with an explicit host, it trumps the current
 	 * host settings.
-	 * @return
+	 * @return String containing whole URL
 	 */
 	private String getUrl() {
-		if (mHost == null) {
+		if (host == null) {
 			// FIXME this should read the URL from the currently selected account.
-			return SyncService.URL;
+			return AppModule.URL;
 		} else {
-			return "http://" + mHost.getAddress() + ":" + mHost.getPort() + URL_SUFFIX;
+			return "http://" + host.getAddress() + ":" + host.getPort() + URL_SUFFIX;
 		}
 	}
 
@@ -113,8 +113,7 @@ public abstract class AbstractClient {
 	public interface ErrorHandler {
 		/**
 		 * Implement your error logic here.
-		 * @param code Error code as defined above
-		 * @param message Error message in English. For translations, refer to the error code.
+		 * @param e Exception
 		 */
 		void handleError(ApiException e);
 	}
@@ -122,8 +121,7 @@ public abstract class AbstractClient {
 	/**
 	 * Handles errors, even if the callback is null.
 	 * @param handler Error handler which can be null.
-	 * @param code
-	 * @param message
+	 * @param e Exception
 	 */
 	protected void handleError(ErrorHandler handler, ApiException e) {
 		if (handler != null) {

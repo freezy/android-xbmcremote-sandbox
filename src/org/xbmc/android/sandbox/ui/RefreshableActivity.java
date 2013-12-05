@@ -22,18 +22,10 @@
 package org.xbmc.android.sandbox.ui;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
-import org.xbmc.android.jsonrpc.service.SyncService.RefreshObserver;
 import org.xbmc.android.remotesandbox.R;
-import org.xbmc.android.sandbox.ui.sync.AbstractSyncBridge;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
-
-import java.util.ArrayList;
 
 /**
  * Manages the sync button's state and behavior.
@@ -61,50 +53,13 @@ public abstract class RefreshableActivity extends BaseActivity implements PullTo
 	 */
 	private boolean mSyncing = false;
 
-	/**
-	 * List of observers to be called upon success.
-	 */
-	protected final ArrayList<RefreshObserver> mRefreshObservers = new ArrayList<RefreshObserver>();
-
-	/**
-	 * This can be used by subclasses to cast lists into arrays.
-	 */
-	protected final static AbstractSyncBridge[] BRIDGEARRAY_TYPE = new AbstractSyncBridge[0];
-
-	private final int mContentViewRes;
-
 	public RefreshableActivity(int titleRes, int contentViewRes) {
-		super(titleRes);
-		mContentViewRes = contentViewRes;
+		super(titleRes, titleRes);
 	}
-
-	/**
-	 * Initializes the sync bridges that are going to be used in this activity,
-	 * meaning attaching them to the activity.
-	 * <p>
-	 * This is the method where where all of them should be initialized and
-	 * stored somewhere.
-	 *
-	 * @return All sync bridges that are going to be used in this activity
-	 */
-	protected abstract AbstractSyncBridge[] initSyncBridges();
-
-	/**
-	 * Executed when the sync button is pressed. Returned object must already
-	 * be instantiated by {@link #initSyncBridges()}, otherwise it won't be
-	 * attached to the activity and will crash.
-	 *
-	 * @return The sync bridge object that should be used for refreshing data
-	 */
-	protected abstract AbstractSyncBridge getSyncBridge();
-
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-
 		super.onCreate(savedInstanceState);
-
-		setContentView(mContentViewRes);
 
 		//setProgressBarIndeterminateVisibility(mSyncing ? Boolean.TRUE : Boolean.FALSE);
 
@@ -120,7 +75,8 @@ public abstract class RefreshableActivity extends BaseActivity implements PullTo
 			mPullToRefreshAttacher.setRefreshing(true);
 		}
 
-		final FragmentManager fm = getSupportFragmentManager();
+
+/*		final FragmentManager fm = getSupportFragmentManager();
 
 		// get all sync bridges and attach them so the activity.
 		final AbstractSyncBridge[] bridges = initSyncBridges();
@@ -144,11 +100,12 @@ public abstract class RefreshableActivity extends BaseActivity implements PullTo
 		if (ft != null) {
 			ft.commit();
 		}
+*/
 	}
 
 	@Override
 	public void onRefreshStarted(View view) {
-		getSyncBridge().sync(new Handler());
+		//getSyncBridge().sync(new Handler());
 	}
 
 	/**
@@ -162,11 +119,11 @@ public abstract class RefreshableActivity extends BaseActivity implements PullTo
 		//setProgressBarIndeterminateVisibility(syncing ? Boolean.TRUE : Boolean.FALSE);
 		mSyncing = syncing;
 	}
-
+/*
 	/**
 	 * Registers a new observer.
 	 * @param observer
-	 */
+	 *
 	public synchronized void registerRefreshObserver(RefreshObserver observer) {
 		mRefreshObservers.add(observer);
 		Log.d(TAG, "Registered refresh observer.");
@@ -175,7 +132,7 @@ public abstract class RefreshableActivity extends BaseActivity implements PullTo
 	/**
 	 * Unregisters an observer.
 	 * @param observer
-	 */
+	 *
 	public synchronized void unregisterRefreshObserver(RefreshObserver observer) {
 		if (mRefreshObservers.remove(observer)) {
 			Log.d(TAG, "Unregistered refresh observer.");
@@ -183,5 +140,5 @@ public abstract class RefreshableActivity extends BaseActivity implements PullTo
 			Log.w(TAG, "Could not find observer, NOT unregistering!");
 		}
 	}
-
+*/
 }
