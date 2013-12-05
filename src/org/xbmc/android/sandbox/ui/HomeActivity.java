@@ -4,8 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import com.squareup.otto.Bus;
-import com.squareup.otto.Subscribe;
+import de.greenrobot.event.EventBus;
 import org.xbmc.android.injection.Injector;
 import org.xbmc.android.jsonrpc.service.SyncService;
 import org.xbmc.android.remotesandbox.R;
@@ -21,7 +20,7 @@ import javax.inject.Inject;
  */
 public class HomeActivity extends BaseActivity implements PullToRefreshAttacher.OnRefreshListener {
 
-	@Inject protected Bus BUS;
+	@Inject protected EventBus BUS;
 
 	private static final String TAG = HomeActivity.class.getSimpleName();
 	/**
@@ -59,8 +58,7 @@ public class HomeActivity extends BaseActivity implements PullToRefreshAttacher.
 		super.onDestroy();
 	}
 
-	@Subscribe
-	public void onSyncEvent(SyncService.SyncEvent event) {
+	public void onEvent(SyncService.SyncEvent event) {
 		switch (event.getStatus()) {
 			case SyncService.STATUS_RUNNING:
 				Log.d(TAG, "Got event STATUS_RUNNING from SyncService via bus.");

@@ -1,8 +1,8 @@
 package org.xbmc.android.injection;
 
-import com.squareup.otto.Bus;
 import dagger.Module;
 import dagger.Provides;
+import de.greenrobot.event.EventBus;
 import org.xbmc.android.jsonrpc.service.SyncService;
 import org.xbmc.android.sandbox.SandboxApplication;
 import org.xbmc.android.sandbox.ui.HomeActivity;
@@ -25,8 +25,8 @@ public class AppModule {
 
 	@Singleton
 	@Provides
-	Bus provideOttoBus() {
-		return new Bus();
+	EventBus provideEventBus() {
+		return EventBus.getDefault();
 	}
 
 }

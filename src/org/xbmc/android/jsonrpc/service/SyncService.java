@@ -25,8 +25,8 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
-import com.squareup.otto.Bus;
-import com.squareup.otto.Produce;
+import de.greenrobot.event.EventBus;
+import org.xbmc.android.injection.Injector;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
 import org.xbmc.android.jsonrpc.api.call.VideoLibrary;
@@ -39,7 +39,6 @@ import org.xbmc.android.jsonrpc.io.JsonHandler;
 import org.xbmc.android.jsonrpc.io.audio.AlbumHandler;
 import org.xbmc.android.jsonrpc.io.audio.ArtistHandler;
 import org.xbmc.android.jsonrpc.io.video.MovieHandler;
-import org.xbmc.android.injection.Injector;
 
 import javax.inject.Inject;
 import java.util.LinkedList;
@@ -58,7 +57,7 @@ public class SyncService extends Service {
 	public static final String HOST = "192.168.0.100";
 	public static final String URL = "http://" + HOST + ":8080/jsonrpc";
 
-	@Inject protected Bus BUS;
+	@Inject protected EventBus BUS;
 
 	private static final String TAG = SyncService.class.getSimpleName();
 
@@ -89,14 +88,14 @@ public class SyncService extends Service {
 		Injector.inject(this);
 
 		// Register the bus so we can send notifications.
-		BUS.register(this);
+		//BUS.register(this);
 	}
 
 	@Override
 	public void onDestroy() {
 
 		// Unregister bus, since its not longer needed as the service is shutting down
-		BUS.unregister(this);
+		//BUS.unregister(this);
 
 		super.onDestroy();
 	}
@@ -105,7 +104,7 @@ public class SyncService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Log.d(TAG, "Starting quering...");
 		status = STATUS_RUNNING;
-		BUS.post(produceSyncEvent());
+		postEvent();
 /*		mReceiver = intent.getParcelableExtra(EXTRA_STATUS_RECEIVER);
 		if (mReceiver != null) {
 			mReceiver.send(STATUS_RUNNING, Bundle.EMPTY);
@@ -143,7 +142,7 @@ public class SyncService extends Service {
 			} else {
 				Log.i(TAG, "All done after " + (System.currentTimeMillis() - mStart) + "ms.");
 				status = STATUS_FINISHED;
-				BUS.post(produceSyncEvent());
+				postEvent();
 /*
 				if (mReceiver != null) {
 					// Pass back result to surface listener
@@ -155,9 +154,11 @@ public class SyncService extends Service {
 		}
 	}
 
-	@Produce
-	public SyncEvent produceSyncEvent() {
-		return new SyncEvent(status);
+	private void postEvent() {
+		BUS.post(new SyncEvent(status));
+	}
+	private void postEvent(String message) {
+		BUS.post(new SyncEvent(status, message));
 	}
 
 	private class SyncItem {
@@ -215,7 +216,8 @@ public class SyncService extends Service {
 	}
 
 	public void onError(String message) {
-		BUS.post(new SyncEvent(STATUS_ERROR, message));
+		status = STATUS_ERROR;
+		postEvent(message);
 /*		if (mReceiver != null) {
 			// Pass back error to surface listener
 			final Bundle bundle = new Bundle();
