@@ -39,6 +39,7 @@ public class HomeActivity extends BaseActivity implements PullToRefreshAttacher.
 		super.onCreate(savedInstanceState);
 
 		Injector.inject(this);
+		BUS.register(this);
 
 		// only slide menu, not the action bar.
 		setSlidingActionBarEnabled(false);
@@ -50,6 +51,12 @@ public class HomeActivity extends BaseActivity implements PullToRefreshAttacher.
 
 		// Give the PullToRefreshAttacher to the PullToRefreshLayout, along with a refresh listener.
 		ptrLayout.setPullToRefreshAttacher(mPullToRefreshAttacher, this);
+	}
+
+	@Override
+	public void onDestroy() {
+		BUS.unregister(this);
+		super.onDestroy();
 	}
 
 	@Subscribe
