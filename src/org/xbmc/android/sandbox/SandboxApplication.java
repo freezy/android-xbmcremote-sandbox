@@ -3,8 +3,8 @@ package org.xbmc.android.sandbox;
 import android.app.Application;
 import android.app.Instrumentation;
 import android.content.Context;
-import org.xbmc.android.injection.Injector;
-import org.xbmc.android.injection.RootModule;
+import org.xbmc.android.sandbox.injection.Injector;
+import org.xbmc.android.sandbox.injection.RootModule;
 
 /**
  */

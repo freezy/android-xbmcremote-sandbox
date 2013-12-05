@@ -1,4 +1,4 @@
-package org.xbmc.android.injection;
+package org.xbmc.android.sandbox.injection;
 
 import dagger.Module;
 

@@ -19,7 +19,7 @@
  *
  */
 
-package org.xbmc.android.event;
+package org.xbmc.android.sandbox.event;
 
 /**
  * Event that describes successful synchronization of an item.
