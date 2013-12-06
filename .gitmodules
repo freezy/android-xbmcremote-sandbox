@@ -1,6 +1,6 @@
-[submodule "libs/slidingmenu"]
-	path = libs/slidingmenu
-	url = git@github.com:freezy/SlidingMenu.git
 [submodule "libs/xbmc-jsonrpclib"]
 	path = libs/xbmc-jsonrpclib
 	url = https://github.com/freezy/xbmc-jsonrpclib-android.git
+[submodule "libs/slidingmenu"]
+	path = libs/slidingmenu
+	url = git@github.com:freezy/SlidingMenu.git
