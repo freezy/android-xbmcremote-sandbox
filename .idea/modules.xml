@@ -2,12 +2,16 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/android-xbmcremote-sandbox-g.iml" filepath="$PROJECT_DIR$/android-xbmcremote-sandbox-g.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libs/slidingmenu/library/library.iml" filepath="$PROJECT_DIR$/libs/slidingmenu/library/library.iml" />
       <module fileurl="file://$PROJECT_DIR$/libs/libs.iml" filepath="$PROJECT_DIR$/libs/libs.iml" />
       <module fileurl="file://$PROJECT_DIR$/libs/slidingmenu/libs-slidingmenu.iml" filepath="$PROJECT_DIR$/libs/slidingmenu/libs-slidingmenu.iml" />
       <module fileurl="file://$PROJECT_DIR$/libs/slidingmenu/library/libs-slidingmenu-library.iml" filepath="$PROJECT_DIR$/libs/slidingmenu/library/libs-slidingmenu-library.iml" />
       <module fileurl="file://$PROJECT_DIR$/libs/xbmc-jsonrpclib/libs-xbmc-jsonrpclib.iml" filepath="$PROJECT_DIR$/libs/xbmc-jsonrpclib/libs-xbmc-jsonrpclib.iml" />
       <module fileurl="file://$PROJECT_DIR$/project.iml" filepath="$PROJECT_DIR$/project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libs/slidingmenu/slidingmenu.iml" filepath="$PROJECT_DIR$/libs/slidingmenu/slidingmenu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libs/xbmc-jsonrpclib/xbmc-jsonrpclib.iml" filepath="$PROJECT_DIR$/libs/xbmc-jsonrpclib/xbmc-jsonrpclib.iml" />
     </modules>
   </component>
 </project>
