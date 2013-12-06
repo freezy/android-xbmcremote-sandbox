@@ -12,14 +12,46 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="081439d2-c276-466b-863c-3a8c1ad8796f" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/project.iml" />
+      <change type="DELETED" beforePath="D:\dev\android-xbmcremote-sandbox-g\.idea\libraries\ComActionbarsherlockActionbarsherlock440_aar.xml" afterPath="" />
+      <change type="DELETED" beforePath="D:\dev\android-xbmcremote-sandbox-g\.idea\libraries\ComGithubChrisbanesActionbarpulltorefreshLibrary092_aar.xml" afterPath="" />
+      <change type="DELETED" beforePath="D:\dev\android-xbmcremote-sandbox-g\.idea\libraries\dagger_1_0_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="D:\dev\android-xbmcremote-sandbox-g\.idea\libraries\dagger_compiler_1_0_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="D:\dev\android-xbmcremote-sandbox-g\.idea\libraries\glide_2_0_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="D:\dev\android-xbmcremote-sandbox-g\.idea\libraries\jackson_core_2_3_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="D:\dev\android-xbmcremote-sandbox-g\.idea\libraries\jackson_core_lgpl_1_9_13.xml" afterPath="" />
+      <change type="DELETED" beforePath="D:\dev\android-xbmcremote-sandbox-g\.idea\libraries\jackson_mapper_lgpl_1_9_13.xml" afterPath="" />
+      <change type="DELETED" beforePath="D:\dev\android-xbmcremote-sandbox-g\.idea\libraries\javawriter_1_0_5.xml" afterPath="" />
+      <change type="DELETED" beforePath="D:\dev\android-xbmcremote-sandbox-g\.idea\libraries\javax_inject_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="D:\dev\android-xbmcremote-sandbox-g\.idea\libraries\jmdns_3_4_2_r353_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="D:\dev\android-xbmcremote-sandbox-g\.idea\libraries\support_v4_18_0_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="D:\dev\android-xbmcremote-sandbox-g\.idea\libraries\support_v4_r7.xml" afterPath="" />
+      <change type="DELETED" beforePath="D:\dev\android-xbmcremote-sandbox-g\android-xbmcremote-sandbox-gradle.iml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/slidingmenu" afterPath="$PROJECT_DIR$/libs/slidingmenu" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/xbmc-jsonrpclib" afterPath="$PROJECT_DIR$/libs/xbmc-jsonrpclib" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/xbmc-jsonrpclib/AndroidManifest.xml" afterPath="$PROJECT_DIR$/libs/xbmc-jsonrpclib/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/xbmc-jsonrpclib/build.gradle" afterPath="$PROJECT_DIR$/libs/xbmc-jsonrpclib/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__ComActionbarsherlockActionbarsherlock440_aar.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__ComActionbarsherlockActionbarsherlock440_aar.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__ComGithubChrisbanesActionbarpulltorefreshLibrary092_aar.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__ComGithubChrisbanesActionbarpulltorefreshLibrary092_aar.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__dagger_1_0_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__dagger_1_0_1.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__dagger_compiler_1_0_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__dagger_compiler_1_0_1.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__eventbus_2_2_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__eventbus_2_2_0.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__glide_2_0_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__glide_2_0_1.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__jackson_core_2_3_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__jackson_core_2_3_0.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__jackson_core_lgpl_1_9_13.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__jackson_core_lgpl_1_9_13.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__jackson_mapper_lgpl_1_9_13.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__jackson_mapper_lgpl_1_9_13.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__javawriter_1_0_5.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__javawriter_1_0_5.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__javax_inject_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__javax_inject_1.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__jmdns_3_4_2_r353_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__jmdns_3_4_2_r353_1.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__support_v4_18_0_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__support_v4_18_0_0.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__support_v4_r7.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__support_v4_r7.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/libs.iml" afterPath="$PROJECT_DIR$/libs/libs.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/xbmc-jsonrpclib/project.properties" afterPath="$PROJECT_DIR$/libs/xbmc-jsonrpclib/project.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/settings.gradle" afterPath="$PROJECT_DIR$/settings.gradle" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MOVED" beforePath="D:\dev\android-xbmcremote-sandbox-g\libs\slidingmenu\library\library.iml" afterPath="$PROJECT_DIR$/libs/slidingmenu/library/libs-slidingmenu-library.iml" />
+      <change type="MOVED" beforePath="D:\dev\android-xbmcremote-sandbox-g\libs\slidingmenu\slidingmenu.iml" afterPath="$PROJECT_DIR$/libs/slidingmenu/libs-slidingmenu.iml" />
+      <change type="MOVED" beforePath="D:\dev\android-xbmcremote-sandbox-g\libs\xbmc-jsonrpclib\xbmc-jsonrpclib.iml" afterPath="$PROJECT_DIR$/libs/xbmc-jsonrpclib/libs-xbmc-jsonrpclib.iml" />
     </list>
     <ignored path="android-xbmcremote-sandbox.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -83,28 +115,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="build.gradle" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/build.gradle">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="33" selection-start="724" selection-end="724" vertical-scroll-proportion="0.5596756" vertical-offset="37" max-vertical-offset="900">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SandboxApplication.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="SandboxApplication.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/org/xbmc/android/app/SandboxApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="40" selection-start="637" selection-end="637" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1060">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="54" selection-start="585" selection-end="585" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1260">
+            <state line="0" column="29" selection-start="29" selection-end="29" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1060">
               <folding />
             </state>
           </provider>
@@ -131,7 +145,7 @@
         <entry>
           <key>
             <ExternalProjectPojo>
-              <option name="name" value="android-xbmcremote-sandbox-gradle" />
+              <option name="name" value="android-xbmcremote-sandbox-g" />
               <option name="path" value="$PROJECT_DIR$" />
             </ExternalProjectPojo>
           </key>
@@ -154,12 +168,12 @@
                 <option name="path" value="$PROJECT_DIR$/libs" />
               </ExternalProjectPojo>
               <ExternalProjectPojo>
-                <option name="name" value=":" />
-                <option name="path" value="$PROJECT_DIR$" />
-              </ExternalProjectPojo>
-              <ExternalProjectPojo>
                 <option name="name" value=":libs:slidingmenu:library" />
                 <option name="path" value="$PROJECT_DIR$/libs/slidingmenu/library" />
+              </ExternalProjectPojo>
+              <ExternalProjectPojo>
+                <option name="name" value=":" />
+                <option name="path" value="$PROJECT_DIR$" />
               </ExternalProjectPojo>
             </list>
           </value>
@@ -253,6 +267,11 @@
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="generateReleaseBuildConfig" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Prepare android-xbmcremote-sandbox-g.libs:xbmc-jsonrpclib:unspecified" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="prepareAndroidXbmcremoteSandboxGLibsXbmcJsonrpclibUnspecifiedLibrary" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
@@ -378,11 +397,6 @@
                 <option name="name" value="assembleTest" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare android-xbmcremote-sandbox-gradle.libs.slidingmenu:library:unspecified" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="prepareAndroidXbmcremoteSandboxGradleLibsSlidingmenuLibraryUnspecifiedLibrary" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
                 <option name="description" value="Uninstalls the Debug build" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="uninstallDebug" />
@@ -403,6 +417,11 @@
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="compileDebugAidl" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Prepare android-xbmcremote-sandbox-g.libs.slidingmenu:library:unspecified" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="prepareAndroidXbmcremoteSandboxGLibsSlidingmenuLibraryUnspecifiedLibrary" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
@@ -448,11 +467,6 @@
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="compileDebug" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Prepare android-xbmcremote-sandbox-gradle.libs:xbmc-jsonrpclib:unspecified" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="prepareAndroidXbmcremoteSandboxGradleLibsXbmcJsonrpclibUnspecifiedLibrary" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
@@ -781,14 +795,14 @@
                 <option name="name" value="preTestBuild" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare android-xbmcremote-sandbox-gradle.libs.slidingmenu:library:unspecified" />
+                <option name="description" value="Prepare android-xbmcremote-sandbox-g.libs.slidingmenu:library:unspecified" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
-                <option name="name" value="prepareAndroidXbmcremoteSandboxGradleLibsSlidingmenuLibraryUnspecifiedLibrary" />
+                <option name="name" value="prepareAndroidXbmcremoteSandboxGLibsSlidingmenuLibraryUnspecifiedLibrary" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare android-xbmcremote-sandbox-gradle.libs:xbmc-jsonrpclib:unspecified" />
+                <option name="description" value="Prepare android-xbmcremote-sandbox-g.libs:xbmc-jsonrpclib:unspecified" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
-                <option name="name" value="prepareAndroidXbmcremoteSandboxGradleLibsXbmcJsonrpclibUnspecifiedLibrary" />
+                <option name="name" value="prepareAndroidXbmcremoteSandboxGLibsXbmcJsonrpclibUnspecifiedLibrary" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="description" value="Prepare com.actionbarsherlock:actionbarsherlock:4.4.0" />
@@ -1565,6 +1579,7 @@
     </option>
     <option name="modificationStamps">
       <map>
+        <entry key="D:\dev\android-xbmcremote-sandbox-g" value="1386364221992" />
         <entry key="S:\Development\android-xbmcremote-sandbox-gradle" value="1386327006814" />
       </map>
     </option>
@@ -1572,7 +1587,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/settings.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/libs/slidingmenu/library/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_accountwizard.xml" />
@@ -1584,13 +1598,15 @@
         <option value="$PROJECT_DIR$/libs/xbmc-jsonrpclib/build.gradle" />
         <option value="$PROJECT_DIR$/libs/xbmc-jsonrpclib/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/libs/xbmc-jsonrpclib/project.properties" />
+        <option value="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
+        <option value="$PROJECT_DIR$/settings.gradle" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="711" />
+    <option name="x" value="759" />
     <option name="y" value="66" />
     <option name="width" value="1801" />
     <option name="height" value="1494" />
@@ -1633,6 +1649,24 @@
   <component name="ProjectReloadState">
     <option name="STATE" value="0" />
   </component>
+  <component name="ProjectStructureProblems">
+    <ignored-problems>
+      <problem id="unused-library(library:project:Gradle: ComActionbarsherlockActionbarsherlock440.aar)" />
+      <problem id="unused-library(library:project:Gradle: ComGithubChrisbanesActionbarpulltorefreshLibrary092.aar)" />
+      <problem id="unused-library(library:project:Gradle: dagger-1.0.1)" />
+      <problem id="unused-library(library:project:Gradle: dagger-compiler-1.0.1)" />
+      <problem id="unused-library(library:project:Gradle: eventbus-2.2.0)" />
+      <problem id="unused-library(library:project:Gradle: glide-2.0.1)" />
+      <problem id="unused-library(library:project:Gradle: jackson-core-2.3.0)" />
+      <problem id="unused-library(library:project:Gradle: jackson-core-lgpl-1.9.13)" />
+      <problem id="unused-library(library:project:Gradle: jackson-mapper-lgpl-1.9.13)" />
+      <problem id="unused-library(library:project:Gradle: javawriter-1.0.5)" />
+      <problem id="unused-library(library:project:Gradle: javax.inject-1)" />
+      <problem id="unused-library(library:project:Gradle: jmdns-3.4.2-r353-1)" />
+      <problem id="unused-library(library:project:Gradle: support-v4-18.0.0)" />
+      <problem id="unused-library(library:project:Gradle: support-v4-r7)" />
+    </ignored-problems>
+  </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
       <flattenPackages />
@@ -1646,7 +1680,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -1767,6 +1800,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -1782,15 +1816,23 @@
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="project.structure.side.proportion" value="0.34285715" />
     <property name="LayoutCode.rearrangeEntriesXML" value="false" />
     <property name="FullScreen" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="07ae5e221a06e998" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="2.1" />
   </component>
   <component name="RunManager" selected="Android Application.app">
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin" singleton="true">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <method />
+    </configuration>
     <configuration default="true" type="GroovyScriptRunConfiguration" factoryName="Groovy">
       <module name="" />
       <setting name="path" value="" />
@@ -1798,12 +1840,6 @@
       <setting name="params" value="" />
       <setting name="workDir" value="file://$PROJECT_DIR$" />
       <setting name="debug" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin" singleton="true">
-      <module name="" />
-      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
-      <option name="PROGRAM_PARAMETERS" />
       <method />
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
@@ -1837,17 +1873,8 @@
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" working-dir="">
+      <browser start="false" url="" with-js-debugger="false" />
       <method />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
@@ -1878,8 +1905,17 @@
       <listeners />
       <method />
     </configuration>
-    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" working-dir="">
-      <browser start="false" url="" with-js-debugger="false" />
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -1954,6 +1990,8 @@
       <option name="NETWORK_LATENCY" value="none" />
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <RunnerSettings RunnerId="AndroidDebugRunner" />
+      <ConfigurationWrapper RunnerId="AndroidDebugRunner" />
       <method />
     </configuration>
     <list size="1">
@@ -1972,15 +2010,18 @@
       <updated>1386327005124</updated>
       <workItem from="1386327007001" duration="4789000" />
       <workItem from="1386338810482" duration="2925000" />
-      <workItem from="1386365388472" duration="165000" />
+      <workItem from="1386365388472" duration="380000" />
+      <workItem from="1386365840498" duration="306000" />
+      <workItem from="1386366175064" duration="587000" />
+      <workItem from="1386366797994" duration="960000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7879000" />
+    <option name="totallyTimeSpent" value="9947000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="711" y="66" width="1801" height="1494" extended-state="0" />
+    <frame x="759" y="66" width="1801" height="1494" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1995,23 +2036,23 @@
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34871796" sideWeight="0.34136546" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24973376" sideWeight="0.20256776" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298279" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1010989" sideWeight="0.51462996" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32967034" sideWeight="0.49971315" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16179001" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19169329" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26907632" sideWeight="0.79743224" order="3" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26907632" sideWeight="0.79743224" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32967034" sideWeight="0.49971315" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="9" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26091588" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298279" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3288719" sideWeight="0.5149095" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -2031,7 +2072,88 @@
   <component name="XDebuggerManager">
     <breakpoint-manager />
   </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="24" selection-start="217" selection-end="217" vertical-scroll-proportion="0.0" vertical-offset="300" max-vertical-offset="900">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="16" selection-start="168" selection-end="228" vertical-scroll-proportion="0.0" vertical-offset="100" max-vertical-offset="240">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/xbmc/android/app/SandboxApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="40" selection-start="637" selection-end="637" vertical-scroll-proportion="0.0" vertical-offset="640" max-vertical-offset="1180">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="54" selection-start="585" selection-end="585" vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="1260">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="42" selection-start="381" selection-end="381" vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="900">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="16" selection-start="168" selection-end="228" vertical-scroll-proportion="0.0" vertical-offset="100" max-vertical-offset="240">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/xbmc/android/app/SandboxApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="40" selection-start="637" selection-end="637" vertical-scroll-proportion="0.0" vertical-offset="640" max-vertical-offset="1180">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="54" selection-start="585" selection-end="585" vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="1260">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="44" selection-start="693" selection-end="693" vertical-scroll-proportion="0.0" vertical-offset="37" max-vertical-offset="900">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/xbmc/android/app/SandboxApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="40" selection-start="637" selection-end="637" vertical-scroll-proportion="0.0" vertical-offset="640" max-vertical-offset="1180">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="54" selection-start="585" selection-end="585" vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="1260">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state line="28" column="0" selection-start="738" selection-end="738" vertical-scroll-proportion="0.0" vertical-offset="560" max-vertical-offset="900">
@@ -2055,9 +2177,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/org/xbmc/android/app/ui/fragment/AlbumCompactFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="21" selection-start="945" selection-end="945" vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="3380">
-          <folding />
-        </state>
+        <state line="26" column="21" selection-start="945" selection-end="945" vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="3380" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/build.gradle">
@@ -2074,9 +2194,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/libs/slidingmenu/library/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="11" selection-start="322" selection-end="322" vertical-scroll-proportion="0.35555556" vertical-offset="0" max-vertical-offset="675">
-          <folding />
-        </state>
+        <state line="12" column="11" selection-start="322" selection-end="322" vertical-scroll-proportion="0.35555556" vertical-offset="0" max-vertical-offset="675" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/libs/xbmc-jsonrpclib/src/org/xbmc/android/jsonrpc/io/JsonApiRequest.java">
@@ -2084,29 +2202,17 @@
         <state line="89" column="39" selection-start="3048" selection-end="3048" vertical-scroll-proportion="0.3" vertical-offset="920" max-vertical-offset="3960" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/settings.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="50" selection-start="50" selection-end="50" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="120" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_accountwizard.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="35" selection-start="388" selection-end="388" vertical-scroll-proportion="0.2769231" vertical-offset="0" max-vertical-offset="1300">
-          <folding>
-            <element signature="e#1386#1400#0" expanded="false" />
-            <element signature="e#1800#1814#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
       <provider editor-type-id="android-designer">
         <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="35" selection-start="388" selection-end="388" vertical-scroll-proportion="0.2769231" vertical-offset="0" max-vertical-offset="1300" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="48" selection-start="2397" selection-end="2397" vertical-scroll-proportion="0.31851852" vertical-offset="985" max-vertical-offset="1660">
-          <folding />
-        </state>
+        <state line="60" column="48" selection-start="2397" selection-end="2397" vertical-scroll-proportion="0.31851852" vertical-offset="985" max-vertical-offset="1660" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/org/xbmc/android/account/authenticator/AuthenticatorActivity.java">
@@ -2116,11 +2222,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/org/xbmc/android/app/injection/AppModule.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="3" selection-start="535" selection-end="535" vertical-scroll-proportion="0.4531722" vertical-offset="0" max-vertical-offset="1040">
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
+        <state line="15" column="3" selection-start="535" selection-end="535" vertical-scroll-proportion="0.4531722" vertical-offset="0" max-vertical-offset="1040" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/org/xbmc/android/app/ui/HomeActivity.java">
@@ -2130,9 +2232,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/org/xbmc/android/app/ui/fragment/AlbumCompactFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="21" selection-start="945" selection-end="945" vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="3380">
-          <folding />
-        </state>
+        <state line="26" column="21" selection-start="945" selection-end="945" vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="3380" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/libs/slidingmenu/library/build.gradle">
@@ -2142,25 +2242,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="54" selection-start="585" selection-end="585" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1260">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/libs/xbmc-jsonrpclib/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="37" selection-start="211" selection-end="211" vertical-scroll-proportion="0.12060302" vertical-offset="0" max-vertical-offset="995">
-          <folding />
-        </state>
+        <state line="6" column="37" selection-start="211" selection-end="211" vertical-scroll-proportion="0.12060302" vertical-offset="0" max-vertical-offset="995" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/libs/xbmc-jsonrpclib/project.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="17" selection-start="562" selection-end="562" vertical-scroll-proportion="0.26476577" vertical-offset="0" max-vertical-offset="982">
-          <folding />
-        </state>
+        <state line="13" column="17" selection-start="562" selection-end="562" vertical-scroll-proportion="0.26476577" vertical-offset="0" max-vertical-offset="982" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/libs/xbmc-jsonrpclib/build.gradle">
@@ -2170,16 +2259,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/xbmc/android/app/SandboxApplication.java">
+    <entry file="file://$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="40" selection-start="637" selection-end="637" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1060">
+        <state line="5" column="16" selection-start="168" selection-end="228" vertical-scroll-proportion="0.11587486" vertical-offset="0" max-vertical-offset="863">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="33" selection-start="724" selection-end="724" vertical-scroll-proportion="0.5596756" vertical-offset="37" max-vertical-offset="900">
+        <state line="22" column="0" selection-start="568" selection-end="568" vertical-scroll-proportion="0.0" vertical-offset="37" max-vertical-offset="900">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="54" selection-start="585" selection-end="585" vertical-scroll-proportion="0.28235295" vertical-offset="0" max-vertical-offset="1260">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/settings.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="0" selection-start="69" selection-end="69" vertical-scroll-proportion="0.023174971" vertical-offset="0" max-vertical-offset="863">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/xbmc/android/app/SandboxApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="29" selection-start="29" selection-end="29" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1060">
           <folding />
         </state>
       </provider>
@@ -2213,7 +2323,7 @@
       </state>
       <state key="GlobalLibrariesConfigurable.UI">
         <settings>
-          <last-edited>Node.js v0.10.10 Core Modules</last-edited>
+          <last-edited>groovy-2.2.1</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -2237,11 +2347,12 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>app</last-edited>
+          <last-edited>project</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.2" />
+                <option value="0.34285715" />
+                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>
@@ -2261,11 +2372,11 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>Gradle: glide-2.0.1</last-edited>
+          <last-edited>Gradle: ComActionbarsherlockActionbarsherlock440.aar</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.2" />
+                <option value="0.34285715" />
               </list>
             </option>
           </splitter-proportions>

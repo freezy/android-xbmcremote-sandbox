@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: ComActionbarsherlockActionbarsherlock440.aar">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/libs/slidingmenu/library/build/exploded-bundles/ComActionbarsherlockActionbarsherlock440.aar/classes.jar!/" />
       <root url="file://$PROJECT_DIR$/libs/slidingmenu/library/build/exploded-bundles/ComActionbarsherlockActionbarsherlock440.aar/res" />
+      <root url="jar://$PROJECT_DIR$/libs/slidingmenu/library/build/exploded-bundles/ComActionbarsherlockActionbarsherlock440.aar/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
