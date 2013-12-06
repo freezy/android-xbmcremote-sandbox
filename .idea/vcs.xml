@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="VcsDirectoryMappings">
-    <mapping directory="" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/libs/actionbarsherlock" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/libs/pulltorefresh" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/libs/quickscroll" vcs="Git" />
+    <mapping directory="" vcs="" />
     <mapping directory="$PROJECT_DIR$/libs/slidingmenu" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/libs/wizardpager" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/libs/xbmc-jsonrpclib" vcs="Git" />
   </component>
 </project>

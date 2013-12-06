@@ -4,15 +4,3 @@
 [submodule "libs/xbmc-jsonrpclib"]
 	path = libs/xbmc-jsonrpclib
 	url = https://github.com/freezy/xbmc-jsonrpclib-android.git
-[submodule "libs/actionbarsherlock"]
-	path = libs/actionbarsherlock
-	url = https://github.com/JakeWharton/ActionBarSherlock.git
-[submodule "libs/quickscroll"]
-	path = libs/quickscroll
-	url = https://github.com/andraskindler/quickscroll.git
-[submodule "libs/pulltorefresh"]
-	path = libs/pulltorefresh
-	url = https://github.com/chrisbanes/ActionBar-PullToRefresh.git
-[submodule "libs/wizardpager"]
-	path = libs/wizardpager
-	url = https://github.com/TechFreak/WizardPager.git

@@ -1,0 +1,33 @@
+<uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/ptr_layout"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+
+	<ScrollView
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+
+		<LinearLayout
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:orientation="vertical">
+
+			<fragment
+					android:id="@+id/home_music_fragment"
+					android:name="org.xbmc.android.app.ui.fragment.AlbumCompactFragment"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					/>
+
+			<fragment
+					android:id="@+id/home_movie_fragment"
+					android:name="org.xbmc.android.app.ui.fragment.MovieCompactFragment"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					/>
+
+		</LinearLayout>
+
+	</ScrollView>
+</uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout>

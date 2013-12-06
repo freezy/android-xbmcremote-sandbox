@@ -1,0 +1,77 @@
+<!--
+	    Copyright (C) 2005-2015 Team XBMC
+	    http://xbmc.org
+
+	This Program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2, or (at your option)
+	any later version.
+
+	This Program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with XBMC Remote; see the file license.  If not, write to
+	the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
+	http://www.gnu.org/copyleft/gpl.html
+  -->
+
+<resources>
+	<style name="Theme.XBMCRemote" parent="Theme.Sherlock.Light.DarkActionBar">
+		<item name="actionBarStyle">@style/Widget.XBMCRemote.ActionBar</item>
+		<item name="android:actionBarStyle">@style/Widget.XBMCRemote.ActionBar</item>
+	</style>
+
+	<style name="Widget.XBMCRemote.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
+		<item name="background">@color/dark_bg</item>
+		<item name="android:background">@color/dark_bg</item>
+
+		<item name="backgroundSplit">#ff0000</item>
+		<item name="android:backgroundSplit">#ff0000</item>
+	</style>
+
+
+	<style name="Header">
+		<item name="android:fontFamily">sans-serif-light</item>
+	</style>
+	<style name="Header.h1">
+		<item name="android:layout_marginTop">10dp</item>
+		<item name="android:layout_marginLeft">15dp</item>
+		<item name="android:layout_alignParentTop">true</item>
+		<item name="android:textStyle">italic</item>
+		<item name="android:textSize">22sp</item>
+	</style>
+	<style name="Header.h2">
+		<item name="android:layout_marginTop">-4dp</item>
+		<item name="android:textColor">@color/light_secondry_text</item>
+		<item name="android:textSize">14sp</item>
+	</style>
+
+	<style name="SeeMoreButton">
+		<item name="android:background">@color/holo_blue_dark</item>
+		<item name="android:paddingLeft">5dp</item>
+		<item name="android:paddingRight">5dp</item>
+		<item name="android:paddingBottom">1dp</item>
+		<item name="android:textColor">@color/light_bg</item>
+		<item name="android:textSize">12sp</item>
+		<item name="android:minHeight">12dip</item>
+		<item name="android:minWidth">48dip</item>
+		<item name="android:layout_alignParentRight">true</item>
+		<item name="android:layout_marginRight">15dp</item>
+		<item name="android:layout_marginTop">15dp</item>
+		<item name="android:text">@string/button_see_more</item>
+	</style>
+
+	<style name="ButtonBar" parent="@android:style/ButtonBar">
+		<item name="android:background">@android:color/transparent</item>
+		<item name="android:padding">0dp</item>
+	</style>
+
+	<style name="ButtonBarButton">
+		<!--item name="android:minHeight">@dimen/list_item_height_small</item-->
+	</style>
+
+
+</resources>

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
-	<item android:id="@+id/about" android:title="About" android:showAsAction="never" android:orderInCategory="1"></item>
-	<item android:id="@+id/licenses" android:title="Licenses" android:showAsAction="never" android:orderInCategory="2"></item>
-	<item android:id="@+id/contact" android:title="Contact" android:orderInCategory="3" android:showAsAction="never"></item>
-</menu>

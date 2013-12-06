@@ -1,0 +1,40 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'com.android.tools.build:gradle:0.6.+'
+	}
+}
+apply plugin: 'android'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compile 'com.android.support:support-v4:18.0.+'
+	compile 'com.squareup.dagger:dagger:1.0.1'
+	compile 'com.squareup.dagger:dagger-compiler:1.0.1'
+	compile 'de.greenrobot:eventbus:2.2.0'
+	compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
+	compile 'com.github.chrisbanes.actionbarpulltorefresh:library:0.9.2'
+	compile 'com.github.rickyclarkson:jmdns:3.4.2-r353-1'
+	compile (project(":libs:slidingmenu:library")) {
+		exclude module: 'support-v4'
+	}
+	compile project(":libs:xbmc-jsonrpclib")
+	compile files('../libs/glide-2.0.1.jar')
+}
+
+android {
+	compileSdkVersion 18
+	buildToolsVersion "18.0.1"
+
+	defaultConfig {
+		minSdkVersion 9
+		targetSdkVersion 18
+		versionCode 1
+		versionName '1.0'
+	}
+}

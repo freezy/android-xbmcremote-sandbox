@@ -1,6 +1,4 @@
-bin/
-gen/
-classes/
-media.db
-local.properties
-
+.gradle
+/local.properties
+/.idea/workspace.xml
+.DS_Store
