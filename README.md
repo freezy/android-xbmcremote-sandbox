@@ -21,6 +21,8 @@ Time has come for a redesign. In a nutshell, these are the major changes:
     git submodule init
     git submodule update
 
+Build process is now Gradle-based, tested in Android Studio and IDEA 13. If you have problems
+building, let me know on the issue tracker.
 
 ## Status Quo
 Still putting the pieces together, so nothing to see yet. There are some mockups of
