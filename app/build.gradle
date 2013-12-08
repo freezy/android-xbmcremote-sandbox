@@ -16,6 +16,7 @@ dependencies {
 	compile 'com.android.support:support-v4:18.0.+'
 	compile 'com.squareup.dagger:dagger:1.0.1'
 	compile 'com.squareup.dagger:dagger-compiler:1.0.1'
+	compile 'com.jakewharton:butterknife:4.0.1'
 	compile 'de.greenrobot:eventbus:2.2.0'
 	compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
 	compile 'com.github.chrisbanes.actionbarpulltorefresh:library:0.9.2'
