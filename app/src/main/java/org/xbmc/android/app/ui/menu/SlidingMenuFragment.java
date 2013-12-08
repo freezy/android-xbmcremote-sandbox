@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import org.xbmc.android.account.authenticator.WizardFiddleActivity;
+import org.xbmc.android.account.authenticator.ui.WizardActivity;
 import org.xbmc.android.app.ui.IconHelper;
 import org.xbmc.android.remotesandbox.R;
 
@@ -34,7 +34,7 @@ public class SlidingMenuFragment extends Fragment {
 		groups.add(new Group("Movies", R.string.ic_movie, new Child("Sets"), new Child("Genres"), new Child("Actors"), new Child("Recently Added")));
 		groups.add(new Group("TV Shows", R.string.ic_tv, new Child("Title"), new Child("Genres"), new Child("Years"), new Child("Recently Added")));
 		groups.add(new Group("Pictures", R.string.ic_picture));
-		groups.add(new Group("Addons", R.string.ic_addon, new Intent(getActivity(), WizardFiddleActivity.class)));
+		groups.add(new Group("Addons", R.string.ic_addon, new Intent(getActivity(), WizardActivity.class)));
 
 		list.setAdapter(new ListAdapter(getActivity(), groups));
 	}

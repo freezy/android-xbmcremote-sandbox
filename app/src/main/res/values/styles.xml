@@ -74,4 +74,16 @@
 	</style>
 
 
+	<style name="WizardPageText">
+		<item name="android:layout_width">match_parent</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:layout_marginBottom">8dp</item>
+		<item name="android:paddingLeft">@dimen/list_item_padding_left</item>
+		<item name="android:paddingTop">@dimen/list_item_padding_left</item>
+		<item name="android:textSize">18sp</item>
+		<item name="android:textColor">@color/light_primary_text</item>
+		<item name="android:fontFamily">sans-serif-light</item>
+	</style>
+
+
 </resources>
