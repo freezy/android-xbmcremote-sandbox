@@ -24,6 +24,9 @@ dependencies {
 	compile (project(":libs:slidingmenu:library")) {
 		exclude module: 'support-v4'
 	}
+	compile (project(":libs:wizardpager:LibWizardPager")) {
+		exclude module: 'support-v4'
+	}
 	compile project(":libs:xbmc-jsonrpclib")
 	compile files('../libs/glide-2.0.1.jar')
 }
