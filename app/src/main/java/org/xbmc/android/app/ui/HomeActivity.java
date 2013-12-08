@@ -64,13 +64,12 @@ public class HomeActivity extends BaseActivity implements OnRefreshListener {
 			Toast.makeText(getApplicationContext(), event.getErrorMessage() + " " + event.getErrorHint(), Toast.LENGTH_LONG).show();
 		}
 
-		if (!event.hasStarted()) {
-			pullToRefreshLayout.setRefreshing(false);
-			//pullToRefreshAttacher.setRefreshComplete();
-		}
-
 		if (event.hasFinished()) {
 			Toast.makeText(getApplicationContext(), "Successfully synced.", Toast.LENGTH_LONG).show();
+		}
+
+		if (!event.hasStarted()) {
+			pullToRefreshLayout.setRefreshing(false);
 		}
 	}
 

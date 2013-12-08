@@ -1,5 +1,7 @@
 package org.xbmc.android.app.ui.menu;
 
+import android.content.Intent;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -12,16 +14,22 @@ import java.util.Collections;
  */
 public class Group {
 
-	private final String mName;
-	private final int mIcon;
-	private final ArrayList<Child> mItems = new ArrayList<Child>();
+	private final String name;
+	private final int icon;
+	private final ArrayList<Child> items = new ArrayList<Child>();
+	private final Intent intent;
 
 	public boolean collapsed = true;
 
+	public Group(String name, int icon, Intent intent, Child... children) {
+		this.name = name;
+		this.icon = icon;
+		this.intent = intent;
+		Collections.addAll(items, children);
+	}
+
 	public Group(String name, int icon, Child... children) {
-		mName = name;
-		mIcon = icon;
-		Collections.addAll(mItems, children);
+		this(name, icon, null, children);
 	}
 
 	public void toggle() {
@@ -29,18 +37,26 @@ public class Group {
 	}
 
 	public boolean hasChildren() {
-		return !mItems.isEmpty();
+		return !items.isEmpty();
 	}
 
 	public String getName() {
-		return mName;
+		return name;
+	}
+
+	public Intent getIntent() {
+		return intent;
+	}
+
+	public boolean hasIntent() {
+		return intent != null;
 	}
 
 	public int getIcon() {
-		return mIcon;
+		return icon;
 	}
 
 	public ArrayList<Child> getItems() {
-		return mItems;
+		return items;
 	}
 }

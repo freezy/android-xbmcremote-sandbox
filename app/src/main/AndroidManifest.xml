@@ -30,6 +30,7 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+		<activity android:name="org.xbmc.android.account.authenticator.WizardFiddleActivity" />
 
 		<!-- Services -->
 		<service android:name="org.xbmc.android.jsonrpc.service.SyncService" />
