@@ -4,6 +4,7 @@
     <mapping directory="" vcs="" />
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/libs/slidingmenu" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/libs/wizardpager" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/libs/xbmc-jsonrpclib" vcs="Git" />
   </component>
 </project>
