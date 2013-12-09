@@ -40,6 +40,7 @@
 	<string name="accountwizard_step1_title">Start XBMC.</string>
 	<string name="accountwizard_step1_p1">I will search for XBMC hosts now. If you don\'t already have, please start XBMC now and make sure that your device is connected to the same network.</string>
 	<string name="accountwizard_step1_p2">Once you\'re ready, click on <i>Next</i>.</string>
+	<string name="accountwizard_step2a_title">Searching...</string>
 
 	<string name="addaccount_username_label">Username</string>
 	<string name="addaccount_password_label">Password</string>

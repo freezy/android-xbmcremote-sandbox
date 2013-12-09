@@ -25,7 +25,7 @@ public abstract class AbstractWizardFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(layoutRes, container);
+		return inflater.inflate(layoutRes, container, false);
 	}
 
 	/**

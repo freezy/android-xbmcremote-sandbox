@@ -20,16 +20,6 @@ public class Step1WelcomeFragment extends AbstractWizardFragment {
 
 	@Override
 	AbstractWizardFragment getNext() {
-		return null;
-	}
-
-	@Override
-	AbstractWizardFragment getPrev() {
-		return null;
-	}
-
-	@Override
-	void onStatusChanged() {
-
+		return new Step2aSearchingFragment();
 	}
 }
