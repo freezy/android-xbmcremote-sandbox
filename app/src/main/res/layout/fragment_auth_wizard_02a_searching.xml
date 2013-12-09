@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 			style="@style/WizardPageContainer">
 
-	<TextView style="@style/WizardPageTitle" android:text="@string/accountwizard_step2a_title"/>
+	<TextView style="@style/WizardPageTitle" android:text="@string/accountwizard_step2a_title"
+			  android:id="@+id/textView"/>
 
-</LinearLayout>
+	<ProgressBar
+			android:id="@+id/pb_loading"
+			style="@style/Spinner"
+			android:layout_width="96dp"
+			android:layout_height="96dp"
+			android:layout_centerVertical="true"
+			android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
