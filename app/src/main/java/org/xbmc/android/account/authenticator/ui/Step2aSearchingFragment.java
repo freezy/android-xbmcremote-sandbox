@@ -15,7 +15,7 @@ public class Step2aSearchingFragment extends AbstractWizardFragment {
 
 	@Override
 	int hasPrev() {
-		return STATUS_ENABLED;
+		return STATUS_DISABLED;
 	}
 
 	@Override

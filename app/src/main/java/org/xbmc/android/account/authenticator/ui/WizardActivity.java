@@ -42,7 +42,7 @@ public class WizardActivity extends SherlockFragmentActivity {
 				}
 			}
 		});
-		pagerStrip.setPageCount(4);
+		pagerStrip.setPageCount(WizardPagerAdapter.TOTAL_COUNT);
 		pagerStrip.setCurrentPage(0);
 
 		pager.setAdapter(adapter);
@@ -79,10 +79,12 @@ public class WizardActivity extends SherlockFragmentActivity {
 
 	private class WizardPagerAdapter extends FragmentStatePagerAdapter {
 
-		private final static int TOTAL_COUNT = 4;
+		public final static int TOTAL_COUNT = 4;
 
 		private int pagerCount = TOTAL_COUNT;
 		private int currentPos = 0;
+		private int posShift = 0;
+
 		private AbstractWizardFragment currentFragment = new Step1WelcomeFragment();
 
 		public WizardPagerAdapter(FragmentManager fm) {
@@ -90,14 +92,15 @@ public class WizardActivity extends SherlockFragmentActivity {
 		}
 
 		@Override
-		public Fragment getItem(int i) {
-			if (currentPos == i) {
+		public Fragment getItem(int pagerPos) {
+			final int pos = pagerPos + posShift;
+			if (currentPos == pos) {
 				return currentFragment;
 			}
-			if (currentPos == i - 1 && currentFragment.hasNext() == STATUS_ENABLED) {
+			if (currentPos == pos - 1 && currentFragment.hasNext() == STATUS_ENABLED) {
 				return currentFragment.getNext();
 			}
-			if (currentPos == i + 1 && currentFragment.hasPrev() == STATUS_ENABLED) {
+			if (currentPos == pos + 1 && currentFragment.hasPrev() == STATUS_ENABLED) {
 				return currentFragment.getPrev();
 			}
 			return new Fragment();
@@ -105,31 +108,40 @@ public class WizardActivity extends SherlockFragmentActivity {
 
 		@Override
 		public int getCount() {
-			return pagerCount;
+			return pagerCount - posShift;
 		}
 
 		public AbstractWizardFragment getCurrentFragment() {
 			return currentFragment;
 		}
 
-		public void setCurrentPage(int i) {
+		public void setCurrentPage(int pagerPos) {
+			final int pos = pagerPos + posShift;
 			final AbstractWizardFragment fragment;
-			if (i > currentPos) {
+			if (pos > currentPos) {
 				fragment = currentFragment.getNext();
 
-			} else if (i < currentPos) {
+			} else if (pos < currentPos) {
 				fragment = currentFragment.getPrev();
 
 			} else {
 				fragment = currentFragment;
 			}
-			currentPos = i;
-			currentFragment = fragment;
-			if (currentFragment.hasNext() != STATUS_ENABLED) {
+			if (fragment.hasPrev() != STATUS_ENABLED) {
+				pager.setCurrentItem(0, false);
+				posShift = currentPos;
+				notifyDataSetChanged();
+			} else {
+				posShift = 0;
+			}
+			if (fragment.hasNext() != STATUS_ENABLED) {
 				pagerCount = currentPos + 1;
 			} else {
 				pagerCount = TOTAL_COUNT;
 			}
+			currentPos = pos;
+			currentFragment = fragment;
+
 			notifyDataSetChanged();
 			updateBottomBar(fragment);
 		}
