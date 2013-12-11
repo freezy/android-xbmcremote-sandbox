@@ -13,14 +13,12 @@ import co.juliansuarez.libwizardpager.wizard.ui.StepPagerStrip;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.xbmc.android.remotesandbox.R;
 
-import static org.xbmc.android.account.authenticator.ui.AbstractWizardFragment.STATUS_DISABLED;
-import static org.xbmc.android.account.authenticator.ui.AbstractWizardFragment.STATUS_ENABLED;
-import static org.xbmc.android.account.authenticator.ui.AbstractWizardFragment.STATUS_GONE;
+import static org.xbmc.android.account.authenticator.ui.AbstractWizardFragment.*;
 
 public class WizardActivity extends SherlockFragmentActivity {
 
 	@InjectView(R.id.strip) StepPagerStrip pagerStrip;
-	@InjectView(R.id.pager) ViewPager pager;
+	@InjectView(R.id.pager) BlockableViewpager pager;
 
 	@InjectView(R.id.next_button) Button nextButton;
 	@InjectView(R.id.prev_button) Button prevButton;
@@ -53,6 +51,21 @@ public class WizardActivity extends SherlockFragmentActivity {
 				pagerStrip.setCurrentPage(position);
 			}
 		});
+
+		nextButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				pager.setCurrentItem(pager.getCurrentItem() + 1);
+			}
+		});
+
+		prevButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				pager.setCurrentItem(pager.getCurrentItem() - 1);
+			}
+		});
+
 		updateBottomBar(adapter.getCurrentFragment());
 	}
 
@@ -83,7 +96,6 @@ public class WizardActivity extends SherlockFragmentActivity {
 
 		private int pagerCount = TOTAL_COUNT;
 		private int currentPos = 0;
-		private int posShift = 0;
 
 		private AbstractWizardFragment currentFragment = new Step1WelcomeFragment();
 
@@ -93,14 +105,13 @@ public class WizardActivity extends SherlockFragmentActivity {
 
 		@Override
 		public Fragment getItem(int pagerPos) {
-			final int pos = pagerPos + posShift;
-			if (currentPos == pos) {
+			if (currentPos == pagerPos) {
 				return currentFragment;
 			}
-			if (currentPos == pos - 1 && currentFragment.hasNext() == STATUS_ENABLED) {
+			if (currentPos == pagerPos - 1 && currentFragment.hasNext() == STATUS_ENABLED) {
 				return currentFragment.getNext();
 			}
-			if (currentPos == pos + 1 && currentFragment.hasPrev() == STATUS_ENABLED) {
+			if (currentPos == pagerPos + 1 && currentFragment.hasPrev() == STATUS_ENABLED) {
 				return currentFragment.getPrev();
 			}
 			return new Fragment();
@@ -108,7 +119,7 @@ public class WizardActivity extends SherlockFragmentActivity {
 
 		@Override
 		public int getCount() {
-			return pagerCount - posShift;
+			return pagerCount;
 		}
 
 		public AbstractWizardFragment getCurrentFragment() {
@@ -116,35 +127,26 @@ public class WizardActivity extends SherlockFragmentActivity {
 		}
 
 		public void setCurrentPage(int pagerPos) {
-			final int pos = pagerPos + posShift;
+
 			final AbstractWizardFragment fragment;
-			if (pos > currentPos) {
+			if (pagerPos > currentPos) {
 				fragment = currentFragment.getNext();
-
-			} else if (pos < currentPos) {
+			} else if (pagerPos < currentPos) {
 				fragment = currentFragment.getPrev();
-
 			} else {
 				fragment = currentFragment;
 			}
-			if (fragment.hasPrev() != STATUS_ENABLED) {
-				pager.setCurrentItem(0, false);
-				posShift = currentPos;
-				notifyDataSetChanged();
-			} else {
-				posShift = 0;
-			}
-			if (fragment.hasNext() != STATUS_ENABLED) {
-				pagerCount = currentPos + 1;
-			} else {
-				pagerCount = TOTAL_COUNT;
-			}
-			currentPos = pos;
+			pager.setPagingPrevEnabled(fragment.hasPrev() == STATUS_ENABLED);
+			pager.setPagingNextEnabled(fragment.hasNext() == STATUS_ENABLED);
+
+			currentPos = pagerPos;
 			currentFragment = fragment;
 
 			notifyDataSetChanged();
 			updateBottomBar(fragment);
 		}
+
+
 	}
 
 }

@@ -15,7 +15,7 @@
 			android:paddingRight="@dimen/list_item_padding_right"
 			android:paddingTop="16dp" />
 
-	<android.support.v4.view.ViewPager
+	<org.xbmc.android.account.authenticator.ui.BlockableViewpager
 			android:id="@+id/pager"
 			android:layout_width="match_parent"
 			android:layout_height="0dp"

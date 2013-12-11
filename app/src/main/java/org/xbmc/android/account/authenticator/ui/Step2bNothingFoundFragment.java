@@ -2,10 +2,10 @@ package org.xbmc.android.account.authenticator.ui;
 
 import org.xbmc.android.remotesandbox.R;
 
-public class Step2aSearchingFragment extends AbstractWizardFragment {
+public class Step2bNothingFoundFragment extends AbstractWizardFragment {
 
-	protected Step2aSearchingFragment() {
-		super(R.layout.fragment_auth_wizard_02a_searching);
+	protected Step2bNothingFoundFragment() {
+		super(R.layout.fragment_auth_wizard_01_welcome);
 	}
 
 	@Override
@@ -15,7 +15,7 @@ public class Step2aSearchingFragment extends AbstractWizardFragment {
 
 	@Override
 	int hasPrev() {
-		return STATUS_DISABLED;
+		return STATUS_ENABLED;
 	}
 
 	@Override
@@ -25,6 +25,6 @@ public class Step2aSearchingFragment extends AbstractWizardFragment {
 
 	@Override
 	AbstractWizardFragment getPrev() {
-		return new Step1WelcomeFragment();
+		return new Step2aSearchingFragment();
 	}
 }
