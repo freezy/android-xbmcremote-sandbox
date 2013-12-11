@@ -4,6 +4,7 @@
 
 	<string name="next">Next</string>
 	<string name="prev">Previous</string>
+	<string name="retry">Retry</string>
 
 	<string name="empty_albums">No albums found.</string>
 	<string name="empty_artists">No artists found.</string>
@@ -41,6 +42,10 @@
 	<string name="accountwizard_step1_p1">I will search for XBMC hosts now. If you don\'t already have, please start XBMC now and make sure that your device is connected to the same network.</string>
 	<string name="accountwizard_step1_p2">Once you\'re ready, click on <i>Next</i>.</string>
 	<string name="accountwizard_step2a_title">Searching...</string>
+	<string name="accountwizard_step2b_title">Nothing found.</string>
+	<string name="accountwizard_step2b_p1">Unfortunately, I could not detect any XBMC instances in your network.</string>
+	<string name="accountwizard_step2b_p2">Click <i>Next</i> for manual configuration or retry using the button below.</string>
+	<string name="accountwizard_step2b_p3"><i>If you need help configuring XBMC, you will find some tips and tricks on the XBMC forum.</i></string>
 
 	<string name="addaccount_username_label">Username</string>
 	<string name="addaccount_password_label">Password</string>

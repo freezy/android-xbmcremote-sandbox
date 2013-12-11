@@ -5,7 +5,7 @@ import org.xbmc.android.remotesandbox.R;
 public class Step2bNothingFoundFragment extends AbstractWizardFragment {
 
 	protected Step2bNothingFoundFragment() {
-		super(R.layout.fragment_auth_wizard_01_welcome);
+		super(R.layout.fragment_auth_wizard_02b_nothing_found);
 	}
 
 	@Override

@@ -4,7 +4,7 @@
 			style="@style/WizardPageContainer">
 
 	<TextView style="@style/WizardPageTitle" android:text="@string/accountwizard_step2a_title"
-			  android:id="@+id/textView"/>
+			  android:id="@+id/title"/>
 
 	<ProgressBar
 			android:id="@+id/pb_loading"

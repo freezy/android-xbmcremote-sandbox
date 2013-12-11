@@ -145,8 +145,5 @@ public class WizardActivity extends SherlockFragmentActivity {
 			notifyDataSetChanged();
 			updateBottomBar(fragment);
 		}
-
-
 	}
-
 }
