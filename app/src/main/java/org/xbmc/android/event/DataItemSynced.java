@@ -19,38 +19,34 @@
  *
  */
 
-package org.xbmc.android.account.authenticator.ui;
+package org.xbmc.android.event;
 
-import org.xbmc.android.remotesandbox.R;
+/**
+ * Event that describes successful synchronization of an item.
+ *
+ * @author freezy <freezy@xbmc.org>
+ */
+public class DataItemSynced {
 
-public class Step2bNothingFoundFragment extends AbstractWizardFragment {
+	public final static int VIDEO = 1000;
+	public final static int MOVIES = 1001;
 
-	protected Step2bNothingFoundFragment() {
-		super(R.layout.fragment_auth_wizard_02b_nothing_found);
+	public final static int MUSIC = 2000;
+	public final static int ALBUMS = 2001;
+	public final static int ARTISTS = 2002;
+
+	private final int what;
+
+	public DataItemSynced(int what) {
+		this.what = what;
 	}
 
-	@Override
-	int hasNext() {
-		return STATUS_ENABLED;
+	public boolean videoSynced() {
+		return what == MOVIES;
 	}
 
-	@Override
-	int hasPrev() {
-		return STATUS_ENABLED;
+	public boolean audioSynced() {
+		return what == ALBUMS;
 	}
 
-	@Override
-	int getStep() {
-		return 1;
-	}
-
-	@Override
-	AbstractWizardFragment getNext() {
-		return new Step2bNothingFoundFragment();
-	}
-
-	@Override
-	AbstractWizardFragment getPrev() {
-		return new Step2aSearchingFragment();
-	}
 }

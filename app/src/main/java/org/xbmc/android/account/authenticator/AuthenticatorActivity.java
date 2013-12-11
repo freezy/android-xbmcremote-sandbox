@@ -36,20 +36,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
-import android.widget.TextView;
-import android.widget.ViewFlipper;
+import android.widget.*;
 import org.xbmc.android.account.Constants;
 import org.xbmc.android.jsonrpc.api.model.ApplicationModel.PropertyValue.Version;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.util.google.DetachableResultReceiver;
-import org.xbmc.android.zeroconf.DiscoveryService;
 import org.xbmc.android.zeroconf.XBMCHost;
 
 import java.util.ArrayList;
@@ -185,10 +176,9 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 		}
 	}
 
-
 	@Override
 	public void onReceiveResult(int resultCode, Bundle resultData) {
-		switch (resultCode) {
+/*		switch (resultCode) {
 			case DiscoveryService.STATUS_RESOLVED:
 				// only toggle views the first time
 				if (mDiscoveredHosts.isEmpty()) {
@@ -211,7 +201,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 				break;
 			default:
 				break;
-		}
+		}*/
 	}
 
 	private class DiscoveredHostsAdapter extends ArrayAdapter<XBMCHost> implements SpinnerAdapter {

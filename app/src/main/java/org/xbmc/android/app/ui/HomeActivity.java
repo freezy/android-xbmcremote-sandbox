@@ -8,7 +8,7 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
-import org.xbmc.android.app.event.DataSync;
+import org.xbmc.android.event.DataSync;
 import org.xbmc.android.jsonrpc.service.SyncService;
 import org.xbmc.android.remotesandbox.R;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;

@@ -7,7 +7,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
-import org.xbmc.android.app.injection.Injector;
+import org.xbmc.android.injection.Injector;
 import org.xbmc.android.app.ui.menu.SlidingMenuFragment;
 import org.xbmc.android.remotesandbox.R;
 

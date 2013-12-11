@@ -21,8 +21,8 @@ import de.greenrobot.event.EventBus;
 import org.xbmc.android.jsonrpc.provider.AudioContract;
 import org.xbmc.android.jsonrpc.provider.AudioDatabase;
 import org.xbmc.android.remotesandbox.R;
-import org.xbmc.android.app.event.DataItemSynced;
-import org.xbmc.android.app.injection.Injector;
+import org.xbmc.android.event.DataItemSynced;
+import org.xbmc.android.injection.Injector;
 
 import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
