@@ -21,6 +21,7 @@
 
 package org.xbmc.android.account.authenticator.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,8 +37,14 @@ public class Step2aSearchingFragment extends AbstractWizardFragment {
 
 	@Inject protected EventBus bus;
 
-	protected Step2aSearchingFragment() {
-		super(R.layout.fragment_auth_wizard_02a_searching);
+	private AbstractWizardFragment next = new Step2bNothingFoundFragment(activity, statusChangeListener);
+	private AbstractWizardFragment prev = new Step1WelcomeFragment(activity, statusChangeListener);
+
+	private int hasNext = STATUS_DISABLED;
+	private int hasPrev = STATUS_DISABLED;
+
+	public Step2aSearchingFragment(Activity activity, IOnStatusChangeListener statusChangeListener) {
+		super(R.layout.fragment_auth_wizard_02a_searching, activity, statusChangeListener);
 	}
 
 	@Override
@@ -47,23 +54,28 @@ public class Step2aSearchingFragment extends AbstractWizardFragment {
 		bus.register(this);
 	}
 
-	public void onEvent(ZeroConf event) {
+	public void onEventMainThread(ZeroConf event) {
 		Log.d(Step2aSearchingFragment.class.getSimpleName(), "Got event from bus: " + event);
+		if (event.isFinished()) {
+			hasNext = STATUS_ENABLED;
+			hasNext = STATUS_ENABLED;
+			statusChangeListener.onStatusChanged();
+		}
 	}
 
 	@Override
 	void onPageVisible() {
-		getActivity().startService(new Intent(Intent.ACTION_SYNC, null, getActivity(), DiscoveryService.class));
+		activity.startService(new Intent(activity, DiscoveryService.class));
 	}
 
 	@Override
 	int hasNext() {
-		return STATUS_DISABLED;
+		return hasNext;
 	}
 
 	@Override
 	int hasPrev() {
-		return STATUS_DISABLED;
+		return hasPrev;
 	}
 
 	@Override
@@ -73,12 +85,12 @@ public class Step2aSearchingFragment extends AbstractWizardFragment {
 
 	@Override
 	AbstractWizardFragment getNext() {
-		return new Step2bNothingFoundFragment();
+		return next;
 	}
 
 	@Override
 	AbstractWizardFragment getPrev() {
-		return new Step1WelcomeFragment();
+		return prev;
 	}
 
 	@Override

@@ -21,12 +21,13 @@
 
 package org.xbmc.android.account.authenticator.ui;
 
+import android.app.Activity;
 import org.xbmc.android.remotesandbox.R;
 
 public class Step2bNothingFoundFragment extends AbstractWizardFragment {
 
-	protected Step2bNothingFoundFragment() {
-		super(R.layout.fragment_auth_wizard_02b_nothing_found);
+	protected Step2bNothingFoundFragment(Activity activity, IOnStatusChangeListener statusChangeListener) {
+		super(R.layout.fragment_auth_wizard_02b_nothing_found, activity, statusChangeListener);
 	}
 
 	@Override
@@ -46,11 +47,11 @@ public class Step2bNothingFoundFragment extends AbstractWizardFragment {
 
 	@Override
 	AbstractWizardFragment getNext() {
-		return new Step2bNothingFoundFragment();
+		return new Step2bNothingFoundFragment(activity, statusChangeListener);
 	}
 
 	@Override
 	AbstractWizardFragment getPrev() {
-		return new Step2aSearchingFragment();
+		return new Step2aSearchingFragment(activity, statusChangeListener);
 	}
 }

@@ -41,6 +41,18 @@ public class ZeroConf {
 		this.host = host;
 	}
 
+	public boolean isFinished() {
+		return status == STATUS_FINISHED;
+	}
+
+	public boolean isResolved() {
+		return status == STATUS_RESOLVED;
+	}
+
+	public boolean hasError() {
+		return status == STATUS_ERROR;
+	}
+
 	public int getStatus() {
 		return status;
 	}

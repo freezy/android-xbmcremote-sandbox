@@ -21,6 +21,7 @@ package org.xbmc.android.account.authenticator.ui;
  *
  */
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -39,9 +40,14 @@ public abstract class AbstractWizardFragment extends Fragment {
 	protected final static int STATUS_GONE = 0x03;
 
 	private final int layoutRes;
+	protected final Activity activity;
+	protected final IOnStatusChangeListener statusChangeListener;
 
-	protected AbstractWizardFragment(int layoutRes) {
+
+	protected AbstractWizardFragment(int layoutRes, Activity activity, IOnStatusChangeListener statusChangeListener) {
 		this.layoutRes = layoutRes;
+		this.activity = activity;
+		this.statusChangeListener = statusChangeListener;
 	}
 
 	@Override
@@ -88,9 +94,7 @@ public abstract class AbstractWizardFragment extends Fragment {
 	void onPageVisible() {
 	}
 
-	/**
-	 * Called when status has changed and next/prev potentially return a different result.
-	 */
-	void onStatusChanged() {
+	interface IOnStatusChangeListener {
+		void onStatusChanged();
 	}
 }

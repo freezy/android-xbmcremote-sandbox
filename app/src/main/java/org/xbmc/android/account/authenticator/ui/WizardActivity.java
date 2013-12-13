@@ -79,7 +79,6 @@ public class WizardActivity extends SherlockFragmentActivity {
 				pager.setCurrentItem(pager.getCurrentItem() + 1);
 			}
 		});
-
 		prevButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -111,14 +110,14 @@ public class WizardActivity extends SherlockFragmentActivity {
 		}
 	}
 
-	private class WizardPagerAdapter extends FragmentStatePagerAdapter {
+	private class WizardPagerAdapter extends FragmentStatePagerAdapter implements IOnStatusChangeListener {
 
 		public final static int TOTAL_COUNT = 4;
 
 		private int pagerCount = TOTAL_COUNT;
 		private int currentPos = 0;
 
-		private AbstractWizardFragment currentFragment = new Step1WelcomeFragment();
+		private AbstractWizardFragment currentFragment = new Step1WelcomeFragment(WizardActivity.this, this);
 
 		public WizardPagerAdapter(FragmentManager fm) {
 			super(fm);
@@ -167,5 +166,12 @@ public class WizardActivity extends SherlockFragmentActivity {
 			notifyDataSetChanged();
 			updateBottomBar(fragment);
 		}
+
+		@Override
+		public void onStatusChanged() {
+			notifyDataSetChanged();
+			pager.setCurrentItem(pager.getCurrentItem() + 1);
+		}
+
 	}
 }

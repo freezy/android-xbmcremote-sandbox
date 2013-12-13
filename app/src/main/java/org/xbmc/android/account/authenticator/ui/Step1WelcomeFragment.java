@@ -21,12 +21,13 @@
 
 package org.xbmc.android.account.authenticator.ui;
 
+import android.app.Activity;
 import org.xbmc.android.remotesandbox.R;
 
 public class Step1WelcomeFragment extends AbstractWizardFragment {
 
-	protected Step1WelcomeFragment() {
-		super(R.layout.fragment_auth_wizard_01_welcome);
+	public Step1WelcomeFragment(Activity activity, IOnStatusChangeListener statusChangeListener) {
+		super(R.layout.fragment_auth_wizard_01_welcome, activity, statusChangeListener);
 	}
 
 	@Override
@@ -46,6 +47,6 @@ public class Step1WelcomeFragment extends AbstractWizardFragment {
 
 	@Override
 	AbstractWizardFragment getNext() {
-		return new Step2aSearchingFragment();
+		return new Step2aSearchingFragment(activity, statusChangeListener);
 	}
 }
