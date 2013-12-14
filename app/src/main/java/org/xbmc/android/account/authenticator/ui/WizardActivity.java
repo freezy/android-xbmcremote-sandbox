@@ -124,6 +124,11 @@ public class WizardActivity extends SherlockFragmentActivity {
 		}
 
 		@Override
+		public int getItemPosition(Object object) {
+			return POSITION_NONE;
+		}
+
+		@Override
 		public Fragment getItem(int pagerPos) {
 			if (currentPos == pagerPos) {
 				return currentFragment;
