@@ -29,6 +29,7 @@ import de.greenrobot.event.EventBus;
 import org.xbmc.android.event.ZeroConf;
 import org.xbmc.android.injection.Injector;
 import org.xbmc.android.remotesandbox.R;
+import org.xbmc.android.view.RelativePagerFragment;
 import org.xbmc.android.zeroconf.DiscoveryService;
 
 import javax.inject.Inject;
@@ -43,7 +44,7 @@ public class Step2aSearchingFragment extends AbstractWizardFragment {
 	private int hasNext = STATUS_DISABLED;
 	private int hasPrev = STATUS_DISABLED;
 
-	public Step2aSearchingFragment(Activity activity, IOnStatusChangeListener statusChangeListener) {
+	public Step2aSearchingFragment(Activity activity, OnStatusChangeListener statusChangeListener) {
 		super(R.layout.fragment_auth_wizard_02a_searching, activity, statusChangeListener);
 	}
 
@@ -69,14 +70,15 @@ public class Step2aSearchingFragment extends AbstractWizardFragment {
 	}
 
 	@Override
-	int hasNext() {
+	int hasNextButton() {
 		return hasNext;
 	}
 
 	@Override
-	int hasPrev() {
+	int hasPrevButton() {
 		return hasPrev;
 	}
+
 
 	@Override
 	int getStep() {
@@ -84,12 +86,12 @@ public class Step2aSearchingFragment extends AbstractWizardFragment {
 	}
 
 	@Override
-	AbstractWizardFragment getNext() {
+	public RelativePagerFragment getNext() {
 		return next;
 	}
 
 	@Override
-	AbstractWizardFragment getPrev() {
+	public RelativePagerFragment getPrev() {
 		return prev;
 	}
 

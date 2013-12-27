@@ -1,5 +1,3 @@
-package org.xbmc.android.account.authenticator.ui;
-
 /*
  *      Copyright (C) 2005-2015 Team XBMC
  *      http://xbmc.org
@@ -21,72 +19,40 @@ package org.xbmc.android.account.authenticator.ui;
  *
  */
 
+package org.xbmc.android.account.authenticator.ui;
+
 import android.app.Activity;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import org.xbmc.android.view.RelativePagerFragment;
 
 /**
  * A parent class for all wizard fragments.
  *
  * @author freezy <freezy@xbmc.org>
  */
-public abstract class AbstractWizardFragment extends Fragment {
+public abstract class AbstractWizardFragment extends RelativePagerFragment {
 
 	protected final static int STATUS_ENABLED = 0x01;
 	protected final static int STATUS_DISABLED = 0x02;
 	protected final static int STATUS_GONE = 0x03;
 
-	private final int layoutRes;
-	protected final Activity activity;
-	protected final IOnStatusChangeListener statusChangeListener;
-
-
-	protected AbstractWizardFragment(int layoutRes, Activity activity, IOnStatusChangeListener statusChangeListener) {
-		this.layoutRes = layoutRes;
-		this.activity = activity;
-		this.statusChangeListener = statusChangeListener;
-	}
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(layoutRes, container, false);
+	protected AbstractWizardFragment(int layoutRes, Activity activity, RelativePagerFragment.OnStatusChangeListener statusChangeListener) {
+		super(layoutRes, activity, statusChangeListener);
 	}
 
 	/**
 	 * Indicates whether a page has a next page.
 	 * @return one of: STATUS_ENABLED, STATUS_DISABLED or STATUS_GONE.
 	 */
-	abstract int hasNext();
+	abstract int hasNextButton();
 	/**
 	 * Indicates whether a page has a previous page.
 	 * @return one of: STATUS_ENABLED, STATUS_DISABLED or STATUS_GONE.
 	 */
-	abstract int hasPrev();
-
+	abstract int hasPrevButton();
 	/**
 	 * Returns which step this page is for. Starts with 0.
-	 * @return
 	 */
 	abstract int getStep();
-
-	/**
-	 * Returns the next page.
-	 * @return Next page
-	 */
-	AbstractWizardFragment getNext() {
-		return null;
-	}
-
-	/**
-	 * Returns the previous page.
-	 * @return Previous page
-	 */
-	AbstractWizardFragment getPrev() {
-		return null;
-	}
 
 	/**
 	 * Executed when the fragment comes into view
@@ -94,7 +60,13 @@ public abstract class AbstractWizardFragment extends Fragment {
 	void onPageVisible() {
 	}
 
-	interface IOnStatusChangeListener {
-		void onStatusChanged();
+	@Override
+	public boolean hasNext() {
+		return hasNextButton() == STATUS_ENABLED;
+	}
+
+	@Override
+	public boolean hasPrev() {
+		return hasPrevButton() == STATUS_ENABLED;
 	}
 }

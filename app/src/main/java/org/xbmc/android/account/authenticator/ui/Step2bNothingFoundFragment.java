@@ -23,20 +23,21 @@ package org.xbmc.android.account.authenticator.ui;
 
 import android.app.Activity;
 import org.xbmc.android.remotesandbox.R;
+import org.xbmc.android.view.RelativePagerFragment;
 
 public class Step2bNothingFoundFragment extends AbstractWizardFragment {
 
-	protected Step2bNothingFoundFragment(Activity activity, IOnStatusChangeListener statusChangeListener) {
+	protected Step2bNothingFoundFragment(Activity activity, OnStatusChangeListener statusChangeListener) {
 		super(R.layout.fragment_auth_wizard_02b_nothing_found, activity, statusChangeListener);
 	}
 
 	@Override
-	int hasNext() {
+	public int hasNextButton() {
 		return STATUS_ENABLED;
 	}
 
 	@Override
-	int hasPrev() {
+	public int hasPrevButton() {
 		return STATUS_ENABLED;
 	}
 
@@ -46,12 +47,12 @@ public class Step2bNothingFoundFragment extends AbstractWizardFragment {
 	}
 
 	@Override
-	AbstractWizardFragment getNext() {
+	public RelativePagerFragment getNext() {
 		return new Step2bNothingFoundFragment(activity, statusChangeListener);
 	}
 
 	@Override
-	AbstractWizardFragment getPrev() {
+	public RelativePagerFragment getPrev() {
 		return new Step2aSearchingFragment(activity, statusChangeListener);
 	}
 }

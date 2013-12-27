@@ -25,12 +25,23 @@ import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 
+/**
+ * A view pager that relies on the currently displayed fragment to deliver the
+ * next or previous page, as opposed to a global list of fragments.
+ *
+ * @author freezy <freezy@xbmc.org>
+ */
 public class RelativeViewPager extends ViewPager {
 
 	private final static String TAG = RelativeViewPager.class.getSimpleName();
 
 	private RelativePagerAdapter adapter;
+
+	private boolean enabledPrev = true;
+	private boolean enabledNext = true;
+	private float x = -1;
 
 	private int currPosition = 0;
 
@@ -49,7 +60,6 @@ public class RelativeViewPager extends ViewPager {
 
 			@Override
 			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-				//Log.d(TAG, "### onPageScrolled(pos: " + position + ", posOff: " + positionOffset + ", posOffPix: " + positionOffsetPixels + ")");
 			}
 
 			@Override
@@ -94,5 +104,37 @@ public class RelativeViewPager extends ViewPager {
 		}
 	}
 
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		if (!enabledPrev && !enabledNext) {
+			return true;
+		}
+		if (enabledPrev && enabledNext) {
+			return super.onTouchEvent(event);
+		}
+		if (event.getAction() == MotionEvent.ACTION_DOWN) {
+			x = event.getX();
+		}
+		if (x < 0) {
+			return super.onTouchEvent(event);
+		}
+		if (event.getAction() == MotionEvent.ACTION_MOVE) {
+			if (!enabledPrev && x < event.getX()) {
+				return true;
+			}
+			if (!enabledNext && x > event.getX()) {
+				return true;
+			}
+		}
+		//Log.d("pager", "Event: " + event.getAction() + " (" + event.getX() + ")");
+		return super.onTouchEvent(event);
+	}
 
+	public void setPagingPrevEnabled(boolean enabled) {
+		this.enabledPrev = enabled;
+	}
+
+	public void setPagingNextEnabled(boolean enabled) {
+		this.enabledNext = enabled;
+	}
 }

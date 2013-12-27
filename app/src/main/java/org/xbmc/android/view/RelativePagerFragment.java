@@ -1,3 +1,24 @@
+/*
+ *      Copyright (C) 2005-2015 Team XBMC
+ *      http://xbmc.org
+ *
+ *  This Program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2, or (at your option)
+ *  any later version.
+ *
+ *  This Program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with XBMC Remote; see the file license.  If not, write to
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
+ *  http://www.gnu.org/copyleft/gpl.html
+ *
+ */
+
 package org.xbmc.android.view;
 
 import android.app.Activity;
@@ -7,11 +28,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * An abstract Fragment that delivers the next or previous page when used in
+ * a {@link org.xbmc.android.view.RelativeViewPager}.
+ *
+ * @author freezy <freezy@xbmc.org>
+ */
 public abstract class RelativePagerFragment extends Fragment {
-
-	protected final static int STATUS_ENABLED = 0x01;
-	protected final static int STATUS_DISABLED = 0x02;
-	protected final static int STATUS_GONE = 0x03;
 
 	private final int layoutRes;
 	protected final Activity activity;
@@ -31,21 +54,19 @@ public abstract class RelativePagerFragment extends Fragment {
 
 	/**
 	 * Indicates whether a page has a next page.
-	 * @return one of: STATUS_ENABLED, STATUS_DISABLED or STATUS_GONE.
 	 */
-	abstract int hasNext();
+	public abstract boolean hasNext();
 
 	/**
 	 * Indicates whether a page has a previous page.
-	 * @return one of: STATUS_ENABLED, STATUS_DISABLED or STATUS_GONE.
 	 */
-	abstract int hasPrev();
+	public abstract boolean hasPrev();
 
 	/**
 	 * Returns the next page.
 	 * @return Next page
 	 */
-	RelativePagerFragment getNext() {
+	public RelativePagerFragment getNext() {
 		return null;
 	}
 
@@ -53,7 +74,7 @@ public abstract class RelativePagerFragment extends Fragment {
 	 * Returns the previous page.
 	 * @return Previous page
 	 */
-	RelativePagerFragment getPrev() {
+	public RelativePagerFragment getPrev() {
 		return null;
 	}
 
@@ -63,7 +84,7 @@ public abstract class RelativePagerFragment extends Fragment {
 	void onPageVisible() {
 	}
 
-	interface OnStatusChangeListener {
+	public interface OnStatusChangeListener {
 		void onStatusChanged();
 	}
 }
