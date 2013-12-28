@@ -44,6 +44,7 @@ public class RelativeViewPager extends ViewPager {
 	private float x = -1;
 
 	private int currPosition = 0;
+	private OnRelativePageChangeListener pageChangeListener;
 
 	public RelativeViewPager(Context context) {
 		super(context);
@@ -92,6 +93,9 @@ public class RelativeViewPager extends ViewPager {
 		setPagingPrevEnabled(adapter.getCurrentFragment().hasPrev());
 
 		adapter.getCurrentFragment().onPageActive();
+		if (pageChangeListener != null) {
+			pageChangeListener.onPageSelected(adapter.getCurrentFragment());
+		}
 	}
 
 	@Override
@@ -149,5 +153,13 @@ public class RelativeViewPager extends ViewPager {
 
 	public void setPagingNextEnabled(boolean enabled) {
 		this.enabledNext = enabled;
+	}
+
+	public void setOnRelativePageChangeListener(OnRelativePageChangeListener listener) {
+		pageChangeListener = listener;
+	}
+
+	public interface OnRelativePageChangeListener {
+		public void onPageSelected(RelativePagerFragment fragment);
 	}
 }

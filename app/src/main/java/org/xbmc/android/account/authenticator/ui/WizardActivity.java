@@ -30,6 +30,7 @@ import co.juliansuarez.libwizardpager.wizard.ui.StepPagerStrip;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.view.RelativePagerAdapter;
+import org.xbmc.android.view.RelativePagerFragment;
 import org.xbmc.android.view.RelativeViewPager;
 
 import static org.xbmc.android.account.authenticator.ui.WizardFragment.*;
@@ -66,6 +67,15 @@ public class WizardActivity extends SherlockFragmentActivity {
 		pagerStrip.setCurrentPage(0);
 
 		pager.setAdapter(adapter);
+		pager.setOnRelativePageChangeListener(new RelativeViewPager.OnRelativePageChangeListener() {
+			@Override
+			public void onPageSelected(RelativePagerFragment f) {
+				final WizardFragment fragment = (WizardFragment)f;
+				pagerStrip.setCurrentPage(fragment.getStep());
+				updateBottomBar(fragment);
+			}
+		});
+
 
 		nextButton.setOnClickListener(new View.OnClickListener() {
 			@Override
