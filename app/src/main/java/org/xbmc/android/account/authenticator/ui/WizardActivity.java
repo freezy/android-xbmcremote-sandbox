@@ -96,12 +96,8 @@ public class WizardActivity extends SherlockFragmentActivity {
 	private void updateBottomBar(WizardFragment fragment) {
 		updateButton(nextButton, fragment.hasNextButton());
 		updateButton(prevButton, fragment.hasPrevButton());
-		if (fragment.getNextButtonLabel() != 0) {
-			nextButton.setText(fragment.getNextButtonLabel());
-		}
-		if (fragment.getPrevButtonLabel() != 0) {
-			nextButton.setText(fragment.getPrevButtonLabel());
-		}
+		nextButton.setText(fragment.getNextButtonLabel());
+		prevButton.setText(fragment.getPrevButtonLabel());
 	}
 
 	private static void updateButton(Button button, int state) {

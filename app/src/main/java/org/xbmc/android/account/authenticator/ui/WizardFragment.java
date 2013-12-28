@@ -22,6 +22,7 @@
 package org.xbmc.android.account.authenticator.ui;
 
 import android.app.Activity;
+import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.view.RelativePagerFragment;
 
 /**
@@ -51,11 +52,11 @@ public abstract class WizardFragment extends RelativePagerFragment {
 	abstract int hasPrevButton();
 
 	public int getNextButtonLabel() {
-		return 0;
+		return R.string.next;
 	}
 
 	public int getPrevButtonLabel() {
-		return 0;
+		return R.string.prev;
 	}
 
 	/**
