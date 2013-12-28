@@ -27,6 +27,8 @@ import org.xbmc.android.view.RelativePagerFragment;
 
 public class Step1WelcomeFragment extends WizardFragment {
 
+	RelativePagerFragment next;
+
 	public Step1WelcomeFragment(Activity activity, OnStatusChangeListener statusChangeListener) {
 		super(R.layout.fragment_auth_wizard_01_welcome, activity, statusChangeListener);
 	}
@@ -48,6 +50,9 @@ public class Step1WelcomeFragment extends WizardFragment {
 
 	@Override
 	public RelativePagerFragment getNext() {
-		return new Step2aSearchingFragment(activity, statusChangeListener);
+		if (next == null) {
+			next = new Step2aSearchingFragment(activity, statusChangeListener);
+		}
+		return next;
 	}
 }

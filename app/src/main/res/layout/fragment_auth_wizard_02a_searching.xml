@@ -6,11 +6,12 @@
 			android:id="@+id/title"/>
 
 	<ProgressBar
-			android:id="@+id/pb_loading"
+			android:id="@+id/spinner"
 			style="@style/Spinner"
 			android:layout_width="96dp"
 			android:layout_height="96dp"
 			android:layout_centerVertical="true"
-			android:layout_centerHorizontal="true" />
+			android:layout_centerHorizontal="true"
+			android:visibility="invisible"/>
 
 </RelativeLayout>
