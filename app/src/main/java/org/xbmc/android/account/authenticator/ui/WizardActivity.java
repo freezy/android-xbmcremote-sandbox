@@ -49,7 +49,8 @@ public class WizardActivity extends SherlockFragmentActivity {
 		setTitle(R.string.accountwizard_title);
 		ButterKnife.inject(this);
 
-		final RelativePagerAdapter adapter = new RelativePagerAdapter(getSupportFragmentManager(), null);
+		final AbstractWizardFragment firstPage = new Step1WelcomeFragment(this, null);
+		final RelativePagerAdapter adapter = new RelativePagerAdapter(getSupportFragmentManager(), firstPage);
 		pagerStrip.setOnPageSelectedListener(new StepPagerStrip.OnPageSelectedListener() {
 			@Override
 			public void onPageStripSelected(int position) {

@@ -56,6 +56,9 @@ public class RelativeViewPager extends ViewPager {
 	private void initRelativeViewPager() {
 
 		setCurrentItem(RelativePagerAdapter.PAGE_POSITION_CENTER);
+		setPagingNextEnabled(adapter.getCurrentFragment().hasNext());
+		setPagingPrevEnabled(adapter.getCurrentFragment().hasPrev());
+
 		setOnPageChangeListener(new OnPageChangeListener() {
 
 			@Override
@@ -80,6 +83,9 @@ public class RelativeViewPager extends ViewPager {
 						adapter.move(-1);
 					}
 					setCurrentItem(RelativePagerAdapter.PAGE_POSITION_CENTER, false);
+
+					setPagingNextEnabled(adapter.getCurrentFragment().hasNext());
+					setPagingPrevEnabled(adapter.getCurrentFragment().hasPrev());
 				}
 			}
 		});

@@ -53,9 +53,9 @@ public class RelativePagerAdapter extends FragmentStatePagerAdapter {
 
 	public void move(int direction) {
 		if (direction == 1) {
-			currFragment = currFragment.getPrev();
+			currFragment = currFragment.hasPrev() ? currFragment.getPrev() : currFragment;
 		} else {
-			currFragment = currFragment.getNext();
+			currFragment = currFragment.hasNext() ? currFragment.getNext() : currFragment;
 		}
 		notifyDataSetChanged();
 	}
@@ -72,9 +72,9 @@ public class RelativePagerAdapter extends FragmentStatePagerAdapter {
 	@Override
 	public Fragment getItem(int position) {
 		if (position == PAGE_POSITION_RIGHT) {
-			return currFragment.getNext();
+			return currFragment.hasNext() ? currFragment.getNext() : new Fragment();
 		} else if (position == PAGE_POSITION_LEFT) {
-			return currFragment.getPrev();
+			return currFragment.hasPrev() ? currFragment.getPrev() : new Fragment();
 		} else {
 			return currFragment;
 		}
