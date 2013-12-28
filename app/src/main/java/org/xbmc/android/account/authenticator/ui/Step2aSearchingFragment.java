@@ -34,18 +34,20 @@ import org.xbmc.android.zeroconf.DiscoveryService;
 
 import javax.inject.Inject;
 
-public class Step2aSearchingFragment extends AbstractWizardFragment {
+public class Step2aSearchingFragment extends WizardFragment {
 
 	@Inject protected EventBus bus;
 
-	private AbstractWizardFragment next = new Step2bNothingFoundFragment(activity, statusChangeListener);
-	private AbstractWizardFragment prev = new Step1WelcomeFragment(activity, statusChangeListener);
+	private WizardFragment next;
+	private WizardFragment prev;
 
-	private int hasNext = STATUS_DISABLED;
-	private int hasPrev = STATUS_DISABLED;
+	private int nextStatus = STATUS_DISABLED;
 
 	public Step2aSearchingFragment(Activity activity, OnStatusChangeListener statusChangeListener) {
 		super(R.layout.fragment_auth_wizard_02a_searching, activity, statusChangeListener);
+		next = new Step2bNothingFoundFragment(activity, statusChangeListener);
+		prev = new Step1WelcomeFragment(activity, statusChangeListener);
+
 	}
 
 	@Override
@@ -58,31 +60,36 @@ public class Step2aSearchingFragment extends AbstractWizardFragment {
 	public void onEventMainThread(ZeroConf event) {
 		Log.d(Step2aSearchingFragment.class.getSimpleName(), "Got event from bus: " + event);
 		if (event.isFinished()) {
-			hasNext = STATUS_ENABLED;
-			hasNext = STATUS_ENABLED;
-			statusChangeListener.onStatusChanged();
+			nextStatus = STATUS_ENABLED;
+			statusChangeListener.onNextPage();
 		}
 	}
 
 	@Override
-	void onPageVisible() {
+	public void onPageActive() {
+		Log.d("Step2aSearchingFragment", "*** onPageActive()");
 		activity.startService(new Intent(activity, DiscoveryService.class));
 	}
 
 	@Override
 	int hasNextButton() {
-		return hasNext;
+		return nextStatus;
 	}
 
 	@Override
 	int hasPrevButton() {
-		return hasPrev;
+		return STATUS_DISABLED;
 	}
-
 
 	@Override
 	int getStep() {
 		return 1;
+	}
+
+	@Override
+	public void onDestroy() {
+		bus.unregister(this);
+		super.onDestroy();
 	}
 
 	@Override
@@ -95,9 +102,5 @@ public class Step2aSearchingFragment extends AbstractWizardFragment {
 		return prev;
 	}
 
-	@Override
-	public void onDestroy() {
-		bus.unregister(this);
-		super.onDestroy();
-	}
+
 }

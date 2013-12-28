@@ -79,12 +79,14 @@ public abstract class RelativePagerFragment extends Fragment {
 	}
 
 	/**
-	 * Executed when the fragment comes into view
+	 * Executed when the fragment is settled.
 	 */
-	void onPageVisible() {
+	public void onPageActive() {
 	}
 
 	public interface OnStatusChangeListener {
 		void onStatusChanged();
+		void onNextPage();
+		void onPrevPage();
 	}
 }

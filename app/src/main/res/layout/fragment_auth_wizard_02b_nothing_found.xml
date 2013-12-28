@@ -15,17 +15,6 @@
 			android:layout_alignParentLeft="true"
 			android:id="@+id/p2"/>
 
-	<Button
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/retry"
-			android:id="@+id/button"
-			android:layout_below="@+id/p2"
-			android:layout_centerHorizontal="true"
-			android:layout_marginTop="40dp"
-			android:paddingLeft="50dp"
-			android:paddingRight="50dp"/>
-
 	<TextView style="@style/WizardPageText" android:text="@string/accountwizard_step2b_p3"
 			android:id="@+id/p3"
 			android:layout_marginBottom="15dp"

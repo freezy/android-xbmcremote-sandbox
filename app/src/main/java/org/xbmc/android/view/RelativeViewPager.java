@@ -55,10 +55,6 @@ public class RelativeViewPager extends ViewPager {
 
 	private void initRelativeViewPager() {
 
-		setCurrentItem(RelativePagerAdapter.PAGE_POSITION_CENTER);
-		setPagingNextEnabled(adapter.getCurrentFragment().hasNext());
-		setPagingPrevEnabled(adapter.getCurrentFragment().hasPrev());
-
 		setOnPageChangeListener(new OnPageChangeListener() {
 
 			@Override
@@ -82,19 +78,26 @@ public class RelativeViewPager extends ViewPager {
 					} else if (currPosition == RelativePagerAdapter.PAGE_POSITION_RIGHT) {
 						adapter.move(-1);
 					}
-					setCurrentItem(RelativePagerAdapter.PAGE_POSITION_CENTER, false);
-
-					setPagingNextEnabled(adapter.getCurrentFragment().hasNext());
-					setPagingPrevEnabled(adapter.getCurrentFragment().hasPrev());
+					onPageActive();
 				}
 			}
 		});
+		onPageActive();
+	}
+
+	private void onPageActive() {
+		setCurrentItem(RelativePagerAdapter.PAGE_POSITION_CENTER, false);
+
+		setPagingNextEnabled(adapter.getCurrentFragment().hasNext());
+		setPagingPrevEnabled(adapter.getCurrentFragment().hasPrev());
+
+		adapter.getCurrentFragment().onPageActive();
 	}
 
 	@Override
 	public final void setCurrentItem(final int item) {
 		if (item != RelativePagerAdapter.PAGE_POSITION_CENTER) {
-			throw new RuntimeException("Cannot change page index unless its 1.");
+		//	throw new RuntimeException("Cannot change page index unless its 1.");
 		}
 		super.setCurrentItem(item);
 	}
@@ -103,8 +106,12 @@ public class RelativeViewPager extends ViewPager {
 	public void setAdapter(final PagerAdapter adapter) {
 		if (adapter instanceof RelativePagerAdapter) {
 			super.setAdapter(adapter);
+
 			this.adapter = (RelativePagerAdapter)adapter;
+			this.adapter.setPager(this);
+
 			initRelativeViewPager();
+
 		} else {
 			throw new IllegalArgumentException("Adapter must be an instance of RelativePagerAdapter.");
 		}

@@ -25,7 +25,7 @@ import android.app.Activity;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.view.RelativePagerFragment;
 
-public class Step1WelcomeFragment extends AbstractWizardFragment {
+public class Step1WelcomeFragment extends WizardFragment {
 
 	public Step1WelcomeFragment(Activity activity, OnStatusChangeListener statusChangeListener) {
 		super(R.layout.fragment_auth_wizard_01_welcome, activity, statusChangeListener);

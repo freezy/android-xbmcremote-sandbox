@@ -25,13 +25,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import static org.xbmc.android.view.RelativePagerFragment.OnStatusChangeListener;
+
 /**
  * A pager adapter that relies on the currently displayed fragment to deliver the
  * next or previous page, as opposed to a global list of fragments.
  *
  * @author freezy <freezy@xbmc.org>
  */
-public class RelativePagerAdapter extends FragmentStatePagerAdapter {
+public class RelativePagerAdapter extends FragmentStatePagerAdapter implements OnStatusChangeListener {
 
 	public static final int PAGE_POSITION_LEFT = 0;
 	public static final int PAGE_POSITION_CENTER = 1;
@@ -40,10 +42,18 @@ public class RelativePagerAdapter extends FragmentStatePagerAdapter {
 	public static final int NUM_ITEMS = 3;
 
 	private RelativePagerFragment currFragment;
+	private RelativeViewPager pager;
 
-	public RelativePagerAdapter(FragmentManager fm, RelativePagerFragment initialFragment) {
+	public RelativePagerAdapter(FragmentManager fm) {
 		super(fm);
-		currFragment = initialFragment;
+	}
+
+	public void setInitialFragment(RelativePagerFragment fragment) {
+		currFragment = fragment;
+	}
+
+	public void setPager(RelativeViewPager p) {
+		pager = p;
 	}
 
 	@Override
@@ -71,6 +81,9 @@ public class RelativePagerAdapter extends FragmentStatePagerAdapter {
 
 	@Override
 	public Fragment getItem(int position) {
+		if (currFragment == null) {
+			throw new RuntimeException("Must set initial fragment before view is rendered.");
+		}
 		if (position == PAGE_POSITION_RIGHT) {
 			return currFragment.hasNext() ? currFragment.getNext() : new Fragment();
 		} else if (position == PAGE_POSITION_LEFT) {
@@ -78,5 +91,22 @@ public class RelativePagerAdapter extends FragmentStatePagerAdapter {
 		} else {
 			return currFragment;
 		}
+	}
+
+	@Override
+	public void onStatusChanged() {
+		notifyDataSetChanged();
+	}
+
+	@Override
+	public void onNextPage() {
+		notifyDataSetChanged();
+		pager.setCurrentItem(PAGE_POSITION_RIGHT, true);
+	}
+
+	@Override
+	public void onPrevPage() {
+		notifyDataSetChanged();
+		pager.setCurrentItem(PAGE_POSITION_LEFT, true);
 	}
 }

@@ -32,7 +32,7 @@ import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.view.RelativePagerAdapter;
 import org.xbmc.android.view.RelativeViewPager;
 
-import static org.xbmc.android.account.authenticator.ui.AbstractWizardFragment.*;
+import static org.xbmc.android.account.authenticator.ui.WizardFragment.*;
 
 public class WizardActivity extends SherlockFragmentActivity {
 
@@ -49,8 +49,10 @@ public class WizardActivity extends SherlockFragmentActivity {
 		setTitle(R.string.accountwizard_title);
 		ButterKnife.inject(this);
 
-		final AbstractWizardFragment firstPage = new Step1WelcomeFragment(this, null);
-		final RelativePagerAdapter adapter = new RelativePagerAdapter(getSupportFragmentManager(), firstPage);
+		final RelativePagerAdapter adapter = new RelativePagerAdapter(getSupportFragmentManager());
+		final WizardFragment firstPage = new Step1WelcomeFragment(this, adapter);
+		adapter.setInitialFragment(firstPage);
+
 		pagerStrip.setOnPageSelectedListener(new StepPagerStrip.OnPageSelectedListener() {
 			@Override
 			public void onPageStripSelected(int position) {
@@ -68,22 +70,28 @@ public class WizardActivity extends SherlockFragmentActivity {
 		nextButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				pager.setCurrentItem(pager.getCurrentItem() + 1);
+				adapter.onNextPage();
 			}
 		});
 		prevButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				pager.setCurrentItem(pager.getCurrentItem() - 1);
+				adapter.onPrevPage();
 			}
 		});
 
-		updateBottomBar((AbstractWizardFragment)adapter.getCurrentFragment());
+		updateBottomBar((WizardFragment)adapter.getCurrentFragment());
 	}
 
-	private void updateBottomBar(AbstractWizardFragment fragment) {
+	private void updateBottomBar(WizardFragment fragment) {
 		updateButton(nextButton, fragment.hasNextButton());
 		updateButton(prevButton, fragment.hasPrevButton());
+		if (fragment.getNextButtonLabel() != 0) {
+			nextButton.setText(fragment.getNextButtonLabel());
+		}
+		if (fragment.getPrevButtonLabel() != 0) {
+			nextButton.setText(fragment.getPrevButtonLabel());
+		}
 	}
 
 	private static void updateButton(Button button, int state) {

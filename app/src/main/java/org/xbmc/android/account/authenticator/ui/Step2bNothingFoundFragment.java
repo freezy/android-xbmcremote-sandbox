@@ -25,7 +25,7 @@ import android.app.Activity;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.view.RelativePagerFragment;
 
-public class Step2bNothingFoundFragment extends AbstractWizardFragment {
+public class Step2bNothingFoundFragment extends WizardFragment {
 
 	protected Step2bNothingFoundFragment(Activity activity, OnStatusChangeListener statusChangeListener) {
 		super(R.layout.fragment_auth_wizard_02b_nothing_found, activity, statusChangeListener);
@@ -39,6 +39,11 @@ public class Step2bNothingFoundFragment extends AbstractWizardFragment {
 	@Override
 	public int hasPrevButton() {
 		return STATUS_ENABLED;
+	}
+
+	@Override
+	public int getPrevButtonLabel() {
+		return R.string.retry;
 	}
 
 	@Override
