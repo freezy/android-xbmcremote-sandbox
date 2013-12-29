@@ -12,13 +12,13 @@
 				android:paddingBottom="2dp"
 				android:paddingLeft="0dp"
 				android:paddingTop="0dp"
-				android:paddingRight="10dp"
+				android:paddingRight="0dp"
 		>
 
 	<RelativeLayout
 			android:id="@+id/thumb_wrapper"
-			android:layout_width="115dp"
-			android:layout_height="115dp"
+			android:layout_width="80dp"
+			android:layout_height="80dp"
 			android:background="@drawable/bg_gradient">
 
 		<TextView
@@ -29,7 +29,7 @@
 				android:textColor="#ff767676"
 				android:layout_centerVertical="true"
 				android:layout_centerHorizontal="true"
-				android:textSize="82dp"/>
+				android:textSize="56dp"/>
 
 	</RelativeLayout>
 
@@ -61,5 +61,11 @@
 			android:maxLines="1"
 			android:ellipsize="marquee" />
 
-
+	<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="@drawable/bg_selectable"
+			android:layout_alignParentTop="true"
+			android:layout_alignParentLeft="true"
+			android:layout_alignBottom="@+id/thumb_wrapper"/>
 </RelativeLayout>

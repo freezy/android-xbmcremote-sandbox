@@ -48,6 +48,7 @@
 	<string name="accountwizard_step2b_p3"><i>If you need help configuring XBMC, you will find some tips and tricks on the XBMC forum.</i></string>
 	<string name="accountwizard_step3a_title">XBMC found.</string>
 	<string name="accountwizard_step3a_p1">Please select the instance you want to set up below.</string>
+	<string name="accountwizard_step3a_prev">Scan Again</string>
 
 	<string name="addaccount_username_label">Username</string>
 	<string name="addaccount_password_label">Password</string>

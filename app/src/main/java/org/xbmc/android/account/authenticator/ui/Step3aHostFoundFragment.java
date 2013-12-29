@@ -28,9 +28,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.*;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import org.xbmc.android.app.ui.IconHelper;
@@ -52,6 +50,8 @@ public class Step3aHostFoundFragment extends WizardFragment {
 		super(R.layout.fragment_auth_wizard_03a_host_found, activity, statusChangeListener);
 		this.hosts = hosts;
 		this.iconFont =  IconHelper.getTypeface(activity.getApplicationContext());
+
+//		this.hosts.add(new XBMCHost("192.168.0.100", "aquarium", 8080));
 	}
 
 	@Override
@@ -67,16 +67,28 @@ public class Step3aHostFoundFragment extends WizardFragment {
 
 		final HostListAdapter adapter = new HostListAdapter(activity.getApplicationContext(), R.layout.list_item_host_wide, hosts);
 		listView.setAdapter(adapter);
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				final XBMCHost host = hosts.get(position);
+				Toast.makeText(activity.getApplicationContext(), host.getAddress(), Toast.LENGTH_LONG).show();
+			}
+		});
 	}
 
 	@Override
 	public int hasNextButton() {
-		return STATUS_ENABLED;
+		return STATUS_GONE;
 	}
 
 	@Override
 	public int hasPrevButton() {
 		return STATUS_ENABLED;
+	}
+
+	@Override
+	public int getPrevButtonLabel() {
+		return R.string.accountwizard_step3a_prev;
 	}
 
 	@Override

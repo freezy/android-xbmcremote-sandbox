@@ -17,7 +17,10 @@
 			android:layout_below="@+id/p1"
 			android:layout_centerHorizontal="true"
 			android:layout_marginTop="20dp"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="10dp"
 			android:divider="@android:color/transparent"
-			android:dividerHeight="15dp"/>
+			android:dividerHeight="15dp"
+			android:paddingBottom="15dp"/>
 
 </RelativeLayout>
