@@ -84,7 +84,7 @@ public class Step2aSearchingFragment extends WizardFragment {
 		if (event.isFinished()) {
 			nextStatus = STATUS_ENABLED;
 			if (!hosts.isEmpty()) {
-				next = new Step3aHostFoundFragment(activity, statusChangeListener);
+				next = new Step3aHostFoundFragment(hosts, activity, statusChangeListener);
 			}
 			statusChangeListener.onNextPage();
 		}

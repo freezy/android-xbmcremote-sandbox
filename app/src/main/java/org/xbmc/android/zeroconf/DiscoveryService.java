@@ -55,7 +55,7 @@ public class DiscoveryService extends IntentService {
 
 	@Inject protected EventBus bus;
 
-	private static final int TIMEOUT = 10000;
+	private static final int TIMEOUT = 3000;
 //	private static final String SERVICENAME_JSONRPC = "_xbmc-jsonrpc._tcp.local.";
 	private static final String SERVICENAME_JSONRPC = "_xbmc-jsonrpc-h._tcp.local.";
 
@@ -90,7 +90,7 @@ public class DiscoveryService extends IntentService {
 			}
 		} catch (UnknownHostException e) {
 			Log.e(TAG, "Cannot parse Wifi IP address.", e);
-			// continue, JmDNS can also run with IP address.
+			// continue, JmDNS can also run without IP address.
 		}
 
 		acquireMulticastLock();

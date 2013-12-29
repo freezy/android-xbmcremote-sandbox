@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="6dp"
+				android:layout_marginRight="6dp"
+				android:layout_marginTop="6dp"
+				android:layout_marginBottom="6dp"
+				android:background="@drawable/bg_card"
+				android:paddingBottom="2dp"
+				android:paddingLeft="0dp"
+				android:paddingTop="0dp"
+				android:paddingRight="10dp"
+		>
+
+	<RelativeLayout
+			android:id="@+id/thumb_wrapper"
+			android:layout_width="115dp"
+			android:layout_height="115dp"
+			android:background="@drawable/bg_gradient">
+
+		<TextView
+				android:id="@+id/list_icon"
+				android:text="@string/ic_tv"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textColor="#ff767676"
+				android:layout_centerVertical="true"
+				android:layout_centerHorizontal="true"
+				android:textSize="82dp"/>
+
+	</RelativeLayout>
+
+	<TextView
+			android:id="@+id/title_host"
+			android:text="title_host"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignTop="@+id/thumb_wrapper"
+			android:layout_toRightOf="@+id/thumb_wrapper"
+			android:layout_marginTop="10dp"
+			android:layout_marginLeft="15dp"
+			android:textAppearance="?android:attr/textAppearanceLarge"
+			android:textColor="@color/light_primary_text"
+			android:fontFamily="sans-serif-light"
+			android:maxLines="2"
+			android:ellipsize="marquee" />
+
+	<TextView
+			android:id="@+id/address_host"
+			android:text="address_host"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignLeft="@+id/title_host"
+			android:layout_below="@+id/title_host"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:textColor="@color/light_secondry_text"
+			android:fontFamily="sans-serif-light"
+			android:maxLines="1"
+			android:ellipsize="marquee" />
+
+
+</RelativeLayout>

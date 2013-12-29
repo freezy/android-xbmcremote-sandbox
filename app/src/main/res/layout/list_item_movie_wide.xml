@@ -15,7 +15,7 @@
 				android:paddingRight="10dp">
 
 	<RelativeLayout
-			android:id="@+id/list_movie_poster_wrapper"
+			android:id="@+id/thumb_wrapper"
 			android:layout_width="80dp"
 			android:layout_height="118dp">
 
@@ -36,8 +36,8 @@
 			android:text="title_movie"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_alignTop="@+id/list_movie_poster_wrapper"
-			android:layout_toRightOf="@+id/list_movie_poster_wrapper"
+			android:layout_alignTop="@+id/thumb_wrapper"
+			android:layout_toRightOf="@+id/thumb_wrapper"
 			android:layout_marginTop="5dp"
 			android:layout_marginLeft="10dp"
 			android:textAppearance="?android:attr/textAppearanceLarge"
@@ -80,7 +80,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignLeft="@+id/title_movie"
-			android:layout_alignBottom="@+id/list_movie_poster_wrapper"
+			android:layout_alignBottom="@+id/thumb_wrapper"
 			android:textAppearance="?android:attr/textAppearanceLarge"
 			android:textColor="@color/light_secondry_text"
 			android:textSize="18dp"

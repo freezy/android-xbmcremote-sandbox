@@ -22,13 +22,51 @@
 package org.xbmc.android.account.authenticator.ui;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import org.xbmc.android.app.ui.IconHelper;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.view.RelativePagerFragment;
+import org.xbmc.android.zeroconf.XBMCHost;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Step3aHostFoundFragment extends WizardFragment {
 
-	protected Step3aHostFoundFragment(Activity activity, OnStatusChangeListener statusChangeListener) {
+	private final ArrayList<XBMCHost> hosts;
+	private final Typeface iconFont;
+
+	@InjectView(R.id.list) ListView listView;
+
+	protected Step3aHostFoundFragment(ArrayList<XBMCHost> hosts,  Activity activity, OnStatusChangeListener statusChangeListener) {
 		super(R.layout.fragment_auth_wizard_03a_host_found, activity, statusChangeListener);
+		this.hosts = hosts;
+		this.iconFont =  IconHelper.getTypeface(activity.getApplicationContext());
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		final View v = super.onCreateView(inflater, container, savedInstanceState);
+		ButterKnife.inject(this, v);
+		return v;
+	}
+
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+
+		final HostListAdapter adapter = new HostListAdapter(activity.getApplicationContext(), R.layout.list_item_host_wide, hosts);
+		listView.setAdapter(adapter);
 	}
 
 	@Override
@@ -48,11 +86,41 @@ public class Step3aHostFoundFragment extends WizardFragment {
 
 	@Override
 	public RelativePagerFragment getNext() {
-		return new Step3aHostFoundFragment(activity, statusChangeListener);
+		return new Step2aSearchingFragment(activity, statusChangeListener);
 	}
 
 	@Override
 	public RelativePagerFragment getPrev() {
 		return new Step2aSearchingFragment(activity, statusChangeListener);
 	}
+
+	private class HostListAdapter extends ArrayAdapter<XBMCHost> {
+
+		private final Context context;
+		private final List<XBMCHost> values;
+
+		public HostListAdapter(Context context, int resource, List<XBMCHost> values) {
+			super(context, resource, values);
+			this.context = context;
+			this.values = values;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+
+			final LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			final View rowView = inflater.inflate(R.layout.list_item_host_wide, parent, false);
+			final TextView iconView = (TextView) rowView.findViewById(R.id.list_icon);
+			final TextView titleView = (TextView) rowView.findViewById(R.id.title_host);
+			final TextView subtitleView = (TextView) rowView.findViewById(R.id.address_host);
+
+			iconView.setTypeface(iconFont);
+			titleView.setText(values.get(position).getHost());
+			subtitleView.setText(values.get(position).getAddress());
+
+			return rowView;
+		}
+
+	}
+
 }
