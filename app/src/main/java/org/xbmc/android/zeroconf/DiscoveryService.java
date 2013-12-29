@@ -55,16 +55,14 @@ public class DiscoveryService extends IntentService {
 
 	@Inject protected EventBus bus;
 
-	private static final int TIMEOUT = 2000;
-	private static final String SERVICENAME_JSONRPC = "_xbmc-jsonrpc._tcp.local.";
+	private static final int TIMEOUT = 10000;
+//	private static final String SERVICENAME_JSONRPC = "_xbmc-jsonrpc._tcp.local.";
+	private static final String SERVICENAME_JSONRPC = "_xbmc-jsonrpc-h._tcp.local.";
 
-
-	public static final String EXTRA_HOST = "org.xbmc.android.zeroconf.extra.HOST";
-
-	private WifiManager mWifiManager;
-	private MulticastLock mMulticastLock;
-	private InetAddress mWifiAddress = null;
-	private JmDNS mJmDns = null;
+	private WifiManager wifiManager;
+	private MulticastLock multicastLock;
+	private InetAddress wifiAddress = null;
+	private JmDNS jmDns = null;
 
 	private ServiceListener mListener = null;
 
@@ -76,17 +74,17 @@ public class DiscoveryService extends IntentService {
 	public void onCreate() {
 		super.onCreate();
 		Injector.inject(this);
-		mWifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+		wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 	}
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
 
 		try {
-			final int ipAddress = mWifiManager.getConnectionInfo().getIpAddress();
+			final int ipAddress = wifiManager.getConnectionInfo().getIpAddress();
 			if (ipAddress != 0) {
-				mWifiAddress = InetAddress.getByName(Formatter.formatIpAddress(ipAddress));
-				Log.i(TAG, "Discovering XBMC hosts through " + mWifiAddress.getHostAddress() + "...");
+				wifiAddress = InetAddress.getByName(Formatter.formatIpAddress(ipAddress));
+				Log.i(TAG, "Discovering XBMC hosts through " + wifiAddress.getHostAddress() + "...");
 			} else {
 				Log.i(TAG, "Discovering XBMC hosts on all interfaces...");
 			}
@@ -118,17 +116,17 @@ public class DiscoveryService extends IntentService {
 	private void listen() {
 
 		try {
-			if (mWifiAddress == null) {
-				mJmDns = JmDNS.create();
+			if (wifiAddress == null) {
+				jmDns = JmDNS.create();
 			} else {
-				mJmDns = JmDNS.create(mWifiAddress);
+				jmDns = JmDNS.create(wifiAddress);
 			}
-			mJmDns.addServiceListener(SERVICENAME_JSONRPC, mListener = new ServiceListener() {
+			jmDns.addServiceListener(SERVICENAME_JSONRPC, mListener = new ServiceListener() {
 
 				@Override
 				public void serviceResolved(ServiceEvent event) {
 					Log.d(TAG, "Service resolved: " + event.getName() + " / " + event.getType());
-					notifyEvent(event);
+					DiscoveryService.this.serviceResolved(event);
 				}
 
 				@Override
@@ -141,7 +139,7 @@ public class DiscoveryService extends IntentService {
 					Log.d(TAG, "Service added:" + event.getName() + " / " + event.getType());
 					// Required to force serviceResolved to be called
 					// again (after the first search)
-					mJmDns.requestServiceInfo(event.getType(), event.getName(), 1);
+					jmDns.requestServiceInfo(event.getType(), event.getName(), 1);
 				}
 			});
 		} catch (IOException e) {
@@ -150,10 +148,10 @@ public class DiscoveryService extends IntentService {
 		}
 	}
 
-	private void notifyEvent(ServiceEvent event) {
+	private void serviceResolved(ServiceEvent event) {
 		final InetAddress[] addresses = event.getInfo().getInet4Addresses();
 		final String hostname = event.getInfo().getServer().replace(".local.", "");
-		XBMCHost host = null;
+		final XBMCHost host;
 		if (addresses.length == 0) {
 			Inet6Address[] v6addresses = event.getInfo().getInet6Addresses();
 			if (v6addresses.length == 0) {
@@ -161,48 +159,38 @@ public class DiscoveryService extends IntentService {
 				bus.post(new ZeroConf(STATUS_ERROR));
 				return;
 			} else {
-				for (int i = 0; i < v6addresses.length; ) {
-					host = new XBMCHost(v6addresses[i].getHostAddress(), hostname, event.getInfo().getPort());
-					break;
-				}
+				host = new XBMCHost(v6addresses[0].getHostAddress(), hostname, event.getInfo().getPort());
 			}
 		} else {
-			for (int i = 0; i < addresses.length; ) {
-				Log.i(TAG, "IP address: " + addresses[i].getHostAddress());
-				host = new XBMCHost(addresses[i].getHostAddress(), hostname, event.getInfo().getPort());
-				break;
-			}
+			Log.d(TAG, "Discovered IP address: " + addresses[0].getHostAddress());
+			host = new XBMCHost(addresses[0].getHostAddress(), hostname, event.getInfo().getPort());
 		}
 
-		if (host != null) {
-			bus.post(new ZeroConf(STATUS_RESOLVED, host));
-		} else {
-			bus.post(new ZeroConf(STATUS_ERROR));
-		}
+		bus.post(new ZeroConf(STATUS_RESOLVED, host));
 	}
 
 	private void acquireMulticastLock() {
-		mMulticastLock = mWifiManager.createMulticastLock("xbmc-zeroconf-discover");
-		mMulticastLock.setReferenceCounted(true);
-		mMulticastLock.acquire();
+		multicastLock = wifiManager.createMulticastLock("xbmc-zeroconf-discover");
+		multicastLock.setReferenceCounted(true);
+		multicastLock.acquire();
 		Log.d(TAG, "Multicast lock acquired.");
 	}
 
 	private void releaseMulticastLock() {
 		Log.d(TAG, "Multicast lock released.");
-		if (mJmDns != null) {
+		if (jmDns != null) {
 			if (mListener != null) {
-				mJmDns.removeServiceListener(SERVICENAME_JSONRPC, mListener);
+				jmDns.removeServiceListener(SERVICENAME_JSONRPC, mListener);
 				mListener = null;
 			}
 			try {
-				mJmDns.unregisterAllServices();
-				mJmDns.close();
+				jmDns.unregisterAllServices();
+				jmDns.close();
 			} catch (IOException e) {
 				Log.e(TAG, "Error closing JmDNS: " + e.getMessage(), e);
 			}
-			mJmDns = null;
+			jmDns = null;
 		}
-		mMulticastLock.release();
+		multicastLock.release();
 	}
 }

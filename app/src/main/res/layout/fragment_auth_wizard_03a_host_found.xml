@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		style="@style/WizardPageContainer">
+
+	<TextView style="@style/WizardPageTitle" android:text="@string/accountwizard_step3a_title"
+			android:id="@+id/title"/>
+
+	<TextView style="@style/WizardPageText" android:text="@string/accountwizard_step3a_p1"
+			android:layout_below="@+id/title"
+			android:layout_alignParentRight="true"
+			android:id="@+id/p1"/>
+
+</RelativeLayout>

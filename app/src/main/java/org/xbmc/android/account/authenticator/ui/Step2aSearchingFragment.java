@@ -78,15 +78,15 @@ public class Step2aSearchingFragment extends WizardFragment {
 
 	public void onEventMainThread(ZeroConf event) {
 		Log.d(Step2aSearchingFragment.class.getSimpleName(), "Got event from bus: " + event);
+		if (event.isResolved()) {
+			hosts.add(event.getHost());
+		}
 		if (event.isFinished()) {
 			nextStatus = STATUS_ENABLED;
 			if (!hosts.isEmpty()) {
-				
+				next = new Step3aHostFoundFragment(activity, statusChangeListener);
 			}
 			statusChangeListener.onNextPage();
-		}
-		if (event.isResolved()) {
-			hosts.add(event.getHost());
 		}
 	}
 
@@ -128,6 +128,5 @@ public class Step2aSearchingFragment extends WizardFragment {
 	public RelativePagerFragment getPrev() {
 		return prev;
 	}
-
 
 }
