@@ -70,6 +70,8 @@
 	</style>
 
 	<style name="ButtonBarButton">
+		<item name="android:textColor">@color/light_button_text</item>
+		<item name="android:fontFamily">sans-serif-light</item>
 		<!--item name="android:minHeight">@dimen/list_item_height_small</item-->
 	</style>
 

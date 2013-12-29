@@ -22,6 +22,7 @@
 	<color name="light_bg">#e4e4e4</color>
 	<color name="light_primary_text">#af000000</color>
 	<color name="light_secondry_text">#80000000</color>
+	<color name="light_tertiary_text">#80808080</color>
 
 	<color name="dark_bg">#323131</color>
 	<color name="dark_primary_text">#ffffff</color>

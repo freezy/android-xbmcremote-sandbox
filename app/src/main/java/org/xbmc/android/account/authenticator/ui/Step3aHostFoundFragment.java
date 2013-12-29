@@ -51,7 +51,7 @@ public class Step3aHostFoundFragment extends WizardFragment {
 		this.hosts = hosts;
 		this.iconFont =  IconHelper.getTypeface(activity.getApplicationContext());
 
-//		this.hosts.add(new XBMCHost("192.168.0.100", "aquarium", 8080));
+		this.hosts.add(new XBMCHost("192.168.0.100", "aquarium", 8080));
 	}
 
 	@Override
