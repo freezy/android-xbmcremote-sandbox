@@ -159,11 +159,11 @@ public class DiscoveryService extends IntentService {
 				bus.post(new ZeroConf(STATUS_ERROR));
 				return;
 			} else {
-				host = new XBMCHost(v6addresses[0].getHostAddress(), hostname, event.getInfo().getPort());
+				host = new XBMCHost(v6addresses[0].getHostAddress(), hostname, event.getInfo().getPort(), event.getInfo().getName());
 			}
 		} else {
 			Log.d(TAG, "Discovered IP address: " + addresses[0].getHostAddress());
-			host = new XBMCHost(addresses[0].getHostAddress(), hostname, event.getInfo().getPort());
+			host = new XBMCHost(addresses[0].getHostAddress(), hostname, event.getInfo().getPort(), event.getInfo().getName());
 		}
 
 		bus.post(new ZeroConf(STATUS_RESOLVED, host));
