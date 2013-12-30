@@ -1,5 +1,7 @@
 package org.xbmc.android.zeroconf;
 
+import org.xbmc.android.jsonrpc.config.HostConfig;
+
 /**
  * A container that stores IP address, host and port.
  *
@@ -29,6 +31,10 @@ public class XBMCHost {
 
 	public int getPort() {
 		return port;
+	}
+
+	public HostConfig toHostConfig() {
+		return new HostConfig(address, port);
 	}
 
 	public String getName() {

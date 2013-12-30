@@ -22,9 +22,11 @@
 package org.xbmc.android.account.authenticator.ui;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +34,10 @@ import android.widget.*;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import org.xbmc.android.app.ui.IconHelper;
+import org.xbmc.android.jsonrpc.api.AbstractCall;
+import org.xbmc.android.jsonrpc.api.call.JSONRPC;
+import org.xbmc.android.jsonrpc.io.ApiCallback;
+import org.xbmc.android.jsonrpc.io.ConnectionManager;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.view.RelativePagerFragment;
 import org.xbmc.android.zeroconf.XBMCHost;
@@ -43,6 +49,7 @@ public class Step3aHostFoundFragment extends WizardFragment {
 
 	private final ArrayList<XBMCHost> hosts;
 	private final Typeface iconFont;
+	private final ProgressDialog waiting;
 
 	@InjectView(R.id.list) ListView listView;
 
@@ -50,6 +57,7 @@ public class Step3aHostFoundFragment extends WizardFragment {
 		super(R.layout.fragment_auth_wizard_03a_host_found, activity, statusChangeListener);
 		this.hosts = hosts;
 		this.iconFont =  IconHelper.getTypeface(activity.getApplicationContext());
+		this.waiting = new ProgressDialog(activity);
 
 		this.hosts.add(new XBMCHost("192.168.0.100", "aquarium", 8080, "XBMC Fake"));
 	}
@@ -65,13 +73,33 @@ public class Step3aHostFoundFragment extends WizardFragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
+		final Handler handler = new Handler();
 		final HostListAdapter adapter = new HostListAdapter(activity.getApplicationContext(), R.layout.list_item_host_wide, hosts);
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				final XBMCHost host = hosts.get(position);
-				Toast.makeText(activity.getApplicationContext(), host.getAddress(), Toast.LENGTH_LONG).show();
+				waiting.setTitle(String.format(activity.getResources().getString(R.string.accountwizard_step3a_waiting_title), host.getName()));
+				waiting.setMessage(String.format(activity.getResources().getString(R.string.accountwizard_step3a_waiting_message), host.getAddress(), host.getPort()));
+				waiting.setIndeterminate(true);
+				waiting.setCancelable(false);
+//				waiting.show();
+
+				final ConnectionManager cm = new ConnectionManager(activity.getApplicationContext(), host.toHostConfig());
+				final JSONRPC.Ping call = new JSONRPC.Ping();
+				cm.setPreferHTTP();
+				cm.call(call, handler, new ApiCallback<String>() {
+					@Override
+					public void onResponse(AbstractCall<String> call) {
+						Toast.makeText(activity.getApplicationContext(), call.getResult(), Toast.LENGTH_LONG).show();
+					}
+
+					@Override
+					public void onError(int code, String message, String hint) {
+						Toast.makeText(activity.getApplicationContext(), message + " " + hint, Toast.LENGTH_LONG).show();
+					}
+				});
 			}
 		});
 	}
@@ -136,4 +164,11 @@ public class Step3aHostFoundFragment extends WizardFragment {
 
 	}
 
+	@Override
+	public void onPause() {
+		super.onPause();
+		if (waiting.isShowing()) {
+			waiting.hide();
+		}
+	}
 }
