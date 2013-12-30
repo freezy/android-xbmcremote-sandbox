@@ -91,45 +91,57 @@ public class Step3aHostFoundFragment extends WizardFragment {
 
 				final ConnectionManager cm = new ConnectionManager(activity.getApplicationContext(), host.toHostConfig());
 				final JSONRPC.Ping call = new JSONRPC.Ping();
+
 				cm.setPreferHTTP();
-				cm.call(call, handler, new ApiCallback<String>() {
-					@Override
-					public void onResponse(AbstractCall<String> call) {
-						waiting.hide();
-						Toast.makeText(activity, call.getResult(), Toast.LENGTH_LONG).show();
-					}
-
-					@Override
-					public void onError(int code, String message, String hint) {
-						waiting.hide();
-						if (code == ApiException.HTTP_UNAUTHORIZED) {
-
-							// create login box
-							final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-							final LayoutInflater inflater = activity.getLayoutInflater();
-							builder.setView(inflater.inflate(R.layout.dialog_login, null));
-							builder.setTitle(R.string.accountwizard_step3a_login_title);
-							builder.setPositiveButton(R.string.set, new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog, int id) {
-									// sign in the user ...
-								}
-							});
-							builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog, int id) {
-									dialog.dismiss();
-								}
-							});
-							builder.create().show();
-
-						} else {
-							Toast.makeText(activity, "(" + code + ") " + message + " " + hint, Toast.LENGTH_LONG).show();
-						}
-
-					}
-				});
+				cm.call(call, handler, pingCallback(cm, host, handler, call, false));
 			}
 		});
+	}
+
+	private ApiCallback<String> pingCallback(final ConnectionManager cm, final XBMCHost host, final Handler handler, final JSONRPC.Ping call, final boolean displayError) {
+		return new ApiCallback<String>() {
+			@Override
+			public void onResponse(AbstractCall<String> call) {
+				waiting.hide();
+				Toast.makeText(activity, call.getResult(), Toast.LENGTH_LONG).show();
+			}
+
+			@Override
+			public void onError(int code, String message, String hint) {
+				waiting.hide();
+				if (code == ApiException.HTTP_UNAUTHORIZED) {
+
+					if (displayError) {
+						Toast.makeText(activity, R.string.accountwizard_step3a_login_error, Toast.LENGTH_SHORT).show();
+					}
+
+					// create login box
+					final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+					final LayoutInflater inflater = activity.getLayoutInflater();
+					final View loginView = inflater.inflate(R.layout.dialog_login, null);
+					builder.setView(loginView);
+					builder.setTitle(R.string.accountwizard_step3a_login_title);
+					builder.setPositiveButton(R.string.set, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int id) {
+							final EditText login = (EditText)loginView.findViewById(R.id.username);
+							final EditText pass = (EditText)loginView.findViewById(R.id.password);
+							host.setCredentials(login.getText().toString(), pass.getText().toString());
+							cm.setHostConfig(host.toHostConfig());
+							cm.call(call, handler, pingCallback(cm, host, handler, call, true));
+						}
+					});
+					builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							dialog.dismiss();
+						}
+					});
+					builder.create().show();
+				} else {
+					Toast.makeText(activity, "(" + code + ") " + message + " " + hint, Toast.LENGTH_LONG).show();
+				}
+			}
+		};
 	}
 
 	@Override

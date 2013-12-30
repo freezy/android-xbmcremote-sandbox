@@ -14,6 +14,9 @@ public class XBMCHost {
 	private String name;
 	private int port;
 
+	private String username;
+	private String password;
+
 	public XBMCHost(String address, String host, int port, String name) {
 		this.address = address;
 		this.host = host;
@@ -33,8 +36,17 @@ public class XBMCHost {
 		return port;
 	}
 
+	public void setCredentials(String username, String password) {
+		this.username = username;
+		this.password = password;
+	}
+
 	public HostConfig toHostConfig() {
-		return new HostConfig(address, port);
+		if (username != null && password != null) {
+			return new HostConfig(address, port, username, password);
+		} else {
+			return new HostConfig(address, port);
+		}
 	}
 
 	public String getName() {
