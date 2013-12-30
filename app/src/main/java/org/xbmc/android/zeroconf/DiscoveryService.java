@@ -55,7 +55,7 @@ public class DiscoveryService extends IntentService {
 
 	@Inject protected EventBus bus;
 
-	private static final int TIMEOUT = 3000;
+	private static final int TIMEOUT = 1000;
 //	private static final String SERVICENAME_JSONRPC = "_xbmc-jsonrpc._tcp.local.";
 	private static final String SERVICENAME_JSONRPC = "_xbmc-jsonrpc-h._tcp.local.";
 

@@ -22,8 +22,10 @@
 package org.xbmc.android.account.authenticator.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,6 +39,7 @@ import org.xbmc.android.app.ui.IconHelper;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.call.JSONRPC;
 import org.xbmc.android.jsonrpc.io.ApiCallback;
+import org.xbmc.android.jsonrpc.io.ApiException;
 import org.xbmc.android.jsonrpc.io.ConnectionManager;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.view.RelativePagerFragment;
@@ -84,7 +87,7 @@ public class Step3aHostFoundFragment extends WizardFragment {
 				waiting.setMessage(String.format(activity.getResources().getString(R.string.accountwizard_step3a_waiting_message), host.getAddress(), host.getPort()));
 				waiting.setIndeterminate(true);
 				waiting.setCancelable(false);
-//				waiting.show();
+				waiting.show();
 
 				final ConnectionManager cm = new ConnectionManager(activity.getApplicationContext(), host.toHostConfig());
 				final JSONRPC.Ping call = new JSONRPC.Ping();
@@ -92,12 +95,37 @@ public class Step3aHostFoundFragment extends WizardFragment {
 				cm.call(call, handler, new ApiCallback<String>() {
 					@Override
 					public void onResponse(AbstractCall<String> call) {
-						Toast.makeText(activity.getApplicationContext(), call.getResult(), Toast.LENGTH_LONG).show();
+						waiting.hide();
+						Toast.makeText(activity, call.getResult(), Toast.LENGTH_LONG).show();
 					}
 
 					@Override
 					public void onError(int code, String message, String hint) {
-						Toast.makeText(activity.getApplicationContext(), message + " " + hint, Toast.LENGTH_LONG).show();
+						waiting.hide();
+						if (code == ApiException.HTTP_UNAUTHORIZED) {
+
+							// create login box
+							final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+							final LayoutInflater inflater = activity.getLayoutInflater();
+							builder.setView(inflater.inflate(R.layout.dialog_login, null));
+							builder.setTitle(R.string.accountwizard_step3a_login_title);
+							builder.setPositiveButton(R.string.set, new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int id) {
+									// sign in the user ...
+								}
+							});
+							builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int id) {
+									dialog.dismiss();
+								}
+							});
+							builder.create().show();
+
+						} else {
+							Toast.makeText(activity, "(" + code + ") " + message + " " + hint, Toast.LENGTH_LONG).show();
+						}
+
 					}
 				});
 			}
