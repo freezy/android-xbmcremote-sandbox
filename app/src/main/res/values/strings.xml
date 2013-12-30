@@ -57,6 +57,10 @@
 	<string name="accountwizard_step3a_waiting_message">Accessing XBMC API on %1$s:%2$d</string>
 	<string name="accountwizard_step3a_login_title">Credentials Needed</string>
 	<string name="accountwizard_step3a_login_error">Wrong credentials. Please try again.</string>
+	<string name="accountwizard_step4_title">All Done!</string>
+	<string name="accountwizard_step4_p1">Setup completed. You can now use the Remote App with XBMC or setup additional options.</string>
+	<string name="accountwizard_step4_prev">Add Another</string>
+	<string name="accountwizard_step4_next">Exit</string>
 
 	<string name="addaccount_username_label">Username</string>
 	<string name="addaccount_password_label">Password</string>

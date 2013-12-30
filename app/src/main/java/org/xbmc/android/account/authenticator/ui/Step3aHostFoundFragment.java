@@ -54,6 +54,8 @@ public class Step3aHostFoundFragment extends WizardFragment {
 	private final Typeface iconFont;
 	private final ProgressDialog waiting;
 
+	private int nextStatus = STATUS_GONE;
+
 	@InjectView(R.id.list) ListView listView;
 
 	protected Step3aHostFoundFragment(ArrayList<XBMCHost> hosts,  Activity activity, OnStatusChangeListener statusChangeListener) {
@@ -103,6 +105,8 @@ public class Step3aHostFoundFragment extends WizardFragment {
 			@Override
 			public void onResponse(AbstractCall<String> call) {
 				waiting.hide();
+				nextStatus = STATUS_ENABLED;
+				statusChangeListener.onNextPage();
 				Toast.makeText(activity, call.getResult(), Toast.LENGTH_LONG).show();
 			}
 
@@ -146,7 +150,7 @@ public class Step3aHostFoundFragment extends WizardFragment {
 
 	@Override
 	public int hasNextButton() {
-		return STATUS_GONE;
+		return nextStatus;
 	}
 
 	@Override
@@ -166,7 +170,7 @@ public class Step3aHostFoundFragment extends WizardFragment {
 
 	@Override
 	public RelativePagerFragment getNext() {
-		return new Step2aSearchingFragment(activity, statusChangeListener);
+		return new Step4AllDoneFragment(activity, statusChangeListener);
 	}
 
 	@Override
