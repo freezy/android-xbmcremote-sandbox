@@ -22,6 +22,7 @@
 	<style name="Theme.XBMCRemote" parent="Theme.Sherlock.Light.DarkActionBar">
 		<item name="actionBarStyle">@style/Widget.XBMCRemote.ActionBar</item>
 		<item name="android:actionBarStyle">@style/Widget.XBMCRemote.ActionBar</item>
+		<item name="android:editTextStyle">@style/Widget.XBMCRemote.EditTextStyle</item>
 	</style>
 
 	<style name="Widget.XBMCRemote.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
@@ -30,6 +31,11 @@
 
 		<item name="backgroundSplit">#ff0000</item>
 		<item name="android:backgroundSplit">#ff0000</item>
+	</style>
+
+	<style name="Widget.XBMCRemote.EditTextStyle" parent="@android:style/Widget.EditText">
+		<item name="android:textColor">@color/light_primary_text</item>
+		<item name="android:fontFamily">sans-serif-light</item>
 	</style>
 
 

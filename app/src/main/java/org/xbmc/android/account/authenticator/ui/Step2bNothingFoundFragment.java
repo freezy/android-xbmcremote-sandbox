@@ -53,7 +53,7 @@ public class Step2bNothingFoundFragment extends WizardFragment {
 
 	@Override
 	public RelativePagerFragment getNext() {
-		return new Step2bNothingFoundFragment(activity, statusChangeListener);
+		return new Step3bManualSetupFragment(activity, statusChangeListener);
 	}
 
 	@Override

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			style="@style/WizardPageContainer">
+
+	<TextView style="@style/WizardPageTitle" android:text="@string/accountwizard_step3b_title"
+			  android:id="@+id/title"/>
+
+	<TextView style="@style/WizardPageText" android:text="@string/accountwizard_step3b_p1"
+			  android:layout_below="@+id/title"
+			  android:layout_alignParentRight="true"
+			  android:layout_marginTop="5dp"
+			  android:id="@+id/p2"/>
+
+	<EditText
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/display_name"
+			android:layout_below="@+id/p2"
+			android:layout_alignParentLeft="true"
+			android:layout_marginTop="22dp"
+			android:layout_alignRight="@+id/p2"
+			android:hint="@string/accountwizard_step3b_displayname"/>
+
+	<EditText
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:inputType="numberDecimal"
+			android:ems="4"
+			android:id="@+id/port"
+			android:hint="@string/accountwizard_step3b_port"
+			android:layout_marginTop="20dp"
+			android:layout_below="@+id/display_name"
+			android:layout_alignParentRight="true"/>
+
+	<EditText
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:inputType="text"
+			android:id="@+id/host"
+			android:hint="@string/accountwizard_step3b_host"
+			android:layout_alignTop="@+id/port"
+			android:layout_toLeftOf="@+id/port"
+			android:layout_marginRight="16dp"
+			android:layout_alignParentLeft="true"/>
+
+	<Button
+			style="?android:attr/buttonStyleSmall"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/accountwizard_step3b_test"
+			android:id="@+id/test"
+			android:layout_alignParentBottom="true"
+			android:layout_alignRight="@+id/port"
+			android:layout_marginBottom="15dp"
+			android:paddingLeft="30dp"
+			android:paddingRight="30dp"/>
+
+</RelativeLayout>
