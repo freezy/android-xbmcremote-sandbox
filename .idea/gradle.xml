@@ -5,6 +5,18 @@
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/libs" />
+            <option value="$PROJECT_DIR$/libs/slidingmenu" />
+            <option value="$PROJECT_DIR$/libs/slidingmenu/library" />
+            <option value="$PROJECT_DIR$/libs/wizardpager" />
+            <option value="$PROJECT_DIR$/libs/wizardpager/LibWizardPager" />
+            <option value="$PROJECT_DIR$/libs/xbmc-jsonrpclib" />
+          </set>
+        </option>
       </GradleProjectSettings>
     </option>
   </component>
