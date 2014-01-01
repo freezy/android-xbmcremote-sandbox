@@ -45,8 +45,11 @@ public class Constants {
 	 */
 	public static final String AUTHTOKEN_TYPE = "org.xbmc.android.remote";
 
+	public static final String DATA_HOST = "org.xbmc.android.account.HOST";
 	public static final String DATA_ADDRESS = "org.xbmc.android.account.ADDRESS";
 	public static final String DATA_PORT = "org.xbmc.android.account.PORT";
+	public static final String DATA_USER = "org.xbmc.android.account.USER";
+	public static final String DATA_PASS = "org.xbmc.android.account.PASS";
 
 
 }

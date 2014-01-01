@@ -22,6 +22,10 @@
 package org.xbmc.android.account.authenticator.ui;
 
 import android.app.Activity;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.view.RelativePagerFragment;
 
@@ -29,6 +33,14 @@ public class Step4AllDoneFragment extends WizardFragment {
 
 	public Step4AllDoneFragment(Activity activity, OnStatusChangeListener statusChangeListener) {
 		super(R.layout.fragment_auth_wizard_04_all_done, activity, statusChangeListener);
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+//		final WizardActivity
+
+		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
 	@Override
@@ -63,6 +75,6 @@ public class Step4AllDoneFragment extends WizardFragment {
 
 	@Override
 	public RelativePagerFragment getPrev() {
-		return new Step1WelcomeFragment(activity, statusChangeListener);
+		return new Step1WelcomeFragment();
 	}
 }

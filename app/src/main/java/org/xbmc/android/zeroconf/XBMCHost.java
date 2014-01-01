@@ -101,5 +101,13 @@ public class XBMCHost implements Parcelable {
 	public int describeContents() {
 		return 0;
 	}
+
+	public String getUser() {
+		return username;
+	}
+
+	public String getPass() {
+		return password;
+	}
 	//</editor-fold>
 }

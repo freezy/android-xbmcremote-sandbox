@@ -28,21 +28,22 @@ import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import org.xbmc.android.account.authenticator.ui.WizardActivity;
 
 /**
  * Authenticator service that returns a subclass of AbstractAccountAuthenticator
  * in onBind()
- * 
+ *
  * @author freezy <freezy@xbmc.org>
  */
 class Authenticator extends AbstractAccountAuthenticator {
 
 	// Authentication Service context
-	private final Context mContext;
+	private final Context context;
 
 	public Authenticator(Context context) {
 		super(context);
-		mContext = context;
+		this.context = context;
 	}
 
 	/**
@@ -55,9 +56,9 @@ class Authenticator extends AbstractAccountAuthenticator {
 	public Bundle addAccount(AccountAuthenticatorResponse response, String accountType, String authTokenType,
 			String[] requiredFeatures, Bundle options) {
 
-		final Intent intent = new Intent(mContext, AuthenticatorActivity.class);
+		final Intent intent = new Intent(context, WizardActivity.class);
 		final Bundle bundle = new Bundle();
-		intent.putExtra(AuthenticatorActivity.PARAM_AUTHTOKEN_TYPE, authTokenType);
+		intent.putExtra(WizardActivity.PARAM_AUTHTOKEN_TYPE, authTokenType);
 		intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
 		bundle.putParcelable(AccountManager.KEY_INTENT, intent);
 		return bundle;

@@ -21,7 +21,6 @@
 
 package org.xbmc.android.account.authenticator.ui;
 
-import android.app.Activity;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.view.RelativePagerFragment;
 
@@ -29,10 +28,14 @@ public class Step1WelcomeFragment extends WizardFragment {
 
 	RelativePagerFragment next;
 
-	public Step1WelcomeFragment(Activity activity, OnStatusChangeListener statusChangeListener) {
-		super(R.layout.fragment_auth_wizard_01_welcome, activity, statusChangeListener);
+	public Step1WelcomeFragment() {
+		super(R.layout.fragment_auth_wizard_01_welcome, null, null);
 	}
 
+/*	public Step1WelcomeFragment(Activity activity, OnStatusChangeListener statusChangeListener) {
+		super(R.layout.fragment_auth_wizard_01_welcome, activity, statusChangeListener);
+	}
+*/
 	@Override
 	int hasNextButton() {
 		return STATUS_ENABLED;

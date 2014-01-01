@@ -59,7 +59,7 @@ public class Step2aSearchingFragment extends WizardFragment {
 	public Step2aSearchingFragment(Activity activity, OnStatusChangeListener statusChangeListener) {
 		super(R.layout.fragment_auth_wizard_02a_searching, activity, statusChangeListener);
 		next = new Step2bNothingFoundFragment(activity, statusChangeListener);
-		prev = new Step1WelcomeFragment(activity, statusChangeListener);
+		prev = new Step1WelcomeFragment();
 	}
 
 	@Override

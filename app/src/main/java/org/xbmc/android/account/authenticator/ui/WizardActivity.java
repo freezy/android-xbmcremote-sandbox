@@ -21,21 +21,32 @@
 
 package org.xbmc.android.account.authenticator.ui;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import co.juliansuarez.libwizardpager.wizard.ui.StepPagerStrip;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
+import org.xbmc.android.account.Constants;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.view.RelativePagerAdapter;
 import org.xbmc.android.view.RelativePagerFragment;
 import org.xbmc.android.view.RelativeViewPager;
+import org.xbmc.android.zeroconf.XBMCHost;
 
 import static org.xbmc.android.account.authenticator.ui.WizardFragment.*;
 
-public class WizardActivity extends SherlockFragmentActivity {
+public class WizardActivity extends AccountAuthenticatorActivity {
+
+	public static final String TAG = WizardActivity.class.getSimpleName();
+
+	public static final String PARAM_AUTHTOKEN_TYPE = "authtokenType";
+
+	private AccountManager accountManager;
 
 	@InjectView(R.id.strip) StepPagerStrip pagerStrip;
 	@InjectView(R.id.pager) RelativeViewPager pager;
@@ -50,8 +61,10 @@ public class WizardActivity extends SherlockFragmentActivity {
 		setTitle(R.string.accountwizard_title);
 		ButterKnife.inject(this);
 
+		accountManager = AccountManager.get(this);
+
 		final RelativePagerAdapter adapter = new RelativePagerAdapter(getSupportFragmentManager());
-		final WizardFragment firstPage = new Step1WelcomeFragment(this, adapter);
+		final WizardFragment firstPage = new Step1WelcomeFragment();
 		adapter.setInitialFragment(firstPage);
 
 		pagerStrip.setOnPageSelectedListener(new StepPagerStrip.OnPageSelectedListener() {
@@ -76,7 +89,6 @@ public class WizardActivity extends SherlockFragmentActivity {
 			}
 		});
 
-
 		nextButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -91,6 +103,23 @@ public class WizardActivity extends SherlockFragmentActivity {
 		});
 
 		updateBottomBar((WizardFragment)adapter.getCurrentFragment());
+	}
+
+	public void addHost(XBMCHost host) {
+		Log.i(TAG, "addHost(" + host + ")");
+		final Account account = new Account(host.getName(), Constants.ACCOUNT_TYPE);
+		final Bundle data = new Bundle();
+		data.putString(Constants.DATA_HOST, host.getHost());
+		data.putString(Constants.DATA_ADDRESS, host.getAddress());
+		data.putString(Constants.DATA_PORT, String.valueOf(host.getPort()));
+		data.putString(Constants.DATA_USER, host.getUser());
+		data.putString(Constants.DATA_PASS, host.getPass());
+		accountManager.addAccountExplicitly(account, null, data);
+		final Intent intent = new Intent();
+		intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, host.getName());
+		intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, Constants.ACCOUNT_TYPE);
+		setAccountAuthenticatorResult(intent.getExtras());
+		setResult(RESULT_OK, intent);
 	}
 
 	private void updateBottomBar(WizardFragment fragment) {

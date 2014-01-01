@@ -59,7 +59,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity implemen
 	public static final String PARAM_CONFIRMCREDENTIALS = "confirmCredentials";
 	public static final String PARAM_PASSWORD = "password";
 	public static final String PARAM_USERNAME = "username";
-	public static final String PARAM_AUTHTOKEN_TYPE = "authtokenType";
+
 
 	private static final String TAG = "AuthenticatorActivity";
 
