@@ -2,6 +2,7 @@ package org.xbmc.android.view;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
@@ -12,7 +13,7 @@ public class FragmentStateManager {
 	private final static String TAG = FragmentStateManager.class.getSimpleName();
 
 	private final FragmentActivity activity;
-	private final HashMap<String, RelativePagerFragment> fragments = new HashMap<String, RelativePagerFragment>();
+	private final HashMap<String, Fragment> fragments = new HashMap<String, Fragment>();
 
 	private RelativePagerAdapter onStatusChangeListener;
 
@@ -20,22 +21,18 @@ public class FragmentStateManager {
 		this.activity = activity;
 	}
 
-	public void putFragment(Bundle outState, Class<? extends RelativePagerFragment> klass) {
-		if (!fragments.containsKey(klass.getName())) {
-			throw new IllegalStateException("Cannot find fragment " + klass.getSimpleName() + " in saved states.");
-		}
-		Log.d(TAG, "Putting fragment " + klass.getSimpleName() + " into fragment manager.");
-		activity.getSupportFragmentManager().putFragment(outState, klass.getName(), fragments.get(klass.getName()));
-	}
 
-	public RelativePagerFragment initFragment(Bundle savedInstanceState, Class<? extends RelativePagerFragment> klass) {
-		RelativePagerFragment fragment = null;
+	/**
+	 * Called on {@link Fragment#onCreate(android.os.Bundle)}
+	 */
+	public Fragment initFragment(Bundle savedInstanceState, Class<? extends RelativePagerFragment> klass) {
+		Fragment fragment = null;
 		Log.d(TAG, "Getting fragment " + klass.getSimpleName() + " from fragment manager.");
 		if (savedInstanceState != null) {
-			fragment = (RelativePagerFragment)activity.getSupportFragmentManager().getFragment(savedInstanceState, klass.getName());
+			fragment = activity.getSupportFragmentManager().getFragment(savedInstanceState, klass.getName());
 		}
 		if (fragment == null && fragments.containsKey(klass.getName())) {
-			Log.d(TAG, "Found fragment " + klass.getSimpleName() + " in cache, returning.");
+			Log.d(TAG, "Not found, but found fragment " + klass.getSimpleName() + " in cache, returning.");
 			return fragments.get(klass.getName());
 		}
 		if (fragment == null) {
@@ -46,6 +43,29 @@ public class FragmentStateManager {
 		return fragment;
 	}
 
+
+	/**
+	 * Called on {@link Fragment#onSaveInstanceState(android.os.Bundle)}
+	 */
+	public void putFragment(Bundle outState, Class<? extends RelativePagerFragment> klass) {
+		if (!fragments.containsKey(klass.getName())) {
+			throw new IllegalStateException("Cannot find fragment " + klass.getSimpleName() + " in saved states.");
+		}
+		Log.d(TAG, "Putting fragment " + klass.getSimpleName() + " into fragment manager.");
+
+		final Fragment fragment = fragments.get(klass.getName());
+		if (fragment.isAdded()) {
+			Log.d(TAG, "Putting fragment " + klass.getSimpleName() + " into fragment manager.");
+			activity.getSupportFragmentManager().putFragment(outState, klass.getName(), fragment);
+
+		} else {
+			Log.d(TAG, "NOT putting removed fragment " + klass.getSimpleName() + " into fragment manager.");
+		}
+	}
+
+	/**
+	 * Called on {@link RelativePagerFragment#hasNext()} and {@link RelativePagerFragment#hasPrev()}
+	 */
 	public RelativePagerFragment getFragment(Class<? extends RelativePagerFragment> klass) {
 		Log.d(TAG, "Getting fragment " + klass.getSimpleName() + " from cache.");
 		if (!fragments.containsKey(klass.getName())) {
@@ -54,9 +74,12 @@ public class FragmentStateManager {
 			fragments.put(klass.getName(), fragment);
 			return fragment;
 		}
-		return fragments.get(klass.getName());
+		return (RelativePagerFragment)fragments.get(klass.getName());
 	}
 
+	/**
+	 * Use this to instantiate the frame state manager.
+	 */
 	public static FragmentStateManager get(Activity activity) {
 		if (activity == null) {
 			throw new IllegalArgumentException("Activity for fragment state manager must not be null.");
@@ -70,6 +93,9 @@ public class FragmentStateManager {
 		return ((FragmentStateManageable)activity).getFragmentStateManager((FragmentActivity)activity);
 	}
 
+	/**
+	 * Instantiates a fragment by class name.
+	 */
 	private RelativePagerFragment instantiateFragment(Class<? extends RelativePagerFragment> klass) {
 		try {
 			return klass.newInstance();

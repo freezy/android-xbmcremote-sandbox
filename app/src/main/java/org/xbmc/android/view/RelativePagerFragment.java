@@ -36,6 +36,8 @@ import android.view.ViewGroup;
  */
 public abstract class RelativePagerFragment extends Fragment {
 
+	protected final static String NEXT_STATUS = "org.xbmc.android.NEXT_STATUS";
+
 	private final int layoutRes;
 	protected OnStatusChangeListener statusChangeListener;
 	protected FragmentStateManager fragmentStateManager;
@@ -44,11 +46,29 @@ public abstract class RelativePagerFragment extends Fragment {
 		this.layoutRes = layoutRes;
 	}
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
+
+	public void onActivityCreated(Bundle savedInstanceState, Class<? extends RelativePagerFragment>... fragmentClasses) {
+		super.onActivityCreated(savedInstanceState);
+		for (Class<? extends RelativePagerFragment> fragmentClass : fragmentClasses) {
+			fragmentStateManager.initFragment(savedInstanceState, fragmentClass);
+		}
+	}
+
+	public void onCreate(Bundle savedInstanceState, Class<? extends RelativePagerFragment>... fragmentClasses) {
 		fragmentStateManager = FragmentStateManager.get(getActivity());
 		statusChangeListener = fragmentStateManager.getOnStatusChangeListener();
 		super.onCreate(savedInstanceState);
+
+		for (Class<? extends RelativePagerFragment> fragmentClass : fragmentClasses) {
+			fragmentStateManager.initFragment(savedInstanceState, fragmentClass);
+		}
+	}
+
+	public void onSaveInstanceState(Bundle outState, Class<? extends RelativePagerFragment>... fragmentClasses) {
+		super.onSaveInstanceState(outState);
+		for (Class<? extends RelativePagerFragment> fragmentClass : fragmentClasses) {
+			fragmentStateManager.putFragment(outState, fragmentClass);
+		}
 	}
 
 	@Override

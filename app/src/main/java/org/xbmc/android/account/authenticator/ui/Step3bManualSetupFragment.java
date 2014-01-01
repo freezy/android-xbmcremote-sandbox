@@ -42,7 +42,7 @@ public class Step3bManualSetupFragment extends WizardFragment {
 	@InjectView(R.id.port) EditText portView;
 	@InjectView(R.id.test) Button testBtn;
 
-	protected Step3bManualSetupFragment() {
+	public Step3bManualSetupFragment() {
 		super(R.layout.fragment_auth_wizard_03b_manual_setup);
 	}
 

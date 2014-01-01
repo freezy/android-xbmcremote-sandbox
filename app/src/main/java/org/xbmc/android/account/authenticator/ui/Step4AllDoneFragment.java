@@ -22,25 +22,33 @@
 package org.xbmc.android.account.authenticator.ui;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.view.FragmentStateManager;
 import org.xbmc.android.view.RelativePagerFragment;
+import org.xbmc.android.zeroconf.XBMCHost;
 
 public class Step4AllDoneFragment extends WizardFragment {
+
+	private static final String DATA_HOST = "org.xbmc.android.account.HOST";
+
+	private XBMCHost host;
 
 	public Step4AllDoneFragment() {
 		super(R.layout.fragment_auth_wizard_04_all_done);
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState, Step1WelcomeFragment.class);
+		if (savedInstanceState != null) {
+			host = savedInstanceState.getParcelable(DATA_HOST);
+		}
+	}
 
-//		final WizardActivity
-
-		return super.onCreateView(inflater, container, savedInstanceState);
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState, Step1WelcomeFragment.class);
+		outState.putParcelable(DATA_HOST, host);
 	}
 
 	@Override
@@ -75,6 +83,10 @@ public class Step4AllDoneFragment extends WizardFragment {
 
 	@Override
 	public RelativePagerFragment getPrev(FragmentStateManager fsm) {
-		return new Step1WelcomeFragment();
+		return fsm.getFragment(Step1WelcomeFragment.class);
+	}
+
+	public void setHost(XBMCHost host) {
+		this.host = host;
 	}
 }

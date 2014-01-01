@@ -4,6 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import org.xbmc.android.jsonrpc.config.HostConfig;
 
+import java.util.ArrayList;
+
 /**
  * A container that stores IP address, host and port.
  *
@@ -55,6 +57,14 @@ public class XBMCHost implements Parcelable {
 		return name;
 	}
 
+	public String getUser() {
+		return username;
+	}
+
+	public String getPass() {
+		return password;
+	}
+
 	@Override
 	public String toString() {
 		return host + " - " + address + ":" + port;
@@ -102,12 +112,22 @@ public class XBMCHost implements Parcelable {
 		return 0;
 	}
 
-	public String getUser() {
-		return username;
+	public static ArrayList<XBMCHost> fromParcel(Parcel parcel) {
+		final int s = parcel.readInt();
+		final ArrayList<XBMCHost> hosts = new ArrayList<XBMCHost>(s);
+		for (int i = 0; i < s; i++) {
+			hosts.add(parcel.<XBMCHost>readParcelable(XBMCHost.class.getClassLoader()));
+		}
+		return hosts;
 	}
 
-	public String getPass() {
-		return password;
+	public static Parcel toParcel(ArrayList<XBMCHost> hosts, Parcel parcel, int flags) {
+		parcel.writeInt(hosts.size());
+		for (XBMCHost host : hosts) {
+			parcel.writeParcelable(host, flags);
+		}
+		return parcel;
 	}
+
 	//</editor-fold>
 }

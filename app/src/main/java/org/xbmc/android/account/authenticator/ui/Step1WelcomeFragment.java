@@ -21,7 +21,6 @@
 
 package org.xbmc.android.account.authenticator.ui;
 
-import android.os.Bundle;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.view.FragmentStateManager;
 import org.xbmc.android.view.RelativePagerFragment;
@@ -30,18 +29,6 @@ public class Step1WelcomeFragment extends WizardFragment {
 
 	public Step1WelcomeFragment() {
 		super(R.layout.fragment_auth_wizard_01_welcome);
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		fragmentStateManager.initFragment(savedInstanceState, Step2aSearchingFragment.class);
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		fragmentStateManager.putFragment(outState, Step2aSearchingFragment.class);
 	}
 
 	@Override

@@ -49,25 +49,30 @@ public class Step2aSearchingFragment extends WizardFragment {
 	@Inject protected EventBus bus;
 	@InjectView(R.id.spinner) ProgressBar spinner;
 
-	private WizardFragment next;
-	private WizardFragment prev;
+	private Class<? extends RelativePagerFragment> next;
 
 	private final ArrayList<XBMCHost> hosts = new ArrayList<XBMCHost>();
 
 	private int nextStatus = STATUS_DISABLED;
+	private boolean found = false;
 
 	public Step2aSearchingFragment() {
 		super(R.layout.fragment_auth_wizard_02a_searching);
-		next = new Step2bNothingFoundFragment();
-		prev = new Step1WelcomeFragment();
+		next = Step2bNothingFoundFragment.class;
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState, Step1WelcomeFragment.class, Step3aHostFoundFragment.class);
 		Injector.inject(this);
 		bus.register(this);
-		Log.d(Step1WelcomeFragment.class.getSimpleName(), "*** Activity = " + getActivity());
+
+		if (savedInstanceState != null) {
+			nextStatus = savedInstanceState.getInt(NEXT_STATUS);
+		}
+
+		// FIXME debug
+		hosts.add(new XBMCHost("aquarium", "192.168.0.100", 8080, "Aquarium"));
 	}
 
 	@Override
@@ -75,6 +80,12 @@ public class Step2aSearchingFragment extends WizardFragment {
 		final View v = super.onCreateView(inflater, container, savedInstanceState);
 		ButterKnife.inject(this, v);
 		return v;
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState, Step1WelcomeFragment.class, Step3aHostFoundFragment.class);
+		outState.putInt(NEXT_STATUS, nextStatus);
 	}
 
 	public void onEventMainThread(ZeroConf event) {
@@ -85,7 +96,8 @@ public class Step2aSearchingFragment extends WizardFragment {
 		if (event.isFinished()) {
 			nextStatus = STATUS_ENABLED;
 			if (!hosts.isEmpty()) {
-				next = new Step3aHostFoundFragment(hosts);
+				next = Step3aHostFoundFragment.class;
+				found = true;
 			}
 			statusChangeListener.onNextPage();
 		}
@@ -122,12 +134,16 @@ public class Step2aSearchingFragment extends WizardFragment {
 
 	@Override
 	public RelativePagerFragment getNext(FragmentStateManager fsm) {
-		return next;
+		final RelativePagerFragment fragment = fsm.getFragment(next);
+		if (found) {
+			((Step3aHostFoundFragment)fragment).setHosts(hosts);
+		}
+		return fragment;
 	}
 
 	@Override
 	public RelativePagerFragment getPrev(FragmentStateManager fsm) {
-		return prev;
+		return fsm.getFragment(Step1WelcomeFragment.class);
 	}
 
 }

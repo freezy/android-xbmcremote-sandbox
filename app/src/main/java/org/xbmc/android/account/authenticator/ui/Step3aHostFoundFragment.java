@@ -28,6 +28,7 @@ import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,27 +51,35 @@ import java.util.List;
 
 public class Step3aHostFoundFragment extends WizardFragment {
 
-	private final ArrayList<XBMCHost> hosts;
+	private final static String DATA_HOSTS = "org.xbmc.android.account.HOSTS";
+
+	private ArrayList<XBMCHost> hosts;
+	private XBMCHost selectedHost;
+
 	private Typeface iconFont;
 	private ProgressDialog waiting;
 
-	private int nextStatus = STATUS_GONE;
-
 	@InjectView(R.id.list) ListView listView;
 
-	protected Step3aHostFoundFragment(ArrayList<XBMCHost> hosts) {
+	public Step3aHostFoundFragment() {
 		super(R.layout.fragment_auth_wizard_03a_host_found);
-		this.hosts = hosts;
-
-		// @fixme debug
-		this.hosts.add(new XBMCHost("192.168.0.100", "aquarium", 8080, "XBMC Fake"));
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState, Step2aSearchingFragment.class, Step4AllDoneFragment.class);
 		iconFont =  IconHelper.getTypeface(getApplicationContext());
 		waiting = new ProgressDialog(getActivity());
+
+		if (savedInstanceState != null) {
+			final Parcelable[] hostArray = savedInstanceState.getParcelableArray(DATA_HOSTS);
+			if (hostArray != null) {
+				hosts = new ArrayList<XBMCHost>(hostArray.length);
+				for (Parcelable host : hostArray) {
+					hosts.add((XBMCHost) host);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -106,12 +115,18 @@ public class Step3aHostFoundFragment extends WizardFragment {
 		});
 	}
 
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState, Step2aSearchingFragment.class, Step4AllDoneFragment.class);
+		outState.putParcelableArray(DATA_HOSTS, hosts.toArray(new Parcelable[hosts.size()]));
+	}
+
 	private ApiCallback<String> pingCallback(final ConnectionManager cm, final XBMCHost host, final Handler handler, final JSONRPC.Ping call, final boolean displayError) {
 		return new ApiCallback<String>() {
 			@Override
 			public void onResponse(AbstractCall<String> call) {
 				waiting.hide();
-				nextStatus = STATUS_ENABLED;
+				selectedHost = host;
 				statusChangeListener.onNextPage();
 				Toast.makeText(getActivity().getApplicationContext(), call.getResult(), Toast.LENGTH_LONG).show();
 			}
@@ -156,7 +171,7 @@ public class Step3aHostFoundFragment extends WizardFragment {
 
 	@Override
 	public int hasNextButton() {
-		return nextStatus;
+		return STATUS_GONE;
 	}
 
 	@Override
@@ -175,13 +190,19 @@ public class Step3aHostFoundFragment extends WizardFragment {
 	}
 
 	@Override
-	public RelativePagerFragment getNext(FragmentStateManager fragmentStateManager) {
-		return new Step4AllDoneFragment();
+	public RelativePagerFragment getNext(FragmentStateManager fsm) {
+		final RelativePagerFragment fragment = fsm.getFragment(Step4AllDoneFragment.class);
+		((Step4AllDoneFragment)fragment).setHost(selectedHost);
+		return fragment;
 	}
 
 	@Override
-	public RelativePagerFragment getPrev(FragmentStateManager fragmentStateManager) {
-		return new Step2aSearchingFragment();
+	public RelativePagerFragment getPrev(FragmentStateManager fsm) {
+		return fsm.getFragment(Step2aSearchingFragment.class);
+	}
+
+	public void setHosts(ArrayList<XBMCHost> hosts) {
+		this.hosts = hosts;
 	}
 
 	private class HostListAdapter extends ArrayAdapter<XBMCHost> {
