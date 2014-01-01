@@ -61,13 +61,6 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 	//private WizardFragment firstPage;
 
 	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		getFragmentStateManager().putFragment(outState, Step1WelcomeFragment.class);
-		//getSupportFragmentManager().putFragment(outState, Step1WelcomeFragment.class.getName(), firstPage);
-	}
-
-	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_accountwizard);
@@ -77,7 +70,7 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 		accountManager = AccountManager.get(this);
 
 		final RelativePagerAdapter adapter = new RelativePagerAdapter(getSupportFragmentManager(), getFragmentStateManager());
-		final Fragment firstPage = getFragmentStateManager().initFragment(savedInstanceState, Step1WelcomeFragment.class);
+		final Fragment firstPage = getFragmentStateManager().getFragment(Step1WelcomeFragment.class);
 
 		adapter.setInitialFragment((Step1WelcomeFragment)firstPage);
 

@@ -39,7 +39,7 @@ public class Step4AllDoneFragment extends WizardFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState, Step1WelcomeFragment.class);
+		super.onCreate(savedInstanceState);
 		if (savedInstanceState != null) {
 			host = savedInstanceState.getParcelable(DATA_HOST);
 		}
@@ -47,7 +47,7 @@ public class Step4AllDoneFragment extends WizardFragment {
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState, Step1WelcomeFragment.class);
+		super.onSaveInstanceState(outState);
 		outState.putParcelable(DATA_HOST, host);
 	}
 

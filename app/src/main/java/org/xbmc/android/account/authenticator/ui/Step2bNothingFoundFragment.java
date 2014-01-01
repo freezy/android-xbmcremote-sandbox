@@ -21,7 +21,6 @@
 
 package org.xbmc.android.account.authenticator.ui;
 
-import android.os.Bundle;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.view.FragmentStateManager;
 import org.xbmc.android.view.RelativePagerFragment;
@@ -30,16 +29,6 @@ public class Step2bNothingFoundFragment extends WizardFragment {
 
 	public Step2bNothingFoundFragment() {
 		super(R.layout.fragment_auth_wizard_02b_nothing_found);
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState, Step3bManualSetupFragment.class, Step2aSearchingFragment.class);
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState, Step3bManualSetupFragment.class, Step2aSearchingFragment.class);
 	}
 
 	@Override

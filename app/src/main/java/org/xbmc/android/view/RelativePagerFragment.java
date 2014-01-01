@@ -36,7 +36,7 @@ import android.view.ViewGroup;
  */
 public abstract class RelativePagerFragment extends Fragment {
 
-	protected final static String NEXT_STATUS = "org.xbmc.android.NEXT_STATUS";
+	protected final static String DATA_NEXT_STATUS = "org.xbmc.android.DATA_NEXT_STATUS";
 
 	private final int layoutRes;
 	protected OnStatusChangeListener statusChangeListener;
@@ -47,33 +47,16 @@ public abstract class RelativePagerFragment extends Fragment {
 	}
 
 
-	public void onActivityCreated(Bundle savedInstanceState, Class<? extends RelativePagerFragment>... fragmentClasses) {
-		super.onActivityCreated(savedInstanceState);
-		for (Class<? extends RelativePagerFragment> fragmentClass : fragmentClasses) {
-			fragmentStateManager.initFragment(savedInstanceState, fragmentClass);
-		}
-	}
-
-	public void onCreate(Bundle savedInstanceState, Class<? extends RelativePagerFragment>... fragmentClasses) {
-		fragmentStateManager = FragmentStateManager.get(getActivity());
-		statusChangeListener = fragmentStateManager.getOnStatusChangeListener();
-		super.onCreate(savedInstanceState);
-
-		for (Class<? extends RelativePagerFragment> fragmentClass : fragmentClasses) {
-			fragmentStateManager.initFragment(savedInstanceState, fragmentClass);
-		}
-	}
-
-	public void onSaveInstanceState(Bundle outState, Class<? extends RelativePagerFragment>... fragmentClasses) {
-		super.onSaveInstanceState(outState);
-		for (Class<? extends RelativePagerFragment> fragmentClass : fragmentClasses) {
-			fragmentStateManager.putFragment(outState, fragmentClass);
-		}
-	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(layoutRes, container, false);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		fragmentStateManager = FragmentStateManager.get(getActivity());
+		statusChangeListener = fragmentStateManager.getOnStatusChangeListener();
 	}
 
 	/**
@@ -89,18 +72,18 @@ public abstract class RelativePagerFragment extends Fragment {
 	/**
 	 * Returns the next page.
 	 * @return Next page
-	 * @param fragmentStateManager
+	 * @param fsm Use to instantiate Fragment
 	 */
-	public RelativePagerFragment getNext(FragmentStateManager fragmentStateManager) {
+	public RelativePagerFragment getNext(FragmentStateManager fsm) {
 		return null;
 	}
 
 	/**
 	 * Returns the previous page.
 	 * @return Previous page
-	 * @param fragmentStateManager
+	 * @param fsm Use to instantiate Fragment
 	 */
-	public RelativePagerFragment getPrev(FragmentStateManager fragmentStateManager) {
+	public RelativePagerFragment getPrev(FragmentStateManager fsm) {
 		return null;
 	}
 

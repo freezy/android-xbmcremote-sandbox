@@ -67,7 +67,7 @@ public class Step3aHostFoundFragment extends WizardFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState, Step2aSearchingFragment.class, Step4AllDoneFragment.class);
+		super.onCreate(savedInstanceState);
 		iconFont =  IconHelper.getTypeface(getApplicationContext());
 		waiting = new ProgressDialog(getActivity());
 
@@ -117,7 +117,7 @@ public class Step3aHostFoundFragment extends WizardFragment {
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState, Step2aSearchingFragment.class, Step4AllDoneFragment.class);
+		super.onSaveInstanceState(outState);
 		outState.putParcelableArray(DATA_HOSTS, hosts.toArray(new Parcelable[hosts.size()]));
 	}
 
@@ -125,7 +125,7 @@ public class Step3aHostFoundFragment extends WizardFragment {
 		return new ApiCallback<String>() {
 			@Override
 			public void onResponse(AbstractCall<String> call) {
-				waiting.hide();
+				waiting.dismiss();
 				selectedHost = host;
 				statusChangeListener.onNextPage();
 				Toast.makeText(getActivity().getApplicationContext(), call.getResult(), Toast.LENGTH_LONG).show();
@@ -133,7 +133,7 @@ public class Step3aHostFoundFragment extends WizardFragment {
 
 			@Override
 			public void onError(int code, String message, String hint) {
-				waiting.hide();
+				waiting.dismiss();
 				if (code == ApiException.HTTP_UNAUTHORIZED) {
 
 					if (displayError) {
@@ -239,7 +239,7 @@ public class Step3aHostFoundFragment extends WizardFragment {
 	public void onPause() {
 		super.onPause();
 		if (waiting.isShowing()) {
-			waiting.hide();
+			waiting.dismiss();
 		}
 	}
 }

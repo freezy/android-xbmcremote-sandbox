@@ -46,6 +46,8 @@ import java.util.ArrayList;
 
 public class Step2aSearchingFragment extends WizardFragment {
 
+	private static final String DATA_SEARCHING = "org.xbmc.android.account.HOSTS";
+
 	@Inject protected EventBus bus;
 	@InjectView(R.id.spinner) ProgressBar spinner;
 
@@ -55,6 +57,7 @@ public class Step2aSearchingFragment extends WizardFragment {
 
 	private int nextStatus = STATUS_DISABLED;
 	private boolean found = false;
+	private boolean searching = false;
 
 	public Step2aSearchingFragment() {
 		super(R.layout.fragment_auth_wizard_02a_searching);
@@ -63,12 +66,14 @@ public class Step2aSearchingFragment extends WizardFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState, Step1WelcomeFragment.class, Step3aHostFoundFragment.class);
+		super.onCreate(savedInstanceState);
 		Injector.inject(this);
 		bus.register(this);
+		hosts.clear();
 
 		if (savedInstanceState != null) {
-			nextStatus = savedInstanceState.getInt(NEXT_STATUS);
+			nextStatus = savedInstanceState.getInt(DATA_NEXT_STATUS);
+			searching = savedInstanceState.getBoolean(DATA_SEARCHING);
 		}
 
 		// FIXME debug
@@ -83,9 +88,16 @@ public class Step2aSearchingFragment extends WizardFragment {
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+		showSpinner();
+	}
+
+	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState, Step1WelcomeFragment.class, Step3aHostFoundFragment.class);
-		outState.putInt(NEXT_STATUS, nextStatus);
+		super.onSaveInstanceState(outState);
+		outState.putInt(DATA_NEXT_STATUS, nextStatus);
+		outState.putBoolean(DATA_SEARCHING, searching);
 	}
 
 	public void onEventMainThread(ZeroConf event) {
@@ -94,6 +106,7 @@ public class Step2aSearchingFragment extends WizardFragment {
 			hosts.add(event.getHost());
 		}
 		if (event.isFinished()) {
+			searching = false;
 			nextStatus = STATUS_ENABLED;
 			if (!hosts.isEmpty()) {
 				next = Step3aHostFoundFragment.class;
@@ -105,9 +118,8 @@ public class Step2aSearchingFragment extends WizardFragment {
 
 	@Override
 	public void onPageActive() {
-		Animation animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
-		spinner.setAnimation(animFadeIn);
-		spinner.setVisibility(View.VISIBLE);
+		searching = true;
+		showSpinner();
 		getActivity().startService(new Intent(getActivity(), DiscoveryService.class));
 	}
 
@@ -144,6 +156,15 @@ public class Step2aSearchingFragment extends WizardFragment {
 	@Override
 	public RelativePagerFragment getPrev(FragmentStateManager fsm) {
 		return fsm.getFragment(Step1WelcomeFragment.class);
+	}
+
+	private void showSpinner() {
+		if (!searching) {
+			return;
+		}
+		Animation animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
+		spinner.setAnimation(animFadeIn);
+		spinner.setVisibility(View.VISIBLE);
 	}
 
 }

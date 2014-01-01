@@ -1,7 +1,6 @@
 package org.xbmc.android.view;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -21,10 +20,9 @@ public class FragmentStateManager {
 		this.activity = activity;
 	}
 
-
 	/**
 	 * Called on {@link Fragment#onCreate(android.os.Bundle)}
-	 */
+	 *
 	public Fragment initFragment(Bundle savedInstanceState, Class<? extends RelativePagerFragment> klass) {
 		Fragment fragment = null;
 		Log.d(TAG, "Getting fragment " + klass.getSimpleName() + " from fragment manager.");
@@ -46,7 +44,7 @@ public class FragmentStateManager {
 
 	/**
 	 * Called on {@link Fragment#onSaveInstanceState(android.os.Bundle)}
-	 */
+	 *
 	public void putFragment(Bundle outState, Class<? extends RelativePagerFragment> klass) {
 		if (!fragments.containsKey(klass.getName())) {
 			throw new IllegalStateException("Cannot find fragment " + klass.getSimpleName() + " in saved states.");
@@ -61,7 +59,7 @@ public class FragmentStateManager {
 		} else {
 			Log.d(TAG, "NOT putting removed fragment " + klass.getSimpleName() + " into fragment manager.");
 		}
-	}
+	}*/
 
 	/**
 	 * Called on {@link RelativePagerFragment#hasNext()} and {@link RelativePagerFragment#hasPrev()}
