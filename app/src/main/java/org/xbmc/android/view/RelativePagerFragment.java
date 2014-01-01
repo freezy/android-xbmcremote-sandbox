@@ -21,7 +21,7 @@
 
 package org.xbmc.android.view;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -37,14 +37,18 @@ import android.view.ViewGroup;
 public abstract class RelativePagerFragment extends Fragment {
 
 	private final int layoutRes;
-	protected final Activity activity;
-	protected final OnStatusChangeListener statusChangeListener;
+	protected OnStatusChangeListener statusChangeListener;
+	protected FragmentStateManager fragmentStateManager;
 
-
-	protected RelativePagerFragment(int layoutRes, Activity activity, OnStatusChangeListener statusChangeListener) {
+	protected RelativePagerFragment(int layoutRes) {
 		this.layoutRes = layoutRes;
-		this.activity = activity;
-		this.statusChangeListener = statusChangeListener;
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		fragmentStateManager = FragmentStateManager.get(getActivity());
+		statusChangeListener = fragmentStateManager.getOnStatusChangeListener();
+		super.onCreate(savedInstanceState);
 	}
 
 	@Override
@@ -65,16 +69,18 @@ public abstract class RelativePagerFragment extends Fragment {
 	/**
 	 * Returns the next page.
 	 * @return Next page
+	 * @param fragmentStateManager
 	 */
-	public RelativePagerFragment getNext() {
+	public RelativePagerFragment getNext(FragmentStateManager fragmentStateManager) {
 		return null;
 	}
 
 	/**
 	 * Returns the previous page.
 	 * @return Previous page
+	 * @param fragmentStateManager
 	 */
-	public RelativePagerFragment getPrev() {
+	public RelativePagerFragment getPrev(FragmentStateManager fragmentStateManager) {
 		return null;
 	}
 
@@ -82,6 +88,14 @@ public abstract class RelativePagerFragment extends Fragment {
 	 * Executed when the fragment is settled.
 	 */
 	public void onPageActive() {
+	}
+
+	/**
+	 * Shortcut to {@link #getActivity().getApplicationContext()}.
+	 * @return Application Context
+	 */
+	protected Context getApplicationContext() {
+		return getActivity().getApplicationContext();
 	}
 
 	public interface OnStatusChangeListener {

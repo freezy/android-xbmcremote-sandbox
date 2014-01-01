@@ -21,21 +21,29 @@
 
 package org.xbmc.android.account.authenticator.ui;
 
+import android.os.Bundle;
 import org.xbmc.android.remotesandbox.R;
+import org.xbmc.android.view.FragmentStateManager;
 import org.xbmc.android.view.RelativePagerFragment;
 
 public class Step1WelcomeFragment extends WizardFragment {
 
-	RelativePagerFragment next;
-
 	public Step1WelcomeFragment() {
-		super(R.layout.fragment_auth_wizard_01_welcome, null, null);
+		super(R.layout.fragment_auth_wizard_01_welcome);
 	}
 
-/*	public Step1WelcomeFragment(Activity activity, OnStatusChangeListener statusChangeListener) {
-		super(R.layout.fragment_auth_wizard_01_welcome, activity, statusChangeListener);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		fragmentStateManager.initFragment(savedInstanceState, Step2aSearchingFragment.class);
 	}
-*/
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		fragmentStateManager.putFragment(outState, Step2aSearchingFragment.class);
+	}
+
 	@Override
 	int hasNextButton() {
 		return STATUS_ENABLED;
@@ -52,10 +60,7 @@ public class Step1WelcomeFragment extends WizardFragment {
 	}
 
 	@Override
-	public RelativePagerFragment getNext() {
-		if (next == null) {
-			next = new Step2aSearchingFragment(activity, statusChangeListener);
-		}
-		return next;
+	public RelativePagerFragment getNext(FragmentStateManager fsm) {
+		return fsm.getFragment(Step2aSearchingFragment.class);
 	}
 }

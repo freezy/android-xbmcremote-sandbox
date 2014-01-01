@@ -21,7 +21,6 @@
 
 package org.xbmc.android.account.authenticator.ui;
 
-import android.app.Activity;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.view.RelativePagerFragment;
 
@@ -36,8 +35,8 @@ public abstract class WizardFragment extends RelativePagerFragment {
 	protected final static int STATUS_DISABLED = 0x02;
 	protected final static int STATUS_GONE = 0x03;
 
-	protected WizardFragment(int layoutRes, Activity activity, RelativePagerFragment.OnStatusChangeListener statusChangeListener) {
-		super(layoutRes, activity, statusChangeListener);
+	protected WizardFragment(int layoutRes) {
+		super(layoutRes);
 	}
 
 	/**

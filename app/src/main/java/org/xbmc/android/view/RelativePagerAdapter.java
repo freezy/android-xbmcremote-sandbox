@@ -44,8 +44,12 @@ public class RelativePagerAdapter extends FragmentStatePagerAdapter implements O
 	private RelativePagerFragment currFragment;
 	private RelativeViewPager pager;
 
-	public RelativePagerAdapter(FragmentManager fm) {
+	private final FragmentStateManager fragmentStateManager;
+
+	public RelativePagerAdapter(FragmentManager fm, FragmentStateManager fsm) {
 		super(fm);
+		fragmentStateManager = fsm;
+		fragmentStateManager.setOnStatusChangeListener(this);
 	}
 
 	public void setInitialFragment(RelativePagerFragment fragment) {
@@ -63,9 +67,9 @@ public class RelativePagerAdapter extends FragmentStatePagerAdapter implements O
 
 	public void move(int direction) {
 		if (direction == 1) {
-			currFragment = currFragment.hasPrev() ? currFragment.getPrev() : currFragment;
+			currFragment = currFragment.hasPrev() ? currFragment.getPrev(fragmentStateManager) : currFragment;
 		} else {
-			currFragment = currFragment.hasNext() ? currFragment.getNext() : currFragment;
+			currFragment = currFragment.hasNext() ? currFragment.getNext(fragmentStateManager) : currFragment;
 		}
 		notifyDataSetChanged();
 	}
@@ -85,9 +89,9 @@ public class RelativePagerAdapter extends FragmentStatePagerAdapter implements O
 			throw new RuntimeException("Must set initial fragment before view is rendered.");
 		}
 		if (position == PAGE_POSITION_RIGHT) {
-			return currFragment.hasNext() ? currFragment.getNext() : new Fragment();
+			return currFragment.hasNext() ? currFragment.getNext(fragmentStateManager) : new Fragment();
 		} else if (position == PAGE_POSITION_LEFT) {
-			return currFragment.hasPrev() ? currFragment.getPrev() : new Fragment();
+			return currFragment.hasPrev() ? currFragment.getPrev(fragmentStateManager) : new Fragment();
 		} else {
 			return currFragment;
 		}

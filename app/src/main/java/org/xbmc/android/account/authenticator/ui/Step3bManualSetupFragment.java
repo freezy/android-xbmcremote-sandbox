@@ -21,7 +21,6 @@
 
 package org.xbmc.android.account.authenticator.ui;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +31,7 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import org.xbmc.android.remotesandbox.R;
+import org.xbmc.android.view.FragmentStateManager;
 import org.xbmc.android.view.RelativePagerFragment;
 import org.xbmc.android.zeroconf.XBMCHost;
 
@@ -42,8 +42,8 @@ public class Step3bManualSetupFragment extends WizardFragment {
 	@InjectView(R.id.port) EditText portView;
 	@InjectView(R.id.test) Button testBtn;
 
-	protected Step3bManualSetupFragment(Activity activity, OnStatusChangeListener statusChangeListener) {
-		super(R.layout.fragment_auth_wizard_03b_manual_setup, activity, statusChangeListener);
+	protected Step3bManualSetupFragment() {
+		super(R.layout.fragment_auth_wizard_03b_manual_setup);
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class Step3bManualSetupFragment extends WizardFragment {
 				final String addr = hostView.getText().toString();
 				final int port = portView.getText().toString().isEmpty() ? 0 : Integer.parseInt(portView.getText().toString());
 				final XBMCHost host = new XBMCHost(addr, addr, port, displayNameView.getText().toString());
-				Toast.makeText(activity.getApplicationContext(), "Will test at some point.", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "Will test at some point.", Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
@@ -84,12 +84,12 @@ public class Step3bManualSetupFragment extends WizardFragment {
 	}
 
 	@Override
-	public RelativePagerFragment getNext() {
-		return new Step4AllDoneFragment(activity, statusChangeListener);
+	public RelativePagerFragment getNext(FragmentStateManager fsm) {
+		return new Step4AllDoneFragment();
 	}
 
 	@Override
-	public RelativePagerFragment getPrev() {
-		return new Step2aSearchingFragment(activity, statusChangeListener);
+	public RelativePagerFragment getPrev(FragmentStateManager fsm) {
+		return new Step2aSearchingFragment();
 	}
 }

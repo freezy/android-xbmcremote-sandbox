@@ -21,7 +21,6 @@
 
 package org.xbmc.android.account.authenticator.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,6 +36,7 @@ import de.greenrobot.event.EventBus;
 import org.xbmc.android.event.ZeroConf;
 import org.xbmc.android.injection.Injector;
 import org.xbmc.android.remotesandbox.R;
+import org.xbmc.android.view.FragmentStateManager;
 import org.xbmc.android.view.RelativePagerFragment;
 import org.xbmc.android.zeroconf.DiscoveryService;
 import org.xbmc.android.zeroconf.XBMCHost;
@@ -56,9 +56,9 @@ public class Step2aSearchingFragment extends WizardFragment {
 
 	private int nextStatus = STATUS_DISABLED;
 
-	public Step2aSearchingFragment(Activity activity, OnStatusChangeListener statusChangeListener) {
-		super(R.layout.fragment_auth_wizard_02a_searching, activity, statusChangeListener);
-		next = new Step2bNothingFoundFragment(activity, statusChangeListener);
+	public Step2aSearchingFragment() {
+		super(R.layout.fragment_auth_wizard_02a_searching);
+		next = new Step2bNothingFoundFragment();
 		prev = new Step1WelcomeFragment();
 	}
 
@@ -67,6 +67,7 @@ public class Step2aSearchingFragment extends WizardFragment {
 		super.onCreate(savedInstanceState);
 		Injector.inject(this);
 		bus.register(this);
+		Log.d(Step1WelcomeFragment.class.getSimpleName(), "*** Activity = " + getActivity());
 	}
 
 	@Override
@@ -84,7 +85,7 @@ public class Step2aSearchingFragment extends WizardFragment {
 		if (event.isFinished()) {
 			nextStatus = STATUS_ENABLED;
 			if (!hosts.isEmpty()) {
-				next = new Step3aHostFoundFragment(hosts, activity, statusChangeListener);
+				next = new Step3aHostFoundFragment(hosts);
 			}
 			statusChangeListener.onNextPage();
 		}
@@ -92,10 +93,10 @@ public class Step2aSearchingFragment extends WizardFragment {
 
 	@Override
 	public void onPageActive() {
-		Animation animFadeIn = AnimationUtils.loadAnimation(activity, android.R.anim.fade_in);
+		Animation animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
 		spinner.setAnimation(animFadeIn);
 		spinner.setVisibility(View.VISIBLE);
-		activity.startService(new Intent(activity, DiscoveryService.class));
+		getActivity().startService(new Intent(getActivity(), DiscoveryService.class));
 	}
 
 	@Override
@@ -120,12 +121,12 @@ public class Step2aSearchingFragment extends WizardFragment {
 	}
 
 	@Override
-	public RelativePagerFragment getNext() {
+	public RelativePagerFragment getNext(FragmentStateManager fsm) {
 		return next;
 	}
 
 	@Override
-	public RelativePagerFragment getPrev() {
+	public RelativePagerFragment getPrev(FragmentStateManager fsm) {
 		return prev;
 	}
 

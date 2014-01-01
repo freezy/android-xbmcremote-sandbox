@@ -25,6 +25,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -33,6 +34,7 @@ import butterknife.InjectView;
 import co.juliansuarez.libwizardpager.wizard.ui.StepPagerStrip;
 import org.xbmc.android.account.Constants;
 import org.xbmc.android.remotesandbox.R;
+import org.xbmc.android.view.FragmentStateManager;
 import org.xbmc.android.view.RelativePagerAdapter;
 import org.xbmc.android.view.RelativePagerFragment;
 import org.xbmc.android.view.RelativeViewPager;
@@ -40,7 +42,7 @@ import org.xbmc.android.zeroconf.XBMCHost;
 
 import static org.xbmc.android.account.authenticator.ui.WizardFragment.*;
 
-public class WizardActivity extends AccountAuthenticatorActivity {
+public class WizardActivity extends AccountAuthenticatorActivity implements FragmentStateManager.FragmentStateManageable {
 
 	public static final String TAG = WizardActivity.class.getSimpleName();
 
@@ -54,6 +56,16 @@ public class WizardActivity extends AccountAuthenticatorActivity {
 	@InjectView(R.id.next_button) Button nextButton;
 	@InjectView(R.id.prev_button) Button prevButton;
 
+	private FragmentStateManager fragmentStateManager;
+	//private WizardFragment firstPage;
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		getFragmentStateManager().putFragment(outState, Step1WelcomeFragment.class);
+		//getSupportFragmentManager().putFragment(outState, Step1WelcomeFragment.class.getName(), firstPage);
+	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,8 +75,9 @@ public class WizardActivity extends AccountAuthenticatorActivity {
 
 		accountManager = AccountManager.get(this);
 
-		final RelativePagerAdapter adapter = new RelativePagerAdapter(getSupportFragmentManager());
-		final WizardFragment firstPage = new Step1WelcomeFragment();
+		final RelativePagerAdapter adapter = new RelativePagerAdapter(getSupportFragmentManager(), getFragmentStateManager());
+		final RelativePagerFragment firstPage = getFragmentStateManager().initFragment(savedInstanceState, Step1WelcomeFragment.class);
+
 		adapter.setInitialFragment(firstPage);
 
 		pagerStrip.setOnPageSelectedListener(new StepPagerStrip.OnPageSelectedListener() {
@@ -145,5 +158,15 @@ public class WizardActivity extends AccountAuthenticatorActivity {
 		}
 	}
 
+	private FragmentStateManager getFragmentStateManager() {
+		return getFragmentStateManager(this);
+	}
 
+	@Override
+	public FragmentStateManager getFragmentStateManager(FragmentActivity activity) {
+		if (fragmentStateManager == null) {
+			fragmentStateManager = new FragmentStateManager(activity);
+		}
+		return fragmentStateManager;
+	}
 }
