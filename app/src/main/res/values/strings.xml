@@ -25,18 +25,18 @@
 	<string name="description_search">Search</string>
 	<string name="description_refresh">Refresh</string>
 
-    <string name="menu_refresh">Refresh</string>
-    <string name="menu_search">Search</string>
-    <string name="menu_share">Share</string>
+	<string name="menu_refresh">Refresh</string>
+	<string name="menu_search">Search</string>
+	<string name="menu_share">Share</string>
 
-    <string name="tab_music_albums">Albums</string>
-    <string name="tab_music_artists">Artists</string>
-    <string name="tab_music_files">Files</string>
+	<string name="tab_music_albums">Albums</string>
+	<string name="tab_music_artists">Artists</string>
+	<string name="tab_music_files">Files</string>
 
 	<string name="button_see_more">SEE MORE</string>
 
 	<string name="toast_syncing_all">Syncing all databases\u2026</string>
-    <string name="toast_synced_all">All databases synced.</string>
+	<string name="toast_synced_all">All databases synced.</string>
 
 	<string name="toast_sync_error">Sync error: <xliff:g id="error">%1$s</xliff:g></string>
 	<string name="toast_music_db_updated">Music database updated.</string>
