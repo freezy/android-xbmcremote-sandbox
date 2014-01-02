@@ -59,6 +59,8 @@ public class Step3aHostFoundFragment extends WizardFragment {
 	private Typeface iconFont;
 	private ProgressDialog waiting;
 
+	boolean hasNext = false;
+
 	@InjectView(R.id.list) ListView listView;
 
 	public Step3aHostFoundFragment() {
@@ -70,6 +72,7 @@ public class Step3aHostFoundFragment extends WizardFragment {
 		super.onCreate(savedInstanceState);
 		iconFont =  IconHelper.getTypeface(getApplicationContext());
 		waiting = new ProgressDialog(getActivity());
+		hasNext = false;
 
 		if (savedInstanceState != null) {
 			final Parcelable[] hostArray = savedInstanceState.getParcelableArray(DATA_HOSTS);
@@ -127,6 +130,7 @@ public class Step3aHostFoundFragment extends WizardFragment {
 			public void onResponse(AbstractCall<String> call) {
 				waiting.dismiss();
 				selectedHost = host;
+				hasNext = true;
 				statusChangeListener.onNextPage();
 				Toast.makeText(getActivity().getApplicationContext(), call.getResult(), Toast.LENGTH_LONG).show();
 			}
@@ -177,6 +181,11 @@ public class Step3aHostFoundFragment extends WizardFragment {
 	@Override
 	public int hasPrevButton() {
 		return STATUS_ENABLED;
+	}
+
+	@Override
+	public boolean hasNext() {
+		return hasNext;
 	}
 
 	@Override

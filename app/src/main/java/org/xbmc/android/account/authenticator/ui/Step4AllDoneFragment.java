@@ -22,6 +22,7 @@
 package org.xbmc.android.account.authenticator.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.view.FragmentStateManager;
 import org.xbmc.android.view.RelativePagerFragment;
@@ -29,9 +30,13 @@ import org.xbmc.android.zeroconf.XBMCHost;
 
 public class Step4AllDoneFragment extends WizardFragment {
 
+	private static final String TAG = Step4AllDoneFragment.class.getSimpleName();
+
 	private static final String DATA_HOST = "org.xbmc.android.account.HOST";
+	private static final String DATA_HOST_ADDED = "org.xbmc.android.account.HOST_ADDED";
 
 	private XBMCHost host;
+	private boolean hostAdded = false;
 
 	public Step4AllDoneFragment() {
 		super(R.layout.fragment_auth_wizard_04_all_done);
@@ -41,7 +46,16 @@ public class Step4AllDoneFragment extends WizardFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (savedInstanceState != null) {
-			host = savedInstanceState.getParcelable(DATA_HOST);
+			if (savedInstanceState.containsKey(DATA_HOST)) {
+				host = savedInstanceState.getParcelable(DATA_HOST);
+			}
+			hostAdded = savedInstanceState.getBoolean(DATA_HOST_ADDED, false);
+		}
+
+		if (!hostAdded) {
+			hostAdded = true;
+			Log.i(TAG, "Addding host \"" + host + "\" to account manager.");
+			((WizardActivity)getActivity()).addHost(host);
 		}
 	}
 
@@ -49,6 +63,7 @@ public class Step4AllDoneFragment extends WizardFragment {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putParcelable(DATA_HOST, host);
+		outState.putBoolean(DATA_HOST_ADDED, hostAdded);
 	}
 
 	@Override
