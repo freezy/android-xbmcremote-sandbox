@@ -52,6 +52,8 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 	public static final String DATA_PREV_BUTTON_AVAILABLE = "org.xbmc.android.account.DATA_PREV_BUTTON_AVAILABLE";
 	public static final String DATA_NEXT_BUTTON_TEXT = "org.xbmc.android.account.DATA_NEXT_BUTTON_TEXT";
 	public static final String DATA_PREV_BUTTON_TEXT = "org.xbmc.android.account.DATA_PREV_BUTTON_TEXT";
+	public static final String DATA_PAGER_STEP = "org.xbmc.android.account.DATA_PAGER_STEP";
+	public static final String DATA_IS_LAST = "org.xbmc.android.account.DATA_IS_LAST";
 
 	private AccountManager accountManager;
 
@@ -104,7 +106,12 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 		nextButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				adapter.onNextPage();
+				final WizardFragment fragment = (WizardFragment)adapter.getCurrentFragment();
+				if (fragment.isLast()) {
+					finish();
+				} else {
+					adapter.onNextPage();
+				}
 			}
 		});
 		prevButton.setOnClickListener(new View.OnClickListener() {
@@ -117,10 +124,11 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 		if (savedInstanceState == null) {
 			updateBottomBar((WizardFragment)adapter.getCurrentFragment());
 		} else {
-			updateButton(nextButton, savedInstanceState.getInt(DATA_NEXT_BUTTON_AVAILABLE));
-			updateButton(prevButton, savedInstanceState.getInt(DATA_PREV_BUTTON_AVAILABLE));
+			updateButton(nextButton, savedInstanceState.getInt(DATA_NEXT_BUTTON_AVAILABLE), savedInstanceState.getBoolean(DATA_IS_LAST));
+			updateButton(prevButton, savedInstanceState.getInt(DATA_PREV_BUTTON_AVAILABLE), false);
 			nextButton.setText(savedInstanceState.getInt(DATA_NEXT_BUTTON_TEXT));
 			prevButton.setText(savedInstanceState.getInt(DATA_PREV_BUTTON_TEXT));
+			pagerStrip.setCurrentPage(savedInstanceState.getInt(DATA_PAGER_STEP));
 		}
 
 	}
@@ -143,8 +151,8 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 	}
 
 	private void updateBottomBar(WizardFragment fragment) {
-		updateButton(nextButton, fragment.hasNextButton());
-		updateButton(prevButton, fragment.hasPrevButton());
+		updateButton(nextButton, fragment.hasNextButton(), fragment.isLast());
+		updateButton(prevButton, fragment.hasPrevButton(), false);
 		nextButton.setText(fragment.getNextButtonLabel());
 		prevButton.setText(fragment.getPrevButtonLabel());
 	}
@@ -157,9 +165,14 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 		outState.putInt(DATA_PREV_BUTTON_AVAILABLE, fragment.hasPrevButton());
 		outState.putInt(DATA_NEXT_BUTTON_TEXT, fragment.getNextButtonLabel());
 		outState.putInt(DATA_PREV_BUTTON_TEXT, fragment.getPrevButtonLabel());
+		outState.putInt(DATA_PAGER_STEP, fragment.getStep());
+		outState.putBoolean(DATA_IS_LAST, fragment.isLast());
 	}
 
-	private static void updateButton(Button button, int state) {
+	private static void updateButton(Button button, int state, boolean last) {
+		if (last) {
+			state = STATUS_ENABLED;
+		}
 		switch (state) {
 			case STATUS_DISABLED:
 				button.setVisibility(View.VISIBLE);

@@ -37,6 +37,7 @@ import android.view.ViewGroup;
 public abstract class RelativePagerFragment extends Fragment {
 
 	protected final static String DATA_NEXT_STATUS = "org.xbmc.android.DATA_NEXT_STATUS";
+	protected final static String DATA_HAS_NEXT = "org.xbmc.android.DATA_HAS_NEXT";
 
 	private final int layoutRes;
 	protected OnStatusChangeListener statusChangeListener;

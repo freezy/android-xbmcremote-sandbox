@@ -52,10 +52,10 @@ public class Step4AllDoneFragment extends WizardFragment {
 			hostAdded = savedInstanceState.getBoolean(DATA_HOST_ADDED, false);
 		}
 
-		if (!hostAdded) {
+		if (!hostAdded && host != null) {
 			hostAdded = true;
 			Log.i(TAG, "Addding host \"" + host + "\" to account manager.");
-			((WizardActivity)getActivity()).addHost(host);
+//			((WizardActivity)getActivity()).addHost(host);
 		}
 	}
 
@@ -68,7 +68,7 @@ public class Step4AllDoneFragment extends WizardFragment {
 
 	@Override
 	int hasNextButton() {
-		return STATUS_ENABLED;
+		return STATUS_DISABLED;
 	}
 
 	@Override
@@ -87,13 +87,13 @@ public class Step4AllDoneFragment extends WizardFragment {
 	}
 
 	@Override
-	public boolean hasNext() {
-		return false;
+	int getStep() {
+		return 3;
 	}
 
 	@Override
-	int getStep() {
-		return 3;
+	public boolean isLast() {
+		return true;
 	}
 
 	@Override

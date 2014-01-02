@@ -72,9 +72,9 @@ public class Step3aHostFoundFragment extends WizardFragment {
 		super.onCreate(savedInstanceState);
 		iconFont =  IconHelper.getTypeface(getApplicationContext());
 		waiting = new ProgressDialog(getActivity());
-		hasNext = false;
 
 		if (savedInstanceState != null) {
+			hasNext = savedInstanceState.getBoolean(DATA_HAS_NEXT, false);
 			final Parcelable[] hostArray = savedInstanceState.getParcelableArray(DATA_HOSTS);
 			if (hostArray != null) {
 				hosts = new ArrayList<XBMCHost>(hostArray.length);
@@ -121,6 +121,7 @@ public class Step3aHostFoundFragment extends WizardFragment {
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
+		outState.putBoolean(DATA_HAS_NEXT, hasNext);
 		outState.putParcelableArray(DATA_HOSTS, hosts.toArray(new Parcelable[hosts.size()]));
 	}
 

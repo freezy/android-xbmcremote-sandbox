@@ -50,6 +50,10 @@ public abstract class WizardFragment extends RelativePagerFragment {
 	 */
 	abstract int hasPrevButton();
 
+	public boolean isLast() {
+		return false;
+	}
+
 	public int getNextButtonLabel() {
 		return R.string.next;
 	}
