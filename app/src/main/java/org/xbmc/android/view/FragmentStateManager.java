@@ -75,6 +75,12 @@ public class FragmentStateManager {
 		return (RelativePagerFragment)fragments.get(klass.getName());
 	}
 
+	public void removeFragment(Class<? extends RelativePagerFragment> klass) {
+		if (fragments.containsKey(klass.getName())) {
+			fragments.remove(klass.getName());
+		}
+	}
+
 	/**
 	 * Use this to instantiate the frame state manager.
 	 */

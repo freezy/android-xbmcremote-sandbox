@@ -21,6 +21,8 @@
 
 package org.xbmc.android.view;
 
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -46,8 +48,11 @@ public class RelativePagerAdapter extends FragmentStatePagerAdapter implements O
 
 	private final FragmentStateManager fragmentStateManager;
 
+	private final FragmentManager fragmentManager;
+
 	public RelativePagerAdapter(FragmentManager fm, FragmentStateManager fsm) {
 		super(fm);
+		fragmentManager = fm;
 		fragmentStateManager = fsm;
 		fragmentStateManager.setOnStatusChangeListener(this);
 	}
@@ -100,6 +105,21 @@ public class RelativePagerAdapter extends FragmentStatePagerAdapter implements O
 	@Override
 	public void onStatusChanged() {
 		notifyDataSetChanged();
+	}
+
+	@Override
+	public Parcelable saveState() {
+		final Bundle state = (Bundle)super.saveState();
+		fragmentManager.putFragment(state, "currentFragment", currFragment);
+		return state;
+	}
+
+	@Override
+	public void restoreState(Parcelable state, ClassLoader loader) {
+		super.restoreState(state, loader);
+		final Bundle bundle = (Bundle)state;
+		bundle.setClassLoader(loader);
+		currFragment = (RelativePagerFragment)fragmentManager.getFragment(bundle, "currentFragment");
 	}
 
 	@Override

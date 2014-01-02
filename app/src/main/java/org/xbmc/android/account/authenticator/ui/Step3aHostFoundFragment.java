@@ -141,7 +141,7 @@ public class Step3aHostFoundFragment extends WizardFragment {
 					}
 
 					// create login box
-					final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity().getApplicationContext());
+					final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 					final LayoutInflater inflater = getActivity().getLayoutInflater();
 					final View loginView = inflater.inflate(R.layout.dialog_login, null);
 					builder.setView(loginView);

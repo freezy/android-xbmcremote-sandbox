@@ -59,6 +59,12 @@ public abstract class RelativePagerFragment extends Fragment {
 		statusChangeListener = fragmentStateManager.getOnStatusChangeListener();
 	}
 
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		fragmentStateManager.removeFragment(this.getClass());
+	}
+
 	/**
 	 * Indicates whether a page has a next page.
 	 */

@@ -48,6 +48,10 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 	public static final String TAG = WizardActivity.class.getSimpleName();
 
 	public static final String PARAM_AUTHTOKEN_TYPE = "authtokenType";
+	public static final String DATA_NEXT_BUTTON_AVAILABLE = "org.xbmc.android.account.DATA_NEXT_BUTTON_AVAILABLE";
+	public static final String DATA_PREV_BUTTON_AVAILABLE = "org.xbmc.android.account.DATA_PREV_BUTTON_AVAILABLE";
+	public static final String DATA_NEXT_BUTTON_TEXT = "org.xbmc.android.account.DATA_NEXT_BUTTON_TEXT";
+	public static final String DATA_PREV_BUTTON_TEXT = "org.xbmc.android.account.DATA_PREV_BUTTON_TEXT";
 
 	private AccountManager accountManager;
 
@@ -58,6 +62,7 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 	@InjectView(R.id.prev_button) Button prevButton;
 
 	private FragmentStateManager fragmentStateManager;
+	private RelativePagerAdapter adapter;
 	//private WizardFragment firstPage;
 
 	@Override
@@ -69,7 +74,7 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 
 		accountManager = AccountManager.get(this);
 
-		final RelativePagerAdapter adapter = new RelativePagerAdapter(getSupportFragmentManager(), getFragmentStateManager());
+		adapter = new RelativePagerAdapter(getSupportFragmentManager(), getFragmentStateManager());
 		final Fragment firstPage = getFragmentStateManager().getFragment(Step1WelcomeFragment.class);
 
 		adapter.setInitialFragment((Step1WelcomeFragment)firstPage);
@@ -109,7 +114,15 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 			}
 		});
 
-		updateBottomBar((WizardFragment)adapter.getCurrentFragment());
+		if (savedInstanceState == null) {
+			updateBottomBar((WizardFragment)adapter.getCurrentFragment());
+		} else {
+			updateButton(nextButton, savedInstanceState.getInt(DATA_NEXT_BUTTON_AVAILABLE));
+			updateButton(prevButton, savedInstanceState.getInt(DATA_PREV_BUTTON_AVAILABLE));
+			nextButton.setText(savedInstanceState.getInt(DATA_NEXT_BUTTON_TEXT));
+			prevButton.setText(savedInstanceState.getInt(DATA_PREV_BUTTON_TEXT));
+		}
+
 	}
 
 	public void addHost(XBMCHost host) {
@@ -134,6 +147,16 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 		updateButton(prevButton, fragment.hasPrevButton());
 		nextButton.setText(fragment.getNextButtonLabel());
 		prevButton.setText(fragment.getPrevButtonLabel());
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		final WizardFragment fragment = (WizardFragment)adapter.getCurrentFragment();
+		outState.putInt(DATA_NEXT_BUTTON_AVAILABLE, fragment.hasNextButton());
+		outState.putInt(DATA_PREV_BUTTON_AVAILABLE, fragment.hasPrevButton());
+		outState.putInt(DATA_NEXT_BUTTON_TEXT, fragment.getNextButtonLabel());
+		outState.putInt(DATA_PREV_BUTTON_TEXT, fragment.getPrevButtonLabel());
 	}
 
 	private static void updateButton(Button button, int state) {

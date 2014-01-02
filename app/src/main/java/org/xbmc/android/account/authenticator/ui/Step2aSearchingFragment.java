@@ -51,17 +51,14 @@ public class Step2aSearchingFragment extends WizardFragment {
 	@Inject protected EventBus bus;
 	@InjectView(R.id.spinner) ProgressBar spinner;
 
-	private Class<? extends RelativePagerFragment> next;
+	private int nextStatus = STATUS_DISABLED;
+	private Class<? extends RelativePagerFragment> next = Step3aHostFoundFragment.class;
 
 	private final ArrayList<XBMCHost> hosts = new ArrayList<XBMCHost>();
-
-	private int nextStatus = STATUS_DISABLED;
-	private boolean found = false;
 	private boolean searching = false;
 
 	public Step2aSearchingFragment() {
 		super(R.layout.fragment_auth_wizard_02a_searching);
-		next = Step2bNothingFoundFragment.class;
 	}
 
 	@Override
@@ -69,15 +66,16 @@ public class Step2aSearchingFragment extends WizardFragment {
 		super.onCreate(savedInstanceState);
 		Injector.inject(this);
 		bus.register(this);
+
 		hosts.clear();
 
 		if (savedInstanceState != null) {
-			nextStatus = savedInstanceState.getInt(DATA_NEXT_STATUS);
+			nextStatus = savedInstanceState.getInt(DATA_NEXT_STATUS, STATUS_DISABLED);
 			searching = savedInstanceState.getBoolean(DATA_SEARCHING);
 		}
 
 		// FIXME debug
-		hosts.add(new XBMCHost("aquarium", "192.168.0.100", 8080, "Aquarium"));
+		hosts.add(new XBMCHost("192.168.0.100", "aquarium", 8080, "Aquarium"));
 	}
 
 	@Override
@@ -108,9 +106,8 @@ public class Step2aSearchingFragment extends WizardFragment {
 		if (event.isFinished()) {
 			searching = false;
 			nextStatus = STATUS_ENABLED;
-			if (!hosts.isEmpty()) {
-				next = Step3aHostFoundFragment.class;
-				found = true;
+			if (hosts.isEmpty()) {
+				next = Step2bNothingFoundFragment.class;
 			}
 			statusChangeListener.onNextPage();
 		}
@@ -147,7 +144,7 @@ public class Step2aSearchingFragment extends WizardFragment {
 	@Override
 	public RelativePagerFragment getNext(FragmentStateManager fsm) {
 		final RelativePagerFragment fragment = fsm.getFragment(next);
-		if (found) {
+		if (!hosts.isEmpty()) {
 			((Step3aHostFoundFragment)fragment).setHosts(hosts);
 		}
 		return fragment;

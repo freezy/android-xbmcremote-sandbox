@@ -85,11 +85,11 @@ public class Step3bManualSetupFragment extends WizardFragment {
 
 	@Override
 	public RelativePagerFragment getNext(FragmentStateManager fsm) {
-		return new Step4AllDoneFragment();
+		return fsm.getFragment(Step4AllDoneFragment.class);
 	}
 
 	@Override
 	public RelativePagerFragment getPrev(FragmentStateManager fsm) {
-		return new Step2aSearchingFragment();
+		return fsm.getFragment(Step2aSearchingFragment.class);
 	}
 }
