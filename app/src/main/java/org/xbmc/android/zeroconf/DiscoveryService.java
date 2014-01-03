@@ -29,8 +29,8 @@ import android.net.wifi.WifiManager.MulticastLock;
 import android.text.format.Formatter;
 import android.util.Log;
 import de.greenrobot.event.EventBus;
-import org.xbmc.android.event.ZeroConf;
-import org.xbmc.android.injection.Injector;
+import org.xbmc.android.app.event.ZeroConf;
+import org.xbmc.android.app.injection.Injector;
 
 import javax.inject.Inject;
 import javax.jmdns.JmDNS;
@@ -41,7 +41,7 @@ import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import static org.xbmc.android.event.ZeroConf.*;
+import static org.xbmc.android.app.event.ZeroConf.*;
 
 /**
  * This service scans for xbmc-jsonrpc hosts and returns one by one by using the

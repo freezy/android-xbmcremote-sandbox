@@ -18,11 +18,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import de.greenrobot.event.EventBus;
-import org.xbmc.android.jsonrpc.provider.VideoContract;
-import org.xbmc.android.jsonrpc.provider.VideoDatabase;
+import org.xbmc.android.app.provider.VideoContract;
+import org.xbmc.android.app.provider.VideoDatabase;
 import org.xbmc.android.remotesandbox.R;
-import org.xbmc.android.event.DataItemSynced;
-import org.xbmc.android.injection.Injector;
+import org.xbmc.android.app.event.DataItemSynced;
+import org.xbmc.android.app.injection.Injector;
 
 import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
@@ -139,7 +139,7 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 	}
 
 	/**
-	 * {@link org.xbmc.android.jsonrpc.provider.VideoContract.Movies}
+	 * {@link org.xbmc.android.app.provider.VideoContract.Movies}
 	 * query parameters.
 	 */
 	private interface MoviesQuery {

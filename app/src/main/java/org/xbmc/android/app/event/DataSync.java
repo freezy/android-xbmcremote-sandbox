@@ -19,13 +19,13 @@
  *
  */
 
-package org.xbmc.android.event;
+package org.xbmc.android.app.event;
 
 /**
  * Event that describes the global life cycle of a sync process.
  *
  * This basically describes if a sync process has started or ended. If you need to know status info
- * about individual sections, subscribe to {@link org.xbmc.android.event.DataItemSynced}.
+ * about individual sections, subscribe to {@link org.xbmc.android.app.event.DataItemSynced}.
  *
  * @author freezy <freezy@xbmc.org>
  */

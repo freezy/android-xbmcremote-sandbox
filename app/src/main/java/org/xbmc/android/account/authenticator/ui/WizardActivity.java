@@ -34,7 +34,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import co.juliansuarez.libwizardpager.wizard.ui.StepPagerStrip;
 import org.xbmc.android.account.Constants;
-import org.xbmc.android.injection.Injector;
+import org.xbmc.android.app.injection.Injector;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.view.FragmentStateManager;
 import org.xbmc.android.view.RelativePagerAdapter;

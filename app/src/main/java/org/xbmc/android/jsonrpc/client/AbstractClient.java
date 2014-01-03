@@ -22,7 +22,7 @@
 package org.xbmc.android.jsonrpc.client;
 
 import org.codehaus.jackson.node.ObjectNode;
-import org.xbmc.android.injection.AppModule;
+import org.xbmc.android.app.injection.AppModule;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.io.ApiException;
 import org.xbmc.android.jsonrpc.io.JsonApiRequest;

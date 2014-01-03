@@ -1,4 +1,4 @@
-package org.xbmc.android.injection;
+package org.xbmc.android.app.injection;
 
 import android.accounts.AccountManager;
 import android.app.NotificationManager;

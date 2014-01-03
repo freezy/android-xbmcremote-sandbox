@@ -19,7 +19,7 @@
  *
  */
 
-package org.xbmc.android.injection;
+package org.xbmc.android.app.injection;
 
 import dagger.Module;
 import dagger.Provides;
@@ -28,13 +28,13 @@ import org.xbmc.android.account.authenticator.ui.Step2aSearchingFragment;
 import org.xbmc.android.account.authenticator.ui.Step3aHostFoundFragment;
 import org.xbmc.android.account.authenticator.ui.WizardActivity;
 import org.xbmc.android.app.SandboxApplication;
+import org.xbmc.android.app.service.SyncService;
 import org.xbmc.android.app.ui.HomeActivity;
 import org.xbmc.android.app.ui.HostChooseActivity;
 import org.xbmc.android.app.ui.fragment.AlbumCompactFragment;
 import org.xbmc.android.app.ui.fragment.MovieCompactFragment;
 import org.xbmc.android.jsonrpc.config.HostConfig;
 import org.xbmc.android.jsonrpc.io.ConnectionManager;
-import org.xbmc.android.jsonrpc.service.SyncService;
 import org.xbmc.android.zeroconf.DiscoveryService;
 
 import javax.inject.Singleton;

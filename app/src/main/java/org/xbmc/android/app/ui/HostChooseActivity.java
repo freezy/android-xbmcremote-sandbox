@@ -9,7 +9,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 import org.xbmc.android.account.Constants;
-import org.xbmc.android.injection.Injector;
+import org.xbmc.android.app.injection.Injector;
 import org.xbmc.android.remotesandbox.R;
 
 import javax.inject.Inject;

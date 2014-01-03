@@ -18,11 +18,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import de.greenrobot.event.EventBus;
-import org.xbmc.android.jsonrpc.provider.AudioContract;
-import org.xbmc.android.jsonrpc.provider.AudioDatabase;
+import org.xbmc.android.app.provider.AudioContract;
+import org.xbmc.android.app.provider.AudioDatabase;
 import org.xbmc.android.remotesandbox.R;
-import org.xbmc.android.event.DataItemSynced;
-import org.xbmc.android.injection.Injector;
+import org.xbmc.android.app.event.DataItemSynced;
+import org.xbmc.android.app.injection.Injector;
 
 import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
@@ -137,7 +137,7 @@ public class AlbumCompactFragment extends GridFragment implements LoaderManager.
 	}
 
 	/**
-	 * {@link org.xbmc.android.jsonrpc.provider.AudioContract.Albums}
+	 * {@link org.xbmc.android.app.provider.AudioContract.Albums}
 	 * query parameters.
 	 */
 	private interface AlbumsQuery {
