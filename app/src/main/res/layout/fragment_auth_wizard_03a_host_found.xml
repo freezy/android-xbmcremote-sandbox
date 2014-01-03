@@ -5,7 +5,7 @@
 	<TextView style="@style/WizardPageTitle" android:text="@string/accountwizard_step3a_title"
 			android:id="@+id/title"/>
 
-	<TextView style="@style/WizardPageText" android:text="@string/accountwizard_step3a_p1"
+	<TextView style="@style/Paragraph" android:text="@string/accountwizard_step3a_p1"
 			android:layout_below="@+id/title"
 			android:layout_alignParentRight="true"
 			android:id="@+id/p1"/>

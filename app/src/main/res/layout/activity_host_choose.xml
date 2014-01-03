@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+		>
+
+	<TextView
+			style="@style/Paragraph"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/host_choose_p"
+			android:id="@+id/p1"
+			android:layout_alignParentTop="true"
+			android:layout_alignParentLeft="true"/>
+
+	<ListView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/list"
+			android:layout_below="@+id/p1"
+			android:layout_alignParentLeft="true"
+			android:layout_above="@+id/linearLayout"/>
+
+
+	<View
+			android:id="@+id/divider"
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:background="?android:attr/listDivider"
+			android:layout_below="@+id/list"
+			android:layout_alignParentLeft="true"/>
+
+	<LinearLayout
+			style="@style/ButtonBar"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:layout_alignParentBottom="true"
+			android:layout_alignParentLeft="true"
+			android:id="@+id/linearLayout">
+
+		<Button
+				android:id="@+id/prev_button"
+				style="@style/ButtonBarButton"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:background="@drawable/selectable_item_background"
+				android:text="@string/cancel" />
+
+		<View
+				android:layout_width="1dp"
+				android:layout_height="match_parent"
+				android:background="?android:attr/listDivider" />
+
+		<Button
+				android:id="@+id/next_button"
+				style="@style/ButtonBarButton"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:background="@drawable/selectable_item_background"
+				android:text="@string/ok" />
+	</LinearLayout>
+</RelativeLayout>

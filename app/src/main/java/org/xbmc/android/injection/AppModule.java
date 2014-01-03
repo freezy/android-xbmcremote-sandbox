@@ -29,6 +29,7 @@ import org.xbmc.android.account.authenticator.ui.Step3aHostFoundFragment;
 import org.xbmc.android.account.authenticator.ui.WizardActivity;
 import org.xbmc.android.app.SandboxApplication;
 import org.xbmc.android.app.ui.HomeActivity;
+import org.xbmc.android.app.ui.HostChooseActivity;
 import org.xbmc.android.app.ui.fragment.AlbumCompactFragment;
 import org.xbmc.android.app.ui.fragment.MovieCompactFragment;
 import org.xbmc.android.jsonrpc.config.HostConfig;
@@ -48,6 +49,7 @@ import javax.inject.Singleton;
 		AlbumCompactFragment.class,
 		DiscoveryService.class,
 		HomeActivity.class,
+		HostChooseActivity.class,
 		MovieCompactFragment.class,
 		SandboxApplication.class,
 		Step2aSearchingFragment.class,

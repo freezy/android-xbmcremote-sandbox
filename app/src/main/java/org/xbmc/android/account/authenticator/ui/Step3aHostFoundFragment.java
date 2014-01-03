@@ -64,7 +64,6 @@ public class Step3aHostFoundFragment extends WizardFragment {
 	private Typeface iconFont;
 	private ProgressDialog waiting;
 
-
 	private boolean hasNext = false;
 
 	@Inject AccountManager accountManager;

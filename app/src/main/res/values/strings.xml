@@ -42,6 +42,9 @@
 	<string name="toast_sync_error">Sync error: <xliff:g id="error">%1$s</xliff:g></string>
 	<string name="toast_music_db_updated">Music database updated.</string>
 
+	<string name="host_choose_title">Switch XBMC</string>
+	<string name="host_choose_p">Please choose the XBMC host you want to switch to below:</string>
+
 	<string name="accountwizard_title">Host Setup</string>
 	<string name="accountwizard_step1_title">Start XBMC.</string>
 	<string name="accountwizard_step1_p1">I will search for XBMC hosts now. If you don\'t already have, please start XBMC now and make sure that your device is connected to the same network.</string>
@@ -92,8 +95,8 @@
 	<string name="ic_refresh">\u0028</string>
 
 	<string name="ic_home">\u002e</string>
-	<string name="ic_music">\u002c</string>
-	<string name="ic_movie">\u002d</string>
+	<string name="ic_music">\u002d</string>
+	<string name="ic_movie">\u002c</string>
 	<string name="ic_tv">\u0021</string>
 	<string name="ic_picture">\u0029</string>
 	<string name="ic_addon">\u002f</string>

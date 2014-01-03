@@ -12,6 +12,7 @@ import android.widget.*;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import org.xbmc.android.account.authenticator.ui.WizardActivity;
+import org.xbmc.android.app.ui.HostChooseActivity;
 import org.xbmc.android.app.ui.IconHelper;
 import org.xbmc.android.remotesandbox.R;
 
@@ -35,6 +36,12 @@ public class SlidingMenuFragment extends Fragment {
 
 		list.setGroupIndicator(null);
 		changeHostButton.setTypeface(IconHelper.getTypeface(getActivity().getApplicationContext()));
+		changeHostButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(getActivity(), HostChooseActivity.class));
+			}
+		});
 
 		final ArrayList<Group> groups = new ArrayList<Group>();
 		groups.add(new Group("Home", R.string.ic_home));

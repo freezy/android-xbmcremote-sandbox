@@ -4,7 +4,7 @@
 			style="@style/WizardPageContainer">
 
 	<TextView style="@style/WizardPageTitle" android:text="@string/accountwizard_step1_title"/>
-	<TextView style="@style/WizardPageText" android:text="@string/accountwizard_step1_p1"/>
-	<TextView style="@style/WizardPageText" android:text="@string/accountwizard_step1_p2"/>
+	<TextView style="@style/Paragraph" android:text="@string/accountwizard_step1_p1"/>
+	<TextView style="@style/Paragraph" android:text="@string/accountwizard_step1_p2"/>
 
 </LinearLayout>
