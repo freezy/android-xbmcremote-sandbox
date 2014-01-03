@@ -36,8 +36,7 @@
 * [Otto](http://square.github.io/otto/) - *Event Bus*
 * [Guava](https://code.google.com/p/guava-libraries/) - *All-purpose from Google*
 * [Butterknife](http://jakewharton.github.io/butterknife/) - *View injection for Android*
-
+* [Cling](http://4thline.org/projects/cling/) - *Java/Android UPnP library and tools*
 
 # Sites
-
 * [Android Views](http://www.androidviews.net/)
