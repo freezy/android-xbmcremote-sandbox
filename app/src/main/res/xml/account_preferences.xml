@@ -19,21 +19,23 @@
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
  *  http://www.gnu.org/copyleft/gpl.html
  *
- */
+ */
+
 -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <PreferenceCategory android:title="General Settings" />
+    <PreferenceCategory android:title="General Settings">
 
-    <PreferenceScreen
-        android:key="account_settings"
-        android:summary="Sync frequency, notifications, etc."
-        android:title="Account Settings" >
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:targetPackage="org.xbmc.android.remotesandbox"
-            android:targetClass="org.xbmc.android.account.authenticator.AuthenticatorActivity" />
-    </PreferenceScreen>
+		<PreferenceScreen
+			android:key="account_settings"
+			android:summary="Sync frequency, notifications, etc."
+			android:title="Account Settings" >
+			<intent
+				android:action="android.intent.action.VIEW"
+				android:targetPackage="org.xbmc.android.remotesandbox"
+				android:targetClass="org.xbmc.android.account.authenticator.AuthenticatorActivity" />
+		</PreferenceScreen>
+	</PreferenceCategory>
 
 </PreferenceScreen>

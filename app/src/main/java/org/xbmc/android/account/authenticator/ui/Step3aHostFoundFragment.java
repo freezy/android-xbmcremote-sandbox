@@ -21,6 +21,8 @@
 
 package org.xbmc.android.account.authenticator.ui;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -35,7 +37,9 @@ import android.view.ViewGroup;
 import android.widget.*;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import org.xbmc.android.account.Constants;
 import org.xbmc.android.app.ui.IconHelper;
+import org.xbmc.android.injection.Injector;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.call.JSONRPC;
 import org.xbmc.android.jsonrpc.io.ApiCallback;
@@ -46,6 +50,7 @@ import org.xbmc.android.view.FragmentStateManager;
 import org.xbmc.android.view.RelativePagerFragment;
 import org.xbmc.android.zeroconf.XBMCHost;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,8 +64,10 @@ public class Step3aHostFoundFragment extends WizardFragment {
 	private Typeface iconFont;
 	private ProgressDialog waiting;
 
-	boolean hasNext = false;
 
+	private boolean hasNext = false;
+
+	@Inject AccountManager accountManager;
 	@InjectView(R.id.list) ListView listView;
 
 	public Step3aHostFoundFragment() {
@@ -72,6 +79,7 @@ public class Step3aHostFoundFragment extends WizardFragment {
 		super.onCreate(savedInstanceState);
 		iconFont =  IconHelper.getTypeface(getApplicationContext());
 		waiting = new ProgressDialog(getActivity());
+		Injector.inject(this);
 
 		if (savedInstanceState != null) {
 			hasNext = savedInstanceState.getBoolean(DATA_HAS_NEXT, false);
@@ -103,6 +111,26 @@ public class Step3aHostFoundFragment extends WizardFragment {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				final XBMCHost host = hosts.get(position);
+
+				final Account[] accounts = accountManager.getAccountsByType(Constants.ACCOUNT_TYPE);
+				boolean match = false;
+				for (Account account : accounts) {
+					if (account.name.equals(host.getName())) {
+						match = true;
+					}
+				}
+				if (match) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+					builder.setMessage(R.string.accountwizard_step3a_already_added)
+						.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.dismiss();
+							}
+						}).create().show();
+					return;
+				}
+
+
 				waiting.setTitle(String.format(getResources().getString(R.string.accountwizard_step3a_waiting_title), host.getName()));
 				waiting.setMessage(String.format(getResources().getString(R.string.accountwizard_step3a_waiting_message), host.getAddress(), host.getPort()));
 				waiting.setIndeterminate(true);

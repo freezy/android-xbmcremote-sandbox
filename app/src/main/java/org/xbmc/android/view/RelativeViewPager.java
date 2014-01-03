@@ -31,6 +31,9 @@ import android.view.MotionEvent;
  * A view pager that relies on the currently displayed fragment to deliver the
  * next or previous page, as opposed to a global list of fragments.
  *
+ * A bit inspired from <a href="http://stackoverflow.com/questions/7951730">
+ * Stackoverflow.</a>
+ *
  * @author freezy <freezy@xbmc.org>
  */
 public class RelativeViewPager extends ViewPager {

@@ -25,6 +25,8 @@ import dagger.Module;
 import dagger.Provides;
 import de.greenrobot.event.EventBus;
 import org.xbmc.android.account.authenticator.ui.Step2aSearchingFragment;
+import org.xbmc.android.account.authenticator.ui.Step3aHostFoundFragment;
+import org.xbmc.android.account.authenticator.ui.WizardActivity;
 import org.xbmc.android.app.SandboxApplication;
 import org.xbmc.android.app.ui.HomeActivity;
 import org.xbmc.android.app.ui.fragment.AlbumCompactFragment;
@@ -43,13 +45,15 @@ import javax.inject.Singleton;
 @Module(
 	complete = false,
 	injects = {
-		SandboxApplication.class,
-		HomeActivity.class,
 		AlbumCompactFragment.class,
+		DiscoveryService.class,
+		HomeActivity.class,
 		MovieCompactFragment.class,
+		SandboxApplication.class,
 		Step2aSearchingFragment.class,
+		Step3aHostFoundFragment.class,
 		SyncService.class,
-		DiscoveryService.class
+		WizardActivity.class
 	}
 )
 public class AppModule {

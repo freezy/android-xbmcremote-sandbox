@@ -34,12 +34,15 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import co.juliansuarez.libwizardpager.wizard.ui.StepPagerStrip;
 import org.xbmc.android.account.Constants;
+import org.xbmc.android.injection.Injector;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.view.FragmentStateManager;
 import org.xbmc.android.view.RelativePagerAdapter;
 import org.xbmc.android.view.RelativePagerFragment;
 import org.xbmc.android.view.RelativeViewPager;
 import org.xbmc.android.zeroconf.XBMCHost;
+
+import javax.inject.Inject;
 
 import static org.xbmc.android.account.authenticator.ui.WizardFragment.*;
 
@@ -55,7 +58,7 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 	public static final String DATA_PAGER_STEP = "org.xbmc.android.account.DATA_PAGER_STEP";
 	public static final String DATA_IS_LAST = "org.xbmc.android.account.DATA_IS_LAST";
 
-	private AccountManager accountManager;
+	@Inject AccountManager accountManager;
 
 	@InjectView(R.id.strip) StepPagerStrip pagerStrip;
 	@InjectView(R.id.pager) RelativeViewPager pager;
@@ -73,8 +76,7 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 		setContentView(R.layout.activity_accountwizard);
 		setTitle(R.string.accountwizard_title);
 		ButterKnife.inject(this);
-
-		accountManager = AccountManager.get(this);
+		Injector.inject(this);
 
 		adapter = new RelativePagerAdapter(getSupportFragmentManager(), getFragmentStateManager());
 		final Fragment firstPage = getFragmentStateManager().getFragment(Step1WelcomeFragment.class);
