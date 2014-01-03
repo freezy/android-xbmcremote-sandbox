@@ -20,6 +20,9 @@
 				android:maxHeight="48dp"
 				android:padding="0dp"/>
 
+		<View style="@style/NavigationDrawer.DividerV" android:id="@+id/divider2"
+			  android:layout_centerVertical="true"
+			  android:layout_alignLeft="@+id/change_host"/>
 		<TextView
 				style="@style/NavigationDrawer.text"
 				android:id="@+id/current_host"
@@ -34,7 +37,7 @@
 				android:layout_alignParentLeft="true"/>
 	</RelativeLayout>
 
-	<View style="@style/Divider" android:id="@+id/divider1"
+	<View style="@style/NavigationDrawer.DividerH" android:id="@+id/divider1"
 		  android:layout_below="@+id/wrapper1"
 		  android:layout_alignParentLeft="true"/>
 
