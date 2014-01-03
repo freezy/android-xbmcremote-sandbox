@@ -42,6 +42,7 @@
 	<string name="toast_sync_error">Sync error: <xliff:g id="error">%1$s</xliff:g></string>
 	<string name="toast_music_db_updated">Music database updated.</string>
 
+	<string name="host_no_host">No host set</string>
 	<string name="host_choose_title">Switch XBMC</string>
 	<string name="host_choose_p">Please choose the XBMC host you want to switch to below:</string>
 

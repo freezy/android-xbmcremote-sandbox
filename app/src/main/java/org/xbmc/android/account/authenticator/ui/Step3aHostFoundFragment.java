@@ -25,21 +25,21 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import org.xbmc.android.account.Constants;
 import org.xbmc.android.app.injection.Injector;
-import org.xbmc.android.app.ui.IconHelper;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.call.JSONRPC;
 import org.xbmc.android.jsonrpc.io.ApiCallback;
@@ -52,7 +52,8 @@ import org.xbmc.android.zeroconf.XBMCHost;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
-import java.util.List;
+
+import static org.xbmc.android.app.ui.HostChooseActivity.HostListAdapter;
 
 public class Step3aHostFoundFragment extends WizardFragment {
 
@@ -61,7 +62,6 @@ public class Step3aHostFoundFragment extends WizardFragment {
 	private ArrayList<XBMCHost> hosts;
 	private XBMCHost selectedHost;
 
-	private Typeface iconFont;
 	private ProgressDialog waiting;
 
 	private boolean hasNext = false;
@@ -76,7 +76,6 @@ public class Step3aHostFoundFragment extends WizardFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		iconFont =  IconHelper.getTypeface(getApplicationContext());
 		waiting = new ProgressDialog(getActivity());
 		Injector.inject(this);
 
@@ -242,35 +241,6 @@ public class Step3aHostFoundFragment extends WizardFragment {
 		this.hosts = hosts;
 	}
 
-	private class HostListAdapter extends ArrayAdapter<XBMCHost> {
-
-		private final Context context;
-		private final List<XBMCHost> values;
-
-		public HostListAdapter(Context context, int resource, List<XBMCHost> values) {
-			super(context, resource, values);
-			this.context = context;
-			this.values = values;
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-
-			final LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			final View rowView = inflater.inflate(R.layout.list_item_host_wide, parent, false);
-			final TextView iconView = (TextView) rowView.findViewById(R.id.list_icon);
-			final TextView titleView = (TextView) rowView.findViewById(R.id.title_host);
-			final TextView subtitleView = (TextView) rowView.findViewById(R.id.address_host);
-
-			final XBMCHost host = values.get(position);
-			iconView.setTypeface(iconFont);
-			titleView.setText(host.getName());
-			subtitleView.setText(host.getAddress() + ":" + host.getPort());
-
-			return rowView;
-		}
-
-	}
 
 	@Override
 	public void onPause() {

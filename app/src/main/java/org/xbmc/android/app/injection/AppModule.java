@@ -34,6 +34,7 @@ import org.xbmc.android.app.ui.HomeActivity;
 import org.xbmc.android.app.ui.HostChooseActivity;
 import org.xbmc.android.app.ui.fragment.AlbumCompactFragment;
 import org.xbmc.android.app.ui.fragment.MovieCompactFragment;
+import org.xbmc.android.app.ui.menu.SlidingMenuFragment;
 import org.xbmc.android.jsonrpc.config.HostConfig;
 import org.xbmc.android.jsonrpc.io.ConnectionManager;
 import org.xbmc.android.zeroconf.DiscoveryService;
@@ -54,6 +55,7 @@ import javax.inject.Singleton;
 		HostManager.class,
 		MovieCompactFragment.class,
 		SandboxApplication.class,
+		SlidingMenuFragment.class,
 		Step2aSearchingFragment.class,
 		Step3aHostFoundFragment.class,
 		SyncService.class,

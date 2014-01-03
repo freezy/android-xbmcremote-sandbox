@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-		>
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content">
 
 	<TextView
 			style="@style/Paragraph"
@@ -12,16 +10,20 @@
 			android:text="@string/host_choose_p"
 			android:id="@+id/p1"
 			android:layout_alignParentTop="true"
-			android:layout_alignParentLeft="true"/>
+			android:layout_alignParentLeft="true"
+			android:paddingLeft="16dp"
+			android:paddingTop="16dp"
+			android:paddingRight="16dp"/>
 
 	<ListView
+			android:id="@+id/list"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:id="@+id/list"
 			android:layout_below="@+id/p1"
 			android:layout_alignParentLeft="true"
-			android:layout_above="@+id/linearLayout"/>
-
+			android:paddingLeft="16dp"
+			android:paddingRight="16dp"
+			android:paddingBottom="16dp"/>
 
 	<View
 			android:id="@+id/divider"
@@ -36,31 +38,33 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:orientation="horizontal"
-			android:layout_alignParentBottom="true"
+			android:layout_below="@+id/divider"
 			android:layout_alignParentLeft="true"
 			android:id="@+id/linearLayout">
 
 		<Button
-				android:id="@+id/prev_button"
+				android:id="@+id/cancel"
 				style="@style/ButtonBarButton"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
 				android:background="@drawable/selectable_item_background"
-				android:text="@string/cancel" />
+				android:text="@string/cancel"/>
 
 		<View
 				android:layout_width="1dp"
 				android:layout_height="match_parent"
-				android:background="?android:attr/listDivider" />
+				android:background="?android:attr/listDivider"/>
 
 		<Button
-				android:id="@+id/next_button"
+				android:id="@+id/ok"
 				style="@style/ButtonBarButton"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
 				android:background="@drawable/selectable_item_background"
-				android:text="@string/ok" />
+				android:text="@string/ok"/>
+
 	</LinearLayout>
+
 </RelativeLayout>

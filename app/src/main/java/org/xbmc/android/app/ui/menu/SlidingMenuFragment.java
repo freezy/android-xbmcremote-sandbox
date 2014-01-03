@@ -11,24 +11,40 @@ import android.view.ViewGroup;
 import android.widget.*;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
 import org.xbmc.android.account.authenticator.ui.WizardActivity;
+import org.xbmc.android.app.event.HostSwitched;
+import org.xbmc.android.app.injection.Injector;
+import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.app.ui.HostChooseActivity;
 import org.xbmc.android.app.ui.IconHelper;
 import org.xbmc.android.remotesandbox.R;
+import org.xbmc.android.zeroconf.XBMCHost;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 
 public class SlidingMenuFragment extends Fragment {
 
 	@InjectView(R.id.slidingmenu_expandable_list) ExpandableListView list;
 	@InjectView(R.id.change_host) Button changeHostButton;
+	@InjectView(R.id.current_host) TextView hostLabel;
+
+	@Inject	EventBus bus;
+	@Inject HostManager hostManager;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		Injector.inject(this);
+		bus.register(this);
+	}
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View v = inflater.inflate(R.layout.slidingmenu, null);
 		ButterKnife.inject(this, v);
 		return v;
 	}
-
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -43,6 +59,11 @@ public class SlidingMenuFragment extends Fragment {
 			}
 		});
 
+		final XBMCHost host = hostManager.getActiveHost();
+		if (host != null) {
+			hostLabel.setText(host.getName());
+		}
+
 		final ArrayList<Group> groups = new ArrayList<Group>();
 		groups.add(new Group("Home", R.string.ic_home));
 		groups.add(new Group("Music", R.string.ic_music, new Child("Albums"), new Child("Artists"), new Child("Genres")));
@@ -54,6 +75,15 @@ public class SlidingMenuFragment extends Fragment {
 		list.setAdapter(new ListAdapter(getActivity(), groups));
 	}
 
+	public void onEventMainThread(HostSwitched event) {
+		hostLabel.setText(event.getHost().getName());
+	}
+
+	@Override
+	public void onDestroy() {
+		bus.unregister(this);
+		super.onDestroy();
+	}
 
 	private class ListAdapter extends BaseExpandableListAdapter {
 
@@ -122,8 +152,8 @@ public class SlidingMenuFragment extends Fragment {
 
 			Child child = (Child) getChild(groupPosition, childPosition);
 			if (view == null) {
-				LayoutInflater infalInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				view = infalInflater.inflate(R.layout.slidingmenu_item, null);
+				LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				view = inflater.inflate(R.layout.slidingmenu_item, null);
 			}
 			TextView tv = (TextView) view.findViewById(R.id.label);
 			tv.setText(child.getName());
