@@ -28,6 +28,7 @@ import org.xbmc.android.account.authenticator.ui.Step2aSearchingFragment;
 import org.xbmc.android.account.authenticator.ui.Step3aHostFoundFragment;
 import org.xbmc.android.account.authenticator.ui.WizardActivity;
 import org.xbmc.android.app.SandboxApplication;
+import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.app.service.SyncService;
 import org.xbmc.android.app.ui.HomeActivity;
 import org.xbmc.android.app.ui.HostChooseActivity;
@@ -50,6 +51,7 @@ import javax.inject.Singleton;
 		DiscoveryService.class,
 		HomeActivity.class,
 		HostChooseActivity.class,
+		HostManager.class,
 		MovieCompactFragment.class,
 		SandboxApplication.class,
 		Step2aSearchingFragment.class,
@@ -73,5 +75,11 @@ public class AppModule {
 	@Provides
 	ConnectionManager provideConnectionManager() {
 		return new ConnectionManager(SandboxApplication.getInstance().getApplicationContext(), new HostConfig(HOST));
+	}
+
+	@Singleton
+	@Provides
+	HostManager provideHostManager() {
+		return new HostManager();
 	}
 }

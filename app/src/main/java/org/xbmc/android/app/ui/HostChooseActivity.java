@@ -1,23 +1,23 @@
 package org.xbmc.android.app.ui;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
-import org.xbmc.android.account.Constants;
 import org.xbmc.android.app.injection.Injector;
+import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.remotesandbox.R;
+import org.xbmc.android.zeroconf.XBMCHost;
 
 import javax.inject.Inject;
 
 public class HostChooseActivity extends Activity {
 
 	@Inject EventBus bus;
-	@Inject AccountManager accountManager;
+	@Inject HostManager hostManager;
 	@InjectView(R.id.list) ListView list;
 
 	@Override
@@ -29,8 +29,8 @@ public class HostChooseActivity extends Activity {
 		ButterKnife.inject(this);
 		Injector.inject(this);
 
-		final Account[] accounts = accountManager.getAccountsByType(Constants.ACCOUNT_TYPE);
-		for (Account account : accounts) {
+		for (XBMCHost host : hostManager.getHosts()) {
+			Log.d("test", host.toString());
 		}
 
 	}

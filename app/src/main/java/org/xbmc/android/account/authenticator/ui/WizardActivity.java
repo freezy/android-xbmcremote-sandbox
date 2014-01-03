@@ -21,13 +21,11 @@
 
 package org.xbmc.android.account.authenticator.ui;
 
-import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import butterknife.ButterKnife;
@@ -35,6 +33,7 @@ import butterknife.InjectView;
 import co.juliansuarez.libwizardpager.wizard.ui.StepPagerStrip;
 import org.xbmc.android.account.Constants;
 import org.xbmc.android.app.injection.Injector;
+import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.view.FragmentStateManager;
 import org.xbmc.android.view.RelativePagerAdapter;
@@ -58,7 +57,7 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 	public static final String DATA_PAGER_STEP = "org.xbmc.android.account.DATA_PAGER_STEP";
 	public static final String DATA_IS_LAST = "org.xbmc.android.account.DATA_IS_LAST";
 
-	@Inject AccountManager accountManager;
+	@Inject HostManager hostManager;
 
 	@InjectView(R.id.strip) StepPagerStrip pagerStrip;
 	@InjectView(R.id.pager) RelativeViewPager pager;
@@ -136,15 +135,7 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 	}
 
 	public void addHost(XBMCHost host) {
-		Log.i(TAG, "addHost(" + host + ")");
-		final Account account = new Account(host.getName(), Constants.ACCOUNT_TYPE);
-		final Bundle data = new Bundle();
-		data.putString(Constants.DATA_HOST, host.getHost());
-		data.putString(Constants.DATA_ADDRESS, host.getAddress());
-		data.putString(Constants.DATA_PORT, String.valueOf(host.getPort()));
-		data.putString(Constants.DATA_USER, host.getUser());
-		data.putString(Constants.DATA_PASS, host.getPass());
-		accountManager.addAccountExplicitly(account, null, data);
+		hostManager.addAccount(host);
 		final Intent intent = new Intent();
 		intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, host.getName());
 		intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, Constants.ACCOUNT_TYPE);
