@@ -8,8 +8,13 @@ import android.graphics.Typeface;
  */
 public class IconHelper {
 
+	private static Typeface symbols;
+
 	public static Typeface getTypeface(Context context) {
-		return Typeface.createFromAsset(context.getAssets(), "symbols.ttf");
+		if (symbols == null) {
+			symbols = Typeface.createFromAsset(context.getAssets(), "symbols.ttf");
+		}
+		return symbols;
 	}
 
 

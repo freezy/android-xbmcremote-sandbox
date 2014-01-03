@@ -89,6 +89,7 @@
 
 	<string name="ic_settings">\u0026</string>
 	<string name="ic_remote">\u0027</string>
+	<string name="ic_refresh">\u0028</string>
 
 	<string name="ic_home">\u002e</string>
 	<string name="ic_music">\u002c</string>
@@ -96,4 +97,10 @@
 	<string name="ic_tv">\u0021</string>
 	<string name="ic_picture">\u0029</string>
 	<string name="ic_addon">\u002f</string>
+	<string name="ic_computer">\u0030</string>
+
+	<string name="ic_star_25">\u0025</string>
+	<string name="ic_star_50">\u0024</string>
+	<string name="ic_star_75">\u0023</string>
+	<string name="ic_star_100">\u0022</string>
 </resources>

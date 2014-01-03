@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import org.xbmc.android.account.authenticator.ui.WizardActivity;
 import org.xbmc.android.app.ui.IconHelper;
 import org.xbmc.android.remotesandbox.R;
@@ -17,16 +19,22 @@ import java.util.ArrayList;
 
 public class SlidingMenuFragment extends Fragment {
 
+	@InjectView(R.id.slidingmenu_expandable_list) ExpandableListView list;
+	@InjectView(R.id.change_host) Button changeHostButton;
+
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.slidingmenu, null);
+		final View v = inflater.inflate(R.layout.slidingmenu, null);
+		ButterKnife.inject(this, v);
+		return v;
 	}
+
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		final ExpandableListView list = (ExpandableListView) getView().findViewById(R.id.slidingmenu_expandable_list);
 		list.setGroupIndicator(null);
+		changeHostButton.setTypeface(IconHelper.getTypeface(getActivity().getApplicationContext()));
 
 		final ArrayList<Group> groups = new ArrayList<Group>();
 		groups.add(new Group("Home", R.string.ic_home));

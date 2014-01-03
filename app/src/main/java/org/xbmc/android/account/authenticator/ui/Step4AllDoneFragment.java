@@ -55,7 +55,7 @@ public class Step4AllDoneFragment extends WizardFragment {
 		if (!hostAdded && host != null) {
 			hostAdded = true;
 			Log.i(TAG, "Addding host \"" + host + "\" to account manager.");
-//			((WizardActivity)getActivity()).addHost(host);
+			((WizardActivity)getActivity()).addHost(host);
 		}
 	}
 
