@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="wrap_content"
-		android:layout_height="wrap_content">
+		android:layout_height="wrap_content"
+		android:background="@color/light_bg">
 
 	<TextView
 			style="@style/Paragraph"
@@ -23,13 +24,15 @@
 			android:layout_alignParentLeft="true"
 			android:paddingLeft="16dp"
 			android:paddingRight="16dp"
-			android:paddingBottom="16dp"/>
+			android:paddingBottom="16dp"
+			android:divider="@android:color/transparent"
+			android:dividerHeight="16dp"/>
 
 	<View
 			android:id="@+id/divider"
 			android:layout_width="match_parent"
 			android:layout_height="1dp"
-			android:background="?android:attr/listDivider"
+			android:background="@color/light_tertiary_text"
 			android:layout_below="@+id/list"
 			android:layout_alignParentLeft="true"/>
 
@@ -54,7 +57,7 @@
 		<View
 				android:layout_width="1dp"
 				android:layout_height="match_parent"
-				android:background="?android:attr/listDivider"/>
+				android:background="@color/light_tertiary_text"/>
 
 		<Button
 				android:id="@+id/ok"

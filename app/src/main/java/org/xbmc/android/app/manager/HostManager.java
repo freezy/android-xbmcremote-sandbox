@@ -43,6 +43,8 @@ public class HostManager {
 	public ArrayList<XBMCHost> getHosts() {
 		final Account[] accounts = accountManager.getAccountsByType(Constants.ACCOUNT_TYPE);
 		final ArrayList<XBMCHost> hosts = new ArrayList<XBMCHost>(accounts.length);
+		final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+		final String activeHost = settings.getString(PREFS_CURRENT_HOST, null);
 		for (Account account : accounts) {
 			final XBMCHost host = new XBMCHost(
 				accountManager.getUserData(account, Constants.DATA_ADDRESS),
@@ -54,6 +56,7 @@ public class HostManager {
 				accountManager.getUserData(account, Constants.DATA_USER),
 				accountManager.getUserData(account, Constants.DATA_PASS)
 			);
+			host.setActive(activeHost != null && activeHost.equals(account.name));
 			hosts.add(host);
 		}
 		return hosts;

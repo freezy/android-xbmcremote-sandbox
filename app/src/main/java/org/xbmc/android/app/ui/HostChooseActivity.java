@@ -7,10 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.*;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
@@ -20,6 +17,7 @@ import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.zeroconf.XBMCHost;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HostChooseActivity extends Activity {
@@ -40,8 +38,32 @@ public class HostChooseActivity extends Activity {
 		ButterKnife.inject(this);
 		Injector.inject(this);
 
-		final HostListAdapter adapter = new HostListAdapter(getApplicationContext(), R.layout.list_item_host_wide, hostManager.getHosts());
+		final ArrayList<XBMCHost> hosts = hostManager.getHosts();
+		final HostListAdapter adapter = new HostListAdapter(getApplicationContext(), R.layout.list_item_host_wide, hosts);
 		listView.setAdapter(adapter);
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				final int s = hosts.size();
+				for (int i = 0; i < s; i++) {
+					hosts.get(i).setActive(i == position);
+				}
+				adapter.notifyDataSetChanged();
+			}
+		});
+
+		okBtn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				for (XBMCHost host : hosts) {
+					if (host.isActive()) {
+						hostManager.switchHost(host);
+						break;
+					}
+				}
+				finish();
+			}
+		});
 
 		cancelBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -73,11 +95,15 @@ public class HostChooseActivity extends Activity {
 			final TextView iconView = (TextView) rowView.findViewById(R.id.list_icon);
 			final TextView titleView = (TextView) rowView.findViewById(R.id.title_host);
 			final TextView subtitleView = (TextView) rowView.findViewById(R.id.address_host);
+			final View overlay = rowView.findViewById(R.id.card_selected);
 
 			final XBMCHost host = values.get(position);
 			iconView.setTypeface(iconFont);
 			titleView.setText(host.getName());
 			subtitleView.setText(host.getAddress() + ":" + host.getPort());
+			if (host.isActive()) {
+				overlay.setVisibility(View.VISIBLE);
+			}
 
 			return rowView;
 		}

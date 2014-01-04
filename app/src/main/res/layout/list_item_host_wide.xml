@@ -2,6 +2,7 @@
 
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				android:id="@+id/card"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_marginLeft="6dp"
@@ -19,6 +20,7 @@
 			android:id="@+id/thumb_wrapper"
 			android:layout_width="80dp"
 			android:layout_height="80dp"
+			android:paddingBottom="2dp"
 			android:background="@drawable/bg_gradient">
 
 		<TextView
@@ -62,10 +64,20 @@
 			android:ellipsize="marquee" />
 
 	<RelativeLayout
+			android:background="@drawable/bg_selectable"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:background="@drawable/bg_selectable"
 			android:layout_alignParentTop="true"
 			android:layout_alignParentLeft="true"
 			android:layout_alignBottom="@+id/thumb_wrapper"/>
+
+	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+					android:id="@+id/card_selected"
+					android:visibility="gone"
+					android:background="@drawable/bg_card_selected"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_alignParentTop="true"
+					android:layout_alignParentLeft="true"
+					android:layout_alignBottom="@+id/thumb_wrapper" />
 </RelativeLayout>

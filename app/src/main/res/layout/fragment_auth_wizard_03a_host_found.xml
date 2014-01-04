@@ -20,7 +20,7 @@
 			android:layout_marginLeft="10dp"
 			android:layout_marginRight="10dp"
 			android:divider="@android:color/transparent"
-			android:dividerHeight="15dp"
-			android:paddingBottom="15dp"/>
+			android:dividerHeight="16dp"
+			android:paddingBottom="16dp"/>
 
 </RelativeLayout>

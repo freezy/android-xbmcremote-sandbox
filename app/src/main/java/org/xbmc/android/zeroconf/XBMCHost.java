@@ -21,6 +21,8 @@ public class XBMCHost implements Parcelable {
 	private String username;
 	private String password;
 
+	private boolean active = false;
+
 	public XBMCHost(String address, String host, int port, String name) {
 		this.address = address;
 		this.host = host;
@@ -65,6 +67,14 @@ public class XBMCHost implements Parcelable {
 		return password;
 	}
 
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
 	@Override
 	public String toString() {
 		return host + " - " + address + ":" + port;
@@ -80,6 +90,7 @@ public class XBMCHost implements Parcelable {
 		parcel.writeString(name);
 		parcel.writeString(username);
 		parcel.writeString(password);
+		parcel.writeInt(active ? 1 : 0);
 	}
 
 	/**
@@ -95,9 +106,11 @@ public class XBMCHost implements Parcelable {
 			final String name = parcel.readString();
 			final String username = parcel.readString();
 			final String password = parcel.readString();
+			final boolean active = parcel.readInt() == 1;
 
 			final XBMCHost h = new XBMCHost(address, host, port, name);
 			h.setCredentials(username, password);
+			h.setActive(active);
 			return h;
 		}
 
