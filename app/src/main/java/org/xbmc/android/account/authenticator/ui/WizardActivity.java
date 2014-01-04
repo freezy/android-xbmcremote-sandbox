@@ -25,7 +25,6 @@ import android.accounts.AccountManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
 import butterknife.ButterKnife;
@@ -43,8 +42,18 @@ import org.xbmc.android.zeroconf.XBMCHost;
 
 import javax.inject.Inject;
 
-import static org.xbmc.android.account.authenticator.ui.WizardFragment.*;
+import static org.xbmc.android.account.authenticator.ui.WizardFragment.STATUS_DISABLED;
+import static org.xbmc.android.account.authenticator.ui.WizardFragment.STATUS_ENABLED;
+import static org.xbmc.android.account.authenticator.ui.WizardFragment.STATUS_GONE;
 
+/**
+ * Guides the user through the host setup.
+ *
+ * This is the activity that is executed by Android's account settings when adding a new XBMC host. It is also used
+ * from within the app itself though.
+ *
+ * @author freezy <freezy@xbmc.org>
+ */
 public class WizardActivity extends AccountAuthenticatorActivity implements FragmentStateManager.FragmentStateManageable {
 
 	public static final String TAG = WizardActivity.class.getSimpleName();
@@ -77,11 +86,13 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 		ButterKnife.inject(this);
 		Injector.inject(this);
 
+		// init adapter and first fragment
 		adapter = new RelativePagerAdapter(getSupportFragmentManager(), getFragmentStateManager());
 		final Fragment firstPage = getFragmentStateManager().getFragment(Step1WelcomeFragment.class);
 
 		adapter.setInitialFragment((Step1WelcomeFragment)firstPage);
 
+		// ths only part we use from WizardPager is the pager strip.
 		pagerStrip.setOnPageSelectedListener(new StepPagerStrip.OnPageSelectedListener() {
 			@Override
 			public void onPageStripSelected(int position) {
@@ -94,6 +105,7 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 		pagerStrip.setPageCount(4);
 		pagerStrip.setCurrentPage(0);
 
+		// init pager
 		pager.setAdapter(adapter);
 		pager.setOnRelativePageChangeListener(new RelativeViewPager.OnRelativePageChangeListener() {
 			@Override
@@ -104,6 +116,7 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 			}
 		});
 
+		// init buttons
 		nextButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -122,6 +135,7 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 			}
 		});
 
+		// restore from bundle if necessary
 		if (savedInstanceState == null) {
 			updateBottomBar((WizardFragment)adapter.getCurrentFragment());
 		} else {
@@ -131,11 +145,16 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 			prevButton.setText(savedInstanceState.getInt(DATA_PREV_BUTTON_TEXT));
 			pagerStrip.setCurrentPage(savedInstanceState.getInt(DATA_PAGER_STEP));
 		}
-
 	}
 
+	/**
+	 * Executed from the last fragment when host is found and validated.
+	 * @param host Host to add to the system
+	 */
 	public void addHost(XBMCHost host) {
 		hostManager.addAccount(host);
+		hostManager.switchHost(host);
+
 		final Intent intent = new Intent();
 		intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, host.getName());
 		intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, Constants.ACCOUNT_TYPE);
@@ -143,6 +162,10 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 		setResult(RESULT_OK, intent);
 	}
 
+	/**
+	 * Updates states and lables of the bottom buttons.
+	 * @param fragment
+	 */
 	private void updateBottomBar(WizardFragment fragment) {
 		updateButton(nextButton, fragment.hasNextButton(), fragment.isLast());
 		updateButton(prevButton, fragment.hasPrevButton(), false);
@@ -162,6 +185,12 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 		outState.putBoolean(DATA_IS_LAST, fragment.isLast());
 	}
 
+	/**
+	 * Updates button visibility based on given state.
+	 * @param button Button to update
+	 * @param state Button state
+	 * @param last If on last page, button is always enabled.
+	 */
 	private static void updateButton(Button button, int state, boolean last) {
 		if (last) {
 			state = STATUS_ENABLED;
@@ -181,14 +210,10 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 		}
 	}
 
-	private FragmentStateManager getFragmentStateManager() {
-		return getFragmentStateManager(this);
-	}
-
 	@Override
-	public FragmentStateManager getFragmentStateManager(FragmentActivity activity) {
+	public FragmentStateManager getFragmentStateManager() {
 		if (fragmentStateManager == null) {
-			fragmentStateManager = new FragmentStateManager(activity);
+			fragmentStateManager = new FragmentStateManager();
 		}
 		return fragmentStateManager;
 	}

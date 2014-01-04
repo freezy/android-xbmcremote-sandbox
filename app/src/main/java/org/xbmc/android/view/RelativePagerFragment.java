@@ -30,7 +30,7 @@ import android.view.ViewGroup;
 
 /**
  * An abstract Fragment that delivers the next or previous page when used in
- * a {@link org.xbmc.android.view.RelativeViewPager}.
+ * a {@link RelativeViewPager}.
  *
  * @author freezy <freezy@xbmc.org>
  */
@@ -46,7 +46,6 @@ public abstract class RelativePagerFragment extends Fragment {
 	protected RelativePagerFragment(int layoutRes) {
 		this.layoutRes = layoutRes;
 	}
-
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -108,9 +107,18 @@ public abstract class RelativePagerFragment extends Fragment {
 		return getActivity().getApplicationContext();
 	}
 
+	/**
+	 * Allows to manually enforce the next or previous page.
+	 */
 	public interface OnStatusChangeListener {
-		void onStatusChanged();
+		/**
+		 * The next page is displayed.
+		 */
 		void onNextPage();
+
+		/**
+		 * The previous page is displayed.
+		 */
 		void onPrevPage();
 	}
 }

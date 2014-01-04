@@ -2,67 +2,33 @@ package org.xbmc.android.view;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import org.xbmc.android.view.RelativePagerFragment.OnStatusChangeListener;
 
 import java.util.HashMap;
 
+/**
+ * Caches fragments for the {@link RelativePagerFragment}.
+ */
 public class FragmentStateManager {
 
 	private final static String TAG = FragmentStateManager.class.getSimpleName();
 
-	private final FragmentActivity activity;
 	private final HashMap<String, Fragment> fragments = new HashMap<String, Fragment>();
 
 	private RelativePagerAdapter onStatusChangeListener;
 
-	public FragmentStateManager(FragmentActivity activity) {
-		this.activity = activity;
+	public FragmentStateManager() {
 	}
 
 	/**
-	 * Called on {@link Fragment#onCreate(android.os.Bundle)}
+	 * Returns fragment from cache if found, otherwise instantiates it.
 	 *
-	public Fragment initFragment(Bundle savedInstanceState, Class<? extends RelativePagerFragment> klass) {
-		Fragment fragment = null;
-		Log.d(TAG, "Getting fragment " + klass.getSimpleName() + " from fragment manager.");
-		if (savedInstanceState != null) {
-			fragment = activity.getSupportFragmentManager().getFragment(savedInstanceState, klass.getName());
-		}
-		if (fragment == null && fragments.containsKey(klass.getName())) {
-			Log.d(TAG, "Not found, but found fragment " + klass.getSimpleName() + " in cache, returning.");
-			return fragments.get(klass.getName());
-		}
-		if (fragment == null) {
-			Log.d(TAG, "Nothing found, instantiating " + klass.getSimpleName() + " manually.");
-			fragment = instantiateFragment(klass);
-		}
-		fragments.put(klass.getName(), fragment);
-		return fragment;
-	}
-
-
-	/**
-	 * Called on {@link Fragment#onSaveInstanceState(android.os.Bundle)}
+	 * Typically called on {@link RelativePagerFragment#hasNext()} and
+	 * {@link RelativePagerFragment#hasPrev()}
 	 *
-	public void putFragment(Bundle outState, Class<? extends RelativePagerFragment> klass) {
-		if (!fragments.containsKey(klass.getName())) {
-			throw new IllegalStateException("Cannot find fragment " + klass.getSimpleName() + " in saved states.");
-		}
-		Log.d(TAG, "Putting fragment " + klass.getSimpleName() + " into fragment manager.");
-
-		final Fragment fragment = fragments.get(klass.getName());
-		if (fragment.isAdded()) {
-			Log.d(TAG, "Putting fragment " + klass.getSimpleName() + " into fragment manager.");
-			activity.getSupportFragmentManager().putFragment(outState, klass.getName(), fragment);
-
-		} else {
-			Log.d(TAG, "NOT putting removed fragment " + klass.getSimpleName() + " into fragment manager.");
-		}
-	}*/
-
-	/**
-	 * Called on {@link RelativePagerFragment#hasNext()} and {@link RelativePagerFragment#hasPrev()}
+	 * @param klass Type of the fragment
+	 * @return Fragment instance
 	 */
 	public RelativePagerFragment getFragment(Class<? extends RelativePagerFragment> klass) {
 		Log.d(TAG, "Getting fragment " + klass.getSimpleName() + " from cache.");
@@ -75,6 +41,11 @@ public class FragmentStateManager {
 		return (RelativePagerFragment)fragments.get(klass.getName());
 	}
 
+	/**
+	 * Removes a fragment from the cache. This is sometimes desireable if a fragment contains a
+	 * complex state that otherwise would have to be manually reset. In this case, removing the
+	 * fragment will force a re-instantiation and thus a clean state.
+	 */
 	public void removeFragment(Class<? extends RelativePagerFragment> klass) {
 		if (fragments.containsKey(klass.getName())) {
 			fragments.remove(klass.getName());
@@ -91,10 +62,7 @@ public class FragmentStateManager {
 		if (!(activity instanceof FragmentStateManageable)) {
 			throw new IllegalArgumentException("Activity must implement FragmentStateManageable.");
 		}
-		if (!(activity instanceof FragmentActivity)) {
-			throw new IllegalArgumentException("Activity must extend FragmentActivity.");
-		}
-		return ((FragmentStateManageable)activity).getFragmentStateManager((FragmentActivity)activity);
+		return ((FragmentStateManageable)activity).getFragmentStateManager();
 	}
 
 	/**
@@ -110,15 +78,27 @@ public class FragmentStateManager {
 		}
 	}
 
+	/**
+	 * Sets the {@link OnStatusChangeListener}, used by the pager.
+	 */
 	public void setOnStatusChangeListener(RelativePagerAdapter onStatusChangeListener) {
 		this.onStatusChangeListener = onStatusChangeListener;
 	}
 
+	/**
+	 * Returns the {@link OnStatusChangeListener}.
+	 */
 	public RelativePagerAdapter getOnStatusChangeListener() {
 		return onStatusChangeListener;
 	}
 
+	/**
+	 * An activity that contains an instance of this class.
+	 */
 	public interface FragmentStateManageable {
-		public FragmentStateManager getFragmentStateManager(FragmentActivity activity);
+		/**
+		 * Returns the fragment state manager.
+		 */
+		public FragmentStateManager getFragmentStateManager();
 	}
 }

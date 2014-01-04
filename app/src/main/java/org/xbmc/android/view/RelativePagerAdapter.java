@@ -33,6 +33,10 @@ import static org.xbmc.android.view.RelativePagerFragment.OnStatusChangeListener
  * A pager adapter that relies on the currently displayed fragment to deliver the
  * next or previous page, as opposed to a global list of fragments.
  *
+ * It does this by keeping only three pages in the stack and moving them to the left
+ * or right depending on how the user swipes. In order to do that, it must always be
+ * used with a {@link RelativeViewPager}.
+ *
  * @author freezy <freezy@xbmc.org>
  */
 public class RelativePagerAdapter extends FragmentStatePagerAdapter implements OnStatusChangeListener {
@@ -100,11 +104,6 @@ public class RelativePagerAdapter extends FragmentStatePagerAdapter implements O
 		} else {
 			return currFragment;
 		}
-	}
-
-	@Override
-	public void onStatusChanged() {
-		notifyDataSetChanged();
 	}
 
 	@Override

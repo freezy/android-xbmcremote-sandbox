@@ -150,10 +150,18 @@ public class RelativeViewPager extends ViewPager {
 		return super.onTouchEvent(event);
 	}
 
+	/**
+	 * Enables or disables paging back to the previous page.
+	 * @param enabled If true, enable, otherwise disable.
+	 */
 	public void setPagingPrevEnabled(boolean enabled) {
 		this.enabledPrev = enabled;
 	}
 
+	/**
+	 * Enables or disables paging forth to the next page.
+	 * @param enabled If true, enable, otherwise disable.
+	 */
 	public void setPagingNextEnabled(boolean enabled) {
 		this.enabledNext = enabled;
 	}
