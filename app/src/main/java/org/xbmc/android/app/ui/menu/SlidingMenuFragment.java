@@ -55,7 +55,11 @@ public class SlidingMenuFragment extends Fragment {
 		changeHostButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(getActivity(), HostChooseActivity.class));
+				if (hostManager.getActiveHost() == null) {
+					startActivity(new Intent(getActivity(), WizardActivity.class));
+				} else {
+					startActivity(new Intent(getActivity(), HostChooseActivity.class));
+				}
 			}
 		});
 

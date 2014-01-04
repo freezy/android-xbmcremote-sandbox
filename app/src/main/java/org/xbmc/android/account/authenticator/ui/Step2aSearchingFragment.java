@@ -75,7 +75,7 @@ public class Step2aSearchingFragment extends WizardFragment {
 		}
 
 		// FIXME debug
-		hosts.add(new XBMCHost("192.168.0.18", "ellen", 8080, "Ellen"));
+		hosts.add(new XBMCHost("192.168.43.238", "noa", 8080, "XBMC Noa"));
 	}
 
 	@Override

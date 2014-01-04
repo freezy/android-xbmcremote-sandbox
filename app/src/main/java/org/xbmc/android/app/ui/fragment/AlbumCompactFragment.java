@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import de.greenrobot.event.EventBus;
+import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.app.provider.AudioContract;
 import org.xbmc.android.app.provider.AudioDatabase;
 import org.xbmc.android.remotesandbox.R;
@@ -33,8 +34,10 @@ public class AlbumCompactFragment extends GridFragment implements LoaderManager.
 	private final static String TAG = AlbumCompactFragment.class.getSimpleName();
 
 	@Inject protected EventBus bus;
+	@Inject protected HostManager hostManager;
 
 	private CursorAdapter adapter;
+	private String hostUri;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,6 +49,7 @@ public class AlbumCompactFragment extends GridFragment implements LoaderManager.
 		super.onCreate(savedInstanceState);
 		Injector.inject(this);
 		bus.register(this);
+		hostUri = hostManager.getActiveHost().getUri();
 	}
 
 	@Override
@@ -121,7 +125,7 @@ public class AlbumCompactFragment extends GridFragment implements LoaderManager.
 			final TextView subtitleView = (TextView) view.findViewById(R.id.title_artist);
 			final ImageView imageView = (ImageView) view.findViewById(R.id.list_album_cover);
 			try {
-				final String url = "http://192.168.0.100:8080/image/" + URLEncoder.encode(cursor.getString(AlbumsQuery.THUMBNAIL), "UTF-8");
+				final String url = hostUri + "/image/" + URLEncoder.encode(cursor.getString(AlbumsQuery.THUMBNAIL), "UTF-8");
 				Glide.load(url)
 					.centerCrop()
 					.animate(android.R.anim.fade_in)

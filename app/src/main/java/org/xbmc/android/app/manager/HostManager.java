@@ -10,6 +10,7 @@ import de.greenrobot.event.EventBus;
 import org.xbmc.android.account.Constants;
 import org.xbmc.android.app.event.HostSwitched;
 import org.xbmc.android.app.injection.Injector;
+import org.xbmc.android.jsonrpc.io.ConnectionManager;
 import org.xbmc.android.zeroconf.XBMCHost;
 
 import javax.inject.Inject;
@@ -28,9 +29,14 @@ public class HostManager {
 	@Inject AccountManager accountManager;
 	@Inject Context context;
 	@Inject EventBus bus;
+	@Inject ConnectionManager connectionManager;
 
 	public HostManager() {
 		Injector.inject(this);
+		final XBMCHost host = getActiveHost();
+		if (host != null) {
+			connectionManager.setHostConfig(host.toHostConfig());
+		}
 	}
 
 	/**
@@ -85,6 +91,7 @@ public class HostManager {
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putString(PREFS_CURRENT_HOST, host.getName());
 		editor.commit();
+		connectionManager.setHostConfig(host.toHostConfig());
 		bus.post(new HostSwitched(host));
 	}
 

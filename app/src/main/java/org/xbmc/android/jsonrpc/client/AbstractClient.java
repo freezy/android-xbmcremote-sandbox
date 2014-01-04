@@ -22,11 +22,13 @@
 package org.xbmc.android.jsonrpc.client;
 
 import org.codehaus.jackson.node.ObjectNode;
-import org.xbmc.android.app.injection.AppModule;
+import org.xbmc.android.app.injection.Injector;
+import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.io.ApiException;
 import org.xbmc.android.jsonrpc.io.JsonApiRequest;
-import org.xbmc.android.zeroconf.XBMCHost;
+
+import javax.inject.Inject;
 
 /**
  * Parent class for all "standalone" clients. Contains network logic
@@ -41,24 +43,14 @@ public abstract class AbstractClient {
 
 	private final static String URL_SUFFIX = "/jsonrpc";
 
-	private final XBMCHost host;
+	@Inject HostManager hostManager;
 
 	/**
 	 * Empty constructor
 	 */
 	protected AbstractClient() {
-		host = null;
+		Injector.inject(this);
 	}
-
-	/**
-	 * Sometimes we don't want the standard host to be used, but another one,
-	 * for example when we're adding a new account and probing for version.
-	 * @param host
-	 */
-	protected AbstractClient(XBMCHost host) {
-		this.host = host;
-	}
-
 
 	/**
 	 * Synchronously posts the request object to XBMC's JSONRPC API and updates
@@ -98,12 +90,7 @@ public abstract class AbstractClient {
 	 * @return String containing whole URL
 	 */
 	private String getUrl() {
-		if (host == null) {
-			// FIXME this should read the URL from the currently selected account.
-			return AppModule.URL;
-		} else {
-			return "http://" + host.getAddress() + ":" + host.getPort() + URL_SUFFIX;
-		}
+		return hostManager.getActiveHost().getUri() + URL_SUFFIX;
 	}
 
 	/**

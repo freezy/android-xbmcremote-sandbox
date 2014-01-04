@@ -71,6 +71,14 @@ public class XBMCHost implements Parcelable {
 		return active;
 	}
 
+	/**
+	 * Returns the URI of the host without trailing slash.
+	 * @return URI, e.g "http://127.0.0.1:8080".
+	 */
+	public String getUri() {
+		return "http://" + address + ":" + port;
+	}
+
 	public void setActive(boolean active) {
 		this.active = active;
 	}

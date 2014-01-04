@@ -26,22 +26,22 @@ import org.xbmc.android.zeroconf.XBMCHost;
 
 /**
  * Real time access to the JSONRPC API.
- * 
+ *
  * @author freezy <freezy@xbmc.org>
  */
 public class JsonRpcClient extends AbstractClient {
-	
+
 	//private final static String TAG = JsonRpcClient.class.getSimpleName();
-	
+
 	/**
 	 * Sometimes we don't want the standard host to be used, but another one,
 	 * for example when we're adding a new account and probing for version.
 	 * @param host
 	 */
 	public JsonRpcClient(XBMCHost host) {
-		super(host);
+		super();
 	}
-	
+
 	/**
 	 * Returns the API version of XBMC's JSON-RPC implementation.
 	 *
@@ -53,5 +53,5 @@ public class JsonRpcClient extends AbstractClient {
 		execute(apicall, errorHandler);
 		return apicall.getResult().toInt();
 	}
-	
+
 }

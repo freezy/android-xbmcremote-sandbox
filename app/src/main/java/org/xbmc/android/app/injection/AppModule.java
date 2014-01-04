@@ -35,7 +35,7 @@ import org.xbmc.android.app.ui.HostChooseActivity;
 import org.xbmc.android.app.ui.fragment.AlbumCompactFragment;
 import org.xbmc.android.app.ui.fragment.MovieCompactFragment;
 import org.xbmc.android.app.ui.menu.SlidingMenuFragment;
-import org.xbmc.android.jsonrpc.config.HostConfig;
+import org.xbmc.android.jsonrpc.client.AbstractClient;
 import org.xbmc.android.jsonrpc.io.ConnectionManager;
 import org.xbmc.android.zeroconf.DiscoveryService;
 
@@ -53,6 +53,7 @@ import javax.inject.Singleton;
 		HomeActivity.class,
 		HostChooseActivity.class,
 		HostManager.class,
+		AbstractClient.class,
 		MovieCompactFragment.class,
 		SandboxApplication.class,
 		SlidingMenuFragment.class,
@@ -64,9 +65,6 @@ import javax.inject.Singleton;
 )
 public class AppModule {
 
-	private static final String HOST = "192.168.0.100";
-	public static final String URL = "http://" + HOST + ":8080/jsonrpc";
-
 	@Singleton
 	@Provides
 	EventBus provideEventBus() {
@@ -76,7 +74,7 @@ public class AppModule {
 	@Singleton
 	@Provides
 	ConnectionManager provideConnectionManager() {
-		return new ConnectionManager(SandboxApplication.getInstance().getApplicationContext(), new HostConfig(HOST));
+		return new ConnectionManager(SandboxApplication.getInstance().getApplicationContext(), null);
 	}
 
 	@Singleton

@@ -40,7 +40,7 @@ public class ApplicationClient extends AbstractClient {
 	 * @param host
 	 */
 	public ApplicationClient(XBMCHost host) {
-		super(host);
+		super();
 	}
 
 	/**
