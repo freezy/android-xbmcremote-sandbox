@@ -45,8 +45,19 @@ public class HostManager {
 	 * @param host Host to add
 	 */
 	public void addAccount(XBMCHost host) {
+		// find id
+		final Account[] accounts = accountManager.getAccountsByType(Constants.ACCOUNT_TYPE);
+		int lastId = -1;
+		for (Account a : accounts) {
+			final int id = Integer.parseInt(accountManager.getUserData(a, Constants.DATA_ID));
+			lastId = Math.max(id, lastId);
+		}
+
 		final Account account = new Account(host.getName(), Constants.ACCOUNT_TYPE);
 		final Bundle data = new Bundle();
+		host.setId(lastId + 1);
+
+		data.putString(Constants.DATA_ID, String.valueOf(lastId + 1));
 		data.putString(Constants.DATA_HOST, host.getHost());
 		data.putString(Constants.DATA_ADDRESS, host.getAddress());
 		data.putString(Constants.DATA_PORT, String.valueOf(host.getPort()));
@@ -67,6 +78,7 @@ public class HostManager {
 		final String activeHost = settings.getString(PREFS_CURRENT_HOST, null);
 		for (Account account : accounts) {
 			final XBMCHost host = new XBMCHost(
+				Integer.parseInt(accountManager.getUserData(account, Constants.DATA_ID)),
 				accountManager.getUserData(account, Constants.DATA_ADDRESS),
 				accountManager.getUserData(account, Constants.DATA_HOST),
 				Integer.parseInt(accountManager.getUserData(account, Constants.DATA_PORT)),
@@ -112,6 +124,11 @@ public class HostManager {
 			}
 		}
 		return null;
+	}
+
+	public String getActiveUri() {
+		final XBMCHost host = getActiveHost();
+		return host == null ? null : host.getUri();
 	}
 
 }

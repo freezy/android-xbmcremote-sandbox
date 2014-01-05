@@ -49,7 +49,7 @@ public class AlbumCompactFragment extends GridFragment implements LoaderManager.
 		super.onCreate(savedInstanceState);
 		Injector.inject(this);
 		bus.register(this);
-		hostUri = hostManager.getActiveHost().getUri();
+		hostUri = hostManager.getActiveUri();
 	}
 
 	@Override

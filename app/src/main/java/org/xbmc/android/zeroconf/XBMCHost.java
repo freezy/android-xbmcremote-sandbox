@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 public class XBMCHost implements Parcelable {
 
+	private int id;
 	private String address;
 	private String host;
 	private String name;
@@ -24,6 +25,10 @@ public class XBMCHost implements Parcelable {
 	private boolean active = false;
 
 	public XBMCHost(String address, String host, int port, String name) {
+		this(-1, address, host, port, name);
+	}
+	public XBMCHost(int id, String address, String host, int port, String name) {
+		this.id = id;
 		this.address = address;
 		this.host = host;
 		this.port = port;
@@ -92,6 +97,7 @@ public class XBMCHost implements Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel parcel, int flags) {
+		parcel.writeInt(id);
 		parcel.writeString(address);
 		parcel.writeString(host);
 		parcel.writeInt(port);
@@ -108,6 +114,7 @@ public class XBMCHost implements Parcelable {
 
 		@Override
 		public XBMCHost createFromParcel(Parcel parcel) {
+			final int id = parcel.readInt();
 			final String address = parcel.readString();
 			final String host = parcel.readString();
 			final int port = parcel.readInt();
@@ -116,7 +123,7 @@ public class XBMCHost implements Parcelable {
 			final String password = parcel.readString();
 			final boolean active = parcel.readInt() == 1;
 
-			final XBMCHost h = new XBMCHost(address, host, port, name);
+			final XBMCHost h = new XBMCHost(id, address, host, port, name);
 			h.setCredentials(username, password);
 			h.setActive(active);
 			return h;
@@ -148,6 +155,10 @@ public class XBMCHost implements Parcelable {
 			parcel.writeParcelable(host, flags);
 		}
 		return parcel;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	//</editor-fold>

@@ -90,7 +90,7 @@ public abstract class AbstractClient {
 	 * @return String containing whole URL
 	 */
 	private String getUrl() {
-		return hostManager.getActiveHost().getUri() + URL_SUFFIX;
+		return hostManager.getActiveUri() + URL_SUFFIX;
 	}
 
 	/**

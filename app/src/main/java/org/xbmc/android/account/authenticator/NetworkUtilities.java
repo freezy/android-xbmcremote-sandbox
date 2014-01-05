@@ -31,14 +31,14 @@ import android.os.Handler;
 
 /**
  * Provides helper threads for the add account procedure.
- * 
+ *
  * @author freezy <freezy@xbmc.org>
  */
 public class NetworkUtilities {
-	
+
 	/**
 	 * Attempts to probe XBMC for API version and XBMC version.
-	 * 
+	 *
 	 * @param host Host to connect to
 	 * @param handler The main UI thread's handler instance.
 	 * @param context The caller Activity's context
@@ -53,10 +53,10 @@ public class NetworkUtilities {
 		// run on background thread.
 		return NetworkUtilities.performOnBackgroundThread(runnable);
 	}
-	
+
 	/**
 	 * Probes XBMC for API version and XBMC version.
-	 * 
+	 *
 	 * @param host Host to connect to
 	 * @param handler The main UI thread's handler instance.
 	 * @param context The caller Activity's context
@@ -66,21 +66,12 @@ public class NetworkUtilities {
 		final ApplicationClient appClient = new ApplicationClient(host);
 		final int apiVersion = jsonClient.getVersion(null);
 		final Version xbmcVersion = appClient.getVersion(null);
-		
-		if (handler == null || context == null) {
-			return;
-		}
-		
-		handler.post(new Runnable() {
-			public void run() {
-				((AuthenticatorActivity) context).onProbeResult(apiVersion, xbmcVersion);
-			}
-		});
+
 	}
 
 	/**
 	 * Executes the network requests on a separate thread.
-	 * 
+	 *
 	 * @param runnable The runnable instance containing network operations to beexecuted.
 	 */
 	public static Thread performOnBackgroundThread(final Runnable runnable) {
