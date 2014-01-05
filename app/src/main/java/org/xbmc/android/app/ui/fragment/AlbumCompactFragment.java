@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import de.greenrobot.event.EventBus;
+import org.xbmc.android.app.event.HostSwitched;
 import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.app.provider.AudioContract;
 import org.xbmc.android.app.provider.AudioDatabase;
@@ -73,6 +74,10 @@ public class AlbumCompactFragment extends GridFragment implements LoaderManager.
 		if (event.audioSynced()) {
 			getLoaderManager().restartLoader(0, null, this);
 		}
+	}
+
+	public void onEvent(HostSwitched event) {
+		hostUri = event.getHost().getUri();
 	}
 
 	@Override

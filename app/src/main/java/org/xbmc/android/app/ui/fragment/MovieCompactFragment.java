@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import de.greenrobot.event.EventBus;
+import org.xbmc.android.app.event.HostSwitched;
 import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.app.provider.VideoContract;
 import org.xbmc.android.app.provider.VideoDatabase;
@@ -75,6 +76,10 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 		if (event.videoSynced()) {
 			getLoaderManager().restartLoader(0, null, this);
 		}
+	}
+
+	public void onEvent(HostSwitched event) {
+		hostUri = event.getHost().getUri();
 	}
 
 	@Override
