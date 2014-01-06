@@ -21,8 +21,6 @@
 
 package org.xbmc.android.account.authenticator.ui;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -38,8 +36,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import org.xbmc.android.account.Constants;
 import org.xbmc.android.app.injection.Injector;
+import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.call.JSONRPC;
 import org.xbmc.android.jsonrpc.io.ApiCallback;
@@ -63,10 +61,9 @@ public class Step3aHostFoundFragment extends WizardFragment {
 	private XBMCHost selectedHost;
 
 	private ProgressDialog waiting;
-
 	private boolean hasNext = false;
 
-	@Inject AccountManager accountManager;
+	@Inject HostManager hostManager;
 	@InjectView(R.id.list) ListView listView;
 
 	public Step3aHostFoundFragment() {
@@ -110,16 +107,9 @@ public class Step3aHostFoundFragment extends WizardFragment {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				final XBMCHost host = hosts.get(position);
 
-				final Account[] accounts = accountManager.getAccountsByType(Constants.ACCOUNT_TYPE);
-				boolean match = false;
-				for (Account account : accounts) {
-					if (account.name.equals(host.getName())) {
-						match = true;
-					}
-				}
-				if (match) {
+				if (hostManager.hostExists(host)) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-					builder.setMessage(R.string.accountwizard_step3a_already_added)
+					builder.setMessage(R.string.accountwizard_step3_already_added)
 						.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
 								dialog.dismiss();
@@ -128,9 +118,8 @@ public class Step3aHostFoundFragment extends WizardFragment {
 					return;
 				}
 
-
-				waiting.setTitle(String.format(getResources().getString(R.string.accountwizard_step3a_waiting_title), host.getName()));
-				waiting.setMessage(String.format(getResources().getString(R.string.accountwizard_step3a_waiting_message), host.getAddress(), host.getPort()));
+				waiting.setTitle(String.format(getResources().getString(R.string.accountwizard_step3_waiting_title), host.getName()));
+				waiting.setMessage(String.format(getResources().getString(R.string.accountwizard_step3_waiting_message), host.getAddress(), host.getPort()));
 				waiting.setIndeterminate(true);
 				waiting.setCancelable(false);
 				waiting.show();
@@ -159,7 +148,6 @@ public class Step3aHostFoundFragment extends WizardFragment {
 				selectedHost = host;
 				hasNext = true;
 				statusChangeListener.onNextPage();
-				Toast.makeText(getActivity().getApplicationContext(), call.getResult(), Toast.LENGTH_LONG).show();
 			}
 
 			@Override
@@ -168,7 +156,7 @@ public class Step3aHostFoundFragment extends WizardFragment {
 				if (code == ApiException.HTTP_UNAUTHORIZED) {
 
 					if (displayError) {
-						Toast.makeText(getActivity().getApplicationContext(), R.string.accountwizard_step3a_login_error, Toast.LENGTH_SHORT).show();
+						Toast.makeText(getActivity().getApplicationContext(), R.string.accountwizard_step3_login_error, Toast.LENGTH_SHORT).show();
 					}
 
 					// create login box
@@ -176,7 +164,7 @@ public class Step3aHostFoundFragment extends WizardFragment {
 					final LayoutInflater inflater = getActivity().getLayoutInflater();
 					final View loginView = inflater.inflate(R.layout.dialog_login, null);
 					builder.setView(loginView);
-					builder.setTitle(R.string.accountwizard_step3a_login_title);
+					builder.setTitle(R.string.accountwizard_step3_login_title);
 					builder.setPositiveButton(R.string.set, new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int id) {
@@ -194,7 +182,7 @@ public class Step3aHostFoundFragment extends WizardFragment {
 					});
 					builder.create().show();
 				} else {
-					Toast.makeText(getApplicationContext(), "(" + code + ") " + message + " " + hint, Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), message + " " + hint, Toast.LENGTH_LONG).show();
 				}
 			}
 		};

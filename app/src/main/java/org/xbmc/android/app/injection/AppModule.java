@@ -26,6 +26,7 @@ import dagger.Provides;
 import de.greenrobot.event.EventBus;
 import org.xbmc.android.account.authenticator.ui.Step2aSearchingFragment;
 import org.xbmc.android.account.authenticator.ui.Step3aHostFoundFragment;
+import org.xbmc.android.account.authenticator.ui.Step3bManualSetupFragment;
 import org.xbmc.android.account.authenticator.ui.WizardActivity;
 import org.xbmc.android.app.SandboxApplication;
 import org.xbmc.android.app.manager.HostManager;
@@ -59,6 +60,7 @@ import javax.inject.Singleton;
 		SlidingMenuFragment.class,
 		Step2aSearchingFragment.class,
 		Step3aHostFoundFragment.class,
+		Step3bManualSetupFragment.class,
 		SyncService.class,
 		WizardActivity.class
 	}

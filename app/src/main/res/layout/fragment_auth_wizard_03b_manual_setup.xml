@@ -44,16 +44,4 @@
 			android:layout_marginRight="16dp"
 			android:layout_alignParentLeft="true"/>
 
-	<Button
-			style="?android:attr/buttonStyleSmall"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/accountwizard_step3b_test"
-			android:id="@+id/test"
-			android:layout_alignParentBottom="true"
-			android:layout_alignRight="@+id/port"
-			android:layout_marginBottom="15dp"
-			android:paddingLeft="30dp"
-			android:paddingRight="30dp"/>
-
 </RelativeLayout>

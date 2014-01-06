@@ -123,13 +123,17 @@ public class RelativePagerAdapter extends FragmentStatePagerAdapter implements O
 
 	@Override
 	public void onNextPage() {
-		notifyDataSetChanged();
-		pager.setCurrentItem(PAGE_POSITION_RIGHT, true);
+		if (!currFragment.onNextClicked()) {
+			notifyDataSetChanged();
+			pager.setCurrentItem(PAGE_POSITION_RIGHT, true);
+		}
 	}
 
 	@Override
 	public void onPrevPage() {
-		notifyDataSetChanged();
-		pager.setCurrentItem(PAGE_POSITION_LEFT, true);
+		if (!currFragment.onPrevClicked()) {
+			notifyDataSetChanged();
+			pager.setCurrentItem(PAGE_POSITION_LEFT, true);
+		}
 	}
 }

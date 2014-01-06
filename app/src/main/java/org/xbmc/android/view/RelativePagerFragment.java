@@ -100,6 +100,22 @@ public abstract class RelativePagerFragment extends Fragment {
 	}
 
 	/**
+	 * Executed on next button click.
+	 * @return If true, nothing else will be executed, otherwise paging is applied.
+	 */
+	public boolean onNextClicked() {
+		return false;
+	}
+
+	/**
+	 * Executed on previous button click.
+	 * @return If true, nothing else will be executed, otherwise paging is applied.
+	 */
+	public boolean onPrevClicked() {
+		return false;
+	}
+
+	/**
 	 * Shortcut to {@link #getActivity().getApplicationContext()}.
 	 * @return Application Context
 	 */

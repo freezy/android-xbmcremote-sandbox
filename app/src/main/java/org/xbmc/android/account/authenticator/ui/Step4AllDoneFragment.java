@@ -51,7 +51,11 @@ public class Step4AllDoneFragment extends WizardFragment {
 			}
 			hostAdded = savedInstanceState.getBoolean(DATA_HOST_ADDED, false);
 		}
+	}
 
+	@Override
+	public void onPageActive() {
+		super.onPageActive();
 		if (!hostAdded && host != null) {
 			hostAdded = true;
 			Log.i(TAG, "Addding host \"" + host + "\" to account manager.");

@@ -95,6 +95,22 @@ public class HostManager {
 	}
 
 	/**
+	 * Tries to match current hosts by name and returns true on a hit.
+	 *
+	 * @param host Host to match against
+	 * @return True if host exists, false otherwise.
+	 */
+	public boolean hostExists(XBMCHost host) {
+		final Account[] accounts = accountManager.getAccountsByType(Constants.ACCOUNT_TYPE);
+		for (Account account : accounts) {
+			if (account.name.equals(host.getName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Switches the current host that is used by the app.
 	 * @param host Host to switch to
 	 */

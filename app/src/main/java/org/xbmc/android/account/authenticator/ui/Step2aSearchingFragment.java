@@ -66,8 +66,7 @@ public class Step2aSearchingFragment extends WizardFragment {
 		super.onCreate(savedInstanceState);
 		Injector.inject(this);
 		bus.register(this);
-
-		hosts.clear();
+		//hosts.clear();
 
 		if (savedInstanceState != null) {
 			nextStatus = savedInstanceState.getInt(DATA_NEXT_STATUS, STATUS_DISABLED);
@@ -75,7 +74,7 @@ public class Step2aSearchingFragment extends WizardFragment {
 		}
 
 		// FIXME debug
-		hosts.add(new XBMCHost("192.168.0.100", "aquarium", 8080, "Aquarium"));
+		//hosts.add(new XBMCHost("192.168.0.100", "aquarium", 8080, "Aquarium"));
 	}
 
 	@Override

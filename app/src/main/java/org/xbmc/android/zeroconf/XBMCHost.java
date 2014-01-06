@@ -28,11 +28,14 @@ public class XBMCHost implements Parcelable {
 		this(-1, address, host, port, name);
 	}
 	public XBMCHost(int id, String address, String host, int port, String name) {
+		if (name == null) {
+			throw new IllegalArgumentException("Name of host must not be null.");
+		}
 		this.id = id;
 		this.address = address;
 		this.host = host;
 		this.port = port;
-		this.name = name;
+		this.name = name.trim();
 	}
 
 	public String getAddress() {
