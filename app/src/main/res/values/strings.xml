@@ -88,6 +88,8 @@
 	<string name="addaccount_progress_checkingapiversion">Probing XBMC\u2026</string>
 
 
+	<string name="ic_logo">\u0031</string>
+
 	<string name="ic_expand">\u002a</string>
 	<string name="ic_collapse">\u002b</string>
 

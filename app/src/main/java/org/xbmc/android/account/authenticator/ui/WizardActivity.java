@@ -30,9 +30,11 @@ import android.widget.Button;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import co.juliansuarez.libwizardpager.wizard.ui.StepPagerStrip;
+import com.actionbarsherlock.app.ActionBar;
 import org.xbmc.android.account.Constants;
 import org.xbmc.android.app.injection.Injector;
 import org.xbmc.android.app.manager.HostManager;
+import org.xbmc.android.app.ui.IconHelper;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.view.FragmentStateManager;
 import org.xbmc.android.view.RelativePagerAdapter;
@@ -42,9 +44,7 @@ import org.xbmc.android.zeroconf.XBMCHost;
 
 import javax.inject.Inject;
 
-import static org.xbmc.android.account.authenticator.ui.WizardFragment.STATUS_DISABLED;
-import static org.xbmc.android.account.authenticator.ui.WizardFragment.STATUS_ENABLED;
-import static org.xbmc.android.account.authenticator.ui.WizardFragment.STATUS_GONE;
+import static org.xbmc.android.account.authenticator.ui.WizardFragment.*;
 
 /**
  * Guides the user through the host setup.
@@ -85,6 +85,10 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 		setTitle(R.string.accountwizard_title);
 		ButterKnife.inject(this);
 		Injector.inject(this);
+
+		// set icon
+		final ActionBar actionBar = getSupportActionBar();
+		actionBar.setIcon(IconHelper.getDrawable(getApplicationContext(), R.string.ic_logo));
 
 		// init adapter and first fragment
 		adapter = new RelativePagerAdapter(getSupportFragmentManager(), getFragmentStateManager());

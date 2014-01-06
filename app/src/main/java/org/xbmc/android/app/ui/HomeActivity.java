@@ -30,7 +30,7 @@ public class HomeActivity extends BaseActivity implements OnRefreshListener {
 	@InjectView(R.id.ptr_layout) PullToRefreshLayout pullToRefreshLayout;
 
 	public HomeActivity() {
-		super(R.string.title_home, R.layout.activity_home);
+		super(R.string.title_home, R.string.ic_logo, R.layout.activity_home);
 	}
 
 	@Override

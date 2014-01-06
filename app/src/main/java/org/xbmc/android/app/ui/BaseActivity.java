@@ -3,6 +3,7 @@ package org.xbmc.android.app.ui;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -18,14 +19,16 @@ import org.xbmc.android.remotesandbox.R;
  */
 public class BaseActivity extends SlidingFragmentActivity {
 
-	private int mTitleRes;
-	protected Fragment mFrag;
+	private int titleRes;
+	private int iconRes;
+	protected Fragment fragment;
 
-	private final int mContentViewRes;
+	private final int contentViewRes;
 
-	public BaseActivity(int titleRes, int contentViewRes) {
-		mTitleRes = titleRes;
-		mContentViewRes = contentViewRes;
+	public BaseActivity(int titleRes, int iconRes, int contentViewRes) {
+		this.titleRes = titleRes;
+		this.iconRes = iconRes;
+		this.contentViewRes = contentViewRes;
 	}
 
 	@Override
@@ -34,18 +37,21 @@ public class BaseActivity extends SlidingFragmentActivity {
 
 		Injector.inject(this);
 
-		setTitle(mTitleRes);
-		setContentView(mContentViewRes);
+		setTitle(titleRes);
+		setContentView(contentViewRes);
+
+		final ActionBar actionBar = getSupportActionBar();
+		actionBar.setIcon(IconHelper.getDrawable(getApplicationContext(), iconRes));
 
 		// set the Behind View
 		setBehindContentView(R.layout.menu_frame);
 		if (savedInstanceState == null) {
 			FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
-			mFrag = new SlidingMenuFragment();
-			t.replace(R.id.menu_frame, mFrag);
+			fragment = new SlidingMenuFragment();
+			t.replace(R.id.menu_frame, fragment);
 			t.commit();
 		} else {
-			mFrag = this.getSupportFragmentManager().findFragmentById(R.id.menu_frame);
+			fragment = this.getSupportFragmentManager().findFragmentById(R.id.menu_frame);
 		}
 
 		// customize the SlidingMenu
