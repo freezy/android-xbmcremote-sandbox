@@ -136,4 +136,9 @@ public class RelativePagerAdapter extends FragmentStatePagerAdapter implements O
 			pager.setCurrentItem(PAGE_POSITION_LEFT, true);
 		}
 	}
+
+	@Override
+	public void onStatusUpdated() {
+		pager.onStatusUpdate();
+	}
 }

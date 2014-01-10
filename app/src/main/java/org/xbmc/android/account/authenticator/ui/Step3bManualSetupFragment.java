@@ -84,6 +84,7 @@ public class Step3bManualSetupFragment extends WizardFragment {
 				waiting.dismiss();
 				enteredHost = host;
 				hostVerified = true;
+				statusChangeListener.onStatusUpdated();
 			}
 
 			@Override
@@ -159,13 +160,18 @@ public class Step3bManualSetupFragment extends WizardFragment {
 			waiting.setMessage(String.format(getResources().getString(R.string.accountwizard_step3_waiting_message), host.getAddress(), host.getPort()));
 			waiting.setIndeterminate(true);
 			waiting.setCancelable(false);
+			waiting.setOnShowListener(new DialogInterface.OnShowListener() {
+				@Override
+				public void onShow(DialogInterface dialog) {
+					final ConnectionManager cm = new ConnectionManager(getActivity().getApplicationContext(), host.toHostConfig());
+					final JSONRPC.Ping call = new JSONRPC.Ping();
+
+					cm.setPreferHTTP();
+					cm.call(call, handler, pingCallback(cm, host, handler, call, false));
+				}
+			});
 			waiting.show();
 
-			final ConnectionManager cm = new ConnectionManager(getActivity().getApplicationContext(), host.toHostConfig());
-			final JSONRPC.Ping call = new JSONRPC.Ping();
-
-			cm.setPreferHTTP();
-			cm.call(call, handler, pingCallback(cm, host, handler, call, false));
 			return true;
 
 		} else {
@@ -207,6 +213,6 @@ public class Step3bManualSetupFragment extends WizardFragment {
 
 	@Override
 	public int getNextButtonLabel() {
-		return R.string.accountwizard_step3b_next;
+		return hostVerified ? R.string.next : R.string.accountwizard_step3b_next;
 	}
 }

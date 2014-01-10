@@ -118,6 +118,12 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 				pagerStrip.setCurrentPage(fragment.getStep());
 				updateBottomBar(fragment);
 			}
+
+			@Override
+			public void onPageUpdated(RelativePagerFragment f) {
+				final WizardFragment fragment = (WizardFragment)f;
+				updateBottomBar(fragment);
+			}
 		});
 
 		// init buttons

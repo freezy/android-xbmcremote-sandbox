@@ -170,7 +170,14 @@ public class RelativeViewPager extends ViewPager {
 		pageChangeListener = listener;
 	}
 
+	public void onStatusUpdate() {
+		if (pageChangeListener != null) {
+			pageChangeListener.onPageUpdated(adapter.getCurrentFragment());
+		}
+	}
+
 	public interface OnRelativePageChangeListener {
 		public void onPageSelected(RelativePagerFragment fragment);
+		public void onPageUpdated(RelativePagerFragment fragment);
 	}
 }

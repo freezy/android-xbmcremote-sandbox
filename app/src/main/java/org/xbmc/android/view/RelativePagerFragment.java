@@ -136,5 +136,10 @@ public abstract class RelativePagerFragment extends Fragment {
 		 * The previous page is displayed.
 		 */
 		void onPrevPage();
+
+		/**
+		 * The same page is displayed but must be refreshed.
+		 */
+		void onStatusUpdated();
 	}
 }
