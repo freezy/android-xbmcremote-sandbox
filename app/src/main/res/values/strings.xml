@@ -71,6 +71,7 @@
 	<string name="accountwizard_step3b_port">Port</string>
 	<string name="accountwizard_step3b_prev">Scan Again</string>
 	<string name="accountwizard_step3b_next">Test</string>
+	<string name="accountwizard_step3b_message">Settings validated. Press <i>Next</i> to finish.</string>
 	<string name="accountwizard_step4_title">All Done!</string>
 	<string name="accountwizard_step4_p1">Setup completed. You can now use the Remote App with XBMC or setup additional options.</string>
 	<string name="accountwizard_step4_prev">Add Another</string>

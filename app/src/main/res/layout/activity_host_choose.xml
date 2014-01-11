@@ -44,7 +44,8 @@
 			android:orientation="horizontal"
 			android:layout_below="@+id/divider"
 			android:layout_alignParentLeft="true"
-			android:id="@+id/linearLayout">
+			android:id="@+id/linearLayout"
+			android:height="48dp">
 
 		<Button
 				android:id="@+id/cancel"

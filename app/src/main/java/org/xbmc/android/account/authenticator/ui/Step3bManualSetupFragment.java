@@ -30,6 +30,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -52,6 +53,7 @@ public class Step3bManualSetupFragment extends WizardFragment {
 	@InjectView(R.id.display_name) EditText displayNameView;
 	@InjectView(R.id.host) EditText hostView;
 	@InjectView(R.id.port) EditText portView;
+	@InjectView(R.id.message) TextView messageView;
 
 	@Inject HostManager hostManager;
 
@@ -84,6 +86,10 @@ public class Step3bManualSetupFragment extends WizardFragment {
 				waiting.dismiss();
 				enteredHost = host;
 				hostVerified = true;
+				displayNameView.setEnabled(false);
+				hostView.setEnabled(false);
+				portView.setEnabled(false);
+				messageView.setVisibility(View.VISIBLE);
 				statusChangeListener.onStatusUpdated();
 			}
 
