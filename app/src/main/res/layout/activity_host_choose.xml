@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="vertical"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:orientation="vertical"
 		android:background="@color/light_bg">
 
 	<TextView
 			style="@style/Paragraph"
+			android:id="@+id/p1"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="@string/host_choose_p"
-			android:id="@+id/p1"
-			android:layout_alignParentTop="true"
-			android:layout_alignParentLeft="true"
 			android:paddingLeft="16dp"
 			android:paddingTop="16dp"
 			android:paddingRight="16dp"/>
@@ -20,9 +18,8 @@
 	<ListView
 			android:id="@+id/list"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_below="@+id/p1"
-			android:layout_alignParentLeft="true"
+			android:layout_height="0dip"
+			android:layout_weight="1"
 			android:paddingLeft="16dp"
 			android:paddingRight="16dp"
 			android:paddingBottom="16dp"
@@ -33,18 +30,14 @@
 			android:id="@+id/divider"
 			android:layout_width="match_parent"
 			android:layout_height="1dp"
-			android:background="@color/light_tertiary_text"
-			android:layout_below="@+id/list"
-			android:layout_alignParentLeft="true"/>
+			android:background="@color/light_tertiary_text"/>
 
 	<LinearLayout
 			style="@style/ButtonBar"
+			android:id="@+id/linearLayout"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:orientation="horizontal"
-			android:layout_below="@+id/divider"
-			android:layout_alignParentLeft="true"
-			android:id="@+id/linearLayout"
 			android:height="48dp">
 
 		<Button
@@ -71,5 +64,4 @@
 				android:text="@string/ok"/>
 
 	</LinearLayout>
-
 </LinearLayout>

@@ -109,8 +109,9 @@
 	</style>
 
 	<style name="ButtonBar" parent="@android:style/ButtonBar">
-		<item name="android:background">@android:color/transparent</item>
+		<item name="android:background">@color/light_bg</item>
 		<item name="android:padding">0dp</item>
+		<item name="android:height">48dp</item>
 	</style>
 
 	<style name="ButtonBarButton">
