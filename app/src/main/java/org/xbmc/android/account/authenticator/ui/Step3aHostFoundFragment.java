@@ -36,6 +36,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import org.xbmc.android.app.injection.Injector;
 import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
@@ -56,12 +59,14 @@ import static org.xbmc.android.app.ui.HostChooseActivity.HostListAdapter;
 public class Step3aHostFoundFragment extends WizardFragment {
 
 	private final static String DATA_HOSTS = "org.xbmc.android.account.HOSTS";
+	private final static int MENU_ITEM_MANUAL = 0x01;
 
 	private ArrayList<XBMCHost> hosts;
 	private XBMCHost selectedHost;
 
 	private ProgressDialog waiting;
 	private boolean hasNext = false;
+	private boolean manualAdd = false;
 
 	@Inject HostManager hostManager;
 	@InjectView(R.id.list) ListView listView;
@@ -75,7 +80,7 @@ public class Step3aHostFoundFragment extends WizardFragment {
 		super.onCreate(savedInstanceState);
 		waiting = new ProgressDialog(getActivity());
 		Injector.inject(this);
-
+		setHasOptionsMenu(true);
 		if (savedInstanceState != null) {
 			hasNext = savedInstanceState.getBoolean(DATA_HAS_NEXT, false);
 			final Parcelable[] hostArray = savedInstanceState.getParcelableArray(DATA_HOSTS);
@@ -85,6 +90,24 @@ public class Step3aHostFoundFragment extends WizardFragment {
 					hosts.add((XBMCHost) host);
 				}
 			}
+		}
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);
+		menu.add(1, MENU_ITEM_MANUAL, 1, R.string.accountwizard_step3a_manual);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == MENU_ITEM_MANUAL) {
+			hasNext = true;
+			manualAdd = true;
+			statusChangeListener.onNextPage();
+			return true;
+		} else {
+			return super.onOptionsItemSelected(item);
 		}
 	}
 
@@ -215,9 +238,13 @@ public class Step3aHostFoundFragment extends WizardFragment {
 
 	@Override
 	public RelativePagerFragment getNext(FragmentStateManager fsm) {
-		final RelativePagerFragment fragment = fsm.getFragment(Step4AllDoneFragment.class);
-		((Step4AllDoneFragment)fragment).setHost(selectedHost);
-		return fragment;
+		if (manualAdd) {
+			return fsm.getFragment(Step3bManualSetupFragment.class);
+		} else {
+			final RelativePagerFragment fragment = fsm.getFragment(Step4AllDoneFragment.class);
+			((Step4AllDoneFragment)fragment).setHost(selectedHost);
+			return fragment;
+		}
 	}
 
 	@Override

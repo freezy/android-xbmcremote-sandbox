@@ -52,7 +52,7 @@ public class Step2aSearchingFragment extends WizardFragment {
 	@InjectView(R.id.spinner) ProgressBar spinner;
 
 	private int nextStatus = STATUS_DISABLED;
-	private Class<? extends RelativePagerFragment> next = Step3aHostFoundFragment.class;
+	private Class<? extends RelativePagerFragment> next = Step2bNothingFoundFragment.class;
 
 	private final ArrayList<XBMCHost> hosts = new ArrayList<XBMCHost>();
 	private boolean searching = false;
@@ -72,9 +72,6 @@ public class Step2aSearchingFragment extends WizardFragment {
 			nextStatus = savedInstanceState.getInt(DATA_NEXT_STATUS, STATUS_DISABLED);
 			searching = savedInstanceState.getBoolean(DATA_SEARCHING);
 		}
-
-		// FIXME debug
-		//hosts.add(new XBMCHost("192.168.0.100", "aquarium", 8080, "Aquarium"));
 	}
 
 	@Override
@@ -105,8 +102,8 @@ public class Step2aSearchingFragment extends WizardFragment {
 		if (event.isFinished()) {
 			searching = false;
 			nextStatus = STATUS_ENABLED;
-			if (hosts.isEmpty()) {
-				next = Step2bNothingFoundFragment.class;
+			if (!hosts.isEmpty()) {
+				next = Step3aHostFoundFragment.class;
 			}
 			statusChangeListener.onNextPage();
 		}
@@ -117,6 +114,9 @@ public class Step2aSearchingFragment extends WizardFragment {
 		searching = true;
 		showSpinner();
 		getActivity().startService(new Intent(getActivity(), DiscoveryService.class));
+
+		// FIXME debug
+		//hosts.add(new XBMCHost("192.168.0.100", "aquarium", 8080, "Aquarium"));
 	}
 
 	@Override
@@ -143,7 +143,7 @@ public class Step2aSearchingFragment extends WizardFragment {
 	@Override
 	public RelativePagerFragment getNext(FragmentStateManager fsm) {
 		final RelativePagerFragment fragment = fsm.getFragment(next);
-		if (!hosts.isEmpty()) {
+		if (fragment instanceof Step3aHostFoundFragment) {
 			((Step3aHostFoundFragment)fragment).setHosts(hosts);
 		}
 		return fragment;

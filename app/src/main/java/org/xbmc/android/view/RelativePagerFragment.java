@@ -23,10 +23,10 @@ package org.xbmc.android.view;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.actionbarsherlock.app.SherlockFragment;
 
 /**
  * An abstract Fragment that delivers the next or previous page when used in
@@ -34,7 +34,7 @@ import android.view.ViewGroup;
  *
  * @author freezy <freezy@xbmc.org>
  */
-public abstract class RelativePagerFragment extends Fragment {
+public abstract class RelativePagerFragment extends SherlockFragment {
 
 	protected final static String DATA_NEXT_STATUS = "org.xbmc.android.DATA_NEXT_STATUS";
 	protected final static String DATA_HAS_NEXT = "org.xbmc.android.DATA_HAS_NEXT";

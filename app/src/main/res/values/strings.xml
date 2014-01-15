@@ -64,6 +64,7 @@
 	<string name="accountwizard_step3a_title">XBMC found.</string>
 	<string name="accountwizard_step3a_p1">Please select the instance you want to set up below.</string>
 	<string name="accountwizard_step3a_prev">Scan Again</string>
+	<string name="accountwizard_step3a_manual">Manually Add</string>
 	<string name="accountwizard_step3b_title">Manual Setup</string>
 	<string name="accountwizard_step3b_p1">Please enter setup configuration manually below.</string>
 	<string name="accountwizard_step3b_displayname">Display Name</string>
