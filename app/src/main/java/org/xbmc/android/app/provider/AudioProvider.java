@@ -21,29 +21,26 @@
 
 package org.xbmc.android.app.provider;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import org.xbmc.android.app.provider.AudioContract.Albums;
-import org.xbmc.android.app.provider.AudioContract.AlbumsColumns;
-import org.xbmc.android.app.provider.AudioContract.Artists;
-import org.xbmc.android.app.provider.AudioContract.ArtistsColumns;
-import org.xbmc.android.app.provider.AudioDatabase.Tables;
-import org.xbmc.android.util.google.SelectionBuilder;
-
 import android.app.Activity;
-import android.content.ContentProvider;
-import android.content.ContentProviderOperation;
-import android.content.ContentProviderResult;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.OperationApplicationException;
-import android.content.UriMatcher;
+import android.content.*;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.net.Uri;
 import android.util.Log;
+import org.xbmc.android.app.injection.Injector;
+import org.xbmc.android.app.manager.HostManager;
+import org.xbmc.android.app.provider.AudioContract.Albums;
+import org.xbmc.android.app.provider.AudioContract.AlbumsColumns;
+import org.xbmc.android.app.provider.AudioContract.Artists;
+import org.xbmc.android.app.provider.AudioContract.ArtistsColumns;
+import org.xbmc.android.app.provider.AudioDatabase.Tables;
+import org.xbmc.android.util.DBUtils;
+import org.xbmc.android.util.google.SelectionBuilder;
+
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Provider that stores {@link AudioContract} data. Data is usually inserted
@@ -60,6 +57,7 @@ public class AudioProvider extends ContentProvider {
 	private static final boolean LOGV = Log.isLoggable(TAG, Log.VERBOSE);
 
 	private AudioDatabase mOpenHelper;
+	@Inject HostManager hostManager;
 
 	private static final UriMatcher sUriMatcher = buildUriMatcher();
 
@@ -91,6 +89,8 @@ public class AudioProvider extends ContentProvider {
 	@Override
 	public boolean onCreate() {
 		final Context context = getContext();
+		Injector.setContext(context);
+		Injector.injectSafely(this);
 		mOpenHelper = new AudioDatabase(context);
 		return true;
 	}
@@ -264,34 +264,37 @@ public class AudioProvider extends ContentProvider {
 	public int bulkInsert(Uri uri, ContentValues[] values) {
 		final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 		final int match = sUriMatcher.match(uri);
+		final long hostId = hostManager.getActiveHost().getId();
 		switch (match) {
 			case ALBUMS: {
 				int numInserted = 0;
 				db.beginTransaction();
 				try {
-					// delete all rows in table
-					db.delete(AudioDatabase.Tables.ALBUMS, null, null);
+					// delete all rows in table{  }
+					db.delete(AudioDatabase.Tables.ALBUMS, AlbumsColumns.HOST_ID + "=?", DBUtils.args(hostId));
 
 					// insert new rows into table
 					// standard SQL insert statement, that can be reused
 					SQLiteStatement insert = db.compileStatement(
-						"INSERT INTO " + AudioDatabase.Tables.ALBUMS + "(" +
-						AlbumsColumns.UPDATED +
+						"INSERT INTO " + AudioDatabase.Tables.ALBUMS +
+						"(" + AlbumsColumns.UPDATED +
+						"," + AlbumsColumns.HOST_ID +
 						"," + AlbumsColumns.ID +
 						"," + AlbumsColumns.TITLE +
 						"," + AlbumsColumns.PREFIX + Artists.ID +
 						"," + AlbumsColumns.YEAR +
 						"," + AlbumsColumns.THUMBNAIL +
-						") VALUES " + "(?,?,?,?,?,?)");
+						") VALUES " + "(?,?,?,?,?,?,?)");
 
 					final long now = System.currentTimeMillis();
 					for (ContentValues value : values) {
 						insert.bindLong(1, now);
-						insert.bindString(2, value.getAsString(Albums.ID));
-						insert.bindString(3, value.getAsString(Albums.TITLE));
-						insert.bindString(4, value.getAsString(Albums.PREFIX + Artists.ID));
-						insert.bindString(5, value.getAsString(Albums.YEAR));
-						insert.bindString(6, value.getAsString(Albums.THUMBNAIL));
+						insert.bindLong(2, hostId);
+						insert.bindString(3, value.getAsString(Albums.ID));
+						insert.bindString(4, value.getAsString(Albums.TITLE));
+						insert.bindString(5, value.getAsString(Albums.PREFIX + Artists.ID));
+						insert.bindString(6, value.getAsString(Albums.YEAR));
+						insert.bindString(7, value.getAsString(Albums.THUMBNAIL));
 						insert.executeInsert();
 					}
 					db.setTransactionSuccessful();
@@ -308,21 +311,23 @@ public class AudioProvider extends ContentProvider {
 				db.beginTransaction();
 				try {
 					// delete all rows in table
-					db.delete(AudioDatabase.Tables.ARTISTS, null, null);
+					db.delete(AudioDatabase.Tables.ARTISTS, ArtistsColumns.HOST_ID + "=?", DBUtils.args(hostId));
 					// insert new rows into table
 					// standard SQL insert statement, that can be reused
 					SQLiteStatement insert = db.compileStatement(
-							"INSERT INTO " + AudioDatabase.Tables.ARTISTS + "(" +
-							ArtistsColumns.UPDATED +
+							"INSERT INTO " + AudioDatabase.Tables.ARTISTS +
+							"(" + ArtistsColumns.UPDATED +
+							"," + ArtistsColumns.HOST_ID +
 							"," + ArtistsColumns.ID +
 							"," + ArtistsColumns.NAME +
-							") VALUES " + "(?,?,?)");
+							") VALUES " + "(?,?,?,?)");
 
 					final long now = System.currentTimeMillis();
 					for (ContentValues value : values) {
-						insert.bindLong(1, (now));
-						insert.bindString(2, value.getAsString(Artists.ID));
-						insert.bindString(3, value.getAsString(Artists.NAME));
+						insert.bindLong(1, now);
+						insert.bindLong(2, hostId);
+						insert.bindString(3, value.getAsString(Artists.ID));
+						insert.bindString(4, value.getAsString(Artists.NAME));
 						insert.executeInsert();
 					}
 					db.setTransactionSuccessful();

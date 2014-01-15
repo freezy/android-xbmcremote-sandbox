@@ -75,6 +75,7 @@ public class VideoContract {
 	interface MoviesColumns {
 		final static String PREFIX = "movie_";
 		String ID = PREFIX + "id";
+		String HOST_ID = PREFIX + "host_id";
 		String TITLE = PREFIX + "title";
 		String YEAR = PREFIX + "year";
 		String GENRE = PREFIX + "genre";

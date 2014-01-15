@@ -78,6 +78,8 @@ public class AudioContract {
 
 		/** Unique string identifying this artist. */
 		String ID = PREFIX + "id";
+		/** Host instance */
+		String HOST_ID = PREFIX + "host_id";
 		/** Title describing this artist. */
 		String TITLE = PREFIX + "title";
 		/** Year the albums was released. */
@@ -97,6 +99,8 @@ public class AudioContract {
 
 		/** Unique string identifying this artist. */
 		String ID = PREFIX + "id";
+		/** Host instance */
+		String HOST_ID = PREFIX + "host_id";
 		/** Title describing this artist. */
 		String NAME = PREFIX + "title";
 

@@ -36,6 +36,7 @@ import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
 import org.xbmc.android.jsonrpc.api.model.AudioModel;
 import org.xbmc.android.jsonrpc.io.JsonHandler;
+import org.xbmc.android.util.DBUtils;
 
 /**
  * Handles one-way synchronization between XBMC's <tt>album</tt> table and the local
@@ -68,7 +69,7 @@ public class AlbumHandler extends JsonHandler {
 			batch[i].put(Albums.UPDATED, now);
 			batch[i].put(Albums.ID, album.get(AudioModel.AlbumDetail.ALBUMID).getIntValue());
 			batch[i].put(Albums.TITLE, album.get(AudioModel.AlbumDetail.TITLE).getTextValue());
-			batch[i].put(Albums.PREFIX + Artists.ID, album.get(AudioModel.AlbumDetail.ARTISTID).get(0).getIntValue());
+			batch[i].put(Albums.PREFIX + Artists.ID, DBUtils.getIntValue(album, AudioModel.AlbumDetail.ARTISTID));
 			batch[i].put(Albums.YEAR, album.get(AudioModel.AlbumDetail.YEAR).getIntValue());
 			batch[i].put(Albums.THUMBNAIL, album.get(AudioModel.AlbumDetail.THUMBNAIL).getTextValue());
 		}

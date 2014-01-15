@@ -32,6 +32,7 @@ Stuff working so far:
 * Navigation drawer
 
 ## Working on..
+* Link data to correct host
 * Setup tablet layouts
 * Play with Chrome Cast
 

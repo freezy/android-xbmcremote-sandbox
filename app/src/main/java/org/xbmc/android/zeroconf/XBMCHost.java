@@ -75,6 +75,10 @@ public class XBMCHost implements Parcelable {
 		return password;
 	}
 
+	public int getId() {
+		return id;
+	}
+
 	public boolean isActive() {
 		return active;
 	}

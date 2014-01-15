@@ -30,6 +30,8 @@ import org.xbmc.android.account.authenticator.ui.Step3bManualSetupFragment;
 import org.xbmc.android.account.authenticator.ui.WizardActivity;
 import org.xbmc.android.app.SandboxApplication;
 import org.xbmc.android.app.manager.HostManager;
+import org.xbmc.android.app.provider.AudioProvider;
+import org.xbmc.android.app.provider.VideoProvider;
 import org.xbmc.android.app.service.SyncService;
 import org.xbmc.android.app.ui.HomeActivity;
 import org.xbmc.android.app.ui.HostChooseActivity;
@@ -50,6 +52,7 @@ import javax.inject.Singleton;
 	complete = false,
 	injects = {
 		AlbumCompactFragment.class,
+		AudioProvider.class,
 		DiscoveryService.class,
 		HomeActivity.class,
 		HostChooseActivity.class,
@@ -62,6 +65,7 @@ import javax.inject.Singleton;
 		Step3aHostFoundFragment.class,
 		Step3bManualSetupFragment.class,
 		SyncService.class,
+		VideoProvider.class,
 		WizardActivity.class
 	}
 )
@@ -76,7 +80,7 @@ public class AppModule {
 	@Singleton
 	@Provides
 	ConnectionManager provideConnectionManager() {
-		return new ConnectionManager(SandboxApplication.getInstance().getApplicationContext(), null);
+		return new ConnectionManager(Injector.getContext(), null);
 	}
 
 	@Singleton

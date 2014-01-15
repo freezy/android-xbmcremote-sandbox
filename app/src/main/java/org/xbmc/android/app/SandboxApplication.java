@@ -10,8 +10,6 @@ import org.xbmc.android.app.injection.RootModule;
  */
 public class SandboxApplication extends Application {
 
-	private static SandboxApplication instance;
-
 	public SandboxApplication() {
 	}
 
@@ -38,16 +36,12 @@ public class SandboxApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		instance = this;
 		// Perform injection
+		Injector.setContext(getApplicationContext());
 		Injector.init(getRootModule(), this);
 	}
 
 	private Object getRootModule() {
 		return new RootModule();
-	}
-
-	public static SandboxApplication getInstance() {
-		return instance;
 	}
 }

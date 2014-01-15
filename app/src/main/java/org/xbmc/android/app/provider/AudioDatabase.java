@@ -47,7 +47,7 @@ public class AudioDatabase extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "audio.db";
 
-	private static final int VER_LAUNCH = 3;
+	private static final int VER_LAUNCH = 4;
 	private static final int DATABASE_VERSION = VER_LAUNCH;
 
 	public interface Tables {
@@ -75,6 +75,7 @@ public class AudioDatabase extends SQLiteOpenHelper {
 		db.execSQL("CREATE TABLE " + Tables.ARTISTS + " ("
 			+ BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ ArtistsColumns.UPDATED + " INTEGER NOT NULL,"
+			+ ArtistsColumns.HOST_ID + " INTEGER NOT NULL,"
 			+ ArtistsColumns.ID + " TEXT NOT NULL,"
 			+ ArtistsColumns.NAME + " TEXT,"
 			+ "UNIQUE (" + ArtistsColumns.ID + ") ON CONFLICT REPLACE)");
@@ -82,6 +83,7 @@ public class AudioDatabase extends SQLiteOpenHelper {
 		db.execSQL("CREATE TABLE " + Tables.ALBUMS + " ("
 			+ BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ AlbumsColumns.UPDATED + " INTEGER NOT NULL,"
+			+ AlbumsColumns.HOST_ID + " INTEGER NOT NULL,"
 			+ AlbumsColumns.ID + " TEXT NOT NULL,"
 			+ AlbumsColumns.PREFIX + Artists.ID + " TEXT " + References.ARTIST_ID + ","
 			+ AlbumsColumns.TITLE + " TEXT,"

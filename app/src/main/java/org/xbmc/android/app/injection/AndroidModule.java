@@ -12,7 +12,6 @@ import android.telephony.TelephonyManager;
 import android.view.inputmethod.InputMethodManager;
 import dagger.Module;
 import dagger.Provides;
-import org.xbmc.android.app.SandboxApplication;
 
 import javax.inject.Singleton;
 
@@ -25,7 +24,7 @@ public class AndroidModule {
 	@Provides
 	@Singleton
 	Context provideAppContext() {
-		return SandboxApplication.getInstance().getApplicationContext();
+		return Injector.getContext();
 	}
 
 	@Provides

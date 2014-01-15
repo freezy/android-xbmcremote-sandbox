@@ -27,9 +27,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.net.Uri;
 import android.util.Log;
+import org.xbmc.android.app.injection.Injector;
+import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.util.DBUtils;
 import org.xbmc.android.util.google.SelectionBuilder;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -48,6 +51,7 @@ public class VideoProvider extends ContentProvider {
 	private static final boolean LOGV = Log.isLoggable(TAG, Log.VERBOSE);
 
 	private VideoDatabase mOpenHelper;
+	@Inject HostManager hostManager;
 
 	private static final UriMatcher sUriMatcher = buildUriMatcher();
 
@@ -72,6 +76,8 @@ public class VideoProvider extends ContentProvider {
 	@Override
 	public boolean onCreate() {
 		final Context context = getContext();
+		Injector.setContext(context);
+		Injector.injectSafely(this);
 		mOpenHelper = new VideoDatabase(context);
 		return true;
 	}
@@ -214,19 +220,21 @@ public class VideoProvider extends ContentProvider {
 	public int bulkInsert(Uri uri, ContentValues[] values) {
 		final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 		final int match = sUriMatcher.match(uri);
+		final long hostId = hostManager.getActiveHost().getId();
 		switch (match) {
 			case MOVIES: {
 				int numInserted = 0;
 				db.beginTransaction();
 				try {
 					// delete all rows in table
-					db.delete(VideoDatabase.Tables.MOVIES, null, null);
+					db.delete(VideoDatabase.Tables.MOVIES, VideoContract.MoviesColumns.HOST_ID + "=?", DBUtils.args(hostId));
 
 					// insert new rows into table
 					// standard SQL insert statement, that can be reused
 					SQLiteStatement insert = db.compileStatement(
-						"INSERT INTO " + VideoDatabase.Tables.MOVIES + "(" +
-						VideoContract.MoviesColumns.UPDATED +
+						"INSERT INTO " + VideoDatabase.Tables.MOVIES +
+						"(" + VideoContract.MoviesColumns.UPDATED +
+						"," + VideoContract.MoviesColumns.HOST_ID +
 						"," + VideoContract.MoviesColumns.ID +
 						"," + VideoContract.MoviesColumns.TITLE +
 						"," + VideoContract.MoviesColumns.YEAR +
@@ -234,18 +242,20 @@ public class VideoProvider extends ContentProvider {
 						"," + VideoContract.MoviesColumns.RATING +
 						"," + VideoContract.MoviesColumns.RUNTIME +
 						"," + VideoContract.MoviesColumns.THUMBNAIL +
-						") VALUES " + "(?,?,?,?,?,?,?,?)");
+						") VALUES " + "(?,?,?,?,?,?,?,?,?)");
 
 					final long now = System.currentTimeMillis();
+
 					for (ContentValues value : values) {
 						insert.bindLong(1, now);
-						DBUtils.bind(insert, value, 2, VideoContract.Movies.ID);
-						DBUtils.bind(insert, value, 3, VideoContract.Movies.TITLE);
-						DBUtils.bind(insert, value, 4, VideoContract.Movies.YEAR);
-						DBUtils.bind(insert, value, 5, VideoContract.Movies.GENRE);
-						DBUtils.bind(insert, value, 6, VideoContract.Movies.RATING);
-						DBUtils.bind(insert, value, 7, VideoContract.Movies.RUNTIME);
-						DBUtils.bind(insert, value, 8, VideoContract.Movies.THUMBNAIL);
+						insert.bindLong(2, hostId);
+						DBUtils.bind(insert, value, 3, VideoContract.Movies.ID);
+						DBUtils.bind(insert, value, 4, VideoContract.Movies.TITLE);
+						DBUtils.bind(insert, value, 5, VideoContract.Movies.YEAR);
+						DBUtils.bind(insert, value, 6, VideoContract.Movies.GENRE);
+						DBUtils.bind(insert, value, 7, VideoContract.Movies.RATING);
+						DBUtils.bind(insert, value, 8, VideoContract.Movies.RUNTIME);
+						DBUtils.bind(insert, value, 9, VideoContract.Movies.THUMBNAIL);
 						insert.executeInsert();
 					}
 					db.setTransactionSuccessful();
