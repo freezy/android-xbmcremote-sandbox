@@ -25,5 +25,14 @@ Build process is now Gradle-based, tested in Android Studio and IDEA 13. If you 
 building, let me know on the issue tracker.
 
 ## Status Quo
-Still putting the pieces together, so nothing to see yet. There are some mockups of
-the new UI [here](https://github.com/freezy/android-xbmcremote-sandbox/tree/master/doc/mockups).
+Stuff working so far:
+* XBMC host setup
+* Database sync of basic movie and album data
+* Cover load
+* Navigation drawer
+
+## Working on..
+* Setup tablet layouts
+* Play with Chrome Cast
+
+Some mockups can be found [here](https://github.com/freezy/android-xbmcremote-sandbox/tree/master/doc/mockups).
