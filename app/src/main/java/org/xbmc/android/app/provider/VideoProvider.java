@@ -36,6 +36,8 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static org.xbmc.android.app.provider.VideoContract.Movies;
+
 /**
  * Provider that stores {@link org.xbmc.android.app.provider.VideoContract} data. Data is usually inserted
  * by {@link org.xbmc.android.app.service.SyncService}, and queried by various {@link android.app.Activity} instances.
@@ -88,9 +90,9 @@ public class VideoProvider extends ContentProvider {
 		final int match = sUriMatcher.match(uri);
 		switch (match) {
 		case MOVIES:
-			return VideoContract.Movies.CONTENT_TYPE;
+			return Movies.CONTENT_TYPE;
 		case MOVIES_ID:
-			return VideoContract.Movies.CONTENT_ITEM_TYPE;
+			return Movies.CONTENT_ITEM_TYPE;
 		default:
 			throw new UnsupportedOperationException("Unknown uri: " + uri);
 		}
@@ -121,7 +123,7 @@ public class VideoProvider extends ContentProvider {
 			case MOVIES: {
 				db.insertOrThrow(VideoDatabase.Tables.MOVIES, null, values);
 				getContext().getContentResolver().notifyChange(uri, null);
-				return VideoContract.Movies.buildAlbumUri(values.getAsString(VideoContract.Movies.ID));
+				return Movies.buildAlbumUri(values.getAsString(Movies.ID));
 			}
 			default: {
 				throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -181,13 +183,14 @@ public class VideoProvider extends ContentProvider {
 	private SelectionBuilder buildSimpleSelection(Uri uri) {
 		final SelectionBuilder builder = new SelectionBuilder();
 		final int match = sUriMatcher.match(uri);
+		final String hostId = String.valueOf(hostManager.getActiveHost().getId());
 		switch (match) {
 			case MOVIES: {
-				return builder.table(VideoDatabase.Tables.MOVIES);
+				return builder.table(VideoDatabase.Tables.MOVIES).where(Movies.HOST_ID + "=?", hostId);
 			}
 			case MOVIES_ID: {
-				final String movieId = VideoContract.Movies.getMovieId(uri);
-				return builder.table(VideoDatabase.Tables.MOVIES).where(VideoContract.Movies.ID + "=?", movieId);
+				final String movieId = Movies.getMovieId(uri);
+				return builder.table(VideoDatabase.Tables.MOVIES).where(Movies.ID + "=?", movieId).where(Movies.HOST_ID + "=?", hostId);
 			}
 			default: {
 				throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -202,13 +205,14 @@ public class VideoProvider extends ContentProvider {
 	 */
 	private SelectionBuilder buildExpandedSelection(Uri uri, int match) {
 		final SelectionBuilder builder = new SelectionBuilder();
+		final String hostId = String.valueOf(hostManager.getActiveHost().getId());
 		switch (match) {
 			case MOVIES: {
-				return builder.table(VideoDatabase.Tables.MOVIES);
+				return builder.table(VideoDatabase.Tables.MOVIES).where(Movies.HOST_ID + "=?", hostId);
 			}
 			case MOVIES_ID: {
-				final String movieId = VideoContract.Movies.getMovieId(uri);
-				return builder.table(VideoDatabase.Tables.MOVIES).where(VideoContract.Movies.ID + "=?", movieId);
+				final String movieId = Movies.getMovieId(uri);
+				return builder.table(VideoDatabase.Tables.MOVIES).where(Movies.ID + "=?", movieId).where(Movies.HOST_ID + "=?", hostId);
 			}
 			default: {
 				throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -249,13 +253,13 @@ public class VideoProvider extends ContentProvider {
 					for (ContentValues value : values) {
 						insert.bindLong(1, now);
 						insert.bindLong(2, hostId);
-						DBUtils.bind(insert, value, 3, VideoContract.Movies.ID);
-						DBUtils.bind(insert, value, 4, VideoContract.Movies.TITLE);
-						DBUtils.bind(insert, value, 5, VideoContract.Movies.YEAR);
-						DBUtils.bind(insert, value, 6, VideoContract.Movies.GENRE);
-						DBUtils.bind(insert, value, 7, VideoContract.Movies.RATING);
-						DBUtils.bind(insert, value, 8, VideoContract.Movies.RUNTIME);
-						DBUtils.bind(insert, value, 9, VideoContract.Movies.THUMBNAIL);
+						DBUtils.bind(insert, value, 3, Movies.ID);
+						DBUtils.bind(insert, value, 4, Movies.TITLE);
+						DBUtils.bind(insert, value, 5, Movies.YEAR);
+						DBUtils.bind(insert, value, 6, Movies.GENRE);
+						DBUtils.bind(insert, value, 7, Movies.RATING);
+						DBUtils.bind(insert, value, 8, Movies.RUNTIME);
+						DBUtils.bind(insert, value, 9, Movies.THUMBNAIL);
 						insert.executeInsert();
 					}
 					db.setTransactionSuccessful();

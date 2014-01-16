@@ -80,6 +80,7 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 
 	public void onEvent(HostSwitched event) {
 		hostUri = event.getHost().getUri();
+		getLoaderManager().restartLoader(0, null, this);
 	}
 
 	@Override

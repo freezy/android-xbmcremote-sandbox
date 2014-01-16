@@ -54,7 +54,7 @@ import java.util.Arrays;
 public class AudioProvider extends ContentProvider {
 
 	private static final String TAG = AudioProvider.class.getSimpleName();
-	private static final boolean LOGV = Log.isLoggable(TAG, Log.VERBOSE);
+	private static final boolean LOGV = true;//Log.isLoggable(TAG, Log.VERBOSE);
 
 	private AudioDatabase mOpenHelper;
 	@Inject HostManager hostManager;
@@ -204,21 +204,22 @@ public class AudioProvider extends ContentProvider {
 	 */
 	private SelectionBuilder buildSimpleSelection(Uri uri) {
 		final SelectionBuilder builder = new SelectionBuilder();
+		final String hostId = String.valueOf(hostManager.getActiveHost().getId());
 		final int match = sUriMatcher.match(uri);
 		switch (match) {
 			case ALBUMS: {
-				return builder.table(Tables.ALBUMS);
+				return builder.table(Tables.ALBUMS).where(Albums.HOST_ID + "=?", hostId);
 			}
 			case ALBUMS_ID: {
 				final String albumId = Albums.getAlbumId(uri);
-				return builder.table(Tables.ALBUMS).where(Albums.ID + "=?", albumId);
+				return builder.table(Tables.ALBUMS).where(Albums.ID + "=?", albumId).where(Albums.HOST_ID + "=?", hostId);
 			}
 			case ARTISTS: {
-				return builder.table(Tables.ARTISTS);
+				return builder.table(Tables.ARTISTS).where(Artists.HOST_ID + "=?", hostId);
 			}
 			case ARTISTS_ID: {
 				final String artistId = Artists.getArtistId(uri);
-				return builder.table(Tables.ARTISTS).where(Artists.ID + "=?", artistId);
+				return builder.table(Tables.ARTISTS).where(Artists.ID + "=?", artistId).where(Artists.HOST_ID + "=?", hostId);
 			}
 			default: {
 				throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -233,21 +234,23 @@ public class AudioProvider extends ContentProvider {
 	 */
 	private SelectionBuilder buildExpandedSelection(Uri uri, int match) {
 		final SelectionBuilder builder = new SelectionBuilder();
+		final String hostId = String.valueOf(hostManager.getActiveHost().getId());
 		switch (match) {
 			case ALBUMS: {
-				return builder.table(Tables.ALBUMS_JOIN_ARTISTS);
+				return builder.table(Tables.ALBUMS_JOIN_ARTISTS).where(Albums.HOST_ID + "=?", hostId);
 			}
 			case ALBUMS_ID: {
 				final String albumId = Albums.getAlbumId(uri);
-				return builder.table(Tables.ALBUMS).where(Albums.ID + "=?", albumId);
+				return builder.table(Tables.ALBUMS).where(Albums.ID + "=?", albumId).where(Albums.HOST_ID + "=?", hostId);
 			}
 			case ARTISTS: {
 				return builder.table(Tables.ARTISTS)
+						.where(Artists.HOST_ID + "=?", hostId)
 						.map(Artists.ALBUMS_COUNT, Subquery.ARTIST_ALBUMS_COUNT);
 			}
 			case ARTISTS_ID_ALBUMS: {
 				final String artistId = Artists.getArtistId(uri);
-				return builder.table(Tables.ALBUMS).where(Artists.ID + "=?", artistId);
+				return builder.table(Tables.ALBUMS).where(Artists.ID + "=?", artistId).where(Artists.HOST_ID + "=?", hostId);
 			}
 			default: {
 				throw new UnsupportedOperationException("Unknown uri: " + uri);
