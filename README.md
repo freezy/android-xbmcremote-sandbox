@@ -27,12 +27,12 @@ building, let me know on the issue tracker.
 ## Status Quo
 Stuff working so far:
 * XBMC host setup
+* Separated data for multiple hosts
 * Database sync of basic movie and album data
 * Cover load
 * Navigation drawer
 
 ## Working on..
-* Link data to correct host
 * Setup tablet layouts
 * Play with Chrome Cast
 
