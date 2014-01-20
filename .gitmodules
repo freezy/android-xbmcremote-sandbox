@@ -3,7 +3,7 @@
 	url = https://github.com/freezy/xbmc-jsonrpclib-android.git
 [submodule "libs/slidingmenu"]
 	path = libs/slidingmenu
-	url = git@github.com:freezy/SlidingMenu.git
+	url = https://github.com/freezy/SlidingMenu.git
 [submodule "libs/wizardpager"]
 	path = libs/wizardpager
 	url = https://github.com/freezy/WizardPager.git
