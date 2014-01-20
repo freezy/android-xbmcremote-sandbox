@@ -8,10 +8,6 @@ buildscript {
 }
 apply plugin: 'android'
 
-repositories {
-	mavenCentral()
-}
-
 dependencies {
 	compile 'com.android.support:support-v4:18.0.+'
 	compile 'com.squareup.dagger:dagger:1.0.1'
@@ -48,5 +44,12 @@ android {
 			proguardFile file('proguard.cfg')
 			proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
 		}
+	}
+
+	packagingOptions {
+		exclude 'META-INF/services/javax.annotation.processing.Processor'
+		exclude 'META-INF/ASL2.0'
+		exclude 'META-INF/LICENSE'
+		exclude 'META-INF/NOTICE'
 	}
 }

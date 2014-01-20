@@ -1,0 +1,20 @@
+apply plugin: "java"
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compile 'commons-io:commons-io:2.4'
+	compile 'commons-collections:commons-collections:3.2.1'
+	compile 'org.codehaus.jackson:jackson-core-asl:1.8.11'
+	compile 'org.codehaus.jackson:jackson-mapper-asl:1.8.11'
+}
+
+sourceSets {
+	main {
+		java {
+			srcDir '../libs/xbmc-jsonrpclib/generator/src/main/java'
+		}
+	}
+}

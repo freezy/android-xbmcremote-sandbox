@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/libs/wizardpager" />
             <option value="$PROJECT_DIR$/libs/wizardpager/LibWizardPager" />
             <option value="$PROJECT_DIR$/libs/xbmc-jsonrpclib" />
+            <option value="$PROJECT_DIR$/libs/xbmc-jsonrpclib/xbmc-jsonrpclib" />
           </set>
         </option>
       </GradleProjectSettings>
