@@ -4,3 +4,6 @@
 [submodule "libs/wizardpager"]
 	path = libs/wizardpager
 	url = https://github.com/freezy/WizardPager.git
+[submodule "libs/slidingmenu"]
+	path = libs/slidingmenu
+	url = https://github.com/freezy/SlidingMenu.git
