@@ -28,8 +28,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.net.Uri;
 import android.util.Log;
-import org.xbmc.android.app.injection.Injector;
-import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.app.provider.AudioContract.Albums;
 import org.xbmc.android.app.provider.AudioContract.AlbumsColumns;
 import org.xbmc.android.app.provider.AudioContract.Artists;
@@ -38,7 +36,6 @@ import org.xbmc.android.app.provider.AudioDatabase.Tables;
 import org.xbmc.android.util.DBUtils;
 import org.xbmc.android.util.google.SelectionBuilder;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -51,13 +48,12 @@ import java.util.Arrays;
  *
  * @author freezy <freezy@xbmc.org>
  */
-public class AudioProvider extends ContentProvider {
+public class AudioProvider extends AbstractProvider {
 
 	private static final String TAG = AudioProvider.class.getSimpleName();
 	private static final boolean LOGV = true;//Log.isLoggable(TAG, Log.VERBOSE);
 
 	private AudioDatabase mOpenHelper;
-	@Inject HostManager hostManager;
 
 	private static final UriMatcher sUriMatcher = buildUriMatcher();
 
@@ -88,11 +84,8 @@ public class AudioProvider extends ContentProvider {
 
 	@Override
 	public boolean onCreate() {
-		final Context context = getContext();
-		Injector.setContext(context);
-		Injector.injectSafely(this);
-		mOpenHelper = new AudioDatabase(context);
-		return true;
+		mOpenHelper = new AudioDatabase(getContext());
+		return super.onCreate();
 	}
 
 	@Override
@@ -204,7 +197,7 @@ public class AudioProvider extends ContentProvider {
 	 */
 	private SelectionBuilder buildSimpleSelection(Uri uri) {
 		final SelectionBuilder builder = new SelectionBuilder();
-		final String hostId = String.valueOf(hostManager.getActiveHost().getId());
+		final String hostId = getHostIdAsString();
 		final int match = sUriMatcher.match(uri);
 		switch (match) {
 			case ALBUMS: {
@@ -234,7 +227,7 @@ public class AudioProvider extends ContentProvider {
 	 */
 	private SelectionBuilder buildExpandedSelection(Uri uri, int match) {
 		final SelectionBuilder builder = new SelectionBuilder();
-		final String hostId = String.valueOf(hostManager.getActiveHost().getId());
+		final String hostId = getHostIdAsString();
 		switch (match) {
 			case ALBUMS: {
 				return builder.table(Tables.ALBUMS_JOIN_ARTISTS).where(Albums.HOST_ID + "=?", hostId);
@@ -267,7 +260,7 @@ public class AudioProvider extends ContentProvider {
 	public int bulkInsert(Uri uri, ContentValues[] values) {
 		final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 		final int match = sUriMatcher.match(uri);
-		final long hostId = hostManager.getActiveHost().getId();
+		final long hostId = getHostId();
 		switch (match) {
 			case ALBUMS: {
 				int numInserted = 0;

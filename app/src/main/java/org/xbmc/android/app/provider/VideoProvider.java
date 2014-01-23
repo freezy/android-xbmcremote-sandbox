@@ -27,12 +27,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.net.Uri;
 import android.util.Log;
-import org.xbmc.android.app.injection.Injector;
-import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.util.DBUtils;
 import org.xbmc.android.util.google.SelectionBuilder;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -47,13 +44,12 @@ import static org.xbmc.android.app.provider.VideoContract.Movies;
  *
  * @author freezy <freezy@xbmc.org>
  */
-public class VideoProvider extends ContentProvider {
+public class VideoProvider extends AbstractProvider {
 
 	private static final String TAG = VideoProvider.class.getSimpleName();
 	private static final boolean LOGV = Log.isLoggable(TAG, Log.VERBOSE);
 
 	private VideoDatabase mOpenHelper;
-	@Inject HostManager hostManager;
 
 	private static final UriMatcher sUriMatcher = buildUriMatcher();
 
@@ -77,11 +73,8 @@ public class VideoProvider extends ContentProvider {
 
 	@Override
 	public boolean onCreate() {
-		final Context context = getContext();
-		Injector.setContext(context);
-		Injector.injectSafely(this);
-		mOpenHelper = new VideoDatabase(context);
-		return true;
+		mOpenHelper = new VideoDatabase(getContext());
+		return super.onCreate();
 	}
 
 	@Override
@@ -183,14 +176,13 @@ public class VideoProvider extends ContentProvider {
 	private SelectionBuilder buildSimpleSelection(Uri uri) {
 		final SelectionBuilder builder = new SelectionBuilder();
 		final int match = sUriMatcher.match(uri);
-		final String hostId = String.valueOf(hostManager.getActiveHost().getId());
 		switch (match) {
 			case MOVIES: {
-				return builder.table(VideoDatabase.Tables.MOVIES).where(Movies.HOST_ID + "=?", hostId);
+				return builder.table(VideoDatabase.Tables.MOVIES).where(Movies.HOST_ID + "=?", getHostIdAsString());
 			}
 			case MOVIES_ID: {
 				final String movieId = Movies.getMovieId(uri);
-				return builder.table(VideoDatabase.Tables.MOVIES).where(Movies.ID + "=?", movieId).where(Movies.HOST_ID + "=?", hostId);
+				return builder.table(VideoDatabase.Tables.MOVIES).where(Movies.ID + "=?", movieId).where(Movies.HOST_ID + "=?", getHostIdAsString());
 			}
 			default: {
 				throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -205,14 +197,13 @@ public class VideoProvider extends ContentProvider {
 	 */
 	private SelectionBuilder buildExpandedSelection(Uri uri, int match) {
 		final SelectionBuilder builder = new SelectionBuilder();
-		final String hostId = String.valueOf(hostManager.getActiveHost().getId());
 		switch (match) {
 			case MOVIES: {
-				return builder.table(VideoDatabase.Tables.MOVIES).where(Movies.HOST_ID + "=?", hostId);
+				return builder.table(VideoDatabase.Tables.MOVIES).where(Movies.HOST_ID + "=?", getHostIdAsString());
 			}
 			case MOVIES_ID: {
 				final String movieId = Movies.getMovieId(uri);
-				return builder.table(VideoDatabase.Tables.MOVIES).where(Movies.ID + "=?", movieId).where(Movies.HOST_ID + "=?", hostId);
+				return builder.table(VideoDatabase.Tables.MOVIES).where(Movies.ID + "=?", movieId).where(Movies.HOST_ID + "=?", getHostIdAsString());
 			}
 			default: {
 				throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -224,14 +215,13 @@ public class VideoProvider extends ContentProvider {
 	public int bulkInsert(Uri uri, ContentValues[] values) {
 		final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 		final int match = sUriMatcher.match(uri);
-		final long hostId = hostManager.getActiveHost().getId();
 		switch (match) {
 			case MOVIES: {
 				int numInserted = 0;
 				db.beginTransaction();
 				try {
 					// delete all rows in table
-					db.delete(VideoDatabase.Tables.MOVIES, VideoContract.MoviesColumns.HOST_ID + "=?", DBUtils.args(hostId));
+					db.delete(VideoDatabase.Tables.MOVIES, VideoContract.MoviesColumns.HOST_ID + "=?", DBUtils.args(getHostIdAsString()));
 
 					// insert new rows into table
 					// standard SQL insert statement, that can be reused
@@ -252,7 +242,7 @@ public class VideoProvider extends ContentProvider {
 
 					for (ContentValues value : values) {
 						insert.bindLong(1, now);
-						insert.bindLong(2, hostId);
+						insert.bindLong(2, getHostId());
 						DBUtils.bind(insert, value, 3, Movies.ID);
 						DBUtils.bind(insert, value, 4, Movies.TITLE);
 						DBUtils.bind(insert, value, 5, Movies.YEAR);

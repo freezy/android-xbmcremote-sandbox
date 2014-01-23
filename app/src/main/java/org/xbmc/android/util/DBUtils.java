@@ -35,4 +35,8 @@ public class DBUtils {
 		}
 		return ints;
 	}
+
+	public static String[] args(String... args) {
+		return args;
+	}
 }
