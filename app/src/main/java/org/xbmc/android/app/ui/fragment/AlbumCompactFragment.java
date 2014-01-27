@@ -91,7 +91,7 @@ public class AlbumCompactFragment extends GridFragment implements LoaderManager.
 		baseUri = ContactsContract.Contacts.CONTENT_URI;
 
 		return new CursorLoader(getActivity(), AudioContract.Albums.CONTENT_URI, AlbumsQuery.PROJECTION, null, null,
-				AudioContract.Albums.SORT_LATEST_3);
+				AudioContract.Albums.sortLatest(getResources().getInteger(R.integer.home_numrows)));
 	}
 
 	@Override

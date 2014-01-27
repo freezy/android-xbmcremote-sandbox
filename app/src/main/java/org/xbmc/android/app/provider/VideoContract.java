@@ -102,7 +102,11 @@ public class VideoContract {
 		public static final String DEFAULT_SORT = MoviesColumns.TITLE + " ASC";
 		/** Latest added movies first */
 		public static final String SORT_LATEST_FIRST = MoviesColumns.ID + " DESC";
-		public static final String SORT_LATEST_3 = MoviesColumns.UPDATED + " DESC LIMIT 3";
+		private static final String SORT_LATEST_N = MoviesColumns.UPDATED + " DESC LIMIT ";
+
+		public static String sortLatest(int n) {
+			return SORT_LATEST_N + n;
+		}
 
 		/** Build {@link android.net.Uri} for requested {@link #ID}. */
 		public static Uri buildAlbumUri(String movieId) {

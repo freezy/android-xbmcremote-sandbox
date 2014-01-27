@@ -93,7 +93,7 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 		baseUri = ContactsContract.Contacts.CONTENT_URI;
 
 		return new CursorLoader(getActivity(), VideoContract.Movies.CONTENT_URI, MoviesQuery.PROJECTION, null, null,
-				VideoContract.Movies.SORT_LATEST_3);
+				VideoContract.Movies.sortLatest(getResources().getInteger(R.integer.home_numrows)));
 	}
 
 	@Override

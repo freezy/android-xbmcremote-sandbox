@@ -19,5 +19,5 @@
   -->
 
 <resources>
-	<integer name="home_numrows">3</integer>
+	<integer name="home_numrows">6</integer>
 </resources>

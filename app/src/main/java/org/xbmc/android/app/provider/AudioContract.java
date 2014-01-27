@@ -121,10 +121,14 @@ public class AudioContract {
 
 		/** Default "ORDER BY" clause. */
 		public static final String SORT_DEFAULT = AlbumsColumns.TITLE + " ASC";
-		public static final String SORT_LATEST_3 = AlbumsColumns.UPDATED + " DESC LIMIT 3";
+		private static final String SORT_LATEST_N = AlbumsColumns.UPDATED + " DESC LIMIT 3";
 
 		/** Latest adde albums first */
 		public static final String SORT_LATEST_FIRST = AlbumsColumns.ID + " DESC";
+
+		public static String sortLatest(int n) {
+			return SORT_LATEST_N + n;
+		}
 
 		/** Build {@link Uri} for requested {@link #ID}. */
 		public static Uri buildAlbumUri(String albumId) {
