@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.Optional;
 import de.greenrobot.event.EventBus;
 import org.xbmc.android.app.event.DataSync;
 import org.xbmc.android.app.service.SyncService;
@@ -28,6 +29,7 @@ public class HomeActivity extends BaseActivity implements OnRefreshListener {
 
 	@Inject protected EventBus bus;
 	@InjectView(R.id.ptr_layout) PullToRefreshLayout pullToRefreshLayout;
+	@InjectView(R.id.navdrawer) @Optional View staticNavdrawer;
 
 	public HomeActivity() {
 		super(R.string.title_home, R.string.ic_logo, R.layout.activity_home);
@@ -36,21 +38,25 @@ public class HomeActivity extends BaseActivity implements OnRefreshListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		ButterKnife.inject(this);
 		bus.register(this);
 
-		// only slide menu, not the action bar.
-		setSlidingActionBarEnabled(false);
+		if (staticNavdrawer != null) {
 
-		// setup pull-to-refresh action bar
-		ActionBarPullToRefresh.from(this)
-			// Mark All Children as pullable
-			.allChildrenArePullable()
-			// Set the OnRefreshListener
-			.listener(this)
-			// Finally commit the setup to our PullToRefreshLayout
-			.setup(pullToRefreshLayout);
+			// only slide menu, not the action bar.
+			setSlidingActionBarEnabled(false);
+
+			// setup pull-to-refresh action bar
+			ActionBarPullToRefresh.from(this)
+				// Mark All Children as pullable
+				.allChildrenArePullable()
+				// Set the OnRefreshListener
+				.listener(this)
+				// Finally commit the setup to our PullToRefreshLayout
+				.setup(pullToRefreshLayout);
+			enableNavdrawer();
+		}
+
 	}
 
 	@Override

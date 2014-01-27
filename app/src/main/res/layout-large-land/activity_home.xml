@@ -1,0 +1,47 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				xmlns:tools="http://schemas.android.com/tools"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent">
+	<fragment
+			android:id="@+id/navdrawer"
+			android:layout_width="@dimen/slidingmenu_width"
+			android:layout_height="fill_parent"
+			android:name="org.xbmc.android.app.ui.menu.SlidingMenuFragment"
+			tools:layout="@layout/slidingmenu"/>
+
+	<uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout
+
+			android:id="@+id/ptr_layout"
+			android:layout_toRightOf="@id/navdrawer"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+
+		<ScrollView
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:background="@color/light_bg">
+
+			<LinearLayout
+					android:layout_height="wrap_content"
+					android:layout_width="wrap_content"
+					android:orientation="vertical">
+
+				<fragment
+						android:id="@+id/home_music_fragment"
+						android:name="org.xbmc.android.app.ui.fragment.AlbumCompactFragment"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						tools:layout="@layout/list_item_album_compact"/>
+
+				<fragment
+						android:id="@+id/home_movie_fragment"
+						android:name="org.xbmc.android.app.ui.fragment.MovieCompactFragment"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						tools:layout="@layout/list_item_movie_compact"/>
+
+			</LinearLayout>
+
+		</ScrollView>
+	</uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout>
+</RelativeLayout>

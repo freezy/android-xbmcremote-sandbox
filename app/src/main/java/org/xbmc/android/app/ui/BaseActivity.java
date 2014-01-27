@@ -61,9 +61,15 @@ public class BaseActivity extends SlidingFragmentActivity {
 		sm.setShadowDrawable(R.drawable.slidingmenu_shadow);
 		sm.setFadeDegree(0.35f);
 		sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+		sm.setSlidingEnabled(false);
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
+
+	protected void enableNavdrawer() {
+		getSlidingMenu().setSlidingEnabled(true);
+	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
