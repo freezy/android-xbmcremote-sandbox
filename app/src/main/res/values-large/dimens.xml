@@ -20,10 +20,8 @@
 <resources>
 
 	<!-- Sliding Menu -->
-	<dimen name="slidingmenu_shadow_width">30dp</dimen>
-	<dimen name="slidingmenu_width">240dp</dimen>
-	<dimen name="square_compact_width">115dp</dimen>
-	<dimen name="portrait_compact_width">115dp</dimen>
-	<dimen name="portrait_compact_height">170dp</dimen>
+	<dimen name="square_compact_width">138dp</dimen>
+	<dimen name="portrait_compact_width">138dp</dimen>
+	<dimen name="portrait_compact_height">204dp</dimen>
 
 </resources>

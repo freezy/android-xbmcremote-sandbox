@@ -2,7 +2,7 @@
 
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-				android:layout_width="wrap_content"
+				android:layout_width="@dimen/portrait_compact_width"
 				android:layout_height="wrap_content"
 				android:layout_marginLeft="6dp"
 				android:layout_marginRight="6dp"
@@ -16,8 +16,8 @@
 
 	<RelativeLayout
 			android:id="@+id/thumb_wrapper"
-			android:layout_width="115dp"
-			android:layout_height="170dp">
+			android:layout_width="@dimen/portrait_compact_width"
+			android:layout_height="@dimen/portrait_compact_height">
 
 		<ImageView
 				android:id="@+id/list_movie_poster"
@@ -45,7 +45,7 @@
 			android:textSize="14sp"
 			android:fontFamily="sans-serif-light"
 			android:maxLines="2"
-			android:ellipsize="marquee" />
+			android:ellipsize="end" />
 
 	<TextView
 			android:text="title_genre"
@@ -61,6 +61,6 @@
 			android:textSize="14sp"
 			android:fontFamily="sans-serif-light"
 			android:maxLines="1"
-			android:ellipsize="marquee"/>
+			android:ellipsize="end"/>
 
 </RelativeLayout>
