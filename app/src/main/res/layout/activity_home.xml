@@ -5,12 +5,8 @@
 		android:layout_height="match_parent">
 
 	<!-- The main content view -->
-	<FrameLayout
-			android:id="@+id/content_frame"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent">
 
-		<uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout
+		<uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshLayout
 				xmlns:android="http://schemas.android.com/apk/res/android"
 				xmlns:tools="http://schemas.android.com/tools"
 				android:id="@+id/ptr_layout"
@@ -44,8 +40,7 @@
 				</LinearLayout>
 
 			</ScrollView>
-		</uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout>
-	</FrameLayout>
+		</uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshLayout>
 
 	<!-- The navigation drawer -->
 	<ListView android:id="@+id/left_drawer"
