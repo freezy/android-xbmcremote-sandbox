@@ -12,7 +12,6 @@ import de.greenrobot.event.EventBus;
 import org.xbmc.android.app.event.DataSync;
 import org.xbmc.android.app.service.SyncService;
 import org.xbmc.android.remotesandbox.R;
-import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 
@@ -41,7 +40,7 @@ public class HomeActivity extends BaseActivity implements OnRefreshListener {
 		ButterKnife.inject(this);
 		bus.register(this);
 
-		if (staticNavdrawer != null) {
+/*		if (staticNavdrawer != null) {
 
 			// only slide menu, not the action bar.
 			setSlidingActionBarEnabled(false);
@@ -56,7 +55,7 @@ public class HomeActivity extends BaseActivity implements OnRefreshListener {
 				.setup(pullToRefreshLayout);
 			enableNavdrawer();
 		}
-
+*/
 	}
 
 	@Override

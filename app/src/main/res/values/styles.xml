@@ -19,13 +19,13 @@
   -->
 
 <resources>
-	<style name="Theme.XBMCRemote" parent="Theme.Sherlock.Light.DarkActionBar">
+	<style name="Theme.XBMCRemote" parent="Theme.AppCompat.Light.DarkActionBar">
 		<item name="actionBarStyle">@style/Widget.XBMCRemote.ActionBar</item>
 		<item name="android:actionBarStyle">@style/Widget.XBMCRemote.ActionBar</item>
 		<item name="android:editTextStyle">@style/Widget.XBMCRemote.EditTextStyle</item>
 	</style>
 
-	<style name="Widget.XBMCRemote.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
+	<style name="Widget.XBMCRemote.ActionBar" parent="Widget.AppCompat.Light.ActionBar.Solid.Inverse">
 		<item name="background">@color/dark_bg</item>
 		<item name="android:background">@color/dark_bg</item>
 

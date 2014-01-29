@@ -3,7 +3,7 @@ package org.xbmc.android.account.authenticator.ui;
 import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
 import android.os.Bundle;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 
 /**
  * Base class for implementing an Activity that is used to help implement an
@@ -19,10 +19,10 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
  * is never set or if it is set to null then error {@link android.accounts.AccountManager#ERROR_CODE_CANCELED}
  * will be called on the response.
  *
- * <i>This class was copied from the Android SDK in order to make it extend {@link SherlockFragmentActivity}
+ * <i>This class was copied from the Android SDK in order to make it extend {@link ActionBarActivity}
  * instead of {@link android.app.Activity}</i>.
  */
-public class AccountAuthenticatorActivity extends SherlockFragmentActivity {
+public class AccountAuthenticatorActivity extends ActionBarActivity {
 	private AccountAuthenticatorResponse mAccountAuthenticatorResponse = null;
 	private Bundle mResultBundle = null;
 

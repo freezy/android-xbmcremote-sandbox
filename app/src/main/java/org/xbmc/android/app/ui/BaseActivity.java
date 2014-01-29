@@ -2,14 +2,10 @@ package org.xbmc.android.app.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import org.xbmc.android.app.injection.Injector;
-import org.xbmc.android.app.ui.menu.SlidingMenuFragment;
 import org.xbmc.android.remotesandbox.R;
 
 /**
@@ -17,7 +13,7 @@ import org.xbmc.android.remotesandbox.R;
  *
  * @author freezy <freezy@xbmc.org>
  */
-public class BaseActivity extends SlidingFragmentActivity {
+public class BaseActivity extends ActionBarActivity {
 
 	private int titleRes;
 	private int iconRes;
@@ -40,7 +36,7 @@ public class BaseActivity extends SlidingFragmentActivity {
 		setTitle(titleRes);
 		setContentView(contentViewRes);
 
-		final ActionBar actionBar = getSupportActionBar();
+/*		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setIcon(IconHelper.getDrawable(getApplicationContext(), iconRes));
 
 		// set the Behind View
@@ -63,18 +59,18 @@ public class BaseActivity extends SlidingFragmentActivity {
 		sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 		sm.setSlidingEnabled(false);
 
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
 	}
-
+/*
 	protected void enableNavdrawer() {
 		getSlidingMenu().setSlidingEnabled(true);
 	}
-
+*/
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:
-				toggle();
+//				toggle();
 				return true;
 /*			case R.id.github:
 				Util.goToGitHub(this);
@@ -85,7 +81,7 @@ public class BaseActivity extends SlidingFragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.main, menu);
+		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 }
