@@ -113,4 +113,8 @@
 	<string name="ic_star_50">\u0024</string>
 	<string name="ic_star_75">\u0023</string>
 	<string name="ic_star_100">\u0022</string>
+
+	<string name="drawer_open">Open navigation drawer</string>
+	<string name="drawer_close">Close navigation drawer</string>
+
 </resources>
