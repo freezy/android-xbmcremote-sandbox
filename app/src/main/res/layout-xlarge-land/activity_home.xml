@@ -9,8 +9,7 @@
 			android:name="org.xbmc.android.app.ui.menu.SlidingMenuFragment"
 			tools:layout="@layout/slidingmenu"/>
 
-	<uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout
-
+	<uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshLayout
 			android:id="@+id/ptr_layout"
 			android:layout_toRightOf="@id/navdrawer"
 			android:layout_width="fill_parent"
@@ -46,5 +45,5 @@
 			</LinearLayout>
 
 		</ScrollView>
-	</uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout>
+	</uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshLayout>
 </RelativeLayout>

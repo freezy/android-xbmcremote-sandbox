@@ -3,7 +3,6 @@ package org.xbmc.android.app.ui;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -13,6 +12,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.Optional;
 import org.xbmc.android.app.injection.Injector;
 import org.xbmc.android.remotesandbox.R;
 
@@ -23,16 +25,15 @@ import org.xbmc.android.remotesandbox.R;
  */
 public class BaseActivity extends ActionBarActivity {
 
-	private int titleRes;
-	private int iconRes;
-	protected Fragment fragment;
+	@Optional
+	@InjectView(R.id.drawer_layout)
+	protected DrawerLayout drawerLayout;
 
-	private DrawerLayout mDrawerLayout;
-	private ListView mDrawerList;
-	private ActionBarDrawerToggle mDrawerToggle;
-	private CharSequence mDrawerTitle;
-	private CharSequence mTitle;
+	private ActionBarDrawerToggle drawerToggle;
+	private CharSequence drawerTitle;
 
+	private final int titleRes;
+	private final int iconRes;
 	private final int contentViewRes;
 
 	public BaseActivity(int titleRes, int iconRes, int contentViewRes) {
@@ -44,77 +45,46 @@ public class BaseActivity extends ActionBarActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		Injector.inject(this);
-
 		setTitle(titleRes);
 		setContentView(contentViewRes);
 
-		mTitle = mDrawerTitle = getTitle();
-		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		mDrawerList = (ListView) findViewById(R.id.left_drawer);
+		ButterKnife.inject(this);
+		Injector.inject(this);
+
+		drawerTitle = getTitle();
+		//mDrawerList = (SlidingMenuFragment) findViewById(R.id.left_drawer);
 
 		// set a custom shadow that overlays the main content when the drawer opens
-		//mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+		//drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
 		// enable ActionBar app icon to behave as action to toggle nav drawer
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
 
-		mDrawerToggle = new ActionBarDrawerToggle(
-				this,                  /* host Activity */
-				mDrawerLayout,         /* DrawerLayout object */
-				R.drawable.ic_drawer,  /* nav drawer image to replace 'Up' caret */
-				R.string.drawer_open,  /* "open drawer" description for accessibility */
-				R.string.drawer_close  /* "close drawer" description for accessibility */
-		) {
-			public void onDrawerClosed(View view) {
-				getSupportActionBar().setTitle(mTitle);
-				supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-			}
+		if (drawerLayout != null) {
+			drawerToggle = new ActionBarDrawerToggle(
+					this,                  /* host Activity */
+					drawerLayout,         /* DrawerLayout object */
+					R.drawable.ic_drawer,  /* nav drawer image to replace 'Up' caret */
+					R.string.drawer_open,  /* "open drawer" description for accessibility */
+					R.string.drawer_close  /* "close drawer" description for accessibility */
+			) {
+				public void onDrawerClosed(View view) {
+					getSupportActionBar().setTitle(titleRes);
+					supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+				}
 
-			public void onDrawerOpened(View drawerView) {
-				getSupportActionBar().setTitle(mDrawerTitle);
-				supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-			}
-		};
-		mDrawerLayout.setDrawerListener(mDrawerToggle);
+				public void onDrawerOpened(View drawerView) {
+					getSupportActionBar().setTitle(drawerTitle);
+					supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+				}
+			};
+			drawerLayout.setDrawerListener(drawerToggle);
+		}
 
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setIcon(IconHelper.getDrawable(getApplicationContext(), iconRes));
-
-
-/*		final ActionBar actionBar = getSupportActionBar();
-		actionBar.setIcon(IconHelper.getDrawable(getApplicationContext(), iconRes));
-
-		// set the Behind View
-		setBehindContentView(R.layout.menu_frame);
-		if (savedInstanceState == null) {
-			FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
-			fragment = new SlidingMenuFragment();
-			t.replace(R.id.menu_frame, fragment);
-			t.commit();
-		} else {
-			fragment = this.getSupportFragmentManager().findFragmentById(R.id.menu_frame);
-		}
-
-		// customize the SlidingMenu
-		final SlidingMenu sm = getSlidingMenu();
-		sm.setBehindWidthRes(R.dimen.slidingmenu_width);
-		sm.setShadowWidthRes(R.dimen.slidingmenu_shadow_width);
-		sm.setShadowDrawable(R.drawable.slidingmenu_shadow);
-		sm.setFadeDegree(0.35f);
-		sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-		sm.setSlidingEnabled(false);
-
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
 	}
-/*
-	protected void enableNavdrawer() {
-		getSlidingMenu().setSlidingEnabled(true);
-	}
-*/
-
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -127,7 +97,7 @@ public class BaseActivity extends ActionBarActivity {
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// If the nav drawer is open, hide action items related to the content view
-		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+		//boolean drawerOpen = drawerLayout.isDrawerOpen(mDrawerList);
 		//menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -136,7 +106,7 @@ public class BaseActivity extends ActionBarActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// The action bar home/up action should open or close the drawer.
 		// ActionBarDrawerToggle will take care of this.
-		if (mDrawerToggle.onOptionsItemSelected(item)) {
+		if (drawerToggle != null && drawerToggle.onOptionsItemSelected(item)) {
 			return true;
 		}
 		// Handle action buttons
@@ -176,15 +146,14 @@ public class BaseActivity extends ActionBarActivity {
 		fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();*/
 
 		// update selected item and title, then close the drawer
-		mDrawerList.setItemChecked(position, true);
+		//mDrawerList.setItemChecked(position, true);
 		//setTitle(mPlanetTitles[position]);
-		mDrawerLayout.closeDrawer(mDrawerList);
+		//drawerLayout.closeDrawer(mDrawerList);
 	}
 
 	@Override
 	public void setTitle(CharSequence title) {
-		mTitle = title;
-		getSupportActionBar().setTitle(mTitle);
+		getSupportActionBar().setTitle(title);
 	}
 
 	/**
@@ -195,15 +164,19 @@ public class BaseActivity extends ActionBarActivity {
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		// Sync the toggle state after onRestoreInstanceState has occurred.
-		mDrawerToggle.syncState();
+		if (drawerToggle != null) {
+			// Sync the toggle state after onRestoreInstanceState has occurred.
+			drawerToggle.syncState();
+		}
 	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		// Pass any configuration change to the drawer toggls
-		mDrawerToggle.onConfigurationChanged(newConfig);
+		if (drawerToggle != null) {
+			// Pass any configuration change to the drawer toggls
+			drawerToggle.onConfigurationChanged(newConfig);
+		}
 	}
 
 }
