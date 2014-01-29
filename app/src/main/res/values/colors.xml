@@ -36,7 +36,7 @@
 	<color name="holo_overlay">#9933b5e5</color>
 	<color name="holo_selected">#4033b5e5</color>
 
-	<color name="slidingmenu_bg">#1c1c1c</color>
-	<color name="slidingmenu_textcolor">#1c1c1c</color>
+	<color name="navdrawer_bg">#1c1c1c</color>
+	<color name="navdrawer_textcolor">#1c1c1c</color>
 
 </resources>

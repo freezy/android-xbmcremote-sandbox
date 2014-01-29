@@ -46,7 +46,7 @@
 		android:layout_width="@dimen/slidingmenu_width"
 		android:layout_height="match_parent"
 		android:layout_gravity="start"
-		android:name="org.xbmc.android.app.ui.menu.SlidingMenuFragment" />
+		android:name="org.xbmc.android.app.ui.menu.NavigationDrawerFragment" />
 
 </android.support.v4.widget.DrawerLayout>
 

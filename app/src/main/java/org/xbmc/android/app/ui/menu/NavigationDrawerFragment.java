@@ -24,9 +24,9 @@ import org.xbmc.android.zeroconf.XBMCHost;
 import javax.inject.Inject;
 import java.util.ArrayList;
 
-public class SlidingMenuFragment extends Fragment {
+public class NavigationDrawerFragment extends Fragment {
 
-	@InjectView(R.id.slidingmenu_expandable_list) ExpandableListView list;
+	@InjectView(R.id.navdrawer_expandable_list) ExpandableListView list;
 	@InjectView(R.id.change_host) Button changeHostButton;
 	@InjectView(R.id.current_host) TextView hostLabel;
 
@@ -41,7 +41,7 @@ public class SlidingMenuFragment extends Fragment {
 	}
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		final View v = inflater.inflate(R.layout.slidingmenu, null);
+		final View v = inflater.inflate(R.layout.navdrawer, null);
 		ButterKnife.inject(this, v);
 		return v;
 	}
@@ -106,7 +106,7 @@ public class SlidingMenuFragment extends Fragment {
 			final Group group = mGroups.get(groupPosition);
 			if (view == null) {
 				LayoutInflater inf = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				view = inf.inflate(R.layout.slidingmenu_item_expandable, null);
+				view = inf.inflate(R.layout.navdrawer_item_expandable, null);
 			}
 			final TextView icon = (TextView) view.findViewById(R.id.icon);
 			final TextView label = (TextView) view.findViewById(R.id.label);
@@ -157,7 +157,7 @@ public class SlidingMenuFragment extends Fragment {
 			Child child = (Child) getChild(groupPosition, childPosition);
 			if (view == null) {
 				LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				view = inflater.inflate(R.layout.slidingmenu_item, null);
+				view = inflater.inflate(R.layout.navdrawer_item, null);
 			}
 			TextView tv = (TextView) view.findViewById(R.id.label);
 			tv.setText(child.getName());

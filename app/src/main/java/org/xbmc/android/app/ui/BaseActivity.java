@@ -52,7 +52,7 @@ public class BaseActivity extends ActionBarActivity {
 		Injector.inject(this);
 
 		drawerTitle = getTitle();
-		//mDrawerList = (SlidingMenuFragment) findViewById(R.id.left_drawer);
+		//mDrawerList = (NavigationDrawerFragment) findViewById(R.id.left_drawer);
 
 		// set a custom shadow that overlays the main content when the drawer opens
 		//drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);

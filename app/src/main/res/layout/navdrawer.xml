@@ -3,7 +3,7 @@
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:background="@color/slidingmenu_bg"
+		android:background="@color/navdrawer_bg"
 		>
 
 	<RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/wrapper1">
@@ -42,7 +42,7 @@
 		  android:layout_alignParentLeft="true"/>
 
 	<ExpandableListView
-			android:id="@+id/slidingmenu_expandable_list"
+			android:id="@+id/navdrawer_expandable_list"
 			android:layout_height="match_parent"
 			android:layout_width="match_parent"
 			android:divider="@color/dark_tertiary_text"
