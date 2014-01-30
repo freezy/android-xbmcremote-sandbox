@@ -95,6 +95,13 @@ public class HostManager {
 	}
 
 	/**
+	 * Returns whether at least one host is setup.
+	 */
+	public boolean hasHost() {
+		return !getHosts().isEmpty();
+	}
+
+	/**
 	 * Tries to match current hosts by name and returns true on a hit.
 	 *
 	 * @param host Host to match against

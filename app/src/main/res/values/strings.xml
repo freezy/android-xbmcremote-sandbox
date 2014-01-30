@@ -3,12 +3,14 @@
 	<string name="app_name">XBMC Remote</string>
 
 	<string name="cancel">Cancel</string>
+	<string name="exit">Exit</string>
 	<string name="next">Next</string>
 	<string name="ok">OK</string>
 	<string name="password">Password</string>
 	<string name="prev">Previous</string>
 	<string name="retry">Retry</string>
 	<string name="set">Set</string>
+	<string name="setup">Setup</string>
 	<string name="username">Username</string>
 
 	<string name="empty_albums">No albums found.</string>
@@ -45,6 +47,9 @@
 	<string name="host_no_host">No host set</string>
 	<string name="host_choose_title">Switch XBMC</string>
 	<string name="host_choose_p">Please choose the XBMC host you want to switch to below:</string>
+
+	<string name="welcome_title">Welcome!</string>
+	<string name="welcome_text">Let\'s get started by setting up your XBMC host. If your Android device is in the same network as XBMC, start the setup wizard below. Otherwise you can always come back later.</string>
 
 	<string name="accountwizard_title">Host Setup</string>
 	<string name="accountwizard_step1_title">Start XBMC.</string>

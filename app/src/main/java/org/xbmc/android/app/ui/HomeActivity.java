@@ -7,9 +7,9 @@ import android.view.View;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.Optional;
 import de.greenrobot.event.EventBus;
 import org.xbmc.android.app.event.DataSync;
+import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.app.service.SyncService;
 import org.xbmc.android.remotesandbox.R;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
@@ -28,8 +28,8 @@ public class HomeActivity extends BaseActivity implements OnRefreshListener {
 	private static final String TAG = HomeActivity.class.getSimpleName();
 
 	@Inject protected EventBus bus;
+	@Inject protected HostManager hostManager;
 	@InjectView(R.id.ptr_layout) PullToRefreshLayout pullToRefreshLayout;
-	@InjectView(R.id.navdrawer) @Optional View staticNavdrawer;
 
 	public HomeActivity() {
 		super(R.string.title_home, R.string.ic_logo, R.layout.activity_home);
@@ -49,6 +49,15 @@ public class HomeActivity extends BaseActivity implements OnRefreshListener {
 			.listener(this)
 			// Finally commit the setup to our PullToRefreshLayout
 			.setup(pullToRefreshLayout);
+
+		if (!hostManager.hasHost()) {
+			final Intent intent = new Intent(this, WelcomeActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
+		}
 	}
 
 	@Override
