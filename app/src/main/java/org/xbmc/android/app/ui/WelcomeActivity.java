@@ -3,6 +3,7 @@ package org.xbmc.android.app.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -29,18 +30,40 @@ public class WelcomeActivity extends ActionBarActivity {
 		exitBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				android.os.Process.killProcess(android.os.Process.myPid());
+				moveTaskToBack(true);
+				//android.os.Process.killProcess(android.os.Process.myPid());
 			}
 		});
 
 		setupBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(WelcomeActivity.this, WizardActivity.class));
+				startActivityForResult(new Intent(WelcomeActivity.this, WizardActivity.class), WizardActivity.RESULT_SUCCESS);
 			}
 		});
 
 		logo.setTypeface(IconHelper.getTypeface(getApplicationContext()));
 		getSupportActionBar().setIcon(IconHelper.getDrawable(getApplicationContext(), R.string.ic_logo));
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == WizardActivity.RESULT_SUCCESS) {
+			final Intent intent = new Intent(this, HomeActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
+		} else {
+			super.onActivityResult(requestCode, resultCode, data);
+		}
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			moveTaskToBack(true);
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 }

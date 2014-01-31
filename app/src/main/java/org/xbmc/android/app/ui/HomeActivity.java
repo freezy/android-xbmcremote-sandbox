@@ -53,11 +53,14 @@ public class HomeActivity extends BaseActivity implements OnRefreshListener {
 		if (!hostManager.hasHost()) {
 			final Intent intent = new Intent(this, WelcomeActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(intent);
+			startActivityForResult(intent, 1);
 		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	@Override

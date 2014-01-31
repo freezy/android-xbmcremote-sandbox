@@ -66,6 +66,8 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 	public static final String DATA_PAGER_STEP = "org.xbmc.android.account.DATA_PAGER_STEP";
 	public static final String DATA_IS_LAST = "org.xbmc.android.account.DATA_IS_LAST";
 
+	public static final int RESULT_SUCCESS = 0x666;
+
 	@Inject HostManager hostManager;
 
 	@InjectView(R.id.strip) StepPagerStrip pagerStrip;
@@ -76,7 +78,6 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 
 	private FragmentStateManager fragmentStateManager;
 	private RelativePagerAdapter adapter;
-	//private WizardFragment firstPage;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -132,6 +133,7 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 			public void onClick(View v) {
 				final WizardFragment fragment = (WizardFragment)adapter.getCurrentFragment();
 				if (fragment.isLast()) {
+					setResult(RESULT_SUCCESS);
 					finish();
 				} else {
 					adapter.onNextPage();
