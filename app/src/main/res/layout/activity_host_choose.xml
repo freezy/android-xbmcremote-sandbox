@@ -36,15 +36,14 @@
 			style="@style/ButtonBar"
 			android:id="@+id/linearLayout"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="horizontal"
-			android:height="48dp">
+			android:layout_height="48dp"
+			android:orientation="horizontal">
 
 		<Button
 				android:id="@+id/cancel"
 				style="@style/ButtonBarButton"
 				android:layout_width="0dp"
-				android:layout_height="wrap_content"
+				android:layout_height="48dp"
 				android:layout_weight="1"
 				android:background="@drawable/selectable_item_background"
 				android:text="@string/cancel"/>
@@ -58,7 +57,7 @@
 				android:id="@+id/ok"
 				style="@style/ButtonBarButton"
 				android:layout_width="0dp"
-				android:layout_height="wrap_content"
+				android:layout_height="48dp"
 				android:layout_weight="1"
 				android:background="@drawable/selectable_item_background"
 				android:text="@string/ok"/>
