@@ -1,1 +1,1 @@
-include ':libs:wizardpager:LibWizardPager', ':libs:xbmc-jsonrpclib:xbmc-jsonrpclib', ':app'
+include ':libs:xbmc-jsonrpclib:xbmc-jsonrpclib', ':app'
