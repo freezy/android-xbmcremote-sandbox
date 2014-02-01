@@ -4,15 +4,14 @@
 			  android:background="@color/light_bg"
 			  android:orientation="vertical" >
 
-	<co.juliansuarez.libwizardpager.wizard.ui.StepPagerStrip
+	<org.xbmc.android.account.authenticator.ui.StepPagerStrip
 			android:id="@+id/strip"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_marginLeft="16dp"
-			android:layout_marginRight="16dp"
+			android:layout_marginLeft="@dimen/small_content_horizontal_padding"
+			android:layout_marginRight="@dimen/small_content_horizontal_padding"
 			android:gravity="left"
 			android:paddingBottom="8dp"
-			android:paddingLeft="@dimen/list_item_padding_left"
 			android:paddingRight="@dimen/list_item_padding_right"
 			android:paddingTop="16dp" />
 
@@ -20,7 +19,7 @@
 			android:id="@+id/pager"
 			android:layout_width="match_parent"
 			android:layout_height="0dp"
-			android:layout_weight="1" />
+			android:layout_weight="1"/>
 
 	<View
 			android:id="@+id/divider"

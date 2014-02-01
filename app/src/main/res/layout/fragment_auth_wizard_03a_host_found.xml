@@ -17,8 +17,8 @@
 			android:layout_below="@+id/p1"
 			android:layout_centerHorizontal="true"
 			android:layout_marginTop="20dp"
-			android:layout_marginLeft="10dp"
-			android:layout_marginRight="10dp"
+			android:layout_marginLeft="@dimen/small_content_horizontal_padding"
+			android:layout_marginRight="@dimen/small_content_horizontal_padding"
 			android:divider="@android:color/transparent"
 			android:dividerHeight="16dp"
 			android:paddingBottom="16dp"/>

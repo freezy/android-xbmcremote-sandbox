@@ -22,8 +22,24 @@
 	<!-- Sliding Menu -->
 	<dimen name="slidingmenu_shadow_width">30dp</dimen>
 	<dimen name="slidingmenu_width">240dp</dimen>
+
+	<!-- Wizard Pager -->
+	<dimen name="step_pager_tab_width">32dp</dimen>
+	<dimen name="step_pager_tab_height">3dp</dimen>
+	<dimen name="step_pager_tab_spacing">4dp</dimen>
+
+	<!-- Cards -->
 	<dimen name="square_compact_width">115dp</dimen>
 	<dimen name="portrait_compact_width">115dp</dimen>
 	<dimen name="portrait_compact_height">170dp</dimen>
+
+	<!-- Generic Layout -->
+	<dimen name="small_content_horizontal_padding">16dp</dimen>
+	<dimen name="list_item_padding_left">6dp</dimen>
+	<dimen name="list_item_padding_right">6dp</dimen>
+	<dimen name="list_item_height_small">48dp</dimen>
+
+	<dimen name="page_icon">180dp</dimen>
+
 
 </resources>

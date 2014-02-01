@@ -17,16 +17,18 @@
 	the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 	http://www.gnu.org/copyleft/gpl.html
   -->
-<resources>
 
-	<!-- Cards -->
-	<dimen name="square_compact_width">138dp</dimen>
-	<dimen name="portrait_compact_width">138dp</dimen>
-	<dimen name="portrait_compact_height">204dp</dimen>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-	<!-- Generic Layout -->
-	<dimen name="small_content_horizontal_padding">32dp</dimen>
+	<style name="PageLogo">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:textSize">@dimen/page_icon</item>
+		<item name="android:textColor">@color/light_tertiary_text</item>
+		<item name="android:layout_alignParentTop">true</item>
+		<item name="android:layout_centerHorizontal">true</item>
+		<item name="android:layout_marginTop">16dp</item>
+	</style>
 
-	<dimen name="page_icon">180dp</dimen>
 
 </resources>

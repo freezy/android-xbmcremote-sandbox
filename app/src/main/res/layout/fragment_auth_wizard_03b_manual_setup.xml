@@ -1,57 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			style="@style/WizardPageContainer">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+	<RelativeLayout style="@style/WizardPageContainer">
 
-	<TextView style="@style/WizardPageTitle" android:text="@string/accountwizard_step3b_title"
-			  android:id="@+id/title"/>
+		<TextView style="@style/WizardPageTitle" android:text="@string/accountwizard_step3b_title"
+				  android:id="@+id/title"/>
 
-	<TextView style="@style/Paragraph" android:text="@string/accountwizard_step3b_p1"
-			  android:layout_below="@+id/title"
-			  android:layout_alignParentRight="true"
-			  android:layout_marginTop="5dp"
-			  android:id="@+id/p2"/>
+		<TextView style="@style/Paragraph" android:text="@string/accountwizard_step3b_p1"
+				  android:layout_below="@+id/title"
+				  android:layout_alignParentRight="true"
+				  android:layout_marginTop="5dp"
+				  android:id="@+id/p2"/>
 
-	<EditText
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:id="@+id/display_name"
-			android:layout_below="@+id/p2"
-			android:layout_alignParentLeft="true"
-			android:layout_marginTop="22dp"
-			android:layout_alignRight="@+id/p2"
-			android:hint="@string/accountwizard_step3b_displayname"/>
+		<EditText
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/display_name"
+				android:layout_below="@+id/p2"
+				android:layout_alignParentLeft="true"
+				android:layout_marginLeft="@dimen/small_content_horizontal_padding"
+				android:layout_marginRight="@dimen/small_content_horizontal_padding"
+				android:layout_marginTop="22dp"
+				android:layout_alignParentRight="true"
+				android:hint="@string/accountwizard_step3b_displayname"/>
 
-	<EditText
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:inputType="numberDecimal"
-			android:ems="4"
-			android:id="@+id/port"
-			android:hint="@string/accountwizard_step3b_port"
-			android:layout_marginTop="20dp"
-			android:layout_below="@+id/display_name"
-			android:layout_alignParentRight="true"/>
+		<EditText
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:inputType="numberDecimal"
+				android:ems="4"
+				android:id="@+id/port"
+				android:hint="@string/accountwizard_step3b_port"
+				android:layout_marginTop="20dp"
+				android:layout_marginRight="@dimen/small_content_horizontal_padding"
+				android:layout_below="@+id/display_name"
+				android:layout_alignParentRight="true"/>
 
-	<EditText
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:inputType="text"
-			android:id="@+id/host"
-			android:hint="@string/accountwizard_step3b_host"
-			android:layout_alignTop="@+id/port"
-			android:layout_toLeftOf="@+id/port"
-			android:layout_marginRight="16dp"
-			android:layout_alignParentLeft="true"/>
+		<EditText
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:inputType="text"
+				android:id="@+id/host"
+				android:hint="@string/accountwizard_step3b_host"
+				android:layout_alignTop="@+id/port"
+				android:layout_toLeftOf="@+id/port"
+				android:layout_marginRight="16dp"
+				android:layout_marginLeft="@dimen/small_content_horizontal_padding"
+				android:layout_alignParentLeft="true"/>
 
-	<TextView
-			style="@style/Paragraph" android:text="@string/accountwizard_step3b_message"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:visibility="gone"
-			android:id="@+id/message"
-			android:layout_below="@+id/host"
-			android:layout_centerHorizontal="true"
-			android:layout_marginTop="16dp"/>
+		<TextView
+				style="@style/Paragraph" android:text="@string/accountwizard_step3b_message"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:visibility="gone"
+				android:id="@+id/message"
+				android:layout_below="@+id/host"
+				android:layout_centerHorizontal="true"
+				android:layout_marginTop="16dp"/>
 
-</RelativeLayout>
+	</RelativeLayout>
+</ScrollView>

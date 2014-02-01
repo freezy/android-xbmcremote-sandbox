@@ -18,10 +18,10 @@
 	http://www.gnu.org/copyleft/gpl.html
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 	<style name="Theme.XBMCRemote" parent="Theme.AppCompat.Light.DarkActionBar">
 		<item name="actionBarStyle">@style/Widget.XBMCRemote.ActionBar</item>
-		<item name="android:actionBarStyle">@style/Widget.XBMCRemote.ActionBar</item>
+		<item name="android:actionBarStyle" tools:ignore="NewApi">@style/Widget.XBMCRemote.ActionBar</item>
 		<item name="android:editTextStyle">@style/Widget.XBMCRemote.EditTextStyle</item>
 	</style>
 
@@ -30,16 +30,16 @@
 		<item name="android:background">@color/dark_bg</item>
 
 		<item name="backgroundSplit">#ff0000</item>
-		<item name="android:backgroundSplit">#ff0000</item>
+		<item name="android:backgroundSplit" tools:ignore="NewApi">#ff0000</item>
 	</style>
 
 	<style name="Widget.XBMCRemote.EditTextStyle" parent="@android:style/Widget.EditText">
 		<item name="android:textColor">@color/light_primary_text</item>
-		<item name="android:fontFamily">sans-serif-light</item>
+		<item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
 	</style>
 
 	<style name="Header">
-		<item name="android:fontFamily">sans-serif-light</item>
+		<item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
 	</style>
 	<style name="Header.h1">
 		<item name="android:layout_marginTop">10dp</item>
@@ -59,7 +59,7 @@
 	</style>
 	<style name="NavigationDrawer.text">
 		<item name="android:textSize">18sp</item>
-		<item name="android:fontFamily">sans-serif-light</item>
+		<item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
 	</style>
 
 	<style name="NavigationDrawer.DividerH">
@@ -82,15 +82,40 @@
 
 	</style>
 
+	<style name="WizardPageContainer">
+		<item name="android:layout_width">match_parent</item>
+		<item name="android:layout_height">match_parent</item>
+		<item name="android:orientation">vertical</item>
+		<item name="android:paddingLeft">16dp</item>
+		<item name="android:paddingRight">16dp</item>
+	</style>
+
+	<style name="WizardPageTitle">
+		<item name="android:id">@android:id/title</item>
+		<item name="android:layout_width">match_parent</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:layout_marginTop">16dp</item>
+		<item name="android:layout_marginBottom">8dp</item>
+		<item name="android:layout_marginLeft">@dimen/small_content_horizontal_padding</item>
+		<item name="android:layout_marginRight">@dimen/small_content_horizontal_padding</item>
+		<item name="android:textSize">36sp</item>
+		<item name="android:textColor">#ff0099cc</item>
+		<item name="android:fontFamily" tools:ignore="NewApi">sans-serif-thin</item>
+	</style>
+
+	<item name="android:fontFamily">sans-serif-thin</item>
+
+
 	<style name="Paragraph">
 		<item name="android:layout_width">match_parent</item>
 		<item name="android:layout_height">wrap_content</item>
 		<item name="android:layout_marginBottom">8dp</item>
-		<item name="android:paddingLeft">@dimen/list_item_padding_left</item>
 		<item name="android:paddingTop">@dimen/list_item_padding_left</item>
+		<item name="android:layout_marginLeft">@dimen/small_content_horizontal_padding</item>
+		<item name="android:layout_marginRight">@dimen/small_content_horizontal_padding</item>
 		<item name="android:textSize">18sp</item>
 		<item name="android:textColor">@color/light_primary_text</item>
-		<item name="android:fontFamily">sans-serif-light</item>
+		<item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
 	</style>
 
 	<style name="SeeMoreButton">
@@ -116,7 +141,7 @@
 
 	<style name="ButtonBarButton">
 		<item name="android:textColor">@color/light_button_text</item>
-		<item name="android:fontFamily">sans-serif-light</item>
+		<item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
 		<!--item name="android:minHeight">@dimen/list_item_height_small</item-->
 	</style>
 
@@ -125,6 +150,16 @@
 		<item name="android:indeterminateDrawable">@drawable/spinner</item>
 		<item name="android:indeterminateDuration">4000</item>
 		<item name="android:indeterminateOnly">true</item>
+	</style>
+
+	<style name="PageLogo">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:textSize">@dimen/page_icon</item>
+		<item name="android:textColor">@color/light_tertiary_text</item>
+		<item name="android:layout_alignParentTop">true</item>
+		<item name="android:layout_centerHorizontal">true</item>
+		<item name="android:layout_marginTop">16dp</item>
 	</style>
 
 

@@ -18,9 +18,6 @@ dependencies {
 	compile 'de.greenrobot:eventbus:2.2.0'
 	compile 'com.github.chrisbanes.actionbarpulltorefresh:extra-abc:+'
 	compile 'com.github.rickyclarkson:jmdns:3.4.2-r353-1'
-	compile (project(":libs:wizardpager:LibWizardPager")) {
-		exclude module: 'support-v4'
-	}
 	compile project(":libs:xbmc-jsonrpclib:xbmc-jsonrpclib")
 	compile files('../libs/glide-2.0.1.jar')
 }

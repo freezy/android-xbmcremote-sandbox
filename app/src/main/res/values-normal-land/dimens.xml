@@ -19,14 +19,6 @@
   -->
 <resources>
 
-	<!-- Cards -->
-	<dimen name="square_compact_width">138dp</dimen>
-	<dimen name="portrait_compact_width">138dp</dimen>
-	<dimen name="portrait_compact_height">204dp</dimen>
-
-	<!-- Generic Layout -->
-	<dimen name="small_content_horizontal_padding">32dp</dimen>
-
-	<dimen name="page_icon">180dp</dimen>
+	<dimen name="page_icon">64dp</dimen>
 
 </resources>

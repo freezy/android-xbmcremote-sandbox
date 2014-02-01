@@ -30,7 +30,6 @@ import android.view.View;
 import android.widget.Button;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import co.juliansuarez.libwizardpager.wizard.ui.StepPagerStrip;
 import org.xbmc.android.account.Constants;
 import org.xbmc.android.app.injection.Injector;
 import org.xbmc.android.app.manager.HostManager;
