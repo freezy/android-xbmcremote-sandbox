@@ -45,7 +45,9 @@ public class VideoContract {
 
 	private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
-	private static final String PATH_MOVIES = "movies";
+	static final String PATH_MOVIES = "movies";
+	static final String PATH_PEOPLE = "people";
+	static final String PATH_MOVIECAST = "moviecast";
 
 	/**
 	 * Special value for {@link SyncColumns#UPDATED} indicating that an entry
@@ -94,8 +96,6 @@ public class VideoContract {
 		String HOST_ID = PREFIX + "host_id";
 		String NAME = PREFIX + "name";
 		String THUMBNAIL = PREFIX + "thumbnail";
-		String UPDATED = PREFIX + SyncColumns.UPDATED;
-
 	}
 
 	/**
@@ -112,15 +112,14 @@ public class VideoContract {
 	}
 
 	/**
-	 * An album is a collection of songs with additional information such as a special "album artist",
-	 * release year and associated genres.
+	 * The movie library, excluding TV or MV.
 	 *
 	 * @author freezy <freezy@xbmc.org>
 	 */
 	public static class Movies implements MoviesColumns, BaseColumns {
 		public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_MOVIES).build();
 
-		public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.xbmc.movie";
+		public static final String CONTENT_TYPE      = "vnd.android.cursor.dir/vnd.xbmc.movie";
 		public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.xbmc.movie";
 
 		/** Default "ORDER BY" clause. */
@@ -134,7 +133,7 @@ public class VideoContract {
 		}
 
 		/** Build {@link android.net.Uri} for requested {@link #ID}. */
-		public static Uri buildAlbumUri(String movieId) {
+		public static Uri buildMovieUri(String movieId) {
 			return CONTENT_URI.buildUpon().appendPath(movieId).build();
 		}
 
@@ -144,5 +143,27 @@ public class VideoContract {
 		}
 	}
 
+	public static class People implements PeopleColumns, BaseColumns {
+
+		public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendEncodedPath(PATH_PEOPLE).build();
+
+		public static final String CONTENT_TYPE      = "vnd.android.cursor.dir/vnd.xbmc.person";
+		public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.xbmc.person";
+
+		public static Uri buildPersonUri(long personId) {
+			return CONTENT_URI.buildUpon().appendPath(String.valueOf(personId)).build();
+		}
+
+		public static int getPersonId(Uri uri) {
+			return Integer.parseInt(uri.getPathSegments().get(1));
+		}
+	}
+
+	public static class MovieCast implements MoviesCastColumns {
+		public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendEncodedPath(PATH_MOVIECAST).build();
+
+		public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.xbmc.movie.cast";
+
+	}
 
 }

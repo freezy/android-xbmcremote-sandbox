@@ -34,9 +34,11 @@ import org.xbmc.android.jsonrpc.api.call.VideoLibrary;
 import org.xbmc.android.jsonrpc.api.model.VideoModel.MovieDetail;
 import org.xbmc.android.jsonrpc.io.JsonHandler;
 
+import static org.xbmc.android.app.provider.VideoContract.Movies;
+
 /**
  * Handles one-way synchronization between XBMC's <tt>movie</tt> table and the local
- * {@link org.xbmc.android.app.provider.VideoContract.Movies} table.
+ * {@link Movies} table.
  *
  * @author freezy <freezy@xbmc.org>
  */
@@ -63,14 +65,14 @@ public class MovieHandler extends JsonHandler {
 		for (int i = 0; i < s; i++) {
 			final ObjectNode movie = (ObjectNode)movies.get(i);
 			batch[i] = new ContentValues();
-			batch[i].put(VideoContract.Movies.UPDATED, now);
-			batch[i].put(VideoContract.Movies.ID, movie.get(MovieDetail.MOVIEID).getIntValue());
-			batch[i].put(VideoContract.Movies.TITLE, movie.get(MovieDetail.TITLE).getTextValue());
-			batch[i].put(VideoContract.Movies.YEAR, movie.get(MovieDetail.YEAR).getIntValue());
-			batch[i].put(VideoContract.Movies.GENRE, movie.get(MovieDetail.GENRE).getTextValue());
-			batch[i].put(VideoContract.Movies.RATING, movie.get(MovieDetail.RATING).getDoubleValue());
-			batch[i].put(VideoContract.Movies.RUNTIME, movie.get(MovieDetail.RUNTIME).getIntValue());
-			batch[i].put(VideoContract.Movies.THUMBNAIL, movie.get(MovieDetail.THUMBNAIL).getTextValue());
+			batch[i].put(Movies.UPDATED, now);
+			batch[i].put(Movies.ID, movie.get(MovieDetail.MOVIEID).getIntValue());
+			batch[i].put(Movies.TITLE, movie.get(MovieDetail.TITLE).getTextValue());
+			batch[i].put(Movies.YEAR, movie.get(MovieDetail.YEAR).getIntValue());
+			batch[i].put(Movies.GENRE, movie.get(MovieDetail.GENRE).getTextValue());
+			batch[i].put(Movies.RATING, movie.get(MovieDetail.RATING).getDoubleValue());
+			batch[i].put(Movies.RUNTIME, movie.get(MovieDetail.RUNTIME).getIntValue());
+			batch[i].put(Movies.THUMBNAIL, movie.get(MovieDetail.THUMBNAIL).getTextValue());
 		}
 
 		Log.d(TAG, batch.length + " movie queries built in " + (System.currentTimeMillis() - now) + "ms.");
@@ -79,7 +81,7 @@ public class MovieHandler extends JsonHandler {
 
 	@Override
 	protected void insert(ContentResolver resolver, ContentValues[] batch) {
-		resolver.bulkInsert(VideoContract.Movies.CONTENT_URI, batch);
+		resolver.bulkInsert(Movies.CONTENT_URI, batch);
 	}
 
 	/**

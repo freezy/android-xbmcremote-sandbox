@@ -35,6 +35,7 @@ import org.xbmc.android.app.io.audio.AlbumHandler;
 import org.xbmc.android.app.io.audio.ArtistHandler;
 import org.xbmc.android.app.io.video.MovieDetailsHandler;
 import org.xbmc.android.app.io.video.MovieHandler;
+import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.app.provider.VideoContract;
 import org.xbmc.android.app.provider.VideoDatabase;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
@@ -59,6 +60,7 @@ public class SyncService extends Service implements OnSyncedListener {
 
 	@Inject protected EventBus bus;
 	@Inject protected ConnectionManager cm;
+	@Inject protected HostManager hostManager;
 
 	public static final String EXTRA_STATUS_RECEIVER = "org.xbmc.android.jsonprc.extra.STATUS_RECEIVER";
 
@@ -70,6 +72,7 @@ public class SyncService extends Service implements OnSyncedListener {
 	public static final int STATUS_FINISHED = 0x3;
 
 	private long start = 0;
+	private int hostId;
 	private final LinkedList<SyncItem> items = new LinkedList<SyncItem>();
 
 	@Override
@@ -82,6 +85,7 @@ public class SyncService extends Service implements OnSyncedListener {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Log.d(TAG, "Starting quering...");
+		hostId = hostManager.getActiveHost().getId();
 		bus.post(new DataSync(DataSync.STARTED));
 		synchronized (items) {
 			if (intent.hasExtra(EXTRA_SYNC_MUSIC)) {
@@ -116,11 +120,14 @@ public class SyncService extends Service implements OnSyncedListener {
 				moviesCursor = getContentResolver().query(VideoContract.Movies.CONTENT_URI, MoviesQuery.PROJECTION, null, null, null);
 			}
 			if (moviesCursor.moveToNext()) {
-				items.add(new SyncItem("Movie Details for " + MoviesQuery.TITLE, DataItemSynced.MOVIES,
-						new VideoLibrary.GetMovieDetails(moviesCursor.getInt(MoviesQuery.ID), MovieFields.CAST),
-						new MovieDetailsHandler(moviesCursor.getLong(MoviesQuery._ID)),
-						fetchMovieDetails
+				items.add(new SyncItem("Movie Details for \"" + moviesCursor.getString(MoviesQuery.TITLE) + "\"", DataItemSynced.MOVIES,
+						new VideoLibrary.GetMovieDetails(moviesCursor.getInt(MoviesQuery.ID), MovieFields.CAST, MovieFields.DIRECTOR),
+						new MovieDetailsHandler(moviesCursor.getInt(MoviesQuery._ID), hostId),
+						this
 				));
+			} else {
+				moviesCursor.close();
+				MovieDetailsHandler.initCache();
 			}
 			next();
 		}

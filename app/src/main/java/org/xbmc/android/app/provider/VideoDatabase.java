@@ -46,7 +46,7 @@ public class VideoDatabase extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "video.db";
 
-	private static final int VER_LAUNCH = 4;
+	private static final int VER_LAUNCH = 9;
 	private static final int DATABASE_VERSION = VER_LAUNCH;
 
 	public interface Tables {
@@ -91,16 +91,14 @@ public class VideoDatabase extends SQLiteOpenHelper {
 
 		db.execSQL("CREATE TABLE " + Tables.PEOPLE + " ("
 			+ BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-			+ PeopleColumns.UPDATED + " INTEGER NOT NULL,"
 			+ PeopleColumns.HOST_ID + " INTEGER NOT NULL,"
 			+ PeopleColumns.NAME + " TEXT,"
 			+ PeopleColumns.THUMBNAIL + " TEXT,"
 			+ "UNIQUE (" + PeopleColumns.NAME + ") ON CONFLICT REPLACE)");
 
-
 		db.execSQL("CREATE TABLE " + Tables.PEOPLE_MOVIECAST + " ("
-			+ MoviesCastColumns.MOVIE_REF + " TEXT " + References.MOVIES_ID + ", "
-			+ MoviesCastColumns.PERSON_REF + " TEXT " + References.PEOPLE_ID + ", "
+			+ MoviesCastColumns.MOVIE_REF + " INTEGER " + References.MOVIES_ID + ", "
+			+ MoviesCastColumns.PERSON_REF + " INTEGER " + References.PEOPLE_ID + ", "
 			+ MoviesCastColumns.ROLE + " TEXT NOT NULL, "
 			+ MoviesCastColumns.SORT + " INTEGER NOT NULL"
 			+ ")");
@@ -125,6 +123,8 @@ public class VideoDatabase extends SQLiteOpenHelper {
 		if (version != DATABASE_VERSION) {
 			Log.w(TAG, "Destroying old data during upgrade");
 			db.execSQL("DROP TABLE IF EXISTS " + Tables.MOVIES);
+			db.execSQL("DROP TABLE IF EXISTS " + Tables.PEOPLE);
+			db.execSQL("DROP TABLE IF EXISTS " + Tables.PEOPLE_MOVIECAST);
 			onCreate(db);
 		}
 	}

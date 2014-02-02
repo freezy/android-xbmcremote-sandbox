@@ -33,7 +33,7 @@ import org.xbmc.android.util.google.SelectionBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.xbmc.android.app.provider.VideoContract.Movies;
+import static org.xbmc.android.app.provider.VideoContract.*;
 
 /**
  * Provider that stores {@link org.xbmc.android.app.provider.VideoContract} data. Data is usually inserted
@@ -49,12 +49,15 @@ public class VideoProvider extends AbstractProvider {
 	private static final String TAG = VideoProvider.class.getSimpleName();
 	private static final boolean LOGV = Log.isLoggable(TAG, Log.VERBOSE);
 
-	private VideoDatabase mOpenHelper;
+	private VideoDatabase database;
 
-	private static final UriMatcher sUriMatcher = buildUriMatcher();
+	private static final UriMatcher URI_MATCHER = buildUriMatcher();
 
 	private static final int MOVIES = 100;
 	private static final int MOVIES_ID = 101;
+	private static final int PEOPLE = 200;
+	private static final int PERSON_ID = 201;
+	private static final int MOVIECAST = 300;
 
 
 	/**
@@ -65,29 +68,38 @@ public class VideoProvider extends AbstractProvider {
 		final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
 		final String authority = VideoContract.CONTENT_AUTHORITY;
 
-		matcher.addURI(authority, "movies", MOVIES);
-		matcher.addURI(authority, "movies/*", MOVIES_ID);
+		matcher.addURI(authority, VideoContract.PATH_MOVIES, MOVIES);
+		matcher.addURI(authority, VideoContract.PATH_MOVIES + "/*", MOVIES_ID);
+		matcher.addURI(authority, VideoContract.PATH_PEOPLE, PEOPLE);
+		matcher.addURI(authority, VideoContract.PATH_PEOPLE + "/*", PERSON_ID);
+		matcher.addURI(authority, VideoContract.PATH_MOVIECAST, MOVIECAST);
 
 		return matcher;
 	}
 
 	@Override
 	public boolean onCreate() {
-		mOpenHelper = new VideoDatabase(getContext());
+		database = new VideoDatabase(getContext());
 		return super.onCreate();
 	}
 
 	@Override
 	public String getType(Uri uri) {
 
-		final int match = sUriMatcher.match(uri);
+		final int match = URI_MATCHER.match(uri);
 		switch (match) {
-		case MOVIES:
-			return Movies.CONTENT_TYPE;
-		case MOVIES_ID:
-			return Movies.CONTENT_ITEM_TYPE;
-		default:
-			throw new UnsupportedOperationException("Unknown uri: " + uri);
+			case MOVIES:
+				return Movies.CONTENT_TYPE;
+			case MOVIES_ID:
+				return Movies.CONTENT_ITEM_TYPE;
+			case PEOPLE:
+				return People.CONTENT_TYPE;
+			case PERSON_ID:
+				return People.CONTENT_ITEM_TYPE;
+			case MOVIECAST:
+				return MovieCast.CONTENT_TYPE;
+			default:
+				throw new UnsupportedOperationException("Unknown uri: " + uri);
 		}
 	}
 
@@ -95,9 +107,9 @@ public class VideoProvider extends AbstractProvider {
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		if (LOGV)
 			Log.v(TAG, "query(uri=" + uri + ", proj=" + Arrays.toString(projection) + ")");
-		final SQLiteDatabase db = mOpenHelper.getReadableDatabase();
+		final SQLiteDatabase db = database.getReadableDatabase();
 
-		final int match = sUriMatcher.match(uri);
+		final int match = URI_MATCHER.match(uri);
 		switch (match) {
 			default: {
 				// Most cases are handled with simple SelectionBuilder
@@ -110,13 +122,18 @@ public class VideoProvider extends AbstractProvider {
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
 		if (LOGV) Log.v(TAG, "insert(uri=" + uri + ", values=" + values.toString() + ")");
-		final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-		final int match = sUriMatcher.match(uri);
+		final SQLiteDatabase db = database.getWritableDatabase();
+		final int match = URI_MATCHER.match(uri);
 		switch (match) {
 			case MOVIES: {
 				db.insertOrThrow(VideoDatabase.Tables.MOVIES, null, values);
 				getContext().getContentResolver().notifyChange(uri, null);
-				return Movies.buildAlbumUri(values.getAsString(Movies.ID));
+				return Movies.buildMovieUri(values.getAsString(Movies.ID));
+			}
+			case PEOPLE: {
+				final long id = db.insertOrThrow(VideoDatabase.Tables.PEOPLE, null, values);
+				getContext().getContentResolver().notifyChange(uri, null);
+				return People.buildPersonUri(id);
 			}
 			default: {
 				throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -128,7 +145,7 @@ public class VideoProvider extends AbstractProvider {
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 		if (LOGV) Log.v(TAG, "update(uri=" + uri + ", values=" + values.toString() + ")");
-		final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+		final SQLiteDatabase db = database.getWritableDatabase();
 		final SelectionBuilder builder = buildSimpleSelection(uri);
 		int retVal = builder.where(selection, selectionArgs).update(db, values);
 		getContext().getContentResolver().notifyChange(uri, null);
@@ -139,7 +156,7 @@ public class VideoProvider extends AbstractProvider {
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
 		if (LOGV) Log.v(TAG, "delete(uri=" + uri + ")");
-		final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+		final SQLiteDatabase db = database.getWritableDatabase();
 		final SelectionBuilder builder = buildSimpleSelection(uri);
 		int retVal = builder.where(selection, selectionArgs).delete(db);
 		getContext().getContentResolver().notifyChange(uri, null);
@@ -153,7 +170,7 @@ public class VideoProvider extends AbstractProvider {
 	 */
 	@Override
 	public ContentProviderResult[] applyBatch(ArrayList<ContentProviderOperation> operations) throws OperationApplicationException {
-		final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+		final SQLiteDatabase db = database.getWritableDatabase();
 		db.beginTransaction();
 		try {
 			final int numOperations = operations.size();
@@ -175,7 +192,7 @@ public class VideoProvider extends AbstractProvider {
 	 */
 	private SelectionBuilder buildSimpleSelection(Uri uri) {
 		final SelectionBuilder builder = new SelectionBuilder();
-		final int match = sUriMatcher.match(uri);
+		final int match = URI_MATCHER.match(uri);
 		switch (match) {
 			case MOVIES: {
 				return builder.table(VideoDatabase.Tables.MOVIES).where(Movies.HOST_ID + "=?", getHostIdAsString());
@@ -183,6 +200,9 @@ public class VideoProvider extends AbstractProvider {
 			case MOVIES_ID: {
 				final String movieId = Movies.getMovieId(uri);
 				return builder.table(VideoDatabase.Tables.MOVIES).where(Movies.ID + "=?", movieId).where(Movies.HOST_ID + "=?", getHostIdAsString());
+			}
+			case PEOPLE: {
+				return builder.table(VideoDatabase.Tables.PEOPLE).where(People.HOST_ID + "=?", getHostIdAsString());
 			}
 			default: {
 				throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -213,29 +233,29 @@ public class VideoProvider extends AbstractProvider {
 
 	@Override
 	public int bulkInsert(Uri uri, ContentValues[] values) {
-		final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-		final int match = sUriMatcher.match(uri);
+		final SQLiteDatabase db = database.getWritableDatabase();
+		final int match = URI_MATCHER.match(uri);
 		switch (match) {
 			case MOVIES: {
 				int numInserted = 0;
 				db.beginTransaction();
 				try {
 					// delete all rows in table
-					db.delete(VideoDatabase.Tables.MOVIES, VideoContract.MoviesColumns.HOST_ID + "=?", DBUtils.args(getHostIdAsString()));
+					db.delete(VideoDatabase.Tables.MOVIES, MoviesColumns.HOST_ID + "=?", DBUtils.args(getHostIdAsString()));
 
 					// insert new rows into table
 					// standard SQL insert statement, that can be reused
-					SQLiteStatement insert = db.compileStatement(
+					final SQLiteStatement insert = db.compileStatement(
 						"INSERT INTO " + VideoDatabase.Tables.MOVIES +
-						"(" + VideoContract.MoviesColumns.UPDATED +
-						"," + VideoContract.MoviesColumns.HOST_ID +
-						"," + VideoContract.MoviesColumns.ID +
-						"," + VideoContract.MoviesColumns.TITLE +
-						"," + VideoContract.MoviesColumns.YEAR +
-						"," + VideoContract.MoviesColumns.GENRE +
-						"," + VideoContract.MoviesColumns.RATING +
-						"," + VideoContract.MoviesColumns.RUNTIME +
-						"," + VideoContract.MoviesColumns.THUMBNAIL +
+						"(" + MoviesColumns.UPDATED +
+						"," + MoviesColumns.HOST_ID +
+						"," + MoviesColumns.ID +
+						"," + MoviesColumns.TITLE +
+						"," + MoviesColumns.YEAR +
+						"," + MoviesColumns.GENRE +
+						"," + MoviesColumns.RATING +
+						"," + MoviesColumns.RUNTIME +
+						"," + MoviesColumns.THUMBNAIL +
 						") VALUES " + "(?,?,?,?,?,?,?,?,?)");
 
 					final long now = System.currentTimeMillis();
@@ -250,6 +270,38 @@ public class VideoProvider extends AbstractProvider {
 						DBUtils.bind(insert, value, 7, Movies.RATING);
 						DBUtils.bind(insert, value, 8, Movies.RUNTIME);
 						DBUtils.bind(insert, value, 9, Movies.THUMBNAIL);
+						insert.executeInsert();
+					}
+					db.setTransactionSuccessful();
+					numInserted = values.length;
+
+				} finally {
+					db.endTransaction();
+					getContext().getContentResolver().notifyChange(uri, null);
+				}
+				return numInserted;
+			}
+
+			case MOVIECAST: {
+				int numInserted = 0;
+				db.beginTransaction();
+				try {
+
+					// insert new rows into table
+					// standard SQL insert statement, that can be reused
+					final SQLiteStatement insert = db.compileStatement(
+						"INSERT INTO " + VideoDatabase.Tables.PEOPLE_MOVIECAST +
+						"(" + MoviesCastColumns.MOVIE_REF +
+						"," + MoviesCastColumns.PERSON_REF +
+						"," + MoviesCastColumns.ROLE +
+						"," + MoviesCastColumns.SORT +
+						") VALUES " + "(?,?,?,?)");
+
+					for (ContentValues value : values) {
+						insert.bindLong(1, value.getAsInteger(MovieCast.MOVIE_REF));
+						insert.bindLong(2, value.getAsInteger(MovieCast.PERSON_REF));
+						insert.bindString(3, value.getAsString(MovieCast.ROLE));
+						insert.bindLong(4, value.getAsInteger(MovieCast.SORT));
 						insert.executeInsert();
 					}
 					db.setTransactionSuccessful();

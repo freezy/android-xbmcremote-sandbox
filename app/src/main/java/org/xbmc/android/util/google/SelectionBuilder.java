@@ -22,16 +22,15 @@
 
 package org.xbmc.android.util.google;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Map;
-
-
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Map;
 
 /**
  * Helper for building selection clauses for {@link SQLiteDatabase}. Each
@@ -39,8 +38,8 @@ import android.util.Log;
  * thread safe.
  */
 public class SelectionBuilder {
-	
-    private static final String TAG = SelectionBuilder.class.getCanonicalName();;
+
+    private static final String TAG = SelectionBuilder.class.getCanonicalName();
     private static final boolean LOGV = false;
 
     private String mTable = null;
