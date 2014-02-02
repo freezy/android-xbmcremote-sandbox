@@ -26,7 +26,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.util.Log;
-import org.xbmc.android.app.provider.VideoContract.*;
+import org.xbmc.android.app.provider.VideoContract.MoviesColumns;
+
+import static org.xbmc.android.app.provider.VideoContract.MoviesCastColumns;
+import static org.xbmc.android.app.provider.VideoContract.PeopleColumns;
 
 /**
  * Helper for managing {@link android.database.sqlite.SQLiteDatabase} that stores data for
@@ -43,12 +46,27 @@ public class VideoDatabase extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "video.db";
 
-	private static final int VER_LAUNCH = 3;
+	private static final int VER_LAUNCH = 4;
 	private static final int DATABASE_VERSION = VER_LAUNCH;
 
 	public interface Tables {
 
-		String MOVIES = "movies";
+		final String MOVIES = "movies";
+		final String PEOPLE = "people";
+		final String PEOPLE_MOVIECAST = PEOPLE + "_moviecast";
+	}
+
+	/** {@code REFERENCES} clauses. */
+	private interface References {
+		final String MOVIES_ID = "REFERENCES " + Tables.MOVIES + "(" + BaseColumns._ID + ")";
+		final String PEOPLE_ID = "REFERENCES " + Tables.PEOPLE + "(" + BaseColumns._ID + ")";
+	}
+
+	public interface Indexes {
+		final String PEOPLE_MOVIECAST_MOVIE_REF = Tables.PEOPLE_MOVIECAST + "_" + MoviesCastColumns.MOVIE_REF +
+				" ON " + Tables.PEOPLE_MOVIECAST + "(" + MoviesCastColumns.MOVIE_REF + ")";
+		final String PEOPLE_MOVIECAST_PERSON_REF = Tables.PEOPLE_MOVIECAST + "_" + MoviesCastColumns.PERSON_REF +
+				" ON " + Tables.PEOPLE_MOVIECAST + "(" + MoviesCastColumns.PERSON_REF + ")";
 	}
 
 	public VideoDatabase(Context context) {
@@ -60,9 +78,9 @@ public class VideoDatabase extends SQLiteOpenHelper {
 
 		db.execSQL("CREATE TABLE " + Tables.MOVIES + " ("
 			+ BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+			+ MoviesColumns.ID + " TEXT NOT NULL,"
 			+ MoviesColumns.UPDATED + " INTEGER NOT NULL,"
 			+ MoviesColumns.HOST_ID + " INTEGER NOT NULL,"
-			+ MoviesColumns.ID + " TEXT NOT NULL,"
 			+ MoviesColumns.TITLE + " TEXT,"
 			+ MoviesColumns.YEAR + " TEXT,"
 			+ MoviesColumns.GENRE + " TEXT,"
@@ -70,6 +88,25 @@ public class VideoDatabase extends SQLiteOpenHelper {
 			+ MoviesColumns.RUNTIME + " TEXT,"
 			+ MoviesColumns.THUMBNAIL + " TEXT,"
 			+ "UNIQUE (" + MoviesColumns.ID + ") ON CONFLICT REPLACE)");
+
+		db.execSQL("CREATE TABLE " + Tables.PEOPLE + " ("
+			+ BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+			+ PeopleColumns.UPDATED + " INTEGER NOT NULL,"
+			+ PeopleColumns.HOST_ID + " INTEGER NOT NULL,"
+			+ PeopleColumns.NAME + " TEXT,"
+			+ PeopleColumns.THUMBNAIL + " TEXT,"
+			+ "UNIQUE (" + PeopleColumns.NAME + ") ON CONFLICT REPLACE)");
+
+
+		db.execSQL("CREATE TABLE " + Tables.PEOPLE_MOVIECAST + " ("
+			+ MoviesCastColumns.MOVIE_REF + " TEXT " + References.MOVIES_ID + ", "
+			+ MoviesCastColumns.PERSON_REF + " TEXT " + References.PEOPLE_ID + ", "
+			+ MoviesCastColumns.ROLE + " TEXT NOT NULL, "
+			+ MoviesCastColumns.SORT + " INTEGER NOT NULL"
+			+ ")");
+		db.execSQL("CREATE INDEX " + Indexes.PEOPLE_MOVIECAST_MOVIE_REF);
+		db.execSQL("CREATE INDEX " + Indexes.PEOPLE_MOVIECAST_PERSON_REF);
+
 	}
 
 	@Override

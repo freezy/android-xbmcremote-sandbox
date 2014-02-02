@@ -69,7 +69,7 @@ public class VideoContract {
 	}
 
 	/**
-	 * Constants for albums columns.
+	 * Constants for movie columns.
 	 * @author freezy <freezy@xbmc.org>
 	 */
 	interface MoviesColumns {
@@ -83,6 +83,31 @@ public class VideoContract {
 		String RUNTIME = PREFIX + "runtime";
 		String THUMBNAIL = PREFIX + "thumbnail";
 		String UPDATED = PREFIX + SyncColumns.UPDATED;
+	}
+
+	/**
+	 * Constants for people columns.
+	 * @author freezy <freezy@xbmc.org>
+	 */
+	interface PeopleColumns {
+		final static String PREFIX = "person_";
+		String HOST_ID = PREFIX + "host_id";
+		String NAME = PREFIX + "name";
+		String THUMBNAIL = PREFIX + "thumbnail";
+		String UPDATED = PREFIX + SyncColumns.UPDATED;
+
+	}
+
+	/**
+	 * Constants for people columns.
+	 * @author freezy <freezy@xbmc.org>
+	 */
+	interface MoviesCastColumns {
+		final static String PREFIX = "person_moviecast_";
+		String MOVIE_REF = PREFIX + MoviesColumns.PREFIX + "id";
+		String PERSON_REF = PREFIX + PeopleColumns.PREFIX + "id";
+		String ROLE = PREFIX + "role";
+		String SORT = PREFIX + "sort";
 
 	}
 

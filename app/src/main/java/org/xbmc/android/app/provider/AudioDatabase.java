@@ -68,7 +68,6 @@ public class AudioDatabase extends SQLiteOpenHelper {
 	}
 
 
-
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 

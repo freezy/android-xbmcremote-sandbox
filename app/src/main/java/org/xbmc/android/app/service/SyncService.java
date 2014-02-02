@@ -76,7 +76,6 @@ public class SyncService extends Service implements OnSyncedListener {
 	public void onCreate() {
 		super.onCreate();
 		Log.d(TAG, "Starting SyncService...");
-
 		Injector.inject(this);
 	}
 
@@ -107,6 +106,9 @@ public class SyncService extends Service implements OnSyncedListener {
 
 	private Cursor moviesCursor;
 
+	/**
+	 * Loops through movies in local database and updates each entry with cast details.
+	 */
 	private final OnSyncedListener fetchMovieDetails = new OnSyncedListener() {
 		@Override
 		public void onItemSynced() {
@@ -114,8 +116,6 @@ public class SyncService extends Service implements OnSyncedListener {
 				moviesCursor = getContentResolver().query(VideoContract.Movies.CONTENT_URI, MoviesQuery.PROJECTION, null, null, null);
 			}
 			if (moviesCursor.moveToNext()) {
-
-				Log.d(TAG, "POST-PROCESS: " + moviesCursor.getString(MoviesQuery.TITLE));
 				items.add(new SyncItem("Movie Details for " + MoviesQuery.TITLE, DataItemSynced.MOVIES,
 						new VideoLibrary.GetMovieDetails(moviesCursor.getInt(MoviesQuery.ID), MovieFields.CAST),
 						new MovieDetailsHandler(moviesCursor.getLong(MoviesQuery._ID)),
