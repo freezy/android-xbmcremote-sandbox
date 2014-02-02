@@ -23,7 +23,9 @@ package org.xbmc.android.app.service;
 
 import android.app.Service;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.IBinder;
+import android.provider.BaseColumns;
 import android.util.Log;
 import de.greenrobot.event.EventBus;
 import org.xbmc.android.app.event.DataItemSynced;
@@ -31,7 +33,10 @@ import org.xbmc.android.app.event.DataSync;
 import org.xbmc.android.app.injection.Injector;
 import org.xbmc.android.app.io.audio.AlbumHandler;
 import org.xbmc.android.app.io.audio.ArtistHandler;
+import org.xbmc.android.app.io.video.MovieDetailsHandler;
 import org.xbmc.android.app.io.video.MovieHandler;
+import org.xbmc.android.app.provider.VideoContract;
+import org.xbmc.android.app.provider.VideoDatabase;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.call.AudioLibrary;
 import org.xbmc.android.jsonrpc.api.call.VideoLibrary;
@@ -48,7 +53,7 @@ import java.util.LinkedList;
  *
  * @author freezy <freezy@xbmc.org>
  */
-public class SyncService extends Service {
+public class SyncService extends Service implements OnSyncedListener {
 
 	private static final String TAG = SyncService.class.getSimpleName();
 
@@ -81,16 +86,16 @@ public class SyncService extends Service {
 		bus.post(new DataSync(DataSync.STARTED));
 		synchronized (items) {
 			if (intent.hasExtra(EXTRA_SYNC_MUSIC)) {
-				items.add(new SyncItem("Artists", DataItemSynced.ARTISTS, new AudioLibrary.GetArtists(), new ArtistHandler()));
+				items.add(new SyncItem("Artists", DataItemSynced.ARTISTS, new AudioLibrary.GetArtists(), new ArtistHandler(), this));
 				items.add(new SyncItem("Albums", DataItemSynced.ALBUMS, new AudioLibrary.GetAlbums(
 						AlbumFields.TITLE, AlbumFields.ARTISTID, AlbumFields.YEAR, AlbumFields.THUMBNAIL
-				), new AlbumHandler()));
+				), new AlbumHandler(), this));
 			}
 			if (intent.hasExtra(EXTRA_SYNC_MOVIES)) {
 				items.add(new SyncItem("Movies", DataItemSynced.MOVIES, new VideoLibrary.GetMovies(
 						MovieFields.TITLE, MovieFields.THUMBNAIL, MovieFields.YEAR, MovieFields.RATING,
 						MovieFields.GENRE, MovieFields.RUNTIME
-				), new MovieHandler()));
+				), new MovieHandler(), fetchMovieDetails));
 			}
 		}
 
@@ -98,6 +103,32 @@ public class SyncService extends Service {
 		start = System.currentTimeMillis();
 		next();
 		return START_STICKY;
+	}
+
+	private Cursor moviesCursor;
+
+	private final OnSyncedListener fetchMovieDetails = new OnSyncedListener() {
+		@Override
+		public void onItemSynced() {
+			if (moviesCursor == null) {
+				moviesCursor = getContentResolver().query(VideoContract.Movies.CONTENT_URI, MoviesQuery.PROJECTION, null, null, null);
+			}
+			if (moviesCursor.moveToNext()) {
+
+				Log.d(TAG, "POST-PROCESS: " + moviesCursor.getString(MoviesQuery.TITLE));
+				items.add(new SyncItem("Movie Details for " + MoviesQuery.TITLE, DataItemSynced.MOVIES,
+						new VideoLibrary.GetMovieDetails(moviesCursor.getInt(MoviesQuery.ID), MovieFields.CAST),
+						new MovieDetailsHandler(moviesCursor.getLong(MoviesQuery._ID)),
+						fetchMovieDetails
+				));
+			}
+			next();
+		}
+	};
+
+	@Override
+	public void onItemSynced() {
+		next();
 	}
 
 	private void next() {
@@ -121,12 +152,14 @@ public class SyncService extends Service {
 		private final AbstractCall<?> call;
 		private final JsonHandler handler;
 		private long itemStart;
+		private final OnSyncedListener callback;
 
-		public SyncItem(String what, int eventCode, AbstractCall<?> call, JsonHandler handler) {
+		public SyncItem(String what, int eventCode, AbstractCall<?> call, JsonHandler handler, OnSyncedListener callback) {
 			this.what = what;
 			this.eventCode = eventCode;
 			this.call = call;
 			this.handler = handler;
+			this.callback = callback;
 		}
 
 		public String getWhat() {
@@ -140,9 +173,8 @@ public class SyncService extends Service {
 				public void onFinish() {
 					Log.i(TAG, what + " successfully synced in " + (System.currentTimeMillis() - itemStart) + "ms.");
 					bus.post(new DataItemSynced(eventCode));
-					next();
+					callback.onItemSynced();
 				}
-
 				@Override
 				public void onError(String message, String hint) {
 					bus.post(new DataSync(DataSync.FAILED, message, hint));
@@ -155,5 +187,22 @@ public class SyncService extends Service {
 	@Override
 	public IBinder onBind(Intent intent) {
 		return null;
+	}
+
+	/**
+	 * {@link org.xbmc.android.app.provider.VideoContract.Movies}
+	 * query parameters.
+	 */
+	private interface MoviesQuery {
+
+		String[] PROJECTION = {
+				VideoDatabase.Tables.MOVIES + "." + BaseColumns._ID,
+				VideoContract.Movies.ID,
+				VideoContract.Movies.TITLE
+		};
+
+		int _ID = 0;
+		int ID = 1;
+		int TITLE = 2;
 	}
 }

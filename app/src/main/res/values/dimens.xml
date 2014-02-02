@@ -19,9 +19,8 @@
   -->
 <resources>
 
-	<!-- Sliding Menu -->
-	<dimen name="slidingmenu_shadow_width">30dp</dimen>
-	<dimen name="slidingmenu_width">240dp</dimen>
+	<!-- Navigation Drawer -->
+	<dimen name="navdrawer_width">240dp</dimen>
 
 	<!-- Wizard Pager -->
 	<dimen name="step_pager_tab_width">32dp</dimen>

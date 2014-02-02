@@ -4,7 +4,7 @@
 				android:layout_height="fill_parent">
 	<fragment
 			android:id="@+id/navdrawer"
-			android:layout_width="@dimen/slidingmenu_width"
+			android:layout_width="@dimen/navdrawer_width"
 			android:layout_height="fill_parent"
 			android:name="org.xbmc.android.app.ui.menu.NavigationDrawerFragment"
 			tools:layout="@layout/slidingmenu"/>
