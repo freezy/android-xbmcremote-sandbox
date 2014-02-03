@@ -16,15 +16,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import com.bumptech.glide.Glide;
 import de.greenrobot.event.EventBus;
+import org.xbmc.android.app.event.DataItemSynced;
 import org.xbmc.android.app.event.HostSwitched;
+import org.xbmc.android.app.injection.Injector;
 import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.app.provider.VideoContract;
 import org.xbmc.android.app.provider.VideoDatabase;
 import org.xbmc.android.remotesandbox.R;
-import org.xbmc.android.app.event.DataItemSynced;
-import org.xbmc.android.app.injection.Injector;
 
 import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
@@ -37,12 +39,18 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 	@Inject protected EventBus bus;
 	@Inject protected HostManager hostManager;
 
+	@InjectView(android.R.id.empty) TextView emptyView;
+
 	private CursorAdapter adapter;
 	private String hostUri;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_home_grid, container);
+		final View view = inflater.inflate(R.layout.fragment_home_grid, container);
+		ButterKnife.inject(this, view);
+
+		emptyView.setText(R.string.empty_movies);
+		return view;
 	}
 
 	@Override

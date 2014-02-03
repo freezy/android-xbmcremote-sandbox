@@ -16,6 +16,8 @@
 	<string name="empty_albums">No albums found.</string>
 	<string name="empty_artists">No artists found.</string>
 	<string name="empty_music_sources">No music sources found.</string>
+	<string name="empty_movies">No movies found.</string>
+
 
 	<string name="latest_albums">Latest Albums</string>
 	<string name="recently_added">Recently Added</string>
@@ -121,5 +123,4 @@
 
 	<string name="drawer_open">Open navigation drawer</string>
 	<string name="drawer_close">Close navigation drawer</string>
-
 </resources>
