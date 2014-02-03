@@ -91,7 +91,6 @@ public class VideoContract {
 		final String IMDBNUMBER = PREFIX + "imdbnumber";
 		final String SETID = PREFIX + "setid";
 		final String TRAILER = PREFIX + "trailer";
-		final String COUNTRY = PREFIX + "country";
 		final String TOP250 = PREFIX + "top250";
 		final String FANART = PREFIX + "fanart";
 		final String FILE = PREFIX + "file";
@@ -140,7 +139,7 @@ public class VideoContract {
 		public static final String DEFAULT_SORT = MoviesColumns.TITLE + " ASC";
 		/** Latest added movies first */
 		public static final String SORT_LATEST_FIRST = MoviesColumns.ID + " DESC";
-		private static final String SORT_LATEST_N = MoviesColumns.UPDATED + " DESC LIMIT ";
+		private static final String SORT_LATEST_N = MoviesColumns.DATEADDED + " DESC LIMIT ";
 
 		public static String sortLatest(int n) {
 			return SORT_LATEST_N + n;

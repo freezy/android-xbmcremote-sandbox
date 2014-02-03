@@ -53,7 +53,7 @@ public class MovieDetailsHandler extends JsonHandler {
 	private final int id;
 	private final int hostId;
 
-	public MovieDetailsHandler(int id, int hostId) {
+	public MovieDetailsHandler(int hostId, int id) {
 		super(VideoContract.CONTENT_AUTHORITY);
 		this.id = id;
 		this.hostId = hostId;

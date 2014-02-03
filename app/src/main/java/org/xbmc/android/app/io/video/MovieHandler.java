@@ -33,6 +33,7 @@ import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.call.VideoLibrary;
 import org.xbmc.android.jsonrpc.api.model.VideoModel.MovieDetail;
 import org.xbmc.android.jsonrpc.io.JsonHandler;
+import org.xbmc.android.util.DBUtils;
 
 import static org.xbmc.android.app.provider.VideoContract.Movies;
 
@@ -55,7 +56,7 @@ public class MovieHandler extends JsonHandler {
 
 	@Override
 	protected ContentValues[] parse(JsonNode response, ContentResolver resolver) {
-		Log.d(TAG, "Building queries for movies' drop and create.");
+		Log.d(TAG, "Building queries for movies...");
 
 		final long now = System.currentTimeMillis();
 
@@ -67,15 +68,30 @@ public class MovieHandler extends JsonHandler {
 		final ContentValues[] batch = new ContentValues[s];
 		for (int i = 0; i < s; i++) {
 			final ObjectNode movie = (ObjectNode)movies.get(i);
+
 			batch[i] = new ContentValues();
 			batch[i].put(Movies.UPDATED, now);
 			batch[i].put(Movies.HOST_ID, hostId);
 			batch[i].put(Movies.ID, movie.get(MovieDetail.MOVIEID).getIntValue());
 			batch[i].put(Movies.TITLE, movie.get(MovieDetail.TITLE).getTextValue());
-			batch[i].put(Movies.YEAR, movie.get(MovieDetail.YEAR).getIntValue());
-			batch[i].put(Movies.RATING, movie.get(MovieDetail.RATING).getDoubleValue());
-			batch[i].put(Movies.RUNTIME, movie.get(MovieDetail.RUNTIME).getIntValue());
-			batch[i].put(Movies.THUMBNAIL, movie.get(MovieDetail.THUMBNAIL).getTextValue());
+			batch[i].put(Movies.SORTTITLE, DBUtils.getStringValue(movie, MovieDetail.SORTTITLE));
+			batch[i].put(Movies.YEAR, DBUtils.getIntValue(movie, MovieDetail.YEAR));
+			batch[i].put(Movies.RATING, DBUtils.getDoubleValue(movie, MovieDetail.RATING));
+			batch[i].put(Movies.VOTES, DBUtils.getMessedUpIntValue(movie, MovieDetail.VOTES));
+			batch[i].put(Movies.RUNTIME, DBUtils.getIntValue(movie, MovieDetail.RUNTIME));
+			batch[i].put(Movies.THUMBNAIL, DBUtils.getStringValue(movie, MovieDetail.THUMBNAIL));
+			batch[i].put(Movies.TAGLINE, DBUtils.getStringValue(movie, MovieDetail.TAGLINE));
+			batch[i].put(Movies.PLOT, DBUtils.getStringValue(movie, MovieDetail.PLOT));
+			batch[i].put(Movies.MPAA, DBUtils.getStringValue(movie, MovieDetail.MPAA));
+			batch[i].put(Movies.IMDBNUMBER, DBUtils.getStringValue(movie, MovieDetail.IMDBNUMBER));
+			batch[i].put(Movies.SETID, DBUtils.getIntValue(movie, MovieDetail.SETID));
+			batch[i].put(Movies.TRAILER, DBUtils.getStringValue(movie, MovieDetail.TRAILER));
+			batch[i].put(Movies.TOP250, DBUtils.getIntValue(movie, MovieDetail.TOP250));
+			batch[i].put(Movies.FANART, DBUtils.getStringValue(movie, MovieDetail.FANART));
+			batch[i].put(Movies.FILE, DBUtils.getStringValue(movie, MovieDetail.FILE));
+			batch[i].put(Movies.RESUME, DBUtils.getIntValue(movie, MovieDetail.RESUME));
+			batch[i].put(Movies.DATEADDED, DBUtils.getDateValue(movie, MovieDetail.DATEADDED));
+			batch[i].put(Movies.LASTPLAYED, DBUtils.getDateValue(movie, MovieDetail.LASTPLAYED));
 		}
 
 		Log.d(TAG, batch.length + " movie queries built in " + (System.currentTimeMillis() - now) + "ms.");

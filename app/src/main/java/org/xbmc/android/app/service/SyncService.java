@@ -97,7 +97,10 @@ public class SyncService extends Service implements OnSyncedListener {
 			if (intent.hasExtra(EXTRA_SYNC_MOVIES)) {
 				items.add(new SyncItem("Movies", DataItemSynced.MOVIES, new VideoLibrary.GetMovies(
 						MovieFields.TITLE, MovieFields.THUMBNAIL, MovieFields.YEAR, MovieFields.RATING,
-						MovieFields.GENRE, MovieFields.RUNTIME
+						MovieFields.RUNTIME, MovieFields.SORTTITLE, MovieFields.VOTES, MovieFields.TAGLINE,
+						MovieFields.PLOT, MovieFields.MPAA, MovieFields.IMDBNUMBER, MovieFields.SETID,
+						MovieFields.TRAILER, MovieFields.COUNTRY, MovieFields.TOP250, MovieFields.FANART,
+						MovieFields.FILE, MovieFields.RESUME, MovieFields.DATEADDED, MovieFields.LASTPLAYED
 				), new MovieHandler(hostId), fetchMovieDetails));
 			}
 		}
