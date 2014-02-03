@@ -55,8 +55,9 @@ public class VideoProvider extends AbstractProvider {
 	private static final int MOVIES_ID = 101;
 	private static final int PEOPLE = 200;
 	private static final int PERSON_ID = 201;
-	private static final int MOVIECAST = 300;
-
+	private static final int MOVIECAST = 210;
+	private static final int GENRES = 300;
+	private static final int MOVIEGENRES = 310;
 
 	/**
 	 * Build and return a {@link android.content.UriMatcher} that catches all {@link android.net.Uri}
@@ -71,6 +72,8 @@ public class VideoProvider extends AbstractProvider {
 		matcher.addURI(authority, VideoContract.PATH_PEOPLE, PEOPLE);
 		matcher.addURI(authority, VideoContract.PATH_PEOPLE + "/*", PERSON_ID);
 		matcher.addURI(authority, VideoContract.PATH_MOVIECAST, MOVIECAST);
+		matcher.addURI(authority, VideoContract.PATH_GENRES, GENRES);
+		matcher.addURI(authority, VideoContract.PATH_MOVIEGENRES, MOVIEGENRES);
 
 		return matcher;
 	}
@@ -96,6 +99,10 @@ public class VideoProvider extends AbstractProvider {
 				return People.CONTENT_ITEM_TYPE;
 			case MOVIECAST:
 				return MovieCast.CONTENT_TYPE;
+			case GENRES:
+				return Genres.CONTENT_TYPE;
+			case MOVIEGENRES:
+				return MovieGenres.CONTENT_TYPE;
 			default:
 				throw new UnsupportedOperationException("Unknown uri: " + uri);
 		}
@@ -133,8 +140,17 @@ public class VideoProvider extends AbstractProvider {
 				getContext().getContentResolver().notifyChange(uri, null);
 				return People.buildPersonUri(id);
 			}
+			case GENRES: {
+				final long id = db.insertOrThrow(VideoDatabase.Tables.GENRES, null, values);
+				getContext().getContentResolver().notifyChange(uri, null);
+				return Genres.buildGenreUri(id);
+			}
 			case MOVIECAST: {
 				db.insertOrThrow(VideoDatabase.Tables.PEOPLE_MOVIE_CAST, null, values);
+				return null;
+			}
+			case MOVIEGENRES: {
+				db.insertOrThrow(VideoDatabase.Tables.GENRES_MOVIE, null, values);
 				return null;
 			}
 			default: {
@@ -206,6 +222,9 @@ public class VideoProvider extends AbstractProvider {
 			case PEOPLE: {
 				return builder.table(VideoDatabase.Tables.PEOPLE).where(People.HOST_ID + "=?", getHostIdAsString());
 			}
+			case GENRES: {
+				return builder.table(VideoDatabase.Tables.GENRES);
+			}
 			default: {
 				throw new UnsupportedOperationException("Unknown uri: " + uri);
 			}
@@ -227,6 +246,13 @@ public class VideoProvider extends AbstractProvider {
 				final String movieId = Movies.getMovieId(uri);
 				return builder.table(VideoDatabase.Tables.MOVIES).where(Movies.ID + "=?", movieId).where(Movies.HOST_ID + "=?", getHostIdAsString());
 			}
+			case PEOPLE: {
+				return builder.table(VideoDatabase.Tables.PEOPLE).where(People.HOST_ID + "=?", getHostIdAsString());
+			}
+			case GENRES: {
+				return builder.table(VideoDatabase.Tables.GENRES);
+			}
+
 			default: {
 				throw new UnsupportedOperationException("Unknown uri: " + uri);
 			}

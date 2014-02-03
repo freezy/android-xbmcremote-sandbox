@@ -45,7 +45,7 @@ public class VideoDatabase extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "video.db";
 
-	private static final int VER_LAUNCH = 13;
+	private static final int VER_LAUNCH = 14;
 	private static final int DATABASE_VERSION = VER_LAUNCH;
 
 	public interface Tables {
@@ -66,20 +66,20 @@ public class VideoDatabase extends SQLiteOpenHelper {
 	}
 
 	public interface Indexes {
-		final String PEOPLE_MOVIECAST_MOVIE_REF = Tables.PEOPLE_MOVIE_CAST + "_" + MoviesCastColumns.MOVIE_REF +
-				" ON " + Tables.PEOPLE_MOVIE_CAST + "(" + MoviesCastColumns.MOVIE_REF + ")";
-		final String PEOPLE_MOVIECAST_PERSON_REF = Tables.PEOPLE_MOVIE_CAST + "_" + MoviesCastColumns.PERSON_REF +
-				" ON " + Tables.PEOPLE_MOVIE_CAST + "(" + MoviesCastColumns.PERSON_REF + ")";
+		final String PEOPLE_MOVIECAST_MOVIE_REF = Tables.PEOPLE_MOVIE_CAST + "_" + MovieCastColumns.MOVIE_REF +
+				" ON " + Tables.PEOPLE_MOVIE_CAST + "(" + MovieCastColumns.MOVIE_REF + ")";
+		final String PEOPLE_MOVIECAST_PERSON_REF = Tables.PEOPLE_MOVIE_CAST + "_" + MovieCastColumns.PERSON_REF +
+				" ON " + Tables.PEOPLE_MOVIE_CAST + "(" + MovieCastColumns.PERSON_REF + ")";
 
-		final String PEOPLE_DIRECTOR_MOVIE_REF = Tables.PEOPLE_MOVIE_DIRECTOR + "_" + MoviesDirectorColumns.MOVIE_REF +
-				" ON " + Tables.PEOPLE_MOVIE_DIRECTOR + "(" + MoviesDirectorColumns.MOVIE_REF + ")";
-		final String PEOPLE_DIRECTOR_PERSON_REF = Tables.PEOPLE_MOVIE_DIRECTOR + "_" + MoviesDirectorColumns.PERSON_REF +
-				" ON " + Tables.PEOPLE_MOVIE_DIRECTOR + "(" + MoviesDirectorColumns.PERSON_REF + ")";
+		final String PEOPLE_DIRECTOR_MOVIE_REF = Tables.PEOPLE_MOVIE_DIRECTOR + "_" + MovieDirectorColumns.MOVIE_REF +
+				" ON " + Tables.PEOPLE_MOVIE_DIRECTOR + "(" + MovieDirectorColumns.MOVIE_REF + ")";
+		final String PEOPLE_DIRECTOR_PERSON_REF = Tables.PEOPLE_MOVIE_DIRECTOR + "_" + MovieDirectorColumns.PERSON_REF +
+				" ON " + Tables.PEOPLE_MOVIE_DIRECTOR + "(" + MovieDirectorColumns.PERSON_REF + ")";
 
-		final String GENRE_MOVIE_MOVIE_REF = Tables.GENRES_MOVIE + "_" + MoviesGenreColumns.MOVIE_REF +
-				" ON " + Tables.GENRES_MOVIE + "(" + MoviesGenreColumns.MOVIE_REF + ")";
-		final String GENRE_MOVIE_GENRE_REF = Tables.GENRES_MOVIE + "_" + MoviesGenreColumns.GENRE_REF +
-				" ON " + Tables.GENRES_MOVIE + "(" + MoviesGenreColumns.GENRE_REF + ")";
+		final String GENRE_MOVIE_MOVIE_REF = Tables.GENRES_MOVIE + "_" + MovieGenreColumns.MOVIE_REF +
+				" ON " + Tables.GENRES_MOVIE + "(" + MovieGenreColumns.MOVIE_REF + ")";
+		final String GENRE_MOVIE_GENRE_REF = Tables.GENRES_MOVIE + "_" + MovieGenreColumns.GENRE_REF +
+				" ON " + Tables.GENRES_MOVIE + "(" + MovieGenreColumns.GENRE_REF + ")";
 	}
 
 	public VideoDatabase(Context context) {
@@ -91,68 +91,68 @@ public class VideoDatabase extends SQLiteOpenHelper {
 
 		// movies
 		db.execSQL("CREATE TABLE " + Tables.MOVIES + " ("
-			+ BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-			+ MoviesColumns.ID + " TEXT NOT NULL,"
-			+ MoviesColumns.UPDATED + " INTEGER NOT NULL,"
-			+ MoviesColumns.HOST_ID + " INTEGER NOT NULL,"
-			+ MoviesColumns.TITLE + " TEXT,"
-			+ MoviesColumns.SORTTITLE + " TEXT,"
-			+ MoviesColumns.YEAR + " TEXT,"
-			+ MoviesColumns.RATING + " TEXT,"
-			+ MoviesColumns.VOTES + " INTEGER,"
-			+ MoviesColumns.RUNTIME + " INTEGER,"
-			+ MoviesColumns.TAGLINE + " TEXT,"
-			+ MoviesColumns.PLOT + " TEXT,"
-			+ MoviesColumns.MPAA + " TEXT,"
-			+ MoviesColumns.IMDBNUMBER + " TEXT,"
-			+ MoviesColumns.SETID + " INTEGER,"
-			+ MoviesColumns.TRAILER + " TEXT,"
-			+ MoviesColumns.TOP250 + " INTEGER,"
-			+ MoviesColumns.THUMBNAIL + " TEXT,"
-			+ MoviesColumns.FANART + " TEXT,"
-			+ MoviesColumns.FILE + " TEXT,"
-			+ MoviesColumns.RESUME + " INTEGER,"
-			+ MoviesColumns.DATEADDED + " INTEGER,"
-			+ MoviesColumns.LASTPLAYED + " INTEGER,"
+			+ BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+			+ MoviesColumns.ID + " TEXT NOT NULL, "
+			+ MoviesColumns.UPDATED + " INTEGER NOT NULL, "
+			+ MoviesColumns.HOST_ID + " INTEGER NOT NULL, "
+			+ MoviesColumns.TITLE + " TEXT, "
+			+ MoviesColumns.SORTTITLE + " TEXT, "
+			+ MoviesColumns.YEAR + " TEXT, "
+			+ MoviesColumns.RATING + " TEXT, "
+			+ MoviesColumns.VOTES + " INTEGER, "
+			+ MoviesColumns.RUNTIME + " INTEGER, "
+			+ MoviesColumns.TAGLINE + " TEXT, "
+			+ MoviesColumns.PLOT + " TEXT, "
+			+ MoviesColumns.MPAA + " TEXT, "
+			+ MoviesColumns.IMDBNUMBER + " TEXT, "
+			+ MoviesColumns.SETID + " INTEGER, "
+			+ MoviesColumns.TRAILER + " TEXT, "
+			+ MoviesColumns.TOP250 + " INTEGER, "
+			+ MoviesColumns.THUMBNAIL + " TEXT, "
+			+ MoviesColumns.FANART + " TEXT, "
+			+ MoviesColumns.FILE + " TEXT, "
+			+ MoviesColumns.RESUME + " INTEGER, "
+			+ MoviesColumns.DATEADDED + " INTEGER, "
+			+ MoviesColumns.LASTPLAYED + " INTEGER, "
 			+ "UNIQUE (" + MoviesColumns.HOST_ID + ", " + MoviesColumns.ID + ") ON CONFLICT REPLACE)");
 
 		// people
 		db.execSQL("CREATE TABLE " + Tables.PEOPLE + " ("
-			+ BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-			+ PeopleColumns.HOST_ID + " INTEGER NOT NULL,"
-			+ PeopleColumns.NAME + " TEXT,"
-			+ PeopleColumns.THUMBNAIL + " TEXT,"
+			+ BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+			+ PeopleColumns.HOST_ID + " INTEGER NOT NULL, "
+			+ PeopleColumns.NAME + " TEXT, "
+			+ PeopleColumns.THUMBNAIL + " TEXT, "
 			+ "UNIQUE (" + PeopleColumns.HOST_ID + ", " + PeopleColumns.NAME + ") ON CONFLICT REPLACE)");
 
 		// people <-> movie cast
 		db.execSQL("CREATE TABLE " + Tables.PEOPLE_MOVIE_CAST + " ("
-			+ MoviesCastColumns.MOVIE_REF + " INTEGER " + References.MOVIES_ID + ", "
-			+ MoviesCastColumns.PERSON_REF + " INTEGER " + References.PEOPLE_ID + ", "
-			+ MoviesCastColumns.ROLE + " TEXT NOT NULL, "
-			+ MoviesCastColumns.SORT + " INTEGER NOT NULL"
+			+ MovieCastColumns.MOVIE_REF + " INTEGER " + References.MOVIES_ID + ", "
+			+ MovieCastColumns.PERSON_REF + " INTEGER " + References.PEOPLE_ID + ", "
+			+ MovieCastColumns.ROLE + " TEXT NOT NULL, "
+			+ MovieCastColumns.SORT + " INTEGER NOT NULL"
 			+ ")");
 		db.execSQL("CREATE INDEX " + Indexes.PEOPLE_MOVIECAST_MOVIE_REF);
 		db.execSQL("CREATE INDEX " + Indexes.PEOPLE_MOVIECAST_PERSON_REF);
 
 		// people <-> movie director
 		db.execSQL("CREATE TABLE " + Tables.PEOPLE_MOVIE_DIRECTOR + " ("
-			+ MoviesDirectorColumns.MOVIE_REF + " INTEGER " + References.MOVIES_ID + ", "
-			+ MoviesDirectorColumns.PERSON_REF + " INTEGER " + References.PEOPLE_ID
-			+ ")");
+			+ MovieDirectorColumns.MOVIE_REF + " INTEGER " + References.MOVIES_ID + ", "
+			+ MovieDirectorColumns.PERSON_REF + " INTEGER " + References.PEOPLE_ID + ", "
+			+ "UNIQUE (" + MovieDirectorColumns.MOVIE_REF + ", " + MovieDirectorColumns.PERSON_REF + ") ON CONFLICT REPLACE)");
 		db.execSQL("CREATE INDEX " + Indexes.PEOPLE_DIRECTOR_MOVIE_REF);
 		db.execSQL("CREATE INDEX " + Indexes.PEOPLE_DIRECTOR_PERSON_REF);
 
 		// genres
 		db.execSQL("CREATE TABLE " + Tables.GENRES + " ("
-			+ BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-			+ GenreColumns.NAME + " TEXT,"
+			+ BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+			+ GenreColumns.NAME + " TEXT, "
 			+ "UNIQUE (" + GenreColumns.NAME + ") ON CONFLICT REPLACE)");
 
 		// genres <-> movies
 		db.execSQL("CREATE TABLE " + Tables.GENRES_MOVIE + " ("
-			+ MoviesGenreColumns.MOVIE_REF + " INTEGER " + References.MOVIES_ID + ", "
-			+ MoviesGenreColumns.GENRE_REF + " INTEGER " + References.GENRE_ID
-			+ ")");
+			+ MovieGenreColumns.MOVIE_REF + " INTEGER " + References.MOVIES_ID + ", "
+			+ MovieGenreColumns.GENRE_REF + " INTEGER " + References.GENRE_ID + ", "
+			+ "UNIQUE (" + MovieGenreColumns.MOVIE_REF + ", " + MovieGenreColumns.GENRE_REF + ") ON CONFLICT REPLACE)");
 		db.execSQL("CREATE INDEX " + Indexes.GENRE_MOVIE_MOVIE_REF);
 		db.execSQL("CREATE INDEX " + Indexes.GENRE_MOVIE_GENRE_REF);
 	}

@@ -23,8 +23,10 @@ package org.xbmc.android.app.io.video;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Parcel;
+import android.provider.BaseColumns;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
@@ -49,6 +51,7 @@ public class MovieDetailsHandler extends JsonHandler {
 	private final static String TAG = MovieDetailsHandler.class.getSimpleName();
 
 	private static HashMap<String, Integer> PEOPLE_CACHE;
+	private static HashMap<String, Integer> GENRE_CACHE;
 
 	private final int id;
 	private final int hostId;
@@ -61,27 +64,46 @@ public class MovieDetailsHandler extends JsonHandler {
 
 	public static void initCache() {
 		PEOPLE_CACHE = null;
+		GENRE_CACHE = null;
 	}
 
 	@Override
 	protected ContentValues[] parse(JsonNode response, ContentResolver resolver) {
 
-		final long now = System.currentTimeMillis();
+		/* SETUP CACHE VARIABLES
+		 */
 		if (PEOPLE_CACHE == null) {
 			PEOPLE_CACHE = new HashMap<String, Integer>();
-			resolver.delete(VideoContract.People.CONTENT_URI, null, null);
+			final String[] model = { BaseColumns._ID, VideoContract.People.NAME };
+			final Cursor cursor = resolver.query(VideoContract.People.CONTENT_URI, model, null, null, null);
+			while (cursor.moveToNext()) {
+				PEOPLE_CACHE.put(cursor.getString(1), cursor.getInt(0));
+			}
+		}
+		// put genres into cache
+		if (GENRE_CACHE == null) {
+			GENRE_CACHE = new HashMap<String, Integer>();
+			final String[] model = { BaseColumns._ID, VideoContract.Genres.NAME };
+			final Cursor cursor = resolver.query(VideoContract.Genres.CONTENT_URI, model, null, null, null);
+			while (cursor.moveToNext()) {
+				GENRE_CACHE.put(cursor.getString(1), cursor.getInt(0));
+			}
 		}
 
-		// we intentionally don't use the API for mapping but access the
-		// JSON objects directly for performance reasons.
+		// retrieve object
+		final long now = System.currentTimeMillis();
 		final ObjectNode movie = (ObjectNode)response.get(AbstractCall.RESULT).get(VideoLibrary.GetMovieDetails.RESULT);
 
-		// loop through cast
+		/* CAST
+		 */
 		final ArrayNode cast = (ArrayNode)movie.get(MovieDetail.CAST);
 		final ContentValues[] batch = new ContentValues[cast.size()];
 		int i = 0;
 		for (JsonNode actor : cast) {
 			final String name = actor.get(VideoModel.Cast.NAME).getTextValue();
+			if (name.isEmpty()) {
+				continue;
+			}
 			final int actorRef;
 			if (PEOPLE_CACHE.containsKey(name)) {
 				actorRef = PEOPLE_CACHE.get(name);
@@ -104,6 +126,29 @@ public class MovieDetailsHandler extends JsonHandler {
 			batch[i].put(VideoContract.MovieCast.ROLE, actor.get(VideoModel.Cast.ROLE).getTextValue());
 			batch[i].put(VideoContract.MovieCast.SORT, actor.get(VideoModel.Cast.ORDER).getIntValue());
 			i++;
+		}
+
+		/* GENRES
+		 */
+		final ArrayNode genres = (ArrayNode)movie.get(MovieDetail.GENRE);
+		for (JsonNode genre : genres) {
+			final String name = genre.getTextValue();
+			final int genreRef;
+			if (GENRE_CACHE.containsKey(name)) {
+				genreRef = GENRE_CACHE.get(name);
+			} else {
+				final ContentValues row = new ContentValues();
+				row.put(VideoContract.Genres.NAME, name);
+				final Uri newGenreUri = resolver.insert(VideoContract.Genres.CONTENT_URI, row);
+				genreRef = VideoContract.Genres.getGenreId(newGenreUri);
+				GENRE_CACHE.put(name, genreRef);
+			}
+
+			// insert reference
+			final ContentValues row = new ContentValues();
+			row.put(VideoContract.MovieGenres.GENRE_REF, genreRef);
+			row.put(VideoContract.MovieGenres.MOVIE_REF, id);
+			resolver.insert(VideoContract.MovieGenres.CONTENT_URI, row);
 		}
 		return batch;
 	}

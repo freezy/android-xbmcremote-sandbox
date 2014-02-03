@@ -124,8 +124,9 @@ public class SyncService extends Service implements OnSyncedListener {
 			}
 			if (moviesCursor.moveToNext()) {
 				items.add(new SyncItem("Movie Details for \"" + moviesCursor.getString(MoviesQuery.TITLE) + "\"", DataItemSynced.MOVIES,
-						new VideoLibrary.GetMovieDetails(moviesCursor.getInt(MoviesQuery.ID), MovieFields.CAST, MovieFields.DIRECTOR),
-						new MovieDetailsHandler(hostId, moviesCursor.getInt(MoviesQuery._ID)),
+						new VideoLibrary.GetMovieDetails(moviesCursor.getInt(MoviesQuery.ID),
+								MovieFields.CAST, MovieFields.DIRECTOR, MovieFields.GENRE
+						), new MovieDetailsHandler(hostId, moviesCursor.getInt(MoviesQuery._ID)),
 						this
 				));
 			} else {

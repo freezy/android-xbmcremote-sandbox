@@ -48,6 +48,8 @@ public class VideoContract {
 	static final String PATH_MOVIES = "movies";
 	static final String PATH_PEOPLE = "people";
 	static final String PATH_MOVIECAST = "moviecast";
+	static final String PATH_GENRES = "genres";
+	static final String PATH_MOVIEGENRES = "moviegenre";
 
 	/**
 	 * Special value for {@link SyncColumns#UPDATED} indicating that an entry
@@ -115,7 +117,7 @@ public class VideoContract {
 	 * Constants for movie cast columns.
 	 * @author freezy <freezy@xbmc.org>
 	 */
-	interface MoviesCastColumns {
+	interface MovieCastColumns {
 		final static String PREFIX = "person_cast_";
 		final String MOVIE_REF = PREFIX + MoviesColumns.PREFIX + "id";
 		final String PERSON_REF = PREFIX + PeopleColumns.PREFIX + "id";
@@ -127,7 +129,7 @@ public class VideoContract {
 	 * Constants for movie director columns.
 	 * @author freezy <freezy@xbmc.org>
 	 */
-	interface MoviesDirectorColumns {
+	interface MovieDirectorColumns {
 		final static String PREFIX = "person_director_";
 		final String MOVIE_REF = PREFIX + MoviesColumns.PREFIX + "id";
 		final String PERSON_REF = PREFIX + PeopleColumns.PREFIX + "id";
@@ -146,7 +148,7 @@ public class VideoContract {
 	 * Constants for movie genre columns.
 	 * @author freezy <freezy@xbmc.org>
 	 */
-	interface MoviesGenreColumns {
+	interface MovieGenreColumns {
 		final static String PREFIX = "genre_movie_";
 		final String MOVIE_REF = PREFIX + MoviesColumns.PREFIX + "id";
 		final String GENRE_REF = PREFIX + GenreColumns.PREFIX + "id";
@@ -184,6 +186,9 @@ public class VideoContract {
 		}
 	}
 
+	/**
+	 * People can be actors, directors or writers.
+	 */
 	public static class People implements PeopleColumns, BaseColumns {
 
 		public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendEncodedPath(PATH_PEOPLE).build();
@@ -200,9 +205,34 @@ public class VideoContract {
 		}
 	}
 
-	public static class MovieCast implements MoviesCastColumns {
+	/**
+	 * Links a person as a character to a movie.
+	 */
+	public static class MovieCast implements MovieCastColumns {
 		public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendEncodedPath(PATH_MOVIECAST).build();
 		public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.xbmc.movie.cast";
+	}
+
+	/**
+	 * A genre, basically just a name and an ID. Global for all hosts, TV and movies.
+	 */
+	public static class Genres implements GenreColumns {
+		public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendEncodedPath(PATH_GENRES).build();
+		public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.xbmc.video.genre";
+		public static int getGenreId(Uri uri) {
+			return Integer.parseInt(uri.getPathSegments().get(1));
+		}
+		public static Uri buildGenreUri(long genreId) {
+			return CONTENT_URI.buildUpon().appendPath(String.valueOf(genreId)).build();
+		}
+	}
+
+	/**
+	 * Links a genre to a movie.
+	 */
+	public static class MovieGenres implements MovieGenreColumns {
+		public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendEncodedPath(PATH_MOVIEGENRES).build();
+		public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.xbmc.movie.genre";
 	}
 
 }
