@@ -28,8 +28,7 @@ import android.provider.BaseColumns;
 import android.util.Log;
 import org.xbmc.android.app.provider.VideoContract.MoviesColumns;
 
-import static org.xbmc.android.app.provider.VideoContract.MoviesCastColumns;
-import static org.xbmc.android.app.provider.VideoContract.PeopleColumns;
+import static org.xbmc.android.app.provider.VideoContract.*;
 
 /**
  * Helper for managing {@link android.database.sqlite.SQLiteDatabase} that stores data for
@@ -46,27 +45,41 @@ public class VideoDatabase extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "video.db";
 
-	private static final int VER_LAUNCH = 12;
+	private static final int VER_LAUNCH = 13;
 	private static final int DATABASE_VERSION = VER_LAUNCH;
 
 	public interface Tables {
 
 		final String MOVIES = "movies";
 		final String PEOPLE = "people";
-		final String PEOPLE_MOVIECAST = PEOPLE + "_moviecast";
+		final String PEOPLE_MOVIE_CAST = PEOPLE + "_movie_cast";
+		final String PEOPLE_MOVIE_DIRECTOR = PEOPLE + "_movie_director";
+		final String GENRES = "genres";
+		final String GENRES_MOVIE = GENRES + "_movie";
 	}
 
 	/** {@code REFERENCES} clauses. */
 	private interface References {
 		final String MOVIES_ID = "REFERENCES " + Tables.MOVIES + "(" + BaseColumns._ID + ")";
 		final String PEOPLE_ID = "REFERENCES " + Tables.PEOPLE + "(" + BaseColumns._ID + ")";
+		final String GENRE_ID = "REFERENCES " + Tables.GENRES + "(" + BaseColumns._ID + ")";
 	}
 
 	public interface Indexes {
-		final String PEOPLE_MOVIECAST_MOVIE_REF = Tables.PEOPLE_MOVIECAST + "_" + MoviesCastColumns.MOVIE_REF +
-				" ON " + Tables.PEOPLE_MOVIECAST + "(" + MoviesCastColumns.MOVIE_REF + ")";
-		final String PEOPLE_MOVIECAST_PERSON_REF = Tables.PEOPLE_MOVIECAST + "_" + MoviesCastColumns.PERSON_REF +
-				" ON " + Tables.PEOPLE_MOVIECAST + "(" + MoviesCastColumns.PERSON_REF + ")";
+		final String PEOPLE_MOVIECAST_MOVIE_REF = Tables.PEOPLE_MOVIE_CAST + "_" + MoviesCastColumns.MOVIE_REF +
+				" ON " + Tables.PEOPLE_MOVIE_CAST + "(" + MoviesCastColumns.MOVIE_REF + ")";
+		final String PEOPLE_MOVIECAST_PERSON_REF = Tables.PEOPLE_MOVIE_CAST + "_" + MoviesCastColumns.PERSON_REF +
+				" ON " + Tables.PEOPLE_MOVIE_CAST + "(" + MoviesCastColumns.PERSON_REF + ")";
+
+		final String PEOPLE_DIRECTOR_MOVIE_REF = Tables.PEOPLE_MOVIE_DIRECTOR + "_" + MoviesDirectorColumns.MOVIE_REF +
+				" ON " + Tables.PEOPLE_MOVIE_DIRECTOR + "(" + MoviesDirectorColumns.MOVIE_REF + ")";
+		final String PEOPLE_DIRECTOR_PERSON_REF = Tables.PEOPLE_MOVIE_DIRECTOR + "_" + MoviesDirectorColumns.PERSON_REF +
+				" ON " + Tables.PEOPLE_MOVIE_DIRECTOR + "(" + MoviesDirectorColumns.PERSON_REF + ")";
+
+		final String GENRE_MOVIE_MOVIE_REF = Tables.GENRES_MOVIE + "_" + MoviesGenreColumns.MOVIE_REF +
+				" ON " + Tables.GENRES_MOVIE + "(" + MoviesGenreColumns.MOVIE_REF + ")";
+		final String GENRE_MOVIE_GENRE_REF = Tables.GENRES_MOVIE + "_" + MoviesGenreColumns.GENRE_REF +
+				" ON " + Tables.GENRES_MOVIE + "(" + MoviesGenreColumns.GENRE_REF + ")";
 	}
 
 	public VideoDatabase(Context context) {
@@ -76,6 +89,7 @@ public class VideoDatabase extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 
+		// movies
 		db.execSQL("CREATE TABLE " + Tables.MOVIES + " ("
 			+ BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ MoviesColumns.ID + " TEXT NOT NULL,"
@@ -102,6 +116,7 @@ public class VideoDatabase extends SQLiteOpenHelper {
 			+ MoviesColumns.LASTPLAYED + " INTEGER,"
 			+ "UNIQUE (" + MoviesColumns.HOST_ID + ", " + MoviesColumns.ID + ") ON CONFLICT REPLACE)");
 
+		// people
 		db.execSQL("CREATE TABLE " + Tables.PEOPLE + " ("
 			+ BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ PeopleColumns.HOST_ID + " INTEGER NOT NULL,"
@@ -109,7 +124,8 @@ public class VideoDatabase extends SQLiteOpenHelper {
 			+ PeopleColumns.THUMBNAIL + " TEXT,"
 			+ "UNIQUE (" + PeopleColumns.HOST_ID + ", " + PeopleColumns.NAME + ") ON CONFLICT REPLACE)");
 
-		db.execSQL("CREATE TABLE " + Tables.PEOPLE_MOVIECAST + " ("
+		// people <-> movie cast
+		db.execSQL("CREATE TABLE " + Tables.PEOPLE_MOVIE_CAST + " ("
 			+ MoviesCastColumns.MOVIE_REF + " INTEGER " + References.MOVIES_ID + ", "
 			+ MoviesCastColumns.PERSON_REF + " INTEGER " + References.PEOPLE_ID + ", "
 			+ MoviesCastColumns.ROLE + " TEXT NOT NULL, "
@@ -118,6 +134,27 @@ public class VideoDatabase extends SQLiteOpenHelper {
 		db.execSQL("CREATE INDEX " + Indexes.PEOPLE_MOVIECAST_MOVIE_REF);
 		db.execSQL("CREATE INDEX " + Indexes.PEOPLE_MOVIECAST_PERSON_REF);
 
+		// people <-> movie director
+		db.execSQL("CREATE TABLE " + Tables.PEOPLE_MOVIE_DIRECTOR + " ("
+			+ MoviesDirectorColumns.MOVIE_REF + " INTEGER " + References.MOVIES_ID + ", "
+			+ MoviesDirectorColumns.PERSON_REF + " INTEGER " + References.PEOPLE_ID
+			+ ")");
+		db.execSQL("CREATE INDEX " + Indexes.PEOPLE_DIRECTOR_MOVIE_REF);
+		db.execSQL("CREATE INDEX " + Indexes.PEOPLE_DIRECTOR_PERSON_REF);
+
+		// genres
+		db.execSQL("CREATE TABLE " + Tables.GENRES + " ("
+			+ BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+			+ GenreColumns.NAME + " TEXT,"
+			+ "UNIQUE (" + GenreColumns.NAME + ") ON CONFLICT REPLACE)");
+
+		// genres <-> movies
+		db.execSQL("CREATE TABLE " + Tables.GENRES_MOVIE + " ("
+			+ MoviesGenreColumns.MOVIE_REF + " INTEGER " + References.MOVIES_ID + ", "
+			+ MoviesGenreColumns.GENRE_REF + " INTEGER " + References.GENRE_ID
+			+ ")");
+		db.execSQL("CREATE INDEX " + Indexes.GENRE_MOVIE_MOVIE_REF);
+		db.execSQL("CREATE INDEX " + Indexes.GENRE_MOVIE_GENRE_REF);
 	}
 
 	@Override
@@ -137,7 +174,10 @@ public class VideoDatabase extends SQLiteOpenHelper {
 			Log.w(TAG, "Destroying old data during upgrade");
 			db.execSQL("DROP TABLE IF EXISTS " + Tables.MOVIES);
 			db.execSQL("DROP TABLE IF EXISTS " + Tables.PEOPLE);
-			db.execSQL("DROP TABLE IF EXISTS " + Tables.PEOPLE_MOVIECAST);
+			db.execSQL("DROP TABLE IF EXISTS " + Tables.PEOPLE_MOVIE_CAST);
+			db.execSQL("DROP TABLE IF EXISTS " + Tables.PEOPLE_MOVIE_DIRECTOR);
+			db.execSQL("DROP TABLE IF EXISTS " + Tables.GENRES);
+			db.execSQL("DROP TABLE IF EXISTS " + Tables.GENRES_MOVIE);
 			onCreate(db);
 		}
 	}

@@ -67,7 +67,7 @@ public class VideoContract {
 	 */
 	public interface SyncColumns {
 		/** Last time this entry was updated or synchronized. */
-		String UPDATED = "updated";
+		final String UPDATED = "updated";
 	}
 
 	/**
@@ -106,22 +106,50 @@ public class VideoContract {
 	 */
 	interface PeopleColumns {
 		final static String PREFIX = "person_";
-		String HOST_ID = PREFIX + "host_id";
-		String NAME = PREFIX + "name";
-		String THUMBNAIL = PREFIX + "thumbnail";
+		final String HOST_ID = PREFIX + "host_id";
+		final String NAME = PREFIX + "name";
+		final String THUMBNAIL = PREFIX + "thumbnail";
 	}
 
 	/**
-	 * Constants for people columns.
+	 * Constants for movie cast columns.
 	 * @author freezy <freezy@xbmc.org>
 	 */
 	interface MoviesCastColumns {
-		final static String PREFIX = "person_moviecast_";
+		final static String PREFIX = "person_cast_";
 		final String MOVIE_REF = PREFIX + MoviesColumns.PREFIX + "id";
 		final String PERSON_REF = PREFIX + PeopleColumns.PREFIX + "id";
 		final String ROLE = PREFIX + "role";
 		final String SORT = PREFIX + "sort";
+	}
 
+	/**
+	 * Constants for movie director columns.
+	 * @author freezy <freezy@xbmc.org>
+	 */
+	interface MoviesDirectorColumns {
+		final static String PREFIX = "person_director_";
+		final String MOVIE_REF = PREFIX + MoviesColumns.PREFIX + "id";
+		final String PERSON_REF = PREFIX + PeopleColumns.PREFIX + "id";
+	}
+
+	/**
+	 * Constants for genre columns.
+	 * @author freezy <freezy@xbmc.org>
+	 */
+	interface GenreColumns {
+		final static String PREFIX = "genre_";
+		final String NAME = PREFIX + "name";
+	}
+
+	/**
+	 * Constants for movie genre columns.
+	 * @author freezy <freezy@xbmc.org>
+	 */
+	interface MoviesGenreColumns {
+		final static String PREFIX = "genre_movie_";
+		final String MOVIE_REF = PREFIX + MoviesColumns.PREFIX + "id";
+		final String GENRE_REF = PREFIX + GenreColumns.PREFIX + "id";
 	}
 
 	/**
@@ -174,9 +202,7 @@ public class VideoContract {
 
 	public static class MovieCast implements MoviesCastColumns {
 		public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendEncodedPath(PATH_MOVIECAST).build();
-
 		public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.xbmc.movie.cast";
-
 	}
 
 }

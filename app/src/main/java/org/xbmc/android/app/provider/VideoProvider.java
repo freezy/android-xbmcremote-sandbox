@@ -134,7 +134,7 @@ public class VideoProvider extends AbstractProvider {
 				return People.buildPersonUri(id);
 			}
 			case MOVIECAST: {
-				db.insertOrThrow(VideoDatabase.Tables.PEOPLE_MOVIECAST, null, values);
+				db.insertOrThrow(VideoDatabase.Tables.PEOPLE_MOVIE_CAST, null, values);
 				return null;
 			}
 			default: {
