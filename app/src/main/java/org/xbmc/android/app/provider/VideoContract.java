@@ -76,15 +76,29 @@ public class VideoContract {
 	 */
 	interface MoviesColumns {
 		final static String PREFIX = "movie_";
-		String ID = PREFIX + "id";
-		String HOST_ID = PREFIX + "host_id";
-		String TITLE = PREFIX + "title";
-		String YEAR = PREFIX + "year";
-		String GENRE = PREFIX + "genre";
-		String RATING = PREFIX + "rating";
-		String RUNTIME = PREFIX + "runtime";
-		String THUMBNAIL = PREFIX + "thumbnail";
-		String UPDATED = PREFIX + SyncColumns.UPDATED;
+		final String ID = PREFIX + "id";
+		final String HOST_ID = PREFIX + "host_id";
+		final String TITLE = PREFIX + "title";
+		final String YEAR = PREFIX + "year";
+		final String RATING = PREFIX + "rating";
+		final String RUNTIME = PREFIX + "runtime";
+		final String THUMBNAIL = PREFIX + "thumbnail";
+		final String SORTTITLE = PREFIX + "sorttitle";
+		final String VOTES = PREFIX + "votes";
+		final String TAGLINE = PREFIX + "tagline";
+		final String PLOT = PREFIX + "plot";
+		final String MPAA = PREFIX + "mpaa";
+		final String IMDBNUMBER = PREFIX + "imdbnumber";
+		final String SETID = PREFIX + "setid";
+		final String TRAILER = PREFIX + "trailer";
+		final String COUNTRY = PREFIX + "country";
+		final String TOP250 = PREFIX + "top250";
+		final String FANART = PREFIX + "fanart";
+		final String FILE = PREFIX + "file";
+		final String RESUME = PREFIX + "resume";
+		final String DATEADDED = PREFIX + "dateadded";
+		final String LASTPLAYED = PREFIX + "lastplayed";
+		final String UPDATED = PREFIX + SyncColumns.UPDATED;
 	}
 
 	/**
@@ -104,10 +118,10 @@ public class VideoContract {
 	 */
 	interface MoviesCastColumns {
 		final static String PREFIX = "person_moviecast_";
-		String MOVIE_REF = PREFIX + MoviesColumns.PREFIX + "id";
-		String PERSON_REF = PREFIX + PeopleColumns.PREFIX + "id";
-		String ROLE = PREFIX + "role";
-		String SORT = PREFIX + "sort";
+		final String MOVIE_REF = PREFIX + MoviesColumns.PREFIX + "id";
+		final String PERSON_REF = PREFIX + PeopleColumns.PREFIX + "id";
+		final String ROLE = PREFIX + "role";
+		final String SORT = PREFIX + "sort";
 
 	}
 

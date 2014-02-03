@@ -144,7 +144,7 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 			}
 
 			titleView.setText(cursor.getString(MoviesQuery.TITLE));
-			subtitleView.setText(cursor.getString(MoviesQuery.GENRE));
+			//subtitleView.setText(cursor.getString(MoviesQuery.GENRE));
 		}
 	}
 
@@ -158,14 +158,13 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 				VideoDatabase.Tables.MOVIES + "." + BaseColumns._ID,
 				VideoContract.Movies.ID,
 				VideoContract.Movies.TITLE,
-				VideoContract.Movies.GENRE,
 				VideoContract.Movies.THUMBNAIL
 		};
 
-		// int _ID = 0; int ID = 1;
-		int TITLE = 2;
-		int GENRE = 3;
-		int THUMBNAIL = 4;
+		//final int _ID = 0;
+		final int ID = 1;
+		final int TITLE = 2;
+		final int THUMBNAIL = 3;
 	}
 
 }

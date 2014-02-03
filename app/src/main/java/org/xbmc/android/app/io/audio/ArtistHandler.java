@@ -45,9 +45,11 @@ import org.xbmc.android.jsonrpc.io.JsonHandler;
 public class ArtistHandler extends JsonHandler {
 
 	private final static String TAG = ArtistHandler.class.getSimpleName();
+	private final int hostId;
 
-	public ArtistHandler() {
+	public ArtistHandler(int hostId) {
 		super(AudioContract.CONTENT_AUTHORITY);
+		this.hostId = hostId;
 	}
 
 	@Override
@@ -65,6 +67,7 @@ public class ArtistHandler extends JsonHandler {
 			final ObjectNode artist = (ObjectNode)artists.get(i);
 			batch[i] = new ContentValues();
 			batch[i].put(Artists.UPDATED, now);
+			batch[i].put(Artists.HOST_ID, hostId);
 			batch[i].put(Artists.ID, artist.get(ArtistDetail.ARTISTID).getIntValue());
 			batch[i].put(Artists.NAME, artist.get(ArtistDetail.ARTIST).getTextValue());
 		}
@@ -84,11 +87,16 @@ public class ArtistHandler extends JsonHandler {
 	public static final Parcelable.Creator<ArtistHandler> CREATOR = new Parcelable.Creator<ArtistHandler>() {
 		@Override
 		public ArtistHandler createFromParcel(Parcel parcel) {
-			return new ArtistHandler();
+			return new ArtistHandler(parcel.readInt());
 		}
 		@Override
 		public ArtistHandler[] newArray(int n) {
 			return new ArtistHandler[n];
 		}
 	};
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(hostId);
+	}
 }

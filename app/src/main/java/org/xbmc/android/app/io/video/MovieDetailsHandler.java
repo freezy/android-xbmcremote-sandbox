@@ -115,9 +115,8 @@ public class MovieDetailsHandler extends JsonHandler {
 
 	@Override
 	public void writeToParcel(Parcel parcel, int flags) {
-		parcel.writeLong(id);
 		parcel.writeLong(hostId);
-		super.writeToParcel(parcel, flags);
+		parcel.writeLong(id);
 	}
 
 	/**

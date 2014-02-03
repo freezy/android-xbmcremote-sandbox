@@ -46,8 +46,11 @@ public class MovieHandler extends JsonHandler {
 
 	private final static String TAG = MovieHandler.class.getSimpleName();
 
-	public MovieHandler() {
+	private final int hostId;
+
+	public MovieHandler(int hostId) {
 		super(VideoContract.CONTENT_AUTHORITY);
+		this.hostId = hostId;
 	}
 
 	@Override
@@ -66,10 +69,10 @@ public class MovieHandler extends JsonHandler {
 			final ObjectNode movie = (ObjectNode)movies.get(i);
 			batch[i] = new ContentValues();
 			batch[i].put(Movies.UPDATED, now);
+			batch[i].put(Movies.HOST_ID, hostId);
 			batch[i].put(Movies.ID, movie.get(MovieDetail.MOVIEID).getIntValue());
 			batch[i].put(Movies.TITLE, movie.get(MovieDetail.TITLE).getTextValue());
 			batch[i].put(Movies.YEAR, movie.get(MovieDetail.YEAR).getIntValue());
-			batch[i].put(Movies.GENRE, movie.get(MovieDetail.GENRE).getTextValue());
 			batch[i].put(Movies.RATING, movie.get(MovieDetail.RATING).getDoubleValue());
 			batch[i].put(Movies.RUNTIME, movie.get(MovieDetail.RUNTIME).getIntValue());
 			batch[i].put(Movies.THUMBNAIL, movie.get(MovieDetail.THUMBNAIL).getTextValue());
@@ -84,13 +87,18 @@ public class MovieHandler extends JsonHandler {
 		resolver.bulkInsert(Movies.CONTENT_URI, batch);
 	}
 
+	@Override
+	public void writeToParcel(Parcel parcel, int flags) {
+		parcel.writeInt(hostId);
+	}
+
 	/**
 	 * Generates instances of this Parcelable class from a Parcel.
 	 */
 	public static final Creator<MovieHandler> CREATOR = new Creator<MovieHandler>() {
 		@Override
 		public MovieHandler createFromParcel(Parcel parcel) {
-			return new MovieHandler();
+			return new MovieHandler(parcel.readInt());
 		}
 		@Override
 		public MovieHandler[] newArray(int n) {

@@ -48,8 +48,11 @@ public class AlbumHandler extends JsonHandler {
 
 	private final static String TAG = AlbumHandler.class.getSimpleName();
 
-	public AlbumHandler() {
+	private final int hostId;
+
+	public AlbumHandler(int hostId) {
 		super(AudioContract.CONTENT_AUTHORITY);
+		this.hostId = hostId;
 	}
 
 	@Override
@@ -67,6 +70,7 @@ public class AlbumHandler extends JsonHandler {
 			final ObjectNode album = (ObjectNode)albums.get(i);
 			batch[i] = new ContentValues();
 			batch[i].put(Albums.UPDATED, now);
+			batch[i].put(Albums.HOST_ID, hostId);
 			batch[i].put(Albums.ID, album.get(AudioModel.AlbumDetail.ALBUMID).getIntValue());
 			batch[i].put(Albums.TITLE, album.get(AudioModel.AlbumDetail.TITLE).getTextValue());
 			batch[i].put(Albums.PREFIX + Artists.ID, DBUtils.getIntValue(album, AudioModel.AlbumDetail.ARTISTID));
@@ -88,7 +92,7 @@ public class AlbumHandler extends JsonHandler {
 	public static final Parcelable.Creator<AlbumHandler> CREATOR = new Parcelable.Creator<AlbumHandler>() {
 		@Override
 		public AlbumHandler createFromParcel(Parcel parcel) {
-			return new AlbumHandler();
+			return new AlbumHandler(parcel.readInt());
 		}
 		@Override
 		public AlbumHandler[] newArray(int n) {
@@ -96,4 +100,8 @@ public class AlbumHandler extends JsonHandler {
 		}
 	};
 
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(hostId);
+	}
 }

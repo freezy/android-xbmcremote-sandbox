@@ -13,6 +13,13 @@ public class DBUtils {
 		}
 	}
 
+	public static void bindInt(SQLiteStatement insert, ContentValues value, int index, String field) {
+		final Integer v = value.getAsInteger(field);
+		if (v != null) {
+			insert.bindLong(index, v);
+		}
+	}
+
 
 	public static int getIntValue(ObjectNode node, String attr) {
 		if (!node.has(attr)) {

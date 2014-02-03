@@ -24,10 +24,8 @@ package org.xbmc.android.app.provider;
 import android.content.*;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
 import android.net.Uri;
 import android.util.Log;
-import org.xbmc.android.util.DBUtils;
 import org.xbmc.android.util.google.SelectionBuilder;
 
 import java.util.ArrayList;
@@ -135,6 +133,10 @@ public class VideoProvider extends AbstractProvider {
 				getContext().getContentResolver().notifyChange(uri, null);
 				return People.buildPersonUri(id);
 			}
+			case MOVIECAST: {
+				db.insertOrThrow(VideoDatabase.Tables.PEOPLE_MOVIECAST, null, values);
+				return null;
+			}
 			default: {
 				throw new UnsupportedOperationException("Unknown uri: " + uri);
 			}
@@ -234,88 +236,16 @@ public class VideoProvider extends AbstractProvider {
 	@Override
 	public int bulkInsert(Uri uri, ContentValues[] values) {
 		final SQLiteDatabase db = database.getWritableDatabase();
-		final int match = URI_MATCHER.match(uri);
-		switch (match) {
-			case MOVIES: {
-				int numInserted = 0;
-				db.beginTransaction();
-				try {
-					// delete all rows in table
-					db.delete(VideoDatabase.Tables.MOVIES, MoviesColumns.HOST_ID + "=?", DBUtils.args(getHostIdAsString()));
-
-					// insert new rows into table
-					// standard SQL insert statement, that can be reused
-					final SQLiteStatement insert = db.compileStatement(
-						"INSERT INTO " + VideoDatabase.Tables.MOVIES +
-						"(" + MoviesColumns.UPDATED +
-						"," + MoviesColumns.HOST_ID +
-						"," + MoviesColumns.ID +
-						"," + MoviesColumns.TITLE +
-						"," + MoviesColumns.YEAR +
-						"," + MoviesColumns.GENRE +
-						"," + MoviesColumns.RATING +
-						"," + MoviesColumns.RUNTIME +
-						"," + MoviesColumns.THUMBNAIL +
-						") VALUES " + "(?,?,?,?,?,?,?,?,?)");
-
-					final long now = System.currentTimeMillis();
-
-					for (ContentValues value : values) {
-						insert.bindLong(1, now);
-						insert.bindLong(2, getHostId());
-						DBUtils.bind(insert, value, 3, Movies.ID);
-						DBUtils.bind(insert, value, 4, Movies.TITLE);
-						DBUtils.bind(insert, value, 5, Movies.YEAR);
-						DBUtils.bind(insert, value, 6, Movies.GENRE);
-						DBUtils.bind(insert, value, 7, Movies.RATING);
-						DBUtils.bind(insert, value, 8, Movies.RUNTIME);
-						DBUtils.bind(insert, value, 9, Movies.THUMBNAIL);
-						insert.executeInsert();
-					}
-					db.setTransactionSuccessful();
-					numInserted = values.length;
-
-				} finally {
-					db.endTransaction();
-					getContext().getContentResolver().notifyChange(uri, null);
-				}
-				return numInserted;
-			}
-
-			case MOVIECAST: {
-				int numInserted = 0;
-				db.beginTransaction();
-				try {
-
-					// insert new rows into table
-					// standard SQL insert statement, that can be reused
-					final SQLiteStatement insert = db.compileStatement(
-						"INSERT INTO " + VideoDatabase.Tables.PEOPLE_MOVIECAST +
-						"(" + MoviesCastColumns.MOVIE_REF +
-						"," + MoviesCastColumns.PERSON_REF +
-						"," + MoviesCastColumns.ROLE +
-						"," + MoviesCastColumns.SORT +
-						") VALUES " + "(?,?,?,?)");
-
-					for (ContentValues value : values) {
-						insert.bindLong(1, value.getAsInteger(MovieCast.MOVIE_REF));
-						insert.bindLong(2, value.getAsInteger(MovieCast.PERSON_REF));
-						insert.bindString(3, value.getAsString(MovieCast.ROLE));
-						insert.bindLong(4, value.getAsInteger(MovieCast.SORT));
-						insert.executeInsert();
-					}
-					db.setTransactionSuccessful();
-					numInserted = values.length;
-
-				} finally {
-					db.endTransaction();
-					getContext().getContentResolver().notifyChange(uri, null);
-				}
-				return numInserted;
-			}
-			default:
-				throw new UnsupportedOperationException("unsupported uri: " + uri);
+		final int numInserted;
+		db.beginTransaction();
+		try {
+			numInserted = super.bulkInsert(uri, values);
+			db.setTransactionSuccessful();
+		} finally {
+			db.endTransaction();
+			getContext().getContentResolver().notifyChange(uri, null);
 		}
+		return numInserted;
 	}
 
 }

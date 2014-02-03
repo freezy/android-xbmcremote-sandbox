@@ -89,16 +89,16 @@ public class SyncService extends Service implements OnSyncedListener {
 		bus.post(new DataSync(DataSync.STARTED));
 		synchronized (items) {
 			if (intent.hasExtra(EXTRA_SYNC_MUSIC)) {
-				items.add(new SyncItem("Artists", DataItemSynced.ARTISTS, new AudioLibrary.GetArtists(), new ArtistHandler(), this));
+				items.add(new SyncItem("Artists", DataItemSynced.ARTISTS, new AudioLibrary.GetArtists(), new ArtistHandler(hostId), this));
 				items.add(new SyncItem("Albums", DataItemSynced.ALBUMS, new AudioLibrary.GetAlbums(
 						AlbumFields.TITLE, AlbumFields.ARTISTID, AlbumFields.YEAR, AlbumFields.THUMBNAIL
-				), new AlbumHandler(), this));
+				), new AlbumHandler(hostId), this));
 			}
 			if (intent.hasExtra(EXTRA_SYNC_MOVIES)) {
 				items.add(new SyncItem("Movies", DataItemSynced.MOVIES, new VideoLibrary.GetMovies(
 						MovieFields.TITLE, MovieFields.THUMBNAIL, MovieFields.YEAR, MovieFields.RATING,
 						MovieFields.GENRE, MovieFields.RUNTIME
-				), new MovieHandler(), fetchMovieDetails));
+				), new MovieHandler(hostId), fetchMovieDetails));
 			}
 		}
 
@@ -122,7 +122,7 @@ public class SyncService extends Service implements OnSyncedListener {
 			if (moviesCursor.moveToNext()) {
 				items.add(new SyncItem("Movie Details for \"" + moviesCursor.getString(MoviesQuery.TITLE) + "\"", DataItemSynced.MOVIES,
 						new VideoLibrary.GetMovieDetails(moviesCursor.getInt(MoviesQuery.ID), MovieFields.CAST, MovieFields.DIRECTOR),
-						new MovieDetailsHandler(moviesCursor.getInt(MoviesQuery._ID), hostId),
+						new MovieDetailsHandler(hostId, moviesCursor.getInt(MoviesQuery._ID)),
 						this
 				));
 			} else {

@@ -46,7 +46,7 @@ public class VideoDatabase extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "video.db";
 
-	private static final int VER_LAUNCH = 9;
+	private static final int VER_LAUNCH = 10;
 	private static final int DATABASE_VERSION = VER_LAUNCH;
 
 	public interface Tables {
@@ -82,19 +82,33 @@ public class VideoDatabase extends SQLiteOpenHelper {
 			+ MoviesColumns.UPDATED + " INTEGER NOT NULL,"
 			+ MoviesColumns.HOST_ID + " INTEGER NOT NULL,"
 			+ MoviesColumns.TITLE + " TEXT,"
+			+ MoviesColumns.SORTTITLE + " TEXT,"
 			+ MoviesColumns.YEAR + " TEXT,"
-			+ MoviesColumns.GENRE + " TEXT,"
 			+ MoviesColumns.RATING + " TEXT,"
-			+ MoviesColumns.RUNTIME + " TEXT,"
+			+ MoviesColumns.VOTES + " INTEGER,"
+			+ MoviesColumns.RUNTIME + " INTEGER,"
+			+ MoviesColumns.TAGLINE + " TEXT,"
+			+ MoviesColumns.PLOT + " TEXT,"
+			+ MoviesColumns.MPAA + " TEXT,"
+			+ MoviesColumns.IMDBNUMBER + " TEXT,"
+			+ MoviesColumns.SETID + " INTEGER,"
+			+ MoviesColumns.TRAILER + " TEXT,"
+			+ MoviesColumns.COUNTRY + " TEXT,"
+			+ MoviesColumns.TOP250 + " INTEGER,"
 			+ MoviesColumns.THUMBNAIL + " TEXT,"
-			+ "UNIQUE (" + MoviesColumns.ID + ") ON CONFLICT REPLACE)");
+			+ MoviesColumns.FANART + " TEXT,"
+			+ MoviesColumns.FILE + " TEXT,"
+			+ MoviesColumns.RESUME + " INTEGER,"
+			+ MoviesColumns.DATEADDED + " INTEGER,"
+			+ MoviesColumns.LASTPLAYED + " INTEGER,"
+			+ "UNIQUE (" + MoviesColumns.HOST_ID + ", " + MoviesColumns.ID + ") ON CONFLICT REPLACE)");
 
 		db.execSQL("CREATE TABLE " + Tables.PEOPLE + " ("
 			+ BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ PeopleColumns.HOST_ID + " INTEGER NOT NULL,"
 			+ PeopleColumns.NAME + " TEXT,"
 			+ PeopleColumns.THUMBNAIL + " TEXT,"
-			+ "UNIQUE (" + PeopleColumns.NAME + ") ON CONFLICT REPLACE)");
+			+ "UNIQUE (" + PeopleColumns.HOST_ID + ", " + PeopleColumns.NAME + ") ON CONFLICT REPLACE)");
 
 		db.execSQL("CREATE TABLE " + Tables.PEOPLE_MOVIECAST + " ("
 			+ MoviesCastColumns.MOVIE_REF + " INTEGER " + References.MOVIES_ID + ", "
