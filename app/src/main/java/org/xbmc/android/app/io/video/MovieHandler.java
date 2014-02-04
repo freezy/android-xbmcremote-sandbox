@@ -92,6 +92,8 @@ public class MovieHandler extends JsonHandler {
 			batch[i].put(Movies.RESUME, DBUtils.getIntValue(movie, MovieDetail.RESUME));
 			batch[i].put(Movies.DATEADDED, DBUtils.getDateValue(movie, MovieDetail.DATEADDED));
 			batch[i].put(Movies.LASTPLAYED, DBUtils.getDateValue(movie, MovieDetail.LASTPLAYED));
+
+			batch[i].put(Movies.GENRES, DBUtils.getArrayValue(movie, MovieDetail.GENRE, ", "));
 		}
 
 		Log.d(TAG, batch.length + " movie queries built in " + (System.currentTimeMillis() - now) + "ms.");

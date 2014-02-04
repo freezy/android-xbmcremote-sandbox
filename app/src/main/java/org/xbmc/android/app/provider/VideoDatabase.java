@@ -45,7 +45,7 @@ public class VideoDatabase extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "video.db";
 
-	private static final int VER_LAUNCH = 14;
+	private static final int VER_LAUNCH = 15;
 	private static final int DATABASE_VERSION = VER_LAUNCH;
 
 	public interface Tables {
@@ -102,6 +102,7 @@ public class VideoDatabase extends SQLiteOpenHelper {
 			+ MoviesColumns.VOTES + " INTEGER, "
 			+ MoviesColumns.RUNTIME + " INTEGER, "
 			+ MoviesColumns.TAGLINE + " TEXT, "
+			+ MoviesColumns.GENRES + " TEXT, "
 			+ MoviesColumns.PLOT + " TEXT, "
 			+ MoviesColumns.MPAA + " TEXT, "
 			+ MoviesColumns.IMDBNUMBER + " TEXT, "

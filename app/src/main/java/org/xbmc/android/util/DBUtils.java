@@ -3,6 +3,8 @@ package org.xbmc.android.util;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 
 import java.text.ParseException;
@@ -88,6 +90,22 @@ public class DBUtils {
 			Log.w(TAG, "Cannot parse date \"" + node.get(attr).getTextValue() + "\"");
 		}
 		return null;
+	}
+
+	public static String getArrayValue(ObjectNode node, String attr, String separator) {
+		if (!node.has(attr)) {
+			return null;
+		}
+		final ArrayNode arr = (ArrayNode)node.get(attr);
+		if (arr.size() == 0) {
+			return null;
+		}
+		final StringBuilder sb = new StringBuilder();
+		for (JsonNode item : arr) {
+			sb.append(item.getTextValue());
+			sb.append(separator);
+		}
+		return sb.toString().substring(0, sb.length() - separator.length());
 	}
 
 	public static String[] args(long... args) {

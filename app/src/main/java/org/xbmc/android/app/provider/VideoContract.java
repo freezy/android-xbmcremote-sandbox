@@ -100,6 +100,9 @@ public class VideoContract {
 		final String DATEADDED = PREFIX + "dateadded";
 		final String LASTPLAYED = PREFIX + "lastplayed";
 		final String UPDATED = PREFIX + SyncColumns.UPDATED;
+
+		final String GENRES = PREFIX + "genres";
+
 	}
 
 	/**
