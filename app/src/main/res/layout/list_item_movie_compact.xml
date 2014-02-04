@@ -27,6 +27,7 @@
 				android:layout_alignParentTop="true"
 				android:adjustViewBounds="true"
 				android:scaleType="centerCrop"
+				android:src="@drawable/gray"
 				android:contentDescription="Poster" />
 
 	</RelativeLayout>
@@ -45,7 +46,9 @@
 			android:textSize="14sp"
 			android:fontFamily="sans-serif-light"
 			android:maxLines="2"
-			android:ellipsize="end" />
+			android:ellipsize="end"
+			android:lines="2"
+			android:layout_toLeftOf="@+id/optionButton"/>
 
 	<TextView
 			android:text="title_genre"
@@ -61,6 +64,19 @@
 			android:textSize="14sp"
 			android:fontFamily="sans-serif-light"
 			android:maxLines="1"
-			android:ellipsize="end"/>
+			android:ellipsize="end"
+			android:lines="1"
+			android:longClickable="false"/>
+
+	<ImageButton
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/optionButton"
+			android:background="@android:color/transparent"
+			android:cropToPadding="false"
+			android:layout_below="@+id/thumb_wrapper"
+			android:layout_alignParentRight="true"
+			android:layout_alignParentEnd="true"
+			android:paddingTop="8dp"/>
 
 </RelativeLayout>

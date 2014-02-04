@@ -115,6 +115,7 @@
 	<string name="ic_picture">\u0029</string>
 	<string name="ic_addon">\u002f</string>
 	<string name="ic_computer">\u0030</string>
+	<string name="ic_overlay">\u0032</string>
 
 	<string name="ic_star_25">\u0025</string>
 	<string name="ic_star_50">\u0024</string>

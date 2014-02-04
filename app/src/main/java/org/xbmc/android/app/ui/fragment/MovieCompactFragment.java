@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.ButterKnife;
@@ -26,6 +27,7 @@ import org.xbmc.android.app.injection.Injector;
 import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.app.provider.VideoContract;
 import org.xbmc.android.app.provider.VideoDatabase;
+import org.xbmc.android.app.ui.IconHelper;
 import org.xbmc.android.remotesandbox.R;
 
 import javax.inject.Inject;
@@ -131,7 +133,9 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 		/** {@inheritDoc} */
 		@Override
 		public View newView(Context context, Cursor cursor, ViewGroup parent) {
-			return getActivity().getLayoutInflater().inflate(R.layout.list_item_movie_compact, parent, false);
+			final View view = getActivity().getLayoutInflater().inflate(R.layout.list_item_movie_compact, parent, false);
+			((ImageButton)view.findViewById(R.id.optionButton)).setImageDrawable(IconHelper.getDrawable(getActivity(), R.string.ic_overlay, 20f, R.color.light_secondry_text));
+			return view;
 		}
 
 		/** {@inheritDoc} */
@@ -152,7 +156,7 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 			}
 
 			titleView.setText(cursor.getString(MoviesQuery.TITLE));
-			//subtitleView.setText(cursor.getString(MoviesQuery.GENRE));
+			subtitleView.setText(cursor.getString(MoviesQuery.GENRES));
 		}
 	}
 
@@ -166,13 +170,15 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 				VideoDatabase.Tables.MOVIES + "." + BaseColumns._ID,
 				VideoContract.Movies.ID,
 				VideoContract.Movies.TITLE,
+				VideoContract.Movies.GENRES,
 				VideoContract.Movies.THUMBNAIL
 		};
 
 		//final int _ID = 0;
 		final int ID = 1;
 		final int TITLE = 2;
-		final int THUMBNAIL = 3;
+		final int GENRES = 3;
+		final int THUMBNAIL = 4;
 	}
 
 }

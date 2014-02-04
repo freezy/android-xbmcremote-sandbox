@@ -19,12 +19,19 @@ public class IconHelper {
 		return symbols;
 	}
 
-	public static Drawable getDrawable(Context context, int symbol) {
+	public static Drawable getDrawable(Context context, int symbol, float size, int color) {
 		final TextDrawable d = new TextDrawable(context);
 		d.setText(context.getResources().getString(symbol));
 		d.setTypeface(getTypeface(context));
-		d.setTextSize(48f);
+		d.setTextSize(size);
+		if (color != 0) {
+			d.setTextColor(color);
+		}
 		return d;
+	}
+
+	public static Drawable getDrawable(Context context, int symbol) {
+		return getDrawable(context, symbol, 48f, 0);
 	}
 
 }
