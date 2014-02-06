@@ -102,7 +102,15 @@ public class VideoContract {
 		final String UPDATED = PREFIX + SyncColumns.UPDATED;
 
 		final String GENRES = PREFIX + "genres";
-
+		final String SUBTITLES = PREFIX + "subtitles";
+		final String VIDEO_WIDTH = PREFIX + "video_width";
+		final String VIDEO_CODEC = PREFIX + "video_codec";
+		final String VIDEO_DURATION = PREFIX + "video_duration";
+		final String VIDEO_ASPECT = PREFIX + "video_aspect";
+		final String VIDEO_STEREOMODE = PREFIX + "video_stereomode";
+		final String AUDIO_CHANNELS = PREFIX + "audio_channels";
+		final String AUDIO_CODEC = PREFIX + "audio_codec";
+		final String AUDIO_LANGUAGES = PREFIX + "audio_languages";
 	}
 
 	/**

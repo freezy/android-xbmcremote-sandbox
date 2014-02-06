@@ -31,9 +31,13 @@ import org.codehaus.jackson.node.ObjectNode;
 import org.xbmc.android.app.provider.VideoContract;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.call.VideoLibrary;
+import org.xbmc.android.jsonrpc.api.model.VideoModel;
 import org.xbmc.android.jsonrpc.api.model.VideoModel.MovieDetail;
 import org.xbmc.android.jsonrpc.io.JsonHandler;
 import org.xbmc.android.util.DBUtils;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.xbmc.android.app.provider.VideoContract.Movies;
 
@@ -93,7 +97,70 @@ public class MovieHandler extends JsonHandler {
 			batch[i].put(Movies.DATEADDED, DBUtils.getDateValue(movie, MovieDetail.DATEADDED));
 			batch[i].put(Movies.LASTPLAYED, DBUtils.getDateValue(movie, MovieDetail.LASTPLAYED));
 
+			// arrays
 			batch[i].put(Movies.GENRES, DBUtils.getArrayValue(movie, MovieDetail.GENRE, ", "));
+
+			// stream details
+			if (movie.has(MovieDetail.STREAMDETAILS)) {
+				final JsonNode stream = movie.get(MovieDetail.STREAMDETAILS);
+
+				// audio
+				if (stream.has(VideoModel.Streams.AUDIO)) {
+					int numChans = 0;
+					final ArrayNode audio = (ArrayNode)stream.get(VideoModel.Streams.AUDIO);
+					JsonNode bestStream = null;
+					final Set<String> lang = new HashSet<String>();
+					for (JsonNode audioStream : audio) {
+
+						if (audioStream.has(VideoModel.Streams.Audio.CHANNELS) && numChans < audioStream.get(VideoModel.Streams.Audio.CHANNELS).getValueAsInt()) {
+							bestStream = audioStream;
+						}
+						if (audioStream.has(VideoModel.Streams.Audio.LANGUAGE)) {
+							lang.add(audioStream.get(VideoModel.Streams.Audio.LANGUAGE).getTextValue());
+						}
+					}
+					if (bestStream != null) {
+						batch[i].put(Movies.AUDIO_CHANNELS, bestStream.get(VideoModel.Streams.Audio.CHANNELS).getIntValue());
+						batch[i].put(Movies.AUDIO_CODEC, bestStream.get(VideoModel.Streams.Audio.CODEC).getTextValue());
+					}
+					if (!lang.isEmpty()) {
+						final StringBuilder langs = new StringBuilder();
+						for (String l : lang) {
+							langs.append(l).append(",");
+						}
+						batch[i].put(Movies.AUDIO_LANGUAGES, langs.substring(0, langs.length() - 1));
+					}
+				}
+
+				// video
+				if (stream.has(VideoModel.Streams.VIDEO)) {
+					final ArrayNode videoStreams = (ArrayNode)stream.get(VideoModel.Streams.VIDEO);
+					if (videoStreams.size() > 0) {
+						final ObjectNode video = (ObjectNode) videoStreams.get(0);
+						batch[i].put(Movies.VIDEO_WIDTH, DBUtils.getIntValue(video, VideoModel.Streams.Video.WIDTH));
+						batch[i].put(Movies.VIDEO_CODEC, DBUtils.getStringValue(video, VideoModel.Streams.Video.CODEC));
+						batch[i].put(Movies.VIDEO_DURATION, DBUtils.getIntValue(video, VideoModel.Streams.Video.DURATION));
+						batch[i].put(Movies.VIDEO_ASPECT, DBUtils.getDoubleValue(video, VideoModel.Streams.Video.ASPECT));
+						batch[i].put(Movies.VIDEO_STEREOMODE, DBUtils.getStringValue(video, "stereomode"));
+					}
+				}
+
+				// subs
+				if (stream.has(VideoModel.Streams.SUBTITLE)) {
+					final ArrayNode subtitleStreams = (ArrayNode)stream.get(VideoModel.Streams.SUBTITLE);
+					final Set<String> subs = new HashSet<String>();
+					for (JsonNode subtitleStream : subtitleStreams) {
+						subs.add(subtitleStream.get(VideoModel.Streams.Subtitle.LANGUAGE).getTextValue());
+					}
+					if (!subs.isEmpty()) {
+						final StringBuilder langs = new StringBuilder();
+						for (String l : subs) {
+							langs.append(l).append(",");
+						}
+						batch[i].put(Movies.SUBTITLES, langs.substring(0, langs.length() - 1));
+					}
+				}
+			}
 		}
 
 		Log.d(TAG, batch.length + " movie queries built in " + (System.currentTimeMillis() - now) + "ms.");

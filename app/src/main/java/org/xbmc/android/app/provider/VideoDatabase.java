@@ -45,7 +45,7 @@ public class VideoDatabase extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "video.db";
 
-	private static final int VER_LAUNCH = 15;
+	private static final int VER_LAUNCH = 16;
 	private static final int DATABASE_VERSION = VER_LAUNCH;
 
 	public interface Tables {
@@ -115,6 +115,17 @@ public class VideoDatabase extends SQLiteOpenHelper {
 			+ MoviesColumns.RESUME + " INTEGER, "
 			+ MoviesColumns.DATEADDED + " INTEGER, "
 			+ MoviesColumns.LASTPLAYED + " INTEGER, "
+
+			+ MoviesColumns.SUBTITLES + " TEXT, "
+			+ MoviesColumns.VIDEO_WIDTH + " INTEGER, "
+			+ MoviesColumns.VIDEO_CODEC + " TEXT, "
+			+ MoviesColumns.VIDEO_ASPECT + " REAL, "
+			+ MoviesColumns.VIDEO_STEREOMODE + " TEXT, "
+			+ MoviesColumns.VIDEO_DURATION + " INTEGER, "
+			+ MoviesColumns.AUDIO_CHANNELS + " INTEGER, "
+			+ MoviesColumns.AUDIO_CODEC + " TEXT, "
+			+ MoviesColumns.AUDIO_LANGUAGES + " TEXT, "
+
 			+ "UNIQUE (" + MoviesColumns.HOST_ID + ", " + MoviesColumns.ID + ") ON CONFLICT REPLACE)");
 
 		// people

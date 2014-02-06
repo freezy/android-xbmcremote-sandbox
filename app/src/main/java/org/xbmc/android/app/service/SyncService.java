@@ -101,7 +101,7 @@ public class SyncService extends Service implements OnSyncedListener {
 						MovieFields.PLOT, MovieFields.MPAA, MovieFields.IMDBNUMBER, MovieFields.SETID,
 						MovieFields.TRAILER, MovieFields.COUNTRY, MovieFields.TOP250, MovieFields.FANART,
 						MovieFields.FILE, MovieFields.RESUME, MovieFields.DATEADDED, MovieFields.LASTPLAYED,
-						MovieFields.GENRE
+						MovieFields.GENRE, MovieFields.STREAMDETAILS
 				), new MovieHandler(hostId), fetchMovieDetails));
 			}
 		}
