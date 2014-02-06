@@ -72,7 +72,7 @@ public class NavigationDrawerFragment extends Fragment {
 		groups.add(new Group("Home", R.string.ic_home));
 		groups.add(new Group("Music", R.string.ic_music, new Child("Albums"), new Child("Artists"), new Child("Genres")));
 		groups.add(new Group("Movies", R.string.ic_movie, new Child("Sets"), new Child("Genres"), new Child("Actors"), new Child("Recently Added")));
-		groups.add(new Group("TV Shows", R.string.ic_tv, new Child("Title"), new Child("Genres"), new Child("Years"), new Child("Recently Added")));
+		groups.add(new Group("TV Shows", R.string.ic_dock, new Child("Title"), new Child("Genres"), new Child("Years"), new Child("Recently Added")));
 		groups.add(new Group("Pictures", R.string.ic_picture));
 		groups.add(new Group("Addons", R.string.ic_addon, new Intent(getActivity(), WizardActivity.class)));
 

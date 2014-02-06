@@ -134,7 +134,7 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 		@Override
 		public View newView(Context context, Cursor cursor, ViewGroup parent) {
 			final View view = getActivity().getLayoutInflater().inflate(R.layout.list_item_movie_compact, parent, false);
-			((ImageButton)view.findViewById(R.id.optionButton)).setImageDrawable(IconHelper.getDrawable(getActivity(), R.string.ic_overlay, 20f, R.color.light_secondry_text));
+			((ImageButton)view.findViewById(R.id.optionButton)).setImageDrawable(IconHelper.getDrawable(getActivity(), R.string.ic_overflow, 20f, R.color.light_secondry_text));
 			return view;
 		}
 
