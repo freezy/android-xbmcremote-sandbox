@@ -45,7 +45,7 @@ public class VideoDatabase extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "video.db";
 
-	private static final int VER_LAUNCH = 16;
+	private static final int VER_LAUNCH = 18;
 	private static final int DATABASE_VERSION = VER_LAUNCH;
 
 	public interface Tables {
