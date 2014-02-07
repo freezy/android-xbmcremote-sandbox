@@ -147,6 +147,16 @@ public class VideoContract {
 	}
 
 	/**
+	 * Constants for movie writor columns.
+	 * @author freezy <freezy@xbmc.org>
+	 */
+	interface MovieWriterColumns {
+		final static String PREFIX = "person_writer_";
+		final String MOVIE_REF = PREFIX + MoviesColumns.PREFIX + "id";
+		final String PERSON_REF = PREFIX + PeopleColumns.PREFIX + "id";
+	}
+
+	/**
 	 * Constants for genre columns.
 	 * @author freezy <freezy@xbmc.org>
 	 */

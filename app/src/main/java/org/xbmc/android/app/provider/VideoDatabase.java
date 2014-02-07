@@ -53,7 +53,8 @@ public class VideoDatabase extends SQLiteOpenHelper {
 		final String MOVIES = "movies";
 		final String PEOPLE = "people";
 		final String PEOPLE_MOVIE_CAST = PEOPLE + "_movie_cast";
-		final String PEOPLE_MOVIE_DIRECTOR = PEOPLE + "_movie_director";
+		final String PEOPLE_MOVIE_DIRECTOR = PEOPLE + "_movie_directors";
+		final String PEOPLE_MOVIE_WRITER = PEOPLE + "_movie_writers";
 		final String GENRES = "genres";
 		final String GENRES_MOVIE = GENRES + "_movie";
 	}
@@ -75,6 +76,11 @@ public class VideoDatabase extends SQLiteOpenHelper {
 				" ON " + Tables.PEOPLE_MOVIE_DIRECTOR + "(" + MovieDirectorColumns.MOVIE_REF + ")";
 		final String PEOPLE_DIRECTOR_PERSON_REF = Tables.PEOPLE_MOVIE_DIRECTOR + "_" + MovieDirectorColumns.PERSON_REF +
 				" ON " + Tables.PEOPLE_MOVIE_DIRECTOR + "(" + MovieDirectorColumns.PERSON_REF + ")";
+
+		final String PEOPLE_WRITER_MOVIE_REF = Tables.PEOPLE_MOVIE_WRITER + "_" + MovieWriterColumns.MOVIE_REF +
+				" ON " + Tables.PEOPLE_MOVIE_WRITER + "(" + MovieWriterColumns.MOVIE_REF + ")";
+		final String PEOPLE_WRITER_PERSON_REF = Tables.PEOPLE_MOVIE_WRITER + "_" + MovieWriterColumns.PERSON_REF +
+				" ON " + Tables.PEOPLE_MOVIE_WRITER + "(" + MovieWriterColumns.PERSON_REF + ")";
 
 		final String GENRE_MOVIE_MOVIE_REF = Tables.GENRES_MOVIE + "_" + MovieGenreColumns.MOVIE_REF +
 				" ON " + Tables.GENRES_MOVIE + "(" + MovieGenreColumns.MOVIE_REF + ")";
@@ -188,6 +194,7 @@ public class VideoDatabase extends SQLiteOpenHelper {
 			db.execSQL("DROP TABLE IF EXISTS " + Tables.PEOPLE);
 			db.execSQL("DROP TABLE IF EXISTS " + Tables.PEOPLE_MOVIE_CAST);
 			db.execSQL("DROP TABLE IF EXISTS " + Tables.PEOPLE_MOVIE_DIRECTOR);
+			db.execSQL("DROP TABLE IF EXISTS " + Tables.PEOPLE_MOVIE_WRITER);
 			db.execSQL("DROP TABLE IF EXISTS " + Tables.GENRES);
 			db.execSQL("DROP TABLE IF EXISTS " + Tables.GENRES_MOVIE);
 			onCreate(db);
