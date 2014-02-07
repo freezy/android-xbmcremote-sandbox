@@ -160,6 +160,14 @@ public class VideoDatabase extends SQLiteOpenHelper {
 		db.execSQL("CREATE INDEX " + Indexes.PEOPLE_DIRECTOR_MOVIE_REF);
 		db.execSQL("CREATE INDEX " + Indexes.PEOPLE_DIRECTOR_PERSON_REF);
 
+		// people <-> movie writer
+		db.execSQL("CREATE TABLE " + Tables.PEOPLE_MOVIE_WRITER + " ("
+			+ MovieWriterColumns.MOVIE_REF + " INTEGER " + References.MOVIES_ID + ", "
+			+ MovieWriterColumns.PERSON_REF + " INTEGER " + References.PEOPLE_ID + ", "
+			+ "UNIQUE (" + MovieWriterColumns.MOVIE_REF + ", " + MovieWriterColumns.PERSON_REF + ") ON CONFLICT REPLACE)");
+		db.execSQL("CREATE INDEX " + Indexes.PEOPLE_WRITER_MOVIE_REF);
+		db.execSQL("CREATE INDEX " + Indexes.PEOPLE_WRITER_PERSON_REF);
+
 		// genres
 		db.execSQL("CREATE TABLE " + Tables.GENRES + " ("
 			+ BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "

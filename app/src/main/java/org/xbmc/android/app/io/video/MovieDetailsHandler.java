@@ -37,6 +37,7 @@ import org.xbmc.android.jsonrpc.api.model.VideoModel;
 import org.xbmc.android.jsonrpc.io.JsonHandler;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 import static org.xbmc.android.jsonrpc.api.model.VideoModel.MovieDetail;
 
@@ -52,6 +53,11 @@ public class MovieDetailsHandler extends JsonHandler {
 
 	private static HashMap<String, Integer> PEOPLE_CACHE;
 	private static HashMap<String, Integer> GENRE_CACHE;
+	/**
+	 * Directors and writers don't have thumbs - need to know when to update a person that hasn't a thumbnail
+	 * and might was added by director/writer and not via actor.
+	 */
+	private static HashSet<Integer> THUMB_CACHE;
 
 	private final int id;
 	private final int hostId;
@@ -65,6 +71,7 @@ public class MovieDetailsHandler extends JsonHandler {
 	public static void initCache() {
 		PEOPLE_CACHE = null;
 		GENRE_CACHE = null;
+		THUMB_CACHE = null;
 	}
 
 	@Override
@@ -74,10 +81,15 @@ public class MovieDetailsHandler extends JsonHandler {
 		 */
 		if (PEOPLE_CACHE == null) {
 			PEOPLE_CACHE = new HashMap<String, Integer>();
-			final String[] model = { BaseColumns._ID, VideoContract.People.NAME };
+			THUMB_CACHE = new HashSet<Integer>();
+			final String[] model = { BaseColumns._ID, VideoContract.People.NAME, VideoContract.People.THUMBNAIL };
 			final Cursor cursor = resolver.query(VideoContract.People.CONTENT_URI, model, null, null, null);
 			while (cursor.moveToNext()) {
-				PEOPLE_CACHE.put(cursor.getString(1), cursor.getInt(0));
+				final int id = cursor.getInt(0);
+				PEOPLE_CACHE.put(cursor.getString(1), id);
+				if (cursor.getString(2) != null) {
+					THUMB_CACHE.add(id);
+				}
 			}
 		}
 		// put genres into cache
@@ -128,6 +140,13 @@ public class MovieDetailsHandler extends JsonHandler {
 			i++;
 		}
 
+		/* DIRECTORS
+		 */
+		final ArrayNode directors = (ArrayNode)movie.get(MovieDetail.DIRECTOR);
+		for (JsonNode director : directors) {
+
+		}
+
 		/* GENRES
 		 */
 		final ArrayNode genres = (ArrayNode)movie.get(MovieDetail.GENRE);
@@ -151,6 +170,32 @@ public class MovieDetailsHandler extends JsonHandler {
 			resolver.insert(VideoContract.MovieGenres.CONTENT_URI, row);
 		}
 		return batch;
+	}
+
+	private int getPerson(ContentResolver resolver, String name, JsonNode person) {
+		final int personRef;
+		if (PEOPLE_CACHE.containsKey(name)) {
+			personRef = PEOPLE_CACHE.get(name);
+
+			if (person != null && person.has(VideoModel.Cast.THUMBNAIL) && !THUMB_CACHE.contains(personRef)) {
+				final ContentValues row = new ContentValues();
+				row.put(VideoContract.People.THUMBNAIL, person.get(VideoModel.Cast.THUMBNAIL).getTextValue());
+				final String[] args = { String.valueOf(personRef) };
+				resolver.update(VideoContract.People.CONTENT_URI, row, BaseColumns._ID + "=?", args);
+			}
+		} else {
+			final ContentValues row = new ContentValues();
+			row.put(VideoContract.People.HOST_ID, hostId);
+			row.put(VideoContract.People.NAME, name);
+			if (person != null && person.has(VideoModel.Cast.THUMBNAIL)) {
+				row.put(VideoContract.People.THUMBNAIL, person.get(VideoModel.Cast.THUMBNAIL).getTextValue());
+			}
+
+			final Uri newPersonUri = resolver.insert(VideoContract.People.CONTENT_URI, row);
+			personRef = VideoContract.People.getPersonId(newPersonUri);
+			PEOPLE_CACHE.put(name, personRef);
+		}
+		return personRef;
 	}
 
 	@Override
