@@ -101,9 +101,7 @@ public class MovieDetailsHandler extends JsonHandler {
 				GENRE_CACHE.put(cursor.getString(1), cursor.getInt(0));
 			}
 		}
-
 		// retrieve object
-		final long now = System.currentTimeMillis();
 		final ObjectNode movie = (ObjectNode)response.get(AbstractCall.RESULT).get(VideoLibrary.GetMovieDetails.RESULT);
 
 		/* CAST
@@ -116,25 +114,9 @@ public class MovieDetailsHandler extends JsonHandler {
 			if (name.isEmpty()) {
 				continue;
 			}
-			final int actorRef;
-			if (PEOPLE_CACHE.containsKey(name)) {
-				actorRef = PEOPLE_CACHE.get(name);
-			} else {
-				final ContentValues row = new ContentValues();
-				row.put(VideoContract.People.HOST_ID, hostId);
-				row.put(VideoContract.People.NAME, name);
-				if (actor.has(VideoModel.Cast.THUMBNAIL)) {
-					row.put(VideoContract.People.THUMBNAIL, actor.get(VideoModel.Cast.THUMBNAIL).getTextValue());
-				}
-
-				final Uri newPersonUri = resolver.insert(VideoContract.People.CONTENT_URI, row);
-				actorRef = VideoContract.People.getPersonId(newPersonUri);
-				PEOPLE_CACHE.put(name, actorRef);
-			}
-
 			batch[i] = new ContentValues();
 			batch[i].put(VideoContract.MovieCast.MOVIE_REF, id);
-			batch[i].put(VideoContract.MovieCast.PERSON_REF, actorRef);
+			batch[i].put(VideoContract.MovieCast.PERSON_REF, getPerson(resolver, name, actor));
 			batch[i].put(VideoContract.MovieCast.ROLE, actor.get(VideoModel.Cast.ROLE).getTextValue());
 			batch[i].put(VideoContract.MovieCast.SORT, actor.get(VideoModel.Cast.ORDER).getIntValue());
 			i++;
@@ -143,8 +125,25 @@ public class MovieDetailsHandler extends JsonHandler {
 		/* DIRECTORS
 		 */
 		final ArrayNode directors = (ArrayNode)movie.get(MovieDetail.DIRECTOR);
-		for (JsonNode director : directors) {
+		if (directors != null) {
+			for (JsonNode director : directors) {
+				final ContentValues row = new ContentValues();
+				row.put(VideoContract.MovieDirector.MOVIE_REF, id);
+				row.put(VideoContract.MovieDirector.PERSON_REF, getPerson(resolver, director.getTextValue()));
+				resolver.insert(VideoContract.MovieDirector.CONTENT_URI, row);
+			}
+		}
 
+		/* WRITERS
+		 */
+		final ArrayNode writers = (ArrayNode)movie.get(MovieDetail.WRITER);
+		if (writers != null) {
+			for (JsonNode writer : writers) {
+				final ContentValues row = new ContentValues();
+				row.put(VideoContract.MovieWriter.MOVIE_REF, id);
+				row.put(VideoContract.MovieWriter.PERSON_REF, getPerson(resolver, writer.getTextValue()));
+				resolver.insert(VideoContract.MovieWriter.CONTENT_URI, row);
+			}
 		}
 
 		/* GENRES
@@ -172,11 +171,27 @@ public class MovieDetailsHandler extends JsonHandler {
 		return batch;
 	}
 
+
+	/**
+	 * Returns the ID of a person with a given name.
+	 *
+	 * Firstly, the cache is checked. If miss, it's added to the database and the ID is returned.
+	 * If the "person" parameter is passed and the current record doesn't contain a thumbnail (but the
+	 * "person" node does), the current record is updated with the thumbnail. This can happen if
+	 * a record is added for a director (which doesn't contain any more data) and only later is checked
+	 * for a cast node (which does contain the thumb).
+	 *
+	 * @param resolver Content resolver
+	 * @param name Name of the person
+	 * @param person If cast, the node that contains additional metadata. Can be null.
+	 * @return Database ID of the person
+	 */
 	private int getPerson(ContentResolver resolver, String name, JsonNode person) {
 		final int personRef;
 		if (PEOPLE_CACHE.containsKey(name)) {
 			personRef = PEOPLE_CACHE.get(name);
 
+			// update thumb if necessary
 			if (person != null && person.has(VideoModel.Cast.THUMBNAIL) && !THUMB_CACHE.contains(personRef)) {
 				final ContentValues row = new ContentValues();
 				row.put(VideoContract.People.THUMBNAIL, person.get(VideoModel.Cast.THUMBNAIL).getTextValue());
@@ -196,6 +211,16 @@ public class MovieDetailsHandler extends JsonHandler {
 			PEOPLE_CACHE.put(name, personRef);
 		}
 		return personRef;
+	}
+
+	/**
+	 * Returns the ID of a person with a given name. If not in the database, the person will be added.
+	 * @param resolver Content
+	 * @param name Name of the person
+	 * @return Database ID of the person
+	 */
+	private int getPerson(ContentResolver resolver, String name) {
+		return getPerson(resolver, name, null);
 	}
 
 	@Override

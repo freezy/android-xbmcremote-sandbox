@@ -56,6 +56,8 @@ public class VideoProvider extends AbstractProvider {
 	private static final int PEOPLE = 200;
 	private static final int PERSON_ID = 201;
 	private static final int MOVIECAST = 210;
+	private static final int MOVIEDIRECTOR = 220;
+	private static final int MOVIEWRITER = 230;
 	private static final int GENRES = 300;
 	private static final int MOVIEGENRES = 310;
 
@@ -72,6 +74,8 @@ public class VideoProvider extends AbstractProvider {
 		matcher.addURI(authority, VideoContract.PATH_PEOPLE, PEOPLE);
 		matcher.addURI(authority, VideoContract.PATH_PEOPLE + "/*", PERSON_ID);
 		matcher.addURI(authority, VideoContract.PATH_MOVIECAST, MOVIECAST);
+		matcher.addURI(authority, VideoContract.PATH_MOVIEDIRECTOR, MOVIEDIRECTOR);
+		matcher.addURI(authority, VideoContract.PATH_MOVIEWRITER, MOVIEWRITER);
 		matcher.addURI(authority, VideoContract.PATH_GENRES, GENRES);
 		matcher.addURI(authority, VideoContract.PATH_MOVIEGENRES, MOVIEGENRES);
 
@@ -99,6 +103,10 @@ public class VideoProvider extends AbstractProvider {
 				return People.CONTENT_ITEM_TYPE;
 			case MOVIECAST:
 				return MovieCast.CONTENT_TYPE;
+			case MOVIEDIRECTOR:
+				return MovieDirector.CONTENT_TYPE;
+			case MOVIEWRITER:
+				return MovieWriter.CONTENT_TYPE;
 			case GENRES:
 				return Genres.CONTENT_TYPE;
 			case MOVIEGENRES:
@@ -147,6 +155,14 @@ public class VideoProvider extends AbstractProvider {
 			}
 			case MOVIECAST: {
 				db.insertOrThrow(VideoDatabase.Tables.PEOPLE_MOVIE_CAST, null, values);
+				return null;
+			}
+			case MOVIEDIRECTOR: {
+				db.insertOrThrow(VideoDatabase.Tables.PEOPLE_MOVIE_DIRECTOR, null, values);
+				return null;
+			}
+			case MOVIEWRITER: {
+				db.insertOrThrow(VideoDatabase.Tables.PEOPLE_MOVIE_WRITER, null, values);
 				return null;
 			}
 			case MOVIEGENRES: {

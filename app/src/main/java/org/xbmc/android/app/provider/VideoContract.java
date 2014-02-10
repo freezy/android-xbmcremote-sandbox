@@ -48,6 +48,8 @@ public class VideoContract {
 	static final String PATH_MOVIES = "movies";
 	static final String PATH_PEOPLE = "people";
 	static final String PATH_MOVIECAST = "moviecast";
+	static final String PATH_MOVIEDIRECTOR = "moviedirector";
+	static final String PATH_MOVIEWRITER = "moviewriter";
 	static final String PATH_GENRES = "genres";
 	static final String PATH_MOVIEGENRES = "moviegenre";
 
@@ -232,6 +234,16 @@ public class VideoContract {
 	public static class MovieCast implements MovieCastColumns {
 		public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendEncodedPath(PATH_MOVIECAST).build();
 		public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.xbmc.movie.cast";
+	}
+
+	public static class MovieDirector implements MovieDirectorColumns {
+		public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendEncodedPath(PATH_MOVIEDIRECTOR).build();
+		public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.xbmc.movie.director";
+	}
+
+	public static class MovieWriter implements MovieWriterColumns {
+		public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendEncodedPath(PATH_MOVIEWRITER).build();
+		public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.xbmc.movie.writer";
 	}
 
 	/**
