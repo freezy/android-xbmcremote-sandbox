@@ -99,6 +99,7 @@ public class MovieHandler extends JsonHandler {
 
 			// arrays
 			batch[i].put(Movies.GENRES, DBUtils.getArrayValue(movie, MovieDetail.GENRE, ", "));
+			batch[i].put(Movies.STUDIOS, DBUtils.getArrayValue(movie, MovieDetail.STUDIO, ", "));
 
 			// stream details
 			if (movie.has(MovieDetail.STREAMDETAILS)) {

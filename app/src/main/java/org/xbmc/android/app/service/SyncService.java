@@ -101,7 +101,7 @@ public class SyncService extends Service implements OnSyncedListener {
 						MovieFields.PLOT, MovieFields.MPAA, MovieFields.IMDBNUMBER, MovieFields.SETID,
 						MovieFields.TRAILER, MovieFields.COUNTRY, MovieFields.TOP250, MovieFields.FANART,
 						MovieFields.FILE, MovieFields.RESUME, MovieFields.DATEADDED, MovieFields.LASTPLAYED,
-						MovieFields.GENRE, MovieFields.STREAMDETAILS
+						MovieFields.GENRE, MovieFields.STREAMDETAILS, MovieFields.STUDIO
 				), new MovieHandler(hostId), fetchMovieDetails));
 			}
 		}
@@ -127,6 +127,7 @@ public class SyncService extends Service implements OnSyncedListener {
 				items.add(new SyncItem("Movie Details for \"" + moviesCursor.getString(MoviesQuery.TITLE) + "\"", DataItemSynced.MOVIES,
 						new VideoLibrary.GetMovieDetails(moviesCursor.getInt(MoviesQuery.ID),
 								MovieFields.CAST, MovieFields.DIRECTOR, MovieFields.GENRE, MovieFields.WRITER
+
 						), new MovieDetailsHandler(hostId, moviesCursor.getInt(MoviesQuery._ID)),
 						this
 				));

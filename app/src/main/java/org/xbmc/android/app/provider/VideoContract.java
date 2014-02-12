@@ -105,6 +105,7 @@ public class VideoContract {
 
 		final String GENRES = PREFIX + "genres";
 		final String SUBTITLES = PREFIX + "subtitles";
+		final String STUDIOS = PREFIX + "studios";
 		final String VIDEO_WIDTH = PREFIX + "video_width";
 		final String VIDEO_CODEC = PREFIX + "video_codec";
 		final String VIDEO_DURATION = PREFIX + "video_duration";
