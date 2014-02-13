@@ -22,18 +22,26 @@
 
 			<LinearLayout
 					android:layout_height="wrap_content"
-					android:layout_width="wrap_content"
-					android:orientation="vertical">
+					android:layout_width="fill_parent"
+					android:orientation="vertical"
+					android:paddingBottom="16dp">
 
 				<fragment
-						android:id="@+id/home_music_fragment"
+						android:id="@+id/refresh_notice_fragment"
+						android:layout_width="fill_parent"
+						android:layout_height="fill_parent"
+						android:name="org.xbmc.android.app.ui.fragment.RefreshNoticeFragment"
+						tools:layout="@layout/fragment_refresh_notice"/>
+
+				<fragment
+						android:id="@+id/music_fragment"
 						android:name="org.xbmc.android.app.ui.fragment.AlbumCompactFragment"
 						android:layout_width="fill_parent"
 						android:layout_height="wrap_content"
 						tools:layout="@layout/list_item_album_compact"/>
 
 				<fragment
-						android:id="@+id/home_movie_fragment"
+						android:id="@+id/movie_fragment"
 						android:name="org.xbmc.android.app.ui.fragment.MovieCompactFragment"
 						android:layout_width="fill_parent"
 						android:layout_height="wrap_content"
