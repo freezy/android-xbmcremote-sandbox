@@ -4,22 +4,12 @@
 				android:layout_width="match_parent"
 				android:layout_height="match_parent">
 
-	<TextView
+	<TextView style="@style/PageArrow"
 			android:id="@+id/arrow1"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/ic_expand"
-			android:textSize="250dp"
-			android:textColor="@color/light_tertiary_text"
-			android:layout_centerVertical="true"
+			android:layout_marginTop="@dimen/swipe_notice_top_margin"
 			android:layout_centerHorizontal="true"/>
-	<TextView
+	<TextView style="@style/PageArrow"
 			android:id="@+id/arrow2"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/ic_expand"
-			android:textSize="250dp"
-			android:textColor="@color/light_tertiary_text"
 			android:layout_alignTop="@+id/arrow1"
 			android:layout_alignLeft="@+id/arrow1"
 			android:layout_alignStart="@+id/arrow1"
@@ -31,5 +21,8 @@
 			android:text="@string/swipe_down_note"
 			android:layout_marginBottom="16dp"
 			android:layout_alignTop="@+id/arrow1"
-			android:layout_centerHorizontal="true"/>
+			android:layout_centerHorizontal="true"
+			android:fontFamily="sans-serif-thin"
+			android:textSize="24sp"
+			android:textStyle="normal"/>
 </RelativeLayout>

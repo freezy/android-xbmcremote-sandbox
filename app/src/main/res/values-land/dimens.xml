@@ -24,4 +24,6 @@
 	<dimen name="portrait_compact_width">138dp</dimen>
 	<dimen name="portrait_compact_height">204dp</dimen>
 
+	<dimen name="swipe_notice_top_margin">64dp</dimen>
+
 </resources>

@@ -35,7 +35,6 @@ public class HomeActivity extends BaseActivity implements OnRefreshListener {
 	@Inject protected EventBus bus;
 	@Inject protected HostManager hostManager;
 	@InjectView(R.id.ptr_layout) PullToRefreshLayout pullToRefreshLayout;
-	@InjectView(R.id.scrollview) View scrollView;
 
 	public HomeActivity() {
 		super(R.string.title_home, R.string.ic_logo, R.layout.activity_home);
@@ -53,10 +52,8 @@ public class HomeActivity extends BaseActivity implements OnRefreshListener {
 		final Fragment movieFragment = fm.findFragmentById(R.id.movie_fragment);
 		final Fragment refreshNoticeFragment = fm.findFragmentById(R.id.refresh_notice_fragment);
 		if (settings.getBoolean(PREFS_REFRESHED, false)) {
-			scrollView.setVisibility(View.VISIBLE);
 			fm.beginTransaction().show(musicFragment).show(movieFragment).hide(refreshNoticeFragment).commit();
 		} else {
-			scrollView.setVisibility(View.GONE);
 			fm.beginTransaction().hide(musicFragment).hide(movieFragment).show(refreshNoticeFragment).commit();
 		}
 

@@ -13,24 +13,23 @@
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent">
 
-		<fragment
-				android:id="@+id/refresh_notice_fragment"
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
-				android:name="org.xbmc.android.app.ui.fragment.RefreshNoticeFragment"
-				tools:layout="@layout/fragment_refresh_notice"/>
-
 		<ScrollView
-			android:id="@+id/scrollview"
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
 			android:background="@color/light_bg">
 
 			<LinearLayout
 				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
+				android:layout_width="fill_parent"
 				android:orientation="vertical"
 				android:paddingBottom="16dp">
+
+				<fragment
+						android:id="@+id/refresh_notice_fragment"
+						android:layout_width="fill_parent"
+						android:layout_height="fill_parent"
+						android:name="org.xbmc.android.app.ui.fragment.RefreshNoticeFragment"
+						tools:layout="@layout/fragment_refresh_notice"/>
 
 				<fragment
 					android:id="@+id/music_fragment"

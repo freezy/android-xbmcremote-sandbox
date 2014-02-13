@@ -39,6 +39,6 @@
 	<dimen name="list_item_height_small">48dp</dimen>
 
 	<dimen name="page_icon">180dp</dimen>
-
+	<dimen name="swipe_notice_top_margin">100dp</dimen>
 
 </resources>

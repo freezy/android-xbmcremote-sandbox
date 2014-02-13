@@ -162,5 +162,12 @@
 		<item name="android:layout_marginTop">16dp</item>
 	</style>
 
+	<style name="PageArrow">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:text">@string/ic_expand</item>
+		<item name="android:textSize">250dp</item>
+		<item name="android:textColor">@color/light_tertiary_text</item>
+	</style>
 
 </resources>
