@@ -10,6 +10,7 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
+import org.xbmc.android.app.event.DataItemSynced;
 import org.xbmc.android.app.event.DataSync;
 import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.app.manager.SettingsManager;
@@ -35,6 +36,10 @@ public class HomeActivity extends BaseActivity implements OnRefreshListener {
 	@Inject protected SettingsManager settingsManager;
 
 	@InjectView(R.id.ptr_layout) PullToRefreshLayout pullToRefreshLayout;
+
+	private Fragment musicFragment;
+	private Fragment movieFragment;
+	private Fragment refreshNoticeFragment;
 
 	public HomeActivity() {
 		super(R.string.title_home, R.string.ic_logo, R.layout.activity_home);
@@ -83,6 +88,12 @@ public class HomeActivity extends BaseActivity implements OnRefreshListener {
 	public void onDestroy() {
 		bus.unregister(this);
 		super.onDestroy();
+	}
+
+	public void onEvent(DataItemSynced event) {
+		settingsManager.setSynced(true);
+		final FragmentManager fm = getSupportFragmentManager();
+		fm.beginTransaction().show(musicFragment).show(movieFragment).hide(refreshNoticeFragment).commit();
 	}
 
 	public void onEvent(DataSync event) {
