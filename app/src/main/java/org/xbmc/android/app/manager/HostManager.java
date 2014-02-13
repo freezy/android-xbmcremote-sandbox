@@ -1,6 +1,5 @@
 package org.xbmc.android.app.manager;
 
-
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;

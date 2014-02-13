@@ -30,6 +30,7 @@ import org.xbmc.android.account.authenticator.ui.Step3bManualSetupFragment;
 import org.xbmc.android.account.authenticator.ui.WizardActivity;
 import org.xbmc.android.app.SandboxApplication;
 import org.xbmc.android.app.manager.HostManager;
+import org.xbmc.android.app.manager.SettingsManager;
 import org.xbmc.android.app.provider.AudioProvider;
 import org.xbmc.android.app.provider.VideoProvider;
 import org.xbmc.android.app.service.SyncService;
@@ -51,16 +52,17 @@ import javax.inject.Singleton;
 @Module(
 	complete = false,
 	injects = {
+		AbstractClient.class,
 		AlbumCompactFragment.class,
 		AudioProvider.class,
 		DiscoveryService.class,
 		HomeActivity.class,
 		HostChooseActivity.class,
 		HostManager.class,
-		AbstractClient.class,
 		MovieCompactFragment.class,
-		SandboxApplication.class,
 		NavigationDrawerFragment.class,
+		SandboxApplication.class,
+		SettingsManager.class,
 		Step2aSearchingFragment.class,
 		Step3aHostFoundFragment.class,
 		Step3bManualSetupFragment.class,

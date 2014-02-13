@@ -1,7 +1,6 @@
 package org.xbmc.android.app.ui;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +12,7 @@ import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 import org.xbmc.android.app.event.DataSync;
 import org.xbmc.android.app.manager.HostManager;
+import org.xbmc.android.app.manager.SettingsManager;
 import org.xbmc.android.app.service.SyncService;
 import org.xbmc.android.remotesandbox.R;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
@@ -29,11 +29,11 @@ import javax.inject.Inject;
 public class HomeActivity extends BaseActivity implements OnRefreshListener {
 
 	private static final String TAG = HomeActivity.class.getSimpleName();
-	public static final String PREFS_NAME = "HomePrefs";
-	public static final String PREFS_REFRESHED = "refreshed";
 
 	@Inject protected EventBus bus;
 	@Inject protected HostManager hostManager;
+	@Inject protected SettingsManager settingsManager;
+
 	@InjectView(R.id.ptr_layout) PullToRefreshLayout pullToRefreshLayout;
 
 	public HomeActivity() {
@@ -46,12 +46,12 @@ public class HomeActivity extends BaseActivity implements OnRefreshListener {
 		ButterKnife.inject(this);
 		bus.register(this);
 
-		final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 		final FragmentManager fm = getSupportFragmentManager();
-		final Fragment musicFragment = fm.findFragmentById(R.id.music_fragment);
-		final Fragment movieFragment = fm.findFragmentById(R.id.movie_fragment);
-		final Fragment refreshNoticeFragment = fm.findFragmentById(R.id.refresh_notice_fragment);
-		if (settings.getBoolean(PREFS_REFRESHED, false)) {
+		musicFragment = fm.findFragmentById(R.id.music_fragment);
+		movieFragment = fm.findFragmentById(R.id.movie_fragment);
+		refreshNoticeFragment = fm.findFragmentById(R.id.refresh_notice_fragment);
+
+		if (settingsManager.hasSynced()) {
 			fm.beginTransaction().show(musicFragment).show(movieFragment).hide(refreshNoticeFragment).commit();
 		} else {
 			fm.beginTransaction().hide(musicFragment).hide(movieFragment).show(refreshNoticeFragment).commit();
