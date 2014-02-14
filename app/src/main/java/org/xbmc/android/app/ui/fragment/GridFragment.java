@@ -17,7 +17,6 @@
 
 package org.xbmc.android.app.ui.fragment;
 
-// Android Packages
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,9 +27,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
-
-// Support Packages
-// ActionBarSherlock Packages
 
 /**
  * Based on {@link android.app.ListFragment} but adapted for {@link GridView}.
