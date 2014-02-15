@@ -51,6 +51,11 @@ import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+/**
+ * Lists albums in grid using the compact view.
+ *
+ * @author freezy <freezy@xbmc.org>
+ */
 public class AlbumCompactFragment extends GridFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
 	private final static String TAG = AlbumCompactFragment.class.getSimpleName();
@@ -91,12 +96,27 @@ public class AlbumCompactFragment extends GridFragment implements LoaderManager.
 		getLoaderManager().initLoader(0, null, this);
 	}
 
+	/**
+	 * Event bus callback. Called when either video or audio sync completed.
+	 *
+	 * Refreshes data of the fragment.
+	 *
+	 * @param event Event data
+	 */
 	public void onEvent(DataItemSynced event) {
 		if (event.audioSynced()) {
 			getLoaderManager().restartLoader(0, null, this);
 		}
 	}
 
+	/**
+	 * Event bus callback. Called when XBMC host was switched by the user (or
+	 * by adding a new host).
+	 *
+	 * Refreshes data of the fragment.
+	 *
+	 * @param event Event data
+	 */
 	public void onEvent(HostSwitched event) {
 		hostUri = event.getHost().getUri();
 		getLoaderManager().restartLoader(0, null, this);

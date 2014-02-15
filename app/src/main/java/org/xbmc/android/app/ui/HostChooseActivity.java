@@ -31,7 +31,6 @@ import android.view.ViewGroup;
 import android.widget.*;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import de.greenrobot.event.EventBus;
 import org.xbmc.android.app.injection.Injector;
 import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.remotesandbox.R;
@@ -41,9 +40,13 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Dialog which lets the user switch to another XBMC host.
+ *
+ * @author freezy <freezy@xbmc.org>
+ */
 public class HostChooseActivity extends Activity {
 
-	@Inject EventBus bus;
 	@Inject HostManager hostManager;
 
 	@InjectView(R.id.list) ListView listView;

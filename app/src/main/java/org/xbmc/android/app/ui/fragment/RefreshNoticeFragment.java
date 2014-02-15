@@ -34,7 +34,8 @@ import org.xbmc.android.app.ui.IconHelper;
 import org.xbmc.android.remotesandbox.R;
 
 /**
- * Fragments that hints the pull-to-refresh pattern.
+ * Fragment that hints the pull-to-refresh pattern. Displayed only when there
+ * has been no data sync at all, in the home activity.
  *
  * @author freezy <freezy@xbmc.org>
  */

@@ -34,6 +34,11 @@ import org.xbmc.android.account.authenticator.ui.WizardActivity;
 import org.xbmc.android.remotesandbox.R;
 
 /**
+ * Displayed if no XBMC host is added instead of HomeActivity.
+ *
+ * It is launched from HomeActivity and should clear the history stack so
+ * pressing back exits the app.
+ *
  * @author freezy <freezy@xbmc.org>
  */
 public class WelcomeActivity extends ActionBarActivity {

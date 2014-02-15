@@ -47,8 +47,7 @@ import org.xbmc.android.remotesandbox.R;
 public class BaseActivity extends ActionBarActivity {
 
 	@Optional
-	@InjectView(R.id.drawer_layout)
-	protected DrawerLayout drawerLayout;
+	@InjectView(R.id.drawer_layout) protected DrawerLayout drawerLayout;
 
 	private ActionBarDrawerToggle drawerToggle;
 	private CharSequence drawerTitle;
@@ -73,22 +72,19 @@ public class BaseActivity extends ActionBarActivity {
 		Injector.inject(this);
 
 		drawerTitle = getTitle();
-		//mDrawerList = (NavigationDrawerFragment) findViewById(R.id.left_drawer);
-
-		// set a custom shadow that overlays the main content when the drawer opens
-		//drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
 		// enable ActionBar app icon to behave as action to toggle nav drawer
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
 
+		// if not in "tablet" mode, setup navigation drawer
 		if (drawerLayout != null) {
 			drawerToggle = new ActionBarDrawerToggle(
-					this,                  /* host Activity */
-					drawerLayout,         /* DrawerLayout object */
-					R.drawable.ic_drawer,  /* nav drawer image to replace 'Up' caret */
-					R.string.drawer_open,  /* "open drawer" description for accessibility */
-					R.string.drawer_close  /* "close drawer" description for accessibility */
+				this,                  // host Activity
+				drawerLayout,          // DrawerLayout object
+				R.drawable.ic_drawer,  // nav drawer image to replace 'Up' caret
+				R.string.drawer_open,  // "open drawer" description for accessibility
+				R.string.drawer_close  // "close drawer" description for accessibility
 			) {
 				public void onDrawerClosed(View view) {
 					getSupportActionBar().setTitle(titleRes);
