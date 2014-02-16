@@ -27,8 +27,9 @@
 			</intent-filter>
 		</activity>
 		<activity android:name="org.xbmc.android.app.ui.WelcomeActivity" android:launchMode="singleTop"/>
-		<activity android:name="org.xbmc.android.account.authenticator.ui.WizardActivity" />
+		<activity android:name="org.xbmc.android.app.ui.MovieActivity" />
 		<activity android:name="org.xbmc.android.app.ui.HostChooseActivity" android:theme="@android:style/Theme.Holo.Light.Dialog" />
+		<activity android:name="org.xbmc.android.account.authenticator.ui.WizardActivity" />
 
 		<!-- Services -->
 		<service android:name="org.xbmc.android.app.service.SyncService" />
