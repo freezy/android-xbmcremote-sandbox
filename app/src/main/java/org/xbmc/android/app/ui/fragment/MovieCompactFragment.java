@@ -22,6 +22,7 @@
 package org.xbmc.android.app.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -49,6 +51,7 @@ import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.app.manager.IconManager;
 import org.xbmc.android.app.provider.VideoContract;
 import org.xbmc.android.app.provider.VideoDatabase;
+import org.xbmc.android.app.ui.MovieActivity;
 import org.xbmc.android.remotesandbox.R;
 
 import javax.inject.Inject;
@@ -68,6 +71,7 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 	@Inject protected HostManager hostManager;
 	@Inject IconManager iconManager;
 
+	@InjectView(R.id.see_more) Button seeMoreBtn;
 	@InjectView(android.R.id.empty) TextView emptyView;
 
 	private CursorAdapter adapter;
@@ -79,6 +83,12 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 		ButterKnife.inject(this, view);
 
 		emptyView.setText(R.string.empty_movies);
+		seeMoreBtn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(getActivity(), MovieActivity.class));
+			}
+		});
 		return view;
 	}
 

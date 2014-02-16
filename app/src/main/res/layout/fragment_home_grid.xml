@@ -40,7 +40,7 @@
 
 	<Button
 			style="@style/SeeMoreButton"
-			android:id="@+id/music_see_more_button"
+			android:id="@+id/see_more"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignTop="@id/home_header1"
