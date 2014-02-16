@@ -31,7 +31,11 @@ import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import org.xbmc.android.account.authenticator.ui.WizardActivity;
+import org.xbmc.android.app.injection.Injector;
+import org.xbmc.android.app.manager.IconManager;
 import org.xbmc.android.remotesandbox.R;
+
+import javax.inject.Inject;
 
 /**
  * Displayed if no XBMC host is added instead of HomeActivity.
@@ -47,11 +51,14 @@ public class WelcomeActivity extends ActionBarActivity {
 	@InjectView(R.id.setup_button) Button setupBtn;
 	@InjectView(R.id.logo) TextView logo;
 
+	@Inject IconManager iconManager;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_welcome);
 		ButterKnife.inject(this);
+		Injector.inject(this);
 
 		exitBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -68,8 +75,8 @@ public class WelcomeActivity extends ActionBarActivity {
 			}
 		});
 
-		logo.setTypeface(IconHelper.getTypeface(getApplicationContext()));
-		getSupportActionBar().setIcon(IconHelper.getDrawable(getApplicationContext(), R.string.ic_logo));
+		logo.setTypeface(iconManager.getTypeface());
+		getSupportActionBar().setIcon(iconManager.getDrawable(R.string.ic_logo));
 	}
 
 	@Override

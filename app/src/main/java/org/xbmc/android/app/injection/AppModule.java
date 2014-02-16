@@ -30,6 +30,7 @@ import org.xbmc.android.account.authenticator.ui.Step3bManualSetupFragment;
 import org.xbmc.android.account.authenticator.ui.WizardActivity;
 import org.xbmc.android.app.SandboxApplication;
 import org.xbmc.android.app.manager.HostManager;
+import org.xbmc.android.app.manager.IconManager;
 import org.xbmc.android.app.manager.SettingsManager;
 import org.xbmc.android.app.provider.AudioProvider;
 import org.xbmc.android.app.provider.VideoProvider;
@@ -37,8 +38,10 @@ import org.xbmc.android.app.service.SyncService;
 import org.xbmc.android.app.ui.HomeActivity;
 import org.xbmc.android.app.ui.HostChooseActivity;
 import org.xbmc.android.app.ui.MovieActivity;
+import org.xbmc.android.app.ui.WelcomeActivity;
 import org.xbmc.android.app.ui.fragment.AlbumCompactFragment;
 import org.xbmc.android.app.ui.fragment.MovieCompactFragment;
+import org.xbmc.android.app.ui.fragment.RefreshNoticeFragment;
 import org.xbmc.android.app.ui.menu.NavigationDrawerFragment;
 import org.xbmc.android.jsonrpc.client.AbstractClient;
 import org.xbmc.android.jsonrpc.io.ConnectionManager;
@@ -63,6 +66,7 @@ import javax.inject.Singleton;
 		MovieActivity.class,
 		MovieCompactFragment.class,
 		NavigationDrawerFragment.class,
+		RefreshNoticeFragment.class,
 		SandboxApplication.class,
 		SettingsManager.class,
 		Step2aSearchingFragment.class,
@@ -70,6 +74,7 @@ import javax.inject.Singleton;
 		Step3bManualSetupFragment.class,
 		SyncService.class,
 		VideoProvider.class,
+		WelcomeActivity.class,
 		WizardActivity.class
 	}
 )
@@ -91,5 +96,11 @@ public class AppModule {
 	@Provides
 	HostManager provideHostManager() {
 		return new HostManager();
+	}
+
+	@Singleton
+	@Provides
+	IconManager provideIconManager() {
+		return new IconManager(Injector.getContext());
 	}
 }

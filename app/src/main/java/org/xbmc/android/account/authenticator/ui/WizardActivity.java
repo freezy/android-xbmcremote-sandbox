@@ -33,7 +33,7 @@ import butterknife.InjectView;
 import org.xbmc.android.account.Constants;
 import org.xbmc.android.app.injection.Injector;
 import org.xbmc.android.app.manager.HostManager;
-import org.xbmc.android.app.ui.IconHelper;
+import org.xbmc.android.app.manager.IconManager;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.view.FragmentStateManager;
 import org.xbmc.android.view.RelativePagerAdapter;
@@ -68,6 +68,7 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 	public static final int RESULT_SUCCESS = 0x666;
 
 	@Inject HostManager hostManager;
+	@Inject IconManager iconManager;
 
 	@InjectView(R.id.strip) StepPagerStrip pagerStrip;
 	@InjectView(R.id.pager) RelativeViewPager pager;
@@ -88,7 +89,7 @@ public class WizardActivity extends AccountAuthenticatorActivity implements Frag
 
 		// set icon
 		final ActionBar actionBar = getSupportActionBar();
-		actionBar.setIcon(IconHelper.getDrawable(getApplicationContext(), R.string.ic_logo));
+		actionBar.setIcon(iconManager.getDrawable(R.string.ic_logo));
 
 		// init adapter and first fragment
 		adapter = new RelativePagerAdapter(getSupportFragmentManager(), getFragmentStateManager());

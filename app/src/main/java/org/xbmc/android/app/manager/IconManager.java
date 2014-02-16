@@ -19,7 +19,7 @@
  *
  */
 
-package org.xbmc.android.app.ui;
+package org.xbmc.android.app.manager;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -29,21 +29,25 @@ import org.xbmc.android.view.TextDrawable;
 /**
  * Helper methods around the icon font.
  */
-public class IconHelper {
+public class IconManager {
 
-	private static Typeface symbols;
+	private final Context context;
+	private final Typeface symbols;
+	private String star0, star1, star2, star3, star4;
 
-	public static Typeface getTypeface(Context context) {
-		if (symbols == null) {
-			symbols = Typeface.createFromAsset(context.getAssets(), "symbols.ttf");
-		}
+	public IconManager(Context context) {
+		this.context = context;
+		this.symbols = Typeface.createFromAsset(context.getAssets(), "symbols.ttf");
+	}
+
+	public Typeface getTypeface() {
 		return symbols;
 	}
 
-	public static Drawable getDrawable(Context context, int symbol, float size, int color) {
+	public Drawable getDrawable(int symbol, float size, int color) {
 		final TextDrawable d = new TextDrawable(context);
 		d.setText(context.getResources().getString(symbol));
-		d.setTypeface(getTypeface(context));
+		d.setTypeface(symbols);
 		d.setTextSize(size);
 		if (color != 0) {
 			d.setTextColor(color);
@@ -51,8 +55,15 @@ public class IconHelper {
 		return d;
 	}
 
-	public static Drawable getDrawable(Context context, int symbol) {
-		return getDrawable(context, symbol, 48f, 0);
+	public Drawable getDrawable(int symbol) {
+		return getDrawable(symbol, 48f, 0);
+	}
+
+	public String getStars(float rating) {
+		if (star0 == null) {
+
+		}
+		return null;
 	}
 
 }

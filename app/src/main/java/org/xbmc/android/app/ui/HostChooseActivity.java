@@ -33,6 +33,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import org.xbmc.android.app.injection.Injector;
 import org.xbmc.android.app.manager.HostManager;
+import org.xbmc.android.app.manager.IconManager;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.zeroconf.XBMCHost;
 
@@ -48,6 +49,7 @@ import java.util.List;
 public class HostChooseActivity extends Activity {
 
 	@Inject HostManager hostManager;
+	@Inject IconManager iconManager;
 
 	@InjectView(R.id.list) ListView listView;
 	@InjectView(R.id.cancel) Button cancelBtn;
@@ -63,7 +65,7 @@ public class HostChooseActivity extends Activity {
 		Injector.inject(this);
 
 		final ArrayList<XBMCHost> hosts = hostManager.getHosts();
-		final HostListAdapter adapter = new HostListAdapter(getApplicationContext(), R.layout.list_item_host_wide, hosts);
+		final HostListAdapter adapter = new HostListAdapter(getApplicationContext(), R.layout.list_item_host_wide, hosts, iconManager.getTypeface());
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -104,11 +106,11 @@ public class HostChooseActivity extends Activity {
 		private final Context context;
 		private final List<XBMCHost> values;
 
-		public HostListAdapter(Context context, int resource, List<XBMCHost> values) {
+		public HostListAdapter(Context context, int resource, List<XBMCHost> values, Typeface iconFont) {
 			super(context, resource, values);
 			this.context = context;
 			this.values = values;
-			this.iconFont = IconHelper.getTypeface(context);
+			this.iconFont = iconFont;
 		}
 
 		@Override

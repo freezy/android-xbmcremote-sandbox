@@ -2,6 +2,7 @@
 
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				xmlns:tools="http://schemas.android.com/tools"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_marginLeft="6dp"
@@ -27,7 +28,7 @@
 				android:layout_alignParentTop="true"
 				android:adjustViewBounds="true"
 				android:scaleType="centerCrop"
-				android:contentDescription="Poster" />
+				android:contentDescription="@string/poster" />
 
 	</RelativeLayout>
 
@@ -40,11 +41,12 @@
 			android:layout_toRightOf="@+id/thumb_wrapper"
 			android:layout_marginTop="5dp"
 			android:layout_marginLeft="10dp"
-			android:textAppearance="?android:attr/textAppearanceLarge"
 			android:textColor="@color/light_primary_text"
+			android:textSize="20sp"
 			android:fontFamily="sans-serif-light"
 			android:maxLines="2"
-			android:ellipsize="marquee" />
+			android:ellipsize="marquee"
+			tools:ignore="HardcodedText"/>
 
 	<TextView
 			android:id="@+id/genres"
@@ -53,11 +55,12 @@
 			android:layout_height="wrap_content"
 			android:layout_alignLeft="@+id/title"
 			android:layout_below="@+id/title"
-			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:textSize="15sp"
 			android:textColor="@color/light_secondry_text"
 			android:fontFamily="sans-serif-light"
 			android:maxLines="1"
-			android:ellipsize="marquee" />
+			android:ellipsize="marquee"
+			tools:ignore="HardcodedText"/>
 
 
 	<TextView
@@ -65,14 +68,13 @@
 			android:text="runtime"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:textAppearance="?android:attr/textAppearanceMedium"
 			android:textColor="@color/light_secondry_text"
-			android:textSize="14dp"
+			android:textSize="15sp"
 			android:fontFamily="sans-serif-light"
 			android:maxLines="1"
 			android:layout_alignParentRight="true"
-			android:layout_alignBottom="@+id/rating_movie"/>
-
+			android:layout_alignBottom="@+id/rating"
+			tools:ignore="HardcodedText"/>
 
 	<TextView
 			android:id="@+id/rating"
@@ -84,6 +86,7 @@
 			android:textAppearance="?android:attr/textAppearanceLarge"
 			android:textColor="@color/light_secondry_text"
 			android:textSize="18dp"
-			android:layout_marginBottom="10dp"/>
+			android:layout_marginBottom="10dp"
+			tools:ignore="HardcodedText,SpUsage"/>
 
 </RelativeLayout>

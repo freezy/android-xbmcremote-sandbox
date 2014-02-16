@@ -37,7 +37,10 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.Optional;
 import org.xbmc.android.app.injection.Injector;
+import org.xbmc.android.app.manager.IconManager;
 import org.xbmc.android.remotesandbox.R;
+
+import javax.inject.Inject;
 
 /**
  * Common to all activities using the action bar.
@@ -48,6 +51,8 @@ public class BaseActivity extends ActionBarActivity {
 
 	@Optional
 	@InjectView(R.id.drawer_layout) protected DrawerLayout drawerLayout;
+
+	@Inject protected IconManager iconManager;
 
 	private ActionBarDrawerToggle drawerToggle;
 	private CharSequence drawerTitle;
@@ -100,7 +105,7 @@ public class BaseActivity extends ActionBarActivity {
 		}
 
 		final ActionBar actionBar = getSupportActionBar();
-		actionBar.setIcon(IconHelper.getDrawable(getApplicationContext(), iconRes));
+		actionBar.setIcon(iconManager.getDrawable(iconRes));
 	}
 
 	@Override

@@ -38,7 +38,7 @@ import org.xbmc.android.app.event.HostSwitched;
 import org.xbmc.android.app.injection.Injector;
 import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.app.ui.HostChooseActivity;
-import org.xbmc.android.app.ui.IconHelper;
+import org.xbmc.android.app.manager.IconManager;
 import org.xbmc.android.app.ui.MovieActivity;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.zeroconf.XBMCHost;
@@ -59,6 +59,7 @@ public class NavigationDrawerFragment extends Fragment {
 
 	@Inject	EventBus bus;
 	@Inject HostManager hostManager;
+	@Inject IconManager iconManager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -78,7 +79,7 @@ public class NavigationDrawerFragment extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 
 		list.setGroupIndicator(null);
-		changeHostButton.setTypeface(IconHelper.getTypeface(getActivity().getApplicationContext()));
+		changeHostButton.setTypeface(iconManager.getTypeface());
 		changeHostButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -125,7 +126,7 @@ public class NavigationDrawerFragment extends Fragment {
 		public ListAdapter(Context context, ArrayList<Group> groups) {
 			mContext = context;
 			mGroups = groups;
-			mIconFont = IconHelper.getTypeface(context);
+			mIconFont = iconManager.getTypeface();
 		}
 
 		public View getGroupView(final int groupPosition, boolean isLastChild, View view, final ViewGroup parent) {

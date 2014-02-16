@@ -46,9 +46,9 @@ import org.xbmc.android.app.event.DataItemSynced;
 import org.xbmc.android.app.event.HostSwitched;
 import org.xbmc.android.app.injection.Injector;
 import org.xbmc.android.app.manager.HostManager;
+import org.xbmc.android.app.manager.IconManager;
 import org.xbmc.android.app.provider.VideoContract;
 import org.xbmc.android.app.provider.VideoDatabase;
-import org.xbmc.android.app.ui.IconHelper;
 import org.xbmc.android.remotesandbox.R;
 
 import javax.inject.Inject;
@@ -66,6 +66,7 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 
 	@Inject protected EventBus bus;
 	@Inject protected HostManager hostManager;
+	@Inject IconManager iconManager;
 
 	@InjectView(android.R.id.empty) TextView emptyView;
 
@@ -175,7 +176,7 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 		@Override
 		public View newView(Context context, Cursor cursor, ViewGroup parent) {
 			final View view = getActivity().getLayoutInflater().inflate(R.layout.list_item_movie_compact, parent, false);
-			((ImageButton)view.findViewById(R.id.optionButton)).setImageDrawable(IconHelper.getDrawable(getActivity(), R.string.ic_overflow, 20f, R.color.light_secondry_text));
+			((ImageButton)view.findViewById(R.id.optionButton)).setImageDrawable(iconManager.getDrawable(R.string.ic_overflow, 20f, R.color.light_secondry_text));
 			return view;
 		}
 

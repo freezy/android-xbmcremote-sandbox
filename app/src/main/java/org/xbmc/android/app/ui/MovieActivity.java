@@ -140,7 +140,7 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 		@Override
 		public View newView(Context context, Cursor cursor, ViewGroup parent) {
 			final View view = getLayoutInflater().inflate(R.layout.list_item_movie_wide, parent, false);
-			//((ImageButton)view.findViewById(R.id.optionButton)).setImageDrawable(IconHelper.getDrawable(MovieActivity.this, R.string.ic_overflow, 20f, R.color.light_secondry_text));
+			//((ImageButton)view.findViewById(R.id.optionButton)).setImageDrawable(IconManager.getDrawable(MovieActivity.this, R.string.ic_overflow, 20f, R.color.light_secondry_text));
 			return view;
 		}
 

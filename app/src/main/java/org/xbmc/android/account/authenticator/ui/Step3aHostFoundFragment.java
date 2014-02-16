@@ -36,6 +36,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import org.xbmc.android.app.injection.Injector;
 import org.xbmc.android.app.manager.HostManager;
+import org.xbmc.android.app.manager.IconManager;
 import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.call.JSONRPC;
 import org.xbmc.android.jsonrpc.io.ApiCallback;
@@ -64,6 +65,7 @@ public class Step3aHostFoundFragment extends WizardFragment {
 	private boolean manualAdd = false;
 
 	@Inject HostManager hostManager;
+	@Inject IconManager iconManager;
 	@InjectView(R.id.list) ListView listView;
 
 	public Step3aHostFoundFragment() {
@@ -118,7 +120,7 @@ public class Step3aHostFoundFragment extends WizardFragment {
 		super.onViewCreated(view, savedInstanceState);
 
 		final Handler handler = new Handler();
-		final HostListAdapter adapter = new HostListAdapter(getActivity().getApplicationContext(), R.layout.list_item_host_wide, hosts);
+		final HostListAdapter adapter = new HostListAdapter(getActivity().getApplicationContext(), R.layout.list_item_host_wide, hosts, iconManager.getTypeface());
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
