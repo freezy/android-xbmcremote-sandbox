@@ -182,9 +182,9 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 		/** {@inheritDoc} */
 		@Override
 		public void bindView(View view, Context context, Cursor cursor) {
-			final TextView titleView = (TextView) view.findViewById(R.id.title_movie);
+			final TextView titleView = (TextView) view.findViewById(R.id.title);
 			final TextView subtitleView = (TextView) view.findViewById(R.id.title_genre);
-			final ImageView imageView = (ImageView) view.findViewById(R.id.list_movie_poster);
+			final ImageView imageView = (ImageView) view.findViewById(R.id.poster);
 			try {
 				final String url = hostUri + "/image/" + URLEncoder.encode(cursor.getString(MoviesQuery.THUMBNAIL), "UTF-8");
 				Glide.load(url)

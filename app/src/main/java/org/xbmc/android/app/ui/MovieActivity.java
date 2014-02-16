@@ -32,7 +32,6 @@ import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -140,17 +139,18 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 		/** {@inheritDoc} */
 		@Override
 		public View newView(Context context, Cursor cursor, ViewGroup parent) {
-			final View view = getLayoutInflater().inflate(R.layout.list_item_movie_compact, parent, false);
-			((ImageButton)view.findViewById(R.id.optionButton)).setImageDrawable(IconHelper.getDrawable(MovieActivity.this, R.string.ic_overflow, 20f, R.color.light_secondry_text));
+			final View view = getLayoutInflater().inflate(R.layout.list_item_movie_wide, parent, false);
+			//((ImageButton)view.findViewById(R.id.optionButton)).setImageDrawable(IconHelper.getDrawable(MovieActivity.this, R.string.ic_overflow, 20f, R.color.light_secondry_text));
 			return view;
 		}
 
 		/** {@inheritDoc} */
 		@Override
 		public void bindView(View view, Context context, Cursor cursor) {
-			final TextView titleView = (TextView) view.findViewById(R.id.title_movie);
-			final TextView subtitleView = (TextView) view.findViewById(R.id.title_genre);
-			final ImageView imageView = (ImageView) view.findViewById(R.id.list_movie_poster);
+			final TextView titleView = (TextView) view.findViewById(R.id.title);
+			final TextView subtitleView = (TextView) view.findViewById(R.id.genres);
+			final TextView ratingView = (TextView) view.findViewById(R.id.rating);
+			final ImageView imageView = (ImageView) view.findViewById(R.id.poster);
 			try {
 				final String url = hostUri + "/image/" + URLEncoder.encode(cursor.getString(MoviesQuery.THUMBNAIL), "UTF-8");
 				Glide.load(url)
@@ -164,6 +164,7 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 
 			titleView.setText(cursor.getString(MoviesQuery.TITLE));
 			subtitleView.setText(cursor.getString(MoviesQuery.GENRES));
+			ratingView.setText(cursor.getString(MoviesQuery.RUNTIME));
 		}
 	}
 
@@ -178,6 +179,7 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 				VideoContract.Movies.ID,
 				VideoContract.Movies.TITLE,
 				VideoContract.Movies.GENRES,
+				VideoContract.Movies.RUNTIME,
 				VideoContract.Movies.THUMBNAIL
 		};
 
@@ -185,6 +187,7 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 		final int ID = 1;
 		final int TITLE = 2;
 		final int GENRES = 3;
-		final int THUMBNAIL = 4;
+		final int RUNTIME = 4;
+		final int THUMBNAIL = 5;
 	}
 }

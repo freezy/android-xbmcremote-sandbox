@@ -20,7 +20,7 @@
 			android:layout_height="118dp">
 
 		<ImageView
-				android:id="@+id/list_movie_poster"
+				android:id="@+id/poster"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				android:layout_alignParentLeft="true"
@@ -32,8 +32,8 @@
 	</RelativeLayout>
 
 	<TextView
-			android:id="@+id/title_movie"
-			android:text="title_movie"
+			android:id="@+id/title"
+			android:text="title"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignTop="@+id/thumb_wrapper"
@@ -47,12 +47,12 @@
 			android:ellipsize="marquee" />
 
 	<TextView
-			android:id="@+id/genres_movie"
-			android:text="genres_movie"
+			android:id="@+id/genres"
+			android:text="genres"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_alignLeft="@+id/title_movie"
-			android:layout_below="@+id/title_movie"
+			android:layout_alignLeft="@+id/title"
+			android:layout_below="@+id/title"
 			android:textAppearance="?android:attr/textAppearanceMedium"
 			android:textColor="@color/light_secondry_text"
 			android:fontFamily="sans-serif-light"
@@ -61,8 +61,8 @@
 
 
 	<TextView
-			android:id="@+id/runtime_movie"
-			android:text="runtime_movie"
+			android:id="@+id/runtime"
+			android:text="runtime"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:textAppearance="?android:attr/textAppearanceMedium"
@@ -75,11 +75,11 @@
 
 
 	<TextView
-			android:id="@+id/rating_movie"
+			android:id="@+id/rating"
 			android:text="***"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_alignLeft="@+id/title_movie"
+			android:layout_alignLeft="@+id/title"
 			android:layout_alignBottom="@+id/thumb_wrapper"
 			android:textAppearance="?android:attr/textAppearanceLarge"
 			android:textColor="@color/light_secondry_text"
