@@ -23,7 +23,7 @@
 	<dimen name="navdrawer_width">200dp</dimen>
 
 	<!-- Generic Layout -->
-	<dimen name="small_content_horizontal_padding">240dp</dimen>
+	<dimen name="small_content_hpadding">240dp</dimen>
 
 	<dimen name="page_icon">120dp</dimen>
 

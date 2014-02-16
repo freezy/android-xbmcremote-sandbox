@@ -3,10 +3,8 @@
 ## In repo
 
 ### UI
-* [ActionbarSherlock](http://actionbarsherlock.com/)
 * [PullToRefresh](https://github.com/chrisbanes/ActionBar-PullToRefresh)
 * [QuickScroll](https://github.com/andraskindler/quickscroll)
-* [SlidingMenu](https://github.com/jfeinstein10/SlidingMenu)
 
 ### Backend
 * [Glide](https://github.com/bumptech/glide) - *Image loading*
@@ -18,6 +16,8 @@
 ## Not in repo
 
 ### UI
+* [ActionbarSherlock](http://actionbarsherlock.com/)
+* [SlidingMenu](https://github.com/jfeinstein10/SlidingMenu)
 * [WizardPager](https://github.com/TechFreak/WizardPager)
 * [GlassActionBar](https://github.com/ManuelPeinado/GlassActionBar)
 * [FadingActinoBar](https://github.com/ManuelPeinado/FadingActionBar)

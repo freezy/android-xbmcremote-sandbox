@@ -20,8 +20,8 @@
 				android:id="@+id/display_name"
 				android:layout_below="@+id/p2"
 				android:layout_alignParentLeft="true"
-				android:layout_marginLeft="@dimen/small_content_horizontal_padding"
-				android:layout_marginRight="@dimen/small_content_horizontal_padding"
+				android:layout_marginLeft="@dimen/small_content_hpadding"
+				android:layout_marginRight="@dimen/small_content_hpadding"
 				android:layout_marginTop="22dp"
 				android:layout_alignParentRight="true"
 				android:hint="@string/accountwizard_step3b_displayname"/>
@@ -34,7 +34,7 @@
 				android:id="@+id/port"
 				android:hint="@string/accountwizard_step3b_port"
 				android:layout_marginTop="20dp"
-				android:layout_marginRight="@dimen/small_content_horizontal_padding"
+				android:layout_marginRight="@dimen/small_content_hpadding"
 				android:layout_below="@+id/display_name"
 				android:layout_alignParentRight="true"/>
 
@@ -47,7 +47,7 @@
 				android:layout_alignTop="@+id/port"
 				android:layout_toLeftOf="@+id/port"
 				android:layout_marginRight="16dp"
-				android:layout_marginLeft="@dimen/small_content_horizontal_padding"
+				android:layout_marginLeft="@dimen/small_content_hpadding"
 				android:layout_alignParentLeft="true"/>
 
 		<TextView

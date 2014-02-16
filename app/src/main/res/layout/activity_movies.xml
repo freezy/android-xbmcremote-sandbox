@@ -11,9 +11,12 @@
 			android:layout_height="wrap_content"
 			android:dividerHeight="10dp"
 			android:divider="@null"
-			android:paddingLeft="10dp"
-			android:paddingRight="10dp"
-			android:paddingTop="5dp">
+			android:paddingLeft="@dimen/media_content_hpadding"
+			android:paddingRight="0dp"
+			android:paddingTop="8dp"
+			android:fastScrollEnabled="true"
+			android:fastScrollAlwaysVisible="true"
+			android:scrollbarStyle="outsideInset">
 
 	</ListView>
 

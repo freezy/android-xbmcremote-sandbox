@@ -25,7 +25,7 @@
 	<dimen name="portrait_compact_height">204dp</dimen>
 
 	<!-- Generic Layout -->
-	<dimen name="small_content_horizontal_padding">32dp</dimen>
+	<dimen name="small_content_hpadding">32dp</dimen>
 
 	<dimen name="page_icon">180dp</dimen>
 
