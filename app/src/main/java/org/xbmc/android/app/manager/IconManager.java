@@ -80,6 +80,9 @@ public class IconManager {
 	 * @return Symbol string in 0 - 5 star rating
 	 */
 	public String getStars(float rating) {
+		if (rating == 0f) {
+			return "";
+		}
 		final StringBuilder sb = new StringBuilder(5);
 		rating /= 2f;
 		for (int i = 0; i < 5; i++) {

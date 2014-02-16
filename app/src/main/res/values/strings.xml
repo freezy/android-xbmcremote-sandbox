@@ -4,6 +4,7 @@
 
 	<string name="cancel">Cancel</string>
 	<string name="exit">Exit</string>
+	<string name="minutes_short">min</string>
 	<string name="next">Next</string>
 	<string name="ok">OK</string>
 	<string name="password">Password</string>

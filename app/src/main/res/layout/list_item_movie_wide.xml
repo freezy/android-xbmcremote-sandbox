@@ -58,7 +58,7 @@
 			android:textSize="15sp"
 			android:textColor="@color/light_secondry_text"
 			android:fontFamily="sans-serif-light"
-			android:maxLines="1"
+			android:maxLines="2"
 			android:ellipsize="marquee"
 			tools:ignore="HardcodedText"/>
 

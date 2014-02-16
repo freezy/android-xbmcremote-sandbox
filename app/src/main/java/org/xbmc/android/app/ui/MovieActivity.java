@@ -166,10 +166,20 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 				Log.e(TAG, "Cannot encode " + cursor.getString(MoviesQuery.THUMBNAIL) + " from UTF-8.");
 			}
 
-			titleView.setText(cursor.getString(MoviesQuery.TITLE));
+			titleView.setText(cursor.getString(MoviesQuery.TITLE) + " (" + cursor.getInt(MoviesQuery.YEAR) + ")");
 			subtitleView.setText(cursor.getString(MoviesQuery.GENRES));
 			ratingView.setText(iconManager.getStars(cursor.getFloat(MoviesQuery.RATING)));
-			runtimeView.setText(String.valueOf(cursor.getFloat(MoviesQuery.RATING)));
+			int runtime = cursor.getInt(MoviesQuery.RUNTIME);
+			if (runtime == 0) {
+				runtime = cursor.getInt(MoviesQuery.VIDEO_DURATION);
+			}
+			if (runtime > 0) {
+				runtimeView.setVisibility(View.VISIBLE);
+				runtimeView.setText(Math.round(runtime / 60) + " " + getResources().getString(R.string.minutes_short));
+			} else {
+				runtimeView.setVisibility(View.GONE);
+			}
+
 		}
 	}
 
@@ -183,8 +193,10 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 				VideoDatabase.Tables.MOVIES + "." + BaseColumns._ID,
 				VideoContract.Movies.ID,
 				VideoContract.Movies.TITLE,
+				VideoContract.Movies.YEAR,
 				VideoContract.Movies.GENRES,
 				VideoContract.Movies.RUNTIME,
+				VideoContract.Movies.VIDEO_DURATION,
 				VideoContract.Movies.RATING,
 				VideoContract.Movies.THUMBNAIL
 		};
@@ -192,9 +204,11 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 		//final int _ID = 0;
 		final int ID = 1;
 		final int TITLE = 2;
-		final int GENRES = 3;
-		final int RUNTIME = 4;
-		final int RATING = 5;
-		final int THUMBNAIL = 6;
+		final int YEAR = 3;
+		final int GENRES = 4;
+		final int RUNTIME = 5;
+		final int VIDEO_DURATION = 6;
+		final int RATING = 7;
+		final int THUMBNAIL = 8;
 	}
 }
