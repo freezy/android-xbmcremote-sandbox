@@ -25,6 +25,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.view.TextDrawable;
 
@@ -35,11 +37,13 @@ public class IconManager {
 
 	private final Context context;
 	private final Typeface symbols;
+	private final DisplayMetrics displayMetrics;
 	private String star0, star1, star2, star3, star4;
 
 	public IconManager(Context context) {
 		this.context = context;
 		this.symbols = Typeface.createFromAsset(context.getAssets(), "symbols.ttf");
+		this.displayMetrics = context.getResources().getDisplayMetrics();
 
 		final Resources resources = context.getResources();
 		this.star0 = resources.getString(R.string.ic_star_00);
@@ -49,21 +53,40 @@ public class IconManager {
 		this.star4 = resources.getString(R.string.ic_star_100);
 	}
 
+	/**
+	 * Returns the typeface of the icon font.
+	 * @return Icon font
+	 */
 	public Typeface getTypeface() {
 		return symbols;
 	}
 
+	/**
+	 * Renders a drawable based on a symbol from the icon font.
+	 *
+	 * @param symbol String resource of the icon
+	 * @param size Size in dp
+	 * @param color Color resource to draw in
+	 * @return Rendered icon
+	 */
 	public Drawable getDrawable(int symbol, float size, int color) {
+
 		final TextDrawable d = new TextDrawable(context);
 		d.setText(context.getResources().getString(symbol));
 		d.setTypeface(symbols);
-		d.setTextSize(size);
+		d.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, size, displayMetrics));
 		if (color != 0) {
 			d.setTextColor(color);
 		}
 		return d;
 	}
 
+	/**
+	 * Renders a drawable based on a symbol from the icon font.
+	 *
+	 * @param symbol String resource of the icon
+	 * @return Rendered icon
+	 */
 	public Drawable getDrawable(int symbol) {
 		return getDrawable(symbol, 48f, 0);
 	}

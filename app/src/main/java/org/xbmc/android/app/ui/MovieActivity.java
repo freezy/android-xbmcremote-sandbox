@@ -32,6 +32,7 @@ import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -142,7 +143,7 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 		@Override
 		public View newView(Context context, Cursor cursor, ViewGroup parent) {
 			final View view = getLayoutInflater().inflate(R.layout.list_item_movie_wide, parent, false);
-			//((ImageButton)view.findViewById(R.id.optionButton)).setImageDrawable(iconManager.getDrawable(R.string.ic_overflow, 20f, R.color.light_secondry_text));
+			((ImageButton)view.findViewById(R.id.overflow)).setImageDrawable(iconManager.getDrawable(R.string.ic_overflow, 12f, R.color.light_secondry_text));
 			((TextView)view.findViewById(R.id.rating)).setTypeface(iconManager.getTypeface());
 			return view;
 		}
