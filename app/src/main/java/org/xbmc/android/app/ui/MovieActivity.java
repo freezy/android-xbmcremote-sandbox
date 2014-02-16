@@ -43,6 +43,7 @@ import org.xbmc.android.app.event.DataItemSynced;
 import org.xbmc.android.app.event.HostSwitched;
 import org.xbmc.android.app.injection.Injector;
 import org.xbmc.android.app.manager.HostManager;
+import org.xbmc.android.app.manager.IconManager;
 import org.xbmc.android.app.provider.VideoContract;
 import org.xbmc.android.app.provider.VideoDatabase;
 import org.xbmc.android.remotesandbox.R;
@@ -62,6 +63,7 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 
 	@Inject protected EventBus bus;
 	@Inject protected HostManager hostManager;
+	@Inject protected IconManager iconManager;
 
 	@InjectView(R.id.list_movies) protected ListView list;
 
@@ -140,7 +142,8 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 		@Override
 		public View newView(Context context, Cursor cursor, ViewGroup parent) {
 			final View view = getLayoutInflater().inflate(R.layout.list_item_movie_wide, parent, false);
-			//((ImageButton)view.findViewById(R.id.optionButton)).setImageDrawable(IconManager.getDrawable(MovieActivity.this, R.string.ic_overflow, 20f, R.color.light_secondry_text));
+			//((ImageButton)view.findViewById(R.id.optionButton)).setImageDrawable(iconManager.getDrawable(R.string.ic_overflow, 20f, R.color.light_secondry_text));
+			((TextView)view.findViewById(R.id.rating)).setTypeface(iconManager.getTypeface());
 			return view;
 		}
 
@@ -150,6 +153,7 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 			final TextView titleView = (TextView) view.findViewById(R.id.title);
 			final TextView subtitleView = (TextView) view.findViewById(R.id.genres);
 			final TextView ratingView = (TextView) view.findViewById(R.id.rating);
+			final TextView runtimeView = (TextView) view.findViewById(R.id.runtime);
 			final ImageView imageView = (ImageView) view.findViewById(R.id.poster);
 			try {
 				final String url = hostUri + "/image/" + URLEncoder.encode(cursor.getString(MoviesQuery.THUMBNAIL), "UTF-8");
@@ -164,7 +168,8 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 
 			titleView.setText(cursor.getString(MoviesQuery.TITLE));
 			subtitleView.setText(cursor.getString(MoviesQuery.GENRES));
-			ratingView.setText(cursor.getString(MoviesQuery.RUNTIME));
+			ratingView.setText(iconManager.getStars(cursor.getFloat(MoviesQuery.RATING)));
+			runtimeView.setText(String.valueOf(cursor.getFloat(MoviesQuery.RATING)));
 		}
 	}
 
@@ -180,6 +185,7 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 				VideoContract.Movies.TITLE,
 				VideoContract.Movies.GENRES,
 				VideoContract.Movies.RUNTIME,
+				VideoContract.Movies.RATING,
 				VideoContract.Movies.THUMBNAIL
 		};
 
@@ -188,6 +194,7 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 		final int TITLE = 2;
 		final int GENRES = 3;
 		final int RUNTIME = 4;
-		final int THUMBNAIL = 5;
+		final int RATING = 5;
+		final int THUMBNAIL = 6;
 	}
 }

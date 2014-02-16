@@ -22,8 +22,10 @@
 package org.xbmc.android.app.manager;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.view.TextDrawable;
 
 /**
@@ -38,6 +40,13 @@ public class IconManager {
 	public IconManager(Context context) {
 		this.context = context;
 		this.symbols = Typeface.createFromAsset(context.getAssets(), "symbols.ttf");
+
+		final Resources resources = context.getResources();
+		this.star0 = resources.getString(R.string.ic_star_00);
+		this.star1 = resources.getString(R.string.ic_star_25);
+		this.star2 = resources.getString(R.string.ic_star_50);
+		this.star3 = resources.getString(R.string.ic_star_75);
+		this.star4 = resources.getString(R.string.ic_star_100);
 	}
 
 	public Typeface getTypeface() {
@@ -59,11 +68,35 @@ public class IconManager {
 		return getDrawable(symbol, 48f, 0);
 	}
 
+	/**
+	 * Returns number stars based on a rating.
+	 *
+	 * 0   .25  .5   .75   1
+	 * |----|----|----|----|
+	 * ==  ===  ===  ===  ==
+	 *  .125 .375 .625 .875
+	 *
+	 * @param rating Rating from 0 - 10
+	 * @return Symbol string in 0 - 5 star rating
+	 */
 	public String getStars(float rating) {
-		if (star0 == null) {
-
+		final StringBuilder sb = new StringBuilder(5);
+		rating /= 2f;
+		for (int i = 0; i < 5; i++) {
+			if (rating < 0.125) {
+				sb.append(star0);
+			} else if (rating < 0.375) {
+				sb.append(star1);
+			} else if (rating < 0.625) {
+				sb.append(star2);
+			} else if (rating < 0.875) {
+				sb.append(star3);
+			} else {
+				sb.append(star4);
+			}
+			rating -= 1f;
 		}
-		return null;
+		return sb.toString();
 	}
 
 }
