@@ -18,6 +18,15 @@
 	<GridView
 		android:id="@android:id/list"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"/>
+		android:layout_height="match_parent"
+		android:verticalSpacing="8dp"
+		android:horizontalSpacing="8dp"
+		android:paddingLeft="@dimen/media_content_hpadding"
+		android:paddingRight="0dp"
+		android:paddingTop="8dp"
+		android:numColumns="@integer/wide_list_numrows"
+		android:fastScrollEnabled="true"
+		android:fastScrollAlwaysVisible="true"
+		android:scrollbarStyle="outsideInset" />
 
 </RelativeLayout>

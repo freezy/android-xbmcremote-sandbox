@@ -17,8 +17,8 @@
 
 	<RelativeLayout
 			android:id="@+id/thumb_wrapper"
-			android:layout_width="80dp"
-			android:layout_height="118dp">
+			android:layout_width="@dimen/portrait_wide_width"
+			android:layout_height="@dimen/portrait_wide_height">
 
 		<ImageView
 				android:id="@+id/poster"
@@ -43,9 +43,9 @@
 			android:layout_marginLeft="10dp"
 			android:paddingRight="35dp"
 			android:textColor="@color/light_primary_text"
-			android:textSize="20sp"
+			android:textSize="@dimen/portrait_wide_title"
 			android:fontFamily="sans-serif-light"
-			android:maxLines="2"
+			android:maxLines="@integer/wide_item_title_lines"
 			android:ellipsize="marquee"
 			tools:ignore="HardcodedText"/>
 
@@ -56,10 +56,10 @@
 			android:layout_height="wrap_content"
 			android:layout_alignLeft="@+id/title"
 			android:layout_below="@+id/title"
-			android:textSize="15sp"
+			android:textSize="@dimen/portrait_wide_subtitle"
 			android:textColor="@color/light_secondry_text"
 			android:fontFamily="sans-serif-light"
-			android:maxLines="2"
+			android:maxLines="@integer/wide_item_subtitle_lines"
 			android:ellipsize="marquee"
 			tools:ignore="HardcodedText"/>
 
@@ -70,7 +70,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:textColor="@color/light_secondry_text"
-			android:textSize="15sp"
+			android:textSize="@dimen/portrait_wide_subtitle"
 			android:fontFamily="sans-serif-light"
 			android:maxLines="1"
 			android:layout_alignParentRight="true"
@@ -86,7 +86,7 @@
 			android:layout_alignBottom="@+id/thumb_wrapper"
 			android:textAppearance="?android:attr/textAppearanceLarge"
 			android:textColor="@color/light_secondry_text"
-			android:textSize="18dp"
+			android:textSize="@dimen/portrait_wide_stars"
 			android:layout_marginBottom="10dp"
 			tools:ignore="HardcodedText,SpUsage"/>
 

@@ -31,6 +31,11 @@
 	<dimen name="square_compact_width">115dp</dimen>
 	<dimen name="portrait_compact_width">115dp</dimen>
 	<dimen name="portrait_compact_height">170dp</dimen>
+	<dimen name="portrait_wide_width">80dp</dimen>
+	<dimen name="portrait_wide_height">118dp</dimen>
+	<dimen name="portrait_wide_title">20sp</dimen>
+	<dimen name="portrait_wide_subtitle">15sp</dimen>
+	<dimen name="portrait_wide_stars">18dp</dimen>
 
 	<!-- Generic Layout -->
 	<dimen name="media_content_hpadding">12dp</dimen>

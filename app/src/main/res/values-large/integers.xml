@@ -20,4 +20,5 @@
 
 <resources>
 	<integer name="home_numrows">4</integer>
+	<integer name="wide_list_numrows">2</integer>
 </resources>

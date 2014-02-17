@@ -20,4 +20,8 @@
 
 <resources>
 	<integer name="home_numrows">3</integer>
+	<integer name="wide_list_numrows">1</integer>
+
+	<integer name="wide_item_title_lines">2</integer>
+	<integer name="wide_item_subtitle_lines">2</integer>
 </resources>

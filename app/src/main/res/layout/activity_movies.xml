@@ -15,20 +15,5 @@
 			android:layout_width="match_parent"
 			android:layout_height="match_parent" />
 
-	<!--ListView
-			android:id="@+id/list_movies"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:dividerHeight="10dp"
-			android:divider="@null"
-			android:paddingLeft="@dimen/media_content_hpadding"
-			android:paddingRight="0dp"
-			android:paddingTop="8dp"
-			android:fastScrollEnabled="true"
-			android:fastScrollAlwaysVisible="true"
-			android:scrollbarStyle="outsideInset">
-
-	</ListView-->
-
 </LinearLayout>
 
