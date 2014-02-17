@@ -41,6 +41,7 @@ import org.xbmc.android.app.ui.MovieActivity;
 import org.xbmc.android.app.ui.WelcomeActivity;
 import org.xbmc.android.app.ui.fragment.AlbumCompactFragment;
 import org.xbmc.android.app.ui.fragment.MovieCompactFragment;
+import org.xbmc.android.app.ui.fragment.MovieListFragment;
 import org.xbmc.android.app.ui.fragment.RefreshNoticeFragment;
 import org.xbmc.android.app.ui.menu.NavigationDrawerFragment;
 import org.xbmc.android.jsonrpc.client.AbstractClient;
@@ -65,6 +66,7 @@ import javax.inject.Singleton;
 		HostManager.class,
 		MovieActivity.class,
 		MovieCompactFragment.class,
+		MovieListFragment.class,
 		NavigationDrawerFragment.class,
 		RefreshNoticeFragment.class,
 		SandboxApplication.class,

@@ -21,55 +21,36 @@
 
 package org.xbmc.android.app.ui;
 
-import android.content.Context;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.BaseColumns;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v4.widget.CursorAdapter;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import com.bumptech.glide.Glide;
-import de.greenrobot.event.EventBus;
-import org.xbmc.android.app.event.DataItemSynced;
-import org.xbmc.android.app.event.HostSwitched;
+import com.astuetz.PagerSlidingTabStrip;
 import org.xbmc.android.app.injection.Injector;
 import org.xbmc.android.app.manager.HostManager;
-import org.xbmc.android.app.manager.IconManager;
-import org.xbmc.android.app.provider.VideoContract;
-import org.xbmc.android.app.provider.VideoDatabase;
+import org.xbmc.android.app.ui.fragment.MovieListFragment;
 import org.xbmc.android.remotesandbox.R;
 
 import javax.inject.Inject;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 /**
  * Movie landing page.
  *
  * @author freezy <freezy@xbmc.org>
  */
-public class MovieActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class MovieActivity extends BaseActivity {
 
 	final private static String TAG = MovieActivity.class.getSimpleName();
+	private static final int NUM_PAGES = 1;
 
-	@Inject protected EventBus bus;
 	@Inject protected HostManager hostManager;
-	@Inject protected IconManager iconManager;
 
-	@InjectView(R.id.list_movies) protected ListView list;
+	@InjectView(R.id.pager) protected ViewPager pager;
+	@InjectView(R.id.tabs) protected PagerSlidingTabStrip tabs;
 
-	private String hostUri;
-	private CursorAdapter adapter;
 
 	public MovieActivity() {
 		super(R.string.title_movies, R.string.ic_movie, R.layout.activity_movies);
@@ -79,137 +60,32 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		ButterKnife.inject(this);
-
-		bus.register(this);
 		Injector.inject(this);
-		hostUri = hostManager.getActiveUri();
 
-		adapter = new MoviesAdapter(getApplicationContext());
-		list.setAdapter(adapter);
-		getSupportLoaderManager().initLoader(0, null, this);
+		pager.setAdapter(new MovieSliderAdapter(getSupportFragmentManager()));
+		tabs.setViewPager(pager);
 	}
 
-	/**
-	 * Event bus callback. Called when either video or audio sync completed.
-	 *
-	 * Refreshes data of the fragment.
-	 *
-	 * @param event Event data
-	 */
-	public void onEvent(DataItemSynced event) {
-		if (event.videoSynced()) {
-			getSupportLoaderManager().restartLoader(0, null, this);
-		}
-	}
+	private class MovieSliderAdapter extends FragmentStatePagerAdapter {
 
-	/**
-	 * Event bus callback. Called when XBMC host was switched by the user (or
-	 * by adding a new host).
-	 *
-	 * Refreshes data of the fragment.
-	 *
-	 * @param event Event data
-	 */
-	public void onEvent(HostSwitched event) {
-		hostUri = event.getHost().getUri();
-		getSupportLoaderManager().restartLoader(0, null, this);
-	}
-
-	@Override
-	public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-		return new CursorLoader(this, VideoContract.Movies.CONTENT_URI, MoviesQuery.PROJECTION, null, null, VideoContract.Movies.DEFAULT_SORT);
-	}
-
-	@Override
-	public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-		adapter.swapCursor(cursor);
-	}
-
-	@Override
-	public void onLoaderReset(Loader<Cursor> cursorLoader) {
-		adapter.swapCursor(null);
-	}
-
-	/**
-	 * {@link android.support.v4.widget.CursorAdapter} that renders a {@link org.xbmc.android.app.ui.fragment.MovieCompactFragment.MoviesQuery}.
-	 */
-	private class MoviesAdapter extends CursorAdapter {
-
-		public MoviesAdapter(Context context) {
-			super(context, null, false);
+		public MovieSliderAdapter(FragmentManager fm) {
+			super(fm);
 		}
 
-		/** {@inheritDoc} */
 		@Override
-		public View newView(Context context, Cursor cursor, ViewGroup parent) {
-			final View view = getLayoutInflater().inflate(R.layout.list_item_movie_wide, parent, false);
-			((ImageButton)view.findViewById(R.id.overflow)).setImageDrawable(iconManager.getDrawable(R.string.ic_overflow, 12f, R.color.light_secondry_text));
-			((TextView)view.findViewById(R.id.rating)).setTypeface(iconManager.getTypeface());
-			return view;
+		public Fragment getItem(int position) {
+			return new MovieListFragment();
 		}
 
-		/** {@inheritDoc} */
 		@Override
-		public void bindView(View view, Context context, Cursor cursor) {
-			final TextView titleView = (TextView) view.findViewById(R.id.title);
-			final TextView subtitleView = (TextView) view.findViewById(R.id.genres);
-			final TextView ratingView = (TextView) view.findViewById(R.id.rating);
-			final TextView runtimeView = (TextView) view.findViewById(R.id.runtime);
-			final ImageView imageView = (ImageView) view.findViewById(R.id.poster);
-			try {
-				final String url = hostUri + "/image/" + URLEncoder.encode(cursor.getString(MoviesQuery.THUMBNAIL), "UTF-8");
-				Glide.load(url)
-						.centerCrop()
-						.animate(android.R.anim.fade_in)
-						.into(imageView);
+		public CharSequence getPageTitle(int position) {
+			return getResources().getString(R.string.title_movies);
+		}
 
-			} catch (UnsupportedEncodingException e) {
-				Log.e(TAG, "Cannot encode " + cursor.getString(MoviesQuery.THUMBNAIL) + " from UTF-8.");
-			}
-
-			titleView.setText(cursor.getString(MoviesQuery.TITLE) + " (" + cursor.getInt(MoviesQuery.YEAR) + ")");
-			subtitleView.setText(cursor.getString(MoviesQuery.GENRES));
-			ratingView.setText(iconManager.getStars(cursor.getFloat(MoviesQuery.RATING)));
-			int runtime = cursor.getInt(MoviesQuery.RUNTIME);
-			if (runtime == 0) {
-				runtime = cursor.getInt(MoviesQuery.VIDEO_DURATION);
-			}
-			if (runtime > 0) {
-				runtimeView.setVisibility(View.VISIBLE);
-				runtimeView.setText(Math.round(runtime / 60) + " " + getResources().getString(R.string.minutes_short));
-			} else {
-				runtimeView.setVisibility(View.GONE);
-			}
-
+		@Override
+		public int getCount() {
+			return NUM_PAGES;
 		}
 	}
 
-	/**
-	 * {@link org.xbmc.android.app.provider.VideoContract.Movies}
-	 * query parameters.
-	 */
-	private interface MoviesQuery {
-
-		String[] PROJECTION = {
-				VideoDatabase.Tables.MOVIES + "." + BaseColumns._ID,
-				VideoContract.Movies.ID,
-				VideoContract.Movies.TITLE,
-				VideoContract.Movies.YEAR,
-				VideoContract.Movies.GENRES,
-				VideoContract.Movies.RUNTIME,
-				VideoContract.Movies.VIDEO_DURATION,
-				VideoContract.Movies.RATING,
-				VideoContract.Movies.THUMBNAIL
-		};
-
-		//final int _ID = 0;
-		final int ID = 1;
-		final int TITLE = 2;
-		final int YEAR = 3;
-		final int GENRES = 4;
-		final int RUNTIME = 5;
-		final int VIDEO_DURATION = 6;
-		final int RATING = 7;
-		final int THUMBNAIL = 8;
-	}
 }
