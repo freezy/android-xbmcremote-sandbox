@@ -58,6 +58,11 @@ public class ArtistHandler extends JsonHandler {
 
 		final long now = System.currentTimeMillis();
 
+		// check if array is not empty
+		if (isEmptyResult(response)) {
+			return new ContentValues[0];
+		}
+
 		// we intentionally don't use the API for mapping but access the
 		// JSON objects directly for performance reasons.
 		final ArrayNode artists = (ArrayNode)response.get(AbstractCall.RESULT).get(AudioLibrary.GetArtists.RESULT);

@@ -56,14 +56,19 @@ public class AlbumHandler extends JsonHandler {
 	}
 
 	@Override
-	protected ContentValues[] parse(JsonNode result, ContentResolver resolver) {
+	protected ContentValues[] parse(JsonNode response, ContentResolver resolver) {
 
 		final long now = System.currentTimeMillis();
 		Log.d(TAG, "Building queries for album's drop and create.");
 
+		// check if array is valid
+		if (isEmptyResult(response)) {
+			return new ContentValues[0];
+		}
+
 		// we intentionally don't use the API for mapping but access the
 		// JSON objects directly for performance reasons.
-		final ArrayNode albums = (ArrayNode)result.get(AbstractCall.RESULT).get(AudioLibrary.GetAlbums.RESULT);
+		final ArrayNode albums = (ArrayNode)response.get(AbstractCall.RESULT).get(AudioLibrary.GetAlbums.RESULT);
 
 		final ContentValues[] batch = new ContentValues[albums.size()];
 		for (int i = 0; i < albums.size(); i++) {
