@@ -51,6 +51,7 @@ import javax.inject.Inject;
 public class HomeActivity extends BaseActivity implements OnRefreshListener {
 
 	private static final String TAG = HomeActivity.class.getSimpleName();
+	private static final String STATE_DATA_AVAIL = "dataAvail";
 
 	@Inject protected EventBus bus;
 	@Inject protected HostManager hostManager;
@@ -61,6 +62,8 @@ public class HomeActivity extends BaseActivity implements OnRefreshListener {
 	private Fragment musicFragment;
 	private Fragment movieFragment;
 	private Fragment refreshNoticeFragment;
+
+	private boolean dataAvail = false;
 
 	public HomeActivity() {
 		super(R.string.title_home, R.string.ic_logo, R.layout.activity_home);
@@ -77,10 +80,17 @@ public class HomeActivity extends BaseActivity implements OnRefreshListener {
 		movieFragment = fm.findFragmentById(R.id.movie_fragment);
 		refreshNoticeFragment = fm.findFragmentById(R.id.refresh_notice_fragment);
 
-		if (settingsManager.hasSynced()) {
-			fm.beginTransaction().show(musicFragment).show(movieFragment).hide(refreshNoticeFragment).commit();
-		} else {
-			fm.beginTransaction().hide(musicFragment).hide(movieFragment).show(refreshNoticeFragment).commit();
+		if (savedInstanceState != null) {
+			// Restore value of members from saved state
+			dataAvail = savedInstanceState.getBoolean(STATE_DATA_AVAIL);
+		}
+
+		if (!dataAvail) {
+			if (settingsManager.hasSynced()) {
+				fm.beginTransaction().show(musicFragment).show(movieFragment).hide(refreshNoticeFragment).commit();
+			} else {
+				fm.beginTransaction().hide(musicFragment).hide(movieFragment).show(refreshNoticeFragment).commit();
+			}
 		}
 
 		// setup pull-to-refresh action bar
@@ -116,9 +126,13 @@ public class HomeActivity extends BaseActivity implements OnRefreshListener {
 	 * @param event Event data
 	 */
 	public void onEvent(DataItemSynced event) {
-		settingsManager.setSynced(true);
-		final FragmentManager fm = getSupportFragmentManager();
-		fm.beginTransaction().show(musicFragment).show(movieFragment).hide(refreshNoticeFragment).commit();
+		if (!dataAvail) {
+			settingsManager.setSynced(true);
+			final FragmentManager fm = getSupportFragmentManager();
+			fm.beginTransaction().show(musicFragment).show(movieFragment).hide(refreshNoticeFragment).commit();
+		} else {
+			dataAvail = true;
+		}
 	}
 
 	/**
@@ -149,5 +163,12 @@ public class HomeActivity extends BaseActivity implements OnRefreshListener {
 		);
 		Log.d(TAG, "Triggered refresh in " + (System.currentTimeMillis() - start) + "ms.");
 	}
+
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+		savedInstanceState.putBoolean(STATE_DATA_AVAIL, dataAvail);
+		super.onSaveInstanceState(savedInstanceState);
+	}
+
 
 }
