@@ -31,21 +31,21 @@ public class DBUtils {
 		}
 	}
 
-	public static String getStringValue(ObjectNode node, String attr) {
+	public static String getStringValue(JsonNode node, String attr) {
 		if (!node.has(attr)) {
 			return null;
 		}
 		return node.get(attr).getTextValue();
 	}
 
-	public static Double getDoubleValue(ObjectNode node, String attr) {
+	public static Double getDoubleValue(JsonNode node, String attr) {
 		if (!node.has(attr)) {
 			return null;
 		}
 		return node.get(attr).getDoubleValue();
 	}
 
-	public static int getIntValue(ObjectNode node, String attr) {
+	public static int getIntValue(JsonNode node, String attr) {
 		if (!node.has(attr)) {
 			return -1;
 		}

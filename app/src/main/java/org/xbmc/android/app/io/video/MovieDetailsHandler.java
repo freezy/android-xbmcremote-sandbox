@@ -35,6 +35,7 @@ import org.xbmc.android.jsonrpc.api.AbstractCall;
 import org.xbmc.android.jsonrpc.api.call.VideoLibrary;
 import org.xbmc.android.jsonrpc.api.model.VideoModel;
 import org.xbmc.android.jsonrpc.io.JsonHandler;
+import org.xbmc.android.util.DBUtils;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -117,8 +118,8 @@ public class MovieDetailsHandler extends JsonHandler {
 			batch[i] = new ContentValues();
 			batch[i].put(VideoContract.MovieCast.MOVIE_REF, id);
 			batch[i].put(VideoContract.MovieCast.PERSON_REF, getPerson(resolver, name, actor));
-			batch[i].put(VideoContract.MovieCast.ROLE, actor.get(VideoModel.Cast.ROLE).getTextValue());
-			batch[i].put(VideoContract.MovieCast.SORT, actor.get(VideoModel.Cast.ORDER).getIntValue());
+			batch[i].put(VideoContract.MovieCast.ROLE, DBUtils.getStringValue(actor, VideoModel.Cast.ROLE));
+			batch[i].put(VideoContract.MovieCast.SORT, DBUtils.getIntValue(actor, VideoModel.Cast.ORDER));
 			i++;
 		}
 
