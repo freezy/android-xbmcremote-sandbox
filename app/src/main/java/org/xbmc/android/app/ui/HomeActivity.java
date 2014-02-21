@@ -73,7 +73,6 @@ public class HomeActivity extends BaseActivity implements OnRefreshListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		ButterKnife.inject(this);
-		bus.register(this);
 
 		final FragmentManager fm = getSupportFragmentManager();
 		musicFragment = fm.findFragmentById(R.id.music_fragment);
@@ -116,9 +115,15 @@ public class HomeActivity extends BaseActivity implements OnRefreshListener {
 	}
 
 	@Override
-	public void onDestroy() {
+	protected void onResume() {
+		super.onResume();
+		bus.register(this);
+	}
+
+	@Override
+	protected void onPause() {
 		bus.unregister(this);
-		super.onDestroy();
+		super.onPause();
 	}
 
 	/**
