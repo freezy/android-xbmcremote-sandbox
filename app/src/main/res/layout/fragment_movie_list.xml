@@ -27,6 +27,8 @@
 		android:numColumns="@integer/wide_list_numrows"
 		android:fastScrollEnabled="true"
 		android:fastScrollAlwaysVisible="true"
-		android:scrollbarStyle="outsideInset" />
+		android:scrollbarStyle="outsideInset"
+		android:drawSelectorOnTop="true"
+		android:listSelector="@drawable/bg_selectable" />
 
 </RelativeLayout>

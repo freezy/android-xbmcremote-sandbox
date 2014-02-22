@@ -17,16 +17,15 @@
 
 package org.xbmc.android.app.ui.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.ListAdapter;
+import android.widget.TextView;
 
 /**
  * Based on {@link android.app.ListFragment} but adapted for {@link GridView}.
@@ -62,71 +61,6 @@ public class GridFragment extends Fragment {
 	boolean mGridShown;
 
 	public GridFragment() { }
-
-	/**
-	 * Provide default implementation to return a simple grid view.  Subclasses
-	 * can override to replace with their own layout.  If doing so, the
-	 * returned view hierarchy <em>must</em> have a GridView whose id
-	 * is {@link android.R.id#list android.R.id.list} and can optionally
-	 * have a sibling view id {@link android.R.id#empty android.R.id.empty}
-	 * that is to be shown when the grid is empty.
-	 *
-	 * <p>If you are overriding this method with your own custom content,
-	 * consider including the standard layout {@link android.R.layout#list_content}
-	 * in your layout file, so that you continue to retain all of the standard
-	 * behavior of ListFragment.  In particular, this is currently the only
-	 * way to have the built-in indeterminant progress state be shown.
-	 */
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
-		final Context context = getActivity();
-
-		FrameLayout root = new FrameLayout(context);
-
-		// ------------------------------------------------------------------
-
-		LinearLayout pframe = new LinearLayout(context);
-		pframe.setId(INTERNAL_PROGRESS_CONTAINER_ID);
-		pframe.setOrientation(LinearLayout.VERTICAL);
-		pframe.setVisibility(View.GONE);
-		pframe.setGravity(Gravity.CENTER);
-
-		ProgressBar progress = new ProgressBar(context, null,
-				android.R.attr.progressBarStyleLarge);
-		pframe.addView(progress, new FrameLayout.LayoutParams(
-				ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
-		root.addView(pframe, new FrameLayout.LayoutParams(
-				ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
-
-		// ------------------------------------------------------------------
-
-		FrameLayout lframe = new FrameLayout(context);
-		lframe.setId(INTERNAL_LIST_CONTAINER_ID);
-
-		TextView tv = new TextView(getActivity());
-		tv.setId(INTERNAL_EMPTY_ID);
-		tv.setGravity(Gravity.CENTER);
-		lframe.addView(tv, new FrameLayout.LayoutParams(
-				ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
-
-		GridView lv = new GridView(getActivity());
-		lv.setId(android.R.id.list);
-		lv.setDrawSelectorOnTop(false);
-		lframe.addView(lv, new FrameLayout.LayoutParams(
-				ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
-
-		root.addView(lframe, new FrameLayout.LayoutParams(
-				ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
-
-		// ------------------------------------------------------------------
-
-		root.setLayoutParams(new FrameLayout.LayoutParams(
-				ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
-
-		return root;
-	}
 
 	/**
 	 * Attach to grid view once the view hierarchy has been created.
