@@ -1,21 +1,7 @@
 # Libs
 
-## In repo
-
-### UI
+## UI
 * [PullToRefresh](https://github.com/chrisbanes/ActionBar-PullToRefresh)
-* [QuickScroll](https://github.com/andraskindler/quickscroll)
-
-### Backend
-* [Glide](https://github.com/bumptech/glide) - *Image loading*
-* [Jackson](http://jackson.codehaus.org/) - *JSON processor*
-* [JmDNS](http://jmdns.sourceforge.net/) - *Zeroconf client*
-* [Autobahn](http://autobahn.ws/) - *Websockets*
-
-
-## Not in repo
-
-### UI
 * [ActionbarSherlock](http://actionbarsherlock.com/)
 * [SlidingMenu](https://github.com/jfeinstein10/SlidingMenu)
 * [WizardPager](https://github.com/TechFreak/WizardPager)
@@ -32,8 +18,14 @@
 * [StackBlur](https://github.com/kikoso/android-stackblur) - *Image Blurring*
 * [RefreshActionItem](https://github.com/ManuelPeinado/RefreshActionItem)
 * [Crouton](https://github.com/keyboardsurfer/Crouton) - *Toast replacement*
+* [QuickScroll](https://github.com/andraskindler/quickscroll)
+* [CardsLib](https://github.com/gabrielemariotti/cardslib)
 
-### Backend
+## Backend
+* [Glide](https://github.com/bumptech/glide) - *Image loading*
+* [Jackson](http://jackson.codehaus.org/) - *JSON processor*
+* [JmDNS](http://jmdns.sourceforge.net/) - *Zeroconf client*
+* [Autobahn](http://autobahn.ws/) - *Websockets*
 * [Otto](http://square.github.io/otto/) - *Event Bus*
 * [Guava](https://code.google.com/p/guava-libraries/) - *All-purpose from Google*
 * [Butterknife](http://jakewharton.github.io/butterknife/) - *View injection for Android*
