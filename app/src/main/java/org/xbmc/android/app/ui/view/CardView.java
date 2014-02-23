@@ -1,31 +1,20 @@
 package org.xbmc.android.app.ui.view;
 
 import android.content.Context;
+import android.support.v7.widget.PopupMenu;
 import android.util.AttributeSet;
+import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.PopupMenu;
-import butterknife.InjectView;
-import butterknife.Optional;
-import org.xbmc.android.remotesandbox.R;
+import android.view.View;
+import android.widget.RelativeLayout;
 
 /**
  *
  * @author freezy <freezy@xbmc.org>
  */
-public class CardView extends FrameLayout {
+public class CardView extends RelativeLayout {
 
-	/**
-	 * Popup Menu for overflow button
-	 */
-	protected PopupMenu popupMenu;
-
-	/**
-	 * Overflow
-	 */
-	@Optional
-	@InjectView(R.id.overflow) protected ImageView overFlowButton;
+	private Object data;
 
 	public CardView(Context context) {
 		super(context);
@@ -39,11 +28,40 @@ public class CardView extends FrameLayout {
 		super(context, attrs, defStyle);
 	}
 
-	public void setOverflowMenu(int overflowResId, OnOverflowClickMenuListener listener) {
-		
+	public void setOverflowMenu(int overflowResId, int menuResId, final OnMenuItemClickListener listener) {
+		final View overflow = findViewById(overflowResId);
+		if (overflow == null) {
+			throw new IllegalArgumentException("Cannot find overflow menu in view. Make sure the view contains an id " + overflowResId + ".");
+		}
+
+		final PopupMenu popup = new PopupMenu(getContext(), overflow);
+		final MenuInflater inflater = popup.getMenuInflater();
+		inflater.inflate(menuResId, popup.getMenu());
+		popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem menuItem) {
+				return listener.onMenuItemClick(menuItem, data);
+			}
+		});
+
+		overflow.setClickable(true);
+		overflow.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				popup.show();
+			}
+		});
 	}
 
-	public interface OnOverflowClickMenuListener {
-		public void onMenuItemClick(MenuItem item);
+	public Object getData() {
+		return data;
+	}
+
+	public void setData(Object data) {
+		this.data = data;
+	}
+
+	public interface OnMenuItemClickListener {
+		public boolean onMenuItemClick(MenuItem item, Object data);
 	}
 }

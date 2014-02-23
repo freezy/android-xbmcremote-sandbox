@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.bumptech.glide.Glide;
@@ -125,7 +126,7 @@ public class MovieListFragment extends GridFragment implements LoaderManager.Loa
 
 		/** {@inheritDoc} */
 		@Override
-		public View newView(Context context, Cursor cursor, ViewGroup parent) {
+		public View newView(Context context, final Cursor cursor, ViewGroup parent) {
 			final CardView view = (CardView) getActivity().getLayoutInflater().inflate(R.layout.list_item_movie_wide, parent, false);
 
 			// find all elements
@@ -134,22 +135,27 @@ public class MovieListFragment extends GridFragment implements LoaderManager.Loa
 			final TextView ratingView = (TextView) view.findViewById(R.id.rating);
 			final TextView runtimeView = (TextView) view.findViewById(R.id.runtime);
 			final ImageView imageView = (ImageView) view.findViewById(R.id.poster);
+			final ImageView overflowView = (ImageView) view.findViewById(R.id.overflow);
 
 			// setup icons
-			imageView.setImageDrawable(iconManager.getDrawable(R.string.ic_overflow, 12f, R.color.light_secondry_text));
+			overflowView.setImageDrawable(iconManager.getDrawable(R.string.ic_overflow, 12f, R.color.light_secondry_text));
 			ratingView.setTypeface(iconManager.getTypeface());
 
 			// setup view holder
 			view.setTag(new ViewHolder(titleView, subtitleView, ratingView, runtimeView, imageView));
 
-			// setup overflow menu
-			view.setOverflowMenu(R.id.overflow, new CardView.OnOverflowClickMenuListener() {
-				@Override
-				public void onMenuItemClick(MenuItem item) {
+			// setup data holder
+			view.setData(new DataHolder(cursor.getString(MoviesQuery.ID), cursor.getString(MoviesQuery.TITLE)));
 
+			// setup overflow menu
+			view.setOverflowMenu(R.id.overflow, R.menu.movie_wide, new CardView.OnMenuItemClickListener() {
+				@Override
+				public boolean onMenuItemClick(MenuItem item, Object d) {
+					final DataHolder data = (DataHolder) d;
+					Toast.makeText(getActivity(), "Clicked on menu of " + data.title, Toast.LENGTH_SHORT).show();
+					return true;
 				}
 			});
-
 			return view;
 		}
 
@@ -157,34 +163,41 @@ public class MovieListFragment extends GridFragment implements LoaderManager.Loa
 		@Override
 		public void bindView(View view, Context context, Cursor cursor) {
 			final CardView card = (CardView)view;
-			final ViewHolder holder = (ViewHolder)view.getTag();
+			final ViewHolder viewHolder = (ViewHolder)view.getTag();
+			final DataHolder dataHolder = (DataHolder)card.getData();
 
 			// load image
 			try {
 				final String url = hostUri + "/image/" + URLEncoder.encode(cursor.getString(MoviesQuery.THUMBNAIL), "UTF-8");
 				Glide.load(url)
-						.centerCrop()
-						.animate(android.R.anim.fade_in)
-						.into(holder.imageView);
+					.centerCrop()
+					.animate(android.R.anim.fade_in)
+					.into(viewHolder.imageView);
 
 			} catch (UnsupportedEncodingException e) {
 				Log.e(TAG, "Cannot encode " + cursor.getString(MoviesQuery.THUMBNAIL) + " from UTF-8.");
 			}
 
+			// get data
+			dataHolder.id = cursor.getString(MoviesQuery.ID);
+			dataHolder.title = cursor.getString(MoviesQuery.TITLE);
+
 			// fill up data
-			holder.titleView.setText(cursor.getString(MoviesQuery.TITLE) + " (" + cursor.getInt(MoviesQuery.YEAR) + ")");
-			holder.genresView.setText(cursor.getString(MoviesQuery.GENRES));
-			holder.ratingView.setText(iconManager.getStars(cursor.getFloat(MoviesQuery.RATING)));
+			viewHolder.titleView.setText(dataHolder.title + " (" + cursor.getInt(MoviesQuery.YEAR) + ")");
+			viewHolder.genresView.setText(cursor.getString(MoviesQuery.GENRES));
+			viewHolder.ratingView.setText(iconManager.getStars(cursor.getFloat(MoviesQuery.RATING)));
 			int runtime = cursor.getInt(MoviesQuery.RUNTIME);
 			if (runtime == 0) {
 				runtime = cursor.getInt(MoviesQuery.VIDEO_DURATION);
 			}
 			if (runtime > 0) {
-				holder.runtimeView.setVisibility(View.VISIBLE);
-				holder.runtimeView.setText(Math.round(runtime / 60) + " " + getResources().getString(R.string.minutes_short));
+				viewHolder.runtimeView.setVisibility(View.VISIBLE);
+				viewHolder.runtimeView.setText(Math.round(runtime / 60) + " " + getResources().getString(R.string.minutes_short));
 			} else {
-				holder.runtimeView.setVisibility(View.GONE);
+				viewHolder.runtimeView.setVisibility(View.GONE);
 			}
+
+
 		}
 	}
 
@@ -206,6 +219,16 @@ public class MovieListFragment extends GridFragment implements LoaderManager.Loa
 			this.ratingView = ratingView;
 			this.runtimeView = runtimeView;
 			this.imageView = imageView;
+		}
+	}
+
+	private static class DataHolder {
+		String id;
+		String title;
+
+		private DataHolder(String id, String title) {
+			this.id = id;
+			this.title = title;
 		}
 	}
 

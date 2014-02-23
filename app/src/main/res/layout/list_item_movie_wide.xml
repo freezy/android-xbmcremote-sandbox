@@ -4,17 +4,14 @@
 <org.xbmc.android.app.ui.view.CardView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:layout_marginLeft="6dp"
-	android:layout_marginRight="6dp"
-	android:layout_marginTop="6dp"
-	android:layout_marginBottom="6dp"
+	android:layout_margin="6dp"
 	android:background="@drawable/bg_card"
 	android:paddingBottom="2dp"
 	android:paddingLeft="0dp"
 	android:paddingTop="0dp"
 	android:paddingRight="0dp">
 
-	<RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content" >
+	<RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent" >
 
 		<RelativeLayout
 			android:id="@+id/thumb_wrapper"
@@ -100,23 +97,20 @@
 			android:layout_alignParentLeft="true"
 			android:layout_alignBottom="@+id/thumb_wrapper"/>
 
-		<!-- menu handle -->
+		<!-- overflow menu -->
 		<ImageView
 			android:id="@+id/overflow"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="@string/ic_overflow"
 			android:layout_alignParentTop="true"
 			android:layout_alignParentRight="true"
-			android:layout_alignEnd="@+id/runtime"
-			android:contentDescription="@string/more"
-			android:background="@android:color/transparent"
-			android:cropToPadding="false"
 			android:paddingTop="4dp"
 			android:paddingRight="4dp"
-			android:focusable="false"
-			android:focusableInTouchMode="false"
-			android:clickable="true" />
+			android:text="@string/ic_overflow"
+			android:contentDescription="@string/more"
+			android:background="@android:color/transparent"
+			android:cropToPadding="false" />
+
 	</RelativeLayout>
 
 </org.xbmc.android.app.ui.view.CardView>
