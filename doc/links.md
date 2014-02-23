@@ -31,12 +31,14 @@
 * [PhotoView](https://github.com/chrisbanes/PhotoView)
 * [StackBlur](https://github.com/kikoso/android-stackblur) - *Image Blurring*
 * [RefreshActionItem](https://github.com/ManuelPeinado/RefreshActionItem)
+* [Crouton](https://github.com/keyboardsurfer/Crouton) - *Toast replacement*
 
 ### Backend
 * [Otto](http://square.github.io/otto/) - *Event Bus*
 * [Guava](https://code.google.com/p/guava-libraries/) - *All-purpose from Google*
 * [Butterknife](http://jakewharton.github.io/butterknife/) - *View injection for Android*
 * [Cling](http://4thline.org/projects/cling/) - *Java/Android UPnP library and tools*
+* [Ion](https://github.com/koush/ion) - *Android Asynchronous Networking and Image Loading*
 
 # Sites
 * [Android Views](http://www.androidviews.net/)

@@ -10,7 +10,9 @@
 	<string name="ok">OK</string>
 	<string name="password">Password</string>
 	<string name="poster">Poster</string>
+	<string name="play">Play</string>
 	<string name="prev">Previous</string>
+	<string name="queue">Queue</string>
 	<string name="retry">Retry</string>
 	<string name="set">Set</string>
 	<string name="setup">Setup</string>

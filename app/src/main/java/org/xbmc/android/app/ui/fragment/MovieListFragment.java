@@ -10,6 +10,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -25,6 +26,7 @@ import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.app.manager.IconManager;
 import org.xbmc.android.app.provider.VideoContract;
 import org.xbmc.android.app.provider.VideoDatabase;
+import org.xbmc.android.app.ui.view.CardView;
 import org.xbmc.android.remotesandbox.R;
 
 import javax.inject.Inject;
@@ -124,45 +126,86 @@ public class MovieListFragment extends GridFragment implements LoaderManager.Loa
 		/** {@inheritDoc} */
 		@Override
 		public View newView(Context context, Cursor cursor, ViewGroup parent) {
-			final View view = getActivity().getLayoutInflater().inflate(R.layout.list_item_movie_wide, parent, false);
-			((ImageView)view.findViewById(R.id.overflow)).setImageDrawable(iconManager.getDrawable(R.string.ic_overflow, 12f, R.color.light_secondry_text));
-			((TextView)view.findViewById(R.id.rating)).setTypeface(iconManager.getTypeface());
+			final CardView view = (CardView) getActivity().getLayoutInflater().inflate(R.layout.list_item_movie_wide, parent, false);
+
+			// find all elements
+			final TextView titleView = (TextView) view.findViewById(R.id.title);
+			final TextView subtitleView = (TextView) view.findViewById(R.id.genres);
+			final TextView ratingView = (TextView) view.findViewById(R.id.rating);
+			final TextView runtimeView = (TextView) view.findViewById(R.id.runtime);
+			final ImageView imageView = (ImageView) view.findViewById(R.id.poster);
+
+			// setup icons
+			imageView.setImageDrawable(iconManager.getDrawable(R.string.ic_overflow, 12f, R.color.light_secondry_text));
+			ratingView.setTypeface(iconManager.getTypeface());
+
+			// setup view holder
+			view.setTag(new ViewHolder(titleView, subtitleView, ratingView, runtimeView, imageView));
+
+			// setup overflow menu
+			view.setOverflowMenu(R.id.overflow, new CardView.OnOverflowClickMenuListener() {
+				@Override
+				public void onMenuItemClick(MenuItem item) {
+
+				}
+			});
+
 			return view;
 		}
 
 		/** {@inheritDoc} */
 		@Override
 		public void bindView(View view, Context context, Cursor cursor) {
-			final TextView titleView = (TextView) view.findViewById(R.id.title);
-			final TextView subtitleView = (TextView) view.findViewById(R.id.genres);
-			final TextView ratingView = (TextView) view.findViewById(R.id.rating);
-			final TextView runtimeView = (TextView) view.findViewById(R.id.runtime);
-			final ImageView imageView = (ImageView) view.findViewById(R.id.poster);
+			final CardView card = (CardView)view;
+			final ViewHolder holder = (ViewHolder)view.getTag();
+
+			// load image
 			try {
 				final String url = hostUri + "/image/" + URLEncoder.encode(cursor.getString(MoviesQuery.THUMBNAIL), "UTF-8");
 				Glide.load(url)
 						.centerCrop()
 						.animate(android.R.anim.fade_in)
-						.into(imageView);
+						.into(holder.imageView);
 
 			} catch (UnsupportedEncodingException e) {
 				Log.e(TAG, "Cannot encode " + cursor.getString(MoviesQuery.THUMBNAIL) + " from UTF-8.");
 			}
 
-			titleView.setText(cursor.getString(MoviesQuery.TITLE) + " (" + cursor.getInt(MoviesQuery.YEAR) + ")");
-			subtitleView.setText(cursor.getString(MoviesQuery.GENRES));
-			ratingView.setText(iconManager.getStars(cursor.getFloat(MoviesQuery.RATING)));
+			// fill up data
+			holder.titleView.setText(cursor.getString(MoviesQuery.TITLE) + " (" + cursor.getInt(MoviesQuery.YEAR) + ")");
+			holder.genresView.setText(cursor.getString(MoviesQuery.GENRES));
+			holder.ratingView.setText(iconManager.getStars(cursor.getFloat(MoviesQuery.RATING)));
 			int runtime = cursor.getInt(MoviesQuery.RUNTIME);
 			if (runtime == 0) {
 				runtime = cursor.getInt(MoviesQuery.VIDEO_DURATION);
 			}
 			if (runtime > 0) {
-				runtimeView.setVisibility(View.VISIBLE);
-				runtimeView.setText(Math.round(runtime / 60) + " " + getResources().getString(R.string.minutes_short));
+				holder.runtimeView.setVisibility(View.VISIBLE);
+				holder.runtimeView.setText(Math.round(runtime / 60) + " " + getResources().getString(R.string.minutes_short));
 			} else {
-				runtimeView.setVisibility(View.GONE);
+				holder.runtimeView.setVisibility(View.GONE);
 			}
+		}
+	}
 
+	/**
+	 * View holder for faster view access.
+	 *
+	 * @see <a href="http://developer.android.com/training/improving-layouts/smooth-scrolling.html#ViewHolder">Smooth Scrolling</a>
+	 */
+	private static class ViewHolder {
+		final TextView titleView;
+		final TextView genresView;
+		final TextView ratingView;
+		final TextView runtimeView;
+		final ImageView imageView;
+
+		private ViewHolder(TextView titleView, TextView genresView, TextView ratingView, TextView runtimeView, ImageView imageView) {
+			this.titleView = titleView;
+			this.genresView = genresView;
+			this.ratingView = ratingView;
+			this.runtimeView = runtimeView;
+			this.imageView = imageView;
 		}
 	}
 
