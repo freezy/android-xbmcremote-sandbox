@@ -1,83 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-				android:id="@+id/card"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginLeft="6dp"
-				android:layout_marginRight="6dp"
-				android:layout_marginTop="6dp"
-				android:layout_marginBottom="6dp"
-				android:background="@drawable/bg_card"
-				android:paddingBottom="2dp"
-				android:paddingLeft="0dp"
-				android:paddingTop="0dp"
-				android:paddingRight="0dp"
-		>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+	style="@style/Card"
+	android:id="@+id/card"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content">
 
 	<RelativeLayout
-			android:id="@+id/thumb_wrapper"
-			android:layout_width="80dp"
-			android:layout_height="80dp"
-			android:paddingBottom="2dp"
-			android:background="@drawable/bg_gradient">
+		android:id="@+id/thumb_wrapper"
+		android:layout_width="80dp"
+		android:layout_height="80dp"
+		android:paddingBottom="2dp"
+		android:background="@drawable/bg_gradient">
 
 		<TextView
-				android:id="@+id/list_icon"
-				android:text="@string/ic_computer"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:textColor="#ff767676"
-				android:layout_centerVertical="true"
-				android:layout_centerHorizontal="true"
-				android:textSize="56dp"/>
+			android:id="@+id/list_icon"
+			android:text="@string/ic_computer"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textColor="#ff767676"
+			android:layout_centerVertical="true"
+			android:layout_centerHorizontal="true"
+			android:textSize="56dp"
+			tools:ignore="SpUsage"/>
 
 	</RelativeLayout>
 
 	<TextView
-			android:id="@+id/title_host"
-			android:text="title_host"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignTop="@+id/thumb_wrapper"
-			android:layout_toRightOf="@+id/thumb_wrapper"
-			android:layout_marginTop="10dp"
-			android:layout_marginLeft="15dp"
-			android:textAppearance="?android:attr/textAppearanceLarge"
-			android:textColor="@color/light_primary_text"
-			android:fontFamily="sans-serif-light"
-			android:maxLines="2"
-			android:ellipsize="marquee" />
+		android:id="@+id/title_host"
+		android:text="title_host"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignTop="@+id/thumb_wrapper"
+		android:layout_toRightOf="@+id/thumb_wrapper"
+		android:layout_marginTop="10dp"
+		android:layout_marginLeft="15dp"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:textColor="@color/light_primary_text"
+		android:fontFamily="sans-serif-light"
+		android:maxLines="2"
+		android:ellipsize="marquee"
+		tools:ignore="HardcodedText"/>
 
 	<TextView
-			android:id="@+id/address_host"
-			android:text="address_host"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignLeft="@+id/title_host"
-			android:layout_below="@+id/title_host"
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:textColor="@color/light_secondry_text"
-			android:fontFamily="sans-serif-light"
-			android:maxLines="1"
-			android:ellipsize="marquee" />
+		android:id="@+id/address_host"
+		android:text="address_host"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignLeft="@+id/title_host"
+		android:layout_below="@+id/title_host"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:textColor="@color/light_secondry_text"
+		android:fontFamily="sans-serif-light"
+		android:maxLines="1"
+		android:ellipsize="marquee"
+		tools:ignore="HardcodedText"/>
 
 	<RelativeLayout
-			android:background="@drawable/bg_selectable"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_alignParentTop="true"
-			android:layout_alignParentLeft="true"
-			android:layout_alignBottom="@+id/thumb_wrapper"/>
+		android:background="@drawable/bg_selectable"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentLeft="true"
+		android:layout_alignBottom="@+id/thumb_wrapper"/>
 
 	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-					android:id="@+id/card_selected"
-					android:visibility="gone"
-					android:background="@drawable/bg_card_selected"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_alignParentTop="true"
-					android:layout_alignParentLeft="true"
-					android:layout_alignBottom="@+id/thumb_wrapper" />
+		android:id="@+id/card_selected"
+		android:visibility="gone"
+		android:background="@drawable/bg_card_selected"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentLeft="true"
+		android:layout_alignBottom="@+id/thumb_wrapper" />
+
 </RelativeLayout>

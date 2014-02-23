@@ -82,10 +82,18 @@ public class CardView extends RelativeLayout {
 		});
 	}
 
+	/**
+	 * Returns the data that is provided in the {@link OnMenuItemClickListener}.
+	 * @return Data
+	 */
 	public Object getData() {
 		return data;
 	}
 
+	/**
+	 * Sets the data that is provided in the {@link OnMenuItemClickListener}.
+	 * @param data Data
+	 */
 	public void setData(Object data) {
 		this.data = data;
 	}

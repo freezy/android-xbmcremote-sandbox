@@ -1,82 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-				android:layout_width="@dimen/portrait_compact_width"
-				android:layout_height="wrap_content"
-				android:layout_marginLeft="6dp"
-				android:layout_marginRight="6dp"
-				android:layout_marginTop="6dp"
-				android:layout_marginBottom="6dp"
-				android:background="@drawable/bg_card"
-				android:paddingBottom="10dp"
-				android:paddingLeft="0dp"
-				android:paddingTop="0dp"
-				android:paddingRight="0dp">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+	style="@style/Card"
+	android:layout_width="@dimen/portrait_compact_width"
+	android:layout_height="wrap_content">
 
 	<RelativeLayout
-			android:id="@+id/thumb_wrapper"
-			android:layout_width="@dimen/portrait_compact_width"
-			android:layout_height="@dimen/portrait_compact_height">
+		android:id="@+id/thumb_wrapper"
+		android:layout_width="@dimen/portrait_compact_width"
+		android:layout_height="@dimen/portrait_compact_height">
 
 		<ImageView
-				android:id="@+id/poster"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:layout_alignParentLeft="true"
-				android:layout_alignParentTop="true"
-				android:adjustViewBounds="true"
-				android:scaleType="centerCrop"
-				android:src="@drawable/gray"
-				android:contentDescription="Poster" />
+			android:id="@+id/poster"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_alignParentLeft="true"
+			android:layout_alignParentTop="true"
+			android:adjustViewBounds="true"
+			android:scaleType="centerCrop"
+			android:src="@drawable/gray"
+			android:contentDescription="@string/poster" />
 
 	</RelativeLayout>
 
 	<TextView
-			android:text="title_movie"
-			android:id="@+id/title"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_below="@id/thumb_wrapper"
-			android:layout_marginTop="5dp"
-			android:layout_marginLeft="5dp"
-			android:layout_alignParentLeft="true"
-			android:textAppearance="?android:attr/textAppearanceLarge"
-			android:textColor="@color/light_primary_text"
-			android:textSize="14sp"
-			android:fontFamily="sans-serif-light"
-			android:maxLines="2"
-			android:ellipsize="end"
-			android:lines="2"
-			android:layout_toLeftOf="@+id/optionButton"/>
+		android:text="title_movie"
+		android:id="@+id/title"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/thumb_wrapper"
+		android:layout_marginTop="5dp"
+		android:layout_marginLeft="5dp"
+		android:layout_alignParentLeft="true"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:textColor="@color/light_primary_text"
+		android:textSize="14sp"
+		android:fontFamily="sans-serif-light"
+		android:maxLines="2"
+		android:ellipsize="end"
+		android:lines="2"
+		android:layout_toLeftOf="@+id/optionButton"
+		tools:ignore="HardcodedText"/>
 
 	<TextView
-			android:text="title_genre"
-			android:id="@+id/title_genre"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_below="@id/title"
-			android:layout_alignParentLeft="true"
-			android:layout_marginLeft="5dp"
-			android:layout_marginBottom="5dp"
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:textColor="@color/light_secondry_text"
-			android:textSize="14sp"
-			android:fontFamily="sans-serif-light"
-			android:maxLines="1"
-			android:ellipsize="end"
-			android:lines="1"
-			android:longClickable="false"/>
+		android:text="title_genre"
+		android:id="@+id/title_genre"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/title"
+		android:layout_alignParentLeft="true"
+		android:layout_marginLeft="5dp"
+		android:layout_marginBottom="5dp"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:textColor="@color/light_secondry_text"
+		android:textSize="14sp"
+		android:fontFamily="sans-serif-light"
+		android:maxLines="1"
+		android:ellipsize="end"
+		android:lines="1"
+		android:longClickable="false"
+		tools:ignore="HardcodedText"/>
 
 	<ImageButton
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:id="@+id/optionButton"
-			android:background="@android:color/transparent"
-			android:cropToPadding="false"
-			android:layout_below="@+id/thumb_wrapper"
-			android:layout_alignParentRight="true"
-			android:layout_alignParentEnd="true"
-			android:paddingTop="8dp"/>
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:id="@+id/optionButton"
+		android:background="@android:color/transparent"
+		android:cropToPadding="false"
+		android:layout_below="@+id/thumb_wrapper"
+		android:layout_alignParentRight="true"
+		android:layout_alignParentEnd="true"
+		android:paddingTop="8dp"
+		android:contentDescription="@string/more"/>
 
 </RelativeLayout>
