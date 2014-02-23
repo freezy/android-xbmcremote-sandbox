@@ -90,23 +90,6 @@
 		android:layout_marginBottom="10dp"
 		tools:ignore="HardcodedText,SpUsage"/>
 
-	<!-- menu handle -->
-	<ImageButton
-		android:id="@+id/overflow"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="@string/ic_overflow"
-		android:layout_alignParentTop="true"
-		android:layout_alignParentRight="true"
-		android:layout_alignEnd="@+id/runtime"
-		android:contentDescription="@string/more"
-		android:background="@android:color/transparent"
-		android:cropToPadding="false"
-		android:paddingTop="4dp"
-		android:paddingRight="4dp"
-		android:focusable="false"
-		android:focusableInTouchMode="false" />
-
 	<RelativeLayout
 		android:background="@drawable/bg_selectable"
 		android:layout_width="match_parent"
@@ -114,5 +97,22 @@
 		android:layout_alignParentTop="true"
 		android:layout_alignParentLeft="true"
 		android:layout_alignBottom="@+id/thumb_wrapper"/>
-	
+
+	<!-- menu handle -->
+	<ImageView
+			android:id="@+id/overflow"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/ic_overflow"
+			android:layout_alignParentTop="true"
+			android:layout_alignParentRight="true"
+			android:layout_alignEnd="@+id/runtime"
+			android:contentDescription="@string/more"
+			android:background="@android:color/transparent"
+			android:cropToPadding="false"
+			android:paddingTop="4dp"
+			android:paddingRight="4dp"
+			android:focusable="false"
+			android:focusableInTouchMode="false"
+			android:clickable="true" />
 </RelativeLayout>

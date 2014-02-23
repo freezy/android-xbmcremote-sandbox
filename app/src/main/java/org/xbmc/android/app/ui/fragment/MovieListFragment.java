@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.ButterKnife;
@@ -126,7 +125,7 @@ public class MovieListFragment extends GridFragment implements LoaderManager.Loa
 		@Override
 		public View newView(Context context, Cursor cursor, ViewGroup parent) {
 			final View view = getActivity().getLayoutInflater().inflate(R.layout.list_item_movie_wide, parent, false);
-			((ImageButton)view.findViewById(R.id.overflow)).setImageDrawable(iconManager.getDrawable(R.string.ic_overflow, 12f, R.color.light_secondry_text));
+			((ImageView)view.findViewById(R.id.overflow)).setImageDrawable(iconManager.getDrawable(R.string.ic_overflow, 12f, R.color.light_secondry_text));
 			((TextView)view.findViewById(R.id.rating)).setTypeface(iconManager.getTypeface());
 			return view;
 		}
