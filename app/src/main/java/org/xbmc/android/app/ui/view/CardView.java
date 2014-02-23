@@ -1,3 +1,24 @@
+/*
+ *      Copyright (C) 2005-2015 Team XBMC
+ *      http://xbmc.org
+ *
+ *  This Program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2, or (at your option)
+ *  any later version.
+ *
+ *  This Program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with XBMC Remote; see the file license.  If not, write to
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
+ *  http://www.gnu.org/copyleft/gpl.html
+ *
+ */
+
 package org.xbmc.android.app.ui.view;
 
 import android.content.Context;
@@ -9,6 +30,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 /**
+ * A Card view. Groups common code specific to the card.
  *
  * @author freezy <freezy@xbmc.org>
  */
@@ -28,6 +50,13 @@ public class CardView extends RelativeLayout {
 		super(context, attrs, defStyle);
 	}
 
+	/**
+	 * Setup the overflow menu.
+	 *
+	 * @param overflowResId ID of the overflow button, can be an {@link android.widget.ImageView}.
+	 * @param menuResId ID of the menu resource
+	 * @param listener Callback when a menu item is selected.
+	 */
 	public void setOverflowMenu(int overflowResId, int menuResId, final OnMenuItemClickListener listener) {
 		final View overflow = findViewById(overflowResId);
 		if (overflow == null) {
@@ -62,6 +91,12 @@ public class CardView extends RelativeLayout {
 	}
 
 	public interface OnMenuItemClickListener {
+		/**
+		 * Ran when a menu item of the overflow menu is clicked.
+		 * @param item Menu item
+		 * @param data Data previously set in #setData.
+		 * @return <tt>true</tt> if the event was handled, <tt>false</tt> otherwise.
+		 */
 		public boolean onMenuItemClick(MenuItem item, Object data);
 	}
 }
