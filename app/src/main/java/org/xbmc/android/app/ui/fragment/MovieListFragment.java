@@ -124,6 +124,22 @@ public class MovieListFragment extends GridFragment implements LoaderManager.Loa
 			super(context, null, false);
 		}
 
+		private final CardView.OnMenuItemClickListener menuItemClickListener = new CardView.OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem item, Object d) {
+				final DataHolder data = (DataHolder)d;
+				switch (item.getItemId()) {
+					case (R.id.play):
+						Toast.makeText(getActivity(), "Playing " + data.title, Toast.LENGTH_SHORT).show();
+						break;
+					case (R.id.queue):
+						Toast.makeText(getActivity(), "Queueing " + data.title, Toast.LENGTH_SHORT).show();
+						break;
+				}
+				return true;
+			}
+		};
+
 		/** {@inheritDoc} */
 		@Override
 		public View newView(Context context, final Cursor cursor, ViewGroup parent) {
@@ -145,17 +161,11 @@ public class MovieListFragment extends GridFragment implements LoaderManager.Loa
 			view.setTag(new ViewHolder(titleView, subtitleView, ratingView, runtimeView, imageView));
 
 			// setup data holder
-			view.setData(new DataHolder(cursor.getString(MoviesQuery.ID), cursor.getString(MoviesQuery.TITLE)));
+			view.setData(new DataHolder());
 
 			// setup overflow menu
-			view.setOverflowMenu(R.id.overflow, R.menu.movie_wide, new CardView.OnMenuItemClickListener() {
-				@Override
-				public boolean onMenuItemClick(MenuItem item, Object d) {
-					final DataHolder data = (DataHolder) d;
-					Toast.makeText(getActivity(), "Clicked on menu of " + data.title, Toast.LENGTH_SHORT).show();
-					return true;
-				}
-			});
+			view.setOverflowMenu(R.id.overflow, R.menu.movie_wide, menuItemClickListener);
+
 			return view;
 		}
 
@@ -178,11 +188,11 @@ public class MovieListFragment extends GridFragment implements LoaderManager.Loa
 				Log.e(TAG, "Cannot encode " + cursor.getString(MoviesQuery.THUMBNAIL) + " from UTF-8.");
 			}
 
-			// get data
+			// set data
 			dataHolder.id = cursor.getString(MoviesQuery.ID);
 			dataHolder.title = cursor.getString(MoviesQuery.TITLE);
 
-			// fill up data
+			// fill up view content
 			viewHolder.titleView.setText(dataHolder.title + " (" + cursor.getInt(MoviesQuery.YEAR) + ")");
 			viewHolder.genresView.setText(cursor.getString(MoviesQuery.GENRES));
 			viewHolder.ratingView.setText(iconManager.getStars(cursor.getFloat(MoviesQuery.RATING)));
@@ -196,8 +206,6 @@ public class MovieListFragment extends GridFragment implements LoaderManager.Loa
 			} else {
 				viewHolder.runtimeView.setVisibility(View.GONE);
 			}
-
-
 		}
 	}
 
@@ -222,13 +230,14 @@ public class MovieListFragment extends GridFragment implements LoaderManager.Loa
 		}
 	}
 
+	/**
+	 * Data holder used for on click events.
+	 */
 	private static class DataHolder {
 		String id;
 		String title;
 
-		private DataHolder(String id, String title) {
-			this.id = id;
-			this.title = title;
+		public DataHolder() {
 		}
 	}
 
