@@ -20,6 +20,7 @@
 * [Crouton](https://github.com/keyboardsurfer/Crouton) - *Toast replacement*
 * [QuickScroll](https://github.com/andraskindler/quickscroll)
 * [CardsLib](https://github.com/gabrielemariotti/cardslib)
+* [RoundedImageView](https://github.com/vinc3m1/RoundedImageView)
 
 ## Backend
 * [Glide](https://github.com/bumptech/glide) - *Image loading*
