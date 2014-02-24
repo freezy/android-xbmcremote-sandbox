@@ -47,4 +47,14 @@
 	<dimen name="page_icon">180dp</dimen>
 	<dimen name="swipe_notice_top_margin">100dp</dimen>
 
+	<!-- Movie Details -->
+	<dimen name="portrait_details_width">140dp</dimen>
+	<dimen name="portrait_details_height">208dp</dimen>
+	<dimen name="details_title">22sp</dimen>
+	<dimen name="details_rating">32sp</dimen>
+	<dimen name="details_label">12sp</dimen>
+	<dimen name="details_separator">2sp</dimen>
+
+
+
 </resources>

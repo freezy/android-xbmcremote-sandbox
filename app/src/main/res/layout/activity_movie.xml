@@ -1,7 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="@color/light_bg">
 
-</RelativeLayout>
+	<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+		<ImageView
+				android:id="@+id/fanart"
+				android:layout_width="wrap_content"
+				android:layout_height="216dp"
+				android:layout_alignParentTop="true"
+				android:layout_alignParentLeft="true"
+				android:layout_alignParentRight="true"
+				android:layout_alignParentStart="true"
+				android:background="@color/dark_bg"
+				android:contentDescription="@string/fanart"/>
+
+		<!-- first separator -->
+		<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="@dimen/details_separator"
+				android:layout_below="@+id/fanart"
+				android:layout_alignParentLeft="true"
+				android:layout_alignParentStart="true"
+				android:layout_alignParentRight="true"
+				android:background="@color/light_tertiary_text"
+				android:id="@+id/linearLayout"/>
+
+		<ImageView
+				android:id="@+id/poster"
+				android:layout_width="@dimen/portrait_details_width"
+				android:layout_height="@dimen/portrait_details_height"
+				android:layout_alignParentTop="true"
+				android:layout_alignParentLeft="true"
+				android:layout_alignParentStart="true"
+				android:layout_marginLeft="24dp"
+				android:layout_marginTop="64dp"
+				android:background="@android:color/white"
+				android:contentDescription="@string/poster"/>
+
+		<TextView
+				android:id="@+id/title"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Movie Title (2014)"
+				android:textSize="@dimen/details_title"
+				android:layout_below="@+id/fanart"
+				android:layout_toRightOf="@+id/poster"
+				android:layout_marginLeft="8dp"
+				android:layout_marginTop="12dp"
+				tools:ignore="HardcodedText"/>
+
+
+		<TextView
+				android:id="@+id/runtime"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_below="@+id/title"
+				android:layout_alignLeft="@+id/title"
+				android:layout_alignStart="@+id/title"
+				android:text="116 min"
+				android:textAllCaps="true"
+				android:textSize="@dimen/details_label"
+				tools:ignore="HardcodedText"/>
+
+		<TextView
+				android:id="@+id/rating"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_below="@+id/poster"
+				android:layout_alignLeft="@+id/poster"
+				android:layout_alignStart="@+id/poster"
+				android:layout_marginTop="8dp"
+				android:text="7.1"
+				android:textSize="@dimen/details_rating"
+				tools:ignore="HardcodedText"/>
+
+		<TextView
+				android:id="@+id/votes"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_toRightOf="@+id/rating"
+				android:layout_alignBaseline="@+id/rating"
+				android:text="183,864 VOTES"
+				android:textSize="@dimen/details_label"
+				tools:ignore="HardcodedText"/>
+
+		<TextView
+				android:id="@+id/rating_stars"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="*****"
+				android:layout_alignTop="@+id/rating"
+				android:layout_alignLeft="@+id/votes"
+				android:layout_alignStart="@+id/votes"
+				tools:ignore="HardcodedText"/>
+
+		<TextView
+				android:id="@+id/genres"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignBottom="@+id/rating"
+				android:layout_alignParentRight="true"
+				android:layout_marginRight="16dp"
+				android:text="Action, Adventure, Horror, Sci-Fi, Thriller"
+				android:textAllCaps="true"
+				android:textSize="@dimen/details_label"
+				android:maxLines="2"
+				android:maxWidth="180dp"
+				android:gravity="right"
+				tools:ignore="HardcodedText"/>
+
+		<!-- second separator -->
+		<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="@dimen/details_separator"
+				android:layout_below="@+id/rating"
+				android:layout_alignParentLeft="true"
+				android:layout_alignParentStart="true"
+				android:layout_alignParentRight="true"
+				android:layout_marginTop="16dp"
+				android:background="@color/light_tertiary_text"/>
+
+		<TextView
+				android:id="@+id/video_res"
+				android:layout_width="80dp"
+				android:layout_height="wrap_content"
+				android:layout_alignBottom="@+id/fanart"
+				android:layout_alignRight="@+id/genres"
+				android:layout_alignEnd="@+id/genres"
+				android:layout_marginBottom="16dp"
+				android:textColor="@android:color/white"
+				android:background="@drawable/bg_box"
+				android:padding="2dp"
+				android:text="1080p"
+				android:gravity="center"
+				tools:ignore="HardcodedText"/>
+
+	</RelativeLayout>
+</ScrollView>

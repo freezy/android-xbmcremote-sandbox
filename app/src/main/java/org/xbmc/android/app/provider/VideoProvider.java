@@ -260,7 +260,7 @@ public class VideoProvider extends AbstractProvider {
 			}
 			case MOVIES_ID: {
 				final String movieId = Movies.getMovieId(uri);
-				return builder.table(VideoDatabase.Tables.MOVIES).where(Movies.ID + "=?", movieId).where(Movies.HOST_ID + "=?", getHostIdAsString());
+				return builder.table(VideoDatabase.Tables.MOVIES).where(Movies._ID + "=?", movieId);
 			}
 			case PEOPLE: {
 				return builder.table(VideoDatabase.Tables.PEOPLE).where(People.HOST_ID + "=?", getHostIdAsString());

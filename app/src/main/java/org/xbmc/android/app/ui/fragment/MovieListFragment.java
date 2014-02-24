@@ -1,6 +1,7 @@
 package org.xbmc.android.app.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.BaseColumns;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +29,7 @@ import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.app.manager.IconManager;
 import org.xbmc.android.app.provider.VideoContract;
 import org.xbmc.android.app.provider.VideoDatabase;
+import org.xbmc.android.app.ui.MovieActivity;
 import org.xbmc.android.app.ui.view.CardView;
 import org.xbmc.android.remotesandbox.R;
 
@@ -58,6 +61,16 @@ public class MovieListFragment extends GridFragment implements LoaderManager.Loa
 		ButterKnife.inject(this, view);
 		emptyView.setText(R.string.empty_movies);
 		return view;
+	}
+
+	@Override
+	public void onGridItemClick(GridView g, View view, int position, long id) {
+
+		final CardView card = (CardView)view;
+		final Intent intent = new Intent(getActivity(), MovieActivity.class);
+		final DataHolder dataHolder = (DataHolder)card.getData();
+		intent.putExtra(MovieActivity.EXTRA_MOVIE_ID, dataHolder._id);
+		startActivity(intent);
 	}
 
 	@Override
@@ -189,6 +202,7 @@ public class MovieListFragment extends GridFragment implements LoaderManager.Loa
 			}
 
 			// set data
+			dataHolder._id = cursor.getLong(MoviesQuery._ID);
 			dataHolder.id = cursor.getString(MoviesQuery.ID);
 			dataHolder.title = cursor.getString(MoviesQuery.TITLE);
 
@@ -234,6 +248,7 @@ public class MovieListFragment extends GridFragment implements LoaderManager.Loa
 	 * Data holder used for on click events.
 	 */
 	private static class DataHolder {
+		Long _id;
 		String id;
 		String title;
 
@@ -259,7 +274,7 @@ public class MovieListFragment extends GridFragment implements LoaderManager.Loa
 				VideoContract.Movies.THUMBNAIL
 		};
 
-		//final int _ID = 0;
+		final int _ID = 0;
 		final int ID = 1;
 		final int TITLE = 2;
 		final int YEAR = 3;

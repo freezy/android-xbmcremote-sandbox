@@ -67,6 +67,10 @@ public class BaseActivity extends ActionBarActivity {
 		this.contentViewRes = contentViewRes;
 	}
 
+	public BaseActivity(int titleRes, int contentViewRes) {
+		this(titleRes, -1, contentViewRes);
+	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -105,7 +109,9 @@ public class BaseActivity extends ActionBarActivity {
 		}
 
 		final ActionBar actionBar = getSupportActionBar();
-		actionBar.setIcon(iconManager.getDrawable(iconRes));
+		if (iconRes > 0) {
+			actionBar.setIcon(iconManager.getDrawable(iconRes));
+		}
 	}
 
 	@Override

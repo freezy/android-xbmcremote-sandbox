@@ -39,7 +39,7 @@ import org.xbmc.android.app.injection.Injector;
 import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.app.ui.HostChooseActivity;
 import org.xbmc.android.app.manager.IconManager;
-import org.xbmc.android.app.ui.MovieActivity;
+import org.xbmc.android.app.ui.MoviesActivity;
 import org.xbmc.android.remotesandbox.R;
 import org.xbmc.android.zeroconf.XBMCHost;
 
@@ -99,7 +99,7 @@ public class NavigationDrawerFragment extends Fragment {
 		final ArrayList<Group> groups = new ArrayList<Group>();
 		groups.add(new Group("Home", R.string.ic_home));
 		groups.add(new Group("Music", R.string.ic_music, new Child("Albums"), new Child("Artists"), new Child("Genres")));
-		groups.add(new Group("Movies", R.string.ic_movie, new Intent(getActivity(), MovieActivity.class), new Child("Sets"), new Child("Genres"), new Child("Actors"), new Child("Recently Added")));
+		groups.add(new Group("Movies", R.string.ic_movie, new Intent(getActivity(), MoviesActivity.class), new Child("Sets"), new Child("Genres"), new Child("Actors"), new Child("Recently Added")));
 		groups.add(new Group("TV Shows", R.string.ic_dock, new Child("Title"), new Child("Genres"), new Child("Years"), new Child("Recently Added")));
 		groups.add(new Group("Pictures", R.string.ic_picture));
 		groups.add(new Group("Addons", R.string.ic_addon, new Intent(getActivity(), WizardActivity.class)));

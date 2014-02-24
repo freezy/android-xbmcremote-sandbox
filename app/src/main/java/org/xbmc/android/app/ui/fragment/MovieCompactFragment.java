@@ -51,7 +51,7 @@ import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.app.manager.IconManager;
 import org.xbmc.android.app.provider.VideoContract;
 import org.xbmc.android.app.provider.VideoDatabase;
-import org.xbmc.android.app.ui.MovieActivity;
+import org.xbmc.android.app.ui.MoviesActivity;
 import org.xbmc.android.remotesandbox.R;
 
 import javax.inject.Inject;
@@ -86,7 +86,7 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 		seeMoreBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(getActivity(), MovieActivity.class));
+				startActivity(new Intent(getActivity(), MoviesActivity.class));
 			}
 		});
 		return view;

@@ -35,10 +35,7 @@ import org.xbmc.android.app.manager.SettingsManager;
 import org.xbmc.android.app.provider.AudioProvider;
 import org.xbmc.android.app.provider.VideoProvider;
 import org.xbmc.android.app.service.SyncService;
-import org.xbmc.android.app.ui.HomeActivity;
-import org.xbmc.android.app.ui.HostChooseActivity;
-import org.xbmc.android.app.ui.MovieActivity;
-import org.xbmc.android.app.ui.WelcomeActivity;
+import org.xbmc.android.app.ui.*;
 import org.xbmc.android.app.ui.fragment.AlbumCompactFragment;
 import org.xbmc.android.app.ui.fragment.MovieCompactFragment;
 import org.xbmc.android.app.ui.fragment.MovieListFragment;
@@ -65,6 +62,7 @@ import javax.inject.Singleton;
 		HostChooseActivity.class,
 		HostManager.class,
 		MovieActivity.class,
+		MoviesActivity.class,
 		MovieCompactFragment.class,
 		MovieListFragment.class,
 		NavigationDrawerFragment.class,
