@@ -18,6 +18,7 @@
 	<string name="set">Set</string>
 	<string name="setup">Setup</string>
 	<string name="username">Username</string>
+	<string name="votes">Votes</string>
 
 	<string name="empty_albums">No albums found.</string>
 	<string name="empty_artists">No artists found.</string>

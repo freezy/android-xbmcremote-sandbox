@@ -31,6 +31,7 @@ import org.xbmc.android.account.authenticator.ui.WizardActivity;
 import org.xbmc.android.app.SandboxApplication;
 import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.app.manager.IconManager;
+import org.xbmc.android.app.manager.ImageManager;
 import org.xbmc.android.app.manager.SettingsManager;
 import org.xbmc.android.app.provider.AudioProvider;
 import org.xbmc.android.app.provider.VideoProvider;
@@ -61,6 +62,7 @@ import javax.inject.Singleton;
 		HomeActivity.class,
 		HostChooseActivity.class,
 		HostManager.class,
+		ImageManager.class,
 		MovieActivity.class,
 		MoviesActivity.class,
 		MovieCompactFragment.class,
@@ -102,5 +104,11 @@ public class AppModule {
 	@Provides
 	IconManager provideIconManager() {
 		return new IconManager(Injector.getContext());
+	}
+
+	@Singleton
+	@Provides
+	ImageManager provideImageManager() {
+		return new ImageManager();
 	}
 }

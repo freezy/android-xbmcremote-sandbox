@@ -25,7 +25,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -67,15 +66,23 @@ public class BaseActivity extends ActionBarActivity {
 		this.contentViewRes = contentViewRes;
 	}
 
-	public BaseActivity(int titleRes, int contentViewRes) {
-		this(titleRes, -1, contentViewRes);
+	public BaseActivity(int contentViewRes) {
+		this(-1, -1, contentViewRes);
+	}
+
+	public BaseActivity() {
+		this(-1, -1, -1);
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setTitle(titleRes);
-		setContentView(contentViewRes);
+		if (titleRes > 0) {
+			setTitle(titleRes);
+		}
+		if (contentViewRes > 0) {
+			setContentView(contentViewRes);
+		}
 
 		ButterKnife.inject(this);
 		Injector.inject(this);
@@ -108,9 +115,8 @@ public class BaseActivity extends ActionBarActivity {
 			drawerLayout.setDrawerListener(drawerToggle);
 		}
 
-		final ActionBar actionBar = getSupportActionBar();
 		if (iconRes > 0) {
-			actionBar.setIcon(iconManager.getDrawable(iconRes));
+			getSupportActionBar().setIcon(iconManager.getDrawable(iconRes));
 		}
 	}
 

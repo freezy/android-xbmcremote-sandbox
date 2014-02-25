@@ -78,6 +78,7 @@
 				android:layout_alignStart="@+id/poster"
 				android:layout_marginTop="8dp"
 				android:text="7.1"
+				android:fontFamily="sans-serif-light"
 				android:textSize="@dimen/details_rating"
 				tools:ignore="HardcodedText"/>
 
@@ -86,8 +87,11 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_toRightOf="@+id/rating"
-				android:layout_alignBaseline="@+id/rating"
-				android:text="183,864 VOTES"
+				android:layout_alignBottom="@+id/rating"
+				android:layout_marginLeft="5dp"
+				android:layout_marginBottom="8dp"
+				android:text="183,864 votes"
+				android:textAllCaps="true"
 				android:textSize="@dimen/details_label"
 				tools:ignore="HardcodedText"/>
 
@@ -95,17 +99,19 @@
 				android:id="@+id/rating_stars"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="*****"
 				android:layout_alignTop="@+id/rating"
 				android:layout_alignLeft="@+id/votes"
 				android:layout_alignStart="@+id/votes"
+				android:layout_marginTop="12dp"
+				android:text="*****"
+				android:textSize="@dimen/details_stars"
 				tools:ignore="HardcodedText"/>
 
 		<TextView
 				android:id="@+id/genres"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_alignBottom="@+id/rating"
+				android:layout_alignBottom="@+id/votes"
 				android:layout_alignParentRight="true"
 				android:layout_marginRight="16dp"
 				android:text="Action, Adventure, Horror, Sci-Fi, Thriller"

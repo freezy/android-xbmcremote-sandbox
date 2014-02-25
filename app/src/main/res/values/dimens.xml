@@ -51,9 +51,10 @@
 	<dimen name="portrait_details_width">140dp</dimen>
 	<dimen name="portrait_details_height">208dp</dimen>
 	<dimen name="details_title">22sp</dimen>
-	<dimen name="details_rating">32sp</dimen>
+	<dimen name="details_rating">40sp</dimen>
 	<dimen name="details_label">12sp</dimen>
 	<dimen name="details_separator">2sp</dimen>
+	<dimen name="details_stars">16dp</dimen>
 
 
 
