@@ -26,6 +26,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.MenuItem;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.astuetz.PagerSlidingTabStrip;
@@ -87,5 +89,14 @@ public class MoviesActivity extends BaseActivity {
 			return NUM_PAGES;
 		}
 	}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 }
