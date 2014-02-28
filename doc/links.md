@@ -21,6 +21,7 @@
 * [QuickScroll](https://github.com/andraskindler/quickscroll)
 * [CardsLib](https://github.com/gabrielemariotti/cardslib)
 * [RoundedImageView](https://github.com/vinc3m1/RoundedImageView)
+* [Android-RobotoTextView](http://johnkil.github.io/Android-RobotoTextView/)
 
 ## Backend
 * [Glide](https://github.com/bumptech/glide) - *Image loading*
