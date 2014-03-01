@@ -19,6 +19,7 @@ dependencies {
 	compile 'com.github.chrisbanes.actionbarpulltorefresh:extra-abc:+'
 	compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
 	compile 'com.github.manuelpeinado.fadingactionbar:fadingactionbar-abc:3.1.0'
+	compile 'com.github.johnkil.android-robototextview:robototextview:2.0.0'
 	compile 'com.github.rickyclarkson:jmdns:3.4.2-r353-1'
 	compile project(":libs:xbmc-jsonrpclib:xbmc-jsonrpclib")
 	compile files('../libs/glide-2.0.1.jar')

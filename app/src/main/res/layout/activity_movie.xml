@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+<ScrollView
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		xmlns:tools="http://schemas.android.com/tools"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:background="@color/light_bg">
@@ -44,7 +47,7 @@
 				android:background="@android:color/white"
 				android:contentDescription="@string/poster"/>
 
-		<TextView
+		<com.devspark.robototextview.widget.RobotoTextView
 				android:id="@+id/title"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
@@ -57,7 +60,7 @@
 				tools:ignore="HardcodedText"/>
 
 
-		<TextView
+		<com.devspark.robototextview.widget.RobotoTextView
 				android:id="@+id/runtime"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
@@ -69,7 +72,7 @@
 				android:textSize="@dimen/details_label"
 				tools:ignore="HardcodedText"/>
 
-		<TextView
+		<com.devspark.robototextview.widget.RobotoTextView
 				android:id="@+id/rating"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
@@ -80,7 +83,9 @@
 				android:text="7.1"
 				android:fontFamily="sans-serif-light"
 				android:textSize="@dimen/details_rating"
-				tools:ignore="HardcodedText"/>
+				app:typeface="roboto_thin"
+				tools:ignore="HardcodedText"
+				/>
 
 		<TextView
 				android:id="@+id/votes"
@@ -95,7 +100,7 @@
 				android:textSize="@dimen/details_label"
 				tools:ignore="HardcodedText"/>
 
-		<TextView
+		<com.devspark.robototextview.widget.RobotoTextView
 				android:id="@+id/rating_stars"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
@@ -107,7 +112,7 @@
 				android:textSize="@dimen/details_stars"
 				tools:ignore="HardcodedText"/>
 
-		<TextView
+		<com.devspark.robototextview.widget.RobotoTextView
 				android:id="@+id/genres"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
@@ -134,7 +139,7 @@
 				android:layout_marginTop="16dp"
 				android:background="@color/light_tertiary_text"/>
 
-		<TextView
+		<com.devspark.robototextview.widget.RobotoTextView
 				android:id="@+id/video_res"
 				android:layout_width="80dp"
 				android:layout_height="wrap_content"
