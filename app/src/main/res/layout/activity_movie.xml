@@ -43,7 +43,7 @@
 				android:layout_alignParentLeft="true"
 				android:layout_alignParentStart="true"
 				android:layout_marginLeft="24dp"
-				android:layout_marginTop="64dp"
+				android:layout_marginTop="100dp"
 				android:background="@android:color/white"
 				android:contentDescription="@string/poster"/>
 
@@ -57,6 +57,7 @@
 				android:layout_toRightOf="@+id/poster"
 				android:layout_marginLeft="8dp"
 				android:layout_marginTop="12dp"
+				app:typeface="roboto_slab_regular"
 				tools:ignore="HardcodedText"/>
 
 
@@ -70,6 +71,8 @@
 				android:text="116 min"
 				android:textAllCaps="true"
 				android:textSize="@dimen/details_label"
+				android:textColor="@color/light_secondry_text"
+				app:typeface="roboto_regular"
 				tools:ignore="HardcodedText"/>
 
 		<com.devspark.robototextview.widget.RobotoTextView
@@ -83,11 +86,12 @@
 				android:text="7.1"
 				android:fontFamily="sans-serif-light"
 				android:textSize="@dimen/details_rating"
+				android:textColor="@color/light_secondry_text"
 				app:typeface="roboto_thin"
 				tools:ignore="HardcodedText"
 				/>
 
-		<TextView
+		<com.devspark.robototextview.widget.RobotoTextView
 				android:id="@+id/votes"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
@@ -98,18 +102,21 @@
 				android:text="183,864 votes"
 				android:textAllCaps="true"
 				android:textSize="@dimen/details_label"
+				android:textColor="@color/light_secondry_text"
+				app:typeface="roboto_regular"
 				tools:ignore="HardcodedText"/>
 
-		<com.devspark.robototextview.widget.RobotoTextView
+		<TextView
 				android:id="@+id/rating_stars"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_alignTop="@+id/rating"
 				android:layout_alignLeft="@+id/votes"
 				android:layout_alignStart="@+id/votes"
-				android:layout_marginTop="12dp"
+				android:layout_marginTop="8dp"
 				android:text="*****"
 				android:textSize="@dimen/details_stars"
+				android:textColor="@color/light_secondry_text"
 				tools:ignore="HardcodedText"/>
 
 		<com.devspark.robototextview.widget.RobotoTextView
@@ -122,9 +129,11 @@
 				android:text="Action, Adventure, Horror, Sci-Fi, Thriller"
 				android:textAllCaps="true"
 				android:textSize="@dimen/details_label"
+				android:textColor="@color/light_secondry_text"
 				android:maxLines="2"
 				android:maxWidth="180dp"
 				android:gravity="right"
+				app:typeface="roboto_regular"
 				tools:ignore="HardcodedText"/>
 
 		<!-- second separator -->
@@ -152,6 +161,7 @@
 				android:padding="2dp"
 				android:text="1080p"
 				android:gravity="center"
+				app:typeface="roboto_regular"
 				tools:ignore="HardcodedText"/>
 
 	</RelativeLayout>
