@@ -117,6 +117,8 @@ public class BaseActivity extends ActionBarActivity {
 
 		if (iconRes > 0) {
 			getSupportActionBar().setIcon(iconManager.getDrawable(iconRes));
+		} else {
+			getSupportActionBar().setDisplayShowHomeEnabled(false);
 		}
 	}
 

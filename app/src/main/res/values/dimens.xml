@@ -50,10 +50,12 @@
 	<!-- Movie Details -->
 	<dimen name="portrait_details_width">140dp</dimen>
 	<dimen name="portrait_details_height">208dp</dimen>
+	<dimen name="details_separator">1dp</dimen>
 	<dimen name="details_title">24sp</dimen>
+	<dimen name="details_subtitle">20sp</dimen>
 	<dimen name="details_rating">36sp</dimen>
 	<dimen name="details_label">12sp</dimen>
-	<dimen name="details_separator">2sp</dimen>
 	<dimen name="details_stars">16dp</dimen>
+	<dimen name="details_text">14dp</dimen>
 
 </resources>

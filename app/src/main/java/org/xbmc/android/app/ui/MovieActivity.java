@@ -42,6 +42,7 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 	@InjectView(R.id.genres) protected TextView genresView;
 	@InjectView(R.id.poster) protected ImageView posterView;
 	@InjectView(R.id.fanart) protected ImageView fanartView;
+	@InjectView(R.id.plot) protected TextView plotView;
 
 	@Inject protected ImageManager imageManager;
 	@Inject protected IconManager iconManager;
@@ -87,9 +88,10 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 
 			final Resources res = getResources();
 			final String title = data.getString(MoviesQuery.TITLE);
+			final String year = data.getString(MoviesQuery.YEAR);
 			final float rating = data.getFloat(MoviesQuery.RATING);
 			final int votes = Math.round(data.getInt(MoviesQuery.RUNTIME) / 60);
-			titleView.setText(title);
+			titleView.setText(title + (year != null ? " (" + year + ")" : ""));
 			setTitle(title);
 
 			// load poster
@@ -108,7 +110,7 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 			votesView.setText(data.getString(MoviesQuery.VOTES) + " " + res.getString(R.string.votes));
 			runtimeView.setText(FORMATTER.format(votes) + " " + res.getString(R.string.minutes_short));
 			genresView.setText(data.getString(MoviesQuery.GENRES));
-
+			plotView.setText(data.getString(MoviesQuery.PLOT));
 
 		} else {
 			Log.e(TAG, "No movie found.");
@@ -137,7 +139,8 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 				VideoContract.Movies.RATING,
 				VideoContract.Movies.THUMBNAIL,
 				VideoContract.Movies.FANART,
-				VideoContract.Movies.VOTES
+				VideoContract.Movies.VOTES,
+				VideoContract.Movies.PLOT
 
 		};
 
@@ -152,6 +155,7 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 		final int THUMBNAIL = 8;
 		final int FANART = 9;
 		final int VOTES = 10;
+		final int PLOT = 11;
 	}
 
     @Override

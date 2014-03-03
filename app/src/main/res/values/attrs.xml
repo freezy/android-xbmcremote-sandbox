@@ -19,4 +19,13 @@
   -->
 <resources>
 
+	<declare-styleable name="ExpandablePanel">
+		<attr name="handle" format="reference" />
+		<attr name="content" format="reference" />
+		<attr name="collapsedHeight" format="dimension" />
+		<attr name="animationDuration" format="integer" />
+		<attr name="handleIconExpanded" format="string" />
+		<attr name="handleIconCollapsed" format="string" />
+	</declare-styleable>
+
 </resources>

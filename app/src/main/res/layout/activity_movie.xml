@@ -27,7 +27,7 @@
 		<LinearLayout
 				android:orientation="horizontal"
 				android:layout_width="fill_parent"
-				android:layout_height="@dimen/details_separator"
+				android:layout_height="2dp"
 				android:layout_below="@+id/fanart"
 				android:layout_alignParentLeft="true"
 				android:layout_alignParentStart="true"
@@ -132,12 +132,13 @@
 				android:textColor="@color/light_secondry_text"
 				android:maxLines="2"
 				android:maxWidth="180dp"
-				android:gravity="right"
+				android:gravity="bottom|right"
 				app:typeface="roboto_regular"
 				tools:ignore="HardcodedText"/>
 
 		<!-- second separator -->
 		<LinearLayout
+				android:id="@+id/sep2"
 				android:orientation="horizontal"
 				android:layout_width="fill_parent"
 				android:layout_height="@dimen/details_separator"
@@ -163,6 +164,91 @@
 				android:gravity="center"
 				app:typeface="roboto_regular"
 				tools:ignore="HardcodedText"/>
+
+		<com.devspark.robototextview.widget.RobotoTextView
+				android:text="Plot"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignLeft="@+id/poster"
+				android:layout_below="@id/sep2"
+				android:layout_marginTop="16dp"
+				android:textSize="@dimen/details_subtitle"
+				android:textColor="@color/light_secondry_text"
+				android:maxLines="2"
+				android:maxWidth="180dp"
+				android:gravity="right"
+				app:typeface="roboto_light"
+				tools:ignore="HardcodedText"/>
+
+		<org.xbmc.android.app.ui.view.ExpandablePanel
+				android:id="@+id/plotPanel"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/sep2"
+				android:layout_marginTop="32dp"
+				android:layout_marginBottom="-16dp"
+				android:paddingLeft="8dp"
+				android:paddingRight="8dp"
+				app:animationDuration="300"
+				app:collapsedHeight="36dp"
+				app:content="@+id/plot"
+				app:handle="@+id/exp1"
+				app:handleIconCollapsed="@string/ic_expand"
+				app:handleIconExpanded="@string/ic_collapse">
+
+			<com.devspark.robototextview.widget.RobotoTextView
+					android:id="@+id/plot"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="16dp"
+					android:text="United Nations employee Gerry Lane traverses the world in a race against time to stop the Zombie pandemic that is toppling armies and governments, and threatening to destroy humanity itself."
+					android:textSize="@dimen/details_text"
+					android:textColor="@color/light_secondry_text"
+					app:typeface="roboto_regular"
+					tools:ignore="HardcodedText"/>
+
+			<TextView
+					android:id="@id/exp1"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentRight="true"
+					android:layout_below="@id/plot"
+					android:layout_marginRight="8dp"
+					android:text="V"
+					android:textSize="28dp"
+					android:textColor="@color/light_tertiary_text"
+					tools:ignore="HardcodedText,SpUsage"/>
+
+		</org.xbmc.android.app.ui.view.ExpandablePanel>
+
+		<!-- third separator -->
+		<LinearLayout
+				android:id="@+id/sep3"
+				android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="@dimen/details_separator"
+				android:layout_below="@id/plotPanel"
+				android:layout_alignParentLeft="true"
+				android:layout_alignParentStart="true"
+				android:layout_alignParentRight="true"
+				android:layout_marginTop="16dp"
+				android:background="@color/light_tertiary_text"/>
+
+		<com.devspark.robototextview.widget.RobotoTextView
+				android:text="Cast"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignLeft="@+id/poster"
+				android:layout_below="@id/sep3"
+				android:layout_marginTop="16dp"
+				android:textSize="@dimen/details_subtitle"
+				android:textColor="@color/light_secondry_text"
+				android:maxLines="2"
+				android:maxWidth="180dp"
+				android:gravity="right"
+				app:typeface="roboto_light"
+				tools:ignore="HardcodedText"/>
+
 
 	</RelativeLayout>
 </ScrollView>

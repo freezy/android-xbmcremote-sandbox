@@ -42,6 +42,7 @@ import org.xbmc.android.app.ui.fragment.MovieCompactFragment;
 import org.xbmc.android.app.ui.fragment.MovieListFragment;
 import org.xbmc.android.app.ui.fragment.RefreshNoticeFragment;
 import org.xbmc.android.app.ui.menu.NavigationDrawerFragment;
+import org.xbmc.android.app.ui.view.ExpandablePanel;
 import org.xbmc.android.jsonrpc.client.AbstractClient;
 import org.xbmc.android.jsonrpc.io.ConnectionManager;
 import org.xbmc.android.zeroconf.DiscoveryService;
@@ -59,6 +60,7 @@ import javax.inject.Singleton;
 		AlbumCompactFragment.class,
 		AudioProvider.class,
 		DiscoveryService.class,
+		ExpandablePanel.class,
 		HomeActivity.class,
 		HostChooseActivity.class,
 		HostManager.class,
