@@ -166,7 +166,7 @@
 				tools:ignore="HardcodedText"/>
 
 		<com.devspark.robototextview.widget.RobotoTextView
-				android:text="Plot"
+				android:text="@string/plot"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_alignLeft="@+id/poster"
@@ -177,8 +177,7 @@
 				android:maxLines="2"
 				android:maxWidth="180dp"
 				android:gravity="right"
-				app:typeface="roboto_light"
-				tools:ignore="HardcodedText"/>
+				app:typeface="roboto_light"/>
 
 		<org.xbmc.android.app.ui.view.ExpandablePanel
 				android:id="@+id/plotPanel"
@@ -235,7 +234,7 @@
 				android:background="@color/light_tertiary_text"/>
 
 		<com.devspark.robototextview.widget.RobotoTextView
-				android:text="Cast"
+				android:text="@string/cast"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_alignLeft="@+id/poster"
@@ -246,8 +245,7 @@
 				android:maxLines="2"
 				android:maxWidth="180dp"
 				android:gravity="right"
-				app:typeface="roboto_light"
-				tools:ignore="HardcodedText"/>
+				app:typeface="roboto_light"/>
 
 
 	</RelativeLayout>

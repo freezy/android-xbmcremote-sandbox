@@ -3,6 +3,7 @@
 	<string name="app_name">XBMC Remote</string>
 
 	<string name="cancel">Cancel</string>
+	<string name="cast">Cast</string>
 	<string name="exit">Exit</string>
 	<string name="fanart">Fanart</string>
 	<string name="minutes_short">min</string>
@@ -12,6 +13,7 @@
 	<string name="password">Password</string>
 	<string name="poster">Poster</string>
 	<string name="play">Play</string>
+	<string name="plot">Plot</string>
 	<string name="prev">Previous</string>
 	<string name="queue">Queue</string>
 	<string name="retry">Retry</string>
