@@ -19,6 +19,7 @@
 	<string name="retry">Retry</string>
 	<string name="set">Set</string>
 	<string name="setup">Setup</string>
+	<string name="trailer">Trailer</string>
 	<string name="username">Username</string>
 	<string name="votes">Votes</string>
 
@@ -172,4 +173,6 @@
 	<string name="drawer_open">Open navigation drawer</string>
 	<string name="drawer_close">Close navigation drawer</string>
 	<string name="swipe_down_note">Swipe down to sync with XBMC.</string>
+
+	<string name="youtube_error">There was an error initializing the Player (%1$s)</string>
 </resources>

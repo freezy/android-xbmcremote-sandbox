@@ -234,7 +234,7 @@
 				android:background="@color/light_tertiary_text"/>
 
 		<com.devspark.robototextview.widget.RobotoTextView
-				android:text="@string/cast"
+				android:text="@string/trailer"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_alignLeft="@+id/poster"
@@ -247,6 +247,15 @@
 				android:gravity="right"
 				app:typeface="roboto_light"/>
 
+		<fragment
+				android:id="@+id/youtube"
+				android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/sep3"
+				android:layout_marginTop="50dp"
+				android:layout_marginLeft="8dp"
+				android:layout_marginRight="8dp"/>
 
 	</RelativeLayout>
 </ScrollView>
