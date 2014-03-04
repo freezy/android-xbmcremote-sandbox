@@ -125,14 +125,13 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 			final FragmentManager fm = getSupportFragmentManager();
 			final YouTubePlayerSupportFragment youtubeFragment = (YouTubePlayerSupportFragment) fm.findFragmentById(R.id.youtube);
 
-
 			final Matcher matcher = PATTERN_YOUTUBE.matcher(data.getString(MoviesQuery.TRAILER));
 			if (matcher.find()) {
 				youtubeId = matcher.group(1);
 				Log.d(TAG, "Found youtube trailer " + youtubeId);
 				youtubeFragment.initialize("AIzaSyDdKyESE56AQvphuVCU0hgpittw9kWCYwQ", this);
 			} else {
-				fm.beginTransaction().hide(youtubeFragment).commit();
+				//fm.beginTransaction().hide(youtubeFragment).commit();
 			}
 
 		} else {
