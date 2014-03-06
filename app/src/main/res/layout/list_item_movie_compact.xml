@@ -62,6 +62,15 @@
 		android:longClickable="false"
 		tools:ignore="HardcodedText"/>
 
+	<!-- hover selector -->
+	<RelativeLayout
+			android:background="@drawable/bg_selectable"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_alignParentTop="true"
+			android:layout_alignParentLeft="true"
+			android:layout_alignParentBottom="true"/>
+
 	<ImageButton
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"

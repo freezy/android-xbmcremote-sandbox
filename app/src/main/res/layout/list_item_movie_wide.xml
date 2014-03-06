@@ -19,6 +19,7 @@
 				android:layout_alignParentTop="true"
 				android:adjustViewBounds="true"
 				android:scaleType="centerCrop"
+				android:background="@color/light_tertiary_text"
 				android:contentDescription="@string/poster" />
 
 		</RelativeLayout>
@@ -82,6 +83,7 @@
 			android:layout_marginBottom="10dp"
 			tools:ignore="HardcodedText,SpUsage"/>
 
+		<!-- hover selector -->
 		<RelativeLayout
 			android:background="@drawable/bg_selectable"
 			android:layout_width="match_parent"

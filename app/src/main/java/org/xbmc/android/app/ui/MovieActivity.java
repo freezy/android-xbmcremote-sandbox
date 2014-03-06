@@ -93,8 +93,8 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-		if (data.moveToNext()) {
-
+		if (data != null && data.getCount() > 0) {
+			data.moveToFirst();
 			final Resources res = getResources();
 			final String title = data.getString(MoviesQuery.TITLE);
 			final String year = data.getString(MoviesQuery.YEAR);
