@@ -26,4 +26,8 @@
 
 	<dimen name="swipe_notice_top_margin">64dp</dimen>
 
+	<!-- Movie Details -->
+	<dimen name="portrait_details_width">168dp</dimen>
+	<dimen name="portrait_details_height">249dp</dimen>
+
 </resources>
