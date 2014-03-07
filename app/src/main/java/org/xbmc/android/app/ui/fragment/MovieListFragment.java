@@ -247,7 +247,7 @@ public class MovieListFragment extends GridFragment implements LoaderManager.Loa
 	/**
 	 * Data holder used for on click events.
 	 */
-	private static class DataHolder {
+	public static class DataHolder {
 		Long _id;
 		String id;
 		String title;

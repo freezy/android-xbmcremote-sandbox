@@ -34,12 +34,13 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.bumptech.glide.Glide;
@@ -52,11 +53,14 @@ import org.xbmc.android.app.manager.IconManager;
 import org.xbmc.android.app.provider.VideoContract;
 import org.xbmc.android.app.provider.VideoDatabase;
 import org.xbmc.android.app.ui.MoviesActivity;
+import org.xbmc.android.app.ui.view.CardView;
 import org.xbmc.android.remotesandbox.R;
 
 import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+
+import static org.xbmc.android.app.ui.fragment.MovieListFragment.DataHolder;
 
 /**
  * Lists albums in grid using the compact view.
@@ -185,30 +189,89 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 		/** {@inheritDoc} */
 		@Override
 		public View newView(Context context, Cursor cursor, ViewGroup parent) {
-			final View view = getActivity().getLayoutInflater().inflate(R.layout.list_item_movie_compact, parent, false);
-			((ImageButton)view.findViewById(R.id.optionButton)).setImageDrawable(iconManager.getDrawable(R.string.ic_overflow, 12f, R.color.light_secondry_text));
+			final CardView view = (CardView)getActivity().getLayoutInflater().inflate(R.layout.list_item_movie_compact, parent, false);
+
+			// find all elements
+			final TextView titleView = (TextView) view.findViewById(R.id.title);
+			final TextView subtitleView = (TextView) view.findViewById(R.id.genres);
+			final ImageView imageView = (ImageView) view.findViewById(R.id.poster);
+			final ImageView overflowView = (ImageView) view.findViewById(R.id.overflow);
+
+			// setup icons
+			overflowView.setImageDrawable(iconManager.getDrawable(R.string.ic_overflow, 12f, R.color.light_secondry_text));
+
+			// setup view holder
+			view.setTag(new ViewHolder(titleView, subtitleView, imageView));
+
+			// setup data holder
+			view.setData(new DataHolder());
+
+			// setup overflow menu
+			view.setOverflowMenu(R.id.overflow, R.menu.movie_wide, menuItemClickListener);
+
 			return view;
 		}
 
 		/** {@inheritDoc} */
 		@Override
 		public void bindView(View view, Context context, Cursor cursor) {
-			final TextView titleView = (TextView) view.findViewById(R.id.title);
-			final TextView subtitleView = (TextView) view.findViewById(R.id.title_genre);
-			final ImageView imageView = (ImageView) view.findViewById(R.id.poster);
+			final CardView card = (CardView)view;
+			final ViewHolder viewHolder = (ViewHolder)view.getTag();
+			final DataHolder dataHolder = (DataHolder)card.getData();
+
+			// load image
 			try {
 				final String url = hostUri + "/image/" + URLEncoder.encode(cursor.getString(MoviesQuery.THUMBNAIL), "UTF-8");
 				Glide.load(url)
-					.centerCrop()
-					.animate(android.R.anim.fade_in)
-					.into(imageView);
+						.centerCrop()
+						.animate(android.R.anim.fade_in)
+						.into(viewHolder.imageView);
 
 			} catch (UnsupportedEncodingException e) {
 				Log.e(TAG, "Cannot encode " + cursor.getString(MoviesQuery.THUMBNAIL) + " from UTF-8.");
 			}
 
-			titleView.setText(cursor.getString(MoviesQuery.TITLE));
-			subtitleView.setText(cursor.getString(MoviesQuery.GENRES));
+			// set data
+			dataHolder._id = cursor.getLong(MoviesQuery._ID);
+			dataHolder.id = cursor.getString(MoviesQuery.ID);
+			dataHolder.title = cursor.getString(MoviesQuery.TITLE);
+
+			// fill up view content
+			viewHolder.titleView.setText(dataHolder.title + " (" + cursor.getInt(MoviesQuery.YEAR) + ")");
+			viewHolder.genresView.setText(cursor.getString(MoviesQuery.GENRES));
+		}
+
+		private final CardView.OnMenuItemClickListener menuItemClickListener = new CardView.OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem item, Object d) {
+				final DataHolder data = (DataHolder)d;
+				switch (item.getItemId()) {
+					case (R.id.play):
+						Toast.makeText(getActivity(), "Playing " + data.title, Toast.LENGTH_SHORT).show();
+						break;
+					case (R.id.queue):
+						Toast.makeText(getActivity(), "Queueing " + data.title, Toast.LENGTH_SHORT).show();
+						break;
+				}
+				return true;
+			}
+		};
+	}
+
+	/**
+	 * View holder for faster view access.
+	 *
+	 * @see <a href="http://developer.android.com/training/improving-layouts/smooth-scrolling.html#ViewHolder">Smooth Scrolling</a>
+	 */
+	private static class ViewHolder {
+		final TextView titleView;
+		final TextView genresView;
+		final ImageView imageView;
+
+		private ViewHolder(TextView titleView, TextView genresView, ImageView imageView) {
+			this.titleView = titleView;
+			this.genresView = genresView;
+			this.imageView = imageView;
 		}
 	}
 
@@ -222,15 +285,17 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 				VideoDatabase.Tables.MOVIES + "." + BaseColumns._ID,
 				VideoContract.Movies.ID,
 				VideoContract.Movies.TITLE,
+				VideoContract.Movies.YEAR,
 				VideoContract.Movies.GENRES,
 				VideoContract.Movies.THUMBNAIL
 		};
 
-		//final int _ID = 0;
+		final int _ID = 0;
 		final int ID = 1;
 		final int TITLE = 2;
-		final int GENRES = 3;
-		final int THUMBNAIL = 4;
+		final int YEAR = 3;
+		final int GENRES = 4;
+		final int THUMBNAIL = 5;
 	}
 
 }

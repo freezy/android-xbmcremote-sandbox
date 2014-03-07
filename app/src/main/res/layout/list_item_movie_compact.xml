@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+<org.xbmc.android.app.ui.view.CardView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
 	style="@style/Card"
 	android:layout_width="@dimen/portrait_compact_width"
 	android:layout_height="wrap_content">
@@ -25,13 +23,14 @@
 	</RelativeLayout>
 
 	<TextView
-		android:text="title_movie"
 		android:id="@+id/title"
+		android:text="title"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_below="@id/thumb_wrapper"
 		android:layout_marginTop="5dp"
 		android:layout_marginLeft="5dp"
+		android:layout_marginRight="30dp"
 		android:layout_alignParentLeft="true"
 		android:textAppearance="?android:attr/textAppearanceLarge"
 		android:textColor="@color/light_primary_text"
@@ -44,8 +43,8 @@
 		tools:ignore="HardcodedText"/>
 
 	<TextView
-		android:text="title_genre"
-		android:id="@+id/title_genre"
+		android:id="@+id/genres"
+		android:text="genres"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_below="@id/title"
@@ -65,22 +64,27 @@
 	<!-- hover selector -->
 	<RelativeLayout
 			android:background="@drawable/bg_selectable"
-			android:layout_width="match_parent"
+			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignParentTop="true"
 			android:layout_alignParentLeft="true"
-			android:layout_alignParentBottom="true"/>
+			android:layout_alignParentBottom="true"
+			android:layout_alignParentRight="true"
+			android:layout_marginBottom="2dp"/>
 
-	<ImageButton
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:id="@+id/optionButton"
-		android:background="@android:color/transparent"
-		android:cropToPadding="false"
-		android:layout_below="@+id/thumb_wrapper"
-		android:layout_alignParentRight="true"
-		android:layout_alignParentEnd="true"
-		android:paddingTop="8dp"
-		android:contentDescription="@string/more"/>
+	<!-- overflow menu -->
+	<ImageView
+			android:id="@+id/overflow"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/thumb_wrapper"
+			android:layout_alignParentRight="true"
+			android:layout_alignParentEnd="true"
+			android:paddingTop="4dp"
+			android:paddingRight="4dp"
+			android:text="@string/ic_overflow"
+			android:contentDescription="@string/more"
+			android:background="@android:color/transparent"
+			android:cropToPadding="false" />
 
-</RelativeLayout>
+</org.xbmc.android.app.ui.view.CardView>
