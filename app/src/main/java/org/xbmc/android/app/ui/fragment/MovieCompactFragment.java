@@ -37,10 +37,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.bumptech.glide.Glide;
@@ -52,6 +49,7 @@ import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.app.manager.IconManager;
 import org.xbmc.android.app.provider.VideoContract;
 import org.xbmc.android.app.provider.VideoDatabase;
+import org.xbmc.android.app.ui.MovieActivity;
 import org.xbmc.android.app.ui.MoviesActivity;
 import org.xbmc.android.app.ui.view.CardView;
 import org.xbmc.android.remotesandbox.R;
@@ -121,6 +119,16 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 
 		// prepare the loader. Either re-connect with an existing one, or start a new one.
 		getLoaderManager().initLoader(0, null, this);
+	}
+
+	@Override
+	public void onGridItemClick(GridView g, View view, int position, long id) {
+
+		final CardView card = (CardView)view;
+		final Intent intent = new Intent(getActivity(), MovieActivity.class);
+		final DataHolder dataHolder = (DataHolder)card.getData();
+		intent.putExtra(MovieActivity.EXTRA_MOVIE_ID, dataHolder._id);
+		startActivity(intent);
 	}
 
 	/**

@@ -63,14 +63,14 @@
 
 	<!-- hover selector -->
 	<RelativeLayout
-			android:background="@drawable/bg_selectable"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignParentTop="true"
-			android:layout_alignParentLeft="true"
-			android:layout_alignParentBottom="true"
-			android:layout_alignParentRight="true"
-			android:layout_marginBottom="2dp"/>
+		android:background="@drawable/bg_selectable"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentRight="true"
+		android:layout_alignBottom="@id/genres"
+		android:layout_marginBottom="-6dp"/>
 
 	<!-- overflow menu -->
 	<ImageView

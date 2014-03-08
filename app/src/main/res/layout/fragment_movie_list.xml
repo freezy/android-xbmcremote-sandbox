@@ -10,7 +10,7 @@
 		android:layout_alignParentTop="true"
 		android:layout_marginTop="16dp"
 		android:layout_centerHorizontal="true"
-		android:text="@string/empty_albums"
+		android:text="@string/empty_movies"
 		android:textSize="14sp"
 		android:textColor="@color/light_secondry_text"
 		android:fontFamily="sans-serif-light" />
