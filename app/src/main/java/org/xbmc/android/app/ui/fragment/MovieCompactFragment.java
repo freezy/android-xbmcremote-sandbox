@@ -73,7 +73,7 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 	@Inject protected HostManager hostManager;
 	@Inject IconManager iconManager;
 
-	@InjectView(R.id.see_more) Button seeMoreBtn;
+	@InjectView(R.id.see_more) RelativeLayout seeMoreBtn;
 	@InjectView(android.R.id.empty) TextView emptyView;
 
 	private CursorAdapter adapter;

@@ -8,6 +8,18 @@
 		android:orientation="vertical"
 		android:background="@color/light_bg">
 
+	<!-- hover selector -->
+	<RelativeLayout
+			android:id="@+id/see_more"
+			android:background="@drawable/bg_selectable_grey"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignTop="@+id/home_header1"
+			android:layout_alignParentLeft="true"
+			android:layout_alignParentRight="true"
+			android:layout_alignBottom="@+id/home_header2"
+			android:layout_marginBottom="0dp"/>
+
 	<TextView
 			style="@style/Header.h1"
 			android:id="@+id/home_header1"
@@ -38,9 +50,8 @@
 			android:fontFamily="sans-serif-light"
 			/>
 
-	<Button
+	<TextView
 			style="@style/SeeMoreButton"
-			android:id="@+id/see_more"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignTop="@id/home_header1"

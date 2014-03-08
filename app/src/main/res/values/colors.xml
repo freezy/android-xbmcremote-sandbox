@@ -33,6 +33,8 @@
 	<color name="holo_blue_dark">#0099cc</color>
 	<color name="holo_blue_bright">#00ddff</color>
 
+	<color name="grey_overlay">#18000000</color>
+
 	<color name="holo_overlay">#9933b5e5</color>
 	<color name="holo_selected">#4033b5e5</color>
 
