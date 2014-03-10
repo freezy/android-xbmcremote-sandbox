@@ -57,6 +57,8 @@ public class VideoDatabase extends SQLiteOpenHelper {
 		final String PEOPLE_MOVIE_WRITER = PEOPLE + "_movie_writers";
 		final String GENRES = "genres";
 		final String GENRES_MOVIE = GENRES + "_movie";
+
+		final String PEOPLE_MOVIE_CAST_JOIN_PEOPLE = PEOPLE_MOVIE_CAST + " JOIN " + PEOPLE + " ON " + MovieCast.PERSON_REF + "=" + PEOPLE + "." + People._ID;
 	}
 
 	/** {@code REFERENCES} clauses. */

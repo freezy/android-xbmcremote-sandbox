@@ -239,6 +239,14 @@
 					android:gravity="right"
 					app:typeface="roboto_light"/>
 
+			<GridView
+					android:id="@+id/cast"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="8dp"
+					android:layout_marginRight="8dp"
+					android:numColumns="2"/>
+
 			<!-- TRAILER separator -->
 			<LinearLayout
 					android:id="@+id/sep4"

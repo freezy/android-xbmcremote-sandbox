@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.xbmc.android.app.ui.view.CardView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+	style="@style/Card"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content">
+
+	<RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent" >
+
+		<RelativeLayout
+			android:id="@+id/thumb_wrapper"
+			android:layout_width="@dimen/square_wide_width"
+			android:layout_height="@dimen/square_wide_width">
+
+			<ImageView
+				android:id="@+id/shot"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_alignParentLeft="true"
+				android:layout_alignParentTop="true"
+				android:adjustViewBounds="true"
+				android:scaleType="centerCrop"
+				android:background="@color/light_tertiary_text"
+				android:contentDescription="@string/poster" />
+
+		</RelativeLayout>
+
+		<TextView
+			android:id="@+id/name"
+			android:text="name"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignTop="@+id/thumb_wrapper"
+			android:layout_toRightOf="@+id/thumb_wrapper"
+			android:layout_marginTop="5dp"
+			android:layout_marginLeft="10dp"
+			android:paddingRight="35dp"
+			android:textColor="@color/light_primary_text"
+			android:textSize="@dimen/portrait_wide_title"
+			android:fontFamily="sans-serif-light"
+			android:maxLines="@integer/wide_item_title_lines"
+			android:ellipsize="marquee"
+			tools:ignore="HardcodedText"/>
+
+		<TextView
+			android:id="@+id/role"
+			android:text="role"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignLeft="@+id/name"
+			android:layout_below="@+id/name"
+			android:textSize="@dimen/portrait_wide_subtitle"
+			android:textColor="@color/light_secondry_text"
+			android:fontFamily="sans-serif-light"
+			android:maxLines="@integer/wide_item_subtitle_lines"
+			android:ellipsize="marquee"
+			tools:ignore="HardcodedText"/>
+
+		<!-- hover selector -->
+		<RelativeLayout
+			android:background="@drawable/bg_selectable"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_alignParentTop="true"
+			android:layout_alignParentLeft="true"
+			android:layout_alignBottom="@+id/thumb_wrapper"/>
+
+	</RelativeLayout>
+
+</org.xbmc.android.app.ui.view.CardView>

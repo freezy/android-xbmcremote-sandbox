@@ -1,6 +1,7 @@
 package org.xbmc.android.app.ui;
 
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
@@ -10,8 +11,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +29,7 @@ import org.xbmc.android.app.manager.IconManager;
 import org.xbmc.android.app.manager.ImageManager;
 import org.xbmc.android.app.provider.VideoContract;
 import org.xbmc.android.app.provider.VideoDatabase;
+import org.xbmc.android.app.ui.view.CardView;
 import org.xbmc.android.remotesandbox.R;
 
 import javax.inject.Inject;
@@ -38,6 +44,9 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 
 	public static final String EXTRA_MOVIE_ID = "MOVIE_ID";
 
+	public static final int LOADER_MOVIE = 0x00;
+	public static final int LOADER_CAST = 0x01;
+
 	private static final String TAG = MovieActivity.class.getSimpleName();
 	private static final DecimalFormat FORMATTER = new DecimalFormat("###,###,###,###");
 	private static final Pattern PATTERN_YOUTUBE = Pattern.compile("plugin://plugin\\.video\\.youtube.*videoid=(\\w+)");
@@ -51,12 +60,18 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 	@InjectView(R.id.poster) protected ImageView posterView;
 	@InjectView(R.id.fanart) protected ImageView fanartView;
 	@InjectView(R.id.plot) protected TextView plotView;
+	@InjectView(R.id.cast) protected GridView castView;
 
 	@Inject protected ImageManager imageManager;
 	@Inject protected IconManager iconManager;
 
-	private Uri uri;
+	private String hostUri;
+	private Uri movieUri;
+	private Uri castUri;
+
 	private String youtubeId;
+
+	private CursorAdapter castAdapter;
 
 	public MovieActivity() {
 		super(R.layout.activity_movie);
@@ -82,61 +97,87 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 
 		ratingStarsView.setTypeface(iconManager.getTypeface());
 
-		uri = ContentUris.withAppendedId(VideoContract.Movies.CONTENT_URI, bundle.getLong(EXTRA_MOVIE_ID));
-		getSupportLoaderManager().initLoader(0, null, this);
+		castAdapter = new CastAdapter(this);
+		castView.setAdapter(castAdapter);
+
+		final long movieId = bundle.getLong(EXTRA_MOVIE_ID);
+		movieUri = ContentUris.withAppendedId(VideoContract.Movies.CONTENT_URI, movieId);
+		castUri = VideoContract.MovieCast.buildMovieUri(String.valueOf(movieId));
+
+		getSupportLoaderManager().initLoader(LOADER_MOVIE, null, this);
+		getSupportLoaderManager().initLoader(LOADER_CAST, null, this);
 	}
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		return new CursorLoader(this, uri, MoviesQuery.PROJECTION, null, null, null);
+		switch (id) {
+			case LOADER_MOVIE:
+				return new CursorLoader(this, movieUri, MoviesQuery.PROJECTION, null, null, null);
+			case LOADER_CAST:
+				return new CursorLoader(this, castUri, CastQuery.PROJECTION, null, null, null);
+			default:
+				return null;
+		}
 	}
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		if (data != null && data.getCount() > 0) {
-			data.moveToFirst();
-			final Resources res = getResources();
-			final String title = data.getString(MoviesQuery.TITLE);
-			final String year = data.getString(MoviesQuery.YEAR);
-			final float rating = data.getFloat(MoviesQuery.RATING);
-			final int votes = Math.round(data.getInt(MoviesQuery.RUNTIME) / 60);
-			titleView.setText(title + (year != null ? " (" + year + ")" : ""));
-			setTitle(title);
-
-			// load poster
-			Glide.load(imageManager.getUrl(data, MoviesQuery.THUMBNAIL))
-					.centerCrop()
-					.animate(android.R.anim.fade_in)
-					.into(posterView);
-
-			// load fanart
-			Glide.load(imageManager.getUrl(data, MoviesQuery.FANART))
-					.animate(android.R.anim.fade_in)
-					.into(fanartView);
-
-			ratingView.setText(String.valueOf(rating));
-			ratingStarsView.setText(iconManager.getStars(rating));
-			votesView.setText(data.getString(MoviesQuery.VOTES) + " " + res.getString(R.string.votes));
-			runtimeView.setText(FORMATTER.format(votes) + " " + res.getString(R.string.minutes_short));
-			genresView.setText(data.getString(MoviesQuery.GENRES));
-			plotView.setText(data.getString(MoviesQuery.PLOT));
-
-			// trailer
-			final FragmentManager fm = getSupportFragmentManager();
-			final YouTubePlayerSupportFragment youtubeFragment = (YouTubePlayerSupportFragment) fm.findFragmentById(R.id.youtube);
-
-			final Matcher matcher = PATTERN_YOUTUBE.matcher(data.getString(MoviesQuery.TRAILER));
-			if (matcher.find()) {
-				youtubeId = matcher.group(1);
-				Log.d(TAG, "Found youtube trailer " + youtubeId);
-				youtubeFragment.initialize("AIzaSyDdKyESE56AQvphuVCU0hgpittw9kWCYwQ", this);
-			} else {
-				//fm.beginTransaction().hide(youtubeFragment).commit();
+			switch (loader.getId()) {
+				case LOADER_MOVIE:
+					onMovieLoaded(data);
+					break;
+				case LOADER_CAST:
+					onCastLoaded(data);
+					break;
 			}
-
-		} else {
-			Log.e(TAG, "No movie found.");
 		}
+	}
+
+	private void onMovieLoaded(Cursor data) {
+		data.moveToFirst();
+		final Resources res = getResources();
+		final String title = data.getString(MoviesQuery.TITLE);
+		final String year = data.getString(MoviesQuery.YEAR);
+		final float rating = data.getFloat(MoviesQuery.RATING);
+		final int votes = Math.round(data.getInt(MoviesQuery.RUNTIME) / 60);
+		titleView.setText(title + (year != null ? " (" + year + ")" : ""));
+		setTitle(title);
+
+		// load poster
+		Glide.load(imageManager.getUrl(data, MoviesQuery.THUMBNAIL))
+				.centerCrop()
+				.animate(android.R.anim.fade_in)
+				.into(posterView);
+
+		// load fanart
+		Glide.load(imageManager.getUrl(data, MoviesQuery.FANART))
+				.animate(android.R.anim.fade_in)
+				.into(fanartView);
+
+		ratingView.setText(String.valueOf(rating));
+		ratingStarsView.setText(iconManager.getStars(rating));
+		votesView.setText(data.getString(MoviesQuery.VOTES) + " " + res.getString(R.string.votes));
+		runtimeView.setText(FORMATTER.format(votes) + " " + res.getString(R.string.minutes_short));
+		genresView.setText(data.getString(MoviesQuery.GENRES));
+		plotView.setText(data.getString(MoviesQuery.PLOT));
+
+		// trailer
+		final FragmentManager fm = getSupportFragmentManager();
+		final YouTubePlayerSupportFragment youtubeFragment = (YouTubePlayerSupportFragment) fm.findFragmentById(R.id.youtube);
+
+		final Matcher matcher = PATTERN_YOUTUBE.matcher(data.getString(MoviesQuery.TRAILER));
+		if (matcher.find()) {
+			youtubeId = matcher.group(1);
+			Log.d(TAG, "Found youtube trailer " + youtubeId);
+			youtubeFragment.initialize("AIzaSyDdKyESE56AQvphuVCU0hgpittw9kWCYwQ", this);
+		} else {
+			//fm.beginTransaction().hide(youtubeFragment).commit();
+		}
+	}
+
+	private void onCastLoaded(Cursor data) {
+		castAdapter.swapCursor(data);
 	}
 
 	@Override
@@ -159,6 +200,62 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 		}
 	}
 
+	/**
+	 * {@link android.support.v4.widget.CursorAdapter} that renders a {@link org.xbmc.android.app.ui.fragment.MovieCompactFragment.MoviesQuery}.
+	 */
+	private class CastAdapter extends CursorAdapter {
+
+		public CastAdapter(Context context) {
+			super(context, null, false);
+		}
+
+		/** {@inheritDoc} */
+		@Override
+		public View newView(Context context, final Cursor cursor, ViewGroup parent) {
+			final CardView view = (CardView)getLayoutInflater().inflate(R.layout.list_item_actor_wide, parent, false);
+
+			// setup data holder
+			view.setData(new DataHolder());
+
+			return view;
+		}
+
+		/** {@inheritDoc} */
+		@Override
+		public void bindView(View view, Context context, Cursor cursor) {
+			final CardView card = (CardView)view;
+			final DataHolder dataHolder = (DataHolder)card.getData();
+
+			final TextView nameView = (TextView) view.findViewById(R.id.name);
+			final TextView roleView = (TextView) view.findViewById(R.id.role);
+			final ImageView shotView = (ImageView) view.findViewById(R.id.shot);
+
+			// load image
+			Glide.load(imageManager.getUrl(cursor, CastQuery.THUMBNAIL))
+				.centerCrop()
+				.animate(android.R.anim.fade_in)
+				.into(shotView);
+
+			// set data
+			dataHolder._id = cursor.getLong(CastQuery._ID);
+			dataHolder.name = cursor.getString(CastQuery.NAME);
+
+			// fill up view content
+			nameView.setText(dataHolder.name);
+			roleView.setText(cursor.getString(CastQuery.ROLE));
+		}
+	}
+
+	/**
+	 * Data holder used for on click events.
+	 */
+	public static class DataHolder {
+		Long _id;
+		String name;
+		public DataHolder() {
+		}
+	}
+
 
 	/**
 	 * {@link org.xbmc.android.app.provider.VideoContract.Movies}
@@ -167,20 +264,19 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 	private interface MoviesQuery {
 
 		String[] PROJECTION = {
-				VideoDatabase.Tables.MOVIES + "." + BaseColumns._ID,
-				VideoContract.Movies.ID,
-				VideoContract.Movies.TITLE,
-				VideoContract.Movies.YEAR,
-				VideoContract.Movies.GENRES,
-				VideoContract.Movies.RUNTIME,
-				VideoContract.Movies.VIDEO_DURATION,
-				VideoContract.Movies.RATING,
-				VideoContract.Movies.THUMBNAIL,
-				VideoContract.Movies.FANART,
-				VideoContract.Movies.VOTES,
-				VideoContract.Movies.PLOT,
-				VideoContract.Movies.TRAILER
-
+			VideoDatabase.Tables.MOVIES + "." + BaseColumns._ID,
+			VideoContract.Movies.ID,
+			VideoContract.Movies.TITLE,
+			VideoContract.Movies.YEAR,
+			VideoContract.Movies.GENRES,
+			VideoContract.Movies.RUNTIME,
+			VideoContract.Movies.VIDEO_DURATION,
+			VideoContract.Movies.RATING,
+			VideoContract.Movies.THUMBNAIL,
+			VideoContract.Movies.FANART,
+			VideoContract.Movies.VOTES,
+			VideoContract.Movies.PLOT,
+			VideoContract.Movies.TRAILER
 		};
 
 		final int _ID = 0;
@@ -196,6 +292,25 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 		final int VOTES = 10;
 		final int PLOT = 11;
 		final int TRAILER = 12;
+	}
+
+	/**
+	 * {@link org.xbmc.android.app.provider.VideoContract.Movies}
+	 * query parameters.
+	 */
+	private interface CastQuery {
+
+		String[] PROJECTION = {
+			VideoDatabase.Tables.PEOPLE + "." + BaseColumns._ID,
+			VideoContract.People.NAME,
+			VideoContract.People.THUMBNAIL,
+			VideoContract.MovieCast.ROLE
+		};
+
+		final int _ID = 0;
+		final int NAME = 1;
+		final int THUMBNAIL = 2;
+		final int ROLE = 3;
 	}
 
     @Override

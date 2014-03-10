@@ -71,9 +71,9 @@ public class VideoProvider extends AbstractProvider {
 
 		matcher.addURI(authority, VideoContract.PATH_MOVIES, MOVIES);
 		matcher.addURI(authority, VideoContract.PATH_MOVIES + "/*", MOVIES_ID);
+		matcher.addURI(authority, VideoContract.PATH_MOVIES + "/*/" + VideoContract.PATH_MOVIECAST, MOVIECAST);
 		matcher.addURI(authority, VideoContract.PATH_PEOPLE, PEOPLE);
 		matcher.addURI(authority, VideoContract.PATH_PEOPLE + "/*", PERSON_ID);
-		matcher.addURI(authority, VideoContract.PATH_MOVIECAST, MOVIECAST);
 		matcher.addURI(authority, VideoContract.PATH_MOVIEDIRECTOR, MOVIEDIRECTOR);
 		matcher.addURI(authority, VideoContract.PATH_MOVIEWRITER, MOVIEWRITER);
 		matcher.addURI(authority, VideoContract.PATH_GENRES, GENRES);
@@ -261,6 +261,10 @@ public class VideoProvider extends AbstractProvider {
 			case MOVIES_ID: {
 				final String movieId = Movies.getMovieId(uri);
 				return builder.table(VideoDatabase.Tables.MOVIES).where(Movies._ID + "=?", movieId);
+			}
+			case MOVIECAST: {
+				final String movieId = MovieCast.getMovieId(uri);
+				return builder.table(VideoDatabase.Tables.PEOPLE_MOVIE_CAST_JOIN_PEOPLE).where(MovieCast.MOVIE_REF + "=?", movieId);
 			}
 			case PEOPLE: {
 				return builder.table(VideoDatabase.Tables.PEOPLE).where(People.HOST_ID + "=?", getHostIdAsString());

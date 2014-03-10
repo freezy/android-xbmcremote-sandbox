@@ -17,13 +17,11 @@ public class ImageManager {
 	@Inject protected HostManager hostManager;
 	@Inject protected EventBus bus;
 
-
 	private String host;
 
 	public ImageManager() {
 		Injector.inject(this);
 		bus.register(this);
-
 		host = hostManager.getActiveUri();
 	}
 
