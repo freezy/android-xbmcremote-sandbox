@@ -35,7 +35,7 @@
 			android:layout_marginLeft="10dp"
 			android:paddingRight="35dp"
 			android:textColor="@color/light_primary_text"
-			android:textSize="@dimen/portrait_wide_title"
+			android:textSize="@dimen/portrait_wide_subtitle"
 			android:fontFamily="sans-serif-light"
 			android:maxLines="@integer/wide_item_title_lines"
 			android:ellipsize="marquee"

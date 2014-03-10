@@ -245,6 +245,8 @@
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="8dp"
 					android:layout_marginRight="8dp"
+					android:horizontalSpacing="8dp"
+					android:verticalSpacing="8dp"
 					android:numColumns="2"/>
 
 			<!-- TRAILER separator -->
