@@ -152,8 +152,6 @@
 				app:typeface="roboto_regular"
 				tools:ignore="HardcodedText"/>
 
-
-
 		<LinearLayout
 				android:layout_below="@+id/rating"
 				android:layout_width="match_parent"
@@ -239,12 +237,13 @@
 					android:gravity="right"
 					app:typeface="roboto_light"/>
 
-			<GridView
+			<org.xbmc.android.app.ui.view.ExpandableHeightGridView
 					android:id="@+id/cast"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="8dp"
 					android:layout_marginRight="8dp"
+					android:layout_marginTop="8dp"
 					android:horizontalSpacing="8dp"
 					android:verticalSpacing="8dp"
 					android:numColumns="2"/>

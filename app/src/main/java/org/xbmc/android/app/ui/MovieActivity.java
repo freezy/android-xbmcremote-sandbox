@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +29,7 @@ import org.xbmc.android.app.manager.ImageManager;
 import org.xbmc.android.app.provider.VideoContract;
 import org.xbmc.android.app.provider.VideoDatabase;
 import org.xbmc.android.app.ui.view.CardView;
+import org.xbmc.android.app.ui.view.ExpandableHeightGridView;
 import org.xbmc.android.remotesandbox.R;
 
 import javax.inject.Inject;
@@ -60,7 +60,7 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 	@InjectView(R.id.poster) protected ImageView posterView;
 	@InjectView(R.id.fanart) protected ImageView fanartView;
 	@InjectView(R.id.plot) protected TextView plotView;
-	@InjectView(R.id.cast) protected GridView castView;
+	@InjectView(R.id.cast) protected ExpandableHeightGridView castView;
 
 	@Inject protected ImageManager imageManager;
 	@Inject protected IconManager iconManager;
@@ -98,6 +98,7 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 		ratingStarsView.setTypeface(iconManager.getTypeface());
 
 		castAdapter = new CastAdapter(this);
+		castView.setExpanded(true);
 		castView.setAdapter(castAdapter);
 
 		final long movieId = bundle.getLong(EXTRA_MOVIE_ID);
@@ -114,7 +115,7 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 			case LOADER_MOVIE:
 				return new CursorLoader(this, movieUri, MoviesQuery.PROJECTION, null, null, null);
 			case LOADER_CAST:
-				return new CursorLoader(this, castUri, CastQuery.PROJECTION, null, null, null);
+				return new CursorLoader(this, castUri, CastQuery.PROJECTION, null, null, VideoContract.MovieCast.DEFAULT_SORT);
 			default:
 				return null;
 		}
@@ -182,6 +183,11 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
+		switch (loader.getId()) {
+			case LOADER_CAST:
+				castAdapter.swapCursor(null);
+				break;
+		}
 	}
 
 	@Override
@@ -231,10 +237,13 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 			final ImageView shotView = (ImageView) view.findViewById(R.id.shot);
 
 			// load image
-			Glide.load(imageManager.getUrl(cursor, CastQuery.THUMBNAIL))
-				.centerCrop()
-				.animate(android.R.anim.fade_in)
-				.into(shotView);
+			final String imgUrl = imageManager.getUrl(cursor, CastQuery.THUMBNAIL);
+			if (imgUrl != null) {
+				Glide.load(imgUrl)
+					.centerCrop()
+					.animate(android.R.anim.fade_in)
+					.into(shotView);
+			}
 
 			// set data
 			dataHolder._id = cursor.getLong(CastQuery._ID);

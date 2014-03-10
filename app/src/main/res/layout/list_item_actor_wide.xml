@@ -31,13 +31,13 @@
 			android:layout_height="wrap_content"
 			android:layout_alignTop="@+id/thumb_wrapper"
 			android:layout_toRightOf="@+id/thumb_wrapper"
-			android:layout_marginTop="5dp"
-			android:layout_marginLeft="10dp"
-			android:paddingRight="35dp"
+			android:layout_marginTop="2dp"
+			android:layout_marginLeft="7dp"
+			android:paddingRight="4dp"
 			android:textColor="@color/light_primary_text"
 			android:textSize="@dimen/portrait_wide_subtitle"
 			android:fontFamily="sans-serif-light"
-			android:maxLines="@integer/wide_item_title_lines"
+			android:maxLines="2"
 			android:ellipsize="marquee"
 			tools:ignore="HardcodedText"/>
 
@@ -51,7 +51,7 @@
 			android:textSize="@dimen/portrait_wide_subtitle"
 			android:textColor="@color/light_secondry_text"
 			android:fontFamily="sans-serif-light"
-			android:maxLines="@integer/wide_item_subtitle_lines"
+			android:maxLines="1"
 			android:ellipsize="marquee"
 			tools:ignore="HardcodedText"/>
 

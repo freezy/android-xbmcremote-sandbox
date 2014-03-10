@@ -140,129 +140,135 @@
 				app:typeface="roboto_regular"
 				tools:ignore="HardcodedText"/>
 
-		<!-- second separator -->
 		<LinearLayout
-				android:id="@+id/sep2"
-				android:orientation="horizontal"
-				android:layout_width="fill_parent"
-				android:layout_height="@dimen/details_separator"
 				android:layout_below="@+id/genres"
-				android:layout_alignParentRight="true"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
 				android:layout_alignLeft="@id/title"
-				android:layout_marginTop="16dp"
-				android:background="@color/light_tertiary_text"/>
+				android:orientation="vertical">
 
-		<com.devspark.robototextview.widget.RobotoTextView
-				android:id="@+id/video_res"
-				android:layout_width="80dp"
-				android:layout_height="wrap_content"
-				android:layout_alignBottom="@+id/fanart"
-				android:layout_alignParentRight="true"
-				android:layout_marginRight="16dp"
-				android:layout_alignEnd="@+id/genres"
-				android:layout_marginBottom="16dp"
-				android:textColor="@android:color/white"
-				android:background="@drawable/bg_box"
-				android:padding="2dp"
-				android:text="1080p"
-				android:gravity="center"
-				app:typeface="roboto_regular"
-				tools:ignore="HardcodedText"/>
-
-		<com.devspark.robototextview.widget.RobotoTextView
-				android:text="@string/plot"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_alignLeft="@+id/title"
-				android:layout_alignStart="@+id/title"
-				android:layout_below="@id/sep2"
-				android:layout_marginTop="16dp"
-				android:textSize="@dimen/details_subtitle"
-				android:textColor="@color/light_secondry_text"
-				android:maxLines="2"
-				android:maxWidth="180dp"
-				android:gravity="right"
-				app:typeface="roboto_light"/>
-
-		<org.xbmc.android.app.ui.view.ExpandablePanel
-				android:id="@+id/plotPanel"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:layout_below="@id/sep2"
-				android:layout_marginTop="32dp"
-				android:layout_marginBottom="-16dp"
-				android:layout_alignLeft="@+id/title"
-				android:layout_alignStart="@+id/title"
-				android:paddingRight="8dp"
-				app:animationDuration="300"
-				app:collapsedHeight="36dp"
-				app:content="@+id/plot"
-				app:handle="@+id/exp1"
-				app:handleIconCollapsed="@string/ic_expand"
-				app:handleIconExpanded="@string/ic_collapse">
+			<!-- PLOT separator -->
+			<LinearLayout
+					android:orientation="horizontal"
+					android:layout_width="fill_parent"
+					android:layout_height="@dimen/details_separator"
+					android:layout_marginTop="16dp"
+					android:background="@color/light_tertiary_text"/>
 
 			<com.devspark.robototextview.widget.RobotoTextView
-					android:id="@+id/plot"
+					android:text="@string/plot"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginTop="16dp"
-					android:text="United Nations employee Gerry Lane traverses the world in a race against time to stop the Zombie pandemic that is toppling armies and governments, and threatening to destroy humanity itself."
-					android:textSize="@dimen/details_text"
+					android:layout_marginLeft="24dp"
+					android:textSize="@dimen/details_subtitle"
 					android:textColor="@color/light_secondry_text"
-					app:typeface="roboto_regular"
-					tools:ignore="HardcodedText"/>
+					app:typeface="roboto_light"/>
 
-			<TextView
-					android:id="@id/exp1"
+			<org.xbmc.android.app.ui.view.ExpandablePanel
+					android:id="@+id/plotPanel"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="-16dp"
+					android:layout_marginTop="-8dp"
+					android:paddingLeft="8dp"
+					android:paddingRight="8dp"
+					app:animationDuration="300"
+					app:collapsedHeight="36dp"
+					app:content="@+id/plot"
+					app:handle="@+id/exp1"
+					app:handleIconCollapsed="@string/ic_expand"
+					app:handleIconExpanded="@string/ic_collapse">
+
+				<com.devspark.robototextview.widget.RobotoTextView
+						android:id="@+id/plot"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="16dp"
+						android:text="United Nations employee Gerry Lane traverses the world in a race against time to stop the Zombie pandemic that is toppling armies and governments, and threatening to destroy humanity itself."
+						android:textSize="@dimen/details_text"
+						android:textColor="@color/light_secondry_text"
+						app:typeface="roboto_regular"
+						tools:ignore="HardcodedText"/>
+
+				<TextView
+						android:id="@id/exp1"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_alignParentRight="true"
+						android:layout_below="@id/plot"
+						android:layout_marginRight="8dp"
+						android:text="V"
+						android:textSize="28dp"
+						android:textColor="@color/light_tertiary_text"
+						tools:ignore="HardcodedText,SpUsage"/>
+
+			</org.xbmc.android.app.ui.view.ExpandablePanel>
+
+			<!-- CAST separator -->
+			<LinearLayout
+					android:orientation="horizontal"
+					android:layout_width="fill_parent"
+					android:layout_height="@dimen/details_separator"
+					android:layout_marginTop="16dp"
+					android:background="@color/light_tertiary_text"/>
+
+			<com.devspark.robototextview.widget.RobotoTextView
+					android:text="@string/cast"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_alignParentRight="true"
-					android:layout_below="@id/plot"
+					android:layout_marginTop="16dp"
+					android:layout_marginLeft="24dp"
+					android:textSize="@dimen/details_subtitle"
+					android:textColor="@color/light_secondry_text"
+					android:maxLines="2"
+					android:maxWidth="180dp"
+					android:gravity="right"
+					app:typeface="roboto_light"/>
+
+			<org.xbmc.android.app.ui.view.ExpandableHeightGridView
+					android:id="@+id/cast"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="8dp"
 					android:layout_marginRight="8dp"
-					android:text="V"
-					android:textSize="28dp"
-					android:textColor="@color/light_tertiary_text"
-					tools:ignore="HardcodedText,SpUsage"/>
+					android:layout_marginTop="8dp"
+					android:horizontalSpacing="8dp"
+					android:verticalSpacing="8dp"
+					android:numColumns="2"/>
 
-		</org.xbmc.android.app.ui.view.ExpandablePanel>
+			<!-- TRAILER separator -->
+			<LinearLayout
+					android:id="@+id/sep4"
+					android:orientation="horizontal"
+					android:layout_width="fill_parent"
+					android:layout_height="@dimen/details_separator"
+					android:layout_marginTop="16dp"
+					android:background="@color/light_tertiary_text"/>
 
-		<!-- third separator -->
-		<LinearLayout
-				android:id="@+id/sep3"
-				android:orientation="horizontal"
-				android:layout_width="fill_parent"
-				android:layout_height="@dimen/details_separator"
-				android:layout_below="@id/plotPanel"
-				android:layout_alignLeft="@id/title"
-				android:layout_alignParentRight="true"
-				android:layout_marginTop="16dp"
-				android:background="@color/light_tertiary_text"/>
+			<com.devspark.robototextview.widget.RobotoTextView
+					android:text="@string/trailer"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="16dp"
+					android:layout_marginLeft="24dp"
+					android:textSize="@dimen/details_subtitle"
+					android:textColor="@color/light_secondry_text"
+					android:maxLines="2"
+					android:maxWidth="180dp"
+					android:gravity="right"
+					app:typeface="roboto_light"/>
 
-		<com.devspark.robototextview.widget.RobotoTextView
-				android:text="@string/trailer"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_alignLeft="@+id/title"
-				android:layout_alignStart="@+id/title"
-				android:layout_below="@id/sep3"
-				android:layout_marginTop="16dp"
-				android:textSize="@dimen/details_subtitle"
-				android:textColor="@color/light_secondry_text"
-				android:maxLines="2"
-				android:maxWidth="180dp"
-				android:gravity="right"
-				app:typeface="roboto_light"/>
+			<fragment
+					android:id="@+id/youtube"
+					android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="8dp"
+					android:layout_marginLeft="8dp"
+					android:layout_marginRight="8dp"/>
+		</LinearLayout>
 
-		<fragment
-				android:id="@+id/youtube"
-				android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:layout_below="@id/sep3"
-				android:layout_marginTop="50dp"
-				android:layout_alignLeft="@+id/title"
-				android:layout_alignStart="@+id/title"
-				android:layout_marginRight="8dp"/>
 
 	</RelativeLayout>
 </ScrollView>

@@ -37,7 +37,11 @@ public class ImageManager {
 	 */
 	public String getUrl(Cursor cursor, int field) {
 		try {
-			return host + "/image/" + URLEncoder.encode(cursor.getString(field), "UTF-8");
+			final String fieldValue = cursor.getString(field);
+			if (fieldValue == null) {
+				return null;
+			}
+			return host + "/image/" + URLEncoder.encode(fieldValue, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			return null;
 		}

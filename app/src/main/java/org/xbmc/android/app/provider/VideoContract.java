@@ -236,6 +236,9 @@ public class VideoContract {
 		public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendEncodedPath(PATH_MOVIECAST).build();
 		public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.xbmc.movie.cast";
 
+		/** Default "ORDER BY" clause. */
+		public static final String DEFAULT_SORT = MovieCastColumns.SORT + " ASC";
+
 		/** Build {@link android.net.Uri} for casts of a given movie. */
 		public static Uri buildMovieUri(String movieId) {
 			return BASE_CONTENT_URI.buildUpon().appendEncodedPath(PATH_MOVIES).appendPath(movieId).appendEncodedPath(PATH_MOVIECAST).build();
