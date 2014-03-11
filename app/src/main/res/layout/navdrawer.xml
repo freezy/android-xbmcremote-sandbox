@@ -1,44 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:background="@color/navdrawer_bg"
-		>
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/navdrawer_bg">
 
 	<RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/wrapper1">
 		<Button
-				style="@style/NavigationDrawer"
-				android:id="@+id/change_host"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/ic_computer"
-				android:textSize="30dp"
-				android:background="@drawable/bg_selectable"
-				android:maxHeight="48dp"
-				android:layout_alignParentTop="true"
-				android:layout_alignParentRight="true"
-				android:layout_alignParentEnd="true"
-				android:paddingTop="4dp"
-				android:paddingBottom="6dp"
-				android:paddingRight="8dp"
-				android:paddingLeft="8dp"/>
+			android:id="@+id/change_host"
+			style="@style/NavigationDrawer"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/ic_computer"
+			android:textSize="30dp"
+			android:background="@drawable/bg_selectable"
+			android:maxHeight="48dp"
+			android:layout_alignParentTop="true"
+			android:layout_alignParentRight="true"
+			android:layout_alignParentEnd="true"
+			android:paddingTop="4dp"
+			android:paddingBottom="6dp"
+			android:paddingRight="8dp"
+			android:paddingLeft="8dp"
+			tools:ignore="SpUsage"/>
 
-		<View style="@style/NavigationDrawer.DividerV" android:id="@+id/divider2"
-			  android:layout_centerVertical="true"
-			  android:layout_toLeftOf="@+id/change_host" />
-		<TextView
-				style="@style/NavigationDrawer.text"
+		<View
+			android:id="@+id/divider2"
+			style="@style/NavigationDrawer.DividerV"
+			android:layout_centerVertical="true"
+			android:layout_toLeftOf="@+id/change_host" />
+
+		<com.devspark.robototextview.widget.RobotoTextView
 				android:id="@+id/current_host"
+				style="@style/NavigationDrawer.text"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="@string/host_no_host"
-				android:textAllCaps="true"
-				android:fontFamily="sans-serif"
-				android:textStyle="bold"
 				android:layout_marginLeft="12dp"
 				android:layout_centerVertical="true"
-				android:layout_alignParentLeft="true"/>
+				android:layout_alignParentLeft="true"
+				android:text="@string/host_no_host"
+				android:textAllCaps="true"
+				app:typeface="roboto_bold"/>
 	</RelativeLayout>
 
 	<View style="@style/NavigationDrawer.DividerH" android:id="@+id/divider1"

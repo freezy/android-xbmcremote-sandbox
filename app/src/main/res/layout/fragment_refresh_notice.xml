@@ -20,11 +20,14 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="@string/swipe_down_note"
-			android:layout_marginBottom="16dp"
 			android:layout_alignTop="@+id/arrow1"
 			android:layout_centerHorizontal="true"
-			android:fontFamily="sans-serif-thin"
+			android:layout_centerInParent="true"
+			android:paddingLeft="8dp"
+			android:paddingRight="8dp"
 			android:textSize="24sp"
 			android:textStyle="normal"
-			app:typeface="roboto_thin"/>
+			android:textAlignment="center"
+			android:gravity="center"
+			app:typeface="roboto_light"/>
 </RelativeLayout>

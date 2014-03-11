@@ -7,7 +7,7 @@
 		android:background="@drawable/bg_selectable"
 		android:orientation="vertical">
 
-	<TextView
+	<com.devspark.robototextview.widget.RobotoTextView
 			style="@style/NavigationDrawer.text"
 			android:id="@+id/label"
 			android:layout_height="40dp"

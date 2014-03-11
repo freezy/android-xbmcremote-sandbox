@@ -67,7 +67,7 @@
 	</style>
 	<style name="NavigationDrawer.text">
 		<item name="android:textSize">18sp</item>
-		<item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
+		<item name="typeface">roboto_light</item>
 	</style>
 
 	<style name="NavigationDrawer.DividerH">
