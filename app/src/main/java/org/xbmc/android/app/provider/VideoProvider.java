@@ -53,6 +53,7 @@ public class VideoProvider extends AbstractProvider {
 
 	private static final int MOVIES = 100;
 	private static final int MOVIES_ID = 101;
+	private static final int MOVIES_MOVIECAST = 110;
 	private static final int PEOPLE = 200;
 	private static final int PERSON_ID = 201;
 	private static final int MOVIECAST = 210;
@@ -71,9 +72,10 @@ public class VideoProvider extends AbstractProvider {
 
 		matcher.addURI(authority, VideoContract.PATH_MOVIES, MOVIES);
 		matcher.addURI(authority, VideoContract.PATH_MOVIES + "/*", MOVIES_ID);
-		matcher.addURI(authority, VideoContract.PATH_MOVIES + "/*/" + VideoContract.PATH_MOVIECAST, MOVIECAST);
+		matcher.addURI(authority, VideoContract.PATH_MOVIES + "/*/" + VideoContract.PATH_MOVIECAST, MOVIES_MOVIECAST);
 		matcher.addURI(authority, VideoContract.PATH_PEOPLE, PEOPLE);
 		matcher.addURI(authority, VideoContract.PATH_PEOPLE + "/*", PERSON_ID);
+		matcher.addURI(authority, VideoContract.PATH_MOVIECAST, MOVIECAST);
 		matcher.addURI(authority, VideoContract.PATH_MOVIEDIRECTOR, MOVIEDIRECTOR);
 		matcher.addURI(authority, VideoContract.PATH_MOVIEWRITER, MOVIEWRITER);
 		matcher.addURI(authority, VideoContract.PATH_GENRES, GENRES);
@@ -262,7 +264,7 @@ public class VideoProvider extends AbstractProvider {
 				final String movieId = Movies.getMovieId(uri);
 				return builder.table(VideoDatabase.Tables.MOVIES).where(Movies._ID + "=?", movieId);
 			}
-			case MOVIECAST: {
+			case MOVIES_MOVIECAST: {
 				final String movieId = MovieCast.getMovieId(uri);
 				return builder.table(VideoDatabase.Tables.PEOPLE_MOVIE_CAST_JOIN_PEOPLE).where(MovieCast.MOVIE_REF + "=?", movieId);
 			}
