@@ -2,13 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		style="@style/WizardPageContainer">
 
-	<TextView style="@style/WizardPageTitle" android:text="@string/accountwizard_step3a_title"
-			android:id="@+id/title"/>
+	<com.devspark.robototextview.widget.RobotoTextView
+			android:id="@+id/title"
+			style="@style/WizardPageTitle"
+			android:text="@string/accountwizard_step3a_title"/>
 
-	<TextView style="@style/Paragraph" android:text="@string/accountwizard_step3a_p1"
+	<com.devspark.robototextview.widget.RobotoTextView
+			android:id="@+id/p1"
+			style="@style/Paragraph"
+			android:text="@string/accountwizard_step3a_p1"
 			android:layout_below="@+id/title"
-			android:layout_alignParentRight="true"
-			android:id="@+id/p1"/>
+			android:layout_alignParentRight="true"/>
 
 	<ListView
 			android:id="@+id/list"

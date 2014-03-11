@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+			xmlns:app="http://schemas.android.com/apk/res-auto"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent">
 	<RelativeLayout style="@style/WizardPageContainer">
 
-		<TextView style="@style/WizardPageTitle" android:text="@string/accountwizard_step3b_title"
-				  android:id="@+id/title"/>
+		<com.devspark.robototextview.widget.RobotoTextView
+				android:id="@+id/title"
+				style="@style/WizardPageTitle"
+				android:text="@string/accountwizard_step3b_title"/>
 
-		<TextView style="@style/Paragraph" android:text="@string/accountwizard_step3b_p1"
-				  android:layout_below="@+id/title"
-				  android:layout_alignParentRight="true"
-				  android:layout_marginTop="5dp"
-				  android:id="@+id/p2"/>
+		<com.devspark.robototextview.widget.RobotoTextView
+				android:id="@+id/p2"
+				style="@style/Paragraph"
+				android:text="@string/accountwizard_step3b_p1"
+				android:layout_below="@+id/title"
+				android:layout_alignParentRight="true"
+				android:layout_marginTop="5dp"/>
 
-		<EditText
+		<com.devspark.robototextview.widget.RobotoEditText
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:id="@+id/display_name"
@@ -24,38 +29,42 @@
 				android:layout_marginRight="@dimen/small_content_hpadding"
 				android:layout_marginTop="22dp"
 				android:layout_alignParentRight="true"
-				android:hint="@string/accountwizard_step3b_displayname"/>
+				android:hint="@string/accountwizard_step3b_displayname"
+				app:typeface="roboto_light"/>
 
-		<EditText
+		<com.devspark.robototextview.widget.RobotoEditText
+				android:id="@+id/port"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:inputType="numberDecimal"
 				android:ems="4"
-				android:id="@+id/port"
 				android:hint="@string/accountwizard_step3b_port"
 				android:layout_marginTop="20dp"
 				android:layout_marginRight="@dimen/small_content_hpadding"
 				android:layout_below="@+id/display_name"
-				android:layout_alignParentRight="true"/>
+				android:layout_alignParentRight="true"
+				app:typeface="roboto_light"/>
 
-		<EditText
+		<com.devspark.robototextview.widget.RobotoEditText
+				android:id="@+id/host"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:inputType="text"
-				android:id="@+id/host"
 				android:hint="@string/accountwizard_step3b_host"
 				android:layout_alignTop="@+id/port"
 				android:layout_toLeftOf="@+id/port"
 				android:layout_marginRight="16dp"
 				android:layout_marginLeft="@dimen/small_content_hpadding"
-				android:layout_alignParentLeft="true"/>
+				android:layout_alignParentLeft="true"
+				app:typeface="roboto_light"/>
 
-		<TextView
-				style="@style/Paragraph" android:text="@string/accountwizard_step3b_message"
+		<com.devspark.robototextview.widget.RobotoTextView
+				android:id="@+id/message"
+				style="@style/Paragraph"
+				android:text="@string/accountwizard_step3b_message"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:visibility="gone"
-				android:id="@+id/message"
 				android:layout_below="@+id/host"
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="16dp"/>

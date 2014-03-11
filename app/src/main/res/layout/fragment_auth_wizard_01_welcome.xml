@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			style="@style/WizardPageContainer">
+		style="@style/WizardPageContainer">
 
-	<TextView style="@style/WizardPageTitle" android:text="@string/accountwizard_step1_title"/>
-	<TextView style="@style/Paragraph" android:text="@string/accountwizard_step1_p1"/>
-	<TextView style="@style/Paragraph" android:text="@string/accountwizard_step1_p2"/>
+	<com.devspark.robototextview.widget.RobotoTextView style="@style/WizardPageTitle" android:text="@string/accountwizard_step1_title"/>
+	<com.devspark.robototextview.widget.RobotoTextView style="@style/Paragraph" android:text="@string/accountwizard_step1_p1"/>
+	<com.devspark.robototextview.widget.RobotoTextView style="@style/Paragraph" android:text="@string/accountwizard_step1_p2"/>
 
 </LinearLayout>

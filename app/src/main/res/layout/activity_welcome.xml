@@ -1,65 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:background="@color/light_bg">
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/light_bg">
 
-	<TextView style="@style/PageLogo"
-			  android:id="@+id/logo"
-			  android:text="@string/ic_logo" />
+	<TextView
+		android:id="@+id/logo"
+		style="@style/PageLogo"
+		android:text="@string/ic_logo" />
 
-	<TextView style="@style/WizardPageTitle" android:text="@string/welcome_title"
-			  android:id="@+id/title"
-			  android:layout_below="@+id/logo"
-			  android:layout_alignParentRight="true"
-			  android:layout_alignParentEnd="true"
-			  android:layout_marginTop="16dp"/>
+	<com.devspark.robototextview.widget.RobotoTextView
+		android:id="@+id/title"
+		style="@style/WizardPageTitle"
+		android:text="@string/welcome_title"
+		android:layout_below="@+id/logo"
+		android:layout_alignParentRight="true"
+		android:layout_alignParentEnd="true"
+		android:layout_marginTop="16dp"
+		app:typeface="roboto_thin"/>
 
-	<TextView style="@style/Paragraph" android:text="@string/welcome_text"
-			  android:layout_below="@+id/title"/>
+	<com.devspark.robototextview.widget.RobotoTextView
+		style="@style/Paragraph"
+		android:text="@string/welcome_text"
+		android:layout_below="@+id/title"
+		app:typeface="roboto_light"/>
 
 	<View
-			android:id="@+id/divider"
-			android:layout_width="match_parent"
-			android:layout_height="1dp"
-			android:background="?android:attr/listDivider"
-			android:layout_above="@+id/linearLayout"
-			android:layout_alignParentLeft="true"
-			android:layout_alignParentStart="true"/>
+		android:id="@+id/divider"
+		android:layout_width="match_parent"
+		android:layout_height="1dp"
+		android:background="?android:attr/listDivider"
+		android:layout_above="@+id/linearLayout"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentStart="true"/>
 
 	<LinearLayout
-			style="@style/ButtonBar"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="horizontal"
-			android:layout_alignParentBottom="true"
-			android:layout_alignParentLeft="true"
-			android:layout_alignParentStart="true"
-			android:id="@+id/linearLayout">
+		android:id="@+id/linearLayout"
+		style="@style/ButtonBar"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:layout_alignParentBottom="true"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentStart="true">
 
-		<Button
-				android:id="@+id/exit_button"
-				style="@style/ButtonBarButton"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:background="@drawable/selectable_item_background"
-				android:text="@string/exit" />
+		<com.devspark.robototextview.widget.RobotoButton
+			android:id="@+id/exit_button"
+			style="@style/ButtonBarButton"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:background="@drawable/selectable_item_background"
+			android:text="@string/exit" />
 
 		<View
-				android:layout_width="1dp"
-				android:layout_height="match_parent"
-				android:background="?android:attr/listDivider" />
+			android:layout_width="1dp"
+			android:layout_height="match_parent"
+			android:background="?android:attr/listDivider" />
 
-		<Button
-				android:id="@+id/setup_button"
-				style="@style/ButtonBarButton"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:background="@drawable/selectable_item_background"
-				android:text="@string/setup" />
+		<com.devspark.robototextview.widget.RobotoButton
+			android:id="@+id/setup_button"
+			style="@style/ButtonBarButton"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:background="@drawable/selectable_item_background"
+			android:text="@string/setup" />
 	</LinearLayout>
-
 
 </RelativeLayout>

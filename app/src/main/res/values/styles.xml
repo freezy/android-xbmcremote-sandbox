@@ -17,7 +17,7 @@
 	the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 	http://www.gnu.org/copyleft/gpl.html
   -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:custom="http://schemas.android.com/apk/res-auto">
 	<style name="Theme.XBMCRemote" parent="Theme.AppCompat.Light.DarkActionBar">
 		<item name="actionBarStyle">@style/Widget.XBMCRemote.ActionBar</item>
 		<item name="android:actionBarStyle" tools:ignore="NewApi">@style/Widget.XBMCRemote.ActionBar</item>
@@ -108,7 +108,7 @@
 		<item name="android:layout_marginRight">@dimen/small_content_hpadding</item>
 		<item name="android:textSize">36sp</item>
 		<item name="android:textColor">#ff0099cc</item>
-		<item name="android:fontFamily" tools:ignore="NewApi">sans-serif-thin</item>
+		<item name="typeface">roboto_thin</item>
 	</style>
 
 	<style name="Paragraph">
@@ -120,7 +120,7 @@
 		<item name="android:layout_marginRight">@dimen/small_content_hpadding</item>
 		<item name="android:textSize">18sp</item>
 		<item name="android:textColor">@color/light_primary_text</item>
-		<item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
+		<item name="typeface">roboto_light</item>
 	</style>
 
 	<style name="SeeMoreButton">
@@ -147,7 +147,8 @@
 	<style name="ButtonBarButton">
 		<item name="android:textColor">@color/light_button_text</item>
 		<item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
-		<!--item name="android:minHeight">@dimen/list_item_height_small</item-->
+		<item name="android:minHeight">@dimen/list_item_height_small</item>
+		<item name="typeface">roboto_light</item>
 	</style>
 
 	<style name="Spinner">

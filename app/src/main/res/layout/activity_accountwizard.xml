@@ -33,7 +33,7 @@
 			android:layout_height="wrap_content"
 			android:orientation="horizontal" >
 
-		<Button
+		<com.devspark.robototextview.widget.RobotoButton
 				android:id="@+id/prev_button"
 				style="@style/ButtonBarButton"
 				android:layout_width="0dp"
@@ -47,7 +47,7 @@
 				android:layout_height="match_parent"
 				android:background="?android:attr/listDivider" />
 
-		<Button
+		<com.devspark.robototextview.widget.RobotoButton
 				android:id="@+id/next_button"
 				style="@style/ButtonBarButton"
 				android:layout_width="0dp"

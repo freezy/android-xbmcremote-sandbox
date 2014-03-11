@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	style="@style/Card"
 	android:id="@+id/card"
 	android:layout_width="match_parent"
@@ -25,7 +28,7 @@
 
 	</RelativeLayout>
 
-	<TextView
+	<com.devspark.robototextview.widget.RobotoTextView
 		android:id="@+id/title_host"
 		android:text="title_host"
 		android:layout_width="wrap_content"
@@ -36,12 +39,12 @@
 		android:layout_marginLeft="15dp"
 		android:textAppearance="?android:attr/textAppearanceLarge"
 		android:textColor="@color/light_primary_text"
-		android:fontFamily="sans-serif-light"
 		android:maxLines="2"
 		android:ellipsize="marquee"
+		app:typeface="roboto_light"
 		tools:ignore="HardcodedText"/>
 
-	<TextView
+	<com.devspark.robototextview.widget.RobotoTextView
 		android:id="@+id/address_host"
 		android:text="address_host"
 		android:layout_width="wrap_content"
@@ -50,9 +53,9 @@
 		android:layout_below="@+id/title_host"
 		android:textAppearance="?android:attr/textAppearanceMedium"
 		android:textColor="@color/light_secondry_text"
-		android:fontFamily="sans-serif-light"
 		android:maxLines="1"
 		android:ellipsize="marquee"
+		app:typeface="roboto_light"
 		tools:ignore="HardcodedText"/>
 
 	<RelativeLayout

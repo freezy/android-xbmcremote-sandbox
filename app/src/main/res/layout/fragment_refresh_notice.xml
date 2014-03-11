@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				xmlns:app="http://schemas.android.com/apk/res-auto"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent">
 
@@ -15,7 +16,7 @@
 			android:layout_alignStart="@+id/arrow1"
 			android:layout_marginTop="50dp"/>
 
-	<TextView
+	<com.devspark.robototextview.widget.RobotoTextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="@string/swipe_down_note"
@@ -24,5 +25,6 @@
 			android:layout_centerHorizontal="true"
 			android:fontFamily="sans-serif-thin"
 			android:textSize="24sp"
-			android:textStyle="normal"/>
+			android:textStyle="normal"
+			app:typeface="roboto_thin"/>
 </RelativeLayout>

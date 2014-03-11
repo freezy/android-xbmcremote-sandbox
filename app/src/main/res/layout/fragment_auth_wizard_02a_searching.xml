@@ -2,8 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		style="@style/WizardPageContainer">
 
-	<TextView style="@style/WizardPageTitle" android:text="@string/accountwizard_step2a_title"
-			android:id="@+id/title"/>
+	<com.devspark.robototextview.widget.RobotoTextView
+			android:id="@+id/title"
+			style="@style/WizardPageTitle"
+			android:text="@string/accountwizard_step2a_title"/>
 
 	<ProgressBar
 			android:id="@+id/spinner"

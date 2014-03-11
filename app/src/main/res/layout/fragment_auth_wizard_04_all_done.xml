@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 			style="@style/WizardPageContainer">
 
-	<TextView style="@style/WizardPageTitle" android:text="@string/accountwizard_step4_title"/>
-	<TextView style="@style/Paragraph" android:text="@string/accountwizard_step4_p1"/>
+	<com.devspark.robototextview.widget.RobotoTextView style="@style/WizardPageTitle" android:text="@string/accountwizard_step4_title"/>
+	<com.devspark.robototextview.widget.RobotoTextView style="@style/Paragraph" android:text="@string/accountwizard_step4_p1"/>
 
 </LinearLayout>
