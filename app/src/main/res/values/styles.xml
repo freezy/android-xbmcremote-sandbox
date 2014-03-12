@@ -136,6 +136,7 @@
 		<item name="android:layout_marginRight">15dp</item>
 		<item name="android:layout_marginTop">15dp</item>
 		<item name="android:text">@string/button_see_more</item>
+		<item name="typeface">roboto_light</item>
 	</style>
 
 	<style name="ButtonBar" parent="@android:style/ButtonBar">

@@ -3,6 +3,7 @@
 <RelativeLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		xmlns:app="http://schemas.android.com/apk/res-auto"
+		xmlns:tools="http://schemas.android.com/tools"
 		android:id="@+id/home_root"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
@@ -49,7 +50,7 @@
 		android:textColor="@color/light_secondry_text"
 		app:typeface="roboto_light"/>
 
-	<TextView
+	<com.devspark.robototextview.widget.RobotoTextView
 		style="@style/SeeMoreButton"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -66,6 +67,7 @@
 		android:numColumns="@integer/home_numrows"
 		android:stretchMode="columnWidth"
 		android:horizontalSpacing="8dp"
-		android:verticalSpacing="8dp"/>
+		android:verticalSpacing="8dp"
+		tools:listitem="@layout/list_item_album_compact"/>
 
 </RelativeLayout>

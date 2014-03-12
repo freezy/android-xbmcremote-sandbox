@@ -168,8 +168,8 @@ public class AlbumCompactFragment extends GridFragment implements LoaderManager.
 		/** {@inheritDoc} */
 		@Override
 		public void bindView(View view, Context context, Cursor cursor) {
-			final TextView titleView = (TextView) view.findViewById(R.id.title_album);
-			final TextView subtitleView = (TextView) view.findViewById(R.id.title_artist);
+			final TextView titleView = (TextView) view.findViewById(R.id.album);
+			final TextView subtitleView = (TextView) view.findViewById(R.id.artist);
 			final ImageView imageView = (ImageView) view.findViewById(R.id.list_album_cover);
 			try {
 				final String url = hostUri + "/image/" + URLEncoder.encode(cursor.getString(AlbumsQuery.THUMBNAIL), "UTF-8");

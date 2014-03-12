@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
 	style="@style/Card"
 	android:layout_width="@dimen/square_compact_width"
 	android:layout_height="wrap_content" >
@@ -23,9 +26,9 @@
 
 	</RelativeLayout>
 
-	<TextView
-		android:text="title_album"
-		android:id="@+id/title_album"
+	<com.devspark.robototextview.widget.RobotoTextView
+		android:id="@+id/album"
+		android:text="album"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_below="@id/thumb_wrapper"
@@ -38,14 +41,15 @@
 		android:fontFamily="sans-serif-light"
 		android:maxLines="1"
 		android:ellipsize="end"
+		app:typeface="roboto_light"
 		tools:ignore="HardcodedText"/>
 
-	<TextView
-		android:text="title_artist"
-		android:id="@+id/title_artist"
+	<com.devspark.robototextview.widget.RobotoTextView
+		android:id="@+id/artist"
+		android:text="artist"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_below="@+id/title_album"
+		android:layout_below="@+id/album"
 		android:layout_alignParentLeft="true"
 		android:layout_marginLeft="5dp"
 		android:layout_marginBottom="5dp"
@@ -55,6 +59,7 @@
 		android:fontFamily="sans-serif-light"
 		android:maxLines="1"
 		android:ellipsize="end"
+		app:typeface="roboto_light"
 		tools:ignore="HardcodedText"/>
 
 </RelativeLayout>
