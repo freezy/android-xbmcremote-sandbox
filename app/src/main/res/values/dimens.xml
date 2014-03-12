@@ -28,12 +28,8 @@
 	<dimen name="step_pager_tab_spacing">4dp</dimen>
 
 	<!-- Cards -->
-	<dimen name="square_compact_width">115dp</dimen>
 	<dimen name="square_wide_width">64dp</dimen>
 
-	<dimen name="portrait_compact_width">115dp</dimen>
-	<dimen name="portrait_compact_height">170dp</dimen>
-	<dimen name="portrait_wide_width">80dp</dimen>
 	<dimen name="portrait_wide_height">118dp</dimen>
 	<dimen name="portrait_wide_title">20sp</dimen>
 	<dimen name="portrait_wide_subtitle">15sp</dimen>

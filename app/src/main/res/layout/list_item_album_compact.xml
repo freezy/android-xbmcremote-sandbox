@@ -1,37 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	style="@style/Card"
-	android:layout_width="@dimen/square_compact_width"
+	android:layout_width="wrap_content"
 	android:layout_height="wrap_content" >
 
-	<RelativeLayout
-		android:id="@+id/thumb_wrapper"
-		android:layout_width="@dimen/square_compact_width"
-		android:layout_height="@dimen/square_compact_width">
 
-		<ImageView
-			android:id="@+id/list_album_cover"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:layout_alignParentLeft="true"
-			android:layout_alignParentTop="true"
-			android:adjustViewBounds="true"
-			android:scaleType="centerCrop"
-			android:contentDescription="@string/poster" />
+	<org.xbmc.android.app.ui.view.AspectRatioImageView
+		android:id="@+id/list_album_cover"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentRight="true"
+		android:adjustViewBounds="true"
+		android:scaleType="centerCrop"
+		android:contentDescription="@string/poster"
+		android:background="@color/light_tertiary_text"
+		app:aspectRatioEnabled="true"
+		app:aspectRatio="1"
+		app:dominantMeasurement="width" />
 
-	</RelativeLayout>
 
 	<com.devspark.robototextview.widget.RobotoTextView
 		android:id="@+id/album"
 		android:text="album"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_below="@id/thumb_wrapper"
+		android:layout_below="@id/list_album_cover"
 		android:layout_marginTop="5dp"
 		android:layout_marginLeft="5dp"
 		android:layout_alignParentLeft="true"

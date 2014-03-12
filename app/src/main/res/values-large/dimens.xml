@@ -20,10 +20,6 @@
 <resources>
 
 	<!-- Cards -->
-	<dimen name="square_compact_width">138dp</dimen>
-	<dimen name="portrait_compact_width">138dp</dimen>
-	<dimen name="portrait_compact_height">204dp</dimen>
-	<dimen name="portrait_wide_width">96dp</dimen>
 	<dimen name="portrait_wide_height">142dp</dimen>
 
 	<!-- Generic Layout -->

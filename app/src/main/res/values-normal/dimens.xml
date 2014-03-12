@@ -20,6 +20,5 @@
 <resources>
 
 	<!-- Cards -->
-	<dimen name="square_compact_width">94dp</dimen>
 
 </resources>

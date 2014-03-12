@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.xbmc.android.app.ui.view.CardView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+<org.xbmc.android.app.ui.view.CardView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
 	style="@style/Card"
-	android:layout_width="@dimen/portrait_compact_width"
+	android:layout_width="wrap_content"
 	android:layout_height="wrap_content">
 
-	<RelativeLayout
-		android:id="@+id/thumb_wrapper"
-		android:layout_width="@dimen/portrait_compact_width"
-		android:layout_height="@dimen/portrait_compact_height">
-
-		<ImageView
-			android:id="@+id/poster"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:layout_alignParentLeft="true"
-			android:layout_alignParentTop="true"
-			android:adjustViewBounds="true"
-			android:scaleType="centerCrop"
-			android:src="@drawable/gray"
-			android:contentDescription="@string/poster" />
-
-	</RelativeLayout>
+	<org.xbmc.android.app.ui.view.AspectRatioImageView
+		android:id="@+id/poster"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentRight="true"
+		android:adjustViewBounds="true"
+		android:scaleType="centerCrop"
+		android:src="@drawable/gray"
+		android:contentDescription="@string/poster"
+		app:aspectRatioEnabled="true"
+		app:aspectRatio="1.48"
+		app:dominantMeasurement="width" />
 
 	<TextView
 		android:id="@+id/title"
 		android:text="title"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_below="@id/thumb_wrapper"
+		android:layout_below="@id/poster"
 		android:layout_marginTop="5dp"
 		android:layout_marginLeft="5dp"
 		android:layout_marginRight="30dp"
@@ -77,7 +77,7 @@
 			android:id="@+id/overflow"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_below="@+id/thumb_wrapper"
+			android:layout_below="@+id/poster"
 			android:layout_alignParentRight="true"
 			android:layout_alignParentEnd="true"
 			android:paddingTop="4dp"

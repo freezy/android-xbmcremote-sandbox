@@ -1,36 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.xbmc.android.app.ui.view.CardView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+<org.xbmc.android.app.ui.view.CardView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
 	style="@style/Card"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content">
 
-	<RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent" >
+	<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="@dimen/portrait_wide_height" >
 
-		<RelativeLayout
-			android:id="@+id/thumb_wrapper"
-			android:layout_width="@dimen/portrait_wide_width"
-			android:layout_height="@dimen/portrait_wide_height">
-
-			<ImageView
-				android:id="@+id/poster"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:layout_alignParentLeft="true"
-				android:layout_alignParentTop="true"
-				android:adjustViewBounds="true"
-				android:scaleType="centerCrop"
-				android:background="@color/light_tertiary_text"
-				android:contentDescription="@string/poster" />
-
-		</RelativeLayout>
+		<org.xbmc.android.app.ui.view.AspectRatioImageView
+			android:id="@+id/poster"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_alignParentLeft="true"
+			android:layout_alignParentTop="true"
+			android:layout_alignParentBottom="true"
+			android:adjustViewBounds="true"
+			android:scaleType="centerCrop"
+			android:background="@color/light_tertiary_text"
+			android:contentDescription="@string/poster"
+			app:aspectRatioEnabled="true"
+			app:aspectRatio="0.666"
+			app:dominantMeasurement="height"/>
 
 		<TextView
 			android:id="@+id/title"
 			android:text="title"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_alignTop="@+id/thumb_wrapper"
-			android:layout_toRightOf="@+id/thumb_wrapper"
+			android:layout_alignTop="@+id/poster"
+			android:layout_toRightOf="@+id/poster"
 			android:layout_marginTop="5dp"
 			android:layout_marginLeft="10dp"
 			android:paddingRight="35dp"
@@ -76,7 +78,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignLeft="@+id/title"
-			android:layout_alignBottom="@+id/thumb_wrapper"
+			android:layout_alignBottom="@+id/poster"
 			android:textAppearance="?android:attr/textAppearanceLarge"
 			android:textColor="@color/light_secondry_text"
 			android:textSize="@dimen/portrait_wide_stars"
@@ -90,7 +92,7 @@
 			android:layout_height="wrap_content"
 			android:layout_alignParentTop="true"
 			android:layout_alignParentLeft="true"
-			android:layout_alignBottom="@+id/thumb_wrapper"/>
+			android:layout_alignBottom="@+id/poster"/>
 
 		<!-- overflow menu -->
 		<ImageView
