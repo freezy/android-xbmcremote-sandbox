@@ -26,6 +26,8 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -37,6 +39,7 @@ import butterknife.InjectView;
 import butterknife.Optional;
 import org.xbmc.android.app.injection.Injector;
 import org.xbmc.android.app.manager.IconManager;
+import org.xbmc.android.app.ui.view.TypefaceSpan;
 import org.xbmc.android.remotesandbox.R;
 
 import javax.inject.Inject;
@@ -78,7 +81,9 @@ public class BaseActivity extends ActionBarActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (titleRes > 0) {
-			setTitle(titleRes);
+			SpannableString s = new SpannableString(getResources().getString(titleRes));
+			s.setSpan(new TypefaceSpan(this, "Roboto-Light.ttf"), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			setTitle(s);
 		}
 		if (contentViewRes > 0) {
 			setContentView(contentViewRes);

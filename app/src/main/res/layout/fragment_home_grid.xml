@@ -2,6 +2,7 @@
 
 <RelativeLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
 		android:id="@+id/home_root"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
@@ -10,65 +11,61 @@
 
 	<!-- hover selector -->
 	<RelativeLayout
-			android:id="@+id/see_more"
-			android:background="@drawable/bg_selectable_grey"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignTop="@+id/home_header1"
-			android:layout_alignParentLeft="true"
-			android:layout_alignParentRight="true"
-			android:layout_alignBottom="@+id/home_header2"
-			android:layout_marginBottom="0dp"/>
+		android:id="@+id/see_more"
+		android:background="@drawable/bg_selectable_grey"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignTop="@+id/home_header1"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentRight="true"
+		android:layout_alignBottom="@+id/home_header2"
+		android:layout_marginBottom="0dp"/>
+
+	<com.devspark.robototextview.widget.RobotoTextView
+		android:id="@+id/home_header1"
+		style="@style/Header.h1"
+		android:text="@string/title_music"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
+
+	<com.devspark.robototextview.widget.RobotoTextView
+		android:id="@+id/home_header2"
+		style="@style/Header.h2"
+		android:text="@string/latest_albums"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/home_header1"
+		android:layout_alignLeft="@id/home_header1"/>
+
+	<com.devspark.robototextview.widget.RobotoTextView
+		android:id="@id/android:empty"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/home_header2"
+		android:layout_marginTop="5dp"
+		android:layout_centerHorizontal="true"
+		android:text="@string/empty_albums"
+		android:textSize="14sp"
+		android:textColor="@color/light_secondry_text"
+		app:typeface="roboto_light"/>
 
 	<TextView
-			style="@style/Header.h1"
-			android:id="@+id/home_header1"
-			android:text="@string/title_music"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			/>
-	<TextView
-			style="@style/Header.h2"
-			android:id="@+id/home_header2"
-			android:text="@string/latest_albums"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_below="@id/home_header1"
-			android:layout_alignLeft="@id/home_header1"
-			/>
-
-	<TextView
-			android:id="@id/android:empty"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_below="@id/home_header2"
-			android:layout_marginTop="5dp"
-			android:layout_centerHorizontal="true"
-			android:text="@string/empty_albums"
-			android:textSize="14sp"
-			android:textColor="@color/light_secondry_text"
-			android:fontFamily="sans-serif-light"
-			/>
-
-	<TextView
-			style="@style/SeeMoreButton"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignTop="@id/home_header1"
-			/>
+		style="@style/SeeMoreButton"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignTop="@id/home_header1"/>
 
 	<GridView
-			android:id="@id/android:list"
-			android:layout_below="@id/home_header2"
-			android:layout_height="wrap_content"
-			android:layout_width="match_parent"
-			android:layout_marginLeft="8dp"
-			android:layout_marginRight="8dp"
-			android:layout_marginTop="10dp"
-			android:numColumns="@integer/home_numrows"
-			android:stretchMode="columnWidth"
-			android:horizontalSpacing="8dp"
-			android:verticalSpacing="8dp"
-			/>
+		android:id="@id/android:list"
+		android:layout_below="@id/home_header2"
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:layout_marginLeft="8dp"
+		android:layout_marginRight="8dp"
+		android:layout_marginTop="10dp"
+		android:numColumns="@integer/home_numrows"
+		android:stretchMode="columnWidth"
+		android:horizontalSpacing="8dp"
+		android:verticalSpacing="8dp"/>
 
 </RelativeLayout>
