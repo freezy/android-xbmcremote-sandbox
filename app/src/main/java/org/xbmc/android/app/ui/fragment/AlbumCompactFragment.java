@@ -23,10 +23,8 @@ package org.xbmc.android.app.ui.fragment;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
-import android.provider.ContactsContract;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -39,13 +37,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import de.greenrobot.event.EventBus;
+import org.xbmc.android.app.event.DataItemSynced;
 import org.xbmc.android.app.event.HostSwitched;
+import org.xbmc.android.app.injection.Injector;
 import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.app.provider.AudioContract;
 import org.xbmc.android.app.provider.AudioDatabase;
 import org.xbmc.android.remotesandbox.R;
-import org.xbmc.android.app.event.DataItemSynced;
-import org.xbmc.android.app.injection.Injector;
 
 import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
@@ -124,15 +122,8 @@ public class AlbumCompactFragment extends GridFragment implements LoaderManager.
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-		// This is called when a new Loader needs to be created. This
-		// sample only has one Loader, so we don't care about the ID.
-		// First, pick the base URI to use depending on whether we are
-		// currently filtering.
-		Uri baseUri;
-		baseUri = ContactsContract.Contacts.CONTENT_URI;
-
-		return new CursorLoader(getActivity(), AudioContract.Albums.CONTENT_URI, AlbumsQuery.PROJECTION, null, null,
-				AudioContract.Albums.sortLatest(getResources().getInteger(R.integer.home_numrows)));
+		final String limit = AudioContract.Albums.sortLatest(getResources().getInteger(R.integer.home_numrows));
+		return new CursorLoader(getActivity(), AudioContract.Albums.CONTENT_URI, AlbumsQuery.PROJECTION, null, null, limit);
 	}
 
 	@Override

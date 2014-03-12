@@ -24,10 +24,8 @@ package org.xbmc.android.app.ui.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
-import android.provider.ContactsContract;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -159,15 +157,8 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-		// This is called when a new Loader needs to be created. This
-		// sample only has one Loader, so we don't care about the ID.
-		// First, pick the base URI to use depending on whether we are
-		// currently filtering.
-		Uri baseUri;
-		baseUri = ContactsContract.Contacts.CONTENT_URI;
-
-		return new CursorLoader(getActivity(), VideoContract.Movies.CONTENT_URI, MoviesQuery.PROJECTION, null, null,
-				VideoContract.Movies.sortLatest(getResources().getInteger(R.integer.home_numrows)));
+		final String limit = VideoContract.Movies.sortLatest(getResources().getInteger(R.integer.home_numrows));
+		return new CursorLoader(getActivity(), VideoContract.Movies.CONTENT_URI, MoviesQuery.PROJECTION, null, null, limit);
 	}
 
 	@Override

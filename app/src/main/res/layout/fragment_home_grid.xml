@@ -56,7 +56,7 @@
 		android:layout_height="wrap_content"
 		android:layout_alignTop="@id/home_header1"/>
 
-	<GridView
+	<org.xbmc.android.app.ui.view.ExpandableHeightGridView
 		android:id="@id/android:list"
 		android:layout_below="@id/home_header2"
 		android:layout_height="wrap_content"
