@@ -26,7 +26,7 @@
 			app:aspectRatio="0.666"
 			app:dominantMeasurement="height"/>
 
-		<TextView
+		<com.devspark.robototextview.widget.RobotoTextView
 			android:id="@+id/title"
 			android:text="title"
 			android:layout_width="wrap_content"
@@ -38,12 +38,12 @@
 			android:paddingRight="35dp"
 			android:textColor="@color/light_primary_text"
 			android:textSize="@dimen/portrait_wide_title"
-			android:fontFamily="sans-serif-light"
 			android:maxLines="@integer/wide_item_title_lines"
 			android:ellipsize="marquee"
+			app:typeface="roboto_light"
 			tools:ignore="HardcodedText"/>
 
-		<TextView
+		<com.devspark.robototextview.widget.RobotoTextView
 			android:id="@+id/genres"
 			android:text="genres"
 			android:layout_width="wrap_content"
@@ -52,24 +52,24 @@
 			android:layout_below="@+id/title"
 			android:textSize="@dimen/portrait_wide_subtitle"
 			android:textColor="@color/light_secondry_text"
-			android:fontFamily="sans-serif-light"
 			android:maxLines="@integer/wide_item_subtitle_lines"
 			android:ellipsize="marquee"
+			app:typeface="roboto_light"
 			tools:ignore="HardcodedText"/>
 
 
-		<TextView
+		<com.devspark.robototextview.widget.RobotoTextView
 			android:id="@+id/runtime"
 			android:text="runtime"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:textColor="@color/light_secondry_text"
 			android:textSize="@dimen/portrait_wide_subtitle"
-			android:fontFamily="sans-serif-light"
 			android:maxLines="1"
 			android:layout_alignParentRight="true"
 			android:layout_alignBottom="@+id/rating"
 			android:layout_marginRight="16dp"
+			app:typeface="roboto_light"
 			tools:ignore="HardcodedText"/>
 
 		<TextView

@@ -108,13 +108,13 @@ public class BaseActivity extends ActionBarActivity {
 				R.string.drawer_close  // "close drawer" description for accessibility
 			) {
 				public void onDrawerClosed(View view) {
-					getSupportActionBar().setTitle(titleRes);
-					supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+					//getSupportActionBar().setTitle(titleRes);
+					//supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
 				}
 
 				public void onDrawerOpened(View drawerView) {
-					getSupportActionBar().setTitle(drawerTitle);
-					supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+					//getSupportActionBar().setTitle(drawerTitle);
+					//supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
 				}
 			};
 			drawerLayout.setDrawerListener(drawerToggle);

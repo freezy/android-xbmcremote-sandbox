@@ -21,16 +21,17 @@
 
 package org.xbmc.android.app.ui;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.astuetz.PagerSlidingTabStrip;
+import com.devspark.robototextview.RobotoTypefaceManager;
 import org.xbmc.android.app.injection.Injector;
 import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.app.ui.fragment.MovieListFragment;
@@ -66,6 +67,8 @@ public class MoviesActivity extends BaseActivity {
 
 		pager.setAdapter(new MovieSliderAdapter(getSupportFragmentManager()));
 		tabs.setViewPager(pager);
+		tabs.setTypeface(RobotoTypefaceManager.obtaintTypeface(getApplicationContext(), 8), Typeface.NORMAL); // 8 = bold.
+
 	}
 
 	private class MovieSliderAdapter extends FragmentStatePagerAdapter {
