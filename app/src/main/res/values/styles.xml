@@ -136,7 +136,7 @@
 		<item name="android:layout_marginRight">15dp</item>
 		<item name="android:layout_marginTop">15dp</item>
 		<item name="android:text">@string/button_see_more</item>
-		<item name="typeface">roboto_light</item>
+		<item name="typeface">roboto_regular</item>
 	</style>
 
 	<style name="ButtonBar" parent="@android:style/ButtonBar">
@@ -173,7 +173,7 @@
 		<item name="android:layout_width">wrap_content</item>
 		<item name="android:layout_height">wrap_content</item>
 		<item name="android:text">@string/ic_expand</item>
-		<item name="android:textSize">250dp</item>
+		<item name="android:textSize" tools:ignore="SpUsage">250dp</item>
 		<item name="android:textColor">@color/light_tertiary_text</item>
 	</style>
 

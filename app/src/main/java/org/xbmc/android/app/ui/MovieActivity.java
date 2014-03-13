@@ -2,6 +2,7 @@ package org.xbmc.android.app.ui;
 
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
@@ -135,7 +136,7 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 		}
 	}
 
-	private void onMovieLoaded(Cursor data) {
+	private void onMovieLoaded(final Cursor data) {
 		data.moveToFirst();
 		final Resources res = getResources();
 		final String title = data.getString(MoviesQuery.TITLE);
@@ -162,6 +163,16 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 		runtimeView.setText(FORMATTER.format(votes) + " " + res.getString(R.string.minutes_short));
 		genresView.setText(data.getString(MoviesQuery.GENRES));
 		plotView.setText(data.getString(MoviesQuery.PLOT));
+
+		// poster image view
+		posterView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				final Intent intent = new Intent(MovieActivity.this, ImageViewActivity.class);
+				intent.putExtra(ImageViewActivity.EXTRA_URL, imageManager.getUrl(data, MoviesQuery.THUMBNAIL));
+				startActivity(intent);
+			}
+		});
 
 		// trailer
 		final FragmentManager fm = getSupportFragmentManager();

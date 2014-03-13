@@ -30,6 +30,8 @@
 		<activity android:name="org.xbmc.android.app.ui.MoviesActivity"/>
 		<activity android:name="org.xbmc.android.app.ui.MovieActivity"/>
 		<activity android:name="org.xbmc.android.app.ui.HostChooseActivity" android:theme="@android:style/Theme.Holo.Light.Dialog" />
+		<activity android:name="org.xbmc.android.app.ui.ImageViewActivity" android:theme="@android:style/Theme.Holo.NoActionBar" />
+
 		<activity android:name="org.xbmc.android.account.authenticator.ui.WizardActivity" />
 
 		<!-- Services -->
