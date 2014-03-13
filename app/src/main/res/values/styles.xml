@@ -24,6 +24,12 @@
 		<item name="android:editTextStyle">@style/Widget.XBMCRemote.EditTextStyle</item>
 	</style>
 
+	<style name="Theme.XBMCRemote.Dialog" parent="android:Theme.Dialog">
+	</style>
+
+	<style name="Theme.XBMCRemote.NoActionBar" parent="android:Theme.NoTitleBar">
+	</style>
+
 	<style name="Widget.XBMCRemote.ActionBar" parent="Widget.AppCompat.Light.ActionBar.Solid.Inverse">
 		<item name="background">@color/dark_bg</item>
 		<item name="android:background">@color/dark_bg</item>
