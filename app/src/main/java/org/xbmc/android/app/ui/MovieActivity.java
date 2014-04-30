@@ -32,8 +32,12 @@ import org.xbmc.android.app.provider.VideoDatabase;
 import org.xbmc.android.app.ui.view.CardView;
 import org.xbmc.android.app.ui.view.ExpandableHeightGridView;
 import org.xbmc.android.remotesandbox.R;
+import org.xbmc.android.util.VolleyBasicAuthUrlLoader;
 
 import javax.inject.Inject;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -146,16 +150,22 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 		titleView.setText(title + (year != null ? " (" + year + ")" : ""));
 		setTitle(title);
 
-		// load poster
-		Glide.load(imageManager.getUrl(data, MoviesQuery.THUMBNAIL))
+		try {
+			// load poster
+			Glide.using(new VolleyBasicAuthUrlLoader.Factory())
+				.load(new URL(imageManager.getUrl(data, MoviesQuery.THUMBNAIL, true)))
 				.centerCrop()
 				.animate(android.R.anim.fade_in)
 				.into(posterView);
 
-		// load fanart
-		Glide.load(imageManager.getUrl(data, MoviesQuery.FANART))
+			// load fanart
+			Glide.using(new VolleyBasicAuthUrlLoader.Factory())
+				.load(new URL(imageManager.getUrl(data, MoviesQuery.FANART, true)))
 				.animate(android.R.anim.fade_in)
 				.into(fanartView);
+		} catch (MalformedURLException e) {
+			Log.e(TAG, e.toString());
+		}
 
 		ratingView.setText(String.valueOf(rating));
 		ratingStarsView.setText(iconManager.getStars(rating));
@@ -169,7 +179,7 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 			@Override
 			public void onClick(View v) {
 				final Intent intent = new Intent(MovieActivity.this, ImageViewActivity.class);
-				intent.putExtra(ImageViewActivity.EXTRA_URL, imageManager.getUrl(data, MoviesQuery.THUMBNAIL));
+				intent.putExtra(ImageViewActivity.EXTRA_URL, imageManager.getUrl(data, MoviesQuery.THUMBNAIL, true));
 				startActivity(intent);
 			}
 		});
@@ -248,12 +258,17 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 			final ImageView shotView = (ImageView) view.findViewById(R.id.shot);
 
 			// load image
-			final String imgUrl = imageManager.getUrl(cursor, CastQuery.THUMBNAIL);
+			final String imgUrl = imageManager.getUrl(cursor, CastQuery.THUMBNAIL, true);
 			if (imgUrl != null) {
-				Glide.load(imgUrl)
-					.centerCrop()
-					.animate(android.R.anim.fade_in)
-					.into(shotView);
+				try {
+					Glide.using(new VolleyBasicAuthUrlLoader.Factory())
+						.load(new URL(imgUrl))
+						.centerCrop()
+						.animate(android.R.anim.fade_in)
+						.into(shotView);
+				} catch (MalformedURLException e) {
+					Log.e(TAG, e.toString());
+				}
 			}
 
 			// set data
@@ -333,13 +348,13 @@ public class MovieActivity extends BaseActivity implements LoaderManager.LoaderC
 		final int ROLE = 3;
 	}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				finish();
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
 }
