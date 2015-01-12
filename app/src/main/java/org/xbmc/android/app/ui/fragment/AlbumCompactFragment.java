@@ -44,9 +44,12 @@ import org.xbmc.android.app.manager.HostManager;
 import org.xbmc.android.app.provider.AudioContract;
 import org.xbmc.android.app.provider.AudioDatabase;
 import org.xbmc.android.remotesandbox.R;
+import org.xbmc.android.util.VolleyBasicAuthUrlLoader;
 
 import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLEncoder;
 
 /**
@@ -74,7 +77,7 @@ public class AlbumCompactFragment extends GridFragment implements LoaderManager.
 		super.onCreate(savedInstanceState);
 		Injector.inject(this);
 		bus.register(this);
-		hostUri = hostManager.getActiveUri();
+		hostUri = hostManager.getActiveUri(true);
 	}
 
 	@Override
@@ -116,7 +119,7 @@ public class AlbumCompactFragment extends GridFragment implements LoaderManager.
 	 * @param event Event data
 	 */
 	public void onEvent(HostSwitched event) {
-		hostUri = event.getHost().getUri();
+		hostUri = event.getHost().getUri(true);
 		getLoaderManager().restartLoader(0, null, this);
 	}
 
@@ -163,12 +166,15 @@ public class AlbumCompactFragment extends GridFragment implements LoaderManager.
 			final TextView subtitleView = (TextView) view.findViewById(R.id.artist);
 			final ImageView imageView = (ImageView) view.findViewById(R.id.list_album_cover);
 			try {
-				final String url = hostUri + "/image/" + URLEncoder.encode(cursor.getString(AlbumsQuery.THUMBNAIL), "UTF-8");
-				Glide.load(url)
+				final URL url = new URL(hostUri + "/image/" + URLEncoder.encode(cursor.getString(AlbumsQuery.THUMBNAIL), "UTF-8"));
+				Glide.using(new VolleyBasicAuthUrlLoader.Factory())
+					.load(url)
 					.centerCrop()
 					.animate(android.R.anim.fade_in)
 					.into(imageView);
 
+			} catch (MalformedURLException e) {
+				Log.e(TAG, e.toString());
 			} catch (UnsupportedEncodingException e) {
 				Log.e(TAG, "Cannot encode " + cursor.getString(AlbumsQuery.THUMBNAIL) + " from UTF-8.");
 			}
