@@ -91,6 +91,19 @@ public class XBMCHost implements Parcelable {
 		return "http://" + address + ":" + port;
 	}
 
+	/**
+	 * Returns the URI of the host without trailing slash, with optional credentials (user info).
+	 * If no credentials present, returns the URI without them
+	 * @param includeUserInfo Whether to include credentials in the URI
+	 * @return URI, e.g "http://user:pass@127.0.0.1:8080".
+	 */
+	public String getUri(boolean includeUserInfo) {
+		return (includeUserInfo &&
+			username != null && !username.isEmpty() && password != null && !password.isEmpty()) ?
+			"http://" + username + ":" + password + "@" + address + ":" + port:
+			getUri();
+	}
+
 	public void setActive(boolean active) {
 		this.active = active;
 	}

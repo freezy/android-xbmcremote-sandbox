@@ -153,4 +153,15 @@ public class HostManager {
 		return host == null ? null : host.getUri();
 	}
 
+	/**
+	 * Returns the URI of the active host without trailing slash, with optional credentials (user info).
+	 * If no credentials present, returns the URI without them
+	 * @param includeUserInfo Whether to include credentials in the URI
+	 * @return URI, e.g "http://user:pass@127.0.0.1:8080".
+	 */
+	public String getActiveUri(boolean includeUserInfo) {
+		final XBMCHost host = getActiveHost();
+		return host == null ? null : host.getUri(includeUserInfo);
+	}
+
 }

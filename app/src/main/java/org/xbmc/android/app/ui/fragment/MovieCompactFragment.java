@@ -51,9 +51,12 @@ import org.xbmc.android.app.ui.MovieActivity;
 import org.xbmc.android.app.ui.MoviesActivity;
 import org.xbmc.android.app.ui.view.CardView;
 import org.xbmc.android.remotesandbox.R;
+import org.xbmc.android.util.VolleyBasicAuthUrlLoader;
 
 import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLEncoder;
 
 import static org.xbmc.android.app.ui.fragment.MovieListFragment.DataHolder;
@@ -97,7 +100,7 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 		super.onCreate(savedInstanceState);
 		Injector.inject(this);
 		bus.register(this);
-		hostUri = hostManager.getActiveUri();
+		hostUri = hostManager.getActiveUri(true);
 	}
 
 	@Override
@@ -151,7 +154,7 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 	 * @param event Event data
 	 */
 	public void onEvent(HostSwitched event) {
-		hostUri = event.getHost().getUri();
+		hostUri = event.getHost().getUri(true);
 		getLoaderManager().restartLoader(0, null, this);
 	}
 
@@ -220,12 +223,15 @@ public class MovieCompactFragment extends GridFragment implements LoaderManager.
 
 			// load image
 			try {
-				final String url = hostUri + "/image/" + URLEncoder.encode(cursor.getString(MoviesQuery.THUMBNAIL), "UTF-8");
-				Glide.load(url)
-						.centerCrop()
-						.animate(android.R.anim.fade_in)
-						.into(viewHolder.imageView);
+				final URL url = new URL(hostUri + "/image/" + URLEncoder.encode(cursor.getString(MoviesQuery.THUMBNAIL), "UTF-8"));
+				Glide.using(new VolleyBasicAuthUrlLoader.Factory())
+					.load(url)
+					.centerCrop()
+					.animate(android.R.anim.fade_in)
+					.into(viewHolder.imageView);
 
+			} catch (MalformedURLException e) {
+				Log.e(TAG, e.toString());
 			} catch (UnsupportedEncodingException e) {
 				Log.e(TAG, "Cannot encode " + cursor.getString(MoviesQuery.THUMBNAIL) + " from UTF-8.");
 			}
