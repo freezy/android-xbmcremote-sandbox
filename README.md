@@ -37,3 +37,7 @@ Stuff working so far:
 * Play with Chrome Cast
 
 Some mockups can be found [here](https://github.com/freezy/android-xbmcremote-sandbox/tree/master/doc/mockups).
+
+## License
+
+[GPLv2](http://www.gnu.org/licenses/gpl-2.0.html).
